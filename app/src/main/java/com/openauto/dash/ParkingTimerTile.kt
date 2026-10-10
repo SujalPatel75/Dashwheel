@@ -108,6 +108,9 @@ internal object ParkingClock {
         set(context, from + minutes * 60_000L)
     }
 
+    /** From now for [minutes], in place of a running one. */
+    fun startFor(context: Context, minutes: Int) = set(context, System.currentTimeMillis() + minutes * 60_000L)
+
     fun stop(context: Context) = set(context, 0L)
 
     private fun set(context: Context, ends: Long) {

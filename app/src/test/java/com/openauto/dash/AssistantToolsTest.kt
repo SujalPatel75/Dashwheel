@@ -14,8 +14,23 @@ class AssistantToolsTest {
     fun geminiCanReadEverythingAndAct() {
         listOf("get_everything", "do_action", "show_dashboard", "open_app", "navigate_to", "set_volume", "end_conversation")
             .forEach { assertTrue(it, it in names) }
+        listOf("call_contact", "share_arrival", "add_stop", "start_parking_timer", "stop_parking_timer", "log_fuel_fill")
+            .forEach { assertTrue(it, it in names) }
         // And search the web for the rest.
         assertTrue(AssistantTools.declarations().getJSONObject(1).has("googleSearch"))
+    }
+
+    @Test
+    fun callsAndTextsWaitForTheDriversYes() {
+        listOf("call_contact", "share_arrival").forEach { name ->
+            val fn = functions.getJSONObject(names.indexOf(name))
+            val params = fn.getJSONObject("parameters")
+            assertTrue(name, params.getJSONObject("properties").getJSONObject("confirmed").getString("type") == "BOOLEAN")
+            // Not required: Gemini first calls without it, to hear who matched.
+            val required = params.getJSONArray("required")
+            assertFalse(name, (0 until required.length()).any { required.getString(it) == "confirmed" })
+            assertTrue(name, fn.getString("description").contains("yes"))
+        }
     }
 
     @Test

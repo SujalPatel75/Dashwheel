@@ -54,14 +54,24 @@ internal object OnMyWay {
         )
     }
 
+    /**
+     * Texts [to] and says nothing: true once sent, false when refused (or no
+     * number), null without an answer. Dashwheel's Gemini tells it itself.
+     */
+    suspend fun deliver(context: Context, to: Favourite): Boolean? {
+        val app = context.applicationContext
+        val number = to.number ?: return false
+        val text = message(app)
+        app.getSharedPreferences(PREFS, Context.MODE_PRIVATE).edit().putString("last", number).apply()
+        return PhoneLink.sendText(number, text)
+    }
+
     /** Texts [to] and says how it went. */
     fun send(context: Context, to: Favourite) {
         val app = context.applicationContext
-        val number = to.number ?: return
-        val text = message(app)
-        app.getSharedPreferences(PREFS, Context.MODE_PRIVATE).edit().putString("last", number).apply()
+        if (to.number == null) return
         scope.launch {
-            when (PhoneLink.sendText(number, text)) {
+            when (deliver(app, to)) {
                 true -> HandsFree.say(app, R.string.onmyway_sent, to.name)
                 false -> HandsFree.say(app, R.string.onmyway_failed, to.name)
                 null -> HandsFree.say(app, R.string.onmyway_no_answer)

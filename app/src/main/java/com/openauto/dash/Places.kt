@@ -266,6 +266,29 @@ internal object NavHandoff {
         return context.launchSafely(Intent(Intent.ACTION_VIEW, Uri.parse(queryUri(null, query))))
     }
 
+    /**
+     * Guidance in Google Maps through a stop at ([lat], [lng]) and then on to
+     * [to], the destination under way; false when Maps isn't installed, the
+     * destination has neither position nor words, or Maps refused the link.
+     * Maps' own directions link ([viaUri]): Waze has no way to be given a stop.
+     */
+    fun startVia(context: Context, lat: Double, lng: Double, to: Target): Boolean {
+        val uri = viaUri(lat, lng, to) ?: return false
+        if (MAPS !in apps(context)) return false
+        return open(context, MAPS, uri)
+    }
+
+    /** Maps' directions link to [to] with one stop at ([lat], [lng]), guidance started at once; null when [to] can't be named. */
+    internal fun viaUri(lat: Double, lng: Double, to: Target): String? {
+        val toLat = to.lat
+        val toLng = to.lng
+        val dest = if (toLat != null && toLng != null) String.format(Locale.US, "%.6f,%.6f", toLat, toLng)
+        else to.query?.takeIf { it.isNotBlank() } ?: to.name.takeIf { it.isNotBlank() } ?: return null
+        fun enc(s: String) = URLEncoder.encode(s.trim(), "UTF-8").replace("+", "%20")
+        return "https://www.google.com/maps/dir/?api=1&destination=${enc(dest)}" +
+            "&waypoints=${enc(String.format(Locale.US, "%.6f,%.6f", lat, lng))}&travelmode=driving&dir_action=navigate"
+    }
+
     /** How [app] (null: any map app) is asked to guide to [query]. */
     internal fun queryUri(app: String?, query: String): String {
         // Uri.encode's form (%20, not +): each app reads it back the same way.
