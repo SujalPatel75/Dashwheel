@@ -123,6 +123,7 @@ internal fun rememberWidgetFace(kind: BuiltinKind, env: SkinTileEnv): WidgetFace
     BuiltinKind.ENGINE_TEMPS -> engineTempsFace()
     BuiltinKind.COMMUTE -> commuteFace()
     BuiltinKind.DRIVE_HISTORY -> driveHistoryFace()
+    BuiltinKind.NOW -> nowFace()
     BuiltinKind.LPG_TANK -> lpgTankFace()
     BuiltinKind.FILTER_CARE -> filterFace()
     BuiltinKind.WARMUP -> warmupFace(env)

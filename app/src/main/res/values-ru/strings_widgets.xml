@@ -155,5 +155,14 @@
         <item quantity="other">%d поездки</item>
     </plurals>
 
+    <string name="widgets_now">Сейчас</string>
+    <string name="widgets_now_blurb">Самое важное сейчас, меняется само</string>
+    <string name="widgets_now_fuel_low">Мало топлива: осталось %1$s</string>
+    <string name="widgets_now_fuel_station">%1$s: %2$s, в %3$s</string>
+    <string name="widgets_now_park_title">Парковка до %1$s</string>
+    <string name="widgets_now_left_min">Осталось %1$d мин</string>
+    <string name="widgets_now_driving">За рулём %1$s</string>
+    <string name="widgets_now_event_at">В %1$s, через %2$s</string>
+
     <string name="widgets_switch_look">Вид</string>
 </resources>

@@ -121,6 +121,12 @@ object DemoMode {
         AiMechanic.demoWrite(mechanicState(codes))
     }
 
+    /**
+     * The Now card's servicing line in the demo: an oil change 640 km away.
+     * Read by the card alone, so the real plan and log stay untouched.
+     */
+    internal fun upkeepSoon() = UpkeepDue(UpkeepKind.OIL, kmLeft = 640, daysLeft = 41, stage = UpkeepStage.SOON)
+
     /** The fault-code tile's state for [codes]: the advice comes with them, as after a real scan. */
     internal fun mechanicState(codes: List<String>) =
         AiMechanic.State(codes = codes, diagnosis = diagnosis?.takeIf { codes.isNotEmpty() })

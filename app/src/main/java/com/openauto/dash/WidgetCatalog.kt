@@ -29,6 +29,7 @@ import androidx.compose.material.icons.filled.Radio
 import androidx.compose.material.icons.filled.NetworkWifi
 import androidx.compose.material.icons.filled.Mic
 import androidx.compose.material.icons.filled.History
+import androidx.compose.material.icons.filled.Layers
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.GpsFixed
 import androidx.compose.material.icons.filled.CameraAlt
@@ -216,4 +217,5 @@ internal fun kindIcon(kind: BuiltinKind): ImageVector = when (kind) {
     BuiltinKind.COMMUTE -> Icons.Filled.Commute
     BuiltinKind.LPG_TANK -> Icons.Filled.PropaneTank
     BuiltinKind.DRIVE_HISTORY -> Icons.Filled.History
+    BuiltinKind.NOW -> Icons.Filled.Layers
 }

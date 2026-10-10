@@ -151,5 +151,14 @@
         <item quantity="other">%d drives</item>
     </plurals>
 
+    <string name="widgets_now">Now</string>
+    <string name="widgets_now_blurb">The one thing that matters right now, changing by itself</string>
+    <string name="widgets_now_fuel_low">Low fuel: %1$s left</string>
+    <string name="widgets_now_fuel_station">%1$s: %2$s, %3$s away</string>
+    <string name="widgets_now_park_title">Parking ends at %1$s</string>
+    <string name="widgets_now_left_min">%1$d min left</string>
+    <string name="widgets_now_driving">Driving for %1$s</string>
+    <string name="widgets_now_event_at">At %1$s, in %2$s</string>
+
     <string name="widgets_switch_look">Look</string>
 </resources>

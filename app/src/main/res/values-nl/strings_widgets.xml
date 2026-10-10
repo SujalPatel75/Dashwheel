@@ -150,5 +150,14 @@
         <item quantity="other">%d ritten</item>
     </plurals>
 
+    <string name="widgets_now">Nu</string>
+    <string name="widgets_now_blurb">Het enige dat nu telt, wisselt vanzelf</string>
+    <string name="widgets_now_fuel_low">Bijna leeg: nog %1$s</string>
+    <string name="widgets_now_fuel_station">%1$s: %2$s, op %3$s</string>
+    <string name="widgets_now_park_title">Parkeren eindigt om %1$s</string>
+    <string name="widgets_now_left_min">Nog %1$d min</string>
+    <string name="widgets_now_driving">Al %1$s aan het rijden</string>
+    <string name="widgets_now_event_at">Om %1$s, over %2$s</string>
+
     <string name="widgets_switch_look">Uiterlijk</string>
 </resources>

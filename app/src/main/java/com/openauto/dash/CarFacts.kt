@@ -29,6 +29,10 @@ internal object LiveFacts {
     /** The dashboards the bar offers, as (page, name), Home first. */
     @Volatile
     var dashboards: List<Pair<Int, String>> = emptyList()
+
+    /** The first of the bar's dashboards holding each kind of built-in tile: where the Now card sends a tap. */
+    @Volatile
+    var widgetPages: Map<BuiltinKind, Int> = emptyMap()
 }
 
 internal object CarFacts {

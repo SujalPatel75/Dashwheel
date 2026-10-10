@@ -102,7 +102,9 @@ enum class BuiltinKind(
     // The second tank of an LPG car, its level worked out (LpgTank.kt).
     LPG_TANK(R.string.lpg_kind, WidgetCategory.VEHICLE, R.string.lpg_kind_blurb, 4, 3),
     // The last drives the drive log kept, with this week's total (DriveHistoryTile.kt).
-    DRIVE_HISTORY(R.string.widgets_history, WidgetCategory.DRIVING, R.string.widgets_history_blurb, 4, 3)
+    DRIVE_HISTORY(R.string.widgets_history, WidgetCategory.DRIVING, R.string.widgets_history_blurb, 4, 3),
+    // The one thing that matters right now, picked from the other feeds (NowCard.kt).
+    NOW(R.string.widgets_now, WidgetCategory.DRIVING, R.string.widgets_now_blurb, 5, 2)
 }
 
 /**
@@ -218,6 +220,8 @@ fun BuiltinKind.minSize(): Pair<Int, Int> = when (this) {
     BuiltinKind.NAVMAP, BuiltinKind.MAPS_INSIDE, BuiltinKind.PIP_ANCHOR -> 3 to 3
     BuiltinKind.DASH_BAR -> 1 to 3
     BuiltinKind.QUICK_SWITCHES -> 3 to 1
+    // One card of words: a sentence needs the width.
+    BuiltinKind.NOW -> 3 to 2
     // A gauge or a picture with a few lines under it.
     BuiltinKind.TELEMETRY, BuiltinKind.OBD_ALL, BuiltinKind.OBD_DTC, BuiltinKind.RANGE, BuiltinKind.DOORS, BuiltinKind.COMPASS,
     BuiltinKind.GFORCE, BuiltinKind.NAVIGATION, BuiltinKind.MEDIA, BuiltinKind.FILTER_CARE, BuiltinKind.MY_CAR, BuiltinKind.ECO_DRIVE,

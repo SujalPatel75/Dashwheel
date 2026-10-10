@@ -150,5 +150,14 @@
         <item quantity="other">%d viagens</item>
     </plurals>
 
+    <string name="widgets_now">Agora</string>
+    <string name="widgets_now_blurb">O que importa agora, muda sozinho</string>
+    <string name="widgets_now_fuel_low">Pouco combustível: restam %1$s</string>
+    <string name="widgets_now_fuel_station">%1$s: %2$s, a %3$s</string>
+    <string name="widgets_now_park_title">O estacionamento acaba às %1$s</string>
+    <string name="widgets_now_left_min">Faltam %1$d min</string>
+    <string name="widgets_now_driving">A conduzir há %1$s</string>
+    <string name="widgets_now_event_at">Às %1$s, daqui a %2$s</string>
+
     <string name="widgets_switch_look">Aspeto</string>
 </resources>

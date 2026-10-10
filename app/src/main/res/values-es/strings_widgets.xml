@@ -150,5 +150,14 @@
         <item quantity="other">%d trayectos</item>
     </plurals>
 
+    <string name="widgets_now">Ahora</string>
+    <string name="widgets_now_blurb">Lo único que importa ahora, cambia solo</string>
+    <string name="widgets_now_fuel_low">Poco combustible: quedan %1$s</string>
+    <string name="widgets_now_fuel_station">%1$s: %2$s, a %3$s</string>
+    <string name="widgets_now_park_title">El aparcamiento acaba a las %1$s</string>
+    <string name="widgets_now_left_min">Quedan %1$d min</string>
+    <string name="widgets_now_driving">Conduciendo desde hace %1$s</string>
+    <string name="widgets_now_event_at">A las %1$s, en %2$s</string>
+
     <string name="widgets_switch_look">Aspecto</string>
 </resources>

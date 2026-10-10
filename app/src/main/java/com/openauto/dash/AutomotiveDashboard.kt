@@ -427,6 +427,8 @@ fun AutomotiveDashboard(inSplitMode: Boolean = false) {
     }
     // What Gemini is told about the dashboards and the music (CarFacts).
     LaunchedEffect(barTabs) { LiveFacts.dashboards = barTabs.map { it.page to it.label(context) } }
+    // Where each kind of tile is, for a tap on the Now card (NowCard.kt).
+    LaunchedEffect(barTabs, pages) { LiveFacts.widgetPages = widgetPagesOf(barTabs.map { it.page }, pages) }
     LaunchedEffect(mediaController) { mediaController.mediaState.collect { LiveFacts.media = it } }
     // A learned steering wheel button asking for the app drawer (SteeringWheelActions.kt).
     val openAppsRequested by MainActivity.openAppsRequested.collectAsState()
