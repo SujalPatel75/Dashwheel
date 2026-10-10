@@ -4,6 +4,7 @@
     <string name="moments_title">Momentos</string>
     <string name="moments_hint">Inicio sigue el trayecto. Sin tocar.</string>
     <string name="moments_apps_note">Una app funciona en un mosaico de Inicio, así que Inicio no cambia.</string>
+    <string name="moments_settings_off">Desactivado: Inicio se queda como lo dejaste</string>
     <string name="moments_master">Cambiar solo</string>
     <string name="moments_now">Ahora</string>
     <string name="moments_any_time">En cualquier momento</string>

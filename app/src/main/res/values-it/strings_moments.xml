@@ -4,6 +4,7 @@
     <string name="moments_title">Momenti</string>
     <string name="moments_hint">La Home segue il viaggio. Senza toccare.</string>
     <string name="moments_apps_note">Un\'app gira in una tessera della Home, quindi la Home resta com\'è.</string>
+    <string name="moments_settings_off">Disattivo: la Home resta come l\'hai sistemata</string>
     <string name="moments_master">Cambia da solo</string>
     <string name="moments_now">Adesso</string>
     <string name="moments_any_time">In qualsiasi momento</string>

@@ -170,7 +170,9 @@ internal data class TopBarModel(
     /** Opens the Settings screen (SettingsScreen.kt). */
     val onSettings: () -> Unit = {},
     /** Starts the tour of the basics (TourScreen.kt). */
-    val onTour: () -> Unit = {}
+    val onTour: () -> Unit = {},
+    /** Opens Moments (MomentsScreen.kt). */
+    val onMoments: () -> Unit = {}
 ) {
     val obdData: ObdData get() = obd.value
     val obdConnection: ObdConnectionState get() = obdConnectionState.value

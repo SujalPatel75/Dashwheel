@@ -4,6 +4,7 @@
     <string name="moments_title">Moments</string>
     <string name="moments_hint">L\'accueil suit le trajet. Sans toucher.</string>
     <string name="moments_apps_note">Une appli tourne dans une tuile de l\'accueil : il reste tel quel.</string>
+    <string name="moments_settings_off">Désactivé : l\'accueil reste comme vous l\'avez rangé</string>
     <string name="moments_master">Changer tout seul</string>
     <string name="moments_now">Maintenant</string>
     <string name="moments_any_time">À tout moment</string>

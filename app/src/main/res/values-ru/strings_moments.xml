@@ -4,6 +4,7 @@
     <string name="moments_title">Моменты</string>
     <string name="moments_hint">Главная следует за поездкой. Без касаний.</string>
     <string name="moments_apps_note">На главной в плитке работает приложение, поэтому она остаётся как есть.</string>
+    <string name="moments_settings_off">Выкл.: главная остаётся такой, как вы её собрали</string>
     <string name="moments_master">Переключать само</string>
     <string name="moments_now">Сейчас</string>
     <string name="moments_any_time">В любой момент</string>

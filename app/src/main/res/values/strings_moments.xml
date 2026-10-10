@@ -4,6 +4,7 @@
     <string name="moments_title">Moments</string>
     <string name="moments_hint">Home follows the drive. No tapping.</string>
     <string name="moments_apps_note">An app runs in a tile on Home, so Home stays as it is.</string>
+    <string name="moments_settings_off">Off: Home stays as you arranged it</string>
     <string name="moments_master">Switch by itself</string>
     <string name="moments_now">Now</string>
     <string name="moments_any_time">Any time</string>

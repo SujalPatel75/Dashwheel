@@ -4,6 +4,7 @@
     <string name="moments_title">Momenten</string>
     <string name="moments_hint">Start volgt de rit. Zonder tikken.</string>
     <string name="moments_apps_note">Op Start draait een app in een tegel, dus Start blijft zoals hij is.</string>
+    <string name="moments_settings_off">Uit: Start blijft zoals je hem hebt ingericht</string>
     <string name="moments_master">Vanzelf wisselen</string>
     <string name="moments_now">Nu</string>
     <string name="moments_any_time">Altijd</string>

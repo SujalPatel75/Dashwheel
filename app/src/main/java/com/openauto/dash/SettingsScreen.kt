@@ -1003,6 +1003,7 @@ private fun DrivingPane(m: TopBarModel, open: (Deep) -> Unit) {
         stringResource(R.string.settings_drive_lock_detail), m.lockWhileMoving, onChange = m.onLockWhileMoving
     )
     PlacesRow { open(Deep.PLACES) }
+    MomentsRow(m.onMoments)
     // Every physical button together: what the wheel's do, then what the unit's own keys open.
     val keys = remember { Edition.full && KeyTargets.available() }
     val keysLocked = keys && !shellAccess().shell

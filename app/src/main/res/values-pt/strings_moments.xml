@@ -4,6 +4,7 @@
     <string name="moments_title">Momentos</string>
     <string name="moments_hint">O início acompanha a viagem. Sem tocar.</string>
     <string name="moments_apps_note">Uma app corre num mosaico do início, por isso o início fica como está.</string>
+    <string name="moments_settings_off">Desligado: o início fica como o arrumou</string>
     <string name="moments_master">Mudar sozinho</string>
     <string name="moments_now">Agora</string>
     <string name="moments_any_time">A qualquer momento</string>

@@ -4,6 +4,7 @@
     <string name="moments_title">Momente</string>
     <string name="moments_hint">Start folgt der Fahrt. Ohne Tippen.</string>
     <string name="moments_apps_note">Auf Start läuft eine App in einer Kachel, daher bleibt Start, wie er ist.</string>
+    <string name="moments_settings_off">Aus: Start bleibt, wie Sie ihn eingerichtet haben</string>
     <string name="moments_master">Von selbst wechseln</string>
     <string name="moments_now">Jetzt</string>
     <string name="moments_any_time">Jederzeit</string>

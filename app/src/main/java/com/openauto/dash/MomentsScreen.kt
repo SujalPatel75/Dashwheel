@@ -31,6 +31,7 @@ import androidx.compose.material.icons.filled.Bolt
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.PanTool
 import androidx.compose.material.icons.filled.Replay
+import androidx.compose.material.icons.filled.Schedule
 import androidx.compose.material.icons.filled.SwapHoriz
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -41,6 +42,7 @@ import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -214,7 +216,7 @@ internal fun MomentsScreen(
                     moment = Moment.FAULT,
                     items = itemsFor(Moment.FAULT),
                     selected = selected == Moment.FAULT,
-                    on = Moment.FAULT in settings.on,
+                    on = Moment.FAULT in settings.on && settings.master,
                     modifier = Modifier.width(230.dp).fillMaxHeight()
                 ) { tap(); selected = Moment.FAULT; changing = false }
             }
@@ -488,6 +490,17 @@ private fun AnyTimeCard(moment: Moment, items: List<DashboardItem>, selected: Bo
         )
         Text(stringResource(moment.startsRes), color = DashColors.TextSecondary, style = MaterialTheme.typography.bodySmall, maxLines = 1, overflow = TextOverflow.Ellipsis)
     }
+}
+
+/** Settings, Driving: whether Home follows the drive, and the way to Moments. */
+@Composable
+internal fun MomentsRow(onOpen: () -> Unit) {
+    val settings by MomentStore.settings.collectAsState()
+    SettingsRow(
+        Icons.Filled.Schedule, stringResource(R.string.moments_title),
+        stringResource(if (settings.master) R.string.moments_hint else R.string.moments_settings_off),
+        onOpen
+    )
 }
 
 /**

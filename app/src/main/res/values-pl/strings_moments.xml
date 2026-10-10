@@ -4,6 +4,7 @@
     <string name="moments_title">Momenty</string>
     <string name="moments_hint">Ekran główny podąża za jazdą. Bez dotykania.</string>
     <string name="moments_apps_note">Na ekranie głównym działa aplikacja w kafelku, więc zostaje bez zmian.</string>
+    <string name="moments_settings_off">Wył.: ekran główny zostaje tak, jak go ułożono</string>
     <string name="moments_master">Przełączaj sam</string>
     <string name="moments_now">Teraz</string>
     <string name="moments_any_time">W każdej chwili</string>

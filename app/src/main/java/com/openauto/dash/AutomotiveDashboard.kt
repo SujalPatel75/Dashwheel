@@ -1244,6 +1244,12 @@ fun AutomotiveDashboard(inSplitMode: Boolean = false) {
                 settingsTab = SettingsTab.OVERVIEW
             }
         },
+        onMoments = {
+            whenParked {
+                closeSettings()
+                showMoments = true
+            }
+        },
         onTour = {
             whenParked {
                 closeSheets()
