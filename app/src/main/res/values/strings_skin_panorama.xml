@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Panorama skin -->
+    <string name="skin_panorama_talk">Talk</string>
+    <string name="skin_panorama_talk_cd">Talk to the assistant</string>
+    <string name="skin_panorama_revs">Revs</string>
+    <string name="skin_panorama_rpm">r/min</string>
+    <string name="skin_panorama_gear">gear %1$s</string>
+    <string name="skin_panorama_fuel">Fuel</string>
+    <string name="skin_panorama_fuel_range">Fuel · %1$s</string>
+    <string name="skin_panorama_coolant">Coolant</string>
+    <string name="skin_panorama_speed_limit_cd">Speed limit %1$d</string>
+    <string name="skin_panorama_battery">Battery</string>
+    <string name="skin_panorama_load">Load</string>
+    <string name="skin_panorama_doors">Doors</string>
+    <string name="skin_panorama_doors_closed">closed</string>
+    <string name="skin_panorama_doors_open">open</string>
+    <string name="skin_panorama_tyres">Tyres</string>
+    <string name="skin_panorama_service">Service</string>
+    <string name="skin_panorama_service_due">due now</string>
+    <string name="skin_panorama_car_cd">Your car</string>
+    <string name="skin_panorama_car_open_cd">Your car, a door is open</string>
+    <string name="skin_panorama_next_turn">Next turn</string>
+    <string name="skin_panorama_arrival">Arrival %1$s</string>
+    <string name="skin_panorama_launch_bar_empty">No apps yet. Tap the pencil to add some.</string>
+    <plurals name="skin_panorama_service_days">
+        <item quantity="one">in %d day</item>
+        <item quantity="other">in %d days</item>
+    </plurals>
+</resources>

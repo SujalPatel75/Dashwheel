@@ -49,7 +49,8 @@ enum class DashThemeMode(@StringRes val titleRes: Int, @StringRes val descriptio
     MODERN(R.string.dash_theme_modern, R.string.dash_theme_modern_desc),
     MOTORSPORT(R.string.dash_theme_motorsport, R.string.dash_theme_motorsport_desc),
     ANIME(R.string.dash_theme_anime, R.string.dash_theme_anime_desc),
-    RACING(R.string.dash_theme_racing, R.string.dash_theme_racing_desc)
+    RACING(R.string.dash_theme_racing, R.string.dash_theme_racing_desc),
+    PANORAMA(R.string.dash_theme_panorama, R.string.dash_theme_panorama_desc)
 }
 
 /** Dark or light version of the theme; [AUTO] follows the car's day/night mode. */
@@ -75,7 +76,7 @@ enum class DashEffects(@StringRes val titleRes: Int, @StringRes val hintRes: Int
  * background, top bar and renderers for the main widgets (see Skins.kt).
  * [STANDARD] is every colour-only theme.
  */
-enum class DashSkin { STANDARD, ORBIT, COCKPIT, HORIZON, TAPE_DECK, CANVAS, FUTURISTIC, SIMPLE, MODERN, MOTORSPORT, ANIME, RACING }
+enum class DashSkin { STANDARD, ORBIT, COCKPIT, HORIZON, TAPE_DECK, CANVAS, FUTURISTIC, SIMPLE, MODERN, MOTORSPORT, ANIME, RACING, PANORAMA }
 
 /**
  * Colours plus a few style knobs for one dashboard theme.
@@ -633,6 +634,7 @@ internal fun paletteFor(mode: DashThemeMode, light: Boolean): DashPalette = when
     DashThemeMode.MOTORSPORT -> if (light) MotorsportLightPalette else MotorsportPalette
     DashThemeMode.ANIME -> if (light) AnimeLightPalette else AnimePalette
     DashThemeMode.RACING -> if (light) RacingLightPalette else RacingPalette
+    DashThemeMode.PANORAMA -> if (light) PanoramaLightPalette else PanoramaPalette
 }
 
 /**

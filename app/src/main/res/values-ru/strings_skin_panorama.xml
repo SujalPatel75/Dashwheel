@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Panorama skin -->
+    <string name="skin_panorama_talk">Говорить</string>
+    <string name="skin_panorama_talk_cd">Поговорить с ассистентом</string>
+    <string name="skin_panorama_revs">Обороты</string>
+    <string name="skin_panorama_rpm">об/мин</string>
+    <string name="skin_panorama_gear">передача %1$s</string>
+    <string name="skin_panorama_fuel">Топливо</string>
+    <string name="skin_panorama_fuel_range">Топливо · %1$s</string>
+    <string name="skin_panorama_coolant">Охлаждение</string>
+    <string name="skin_panorama_speed_limit_cd">Ограничение скорости %1$d</string>
+    <string name="skin_panorama_battery">Аккумулятор</string>
+    <string name="skin_panorama_load">Нагрузка</string>
+    <string name="skin_panorama_doors">Двери</string>
+    <string name="skin_panorama_doors_closed">закрыты</string>
+    <string name="skin_panorama_doors_open">открыта</string>
+    <string name="skin_panorama_tyres">Шины</string>
+    <string name="skin_panorama_service">ТО</string>
+    <string name="skin_panorama_service_due">пора</string>
+    <string name="skin_panorama_car_cd">Ваш автомобиль</string>
+    <string name="skin_panorama_car_open_cd">Ваш автомобиль, дверь открыта</string>
+    <string name="skin_panorama_next_turn">Следующий поворот</string>
+    <string name="skin_panorama_arrival">Прибытие %1$s</string>
+    <string name="skin_panorama_launch_bar_empty">Пока нет приложений. Нажмите карандаш, чтобы добавить.</string>
+    <plurals name="skin_panorama_service_days">
+        <item quantity="one">через %d день</item>
+        <item quantity="few">через %d дня</item>
+        <item quantity="many">через %d дней</item>
+        <item quantity="other">через %d дня</item>
+    </plurals>
+</resources>

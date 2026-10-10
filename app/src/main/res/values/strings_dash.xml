@@ -249,4 +249,6 @@
     <string name="dash_theme_anime_desc">Comic panels in a sunset sky, your car as a sticker that talks.</string>
     <string name="dash_theme_racing">Racing</string>
     <string name="dash_theme_racing_desc">A night drive in neon: a striped sun, a racing game\'s dials and minimap.</string>
+    <string name="dash_theme_panorama">Panorama</string>
+    <string name="dash_theme_panorama_desc">A curved glass band of lit segments, your car on a glowing plinth and a steering wheel dock.</string>
 </resources>

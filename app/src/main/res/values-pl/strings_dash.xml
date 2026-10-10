@@ -244,4 +244,6 @@
     <string name="dash_theme_anime_desc">Kadry komiksu na tle zachodu słońca, Twój samochód jako mówiąca naklejka.</string>
     <string name="dash_theme_racing">Wyścigi</string>
     <string name="dash_theme_racing_desc">Nocna jazda w neonach: pasiaste słońce, zegary i minimapa jak w grze wyścigowej.</string>
+    <string name="dash_theme_panorama">Panorama</string>
+    <string name="dash_theme_panorama_desc">Zakrzywiony szklany pas świecących segmentów, twój samochód na podświetlonym cokole i dok jak kierownica.</string>
 </resources>

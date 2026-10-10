@@ -16,7 +16,7 @@ import androidx.compose.ui.unit.dp
 
 /*
  * Whole-design skins (Orbit, Cockpit, Horizon, Tape Deck, Canvas, and Futuristic,
- * Simple, Modern, Motorsport, Anime, Racing). The active skin's
+ * Simple, Modern, Motorsport, Anime, Racing, Panorama). The active skin's
  * file draws the page background, the top bar, the frame over a docked Maps
  * window and the main widgets; every other tile keeps its standard renderer on
  * the skin's (bare) palette.
@@ -82,6 +82,7 @@ internal fun SkinTile(item: DashboardItem, env: SkinTileEnv) {
         DashSkin.MOTORSPORT -> MotorsportTile(item, env)
         DashSkin.ANIME -> AnimeTile(item, env)
         DashSkin.RACING -> RacingTile(item, env)
+        DashSkin.PANORAMA -> PanoramaTile(item, env)
         DashSkin.STANDARD -> Unit
     }
 }
@@ -101,6 +102,7 @@ internal fun SkinTopBar(m: TopBarModel) {
         DashSkin.MOTORSPORT -> MotorsportTopBar(m)
         DashSkin.ANIME -> AnimeTopBar(m)
         DashSkin.RACING -> RacingTopBar(m)
+        DashSkin.PANORAMA -> PanoramaTopBar(m)
         DashSkin.STANDARD -> Unit
     }
 }
@@ -120,6 +122,7 @@ internal fun skinBackground(): Modifier = when (DashColors.Skin) {
     DashSkin.MOTORSPORT -> motorsportBackground()
     DashSkin.ANIME -> animeBackground()
     DashSkin.RACING -> racingBackground()
+    DashSkin.PANORAMA -> panoramaBackground()
     DashSkin.STANDARD -> Modifier
 }
 
@@ -142,6 +145,7 @@ internal fun SkinWindowFrame(modifier: Modifier) {
         DashSkin.MOTORSPORT -> MotorsportWindowFrame(modifier)
         DashSkin.ANIME -> AnimeWindowFrame(modifier)
         DashSkin.RACING -> RacingWindowFrame(modifier)
+        DashSkin.PANORAMA -> PanoramaWindowFrame(modifier)
         DashSkin.STANDARD -> Unit
     }
 }
@@ -160,6 +164,7 @@ internal fun SkinFallbackPanel(content: @Composable () -> Unit) {
         DashSkin.ANIME -> return AnimeFallbackPanel(content)
         DashSkin.FUTURISTIC -> Modifier.futPanel(DashColors.Accent).padding(6.dp)
         DashSkin.SIMPLE -> Modifier.simpleGlass()
+        DashSkin.PANORAMA -> Modifier.panoFallbackPanel()
         DashSkin.MODERN -> Modifier.modernGlass()
         DashSkin.MOTORSPORT -> Modifier.msPanel()
         DashSkin.TAPE_DECK -> Modifier.tapeDeckPanel().padding(4.dp)
@@ -252,6 +257,7 @@ internal fun skinChrome(): SkinChrome = when (DashColors.Skin) {
     DashSkin.MOTORSPORT -> SkinChrome(MotorsportShapes)
     DashSkin.ANIME -> SkinChrome(AnimeShapes)
     DashSkin.RACING -> SkinChrome(RacingShapes)
+    DashSkin.PANORAMA -> SkinChrome(PanoramaShapes)
     DashSkin.STANDARD -> SkinChrome(StandardShapes)
 }
 

@@ -81,6 +81,8 @@ internal val alertFinish: AlertFinish
             DashSkin.MOTORSPORT -> AlertFinish.CHROME
             DashSkin.ANIME -> AlertFinish.SCENE
             DashSkin.RACING -> AlertFinish.NEON
+            // Panorama's panes of glass: the sheen and the catch of light along the top.
+            DashSkin.PANORAMA -> AlertFinish.GLASS
             DashSkin.STANDARD -> when {
                 DashColors.Glass -> AlertFinish.GLASS
                 // The theme's own glow, before the effects setting scales it.

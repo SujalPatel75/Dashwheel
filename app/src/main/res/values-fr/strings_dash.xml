@@ -247,4 +247,6 @@
     <string name="dash_theme_anime_desc">Cases de BD dans un ciel de coucher de soleil, votre voiture en autocollant qui parle.</string>
     <string name="dash_theme_racing">Course</string>
     <string name="dash_theme_racing_desc">Une nuit au néon : soleil rayé, cadrans et mini-carte de jeu de course.</string>
+    <string name="dash_theme_panorama">Panorama</string>
+    <string name="dash_theme_panorama_desc">Un bandeau de verre courbe aux segments lumineux, votre voiture sur un socle éclairé et un dock en volant.</string>
 </resources>

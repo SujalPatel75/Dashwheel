@@ -242,4 +242,6 @@
     <string name="dash_theme_anime_desc">Comic-Felder im Abendhimmel, Ihr Auto als sprechender Sticker.</string>
     <string name="dash_theme_racing">Racing</string>
     <string name="dash_theme_racing_desc">Eine Neon-Nachtfahrt: gestreifte Sonne, Anzeigen und Minikarte wie im Rennspiel.</string>
+    <string name="dash_theme_panorama">Panorama</string>
+    <string name="dash_theme_panorama_desc">Ein gewölbtes Glasband mit Leuchtsegmenten, Ihr Auto auf einem leuchtenden Sockel und ein Lenkrad-Dock.</string>
 </resources>

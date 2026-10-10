@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Panorama skin -->
+    <string name="skin_panorama_talk">Parler</string>
+    <string name="skin_panorama_talk_cd">Parler à l\'assistant</string>
+    <string name="skin_panorama_revs">Régime</string>
+    <string name="skin_panorama_rpm">tr/min</string>
+    <string name="skin_panorama_gear">rapport %1$s</string>
+    <string name="skin_panorama_fuel">Carburant</string>
+    <string name="skin_panorama_fuel_range">Carburant · %1$s</string>
+    <string name="skin_panorama_coolant">Eau</string>
+    <string name="skin_panorama_speed_limit_cd">Vitesse limitée à %1$d</string>
+    <string name="skin_panorama_battery">Batterie</string>
+    <string name="skin_panorama_load">Charge</string>
+    <string name="skin_panorama_doors">Portes</string>
+    <string name="skin_panorama_doors_closed">fermées</string>
+    <string name="skin_panorama_doors_open">ouverte</string>
+    <string name="skin_panorama_tyres">Pneus</string>
+    <string name="skin_panorama_service">Entretien</string>
+    <string name="skin_panorama_service_due">à faire</string>
+    <string name="skin_panorama_car_cd">Votre voiture</string>
+    <string name="skin_panorama_car_open_cd">Votre voiture, une porte est ouverte</string>
+    <string name="skin_panorama_next_turn">Prochaine direction</string>
+    <string name="skin_panorama_arrival">Arrivée %1$s</string>
+    <string name="skin_panorama_launch_bar_empty">Aucune appli. Touchez le crayon pour en ajouter.</string>
+    <plurals name="skin_panorama_service_days">
+        <item quantity="one">dans %d jour</item>
+        <item quantity="many">dans %d jours</item>
+        <item quantity="other">dans %d jours</item>
+    </plurals>
+</resources>

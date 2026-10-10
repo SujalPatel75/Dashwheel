@@ -647,7 +647,7 @@ private fun SimpleTalkButton(compact: Boolean) {
  * have, so the first one an app answers is started, and none at all is said
  * rather than the button seeming dead (as the steering wheel's Voice does).
  */
-private fun startVoiceAssistant(context: Context) {
+internal fun startVoiceAssistant(context: Context) {
     val started = listOf(
         Intent(Intent.ACTION_VOICE_COMMAND),
         Intent(RecognizerIntent.ACTION_VOICE_SEARCH_HANDS_FREE),
