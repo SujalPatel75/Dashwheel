@@ -22,6 +22,8 @@ internal class DashboardUiState(
 ) {
     /** The templates dialog. */
     var showTemplates by mutableStateOf(false)
+    /** The Moments screen (MomentsScreen.kt). */
+    var showMoments by mutableStateOf(false)
     /** An empty page's own Fill: the page the templates dialog lays out alone, while open. */
     var fillPage by mutableStateOf<Int?>(null)
     /** The bar's own settings, from a long press on it. */
@@ -108,6 +110,7 @@ internal class DashboardUiState(
         closeSettings()
         showTemplates = false
         fillPage = null
+        showMoments = false
         showSystemDialog = false
         showAddSheet = false
         tileOptions = null
@@ -136,10 +139,11 @@ internal class DashboardUiState(
 
     /** Something covering the whole screen is open: windows step aside, the bar steps down. */
     val fullScreenSheet: Boolean
-        get() = showAllApps || settingsTab != null || showAddSheet || setupStep != null
+        get() = showAllApps || settingsTab != null || showAddSheet || setupStep != null ||
+            showTemplates || fillPage != null || showMoments
 
     /** The tour may come up by itself: the first setup has closed, parked, and nothing a bar button opens is up. */
     fun tourCanStart(moving: Boolean): Boolean =
         setupStep == null && !moving && !showAllApps && settingsTab == null && !editing &&
-            !showTemplates && !showSplitPicker && !showSplitEnable
+            !showTemplates && !showMoments && !showSplitPicker && !showSplitEnable
 }

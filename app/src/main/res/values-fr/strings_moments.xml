@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Moments: Home follows the drive (Moments.kt, MomentsScreen.kt) -->
+    <string name="moments_title">Moments</string>
+    <string name="moments_hint">L\'accueil suit le trajet. Sans toucher.</string>
+    <string name="moments_apps_note">Une appli tourne dans une tuile de l\'accueil : il reste tel quel.</string>
+    <string name="moments_master">Changer tout seul</string>
+    <string name="moments_now">Maintenant</string>
+    <string name="moments_any_time">À tout moment</string>
+    <string name="moments_starts">Commence</string>
+    <string name="moments_ends">Finit</string>
+    <string name="moments_stays">Reste en place</string>
+    <string name="moments_stays_body">Ne change jamais pendant que vous touchez l\'écran</string>
+    <string name="moments_on">Activé</string>
+    <string name="moments_off">Désactivé</string>
+    <string name="moments_change">Changer ce qu\'il montre</string>
+    <string name="moments_change_hint">Une copie laisse de côté les applis en fenêtre et les widgets système.</string>
+    <string name="moments_custom">Votre propre choix</string>
+    <string name="moments_as_it_came">D\'origine</string>
+    <string name="moments_copy_of">Une copie de %1$s</string>
+    <string name="moments_back_home">Retour à votre accueil</string>
+    <string name="moment_engine_on">Moteur allumé</string>
+    <string name="moment_engine_on_shows">Carburant, météo et la journée</string>
+    <string name="moment_engine_on_starts">Au démarrage du moteur</string>
+    <string name="moment_engine_on_ends">Quand la voiture part</string>
+    <string name="moment_guiding">Guidage</string>
+    <string name="moment_guiding_shows">La carte et la prochaine direction devant</string>
+    <string name="moment_guiding_starts">Quand Maps ou Waze guide</string>
+    <string name="moment_guiding_ends">À la fin de l\'itinéraire</string>
+    <string name="moment_long">Long trajet</string>
+    <string name="moment_long_shows">Autonomie, pleins et une pause</string>
+    <string name="moment_long_starts">Après une heure de volant</string>
+    <string name="moment_long_ends">Quand vous vous garez</string>
+    <string name="moment_parked">Garé</string>
+    <string name="moment_parked_shows">Santé de la voiture et messages</string>
+    <string name="moment_parked_starts">Après un trajet, 2 min à l\'arrêt</string>
+    <string name="moment_parked_ends">Quand la voiture part</string>
+    <string name="moment_fault">Un problème</string>
+    <string name="moment_fault_shows">Le code défaut et les mesures moteur</string>
+    <string name="moment_fault_starts">Quand un code défaut apparaît</string>
+    <string name="moment_fault_ends">Après 5 min, ou la touche Accueil</string>
+</resources>

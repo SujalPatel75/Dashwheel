@@ -15,6 +15,7 @@ import com.openauto.dash.BuiltinKind.FILTER_CARE
 import com.openauto.dash.BuiltinKind.FUEL_PRICES
 import com.openauto.dash.BuiltinKind.FUEL_TO_DEST
 import com.openauto.dash.BuiltinKind.GFORCE
+import com.openauto.dash.BuiltinKind.HOME_WORK
 import com.openauto.dash.BuiltinKind.MEDIA
 import com.openauto.dash.BuiltinKind.NAVIGATION
 import com.openauto.dash.BuiltinKind.NAVMAP
@@ -61,7 +62,7 @@ enum class DashTemplate(@StringRes val titleRes: Int, @StringRes val blurbRes: I
     // parking spot) are left to the add sheet.
     DAILY(
         R.string.templates_daily, R.string.templates_daily_blurb, mapOf(
-            1 to TemplatePage(listOf(NAVMAP, NAVIGATION, SPEED_HUD, MEDIA), dock = true),
+            1 to TemplatePage(listOf(NAVMAP, NAVIGATION, HOME_WORK, MEDIA), dock = true),
             0 to TemplatePage(listOf(MEDIA, AUDIO, NOTIFICATIONS), preset = TabPreset.MEDIA),
             2 to TemplatePage(listOf(RANGE, OBD_DTC, SERVICE, BATTERY), preset = TabPreset.CAR),
             4 to TemplatePage(listOf(WEATHER, CALENDAR, CLOCK), preset = TabPreset.INFO),
@@ -90,6 +91,15 @@ enum class DashTemplate(@StringRes val titleRes: Int, @StringRes val blurbRes: I
             3 to TemplatePage(listOf(CAR_STATUS, DOORS), preset = TabPreset.CHECKS),
             5 to TemplatePage(listOf(WEATHER, CALENDAR, CLOCK), preset = TabPreset.INFO),
             6 to TemplatePage(listOf(NOTIFICATIONS, AUDIO), preset = TabPreset.MEDIA)
+        )
+    ),
+    // The fewest tiles that still drive: the map and the speed on Home, music
+    // and the car-care tiles one swipe away. Nothing above or below it.
+    CALM(
+        R.string.templates_calm, R.string.templates_calm_blurb, mapOf(
+            1 to TemplatePage(listOf(NAVMAP, SPEED_HUD, MEDIA)),
+            0 to TemplatePage(listOf(MEDIA, NOTIFICATIONS), preset = TabPreset.MEDIA),
+            2 to TemplatePage(listOf(RANGE, OBD_DTC, BATTERY, SERVICE), preset = TabPreset.CAR)
         )
     )
 }
@@ -179,7 +189,7 @@ object TemplatePlacer {
         FILTER_CARE to Shape(3, 1.3), WARMUP to Shape(3, 1.2), BATTERY to Shape(3, 1.2),
         ECO_DRIVE to Shape(4, 1.4), BREAK_TIMER to Shape(3, 1.2), FUEL_TO_DEST to Shape(3, 1.3),
         SERVICE to Shape(4, 1.4), FUEL_PRICES to Shape(4, 1.3), CAR_STATUS to Shape(4, 1.4),
-        TYRES to Shape(4, 1.3)
+        TYRES to Shape(4, 1.3), HOME_WORK to Shape(3, 2.2)
     )
     private val DEFAULT_SHAPE = Shape(3, 1.6)
     private fun shape(kind: BuiltinKind) = SHAPES[kind] ?: DEFAULT_SHAPE

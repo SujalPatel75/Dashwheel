@@ -2,25 +2,29 @@
 <resources>
     <!-- Dashboard templates: ready-made widget sets for all 7 dashboards -->
     <string name="templates_button">Modèles</string>
-    <string name="templates_title">Modèles de tableaux de bord</string>
     <string name="templates_daily">Quotidien</string>
     <string name="templates_daily_blurb">Carte et musique au premier plan, la voiture et votre journée à un glissement</string>
     <string name="templates_road_trip">Road trip</string>
     <string name="templates_road_trip_blurb">Grande carte, autonomie, météo et arrêts pour les longs trajets</string>
     <string name="templates_car_health">Santé de la voiture</string>
     <string name="templates_car_health_blurb">Données de la voiture et codes défaut sur l\'accueil</string>
-    <string name="templates_hint">Un modèle remplit l\'Accueil et les deux tableaux de bord à côté, disposés pour cet écran avec les tuiles principales côté conducteur.</string>
     <string name="templates_no_obd">Aucun adaptateur OBD choisi : les widgets de données voiture sont omis.</string>
-    <string name="templates_fill_empty">Remplir les vides</string>
-    <string name="templates_replace_all">Remplacer ces tableaux de bord</string>
-    <string name="templates_replace_confirm_title">Remplacer ces tableaux de bord ?</string>
-    <string name="templates_replace_confirm_body">Votre disposition disparaît. Annuler la ramène.</string>
-    <string name="templates_replace">Remplacer</string>
-    <string name="templates_column">Remplir aussi les tableaux de bord au-dessus et en dessous</string>
-    <string name="templates_column_detail">Quatre tableaux de bord de plus, balayés vers le haut et le bas depuis l\'Accueil</string>
     <string name="templates_fill_this">Remplir ce tableau de bord</string>
     <string name="templates_fill_this_hint">Seule la page du modèle pour %1$s y est placée.</string>
     <string name="templates_fill">Remplir</string>
     <string name="templates_all_dashboards">Tous les tableaux de bord…</string>
     <string name="templates_none_empty">Aucun tableau de bord vide dans les balayages</string>
+    <string name="templates_pick_title">Choisissez un point de départ</string>
+    <string name="templates_pick_hint">Balayez pour essayer chacun sur votre écran</string>
+    <string name="templates_reach_home">Accueil</string>
+    <string name="templates_reach_row">Accueil et ses voisins</string>
+    <string name="templates_reach_all">Les sept</string>
+    <string name="templates_reach_all_note">L\'accueil et les tableaux autour</string>
+    <string name="templates_use">Utiliser %1$s</string>
+    <string name="templates_undo_note">Annuler reste à l\'écran un moment</string>
+    <string name="templates_applied">%1$s est sur vos tableaux de bord</string>
+    <string name="templates_calm">Calme</string>
+    <string name="templates_calm_blurb">La carte et votre vitesse, rien d\'autre</string>
+    <string name="templates_previous">Modèle précédent</string>
+    <string name="templates_next">Modèle suivant</string>
 </resources>

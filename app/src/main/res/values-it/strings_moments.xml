@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Moments: Home follows the drive (Moments.kt, MomentsScreen.kt) -->
+    <string name="moments_title">Momenti</string>
+    <string name="moments_hint">La Home segue il viaggio. Senza toccare.</string>
+    <string name="moments_apps_note">Un\'app gira in una tessera della Home, quindi la Home resta com\'è.</string>
+    <string name="moments_master">Cambia da solo</string>
+    <string name="moments_now">Adesso</string>
+    <string name="moments_any_time">In qualsiasi momento</string>
+    <string name="moments_starts">Inizia</string>
+    <string name="moments_ends">Finisce</string>
+    <string name="moments_stays">Resta ferma</string>
+    <string name="moments_stays_body">Non cambia mai mentre tocchi lo schermo</string>
+    <string name="moments_on">Attivo</string>
+    <string name="moments_off">Disattivo</string>
+    <string name="moments_change">Cambia cosa mostra</string>
+    <string name="moments_change_hint">Una copia lascia fuori app in finestra e widget di sistema.</string>
+    <string name="moments_custom">Una tua scelta</string>
+    <string name="moments_as_it_came">Com\'era</string>
+    <string name="moments_copy_of">Una copia di %1$s</string>
+    <string name="moments_back_home">Torna alla tua Home</string>
+    <string name="moment_engine_on">Motore acceso</string>
+    <string name="moment_engine_on_shows">Carburante, meteo e la giornata</string>
+    <string name="moment_engine_on_starts">All\'avvio del motore</string>
+    <string name="moment_engine_on_ends">Quando l\'auto parte</string>
+    <string name="moment_guiding">Navigazione</string>
+    <string name="moment_guiding_shows">La mappa e la prossima svolta davanti</string>
+    <string name="moment_guiding_starts">Quando Maps o Waze guida</string>
+    <string name="moment_guiding_ends">Quando il percorso finisce</string>
+    <string name="moment_long">Viaggio lungo</string>
+    <string name="moment_long_shows">Autonomia, soste carburante e una pausa</string>
+    <string name="moment_long_starts">Dopo un\'ora alla guida</string>
+    <string name="moment_long_ends">Quando parcheggi</string>
+    <string name="moment_parked">Parcheggiata</string>
+    <string name="moment_parked_shows">Stato dell\'auto e messaggi</string>
+    <string name="moment_parked_starts">Dopo un viaggio, 2 min ferma</string>
+    <string name="moment_parked_ends">Quando l\'auto parte</string>
+    <string name="moment_fault">Qualcosa non va</string>
+    <string name="moment_fault_shows">Il codice guasto e i dati motore</string>
+    <string name="moment_fault_starts">Quando compare un codice guasto</string>
+    <string name="moment_fault_ends">Dopo 5 min, o il tasto Home</string>
+</resources>

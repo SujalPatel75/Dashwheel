@@ -2,25 +2,29 @@
 <resources>
     <!-- Dashboard templates: ready-made widget sets for all 7 dashboards -->
     <string name="templates_button">Sjablonen</string>
-    <string name="templates_title">Dashboardsjablonen</string>
     <string name="templates_daily">Dagelijks</string>
     <string name="templates_daily_blurb">Kaart en muziek vooraan, de auto en je dag één veeg verderop</string>
     <string name="templates_road_trip">Roadtrip</string>
     <string name="templates_road_trip_blurb">Grote kaart, bereik, weer en stops voor lange ritten</string>
     <string name="templates_car_health">Autoconditie</string>
     <string name="templates_car_health_blurb">Autogegevens en foutcodes op Home</string>
-    <string name="templates_hint">Een sjabloon vult Start en de twee dashboards ernaast, ingedeeld voor dit scherm met de belangrijkste tegels aan de bestuurderskant.</string>
     <string name="templates_no_obd">Nog geen OBD-adapter gekozen, dus de autodata-widgets blijven weg.</string>
-    <string name="templates_fill_empty">Lege dashboards vullen</string>
-    <string name="templates_replace_all">Deze dashboards vervangen</string>
-    <string name="templates_replace_confirm_title">Deze dashboards vervangen?</string>
-    <string name="templates_replace_confirm_body">Je indeling verdwijnt. Ongedaan maken brengt hem terug.</string>
-    <string name="templates_replace">Vervangen</string>
-    <string name="templates_column">Ook de dashboards erboven en eronder vullen</string>
-    <string name="templates_column_detail">Vier dashboards extra, omhoog en omlaag vanaf Start</string>
     <string name="templates_fill_this">Dit dashboard vullen</string>
     <string name="templates_fill_this_hint">Alleen de sjabloonpagina voor %1$s komt erop.</string>
     <string name="templates_fill">Vullen</string>
     <string name="templates_all_dashboards">Alle dashboards…</string>
     <string name="templates_none_empty">Geen leeg dashboard in het vegen</string>
+    <string name="templates_pick_title">Kies een beginpunt</string>
+    <string name="templates_pick_hint">Veeg om elk op je eigen scherm te proberen</string>
+    <string name="templates_reach_home">Start</string>
+    <string name="templates_reach_row">Start en ernaast</string>
+    <string name="templates_reach_all">Alle zeven</string>
+    <string name="templates_reach_all_note">Start en de dashboards eromheen</string>
+    <string name="templates_use">%1$s gebruiken</string>
+    <string name="templates_undo_note">Ongedaan maken blijft even staan</string>
+    <string name="templates_applied">%1$s staat op je dashboards</string>
+    <string name="templates_calm">Rustig</string>
+    <string name="templates_calm_blurb">De kaart en je snelheid, verder niets</string>
+    <string name="templates_previous">Vorige sjabloon</string>
+    <string name="templates_next">Volgende sjabloon</string>
 </resources>

@@ -2,25 +2,29 @@
 <resources>
     <!-- Dashboard templates: ready-made widget sets for all 7 dashboards -->
     <string name="templates_button">Modelos</string>
-    <string name="templates_title">Modelos de painéis</string>
     <string name="templates_daily">Diário</string>
     <string name="templates_daily_blurb">Mapa e música à frente, o carro e o seu dia a um deslizar</string>
     <string name="templates_road_trip">Viagem</string>
     <string name="templates_road_trip_blurb">Mapa grande, autonomia, meteorologia e paragens para viagens longas</string>
     <string name="templates_car_health">Saúde do carro</string>
     <string name="templates_car_health_blurb">Dados do carro e códigos de avaria no Início</string>
-    <string name="templates_hint">Um modelo preenche o Início e os dois painéis ao lado, dispostos para este ecrã com os mosaicos principais do lado do condutor.</string>
     <string name="templates_no_obd">Ainda não escolheu um adaptador OBD, por isso os widgets de dados do carro ficam de fora.</string>
-    <string name="templates_fill_empty">Preencher painéis vazios</string>
-    <string name="templates_replace_all">Substituir estes painéis</string>
-    <string name="templates_replace_confirm_title">Substituir estes painéis?</string>
-    <string name="templates_replace_confirm_body">A sua disposição desaparece. Anular repõe-na.</string>
-    <string name="templates_replace">Substituir</string>
-    <string name="templates_column">Preencher também os painéis acima e abaixo</string>
-    <string name="templates_column_detail">Mais quatro painéis, deslizando para cima e para baixo a partir do Início</string>
     <string name="templates_fill_this">Preencher este painel</string>
     <string name="templates_fill_this_hint">Só a página do modelo para %1$s vai para ele.</string>
     <string name="templates_fill">Preencher</string>
     <string name="templates_all_dashboards">Todos os painéis…</string>
     <string name="templates_none_empty">Nenhum painel vazio nos deslizes</string>
+    <string name="templates_pick_title">Escolha um ponto de partida</string>
+    <string name="templates_pick_hint">Deslize para experimentar cada um no seu ecrã</string>
+    <string name="templates_reach_home">Início</string>
+    <string name="templates_reach_row">Início e ao lado</string>
+    <string name="templates_reach_all">Os sete</string>
+    <string name="templates_reach_all_note">O início e os painéis à volta</string>
+    <string name="templates_use">Usar %1$s</string>
+    <string name="templates_undo_note">Anular fica no ecrã durante algum tempo</string>
+    <string name="templates_applied">%1$s está nos seus painéis</string>
+    <string name="templates_calm">Calmo</string>
+    <string name="templates_calm_blurb">O mapa e a velocidade, mais nada</string>
+    <string name="templates_previous">Modelo anterior</string>
+    <string name="templates_next">Modelo seguinte</string>
 </resources>

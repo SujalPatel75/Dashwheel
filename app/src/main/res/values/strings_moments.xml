@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Moments: Home follows the drive (Moments.kt, MomentsScreen.kt) -->
+    <string name="moments_title">Moments</string>
+    <string name="moments_hint">Home follows the drive. No tapping.</string>
+    <string name="moments_apps_note">An app runs in a tile on Home, so Home stays as it is.</string>
+    <string name="moments_master">Switch by itself</string>
+    <string name="moments_now">Now</string>
+    <string name="moments_any_time">Any time</string>
+    <string name="moments_starts">Starts</string>
+    <string name="moments_ends">Ends</string>
+    <string name="moments_stays">Stays put</string>
+    <string name="moments_stays_body">Never switches while you touch the screen</string>
+    <string name="moments_on">On</string>
+    <string name="moments_off">Off</string>
+    <string name="moments_change">Change what it shows</string>
+    <string name="moments_change_hint">A copy leaves out apps in windows and system widgets.</string>
+    <string name="moments_custom">Your own choice</string>
+    <string name="moments_as_it_came">As it came</string>
+    <string name="moments_copy_of">A copy of %1$s</string>
+    <string name="moments_back_home">Back to your Home</string>
+    <string name="moment_engine_on">Engine on</string>
+    <string name="moment_engine_on_shows">Fuel, weather and the day ahead</string>
+    <string name="moment_engine_on_starts">When the engine starts</string>
+    <string name="moment_engine_on_ends">When the car sets off</string>
+    <string name="moment_guiding">Guiding</string>
+    <string name="moment_guiding_shows">The map and the next turn up front</string>
+    <string name="moment_guiding_starts">When Maps or Waze guides</string>
+    <string name="moment_guiding_ends">When the route ends</string>
+    <string name="moment_long">Long drive</string>
+    <string name="moment_long_shows">Range, fuel stops and a break</string>
+    <string name="moment_long_starts">After an hour at the wheel</string>
+    <string name="moment_long_ends">When you park</string>
+    <string name="moment_parked">Parked</string>
+    <string name="moment_parked_shows">Car health and messages</string>
+    <string name="moment_parked_starts">After a drive, 2 min stopped</string>
+    <string name="moment_parked_ends">When the car sets off</string>
+    <string name="moment_fault">Something is wrong</string>
+    <string name="moment_fault_shows">The fault code and the engine readings</string>
+    <string name="moment_fault_starts">When a fault code shows</string>
+    <string name="moment_fault_ends">After 5 min, or the Home key</string>
+</resources>

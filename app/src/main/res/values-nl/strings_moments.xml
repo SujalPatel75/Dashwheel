@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Moments: Home follows the drive (Moments.kt, MomentsScreen.kt) -->
+    <string name="moments_title">Momenten</string>
+    <string name="moments_hint">Start volgt de rit. Zonder tikken.</string>
+    <string name="moments_apps_note">Op Start draait een app in een tegel, dus Start blijft zoals hij is.</string>
+    <string name="moments_master">Vanzelf wisselen</string>
+    <string name="moments_now">Nu</string>
+    <string name="moments_any_time">Altijd</string>
+    <string name="moments_starts">Begint</string>
+    <string name="moments_ends">Eindigt</string>
+    <string name="moments_stays">Blijft staan</string>
+    <string name="moments_stays_body">Wisselt nooit terwijl je het scherm aanraakt</string>
+    <string name="moments_on">Aan</string>
+    <string name="moments_off">Uit</string>
+    <string name="moments_change">Wijzigen wat hij toont</string>
+    <string name="moments_change_hint">Een kopie laat apps in vensters en systeemwidgets weg.</string>
+    <string name="moments_custom">Je eigen keuze</string>
+    <string name="moments_as_it_came">Zoals geleverd</string>
+    <string name="moments_copy_of">Een kopie van %1$s</string>
+    <string name="moments_back_home">Terug naar je Start</string>
+    <string name="moment_engine_on">Motor aan</string>
+    <string name="moment_engine_on_shows">Brandstof, weer en de dag</string>
+    <string name="moment_engine_on_starts">Als de motor start</string>
+    <string name="moment_engine_on_ends">Als de auto wegrijdt</string>
+    <string name="moment_guiding">Navigeren</string>
+    <string name="moment_guiding_shows">De kaart en de volgende afslag vooraan</string>
+    <string name="moment_guiding_starts">Als Maps of Waze navigeert</string>
+    <string name="moment_guiding_ends">Als de route eindigt</string>
+    <string name="moment_long">Lange rit</string>
+    <string name="moment_long_shows">Bereik, tankstops en een pauze</string>
+    <string name="moment_long_starts">Na een uur achter het stuur</string>
+    <string name="moment_long_ends">Als je parkeert</string>
+    <string name="moment_parked">Geparkeerd</string>
+    <string name="moment_parked_shows">Staat van de auto en berichten</string>
+    <string name="moment_parked_starts">Na een rit, 2 min stilstand</string>
+    <string name="moment_parked_ends">Als de auto wegrijdt</string>
+    <string name="moment_fault">Er is iets mis</string>
+    <string name="moment_fault_shows">De foutcode en de motorwaarden</string>
+    <string name="moment_fault_starts">Als er een foutcode is</string>
+    <string name="moment_fault_ends">Na 5 min, of de Home-toets</string>
+</resources>

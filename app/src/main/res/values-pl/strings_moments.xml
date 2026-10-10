@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Moments: Home follows the drive (Moments.kt, MomentsScreen.kt) -->
+    <string name="moments_title">Momenty</string>
+    <string name="moments_hint">Ekran główny podąża za jazdą. Bez dotykania.</string>
+    <string name="moments_apps_note">Na ekranie głównym działa aplikacja w kafelku, więc zostaje bez zmian.</string>
+    <string name="moments_master">Przełączaj sam</string>
+    <string name="moments_now">Teraz</string>
+    <string name="moments_any_time">W każdej chwili</string>
+    <string name="moments_starts">Zaczyna się</string>
+    <string name="moments_ends">Kończy się</string>
+    <string name="moments_stays">Nie rusza się</string>
+    <string name="moments_stays_body">Nie zmienia się, gdy dotykasz ekranu</string>
+    <string name="moments_on">Wł.</string>
+    <string name="moments_off">Wył.</string>
+    <string name="moments_change">Zmień zawartość</string>
+    <string name="moments_change_hint">Kopia pomija aplikacje w oknach i widżety systemowe.</string>
+    <string name="moments_custom">Twój własny wybór</string>
+    <string name="moments_as_it_came">Jak na początku</string>
+    <string name="moments_copy_of">Kopia: %1$s</string>
+    <string name="moments_back_home">Wróć do swojego ekranu głównego</string>
+    <string name="moment_engine_on">Silnik włączony</string>
+    <string name="moment_engine_on_shows">Paliwo, pogoda i dzień</string>
+    <string name="moment_engine_on_starts">Po uruchomieniu silnika</string>
+    <string name="moment_engine_on_ends">Gdy auto rusza</string>
+    <string name="moment_guiding">Nawigacja</string>
+    <string name="moment_guiding_shows">Mapa i najbliższy skręt z przodu</string>
+    <string name="moment_guiding_starts">Gdy Maps lub Waze prowadzi</string>
+    <string name="moment_guiding_ends">Gdy trasa się kończy</string>
+    <string name="moment_long">Długa jazda</string>
+    <string name="moment_long_shows">Zasięg, tankowania i przerwa</string>
+    <string name="moment_long_starts">Po godzinie za kierownicą</string>
+    <string name="moment_long_ends">Gdy parkujesz</string>
+    <string name="moment_parked">Zaparkowane</string>
+    <string name="moment_parked_shows">Stan auta i wiadomości</string>
+    <string name="moment_parked_starts">Po jeździe, 2 min postoju</string>
+    <string name="moment_parked_ends">Gdy auto rusza</string>
+    <string name="moment_fault">Coś jest nie tak</string>
+    <string name="moment_fault_shows">Kod usterki i odczyty silnika</string>
+    <string name="moment_fault_starts">Gdy pojawi się kod usterki</string>
+    <string name="moment_fault_ends">Po 5 min lub klawisz Home</string>
+</resources>

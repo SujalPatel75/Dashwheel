@@ -2,25 +2,29 @@
 <resources>
     <!-- Dashboard templates: ready-made widget sets for all 7 dashboards -->
     <string name="templates_button">Vorlagen</string>
-    <string name="templates_title">Dashboard-Vorlagen</string>
     <string name="templates_daily">Alltag</string>
     <string name="templates_daily_blurb">Karte und Musik vorn, Auto und dein Tag nur ein Wischen entfernt</string>
     <string name="templates_road_trip">Roadtrip</string>
     <string name="templates_road_trip_blurb">Große Karte, Reichweite, Wetter und Stopps für lange Fahrten</string>
     <string name="templates_car_health">Fahrzeugzustand</string>
     <string name="templates_car_health_blurb">Fahrzeugdaten und Fehlercodes auf der Startseite</string>
-    <string name="templates_hint">Eine Vorlage füllt Start und die beiden Dashboards daneben, für diesen Bildschirm angeordnet, die wichtigsten Kacheln auf der Fahrerseite.</string>
     <string name="templates_no_obd">Noch kein OBD-Adapter gewählt, daher fehlen die Fahrzeugdaten-Widgets.</string>
-    <string name="templates_fill_empty">Leere Dashboards füllen</string>
-    <string name="templates_replace_all">Diese Dashboards ersetzen</string>
-    <string name="templates_replace_confirm_title">Diese Dashboards ersetzen?</string>
-    <string name="templates_replace_confirm_body">Deine Anordnung verschwindet. Rückgängig holt sie zurück.</string>
-    <string name="templates_replace">Ersetzen</string>
-    <string name="templates_column">Auch die Dashboards darüber und darunter füllen</string>
-    <string name="templates_column_detail">Vier weitere Dashboards, von Start aus nach oben und unten gewischt</string>
     <string name="templates_fill_this">Dieses Dashboard füllen</string>
     <string name="templates_fill_this_hint">Nur die Vorlagenseite für %1$s kommt darauf.</string>
     <string name="templates_fill">Füllen</string>
     <string name="templates_all_dashboards">Alle Dashboards…</string>
     <string name="templates_none_empty">Kein leeres Dashboard im Wischen</string>
+    <string name="templates_pick_title">Wählen Sie einen Ausgangspunkt</string>
+    <string name="templates_pick_hint">Wischen Sie, um jede Vorlage auf Ihrem Bildschirm zu sehen</string>
+    <string name="templates_reach_home">Start</string>
+    <string name="templates_reach_row">Start und daneben</string>
+    <string name="templates_reach_all">Alle sieben</string>
+    <string name="templates_reach_all_note">Start und die Dashboards rundherum</string>
+    <string name="templates_use">%1$s nutzen</string>
+    <string name="templates_undo_note">Rückgängig bleibt eine Weile sichtbar</string>
+    <string name="templates_applied">%1$s ist auf Ihren Dashboards</string>
+    <string name="templates_calm">Ruhig</string>
+    <string name="templates_calm_blurb">Karte und Tempo, sonst nichts</string>
+    <string name="templates_previous">Vorige Vorlage</string>
+    <string name="templates_next">Nächste Vorlage</string>
 </resources>

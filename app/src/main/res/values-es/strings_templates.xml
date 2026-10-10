@@ -2,25 +2,29 @@
 <resources>
     <!-- Dashboard templates: ready-made widget sets for all 7 dashboards -->
     <string name="templates_button">Plantillas</string>
-    <string name="templates_title">Plantillas de paneles</string>
     <string name="templates_daily">Diario</string>
     <string name="templates_daily_blurb">Mapa y música delante, el coche y tu día a un deslizamiento</string>
     <string name="templates_road_trip">Viaje largo</string>
     <string name="templates_road_trip_blurb">Mapa grande, autonomía, tiempo y paradas para viajes largos</string>
     <string name="templates_car_health">Salud del coche</string>
     <string name="templates_car_health_blurb">Datos del coche y códigos de avería en Inicio</string>
-    <string name="templates_hint">Una plantilla llena Inicio y los dos paneles de al lado, dispuestos para esta pantalla con las fichas principales del lado del conductor.</string>
     <string name="templates_no_obd">Aún no has elegido adaptador OBD, así que se omiten los widgets de datos del coche.</string>
-    <string name="templates_fill_empty">Llenar paneles vacíos</string>
-    <string name="templates_replace_all">Reemplazar estos paneles</string>
-    <string name="templates_replace_confirm_title">¿Reemplazar estos paneles?</string>
-    <string name="templates_replace_confirm_body">Tu disposición se pierde. Deshacer la recupera.</string>
-    <string name="templates_replace">Reemplazar</string>
-    <string name="templates_column">Llenar también los paneles de arriba y abajo</string>
-    <string name="templates_column_detail">Cuatro paneles más, deslizando arriba y abajo desde Inicio</string>
     <string name="templates_fill_this">Llenar este panel</string>
     <string name="templates_fill_this_hint">Solo la página de la plantilla para %1$s va en él.</string>
     <string name="templates_fill">Llenar</string>
     <string name="templates_all_dashboards">Todos los paneles…</string>
     <string name="templates_none_empty">Ningún panel vacío en los deslizamientos</string>
+    <string name="templates_pick_title">Elige un punto de partida</string>
+    <string name="templates_pick_hint">Desliza para probar cada uno en tu pantalla</string>
+    <string name="templates_reach_home">Inicio</string>
+    <string name="templates_reach_row">Inicio y sus lados</string>
+    <string name="templates_reach_all">Los siete</string>
+    <string name="templates_reach_all_note">Inicio y los paneles de alrededor</string>
+    <string name="templates_use">Usar %1$s</string>
+    <string name="templates_undo_note">Deshacer sigue en pantalla un rato</string>
+    <string name="templates_applied">%1$s está en tus paneles</string>
+    <string name="templates_calm">Calma</string>
+    <string name="templates_calm_blurb">El mapa y tu velocidad, nada más</string>
+    <string name="templates_previous">Plantilla anterior</string>
+    <string name="templates_next">Plantilla siguiente</string>
 </resources>

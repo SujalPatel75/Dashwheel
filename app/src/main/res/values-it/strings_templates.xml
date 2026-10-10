@@ -2,25 +2,29 @@
 <resources>
     <!-- Dashboard templates: ready-made widget sets for all 7 dashboards -->
     <string name="templates_button">Modelli</string>
-    <string name="templates_title">Modelli di cruscotti</string>
     <string name="templates_daily">Quotidiano</string>
     <string name="templates_daily_blurb">Mappa e musica in primo piano, l\'auto e la tua giornata a uno scorrimento</string>
     <string name="templates_road_trip">Viaggio</string>
     <string name="templates_road_trip_blurb">Mappa grande, autonomia, meteo e soste per i lunghi viaggi</string>
     <string name="templates_car_health">Salute auto</string>
     <string name="templates_car_health_blurb">Dati dell\'auto e codici guasto nella Home</string>
-    <string name="templates_hint">Un modello riempie la Home e i due pannelli accanto, disposti per questo schermo con i riquadri principali dal lato del guidatore.</string>
     <string name="templates_no_obd">Nessun adattatore OBD scelto: i widget dei dati auto sono esclusi.</string>
-    <string name="templates_fill_empty">Riempi cruscotti vuoti</string>
-    <string name="templates_replace_all">Sostituisci questi pannelli</string>
-    <string name="templates_replace_confirm_title">Sostituire questi pannelli?</string>
-    <string name="templates_replace_confirm_body">La tua disposizione sparisce. Annulla la riporta.</string>
-    <string name="templates_replace">Sostituisci</string>
-    <string name="templates_column">Riempi anche i pannelli sopra e sotto</string>
-    <string name="templates_column_detail">Altri quattro pannelli, scorrendo su e giù dalla Home</string>
     <string name="templates_fill_this">Riempi questo pannello</string>
     <string name="templates_fill_this_hint">Solo la pagina del modello per %1$s vi è collocata.</string>
     <string name="templates_fill">Riempi</string>
     <string name="templates_all_dashboards">Tutti i pannelli…</string>
     <string name="templates_none_empty">Nessun pannello vuoto negli scorrimenti</string>
+    <string name="templates_pick_title">Scegli un punto di partenza</string>
+    <string name="templates_pick_hint">Scorri per provarli sul tuo schermo</string>
+    <string name="templates_reach_home">Home</string>
+    <string name="templates_reach_row">Home e ai lati</string>
+    <string name="templates_reach_all">Tutti e sette</string>
+    <string name="templates_reach_all_note">La Home e i cruscotti intorno</string>
+    <string name="templates_use">Usa %1$s</string>
+    <string name="templates_undo_note">Annulla resta sullo schermo per un po\'</string>
+    <string name="templates_applied">%1$s è sui tuoi cruscotti</string>
+    <string name="templates_calm">Calmo</string>
+    <string name="templates_calm_blurb">La mappa e la velocità, nient\'altro</string>
+    <string name="templates_previous">Modello precedente</string>
+    <string name="templates_next">Modello successivo</string>
 </resources>

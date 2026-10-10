@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Moments: Home follows the drive (Moments.kt, MomentsScreen.kt) -->
+    <string name="moments_title">Моменты</string>
+    <string name="moments_hint">Главная следует за поездкой. Без касаний.</string>
+    <string name="moments_apps_note">На главной в плитке работает приложение, поэтому она остаётся как есть.</string>
+    <string name="moments_master">Переключать само</string>
+    <string name="moments_now">Сейчас</string>
+    <string name="moments_any_time">В любой момент</string>
+    <string name="moments_starts">Начало</string>
+    <string name="moments_ends">Конец</string>
+    <string name="moments_stays">Не мешает</string>
+    <string name="moments_stays_body">Не меняется, пока вы касаетесь экрана</string>
+    <string name="moments_on">Вкл.</string>
+    <string name="moments_off">Выкл.</string>
+    <string name="moments_change">Изменить содержимое</string>
+    <string name="moments_change_hint">Копия не берёт приложения в окнах и системные виджеты.</string>
+    <string name="moments_custom">Ваш собственный выбор</string>
+    <string name="moments_as_it_came">Как было</string>
+    <string name="moments_copy_of">Копия: %1$s</string>
+    <string name="moments_back_home">Вернуть свою главную</string>
+    <string name="moment_engine_on">Двигатель запущен</string>
+    <string name="moment_engine_on_shows">Топливо, погода и день</string>
+    <string name="moment_engine_on_starts">При запуске двигателя</string>
+    <string name="moment_engine_on_ends">Когда машина трогается</string>
+    <string name="moment_guiding">Ведение</string>
+    <string name="moment_guiding_shows">Карта и следующий поворот впереди</string>
+    <string name="moment_guiding_starts">Когда ведёт Maps или Waze</string>
+    <string name="moment_guiding_ends">Когда маршрут закончен</string>
+    <string name="moment_long">Долгая поездка</string>
+    <string name="moment_long_shows">Запас хода, заправки и отдых</string>
+    <string name="moment_long_starts">После часа за рулём</string>
+    <string name="moment_long_ends">Когда вы паркуетесь</string>
+    <string name="moment_parked">Стоянка</string>
+    <string name="moment_parked_shows">Состояние машины и сообщения</string>
+    <string name="moment_parked_starts">После поездки, 2 мин стоянки</string>
+    <string name="moment_parked_ends">Когда машина трогается</string>
+    <string name="moment_fault">Что-то не так</string>
+    <string name="moment_fault_shows">Код ошибки и показания двигателя</string>
+    <string name="moment_fault_starts">Когда появился код ошибки</string>
+    <string name="moment_fault_ends">Через 5 мин или кнопкой «Домой»</string>
+</resources>

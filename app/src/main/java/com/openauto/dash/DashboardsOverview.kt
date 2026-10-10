@@ -310,7 +310,7 @@ private fun RemoveBadge(label: String, modifier: Modifier, onClick: () -> Unit) 
 
 /** "Trip removed", with Undo. */
 @Composable
-private fun UndoBar(text: String, modifier: Modifier, onUndo: () -> Unit) {
+internal fun UndoBar(text: String, modifier: Modifier, onUndo: () -> Unit) {
     val tap = rememberTapFeedback()
     Row(
         modifier = modifier

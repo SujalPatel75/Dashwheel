@@ -82,6 +82,7 @@ import androidx.compose.ui.layout.positionInRoot
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.platform.LocalViewConfiguration
 import androidx.compose.ui.platform.LocalLifecycleOwner
+import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Lifecycle
@@ -102,6 +103,7 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.activity.compose.ReportDrawn
+import androidx.compose.ui.input.pointer.PointerEventPass
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.foundation.gestures.detectHorizontalDragGestures
 import androidx.compose.foundation.gestures.detectTapGestures
@@ -109,6 +111,9 @@ import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.gestures.detectVerticalDragGestures
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
+
+/** How long the dashboard offers Undo after a template. */
+private const val TEMPLATE_UNDO_MS = 15_000L
 
 /** How many layout steps Undo can walk back while arranging. */
 internal const val MAX_UNDO = 30
@@ -367,14 +372,47 @@ fun AutomotiveDashboard(inSplitMode: Boolean = false) {
     var appSheet by ui::appSheet
     var showBarChooser by ui::showBarChooser
     var pickBarApp by ui::pickBarApp
+    var showMoments by ui::showMoments
     // A dashboard can come up by itself: as the car sets off, parks, or finds a new fault.
     FollowTabTriggers(barTabs) { trigger ->
         if (!editing && dashSheet == null) CanvasTabs.tabFor(barTabsState.value, trigger)?.let { showPage(it.page) }
+    }
+    // Moments (Moments.kt): Home shows the moment of the drive, in its own place.
+    remember { MomentStore.load(context) }
+    val momentSettings by MomentStore.settings.collectAsState()
+    // An app in a window or inside a tile on Home keeps its place on screen: no moment takes it away.
+    val homeHoldsApps = pages.getOrNull(DashboardStore.CENTER).orEmpty().any { it.holdsAnApp() }
+    val activeMoments by rememberActiveMoments(momentSettings.master && momentSettings.on.isNotEmpty() && !homeHoldsApps)
+    val wantedMoment = Moment.pick(activeMoments, momentSettings.live).takeIf { !homeHoldsApps }
+    // The moment the driver sent away with the Home key; it stays away until another comes.
+    var dismissedMoment by remember { mutableStateOf<Moment?>(null) }
+    var shownMoment by remember { mutableStateOf<Moment?>(null) }
+    // When the screen was last touched: a moment never changes Home under a finger.
+    val lastTouch = remember { longArrayOf(0L) }
+    LaunchedEffect(wantedMoment) {
+        if (dismissedMoment != null && dismissedMoment != wantedMoment) dismissedMoment = null
+    }
+    LaunchedEffect(wantedMoment, dismissedMoment) {
+        val target = wantedMoment?.takeIf { it != dismissedMoment }
+        while (target != shownMoment && (
+                System.currentTimeMillis() - lastTouch[0] < MOMENT_TOUCH_QUIET_MS ||
+                    editing || showTemplates || fillPage != null || showMoments || ui.fullScreenSheet
+                )
+        ) delay(500)
+        val began = target != null && target != shownMoment
+        shownMoment = target
+        // A moment beginning brings Home on screen: it is the page that follows the drive.
+        if (began) showHome()
     }
     // The Home key: close whatever is open and come back to the middle of the cross.
     val homePressed by MainActivity.homePressed.collectAsState()
     LaunchedEffect(homePressed) {
         if (OneShot.fresh("home", homePressed)) {
+            // Home on Home while a moment shows it: the driver's own Home, until the next moment.
+            if (anchor.shown == DashboardStore.CENTER && shownMoment != null) {
+                dismissedMoment = shownMoment
+                shownMoment = null
+            }
             ui.closeForHome()
             showHome()
         }
@@ -453,6 +491,14 @@ fun AutomotiveDashboard(inSplitMode: Boolean = false) {
     var confirmBringBack by ui::confirmBringBack
     // A tile just sent to another dashboard: its chip, with the way there, for a moment.
     var movedTo by remember { mutableStateOf<Int?>(null) }
+    // A template just put on, by name: the dashboard offers Undo for a while.
+    var templateUndo by remember { mutableStateOf<String?>(null) }
+    LaunchedEffect(templateUndo) {
+        if (templateUndo != null) {
+            delay(TEMPLATE_UNDO_MS)
+            templateUndo = null
+        }
+    }
     LaunchedEffect(movedTo) {
         if (movedTo != null) {
             delay(MOVED_CHIP_MS)
@@ -852,6 +898,13 @@ fun AutomotiveDashboard(inSplitMode: Boolean = false) {
         tyres = Tyres.available
     )
 
+    // What the moment on Home shows: laid out for this screen, worked out once per moment and arrangement.
+    val momentItems = shownMoment?.let { m ->
+        remember(m, momentSettings, layout, pages, appsByPackage.keys, obdAdapter.value, shellAccess, screenConfig) {
+            MomentStore.itemsFor(momentSettings, m, variant(), templateScreen(layout != DashLayout.GRID))
+        }
+    }
+
     /**
      * Lays the template of [choice] out on its pages: every one of them when
      * replacing, else only the empty dashboards among them that are in the
@@ -863,7 +916,7 @@ fun AutomotiveDashboard(inSplitMode: Boolean = false) {
         val shown = crossState.value
         val askedColumn = choice.pages.containsAll(DashboardStore.COLUMN)
         val targets = choice.pages.filter { p ->
-            choice.replace || (pages.getOrNull(p).orEmpty().isEmpty() && (p in shown || askedColumn))
+            p in choice.template.pages && (choice.replace || (pages.getOrNull(p).orEmpty().isEmpty() && (p in shown || askedColumn)))
         }
         if (targets.isEmpty()) {
             layoutNotice = context.getString(R.string.templates_none_empty)
@@ -1276,6 +1329,22 @@ fun AutomotiveDashboard(inSplitMode: Boolean = false) {
     )
     val viewConfig = LocalViewConfiguration.current
     val carTouch = remember(viewConfig) { carTouchConfiguration(viewConfig) }
+    // The previews of the templates and Moments screens: a dashboard page at
+    // its real size, its tiles drawn as on the dashboard; apps in windows,
+    // system widgets and the 3D car as while arranging (their stand-ins, never
+    // a second live one). The map is drawn by the preview itself.
+    val previewPageSize = with(density) {
+        if (pagesArea.width > 0f) DpSize(pagesArea.width.toDp(), pagesArea.height.toDp())
+        else DpSize(screenConfig.screenWidthDp.dp, (screenConfig.screenHeightDp * 0.85f).dp)
+    }
+    val previewTile: @Composable (DashboardItem) -> Unit = { item ->
+        TileContent(
+            item = item, editing = item.standsIn(), appsByPackage = appsByPackage, media = media, mediaController = mediaController,
+            hasMediaAccess = mediaAccess, context = context, obd = obd, obdConnection = obdConnection,
+            onConnectObd = {}, onPickDevice = {}, onLaunchApp = {}, onLaunchSplitPair = { _, _ -> },
+            onEditLaunchBar = {}, onModelTouch = {}
+        )
+    }
     CompositionLocalProvider(
         LocalViewConfiguration provides carTouch,
         LocalDriveLock provides driveLock,
@@ -1283,7 +1352,18 @@ fun AutomotiveDashboard(inSplitMode: Boolean = false) {
         LocalDashboards provides Dashboards(barTabs, tabbed = tabsShown),
         LocalDashBar provides barModel
     ) {
-    Box(modifier = Modifier.fillMaxSize()) {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .pointerInput(Unit) {
+                awaitPointerEventScope {
+                    while (true) {
+                        awaitPointerEvent(PointerEventPass.Initial)
+                        lastTouch[0] = System.currentTimeMillis()
+                    }
+                }
+            }
+    ) {
     val underApp = mapApp
     if (tabsShown && underApp != null) {
         CanvasAppBackdrop(underApp, railOnRight, Modifier.fillMaxSize())
@@ -1338,12 +1418,15 @@ fun AutomotiveDashboard(inSplitMode: Boolean = false) {
                 // window tiles must leave the windows alone (LocalPageOnScreen),
                 // and their clocks and motion stand still until the page can be
                 // seen: as soon as the pages start sliding (LocalPageActive).
+                // Home shows the moment of the drive, unless it is being arranged.
+                val moment = shownMoment.takeIf { page == DashboardStore.CENTER && !editing }
                 CompositionLocalProvider(
                     LocalPageOnScreen provides (page == currentPage),
                     LocalPageActive provides (page == currentPage || pagerState.isScrollInProgress || columnState.isScrollInProgress)
                 ) {
+                Box(Modifier.fillMaxSize()) {
                 DashboardPage(
-                    pageItems = pages[page],
+                    pageItems = if (moment != null) momentItems ?: pages[page] else pages[page],
                     editing = editing,
                     inSplitMode = inSplitMode,
                     onModelTouch = { blockPagerSwipe = it },
@@ -1357,7 +1440,7 @@ fun AutomotiveDashboard(inSplitMode: Boolean = false) {
                     onPickDevice = onPickDevice,
                     onLaunchApp = onLaunchApp,
                     onLaunchSplitPair = onLaunchSplitPair,
-                    onEditLaunchBar = { index -> whenParked { launchBarEditor = page to index } },
+                    onEditLaunchBar = { index -> if (moment == null) whenParked { launchBarEditor = page to index } },
                     onMoveCell = { index, x, y -> moveCell(page, index, x, y) },
                     onResizeCell = { index, w, h -> resizeCell(page, index, w, h) },
                     canPlace = { index, x, y, w, h ->
@@ -1378,6 +1461,13 @@ fun AutomotiveDashboard(inSplitMode: Boolean = false) {
                     // An empty tab is the map alone; the edit bar still adds to it.
                     emptyPrompt = !tabsShown
                 )
+                if (moment != null) {
+                    MomentChip(moment, Modifier.align(Alignment.TopStart).padding(start = 14.dp, top = 14.dp)) {
+                        dismissedMoment = moment
+                        shownMoment = null
+                    }
+                }
+                }
                 }
             }
             // The pages' pane reads the dock fraction and the pagers' scroll
@@ -1817,6 +1907,56 @@ fun AutomotiveDashboard(inSplitMode: Boolean = false) {
             onDismiss = { DashboardsOverviewHost.open = false }
         )
     }
+    // Templates as a showroom, and Moments (TemplateShowroom.kt, MomentsScreen.kt): over the whole dashboard.
+    if (showTemplates || fillPage != null) {
+        val only = fillPage
+        TemplateShowroom(
+            screen = templateScreen(layout != DashLayout.GRID),
+            pageSize = previewPageSize,
+            onlyPage = only,
+            tile = previewTile,
+            onApply = { choice ->
+                showTemplates = false
+                fillPage = null
+                if (applyTemplate(choice)) {
+                    templateUndo = context.getString(choice.template.titleRes)
+                    // One empty page's own fill stays on screen.
+                    if (only == null) showHome()
+                }
+            },
+            onMoments = if (only == null) ({ showTemplates = false; showMoments = true }) else null,
+            onDismiss = { showTemplates = false; fillPage = null }
+        )
+    }
+    if (showMoments) {
+        val screenNow = templateScreen(layout != DashLayout.GRID)
+        MomentsScreen(
+            settings = momentSettings,
+            now = shownMoment,
+            itemsFor = { MomentStore.itemsFor(momentSettings, it, variant(), screenNow) },
+            custom = { MomentStore.layoutKey(it, variant()) in momentSettings.layouts },
+            pageSize = previewPageSize,
+            tile = previewTile,
+            dashboards = barTabs.filter { pages.getOrNull(it.page).orEmpty().isNotEmpty() }.map { it.page to it.label(context) },
+            appsNote = homeHoldsApps,
+            onMaster = { MomentStore.setMaster(it) },
+            onToggle = { m, on -> MomentStore.setOn(m, on) },
+            onCopy = { m, page ->
+                MomentStore.setLayout(m, variant(), page?.let { MomentStore.copyable(pages.getOrNull(it).orEmpty()) })
+            },
+            onDismiss = { showMoments = false }
+        )
+    }
+    // A template just put on: Undo, for a while.
+    templateUndo?.let { name ->
+        UndoBar(
+            text = stringResource(R.string.templates_applied, name),
+            modifier = Modifier.align(Alignment.BottomStart).padding(start = 24.dp, bottom = 96.dp)
+        ) {
+            templateUndo = null
+            undo()
+        }
+    }
     tourStep?.let { step ->
         TourOverlay(
             step = step,
@@ -1957,19 +2097,6 @@ fun AutomotiveDashboard(inSplitMode: Boolean = false) {
         )
     }
 
-    confirmTemplate?.let { choice ->
-        ConfirmDialog(
-            title = stringResource(R.string.templates_replace_confirm_title),
-            body = stringResource(R.string.templates_replace_confirm_body),
-            action = stringResource(R.string.templates_replace),
-            onConfirm = {
-                confirmTemplate = null
-                if (applyTemplate(choice)) showHome()
-            },
-            onDismiss = { confirmTemplate = null }
-        )
-    }
-
     if (barSettings) BarSettingsSheet(themeState) { barSettings = false }
     releaseNotes?.let { info ->
         ParkedOnly { releaseNotes = null }
@@ -2023,24 +2150,6 @@ fun AutomotiveDashboard(inSplitMode: Boolean = false) {
         )
     }
 
-    if (showTemplates || fillPage != null) {
-        val only = fillPage
-        DashTemplateDialog(
-            screen = templateScreen(layout != DashLayout.GRID),
-            onlyPage = only,
-            onApply = { choice ->
-                showTemplates = false
-                fillPage = null
-                when {
-                    // One empty page's own fill: nothing to lose, nothing to ask; it stays on screen.
-                    only != null -> applyTemplate(choice)
-                    choice.replace -> confirmTemplate = choice
-                    applyTemplate(choice) -> showHome()
-                }
-            },
-            onDismiss = { showTemplates = false; fillPage = null }
-        )
-    }
 
     if (showDevicePicker) {
         DevicePickerDialog(
