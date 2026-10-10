@@ -23,14 +23,13 @@ import kotlinx.coroutines.flow.map
 
 /** Whether the lock is on (Settings → Advanced). On by default: a launcher for the driver's seat. */
 object DriveLockStore {
-    private const val PREFS = "drive_lock"
-    private const val KEY = "enabled"
+    internal val FILE = PrefFile("drive_lock")
+    internal val ENABLED = FILE.bool("enabled", default = true)
 
-    fun load(context: Context): Boolean =
-        context.getSharedPreferences(PREFS, Context.MODE_PRIVATE).getBoolean(KEY, true)
+    fun load(context: Context): Boolean = FILE[context, ENABLED]
 
     fun save(context: Context, enabled: Boolean) {
-        context.getSharedPreferences(PREFS, Context.MODE_PRIVATE).edit().putBoolean(KEY, enabled).apply()
+        FILE[context, ENABLED] = enabled
     }
 }
 

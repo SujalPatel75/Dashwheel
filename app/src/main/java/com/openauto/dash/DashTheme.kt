@@ -99,7 +99,9 @@ enum class DashSkin { STANDARD, ORBIT, COCKPIT, HORIZON, TAPE_DECK, CANVAS, FUTU
  * picks a whole-design variant; skins are bare, their widgets draw their own shapes.
  * [Light] marks the day version of a theme: dark text on a pale page, so
  * anything that brightens with white (glass haze, highlights) must darken instead.
+ * Immutable: every field is a val, and [AccentInk] is worked out once from them.
  */
+@androidx.compose.runtime.Immutable
 data class DashPalette(
     val Background: Color, val Bar: Color, val Card: Color, val CardHi: Color,
     val Accent: Color, val Secondary: Color, val Critical: Color,

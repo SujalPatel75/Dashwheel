@@ -83,32 +83,29 @@ internal fun SetupStep.previous(): SetupStep? = SetupStep.entries.getOrNull(ordi
 
 /** Whether the setup has been seen, whether the driver asked the pill to stop, and whether there is no adapter to wait for. */
 object SetupStore {
-    private const val PREFS = "setup"
-    private const val KEY_DONE = "done"
-    private const val KEY_PILL_OFF = "pill_off"
-    private const val KEY_NO_OBD = "no_obd"
+    internal val FILE = PrefFile("setup")
+    internal val DONE = FILE.bool("done", default = false)
+    internal val PILL_OFF = FILE.bool("pill_off", default = false)
+    internal val NO_OBD = FILE.bool("no_obd", default = false)
 
-    fun isDone(context: Context): Boolean =
-        context.getSharedPreferences(PREFS, Context.MODE_PRIVATE).getBoolean(KEY_DONE, false)
+    fun isDone(context: Context): Boolean = FILE[context, DONE]
 
     fun markDone(context: Context) {
-        context.getSharedPreferences(PREFS, Context.MODE_PRIVATE).edit().putBoolean(KEY_DONE, true).apply()
+        FILE[context, DONE] = true
     }
 
     /** True once the driver tapped "Don't remind me" on the access step: the pill stays away. */
-    fun pillOff(context: Context): Boolean =
-        context.getSharedPreferences(PREFS, Context.MODE_PRIVATE).getBoolean(KEY_PILL_OFF, false)
+    fun pillOff(context: Context): Boolean = FILE[context, PILL_OFF]
 
     fun setPillOff(context: Context, off: Boolean) {
-        context.getSharedPreferences(PREFS, Context.MODE_PRIVATE).edit().putBoolean(KEY_PILL_OFF, off).apply()
+        FILE[context, PILL_OFF] = off
     }
 
     /** The driver has no OBD adapter: the car tiles are not something left to set up. */
-    fun noObd(context: Context): Boolean =
-        context.getSharedPreferences(PREFS, Context.MODE_PRIVATE).getBoolean(KEY_NO_OBD, false)
+    fun noObd(context: Context): Boolean = FILE[context, NO_OBD]
 
     fun setNoObd(context: Context, none: Boolean) {
-        context.getSharedPreferences(PREFS, Context.MODE_PRIVATE).edit().putBoolean(KEY_NO_OBD, none).apply()
+        FILE[context, NO_OBD] = none
     }
 }
 

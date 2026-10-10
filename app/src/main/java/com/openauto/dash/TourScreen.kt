@@ -126,39 +126,37 @@ private fun List<TourStep>.tips(): List<TourStep> = filter { it != TourStep.WELC
 internal val TourStep.wantsEditing: Boolean get() = this == TourStep.ARRANGE || this == TourStep.ADD
 
 object TourStore {
-    private const val PREFS = "tour"
-    private const val KEY_PENDING = "pending"
-    private const val KEY_SEEN = "seen"
-    private const val KEY_SPEAK = "speak"
-    private const val KEY_DECLINED = "declined"
+    internal val FILE = PrefFile("tour")
+    internal val PENDING = FILE.bool("pending", default = false)
+    internal val SEEN = FILE.bool("seen", default = false)
+    internal val SPEAK = FILE.bool("speak", default = true)
+    internal val DECLINED = FILE.int("declined", default = 0)
 
     /** True from the end of the first setup until the tour is finished or skipped. */
-    fun isPending(context: Context): Boolean =
-        context.getSharedPreferences(PREFS, Context.MODE_PRIVATE).getBoolean(KEY_PENDING, false)
+    fun isPending(context: Context): Boolean = FILE[context, PENDING]
 
     /** The setup closed: the tour is offered next, unless it was already seen. */
     fun offer(context: Context) {
-        val prefs = context.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
-        if (!prefs.getBoolean(KEY_SEEN, false)) prefs.edit().putBoolean(KEY_PENDING, true).apply()
+        val prefs = FILE.open(context)
+        if (!prefs[SEEN]) prefs.edit().put(PENDING, true).apply()
     }
 
     /** Finished or skipped: not offered again (Settings, About still starts it). */
     fun markSeen(context: Context) {
-        context.getSharedPreferences(PREFS, Context.MODE_PRIVATE).edit().putBoolean(KEY_PENDING, false).putBoolean(KEY_SEEN, true).apply()
+        FILE.edit(context) { put(PENDING, false).put(SEEN, true) }
     }
 
     /** "Not now" on the welcome: still pending, so the next parked start offers it once more; a second "Not now" counts as seen. */
     fun notNow(context: Context) {
-        val prefs = context.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
-        val declined = prefs.getInt(KEY_DECLINED, 0) + 1
-        if (declined >= 2) markSeen(context) else prefs.edit().putInt(KEY_DECLINED, declined).apply()
+        val prefs = FILE.open(context)
+        val declined = prefs[DECLINED] + 1
+        if (declined >= 2) markSeen(context) else prefs.edit().put(DECLINED, declined).apply()
     }
 
-    fun readAloud(context: Context): Boolean =
-        context.getSharedPreferences(PREFS, Context.MODE_PRIVATE).getBoolean(KEY_SPEAK, true)
+    fun readAloud(context: Context): Boolean = FILE[context, SPEAK]
 
     fun setReadAloud(context: Context, on: Boolean) {
-        context.getSharedPreferences(PREFS, Context.MODE_PRIVATE).edit().putBoolean(KEY_SPEAK, on).apply()
+        FILE[context, SPEAK] = on
     }
 }
 

@@ -2,6 +2,9 @@ plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("org.jetbrains.kotlin.plugin.compose")
+    // Takes in a profile recorded by :baselineprofile, only when asked to
+    // (docs/baseline-profile.md); a normal build is unchanged.
+    id("androidx.baselineprofile")
 }
 
 android {
@@ -147,6 +150,21 @@ android {
     }
 }
 
+// Compose compiler: stability settings (compose_stability.conf), plus compiler
+// reports and metrics only when asked for, so normal builds are unchanged:
+//   ./gradlew :app:compileGithubReleaseKotlin --rerun -PcomposeReports
+// then read app/build/compose_compiler/ (*-classes.txt, *-composables.txt, *-module.json).
+// --rerun: Gradle does not count these settings as compile inputs, so an
+// up-to-date compile writes no reports. After editing the .conf, rebuild with
+// --rerun too, or the compile may be skipped as up to date.
+composeCompiler {
+    stabilityConfigurationFiles.add(layout.projectDirectory.file("compose_stability.conf"))
+    if (providers.gradleProperty("composeReports").isPresent) {
+        reportsDestination = layout.buildDirectory.dir("compose_compiler")
+        metricsDestination = layout.buildDirectory.dir("compose_compiler")
+    }
+}
+
 dependencies {
     implementation("androidx.core:core-ktx:1.13.1")
 
@@ -203,6 +221,8 @@ dependencies {
     "playImplementation"("com.android.billingclient:billing-ktx:8.0.0")
 
     debugImplementation("androidx.compose.ui:ui-tooling")
+    // Where a recorded baseline profile comes from (docs/baseline-profile.md).
+    "baselineProfile"(project(":baselineprofile"))
 
     // JVM unit tests (app/src/test): grid placement, OBD decoding, directions
     // parsing, layout JSON. org.json is a real implementation on the JVM since

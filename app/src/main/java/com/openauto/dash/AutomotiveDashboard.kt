@@ -187,23 +187,20 @@ fun AutomotiveDashboard(inSplitMode: Boolean = false) {
     fun variant() = ScreenShape.layoutPrefix
     /** The other screen direction's arrangement. */
     fun otherVariant() = if (ScreenShape.vertical) "" else "_v"
-    var showTemplates by remember { mutableStateOf(false) }
-    // An empty page's own Fill: the page the templates dialog lays out alone, while open.
-    var fillPage by remember { mutableStateOf<Int?>(null) }
-    // The bar's own settings, from a long press on it.
-    var barSettings by remember { mutableStateOf(false) }
-    // The Settings screen, on the tab it was opened to; null while closed. A
-    // dashboard rebuilt by a turn of the screen made in Settings opens there again.
-    var settingsTab by remember { mutableStateOf(if (ScreenShape.settingsWanted()) SettingsTab.SYSTEM else null) }
-    /**
-     * Closes Settings: its open sheet leaves first. A screen direction on trial
-     * is still on trial: the dashboard goes on asking (KeepDirectionStrip).
-     */
-    fun closeSettings() {
-        if (settingsTab == null) return
-        OpenSheet.dismiss()
-        settingsTab = null
+    // What is open (sheets, dialogs, pickers, arranging, the setup, the tour):
+    // DashboardUiState.kt. Read through local delegates of the same names.
+    val ui = remember {
+        DashboardUiState(
+            settingsTab = if (ScreenShape.settingsWanted()) SettingsTab.SYSTEM else null,
+            setupDone = SetupStore.isDone(context),
+            setupPillOff = SetupStore.pillOff(context),
+        )
     }
+    var showTemplates by ui::showTemplates
+    var fillPage by ui::fillPage
+    var barSettings by ui::barSettings
+    var settingsTab by ui::settingsTab
+    fun closeSettings() = ui.closeSettings()
     DashColors.Sync(themeMode, appearance, effects)
     val lifecycleOwner = LocalLifecycleOwner.current
     val scope = rememberCoroutineScope()
@@ -286,8 +283,7 @@ fun AutomotiveDashboard(inSplitMode: Boolean = false) {
             DashLayoutStore.save(context, next)
         }
     }
-    // (page, index) of the launch bar whose apps are being edited.
-    var launchBarEditor by remember { mutableStateOf<Pair<Int, Int>?>(null) }
+    var launchBarEditor by ui::launchBarEditor
     // Only the driver's dashboards are swiped (CanvasTabs.tabsFor): Home always,
     // the rest of the cross as they are added. Pages 0-2 sideways, the middle one
     // also up/down (see DashboardStore.COLUMN); the launcher starts on Home.
@@ -362,17 +358,15 @@ fun AutomotiveDashboard(inSplitMode: Boolean = false) {
             wayHomeShown = false
         }
     }
-    var showAllApps by remember { mutableStateOf(false) }
-    var showSplitPicker by remember { mutableStateOf(false) }
-    var showSplitEnable by remember { mutableStateOf(false) }
+    var showAllApps by ui::showAllApps
+    var showSplitPicker by ui::showSplitPicker
+    var showSplitEnable by ui::showSplitEnable
     var blockPagerSwipe by remember { mutableStateOf(false) }
-    var editing by remember { mutableStateOf(false) }
-    // The dashboard bar's sheets: a dashboard's (by index, -1 for a new one), an
-    // app's (by index), the rail's "dashboard or app", the app picker.
-    var dashSheet by remember { mutableStateOf<Int?>(null) }
-    var appSheet by remember { mutableStateOf<Int?>(null) }
-    var showBarChooser by remember { mutableStateOf(false) }
-    var pickBarApp by remember { mutableStateOf(false) }
+    var editing by ui::editing
+    var dashSheet by ui::dashSheet
+    var appSheet by ui::appSheet
+    var showBarChooser by ui::showBarChooser
+    var pickBarApp by ui::pickBarApp
     // A dashboard can come up by itself: as the car sets off, parks, or finds a new fault.
     FollowTabTriggers(barTabs) { trigger ->
         if (!editing && dashSheet == null) CanvasTabs.tabFor(barTabsState.value, trigger)?.let { showPage(it.page) }
@@ -381,9 +375,7 @@ fun AutomotiveDashboard(inSplitMode: Boolean = false) {
     val homePressed by MainActivity.homePressed.collectAsState()
     LaunchedEffect(homePressed) {
         if (OneShot.fresh("home", homePressed)) {
-            showAllApps = false
-            closeSettings()
-            editing = false
+            ui.closeForHome()
             showHome()
         }
     }
@@ -441,27 +433,24 @@ fun AutomotiveDashboard(inSplitMode: Boolean = false) {
     var hasMediaAccess by remember { mutableStateOf(CarMediaController.hasNotificationAccess(context)) }
     // The demo's music and directions need no access grant.
     val mediaAccess = hasMediaAccess || demoOn
-    var showDevicePicker by remember { mutableStateOf(false) }
+    var showDevicePicker by ui::showDevicePicker
     var pairedDevices by remember { mutableStateOf<List<Pair<String, String>>>(emptyList()) }
     var usbAdapters by remember { mutableStateOf<List<UsbObdAdapter>>(emptyList()) }
 
     // "+" add flow: the page a tile is being added to, and the sheet that offers them (AddSheet.kt).
     var addTargetPage by remember { mutableIntStateOf(-1) }
-    var showAddSheet by remember { mutableStateOf(false) }
+    var showAddSheet by ui::showAddSheet
     // Add was tapped on a page with no free cell: said at once, before anything is picked.
     var pageFull by remember { mutableStateOf<Int?>(null) }
     var layoutNotice by remember { mutableStateOf<String?>(null) }
     // (page, tile index) whose panel is open while arranging (TileOptions.kt),
     // where that tile is and where the pages are, in root coordinates.
-    var tileOptions by remember { mutableStateOf<Pair<Int, Int>?>(null) }
+    var tileOptions by ui::tileOptions
     var selectedTileBounds by remember { mutableStateOf<Pair<Pair<Int, Int>, Rect>?>(null) }
     var pagesArea by remember { mutableStateOf(Rect.Zero) }
-    // "Remove dashboard" asked about a page: empty it, or take it out of the swipes.
-    var removeChoice by remember { mutableStateOf<Int?>(null) }
-    // Asked before a template replaces dashboards.
-    var confirmTemplate by remember { mutableStateOf<TemplateChoice?>(null) }
-    // A tile moved to a dashboard out of the swipes: asked whether to bring it back first (page, tile index, target).
-    var confirmBringBack by remember { mutableStateOf<Triple<Int, Int, Int>?>(null) }
+    var removeChoice by ui::removeChoice
+    var confirmTemplate by ui::confirmTemplate
+    var confirmBringBack by ui::confirmBringBack
     // A tile just sent to another dashboard: its chip, with the way there, for a moment.
     var movedTo by remember { mutableStateOf<Int?>(null) }
     LaunchedEffect(movedTo) {
@@ -470,17 +459,12 @@ fun AutomotiveDashboard(inSplitMode: Boolean = false) {
             movedTo = null
         }
     }
-    // The setup (SetupScreen.kt): its step while open, null while closed. A
-    // fresh install starts on it; Settings and the bar's pill reopen it.
-    var setupDone by remember { mutableStateOf(SetupStore.isDone(context)) }
-    var setupPillOff by remember { mutableStateOf(SetupStore.pillOff(context)) }
-    var setupStep by remember { mutableStateOf(if (setupDone) null else SetupStep.CAR) }
-    // The step on screen, and the one to come back to once the drive lock
-    // has closed a setup that was not done yet.
-    var setupShownStep by remember { mutableStateOf(SetupStep.CAR) }
-    var setupResume by remember { mutableStateOf<SetupStep?>(null) }
-    // An adapter was just chosen while no page holds a car tile: asked whether to add them.
-    var offerCarTiles by remember { mutableStateOf(false) }
+    var setupDone by ui::setupDone
+    var setupPillOff by ui::setupPillOff
+    var setupStep by ui::setupStep
+    var setupShownStep by ui::setupShownStep
+    var setupResume by ui::setupResume
+    var offerCarTiles by ui::offerCarTiles
     /**
      * The one way out of the setup (Done, Skip, Back, the bar): it counts as
      * seen, and the tour of the basics is offered next. The pill is left as
@@ -492,14 +476,10 @@ fun AutomotiveDashboard(inSplitMode: Boolean = false) {
         setupResume = null
         TourStore.offer(context)
     }
-    // The tour of the basics (TourScreen.kt): its step while open. Offered once
-    // after the first setup, at most once per start, and only parked.
-    var tourStep by remember { mutableStateOf<TourStep?>(null) }
-    var tourOffered by remember { mutableStateOf(false) }
-    // Up by itself after the setup (its look tip is left out, the setup just asked that) rather than replayed from Settings.
-    var tourAfterSetup by remember { mutableStateOf(false) }
-    // Arranging was turned on by the tour, for its tips about the tiles.
-    var tourEditing by remember { mutableStateOf(false) }
+    var tourStep by ui::tourStep
+    var tourOffered by ui::tourOffered
+    var tourAfterSetup by ui::tourAfterSetup
+    var tourEditing by ui::tourEditing
     /** [declined]: "Not now" on the welcome, which comes back once at the next parked start; anything else counts as seen. */
     fun closeTour(declined: Boolean = false) {
         if (declined) TourStore.notNow(context) else TourStore.markSeen(context)
@@ -527,8 +507,7 @@ fun AutomotiveDashboard(inSplitMode: Boolean = false) {
         }
     }
 
-    // System-app install (root) — unlocks embedding the real Google Maps app.
-    var showSystemDialog by remember { mutableStateOf(false) }
+    var showSystemDialog by ui::showSystemDialog
 
     // The drive lock (DriveLock.kt): while the car moves, arranging, settings
     // and pickers wait. Anything open when it engages closes; a locked tap
@@ -553,36 +532,11 @@ fun AutomotiveDashboard(inSplitMode: Boolean = false) {
     // The same lock for the tiles' own dialogs (LocalDriveLock, DriveLock.kt).
     val driveLock = remember(moving) { DriveLockState(moving) { lockNoticeAt = System.currentTimeMillis() } }
     LaunchedEffect(moving) {
-        if (moving) {
-            editing = false
-            closeSettings()
-            showTemplates = false
-            fillPage = null
-            showSystemDialog = false
-            showAddSheet = false
-            tileOptions = null
-            removeChoice = null
-            confirmBringBack = null
-            confirmTemplate = null
-            // A first setup the lock closes comes back where it was, once parked.
-            if (setupStep != null && !setupDone) setupResume = setupShownStep
-            setupStep = null
-            offerCarTiles = false
-            showSplitPicker = false
-            showSplitEnable = false
-            showDevicePicker = false
-            launchBarEditor = null
-            // Stopped, not seen: offered again at the next start.
-            tourStep = null
-        } else setupResume?.let { step ->
-            setupResume = null
-            if (!setupDone) setupStep = step
-        }
+        if (moving) ui.closeForDriving() else ui.resumeAfterDriving()
     }
     // The tour comes up by itself once the first setup has closed, parked, and
     // so has whatever a bar button opened in the setup's place.
-    val tourCanStart = setupStep == null && !moving && !showAllApps && settingsTab == null && !editing &&
-        !showTemplates && !showSplitPicker && !showSplitEnable
+    val tourCanStart = ui.tourCanStart(moving)
     LaunchedEffect(tourCanStart) {
         if (tourCanStart && !tourOffered && TourStore.isPending(context)) {
             tourOffered = true
@@ -627,7 +581,7 @@ fun AutomotiveDashboard(inSplitMode: Boolean = false) {
     // aside. A page swipe, sideways or up/down, must take the pages' windows
     // along at once, but the Maps dock beside the pages does not move with them
     // and stays put.
-    val fullScreenSheet = showAllApps || settingsTab != null || showAddSheet || setupStep != null
+    val fullScreenSheet = ui.fullScreenSheet
     // The tour dims the whole screen: windows step aside for it too.
     val tourOn = tourStep != null
     LaunchedEffect(fullScreenSheet, tourOn) { PipAnchor.steppedAside.value = fullScreenSheet || tourOn }
