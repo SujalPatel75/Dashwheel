@@ -187,6 +187,8 @@ class MainActivity : ComponentActivity() {
                     { UnitSignals.start(this) },
                     // Everything the unit's MCU says (the CAN box stream, RDS, voltage), from its own service.
                     { McuFeed.start(this) },
+                    // The map and route servers the driver chose, before any route is asked for.
+                    { MapServers.load(this) },
                     // The tyres from the TPMS sensors, and their warnings.
                     { Tyres.start(this) },
                     { TyreAlertOverlay.start(this) },

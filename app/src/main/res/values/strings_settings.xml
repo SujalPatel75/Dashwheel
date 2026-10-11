@@ -312,4 +312,12 @@
     </plurals>
     <string name="settings_beta_updates">Beta updates</string>
     <string name="settings_beta_updates_detail">New versions as soon as they are built, before they reach everyone</string>
+    <string name="map_servers_title">Map and route servers</string>
+    <string name="map_servers_default">Free public servers</string>
+    <string name="map_servers_custom">Your own servers</string>
+    <string name="map_servers_explanation">The map uses OpenFreeMap and routes come from the public Valhalla server. For heavy use, put your own map style and Valhalla address here.</string>
+    <string name="map_servers_style_dark">Map style, dark</string>
+    <string name="map_servers_style_light">Map style, light</string>
+    <string name="map_servers_routing">Valhalla route address</string>
+    <string name="map_servers_reset">Free servers</string>
 </resources>

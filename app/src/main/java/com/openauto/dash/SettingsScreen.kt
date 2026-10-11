@@ -53,6 +53,7 @@ import androidx.compose.material.icons.filled.Build
 import androidx.compose.material.icons.filled.Extension
 import androidx.compose.material.icons.filled.Call
 import androidx.compose.material.icons.filled.Checklist
+import androidx.compose.material.icons.filled.Dns
 import androidx.compose.material.icons.filled.ChevronRight
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.ConnectedTv
@@ -172,7 +173,7 @@ internal enum class SettingsTab(@StringRes val titleRes: Int, val icon: ImageVec
 /** The settings that open further into the pane; Lab's open over Lab. */
 internal enum class Deep {
     CAR, CAR_LOOK, REVERSE, SIGNALS, AI, UPKEEP, EXPLORER, WHEEL, PLACES, LANGUAGE, SECOND_SCREEN, LPG,
-    OBD, UNITS, ACCESS, ABOUT, LAB, UNIT_TOOLS
+    OBD, UNITS, ACCESS, ABOUT, LAB, UNIT_TOOLS, MAP_SERVERS
 }
 
 /** Under this width the categories go along the top: a rail would leave the settings half a screen. */
@@ -261,6 +262,7 @@ internal fun SettingsScreen(
                         Deep.ABOUT -> AboutSheet(m, onDismiss = back)
                         Deep.LAB -> LabSheet(open = open, onDismiss = back)
                         Deep.UNIT_TOOLS -> UnitToolsSheet(m, onBootLogo = { bootLogo = true }, onDismiss = back)
+                        Deep.MAP_SERVERS -> MapServersSheet(onDismiss = back)
                     }
                 }
             }
@@ -1133,6 +1135,11 @@ private fun SystemPane(m: TopBarModel, open: (Deep) -> Unit, all: Boolean, onSho
     ) { m.onDemo() }
     if (all) {
         SettingsRow(Icons.Filled.Checklist, stringResource(R.string.setup_again), stringResource(R.string.setup_again_detail)) { m.onSetup(true) }
+        val servers by MapServers.current.collectAsState()
+        SettingsRow(
+            Icons.Filled.Dns, stringResource(R.string.map_servers_title),
+            stringResource(if (servers.isDefault) R.string.map_servers_default else R.string.map_servers_custom)
+        ) { open(Deep.MAP_SERVERS) }
         // The unit's bar is moved through the shell: not in the Play edition.
         if (FreeformBar.supported && Edition.full) {
             Spacer(Modifier.height(20.dp))
@@ -1169,6 +1176,7 @@ private fun SystemPane(m: TopBarModel, open: (Deep) -> Unit, all: Boolean, onSho
         all,
         listOfNotNull(
             stringResource(R.string.setup_again),
+            stringResource(R.string.map_servers_title),
             if (FreeformBar.supported && Edition.full) stringResource(R.string.settings_unit_bar_title) else null
         ),
         onShowAll

@@ -309,4 +309,12 @@
     </plurals>
     <string name="settings_beta_updates">Beta-Updates</string>
     <string name="settings_beta_updates_detail">Neue Versionen, sobald sie gebaut sind, vor allen anderen</string>
+    <string name="map_servers_title">Karten- und Routenserver</string>
+    <string name="map_servers_default">Kostenlose öffentliche Server</string>
+    <string name="map_servers_custom">Eigene Server</string>
+    <string name="map_servers_explanation">Die Karte nutzt OpenFreeMap, die Routen kommen vom öffentlichen Valhalla-Server. Bei starker Nutzung hier eigenen Kartenstil und Valhalla-Adresse eintragen.</string>
+    <string name="map_servers_style_dark">Kartenstil, dunkel</string>
+    <string name="map_servers_style_light">Kartenstil, hell</string>
+    <string name="map_servers_routing">Valhalla-Routenadresse</string>
+    <string name="map_servers_reset">Kostenlose Server</string>
 </resources>

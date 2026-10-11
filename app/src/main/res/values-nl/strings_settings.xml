@@ -309,4 +309,12 @@
     </plurals>
     <string name="settings_beta_updates">Bèta-updates</string>
     <string name="settings_beta_updates_detail">Nieuwe versies zodra ze klaar zijn, voor iedereen anders</string>
+    <string name="map_servers_title">Kaart- en routeservers</string>
+    <string name="map_servers_default">Gratis openbare servers</string>
+    <string name="map_servers_custom">Je eigen servers</string>
+    <string name="map_servers_explanation">De kaart gebruikt OpenFreeMap en routes komen van de openbare Valhalla-server. Bij intensief gebruik vul je hier je eigen kaartstijl en Valhalla-adres in.</string>
+    <string name="map_servers_style_dark">Kaartstijl, donker</string>
+    <string name="map_servers_style_light">Kaartstijl, licht</string>
+    <string name="map_servers_routing">Valhalla-routeadres</string>
+    <string name="map_servers_reset">Gratis servers</string>
 </resources>

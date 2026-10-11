@@ -21,7 +21,7 @@ Each item below is sent only when you use the feature, and only to the service n
 
 | Feature | What is sent | To whom |
 |---|---|---|
-| Map and routes | The area you look at (tile requests), and the start and end of a route you ask for | CARTO basemaps (`basemaps.cartocdn.com`) for the map style and tiles; Valhalla at `valhalla1.openstreetmap.de` for routing |
+| Map and routes | The area you look at (tile requests), and the start and end of a route you ask for | OpenFreeMap (`tiles.openfreemap.org`) for the map style and tiles; Valhalla at `valhalla1.openstreetmap.de` for routing. Either can be replaced by a server you set in Settings, System, Map and route servers |
 | Place search and address lookup | The text you type, and your position for reverse geocoding | Nominatim (`nominatim.openstreetmap.org`) |
 | Weather | Your position | Open-Meteo (`api.open-meteo.com`) |
 | Weather alerts | Your country, found from your position through Nominatim | MeteoAlarm (`feeds.meteoalarm.org`) |

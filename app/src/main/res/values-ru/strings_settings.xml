@@ -318,4 +318,12 @@
     </plurals>
     <string name="settings_beta_updates">Бета-обновления</string>
     <string name="settings_beta_updates_detail">Новые версии сразу после сборки, раньше всех</string>
+    <string name="map_servers_title">Серверы карт и маршрутов</string>
+    <string name="map_servers_default">Бесплатные публичные серверы</string>
+    <string name="map_servers_custom">Свои серверы</string>
+    <string name="map_servers_explanation">Карта использует OpenFreeMap, маршруты строит публичный сервер Valhalla. При интенсивном использовании укажите здесь свой стиль карты и адрес Valhalla.</string>
+    <string name="map_servers_style_dark">Стиль карты, тёмный</string>
+    <string name="map_servers_style_light">Стиль карты, светлый</string>
+    <string name="map_servers_routing">Адрес маршрутов Valhalla</string>
+    <string name="map_servers_reset">Бесплатные серверы</string>
 </resources>

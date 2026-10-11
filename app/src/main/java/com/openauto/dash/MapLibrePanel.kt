@@ -108,11 +108,9 @@ import org.maplibre.navigation.core.models.DirectionsRoute
 import org.maplibre.navigation.core.models.RouteOptions
 import java.util.Locale
 
-// Free, no-key services: CARTO dark-matter / positron basemaps (vector styles +
-// tiles, free with attribution), Nominatim geocoding ([PlaceSearch]), Valhalla routing.
-private const val MAP_STYLE_DARK = "https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json"
-private const val MAP_STYLE_LIGHT = "https://basemaps.cartocdn.com/gl/positron-gl-style/style.json"
-private const val VALHALLA_URL = "https://valhalla1.openstreetmap.de/route"
+// Free, no-key services by default: OpenFreeMap's dark / positron styles, Nominatim
+// geocoding ([PlaceSearch]) and the public Valhalla router; the map style and the
+// router can be pointed at the driver's own servers ([MapServers]).
 private const val USER_AGENT = "OpenAutoDash/1.0 (car launcher)"
 
 private val Accent = Color(0xFF8AB4F8)
@@ -120,10 +118,10 @@ private val OverlayBg = Color(0xE6141518)
 
 /**
  * A free, open-source **GPS navigator** built on MapLibre GL:
- *  - map + your location (OpenFreeMap style — no token/account/card),
+ *  - map + your location (OpenFreeMap styles by default, no token/account/card),
  *  - type a destination (Nominatim geocoding) or tap the map,
  *  - home, work and the last destinations one tap away ([PlacesStore]),
- *  - route computed by a free Valhalla server, drawn on the map with ETA,
+ *  - route computed by a Valhalla server (the free public one by default), drawn on the map with ETA,
  *  - **Start** guides there on this map ([InAppNav]): next turn, voice, a
  *    new route when the car leaves it; or hands the destination to Google
  *    Maps / Waze ([NavHandoff]) when there is no route of our own.
@@ -330,7 +328,7 @@ fun MapLibrePanel(modifier: Modifier = Modifier, wallpaper: Boolean = false) {
     LaunchedEffect(Unit) {
         mapView.getMapAsync { map ->
             // No MapLibre wordmark on the dashboard. The attribution (i)
-            // stays: the CARTO / OpenStreetMap tile terms require it.
+            // stays: OpenStreetMap's licence and the tile providers ask for it.
             map.uiSettings.isLogoEnabled = false
             // Under the dashboard nothing reaches the map by touch anyway.
             if (wallpaper) map.uiSettings.setAllGesturesEnabled(false)
@@ -343,9 +341,12 @@ fun MapLibrePanel(modifier: Modifier = Modifier, wallpaper: Boolean = false) {
     val lightMap = DashColors.Light
     // The listener below is registered once; it reads the lock's latest state.
     val movingNow = rememberUpdatedState(moving)
-    LaunchedEffect(mapRef, lightMap) {
+    MapServers.load(context)
+    val servers by MapServers.current.collectAsState()
+    val styleUrl = if (lightMap) servers.styleLight else servers.styleDark
+    LaunchedEffect(mapRef, styleUrl) {
         val map = mapRef ?: return@LaunchedEffect
-        map.setStyle(Style.Builder().fromUri(if (lightMap) MAP_STYLE_LIGHT else MAP_STYLE_DARK)) { style ->
+        map.setStyle(Style.Builder().fromUri(styleUrl)) { style ->
             add3dBuildings(style, lightMap)
             if (navRoute == null) {
                 navRoute = NavigationMapRoute(mapView, map)
@@ -750,9 +751,10 @@ internal fun valhallaRoute(origin: Point, dest: Point, language: String): Direct
         )
     )
     val json = Gson().toJson(body)
+    val routingUrl = MapServers.current.value.routing
     val request = Request.Builder()
         .header("User-Agent", USER_AGENT)
-        .url(VALHALLA_URL)
+        .url(routingUrl)
         .post(json.toRequestBody("application/json; charset=utf-8".toMediaType()))
         .build()
     Http.client.newCall(request).execute().use { resp ->
@@ -761,7 +763,7 @@ internal fun valhallaRoute(origin: Point, dest: Point, language: String): Direct
         // Valhalla doesn't echo the request back, and the navigation refuses a
         // route without it (its spoken turns need voice and banner instructions).
         val options = RouteOptions(
-            baseUrl = VALHALLA_URL,
+            baseUrl = routingUrl,
             user = "valhalla",
             profile = "auto",
             coordinates = listOf(origin, dest),

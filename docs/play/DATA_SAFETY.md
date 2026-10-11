@@ -15,7 +15,7 @@ Filled in from the code as of 2026-10-08 (see `docs/play/PRIVACY_POLICY.md` for 
 
 | Data type | Collected / shared | Required or optional | Purpose | Notes |
 |---|---|---|---|---|
-| Location: approximate and precise | Shared with third parties (CARTO tiles, Valhalla, Nominatim, Open-Meteo, Overpass, data.economie.gouv.fr) | Optional: only when the map, weather, fuel prices, speed limits or routes are used | App functionality | Not collected by the developer; not linked to identity; not used for ads |
+| Location: approximate and precise | Shared with third parties (OpenFreeMap tiles, Valhalla, Nominatim, Open-Meteo, Overpass, data.economie.gouv.fr) | Optional: only when the map, weather, fuel prices, speed limits or routes are used | App functionality | Not collected by the developer; not linked to identity; not used for ads |
 | App activity: other user-generated content (search text, car fault codes, car readings, questions typed or spoken) | Shared with Google Gemini (only when the user adds their own Gemini API key), search text with Nominatim | Optional | App functionality | Ephemeral processing by the service; the developer never sees it |
 | Photos | Shared with Google Gemini (the "my car" picture, only when the user sends one) | Optional | App functionality | Taken by the user on purpose; not stored by the developer |
 | Audio: voice or sound recordings | Shared with Google Gemini (Gemini Live, only while the panel is open, user-supplied key) | Optional | App functionality | Streamed, not stored by the developer |

@@ -317,4 +317,12 @@
     </plurals>
     <string name="settings_beta_updates">Aktualizacje beta</string>
     <string name="settings_beta_updates_detail">Nowe wersje od razu po zbudowaniu, przed wszystkimi</string>
+    <string name="map_servers_title">Serwery map i tras</string>
+    <string name="map_servers_default">Darmowe serwery publiczne</string>
+    <string name="map_servers_custom">Własne serwery</string>
+    <string name="map_servers_explanation">Mapa korzysta z OpenFreeMap, a trasy z publicznego serwera Valhalla. Przy intensywnym użyciu wpisz tu własny styl mapy i adres serwera Valhalla.</string>
+    <string name="map_servers_style_dark">Styl mapy, ciemny</string>
+    <string name="map_servers_style_light">Styl mapy, jasny</string>
+    <string name="map_servers_routing">Adres tras Valhalla</string>
+    <string name="map_servers_reset">Darmowe serwery</string>
 </resources>
