@@ -252,4 +252,8 @@
     <string name="dash_theme_racing_desc">Ночная поездка в неоне: полосатое солнце, приборы и мини-карта как в гоночной игре.</string>
     <string name="dash_theme_panorama">Panorama</string>
     <string name="dash_theme_panorama_desc">Изогнутая стеклянная полоса со светящимися сегментами, ваш автомобиль на подсвеченном подиуме и док в виде руля.</string>
+    <string name="dash_bar_size">Размер панели</string>
+    <string name="dash_bar_size_normal">Обычный</string>
+    <string name="dash_bar_size_large">Крупный</string>
+    <string name="dash_bar_size_larger">Крупнее</string>
 </resources>

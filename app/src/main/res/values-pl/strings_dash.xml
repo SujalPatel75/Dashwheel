@@ -246,4 +246,8 @@
     <string name="dash_theme_racing_desc">Nocna jazda w neonach: pasiaste słońce, zegary i minimapa jak w grze wyścigowej.</string>
     <string name="dash_theme_panorama">Panorama</string>
     <string name="dash_theme_panorama_desc">Zakrzywiony szklany pas świecących segmentów, twój samochód na podświetlonym cokole i dok jak kierownica.</string>
+    <string name="dash_bar_size">Rozmiar paska</string>
+    <string name="dash_bar_size_normal">Normalny</string>
+    <string name="dash_bar_size_large">Duży</string>
+    <string name="dash_bar_size_larger">Większy</string>
 </resources>

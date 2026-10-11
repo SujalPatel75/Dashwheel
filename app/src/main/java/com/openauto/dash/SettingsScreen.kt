@@ -738,6 +738,7 @@ private fun LookPane(theme: ThemeState, all: Boolean, onShowAll: (Boolean) -> Un
     Spacer(Modifier.height(20.dp))
     // One "Bottom bar": its auto-hide, then its readouts under the same heading.
     BarAutoHideSetting(theme)
+    BarSizeSetting()
     if (all) {
         BarItemsSetting()
         Spacer(Modifier.height(20.dp))
@@ -823,6 +824,7 @@ internal fun BarSettingsSheet(theme: ThemeState, onDismiss: () -> Unit) {
     ) {
         Column {
             BarAutoHideSetting(theme)
+            BarSizeSetting()
             BarItemsSetting()
             Spacer(Modifier.height(20.dp))
             NavigationSetting(theme)

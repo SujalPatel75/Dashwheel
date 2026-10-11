@@ -23,6 +23,7 @@ import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.NonCancellable
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -46,6 +47,11 @@ import kotlinx.coroutines.withContext
  * (sys.qf.backcar_state) is cleared for the moment of the stop. Its camera
  * closed, Dashwheel opens it (verified on the K706, 2026-10-01). If anything
  * fails, the ROM app is played a reverse start and shows its picture again.
+ *
+ * A unit with a front (or right) camera shows it for a few seconds after
+ * reverse: on that stop the ROM app would switch the video chip to it and keep
+ * its camera open. Those two settings are turned off for the moment of the
+ * stop, and back on right after ([RomAfterReverse]).
  */
 internal object ReverseCamera {
     private const val TAG = "ReverseCamera"
@@ -232,17 +238,29 @@ internal object ReverseCamera {
      * ended meanwhile.
      */
     private suspend fun stopRomCamera(context: Context): Boolean = runCatching {
-        DockShell.shell(context, "setprop sys.qf.backcar_state false; am broadcast -a com.qf.action.BACKCAR_STOP -p $ROM_APP")
-        romStopped = true
-        delay(300)
+        val after = RomAfterReverse(systemProperty(RomAfterReverse.FRONT_TIME), systemProperty(RomAfterReverse.RIGHT_CAMERA))
+        try {
+            DockShell.shell(context, (after.off + "setprop sys.qf.backcar_state false" + "am broadcast -a com.qf.action.BACKCAR_STOP -p $ROM_APP").joinToString("; "))
+            romStopped = true
+            delay(300)
+        } catch (e: Throwable) {
+            // The driver's front camera setting is never left off.
+            withContext(NonCancellable) { if (after.back.isNotEmpty()) runCatching { DockShell.shell(context, after.back.joinToString("; ")) } }
+            throw e
+        }
         val still = CarBox.reversing.value
-        DockShell.shell(context, if (still) "setprop sys.qf.backcar_state true; echo 2 > $INPUT_SWITCH" else "true")
+        DockShell.shell(context, (after.back + if (still) listOf("setprop sys.qf.backcar_state true", "echo 2 > $INPUT_SWITCH") else listOf("true")).joinToString("; "))
         still
     }.onFailure {
         // Reverse ended meanwhile: not a failure of this try.
         if (it is CancellationException) throw it
         Log.w(TAG, "could not stop the car app's camera", it)
     }.getOrDefault(false)
+
+    @SuppressLint("PrivateApi")
+    private fun systemProperty(name: String): String? = runCatching {
+        Class.forName("android.os.SystemProperties").getMethod("get", String::class.java).invoke(null, name) as String
+    }.getOrNull()
 
     @SuppressLint("MissingPermission")
     private fun open(context: Context, texture: SurfaceTexture, retry: Boolean) {
@@ -400,4 +418,30 @@ internal fun ReverseCameraPicture(modifier: Modifier = Modifier) {
         modifier = modifier,
         onRelease = { ReverseCamera.detach() }
     )
+}
+
+/**
+ * The ROM app's views after reverse, as its settings hold them: the front
+ * camera for a few seconds ([frontTime] above 0, persist.sys.foresight_time)
+ * and the right camera ([rightCamera]). Either makes its reverse stop switch
+ * the video chip away and keep the camera, so Dashwheel turns them [off] for
+ * its own stop and puts them [back] right after.
+ */
+internal class RomAfterReverse(frontTime: String?, rightCamera: String?) {
+    private val front = frontTime?.trim()?.toIntOrNull()?.takeIf { it > 0 }
+    private val right = rightCamera?.trim() == "true"
+
+    val off: List<String> = listOfNotNull(
+        front?.let { "setprop $FRONT_TIME 0" },
+        if (right) "setprop $RIGHT_CAMERA false" else null
+    )
+    val back: List<String> = listOfNotNull(
+        front?.let { "setprop $FRONT_TIME $it" },
+        if (right) "setprop $RIGHT_CAMERA true" else null
+    )
+
+    companion object {
+        const val FRONT_TIME = "persist.sys.foresight_time"
+        const val RIGHT_CAMERA = "persist.sys.right.camera"
+    }
 }

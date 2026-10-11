@@ -249,4 +249,8 @@
     <string name="dash_theme_racing_desc">Una notte al neon: sole a strisce, quadranti e minimappa da videogioco di corse.</string>
     <string name="dash_theme_panorama">Panorama</string>
     <string name="dash_theme_panorama_desc">Una fascia di vetro curva a segmenti luminosi, la tua auto su un piedistallo illuminato e un dock a volante.</string>
+    <string name="dash_bar_size">Dimensione barra</string>
+    <string name="dash_bar_size_normal">Normale</string>
+    <string name="dash_bar_size_large">Grande</string>
+    <string name="dash_bar_size_larger">Più grande</string>
 </resources>

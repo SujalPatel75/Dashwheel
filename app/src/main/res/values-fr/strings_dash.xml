@@ -249,4 +249,8 @@
     <string name="dash_theme_racing_desc">Une nuit au néon : soleil rayé, cadrans et mini-carte de jeu de course.</string>
     <string name="dash_theme_panorama">Panorama</string>
     <string name="dash_theme_panorama_desc">Un bandeau de verre courbe aux segments lumineux, votre voiture sur un socle éclairé et un dock en volant.</string>
+    <string name="dash_bar_size">Taille de la barre</string>
+    <string name="dash_bar_size_normal">Normale</string>
+    <string name="dash_bar_size_large">Grande</string>
+    <string name="dash_bar_size_larger">Très grande</string>
 </resources>

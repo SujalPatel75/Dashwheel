@@ -251,4 +251,8 @@
     <string name="dash_theme_racing_desc">A night drive in neon: a striped sun, a racing game\'s dials and minimap.</string>
     <string name="dash_theme_panorama">Panorama</string>
     <string name="dash_theme_panorama_desc">A curved glass band of lit segments, your car on a glowing plinth and a steering wheel dock.</string>
+    <string name="dash_bar_size">Bar size</string>
+    <string name="dash_bar_size_normal">Normal</string>
+    <string name="dash_bar_size_large">Large</string>
+    <string name="dash_bar_size_larger">Larger</string>
 </resources>

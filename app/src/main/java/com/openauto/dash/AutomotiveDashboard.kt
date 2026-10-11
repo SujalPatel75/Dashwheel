@@ -1305,7 +1305,7 @@ fun AutomotiveDashboard(inSplitMode: Boolean = false) {
                     }
                 }
         ) {
-            bar()
+            BarSize.Scaled(bar)
         }
     }
 
