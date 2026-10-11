@@ -27,4 +27,19 @@
     <string name="templates_calm_blurb">The map and your speed, nothing else</string>
     <string name="templates_previous">Previous template</string>
     <string name="templates_next">Next template</string>
+    <string name="share_button">Share</string>
+    <string name="share_title">Share %1$s</string>
+    <string name="share_this">Pass this dashboard on</string>
+    <string name="share_with_look">With its look</string>
+    <string name="share_with_look_detail">The skin, day and night, and the bar</string>
+    <string name="share_scan">Scan it with a phone, or pass the code on as text</string>
+    <string name="share_save_file">Save as a file</string>
+    <string name="share_widgets_left_out">Android widgets stay on this unit: they are left out.</string>
+    <string name="share_use">Use a shared dashboard</string>
+    <string name="share_paste_hint">DW1: code</string>
+    <string name="share_open_file">Open a file</string>
+    <string name="share_use_hint">Type or paste a code, open a file, or scan a QR code with the Dashwheel Companion app.</string>
+    <string name="share_missing_apps">Apps not on this unit: %1$d. Their tiles stay until you change them.</string>
+    <string name="share_take_look">Use its look too</string>
+    <string name="share_replace">Put it here</string>
 </resources>

@@ -168,9 +168,15 @@ class MainActivity : ComponentActivity() {
                     resumes = resumes,
                     offer = offer,
                     onScanned = { text ->
-                        val parsed = PairingOffer.parse(text)
-                        if (parsed == null) explainWrongCode(text)
-                        offer = parsed
+                        if (DashCodes.find(text) != null) {
+                            // A dashboard's QR code: straight to the car, nothing to pair.
+                            val sent = DashCodes.send(text)
+                            Toast.makeText(this, getString(if (sent) R.string.dash_share_sent else R.string.keyboard_not_connected), Toast.LENGTH_LONG).show()
+                        } else {
+                            val parsed = PairingOffer.parse(text)
+                            if (parsed == null) explainWrongCode(text)
+                            offer = parsed
+                        }
                     },
                     onOfferDone = { offer = null }
                 )

@@ -46,6 +46,7 @@ import androidx.compose.material.icons.filled.Done
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.FormatSize
 import androidx.compose.material.icons.filled.LibraryAdd
+import androidx.compose.material.icons.filled.Share
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.PhoneAndroid
@@ -1273,6 +1274,8 @@ internal fun EditBar(
     onNewDashboard: (() -> Unit)?,
     /** Shows every dashboard, to add and remove them; null over an app (the rail does it). */
     onDashboards: (() -> Unit)?,
+    /** Shares this dashboard, or puts a shared one in its place ([DashShareSheet]). */
+    onShare: () -> Unit,
     onDone: () -> Unit
 ) {
     val glass = DashColors.Glass
@@ -1283,7 +1286,8 @@ internal fun EditBar(
         val actionLabels = listOfNotNull(
             stringResource(R.string.dash_add), stringResource(R.string.dash_undo), stringResource(R.string.templates_button),
             stringResource(R.string.zoom_page), stringResource(R.string.dash_reset_page),
-            onNewDashboard?.let { stringResource(R.string.canvas_tab_new) }, onDashboards?.let { stringResource(R.string.dash_dashboards) }
+            onNewDashboard?.let { stringResource(R.string.canvas_tab_new) }, onDashboards?.let { stringResource(R.string.dash_dashboards) },
+            stringResource(R.string.share_button)
         )
         val measurer = rememberTextMeasurer()
         val labelStyle = MaterialTheme.typography.labelLarge
@@ -1348,6 +1352,7 @@ internal fun EditBar(
             EditAction(Icons.Outlined.DeleteOutline, stringResource(R.string.dash_reset_page), iconsOnly, onClick = onReset)
             if (onNewDashboard != null) EditAction(Icons.Filled.LibraryAdd, stringResource(R.string.canvas_tab_new), iconsOnly, onClick = onNewDashboard)
             if (onDashboards != null) EditAction(Icons.Filled.LibraryAdd, stringResource(R.string.dash_dashboards), iconsOnly, onClick = onDashboards)
+            EditAction(Icons.Filled.Share, stringResource(R.string.share_button), iconsOnly, onClick = onShare)
             Spacer(Modifier.width(4.dp))
             Button(
                 onClick = { tap(); onDone() },

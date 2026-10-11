@@ -244,4 +244,5 @@
     <string name="reg_sent">Envoyée à la voiture</string>
     <string name="reg_offline">Connectez-vous à la voiture pour l\'envoyer</string>
     <string name="reg_again">Scanner à nouveau</string>
+    <string name="dash_share_sent">Tableau de bord envoyé à la voiture : regardez sur l\'écran</string>
 </resources>

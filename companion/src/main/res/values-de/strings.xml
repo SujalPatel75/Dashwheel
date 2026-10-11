@@ -243,4 +243,5 @@
     <string name="reg_sent">An das Auto gesendet</string>
     <string name="reg_offline">Verbinde dich mit dem Auto, um es zu senden</string>
     <string name="reg_again">Neu scannen</string>
+    <string name="dash_share_sent">Dashboard ans Auto gesendet: dort ansehen</string>
 </resources>

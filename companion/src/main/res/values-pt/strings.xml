@@ -244,4 +244,5 @@
     <string name="reg_sent">Enviado para o carro</string>
     <string name="reg_offline">Ligue-se ao carro para enviar</string>
     <string name="reg_again">Digitalizar de novo</string>
+    <string name="dash_share_sent">Painel enviado para o carro: veja no ecrã</string>
 </resources>

@@ -244,4 +244,5 @@
     <string name="reg_sent">Inviato all\'auto</string>
     <string name="reg_offline">Collegati all\'auto per inviarlo</string>
     <string name="reg_again">Scansiona di nuovo</string>
+    <string name="dash_share_sent">Dashboard inviata all\'auto: guardala sullo schermo</string>
 </resources>

@@ -18,6 +18,7 @@ import android.widget.Toast
 import com.openauto.dash.link.ActionResult
 import com.openauto.dash.link.AgendaSync
 import com.openauto.dash.link.CallCommand
+import com.openauto.dash.link.DashShareCode
 import com.openauto.dash.link.ParkingTimer
 import com.openauto.dash.link.CallState
 import com.openauto.dash.link.Destination
@@ -606,6 +607,7 @@ object PhoneLink {
             }
             // Toasts and the voice want the main thread.
             is Destination -> main.post { NavHandoff.fromPhone(context, message) }
+            is DashShareCode -> if (message.code.length <= DashShareCode.MAX_CHARS) DashShare.receive(message.code)
             is ObdOffer -> PhoneObd.onOffer(message)
             is ObdRelayState -> PhoneObd.onState(message)
             is ObdRx -> PhoneObd.onRx(message)

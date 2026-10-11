@@ -27,4 +27,19 @@
     <string name="templates_calm_blurb">De kaart en je snelheid, verder niets</string>
     <string name="templates_previous">Vorige sjabloon</string>
     <string name="templates_next">Volgende sjabloon</string>
+    <string name="share_button">Delen</string>
+    <string name="share_title">%1$s delen</string>
+    <string name="share_this">Dit dashboard doorgeven</string>
+    <string name="share_with_look">Met zijn uiterlijk</string>
+    <string name="share_with_look_detail">Het thema, dag en nacht, en de balk</string>
+    <string name="share_scan">Scan het met een telefoon of geef de code als tekst door</string>
+    <string name="share_save_file">Opslaan als bestand</string>
+    <string name="share_widgets_left_out">Android-widgets blijven op dit toestel: ze gaan niet mee.</string>
+    <string name="share_use">Een gedeeld dashboard gebruiken</string>
+    <string name="share_paste_hint">DW1:-code</string>
+    <string name="share_open_file">Bestand openen</string>
+    <string name="share_use_hint">Typ of plak een code, open een bestand of scan een QR-code met de Dashwheel Companion-app.</string>
+    <string name="share_missing_apps">Apps die niet op dit toestel staan: %1$d. Hun tegels blijven tot je ze verandert.</string>
+    <string name="share_take_look">Ook zijn uiterlijk gebruiken</string>
+    <string name="share_replace">Hier zetten</string>
 </resources>

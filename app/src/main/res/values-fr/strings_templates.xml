@@ -27,4 +27,19 @@
     <string name="templates_calm_blurb">La carte et votre vitesse, rien d\'autre</string>
     <string name="templates_previous">Modèle précédent</string>
     <string name="templates_next">Modèle suivant</string>
+    <string name="share_button">Partager</string>
+    <string name="share_title">Partager %1$s</string>
+    <string name="share_this">Transmettre ce tableau de bord</string>
+    <string name="share_with_look">Avec son apparence</string>
+    <string name="share_with_look_detail">Le thème, jour et nuit, et la barre</string>
+    <string name="share_scan">Scannez-le avec un téléphone, ou transmettez le code en texte</string>
+    <string name="share_save_file">Enregistrer dans un fichier</string>
+    <string name="share_widgets_left_out">Les widgets Android restent sur cet autoradio : ils ne sont pas inclus.</string>
+    <string name="share_use">Utiliser un tableau de bord partagé</string>
+    <string name="share_paste_hint">Code DW1:</string>
+    <string name="share_open_file">Ouvrir un fichier</string>
+    <string name="share_use_hint">Tapez ou collez un code, ouvrez un fichier, ou scannez un QR code avec l\'appli Dashwheel Companion.</string>
+    <string name="share_missing_apps">Applis absentes de cet autoradio : %1$d. Leurs tuiles restent jusqu\'à ce que vous les changiez.</string>
+    <string name="share_take_look">Prendre aussi son apparence</string>
+    <string name="share_replace">Le mettre ici</string>
 </resources>

@@ -245,4 +245,5 @@
     <string name="reg_sent">Wysłano do auta</string>
     <string name="reg_offline">Połącz się z autem, aby wysłać</string>
     <string name="reg_again">Skanuj ponownie</string>
+    <string name="dash_share_sent">Pulpit wysłany do auta: zobacz na ekranie</string>
 </resources>

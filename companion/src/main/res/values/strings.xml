@@ -245,4 +245,5 @@
     <string name="reg_sent">Sent to the car</string>
     <string name="reg_offline">Connect to the car to send it</string>
     <string name="reg_again">Scan again</string>
+    <string name="dash_share_sent">Dashboard sent to the car: have a look there</string>
 </resources>

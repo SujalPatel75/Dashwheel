@@ -287,6 +287,21 @@ data class Destination(
  * clipboard (a paste or a share from the phone). [enter] then presses Enter,
  * to run a search. Answered with [TypeResult] under the same [id].
  */
+/**
+ * Phone → head unit: a shared dashboard's code ("DW1:…", DashShare in the
+ * launcher), scanned off a QR code or shared from another app. The car shows
+ * it in its share sheet to look at before it replaces anything. A car too old
+ * to know this message skips it.
+ */
+@Serializable
+@SerialName("dash_share")
+data class DashShareCode(val code: String) : LinkMessage {
+    companion object {
+        /** A dashboard is a few hundred characters; anything far bigger is not one. */
+        const val MAX_CHARS = 16_000
+    }
+}
+
 @Serializable
 @SerialName("type_text")
 data class TypeText(val text: String, val mode: Mode = Mode.INSERT, val enter: Boolean = false, val id: Long = 0) : LinkMessage {

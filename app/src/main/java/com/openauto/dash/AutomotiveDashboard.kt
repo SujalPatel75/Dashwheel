@@ -493,6 +493,9 @@ fun AutomotiveDashboard(inSplitMode: Boolean = false) {
     var movedTo by remember { mutableStateOf<Int?>(null) }
     // A template just put on, by name: the dashboard offers Undo for a while.
     var templateUndo by remember { mutableStateOf<String?>(null) }
+    // Share (DashShare.kt): open from the edit bar, or by itself when the phone sends a code.
+    var shareOpen by remember { mutableStateOf(false) }
+    val incomingShare by DashShare.incoming.collectAsState()
     LaunchedEffect(templateUndo) {
         if (templateUndo != null) {
             delay(TEMPLATE_UNDO_MS)
@@ -1876,6 +1879,7 @@ fun AutomotiveDashboard(inSplitMode: Boolean = false) {
                     // A cross: the overview adds and removes them; over an app, the rail's sheet.
                     onNewDashboard = if (tabsShown && barModel.canAddDashboard) ({ dashSheet = -1 }) else null,
                     onDashboards = if (!tabsShown) ({ DashboardsOverviewHost.open = true }) else null,
+                    onShare = { shareOpen = true },
                     onDone = { editing = false }
                 )
             }
@@ -1932,6 +1936,42 @@ fun AutomotiveDashboard(inSplitMode: Boolean = false) {
             },
             onMoments = if (only == null) ({ showTemplates = false; showMoments = true }) else null,
             onDismiss = { showTemplates = false; fillPage = null }
+        )
+    }
+    // A code the phone sent: the share sheet opens on it, once the car stands.
+    val shareMoving = LocalDriveLock.current.moving
+    LaunchedEffect(incomingShare, shareMoving) {
+        if (incomingShare != null && !shareMoving) shareOpen = true
+    }
+    if (shareOpen) {
+        val page = currentPage
+        val shareName = pageName(page)
+        DashShareSheet(
+            items = pages.getOrNull(page).orEmpty(),
+            name = shareName,
+            installed = appsByPackage.keys,
+            pageSize = previewPageSize,
+            tile = previewTile,
+            incoming = incomingShare,
+            onImport = { items, look ->
+                // As a template does: the Android widgets of the page it replaces are let go.
+                pages.getOrNull(page).orEmpty().filterIsInstance<DashboardItem.SystemWidget>()
+                    .forEach { WidgetHostHolder.retire(context, it.appWidgetId) }
+                mutatePage(page) { items }
+                look?.let { l ->
+                    themeState.onMode(l.mode)
+                    themeState.onAppearance(l.appearance)
+                    themeState.onEffects(l.effects)
+                    l.rail?.let { themeState.onRail(it) }
+                    themeState.onTabs(l.tabs)
+                    BarItems.set(l.barItems)
+                    BarItems.setLook(l.barLook)
+                }
+                shareOpen = false
+                DashShare.taken()
+                templateUndo = shareName
+            },
+            onDismiss = { shareOpen = false; DashShare.taken() }
         )
     }
     if (showMoments) {

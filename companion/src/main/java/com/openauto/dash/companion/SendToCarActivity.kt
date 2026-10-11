@@ -37,6 +37,11 @@ class SendToCarActivity : ComponentActivity() {
             done(getString(R.string.keyboard_not_connected))
             return
         }
+        // A shared dashboard's code goes to the car's share sheet, not to its keyboard.
+        if (DashCodes.send(text)) {
+            done(getString(R.string.dash_share_sent))
+            return
+        }
         when (val place = SharedPlaces.parse(text, intent.getStringExtra(Intent.EXTRA_SUBJECT))) {
             is SharedPlace.Found -> sendPlace(place)
             // Followed off the main thread; the share's own words if that fails.

@@ -27,4 +27,19 @@
     <string name="templates_calm_blurb">Mapa i prędkość, nic więcej</string>
     <string name="templates_previous">Poprzedni szablon</string>
     <string name="templates_next">Następny szablon</string>
+    <string name="share_button">Udostępnij</string>
+    <string name="share_title">Udostępnij: %1$s</string>
+    <string name="share_this">Przekaż ten pulpit</string>
+    <string name="share_with_look">Z wyglądem</string>
+    <string name="share_with_look_detail">Motyw, dzień i noc oraz pasek</string>
+    <string name="share_scan">Zeskanuj telefonem lub przekaż kod jako tekst</string>
+    <string name="share_save_file">Zapisz jako plik</string>
+    <string name="share_widgets_left_out">Widżety Androida zostają na tym radiu: nie są dołączone.</string>
+    <string name="share_use">Użyj udostępnionego pulpitu</string>
+    <string name="share_paste_hint">Kod DW1:</string>
+    <string name="share_open_file">Otwórz plik</string>
+    <string name="share_use_hint">Wpisz lub wklej kod, otwórz plik albo zeskanuj kod QR aplikacją Dashwheel Companion.</string>
+    <string name="share_missing_apps">Brakujące aplikacje: %1$d. Ich kafelki zostaną, dopóki ich nie zmienisz.</string>
+    <string name="share_take_look">Użyj też wyglądu</string>
+    <string name="share_replace">Wstaw tutaj</string>
 </resources>

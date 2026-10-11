@@ -247,4 +247,5 @@
     <string name="reg_sent">Отправлено в автомобиль</string>
     <string name="reg_offline">Подключитесь к автомобилю, чтобы отправить</string>
     <string name="reg_again">Сканировать снова</string>
+    <string name="dash_share_sent">Панель отправлена в машину: посмотрите на экране</string>
 </resources>

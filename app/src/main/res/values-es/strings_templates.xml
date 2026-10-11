@@ -27,4 +27,19 @@
     <string name="templates_calm_blurb">El mapa y tu velocidad, nada más</string>
     <string name="templates_previous">Plantilla anterior</string>
     <string name="templates_next">Plantilla siguiente</string>
+    <string name="share_button">Compartir</string>
+    <string name="share_title">Compartir %1$s</string>
+    <string name="share_this">Pasar este panel</string>
+    <string name="share_with_look">Con su aspecto</string>
+    <string name="share_with_look_detail">El tema, día y noche, y la barra</string>
+    <string name="share_scan">Escanéalo con un móvil o pasa el código como texto</string>
+    <string name="share_save_file">Guardar como archivo</string>
+    <string name="share_widgets_left_out">Los widgets de Android se quedan en este equipo: no se incluyen.</string>
+    <string name="share_use">Usar un panel compartido</string>
+    <string name="share_paste_hint">Código DW1:</string>
+    <string name="share_open_file">Abrir un archivo</string>
+    <string name="share_use_hint">Escribe o pega un código, abre un archivo o escanea un código QR con la app Dashwheel Companion.</string>
+    <string name="share_missing_apps">Apps que no están en este equipo: %1$d. Sus mosaicos se quedan hasta que los cambies.</string>
+    <string name="share_take_look">Usar también su aspecto</string>
+    <string name="share_replace">Ponerlo aquí</string>
 </resources>

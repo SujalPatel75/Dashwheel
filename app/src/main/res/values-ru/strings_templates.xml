@@ -27,4 +27,19 @@
     <string name="templates_calm_blurb">Карта и скорость, больше ничего</string>
     <string name="templates_previous">Предыдущий шаблон</string>
     <string name="templates_next">Следующий шаблон</string>
+    <string name="share_button">Поделиться</string>
+    <string name="share_title">Поделиться: %1$s</string>
+    <string name="share_this">Передать эту панель</string>
+    <string name="share_with_look">С оформлением</string>
+    <string name="share_with_look_detail">Тема, день и ночь, и панель</string>
+    <string name="share_scan">Отсканируйте телефоном или передайте код текстом</string>
+    <string name="share_save_file">Сохранить в файл</string>
+    <string name="share_widgets_left_out">Виджеты Android остаются на этой магнитоле и не передаются.</string>
+    <string name="share_use">Использовать чужую панель</string>
+    <string name="share_paste_hint">Код DW1:</string>
+    <string name="share_open_file">Открыть файл</string>
+    <string name="share_use_hint">Введите или вставьте код, откройте файл или отсканируйте QR-код в приложении Dashwheel Companion.</string>
+    <string name="share_missing_apps">Приложений нет на магнитоле: %1$d. Их плитки останутся, пока вы их не замените.</string>
+    <string name="share_take_look">Взять и оформление</string>
+    <string name="share_replace">Поставить сюда</string>
 </resources>

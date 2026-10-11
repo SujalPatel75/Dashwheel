@@ -27,4 +27,19 @@
     <string name="templates_calm_blurb">Karte und Tempo, sonst nichts</string>
     <string name="templates_previous">Vorige Vorlage</string>
     <string name="templates_next">Nächste Vorlage</string>
+    <string name="share_button">Teilen</string>
+    <string name="share_title">%1$s teilen</string>
+    <string name="share_this">Dieses Dashboard weitergeben</string>
+    <string name="share_with_look">Mit seinem Aussehen</string>
+    <string name="share_with_look_detail">Design, Tag und Nacht, und die Leiste</string>
+    <string name="share_scan">Mit einem Handy scannen oder den Code als Text weitergeben</string>
+    <string name="share_save_file">Als Datei speichern</string>
+    <string name="share_widgets_left_out">Android-Widgets bleiben auf diesem Gerät: Sie sind nicht dabei.</string>
+    <string name="share_use">Ein geteiltes Dashboard nutzen</string>
+    <string name="share_paste_hint">DW1:-Code</string>
+    <string name="share_open_file">Datei öffnen</string>
+    <string name="share_use_hint">Code eintippen oder einfügen, Datei öffnen oder einen QR-Code mit der Dashwheel Companion-App scannen.</string>
+    <string name="share_missing_apps">Apps fehlen auf diesem Gerät: %1$d. Ihre Kacheln bleiben, bis du sie änderst.</string>
+    <string name="share_take_look">Auch sein Aussehen nehmen</string>
+    <string name="share_replace">Hier einsetzen</string>
 </resources>
