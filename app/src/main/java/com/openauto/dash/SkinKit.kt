@@ -300,6 +300,17 @@ internal fun rememberWeather(): Weather? {
     return weather
 }
 
+/**
+ * The outside temperature in °C: the car's own sensor when it sends one
+ * (offline too), else the weather's; null until either is known.
+ */
+@Composable
+internal fun rememberOutsideTempC(): Double? {
+    val weather = rememberWeather()
+    val car by UnitSignals.outsideTempC.collectAsState()
+    return weather?.tempC ?: car?.takeUnless { DemoMode.isOn }
+}
+
 /** Why [rememberWeather] has nothing yet, so a skin says "no GPS" or "offline" in its own words and not "loading" all drive. */
 @Composable
 internal fun rememberWeatherWait(): WeatherWait {

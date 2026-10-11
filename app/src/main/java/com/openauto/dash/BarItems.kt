@@ -43,6 +43,7 @@ import androidx.compose.material.icons.filled.Thermostat
 import androidx.compose.material.icons.filled.Wifi
 import androidx.compose.material.icons.filled.WifiOff
 import androidx.compose.material.icons.filled.Cable
+import androidx.compose.material.icons.filled.DeviceThermostat
 import androidx.compose.material.icons.filled.CropFree
 import androidx.compose.material.icons.filled.Title
 import androidx.compose.material.icons.filled.ViewCompact
@@ -103,7 +104,9 @@ enum class BarItem(@StringRes val label: Int, val icon: ImageVector) {
     WIFI(R.string.bar_item_wifi, Icons.Filled.Wifi),
     BLUETOOTH(R.string.bar_item_bluetooth, Icons.Filled.Bluetooth),
     PHONE(R.string.bar_item_phone, Icons.Filled.PhoneAndroid),
-    OBD(R.string.bar_item_obd, Icons.Filled.Cable)
+    OBD(R.string.bar_item_obd, Icons.Filled.Cable),
+    /** The car's outside temperature sensor, else the weather's. */
+    OUTSIDE(R.string.bar_item_outside, Icons.Filled.DeviceThermostat)
 }
 
 /**
@@ -286,18 +289,7 @@ private fun BarReadout(item: BarItem, m: TopBarModel) {
         }
         BarItem.RANGE -> {
             val fuel = rememberFuel(m.obd, m.obdConnection)
-            val value = fuel?.let { units.distanceText(it.rangeKm) } ?: "–"
-            if (LocalBarLook.current == BarLook.MINIMAL) {
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    LookIcon(item.icon)
-                    Text(value, color = DashColors.TextPrimary, fontWeight = FontWeight.Bold, style = MaterialTheme.typography.titleMedium, maxLines = 1)
-                }
-            } else {
-                Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                    Text(value, color = DashColors.TextPrimary, fontWeight = FontWeight.Bold, style = MaterialTheme.typography.titleMedium, maxLines = 1)
-                    Caption(stringResource(item.label))
-                }
-            }
+            ValueReadout(item, fuel?.let { units.distanceText(it.rangeKm) } ?: "–")
         }
         BarItem.CLOCK -> if (!m.merged) {
             Text(m.clock, color = DashColors.TextPrimary, fontWeight = FontWeight.Bold, letterSpacing = (-0.02).em, style = MaterialTheme.typography.titleLarge)
@@ -327,6 +319,23 @@ private fun BarReadout(item: BarItem, m: TopBarModel) {
         }
         BarItem.PHONE -> PhonePill()
         BarItem.OBD -> ObdDot(m.obdConnection, m.onConnectObd)
+        BarItem.OUTSIDE -> ValueReadout(item, rememberOutsideTempC()?.let { units.tempTight(it) } ?: "–")
+    }
+}
+
+/** A reading in words with its caption under it, or its icon in front on the minimal bar. */
+@Composable
+private fun ValueReadout(item: BarItem, value: String) {
+    if (LocalBarLook.current == BarLook.MINIMAL) {
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            LookIcon(item.icon)
+            Text(value, color = DashColors.TextPrimary, fontWeight = FontWeight.Bold, style = MaterialTheme.typography.titleMedium, maxLines = 1)
+        }
+    } else {
+        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+            Text(value, color = DashColors.TextPrimary, fontWeight = FontWeight.Bold, style = MaterialTheme.typography.titleMedium, maxLines = 1)
+            Caption(stringResource(item.label))
+        }
     }
 }
 

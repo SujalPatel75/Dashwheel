@@ -38,9 +38,13 @@ internal const val FALLBACK_DAY_END_H = 20
 
 /** What decides day and night for the Auto look. */
 enum class AutoLightBy(@StringRes val titleRes: Int) {
-    /** The car's night mode, its headlights and dusk: dark as soon as any says night. */
+    /**
+     * The car's night mode, its headlights and dusk: dark as soon as any says
+     * night. On the QF firmware the headlights come straight from it and
+     * Android's night mode is left out: it is the unit's dark theme there, on all day.
+     */
     CAR(R.string.dash_auto_by_car),
-    /** Sunrise and sunset where the car is, nothing else. */
+    /** Sunrise and sunset where the car is, nothing else. The default: no unit signal can keep it dark by day. */
     SUN(R.string.dash_auto_by_sun),
     /** Two times the driver sets. */
     TIMES(R.string.dash_auto_by_times)
@@ -69,7 +73,7 @@ object AutoLight {
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
     private var started = false
 
-    private val _by = MutableStateFlow(AutoLightBy.CAR)
+    private val _by = MutableStateFlow(AutoLightBy.SUN)
     val by: StateFlow<AutoLightBy> = _by
     private val _from = MutableStateFlow(DEFAULT_FROM)
     val from: StateFlow<Int> = _from
@@ -84,7 +88,7 @@ object AutoLight {
         if (started) return
         started = true
         val p = prefs(context)
-        _by.value = runCatching { AutoLightBy.valueOf(p.getString(KEY_BY, null) ?: "") }.getOrDefault(AutoLightBy.CAR)
+        _by.value = runCatching { AutoLightBy.valueOf(p.getString(KEY_BY, null) ?: "") }.getOrDefault(AutoLightBy.SUN)
         _from.value = p.getInt(KEY_FROM, DEFAULT_FROM)
         _to.value = p.getInt(KEY_TO, DEFAULT_TO)
         if (p.contains(KEY_LAT) && p.contains(KEY_LON)) {
@@ -153,7 +157,7 @@ internal fun rememberAutoDay(): Boolean {
     val now = rememberWallClock(60_000L).longValue
     val byClock = remember(now, from, to) { dayByClock(now, from, to) }
     return when (by) {
-        AutoLightBy.CAR -> !systemDark && !headlights && sun
+        AutoLightBy.CAR -> !(systemDark && !UnitSignals.onQf) && !headlights && sun
         AutoLightBy.SUN -> sun
         AutoLightBy.TIMES -> byClock
     }

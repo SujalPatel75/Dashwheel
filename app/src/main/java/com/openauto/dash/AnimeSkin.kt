@@ -818,13 +818,14 @@ private fun AnimeBarPill(
     }
 }
 
-/** The bar's clock tag ("09:24 · 14°"), the temperature once the weather is known. */
+/** The bar's clock tag ("09:24 · 14°"), the temperature once the car's sensor or the weather gives one. */
 @Composable
 private fun AnimeClockTag(clock: String) {
     val t = animeTones
     val weather by WeatherRepo.weather.collectAsState()
+    val car by UnitSignals.outsideTempC.collectAsState()
     val units = LocalUnits.current
-    val text = weather?.let { "$clock · ${units.temp(it.tempC)}°" } ?: clock
+    val text = (weather?.tempC ?: car?.takeUnless { DemoMode.isOn })?.let { "$clock · ${units.temp(it)}°" } ?: clock
     AnimeSticker(
         modifier = Modifier.height(BAR_STICKER),
         fill = t.paper,

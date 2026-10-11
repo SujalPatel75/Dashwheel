@@ -702,14 +702,15 @@ private fun PanoBarClock(clock: String, withDate: Boolean, modifier: Modifier = 
 /** Skeleton of weekday, day and month ("Saturday 10 October"), in the locale's order. */
 internal const val PANO_LONG_DATE = "EEEEdMMMM"
 
-/** The corner's outside temperature, large and thin, the sky in words under it; nothing until the weather has come. */
+/** The corner's outside temperature, large and thin, the sky in words under it once the weather has come; nothing before either. */
 @Composable
 private fun PanoBarTemp(withCondition: Boolean) {
-    val weather = rememberWeather() ?: return
+    val weather = rememberWeather()
+    val temp = rememberOutsideTempC() ?: return
     val units = LocalUnits.current
     Column(horizontalAlignment = Alignment.End) {
-        PanoLine("${units.temp(weather.tempC)}°", panoText(40f, DashColors.TextPrimary, FontWeight.Light, thin = true), overflow = TextOverflow.Clip)
-        if (withCondition) PanoLine(weather.condition, panoText(18f, DashColors.TextSecondary), Modifier.width(170.dp), align = TextAlign.End)
+        PanoLine("${units.temp(temp)}°", panoText(40f, DashColors.TextPrimary, FontWeight.Light, thin = true), overflow = TextOverflow.Clip)
+        if (withCondition && weather != null) PanoLine(weather.condition, panoText(18f, DashColors.TextSecondary), Modifier.width(170.dp), align = TextAlign.End)
     }
 }
 

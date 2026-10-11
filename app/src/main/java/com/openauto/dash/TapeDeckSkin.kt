@@ -1046,13 +1046,13 @@ private fun ObdLed(state: ObdConnectionState, onConnect: () -> Unit) {
     }
 }
 
-/** Outside temperature in neon magenta; nothing until the first weather fetch. */
+/** Outside temperature in neon magenta; nothing until the car's sensor or the weather gives one. */
 @Composable
 private fun OutsideTemp() {
-    val weather = rememberWeather()
-    if (weather != null) {
+    val temp = rememberOutsideTempC()
+    if (temp != null) {
         Text(
-            LocalUnits.current.tempTight(weather.tempC),
+            LocalUnits.current.tempTight(temp),
             style = vfdText(DashColors.Accent2, 20.sp),
             maxLines = 1,
             modifier = Modifier.padding(horizontal = 8.dp)

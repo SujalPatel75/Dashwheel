@@ -615,12 +615,12 @@ private fun FutBarClock(clock: String, showDate: Boolean) {
     }
 }
 
-/** Outside temperature, quiet, beside the link; nothing until the first weather fetch. */
+/** Outside temperature, quiet, beside the link; nothing until the car's sensor or the weather gives one. */
 @Composable
 private fun FutOutsideTemp() {
-    val weather = rememberWeather() ?: return
+    val temp = rememberOutsideTempC() ?: return
     FutText(
-        LocalUnits.current.tempTight(weather.tempC),
+        LocalUnits.current.tempTight(temp),
         futText(16f, DashColors.TextSecondary, FontWeight.Medium),
         Modifier.padding(horizontal = 10.dp)
     )

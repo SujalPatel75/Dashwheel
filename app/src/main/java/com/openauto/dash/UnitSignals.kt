@@ -20,7 +20,9 @@ import kotlinx.coroutines.flow.StateFlow
  *  - the phone on the unit's Bluetooth: its name and battery (0..5), for the bar;
  *  - CarPlay / Android Auto (zlink): connected, and on screen or not. While
  *    it's on screen the phone's calls are its business, and Dashwheel's own
- *    alerts keep to the pill.
+ *    alerts keep to the pill;
+ *  - the car's outside temperature sensor, as the CAN box reads it (what the
+ *    firmware's own status bar shows).
  * Other units say none of this: everything stays at "nothing to show".
  */
 object UnitSignals {
@@ -28,6 +30,18 @@ object UnitSignals {
     private const val ACTION_BATTERY = "com.qf.action.bt.battery"
     private const val ACTION_BT_STATE = "com.qf.action.BT_STATE"
     private const val ACTION_ZLINK = "com.zjinnova.zlink"
+    /** The CAN app's outside temperature, extra "extra_string" ("12.5℃", "54.5℉", "" when its switch is off); sent on change only. */
+    private const val ACTION_OUT_TEMP = "com.qf.vehicle.action.TEMP_STRING"
+
+    private const val PREFS = "unit_signals"
+    private const val KEY_OUT_TEMP = "out_temp_c"
+    private const val KEY_OUT_TEMP_AT = "out_temp_at"
+    /** The firmware only says the temperature again when it changes: a reading this recent is still shown after a restart. */
+    private const val OUT_TEMP_KEEP_MS = 2 * 3_600_000L
+
+    private val _outsideTempC = MutableStateFlow<Double?>(null)
+    /** The car's outside temperature sensor in °C, or null when the car doesn't send one. */
+    val outsideTempC: StateFlow<Double?> = _outsideTempC
 
     /** The phone as the unit's Bluetooth knows it: [battery] 0..5, or null when not reported. */
     data class UnitPhone(val name: String, val battery: Int?)
@@ -63,6 +77,9 @@ object UnitSignals {
     private val main = Handler(Looper.getMainLooper())
     private var appContext: Context? = null
 
+    /** Running on the QF firmware (set by [start]): its signals are the ones above. */
+    val onQf: Boolean get() = appContext != null
+
     fun start(context: Context) {
         if (appContext != null) return
         val app = context.applicationContext
@@ -72,11 +89,13 @@ object UnitSignals {
         _headlightsOn.value = systemProperty("sys.qf.vehicle.headlight_state") == "true"
         _projection.value = systemProperty("sys.qf.carplay.connect") == "true" || systemProperty("sys.qf.bt.aa.connect") == "true"
         refreshPhone(app)
+        restoreOutsideTemp(app)
         val filter = IntentFilter().apply {
             addAction(ACTION_HEADLIGHT)
             addAction(ACTION_BATTERY)
             addAction(ACTION_BT_STATE)
             addAction(ACTION_ZLINK)
+            addAction(ACTION_OUT_TEMP)
         }
         ContextCompat.registerReceiver(app, receiver, filter, ContextCompat.RECEIVER_EXPORTED)
     }
@@ -92,8 +111,30 @@ object UnitSignals {
                     main.postDelayed({ refreshPhone(context) }, 1_500)
                 }
                 ACTION_ZLINK -> onProjection(intent.getStringExtra("status"))
+                ACTION_OUT_TEMP -> onOutsideTemp(context, intent.getStringExtra("extra_string"))
             }
         }
+    }
+
+    private fun onOutsideTemp(context: Context, text: String?) {
+        val c = parseOutsideTemp(text)
+        setOutsideTemp(c)
+        val p = context.getSharedPreferences(PREFS, Context.MODE_PRIVATE).edit()
+        if (c == null) p.remove(KEY_OUT_TEMP).remove(KEY_OUT_TEMP_AT)
+        else p.putFloat(KEY_OUT_TEMP, c.toFloat()).putLong(KEY_OUT_TEMP_AT, System.currentTimeMillis())
+        p.apply()
+    }
+
+    private fun restoreOutsideTemp(context: Context) {
+        val p = context.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
+        if (!p.contains(KEY_OUT_TEMP)) return
+        val age = System.currentTimeMillis() - p.getLong(KEY_OUT_TEMP_AT, 0L)
+        if (age in 0..OUT_TEMP_KEEP_MS) setOutsideTemp(p.getFloat(KEY_OUT_TEMP, 0f).toDouble())
+    }
+
+    private fun setOutsideTemp(c: Double?) {
+        _outsideTempC.value = c
+        WeatherRepo.carTempChanged()
     }
 
     /**
@@ -127,6 +168,18 @@ object UnitSignals {
         } else {
             null
         }
+    }
+
+    /**
+     * °C from the CAN app's temperature text: "12.5℃", "-3℃", "54.5℉" (its
+     * units may come translated, "12.5°C"). Null for "" (its switch off) or a
+     * value no car sensor gives.
+     */
+    internal fun parseOutsideTemp(text: String?): Double? {
+        val t = text?.trim().orEmpty()
+        val n = Regex("-?\\d+(?:[.,]\\d+)?").find(t)?.value?.replace(',', '.')?.toDoubleOrNull() ?: return null
+        val c = if ('℉' in t || t.endsWith("F", ignoreCase = true)) (n - 32) / 1.8 else n
+        return c.takeIf { it > -40.0 && it < 70.0 }
     }
 
     @SuppressLint("PrivateApi")

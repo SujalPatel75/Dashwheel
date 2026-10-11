@@ -631,13 +631,13 @@ private fun ClockPod(clock: String, modifier: Modifier = Modifier) {
 }
 
 /**
- * "OUT 20°C" LCD from the weather feed; the value stays dashed until the
- * first fetch. Without a GPS fix or an answer it says so in a word, so the
- * dashes are not taken for a fetch still on its way.
+ * "OUT 20°C" LCD from the car's sensor or the weather feed; the value stays
+ * dashed until the first one. Without a GPS fix or an answer it says so in a
+ * word, so the dashes are not taken for a fetch still on its way.
  */
 @Composable
 private fun OutsideTempLcd() {
-    val weather = rememberWeather()
+    val temp = rememberOutsideTempC()
     val wait = rememberWeatherWait()
     val ink = LcdInk
     LcdPanel(Modifier.height(40.dp).widthIn(min = 124.dp), corner = 8.dp) {
@@ -647,7 +647,7 @@ private fun OutsideTempLcd() {
                 .padding(horizontal = 12.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            if (weather == null && wait != WeatherWait.LOADING) {
+            if (temp == null && wait != WeatherWait.LOADING) {
                 Text(
                     stringResource(if (wait == WeatherWait.NO_GPS) R.string.info_no_gps else R.string.orbit_offline).uppercase(),
                     style = lcd(14.sp, ink.copy(alpha = 0.7f)),
@@ -658,8 +658,8 @@ private fun OutsideTempLcd() {
             Text(stringResource(R.string.cockpit_out), style = lcd(14.sp, ink.copy(alpha = 0.7f)), maxLines = 1)
             Spacer(Modifier.width(8.dp))
             Text(
-                weather?.let { LocalUnits.current.tempTight(it.tempC) } ?: "--",
-                style = lcd(20.sp, if (weather == null) ink.copy(alpha = 0.4f) else ink),
+                temp?.let { LocalUnits.current.tempTight(it) } ?: "--",
+                style = lcd(20.sp, if (temp == null) ink.copy(alpha = 0.4f) else ink),
                 maxLines = 1
             )
         }

@@ -55,7 +55,10 @@ data class Weather(
 
 object WeatherRepo {
     private val _weather = MutableStateFlow<Weather?>(null)
+    /** The weather, its temperature from the car's own sensor when the car sends one ([UnitSignals.outsideTempC]). */
     val weather: StateFlow<Weather?> = _weather
+    /** What was last published (fetched, or the demo's), before the car's temperature goes over it. */
+    @Volatile private var base: Weather? = null
 
     private val _error = MutableStateFlow<String?>(null)
     val error: StateFlow<String?> = _error
@@ -81,13 +84,13 @@ object WeatherRepo {
 
     /** [DemoMode]'s weather. */
     internal fun demoWrite(weather: Weather?, error: String?) {
-        _weather.value = weather
+        show(weather)
         _error.value = error
     }
 
     /** The demo is over: the real weather back, including an answer that came in meanwhile. */
     internal fun endDemo() {
-        _weather.value = realWeather
+        show(realWeather)
         _error.value = realError
     }
 
@@ -96,8 +99,17 @@ object WeatherRepo {
         realError = error
         // A fetch that was already on its way when the demo started must not replace the demo's weather.
         if (DemoMode.isOn) return
-        _weather.value = weather
+        show(weather)
         _error.value = error
+    }
+
+    /** The car's temperature changed: shown over the fetched one. */
+    internal fun carTempChanged() = show(base)
+
+    private fun show(weather: Weather?) {
+        base = weather
+        val car = UnitSignals.outsideTempC.value
+        _weather.value = if (weather == null || car == null || DemoMode.isOn) weather else weather.copy(tempC = car)
     }
 
     /** Fetches when the last result is stale or the car has moved; cheap to call often. */
