@@ -31,6 +31,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.graphics.Color
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
@@ -516,44 +517,86 @@ private fun serviceText(car: CarProfile): String = listOfNotNull(
 
 /**
  * The car's own state from its CAN box ([CarBox]): the lights, the mileage,
- * the trip and the consumption, as the car's trip computer counts them. A
- * value the car doesn't send is left out.
+ * the trip and the consumption, as the car's trip computer counts them, and
+ * on a Peugeot, Citroën or DS its trip computer and messages read off the CAN
+ * box stream ([PsaTripComputer]). A value the car doesn't send is left out.
  */
 @Composable
 internal fun CarStatusCard(modifier: Modifier = Modifier) {
     val body by CarBox.body.collectAsState()
+    val trip = rememberPsaTrip()
     Card(modifier = modifier) {
         Column(modifier = Modifier.fillMaxSize().padding(DashSpace.Lg), verticalArrangement = Arrangement.spacedBy(5.dp)) {
-            TileHeader(stringResource(R.string.car_status_title))
             val b = body
-            if (b == null) {
+            TileHeader(stringResource(if (b == null && trip != null) R.string.car_status_trip_title else R.string.car_status_title))
+            if (b == null && trip == null) {
                 Hint(stringResource(R.string.car_status_waiting))
             } else {
-                carStatusRows(b).forEach { (label, value) -> InfoRow(label, value) }
+                carStatusRows(b, trip).forEach { (label, value) -> InfoRow(label, value) }
             }
         }
     }
 }
 
+/** The PSA trip computer while on screen ([PsaTripComputer.watch]); null for other cars or until it has spoken. */
+@Composable
+internal fun rememberPsaTrip(): PsaTrip? {
+    val context = LocalContext.current
+    val car by CarProfileStore.profile.collectAsState()
+    val psa = PsaTripComputer.isPsa(car.make)
+    if (psa) {
+        DisposableEffect(Unit) {
+            PsaTripComputer.watch(context)
+            onDispose { PsaTripComputer.unwatch() }
+        }
+    }
+    val trip by PsaTripComputer.state.collectAsState()
+    return trip?.takeIf { psa }
+}
+
 /** The Car status rows: label and value, only those the car reports. */
 @Composable
-internal fun carStatusRows(b: CarBody): List<Pair<String, String>> {
-    val lights = lightsOn(b).map { stringResource(it.labelRes) }
+internal fun carStatusRows(b: CarBody?, trip: PsaTrip? = null): List<Pair<String, String>> {
+    val lights = b?.let { lightsOn(it) }?.map { stringResource(it.labelRes) }
     val u = LocalUnits.current
     val km = if (u.imperial) u.distanceUnit else stringResource(R.string.car_status_km)
+    val consumption = b?.instantConsumption ?: trip?.instantL100
+    val range = b?.range?.takeIf { it > 0f } ?: trip?.rangeKm?.toFloat()
     return listOfNotNull(
-        stringResource(R.string.car_status_lights) to (lights.joinToString(", ").ifEmpty { stringResource(R.string.car_status_lights_off) }),
+        lights?.let { stringResource(R.string.car_status_lights) to (it.joinToString(", ").ifEmpty { stringResource(R.string.car_status_lights_off) }) },
         // 0 is the box not sending it, as for the upkeep and the fuel tiles: left out, not "0 km".
-        b.odometer?.takeIf { it > 0f }?.let { stringResource(R.string.car_status_odometer) to "${NumberFormat.getIntegerInstance().format(u.distance(it.toDouble()).toLong())} $km" },
-        b.trip1?.let { stringResource(R.string.car_status_trip) to "${decimal(u.distance(it.toDouble()), 1)} $km" },
-        b.instantConsumption?.let {
-            stringResource(R.string.car_status_consumption) to
-                if (u.economy == Economy.L_PER_100KM) "${decimal(it.toDouble(), 1)} L/100 ${stringResource(R.string.car_status_km)}"
-                else "${u.economy(it.toDouble())?.let { e -> decimal(e, 1) } ?: "--"} ${u.economyUnit}"
-        },
-        b.range?.takeIf { it > 0f }?.let { stringResource(R.string.car_status_range) to "${u.distance(it.toDouble()).toInt()} $km" },
-        stringResource(R.string.car_status_parking_brake) to stringResource(if (b.handbrake) R.string.car_status_on else R.string.car_status_off)
+        b?.odometer?.takeIf { it > 0f }?.let { stringResource(R.string.car_status_odometer) to "${NumberFormat.getIntegerInstance().format(u.distance(it.toDouble()).toLong())} $km" },
+        b?.trip1?.let { stringResource(R.string.car_status_trip) to "${decimal(u.distance(it.toDouble()), 1)} $km" },
+        consumption?.let { stringResource(R.string.car_status_consumption) to consumptionText(it) },
+        range?.let { stringResource(R.string.car_status_range) to "${u.distance(it.toDouble()).toInt()} $km" },
+        trip?.trip1?.let { tripPageRow(1, it) },
+        trip?.trip2?.let { tripPageRow(2, it) },
+        b?.let { stringResource(R.string.car_status_parking_brake) to stringResource(if (it.handbrake) R.string.car_status_on else R.string.car_status_off) }
+    ) + trip?.warnings.orEmpty().map { code ->
+        stringResource(R.string.car_status_message) to (PsaWarnings.of(code)?.let { stringResource(it.textRes) }
+            ?: stringResource(R.string.car_warn_code, code.toString(16).uppercase().padStart(2, '0')))
+    }
+}
+
+/** "5.2 L/100 km", or the driver's own unit. */
+@Composable
+private fun consumptionText(l100: Float): String {
+    val u = LocalUnits.current
+    return if (u.economy == Economy.L_PER_100KM) "${decimal(l100.toDouble(), 1)} L/100 ${stringResource(R.string.car_status_km)}"
+    else "${u.economy(l100.toDouble())?.let { e -> decimal(e, 1) } ?: "--"} ${u.economyUnit}"
+}
+
+/** "Trip 1" with its distance, average consumption and average speed, those the car gives. */
+@Composable
+private fun tripPageRow(n: Int, p: PsaTripPage): Pair<String, String>? {
+    val u = LocalUnits.current
+    val km = if (u.imperial) u.distanceUnit else stringResource(R.string.car_status_km)
+    val parts = listOfNotNull(
+        p.distanceKm?.let { "${u.distance(it.toDouble()).toInt()} $km" },
+        p.avgL100?.let { consumptionText(it) },
+        p.avgKmh?.let { "${u.speed(it)} ${u.speedUnit}" }
     )
+    return if (parts.isEmpty()) null else stringResource(R.string.car_status_trip_n, n) to parts.joinToString(" · ")
 }
 
 internal val CarLight.labelRes: Int

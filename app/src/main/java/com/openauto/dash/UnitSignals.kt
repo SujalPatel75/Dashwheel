@@ -54,6 +54,27 @@ object UnitSignals {
         _headlightsOn.value = on
     }
 
+    /** The headlights from the MCU's own message ([McuFeed]), the same wire the broadcast tells of. */
+    internal fun mcuHeadlights(on: Boolean) {
+        _headlightsOn.value = on
+    }
+
+    private val _handbrake = MutableStateFlow<Boolean?>(null)
+    /** The handbrake wire as the MCU reads it, or null until it says (many installs leave it unwired). */
+    val handbrake: StateFlow<Boolean?> = _handbrake
+
+    internal fun mcuHandbrake(on: Boolean) {
+        _handbrake.value = on
+    }
+
+    private val _volts = MutableStateFlow<Double?>(null)
+    /** The supply voltage as the MCU last sent it ([McuFeed]); [supplyVolts] reads the firmware's copy. */
+    val volts: StateFlow<Double?> = _volts
+
+    internal fun mcuVolts(v: Double) {
+        if (v in 9.0..16.0) _volts.value = v
+    }
+
     private val _phone = MutableStateFlow<UnitPhone?>(null)
     /** The phone connected to the unit for calls, or null. */
     val phone: StateFlow<UnitPhone?> = _phone
@@ -157,7 +178,7 @@ object UnitSignals {
      * The car's supply voltage as the unit's own power board measures it (the
      * figure in the firmware's status bar, tenths of a volt), or null off this firmware.
      */
-    fun supplyVolts(): Double? =
+    fun supplyVolts(): Double? = _volts.value ?:
         systemProperty("sys.qf.update_battery_power")?.toIntOrNull()?.div(10.0)?.takeIf { it in 9.0..16.0 }
 
     private fun refreshPhone(context: Context) {

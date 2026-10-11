@@ -1176,18 +1176,24 @@ private fun fuelPricesFace(): WidgetFace {
 @Composable
 private fun carStatusFace(): WidgetFace {
     val body by CarBox.body.collectAsState()
-    val b = body ?: return idleFace(Icons.Filled.DirectionsCarFilled, BuiltinKind.CAR_STATUS.label, stringResource(R.string.car_status_waiting))
-    val rows = carStatusRows(b)
-    val lights = lightsOn(b)
+    val trip = rememberPsaTrip()
+    val b = body
+    if (b == null && trip == null) return idleFace(Icons.Filled.DirectionsCarFilled, BuiltinKind.CAR_STATUS.label, stringResource(R.string.car_status_waiting))
+    val rows = carStatusRows(b, trip)
+    val lights = b?.let { lightsOn(it) }.orEmpty()
     val u = LocalUnits.current
+    // The PSA trip computer sends no mileage: its range leads instead.
+    val odometer = b?.odometer?.takeIf { it > 0f }
+    val warned = trip?.warnings.orEmpty().any { code -> PsaWarnings.of(code)?.let { it.level != PsaWarnings.Level.INFO } ?: false }
     return WidgetFace(
         icon = Icons.Filled.DirectionsCarFilled,
         title = BuiltinKind.CAR_STATUS.label,
-        value = b.odometer?.let { NumberFormat.getIntegerInstance().format(u.distance(it.toDouble()).toLong()) } ?: "--",
+        value = odometer?.let { NumberFormat.getIntegerInstance().format(u.distance(it.toDouble()).toLong()) }
+            ?: trip?.rangeKm?.let { u.distance(it.toDouble()).toInt().toString() } ?: "--",
         unit = if (u.imperial) u.distanceUnit else stringResource(R.string.car_status_km),
-        caption = rows.first().second,
-        alert = CarLight.HAZARD in lights,
-        severity = if (CarLight.HAZARD in lights) 1 else 0,
+        caption = rows.firstOrNull()?.second.orEmpty(),
+        alert = CarLight.HAZARD in lights || warned,
+        severity = if (CarLight.HAZARD in lights || warned) 1 else 0,
         rows = rows.map { (label, value) -> FaceRow(label, value) }
     )
 }

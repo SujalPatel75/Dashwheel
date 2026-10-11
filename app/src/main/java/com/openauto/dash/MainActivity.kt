@@ -185,6 +185,8 @@ class MainActivity : ComponentActivity() {
                     // what else it tells: headlights, the phone, CarPlay / Android Auto.
                     { HeadUnitKeys.start(this) },
                     { UnitSignals.start(this) },
+                    // Everything the unit's MCU says (the CAN box stream, RDS, voltage), from its own service.
+                    { McuFeed.start(this) },
                     // The tyres from the TPMS sensors, and their warnings.
                     { Tyres.start(this) },
                     { TyreAlertOverlay.start(this) },

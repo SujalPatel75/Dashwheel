@@ -73,6 +73,7 @@ internal object CarFacts {
             }
         }
         put("car_body_trip_computer") { CarBox.freshBody() }
+        put("psa_trip_computer") { PsaTripComputer.fresh()?.let { t -> t.copy(at = 0L).toString() + t.warnings.joinToString(prefix = ", messages=") { c -> PsaWarnings.of(c)?.let { w -> context.getString(w.textRes) } ?: "code $c" } } }
         put("climate") { CarBox.climate.value }
         put("parking_sensors") { CarBox.radar.value }
         put("reverse_gear") { CarBox.reversing.value }

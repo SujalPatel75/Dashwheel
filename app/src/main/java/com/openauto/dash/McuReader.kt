@@ -21,8 +21,9 @@ import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 
 /**
- * Reads the head unit's **CANbox/MCU** stream by tailing the `mcu_services`
- * logcat (needs root). The MCU logs every car value as
+ * Reads the head unit's **CANbox/MCU** stream: straight from the MCU service
+ * where it lets Dashwheel listen ([McuFeed], no root), else by tailing the
+ * `mcu_services` logcat (needs root). The MCU logs every car value as
  * `dispatchToClients - cmdId: X - data : [ .. ]`, so we parse those into a live
  * map of `key -> latest bytes`, tracking when each last changed (for the CAN
  * monitor's "flip" highlight and, later, to read door/fuel/light state).
@@ -290,8 +291,8 @@ object McuReader {
 
     @Synchronized
     fun start() {
-        // The stream is read through root: the Play edition has none, so no reader is counted or started.
-        if (Edition.play) return
+        // Without the MCU service, the stream is read through root: the Play edition has none.
+        if (Edition.play && !McuFeed.listening.value) return
         refCount++
         shutdown?.cancel()
         shutdown = null
@@ -326,6 +327,11 @@ object McuReader {
         var backoff = RETRY_MIN_MS
         while (ctx.isActive) {
             val startedAt = System.currentTimeMillis()
+            // The MCU service hands every message over by itself: no root logcat beside it.
+            if (McuFeed.listening.value) {
+                delay(RETRY_MIN_MS)
+                continue
+            }
             // logcat first prints what it kept from before it was started. Those
             // lines still say where things stand (a door, the fuel), but a wheel
             // button pressed minutes ago is not pressed again: no [changes] for them.
@@ -340,7 +346,7 @@ object McuReader {
             if (p != null) {
                 try {
                     val reader = p.inputStream.bufferedReader()
-                    while (ctx.isActive) {
+                    while (ctx.isActive && !McuFeed.listening.value) {
                         val line = reader.readLine() ?: break
                         if (!caughtUp) caughtUp = !loggedBefore(line, liveFrom)
                         parse(line, live = caughtUp)
@@ -387,6 +393,23 @@ object McuReader {
             .filter { it.isNotEmpty() }
             .mapNotNull { it.toIntOrNull(16) }
         if (bytes.isEmpty()) return
+        ingest(cmdId, bytes, live)
+        // The CAN box stream, for the trip computer: what the MCU service would hand over without root.
+        if (cmdId == McuFeed.CMD_CAN && live) PsaTripComputer.feed(ByteArray(bytes.size) { bytes[it].toByte() }, 1)
+    }
+
+    /**
+     * One message from the MCU service ([McuFeed]): [cmd, data…], the very
+     * bytes its log shows. Read only while a reader is wanted, as the log is.
+     */
+    internal fun feed(message: ByteArray) {
+        if (refCount == 0) return
+        ingest(message[0].toInt() and 0xFF, message.map { it.toInt() and 0xFF }, live = true)
+    }
+
+    // From the log reader or the MCU service's thread, one at a time.
+    @Synchronized
+    private fun ingest(cmdId: Int, bytes: List<Int>, live: Boolean) {
 
         val sub = if (bytes.size >= 3 && bytes[1] == 0xfd) bytes[2] else -1
         val key = if (sub >= 0) cmdId.toString() + "." + hex2(sub) else cmdId.toString()

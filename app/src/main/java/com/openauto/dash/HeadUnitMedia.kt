@@ -53,6 +53,32 @@ object HeadUnitMedia {
     @Volatile var radio: RadioStation? = null
         private set
 
+    // The station's RDS as the MCU sends it ([McuFeed]), whether or not the radio's screen is open.
+    @Volatile private var rdsName: String? = null
+    @Volatile private var rdsText: String? = null
+
+    /** The tuner's band and frequency from the MCU: a new station forgets the last one's RDS. */
+    internal fun mcuTuner(freq: Int, band: Int) {
+        if (freq <= 0) return
+        val was = radio
+        if (was != null && was.freq == freq && was.band == band) return
+        rdsName = null
+        rdsText = null
+        radio = RadioStation(freq, band, was?.takeIf { it.freq == freq }?.name)
+        main.post { tell() }
+    }
+
+    /** RDS from the MCU: the station's name, its radio text, or [clear] when the station has none. */
+    internal fun mcuRds(name: String?, text: String?, clear: Boolean = false) {
+        when {
+            clear -> if (rdsName == null && rdsText == null) return else { rdsName = null; rdsText = null }
+            name != null -> if (name == rdsName) return else rdsName = name
+            text != null -> if (text == rdsText) return else rdsText = text
+            else -> return
+        }
+        main.post { tell() }
+    }
+
     /** What the linked phone says it plays ([NowPlaying]): the cover the unit's Bluetooth doesn't pass on. */
     data class PhoneTrack(val title: String, val artist: String, val album: String, val playing: Boolean, val durationMs: Long, val artKey: Int, val art: Bitmap?)
 
@@ -121,6 +147,7 @@ object HeadUnitMedia {
                 ACTION_RADIO -> {
                     val freq = intent.getIntExtra("${ACTION_RADIO}_freq_key", -1)
                     if (freq <= 0) return
+                    if (radio?.freq != freq) { rdsName = null; rdsText = null }
                     radio = RadioStation(
                         freq = freq,
                         band = intent.getIntExtra("${ACTION_RADIO}_band_key", 0),
@@ -155,9 +182,10 @@ object HeadUnitMedia {
         }
         isStock(pkg) -> radio?.let { r ->
             val frequency = radioLabel(r)
+            val name = r.name ?: rdsName
             MediaState(
-                title = r.name ?: frequency,
-                artist = listOfNotNull(r.name?.let { frequency }, bandLabel(r.band)).joinToString(" · "),
+                title = name ?: frequency,
+                artist = rdsText ?: listOfNotNull(name?.let { frequency }, bandLabel(r.band)).joinToString(" · "),
                 isPlaying = systemProperty("sys.qf.radio.status") == "true",
                 hasMedia = true
             )
