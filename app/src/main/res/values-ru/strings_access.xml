@@ -7,4 +7,7 @@
     <string name="access_notif_body">Dashwheel читает уведомления, чтобы показывать на панели текущий трек, следующий манёвр и новые сообщения. Они остаются на этой магнитоле.</string>
     <string name="access_open_settings">Открыть настройки</string>
     <string name="access_not_now">Не сейчас</string>
+    <string name="access_restricted_title">Заблокировано Android</string>
+    <string name="access_restricted_body">Android блокирует это для приложений, установленных из файла. Откройте настройки и один раз нажмите Dashwheel, затем «О приложении», ⋮, «Разрешить настройки с ограниченным доступом» и повторите попытку.</string>
+    <string name="access_app_info">О приложении</string>
 </resources>

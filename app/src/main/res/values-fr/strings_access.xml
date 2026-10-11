@@ -6,4 +6,7 @@
     <string name="access_notif_body">Dashwheel lit les notifications pour afficher la lecture en cours, la prochaine direction et les nouveaux messages sur le tableau de bord. Elles restent sur cet autoradio.</string>
     <string name="access_open_settings">Ouvrir les réglages</string>
     <string name="access_not_now">Pas maintenant</string>
+    <string name="access_restricted_title">Bloqué par Android</string>
+    <string name="access_restricted_body">Android bloque cet accès pour les applis installées depuis un fichier. Ouvrez les réglages et touchez Dashwheel une fois, puis Infos sur l\'appli, ⋮, Autoriser les paramètres restreints, et réessayez.</string>
+    <string name="access_app_info">Infos sur l\'appli</string>
 </resources>

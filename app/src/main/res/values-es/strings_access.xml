@@ -6,4 +6,7 @@
     <string name="access_notif_body">Dashwheel lee las notificaciones para mostrar lo que suena, el próximo giro y los mensajes nuevos en el panel. Se quedan en esta unidad.</string>
     <string name="access_open_settings">Abrir ajustes</string>
     <string name="access_not_now">Ahora no</string>
+    <string name="access_restricted_title">Bloqueado por Android</string>
+    <string name="access_restricted_body">Android bloquea esto en las apps instaladas desde un archivo. Abre los ajustes y toca Dashwheel una vez, luego Información de la app, ⋮, Permitir ajustes restringidos, y vuelve a intentarlo.</string>
+    <string name="access_app_info">Info. de la app</string>
 </resources>

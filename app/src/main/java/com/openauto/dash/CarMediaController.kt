@@ -406,10 +406,7 @@ class CarMediaController(private val context: Context) {
                 AccessDisclosure.show(context, AccessDisclosure.Kind.NOTIFICATIONS)
                 return
             }
-            context.startActivity(
-                Intent(Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS)
-                    .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            )
+            AccessDisclosure.openSystemPage(context, AccessDisclosure.Kind.NOTIFICATIONS)
         }
     }
 }

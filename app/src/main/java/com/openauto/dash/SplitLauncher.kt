@@ -7,7 +7,6 @@ import android.graphics.Rect
 import android.os.Build
 import android.os.Handler
 import android.os.Looper
-import android.provider.Settings
 import android.util.Log
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -139,12 +138,7 @@ object SplitLauncher {
             AccessDisclosure.show(context, AccessDisclosure.Kind.ACCESSIBILITY)
             return
         }
-        runCatching {
-            context.startActivity(
-                Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS)
-                    .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            )
-        }.onFailure { Log.e(TAG, "open accessibility settings failed", it) }
+        AccessDisclosure.openSystemPage(context, AccessDisclosure.Kind.ACCESSIBILITY)
     }
 
     /**
