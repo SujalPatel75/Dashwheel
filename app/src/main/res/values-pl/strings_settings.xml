@@ -325,4 +325,24 @@
     <string name="map_servers_style_light">Styl mapy, jasny</string>
     <string name="map_servers_routing">Adres tras Valhalla</string>
     <string name="map_servers_reset">Darmowe serwery</string>
+    <string name="report_title">Zgłoś, jak działa</string>
+    <string name="report_row_detail">Twoje radio i co na nim działa, jako zgłoszenie na GitHubie</string>
+    <string name="report_compat_intro">Zaznacz, co działa na tym radiu. Raport zawiera model, oprogramowanie i wersję Dashwheel, nic osobistego.</string>
+    <string name="report_crash_title">Dashwheel ostatnio się zamknął</string>
+    <string name="report_crash_intro">Wyślij błąd, aby można go było naprawić. Raport zawiera błąd, model i oprogramowanie, nic osobistego.</string>
+    <string name="report_scan">Zeskanuj telefonem, aby wysłać</string>
+    <string name="report_open">Otwórz tutaj</string>
+    <string name="report_delete">Usuń</string>
+    <string name="report_later">Nie teraz</string>
+    <string name="report_works">Działa</string>
+    <string name="report_fails">Nie działa</string>
+    <string name="report_item_home">Przycisk Home otwiera Dashwheel</string>
+    <string name="report_item_wheel">Przyciski na kierownicy</string>
+    <string name="report_item_tiles">Aplikacje w kafelkach</string>
+    <string name="report_item_maps">Mapy Google w kafelku</string>
+    <string name="report_item_obd">Adapter OBD</string>
+    <string name="report_item_can">Dane auta: drzwi, klimatyzacja, trasa</string>
+    <string name="report_item_camera">Kamera cofania</string>
+    <string name="report_item_sound">Głośność i muzyka</string>
+    <string name="report_item_sleep">Wraca po uśpieniu auta</string>
 </resources>

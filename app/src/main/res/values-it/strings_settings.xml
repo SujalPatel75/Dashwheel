@@ -321,4 +321,24 @@
     <string name="map_servers_style_light">Stile mappa, chiaro</string>
     <string name="map_servers_routing">Indirizzo percorsi Valhalla</string>
     <string name="map_servers_reset">Server gratuiti</string>
+    <string name="report_title">Segnala come funziona</string>
+    <string name="report_row_detail">La tua autoradio e cosa funziona, come issue su GitHub</string>
+    <string name="report_compat_intro">Segna cosa funziona su questa autoradio. Il rapporto contiene modello, firmware e versione di Dashwheel, niente di personale.</string>
+    <string name="report_crash_title">Dashwheel si è chiuso l\'ultima volta</string>
+    <string name="report_crash_intro">Invia l\'errore perché venga corretto. Il rapporto contiene l\'errore, il modello e il firmware, niente di personale.</string>
+    <string name="report_scan">Scansiona col telefono per inviarlo</string>
+    <string name="report_open">Apri qui</string>
+    <string name="report_delete">Elimina</string>
+    <string name="report_later">Non ora</string>
+    <string name="report_works">Funziona</string>
+    <string name="report_fails">Non funziona</string>
+    <string name="report_item_home">Il tasto Home apre Dashwheel</string>
+    <string name="report_item_wheel">Tasti al volante</string>
+    <string name="report_item_tiles">App nei riquadri</string>
+    <string name="report_item_maps">Google Maps in un riquadro</string>
+    <string name="report_item_obd">Adattatore OBD</string>
+    <string name="report_item_can">Dati auto: porte, clima, viaggio</string>
+    <string name="report_item_camera">Telecamera di retromarcia</string>
+    <string name="report_item_sound">Volume e musica</string>
+    <string name="report_item_sleep">Riparte dopo lo standby dell\'auto</string>
 </resources>

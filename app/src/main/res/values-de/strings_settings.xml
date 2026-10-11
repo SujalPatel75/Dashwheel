@@ -317,4 +317,24 @@
     <string name="map_servers_style_light">Kartenstil, hell</string>
     <string name="map_servers_routing">Valhalla-Routenadresse</string>
     <string name="map_servers_reset">Kostenlose Server</string>
+    <string name="report_title">Melden, wie es läuft</string>
+    <string name="report_row_detail">Dein Gerät und was darauf läuft, als GitHub-Issue</string>
+    <string name="report_compat_intro">Markiere, was auf diesem Gerät läuft. Der Bericht enthält Modell, Firmware und Dashwheel-Version, nichts Persönliches.</string>
+    <string name="report_crash_title">Dashwheel wurde zuletzt beendet</string>
+    <string name="report_crash_intro">Sende den Fehler, damit er behoben werden kann. Der Bericht enthält den Fehler, Modell und Firmware, nichts Persönliches.</string>
+    <string name="report_scan">Mit dem Handy scannen, um zu senden</string>
+    <string name="report_open">Hier öffnen</string>
+    <string name="report_delete">Löschen</string>
+    <string name="report_later">Nicht jetzt</string>
+    <string name="report_works">Geht</string>
+    <string name="report_fails">Geht nicht</string>
+    <string name="report_item_home">Home-Taste öffnet Dashwheel</string>
+    <string name="report_item_wheel">Lenkradtasten</string>
+    <string name="report_item_tiles">Apps in Kacheln</string>
+    <string name="report_item_maps">Google Maps in einer Kachel</string>
+    <string name="report_item_obd">OBD-Adapter</string>
+    <string name="report_item_can">Autodaten: Türen, Klima, Fahrt</string>
+    <string name="report_item_camera">Rückfahrkamera</string>
+    <string name="report_item_sound">Lautstärke und Musik</string>
+    <string name="report_item_sleep">Kommt nach dem Schlafmodus zurück</string>
 </resources>

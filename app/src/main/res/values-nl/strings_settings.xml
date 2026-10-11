@@ -317,4 +317,24 @@
     <string name="map_servers_style_light">Kaartstijl, licht</string>
     <string name="map_servers_routing">Valhalla-routeadres</string>
     <string name="map_servers_reset">Gratis servers</string>
+    <string name="report_title">Melden hoe het werkt</string>
+    <string name="report_row_detail">Je toestel en wat erop werkt, als GitHub-issue</string>
+    <string name="report_compat_intro">Geef aan wat werkt op dit toestel. Het rapport bevat het model, de firmware en de Dashwheel-versie, niets persoonlijks.</string>
+    <string name="report_crash_title">Dashwheel stopte de vorige keer</string>
+    <string name="report_crash_intro">Stuur de fout op zodat die opgelost kan worden. Het rapport bevat de fout, het model en de firmware, niets persoonlijks.</string>
+    <string name="report_scan">Scan met je telefoon om te versturen</string>
+    <string name="report_open">Hier openen</string>
+    <string name="report_delete">Verwijderen</string>
+    <string name="report_later">Niet nu</string>
+    <string name="report_works">Werkt</string>
+    <string name="report_fails">Werkt niet</string>
+    <string name="report_item_home">Thuisknop opent Dashwheel</string>
+    <string name="report_item_wheel">Stuurwielknoppen</string>
+    <string name="report_item_tiles">Apps in tegels</string>
+    <string name="report_item_maps">Google Maps in een tegel</string>
+    <string name="report_item_obd">OBD-adapter</string>
+    <string name="report_item_can">Autogegevens: deuren, klimaat, rit</string>
+    <string name="report_item_camera">Achteruitrijcamera</string>
+    <string name="report_item_sound">Volume en muziek</string>
+    <string name="report_item_sleep">Komt terug na de slaapstand</string>
 </resources>

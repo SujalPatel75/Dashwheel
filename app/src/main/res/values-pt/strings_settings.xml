@@ -321,4 +321,24 @@
     <string name="map_servers_style_light">Estilo do mapa, claro</string>
     <string name="map_servers_routing">Endereço de rotas Valhalla</string>
     <string name="map_servers_reset">Servidores gratuitos</string>
+    <string name="report_title">Contar como funciona</string>
+    <string name="report_row_detail">O seu rádio e o que funciona nele, como issue no GitHub</string>
+    <string name="report_compat_intro">Marque o que funciona neste rádio. O relatório inclui o modelo, o firmware e a versão do Dashwheel, nada pessoal.</string>
+    <string name="report_crash_title">O Dashwheel parou da última vez</string>
+    <string name="report_crash_intro">Envie o erro para que possa ser corrigido. O relatório inclui o erro, o modelo e o firmware, nada pessoal.</string>
+    <string name="report_scan">Leia com o telemóvel para enviar</string>
+    <string name="report_open">Abrir aqui</string>
+    <string name="report_delete">Eliminar</string>
+    <string name="report_later">Agora não</string>
+    <string name="report_works">Funciona</string>
+    <string name="report_fails">Não funciona</string>
+    <string name="report_item_home">O botão Início abre o Dashwheel</string>
+    <string name="report_item_wheel">Botões do volante</string>
+    <string name="report_item_tiles">Apps nos mosaicos</string>
+    <string name="report_item_maps">Google Maps num mosaico</string>
+    <string name="report_item_obd">Adaptador OBD</string>
+    <string name="report_item_can">Dados do carro: portas, clima, viagem</string>
+    <string name="report_item_camera">Câmara de marcha-atrás</string>
+    <string name="report_item_sound">Volume e música</string>
+    <string name="report_item_sleep">Volta depois da suspensão</string>
 </resources>

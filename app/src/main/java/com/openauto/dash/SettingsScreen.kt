@@ -1375,6 +1375,9 @@ private fun AboutBody(m: TopBarModel) {
     SettingsSection(stringResource(R.string.settings_section_about))
     // Here too, where the version is read: "Update" belongs beside it.
     UpdateRow(m)
+    var report by remember { mutableStateOf(false) }
+    SettingsRow(Icons.Filled.BugReport, stringResource(R.string.report_title), stringResource(R.string.report_row_detail)) { report = true }
+    if (report) CompatibilityReportSheet { report = false }
     SettingsRow(Icons.Filled.School, stringResource(R.string.tour_settings_row), stringResource(R.string.tour_settings_row_detail), m.onTour)
     // The wiki, as a QR code for the phone and a button for this screen (WikiHelp.kt).
     var help by remember { mutableStateOf(false) }

@@ -326,4 +326,24 @@
     <string name="map_servers_style_light">Стиль карты, светлый</string>
     <string name="map_servers_routing">Адрес маршрутов Valhalla</string>
     <string name="map_servers_reset">Бесплатные серверы</string>
+    <string name="report_title">Сообщить, как работает</string>
+    <string name="report_row_detail">Ваша магнитола и что на ней работает, в виде задачи на GitHub</string>
+    <string name="report_compat_intro">Отметьте, что работает на этой магнитоле. В отчёте модель, прошивка и версия Dashwheel, ничего личного.</string>
+    <string name="report_crash_title">В прошлый раз Dashwheel закрылся</string>
+    <string name="report_crash_intro">Отправьте ошибку, чтобы её исправили. В отчёте ошибка, модель и прошивка, ничего личного.</string>
+    <string name="report_scan">Отсканируйте телефоном, чтобы отправить</string>
+    <string name="report_open">Открыть здесь</string>
+    <string name="report_delete">Удалить</string>
+    <string name="report_later">Не сейчас</string>
+    <string name="report_works">Работает</string>
+    <string name="report_fails">Не работает</string>
+    <string name="report_item_home">Кнопка «Домой» открывает Dashwheel</string>
+    <string name="report_item_wheel">Кнопки на руле</string>
+    <string name="report_item_tiles">Приложения в плитках</string>
+    <string name="report_item_maps">Google Карты в плитке</string>
+    <string name="report_item_obd">Адаптер OBD</string>
+    <string name="report_item_can">Данные авто: двери, климат, поездка</string>
+    <string name="report_item_camera">Камера заднего вида</string>
+    <string name="report_item_sound">Громкость и музыка</string>
+    <string name="report_item_sleep">Возвращается после сна</string>
 </resources>

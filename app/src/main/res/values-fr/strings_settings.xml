@@ -321,4 +321,24 @@
     <string name="map_servers_style_light">Style de carte, clair</string>
     <string name="map_servers_routing">Adresse d\'itinéraire Valhalla</string>
     <string name="map_servers_reset">Serveurs gratuits</string>
+    <string name="report_title">Dire comment ça marche</string>
+    <string name="report_row_detail">Votre autoradio et ce qui y fonctionne, en ticket GitHub</string>
+    <string name="report_compat_intro">Indiquez ce qui fonctionne sur cet autoradio. Le rapport contient le modèle, le firmware et la version de Dashwheel, rien de personnel.</string>
+    <string name="report_crash_title">Dashwheel s\'est arrêté la dernière fois</string>
+    <string name="report_crash_intro">Envoyez l\'erreur pour qu\'elle soit corrigée. Le rapport contient l\'erreur, le modèle et le firmware, rien de personnel.</string>
+    <string name="report_scan">Scannez avec votre téléphone pour l\'envoyer</string>
+    <string name="report_open">Ouvrir ici</string>
+    <string name="report_delete">Supprimer</string>
+    <string name="report_later">Pas maintenant</string>
+    <string name="report_works">Marche</string>
+    <string name="report_fails">Ne marche pas</string>
+    <string name="report_item_home">Le bouton Accueil ouvre Dashwheel</string>
+    <string name="report_item_wheel">Boutons du volant</string>
+    <string name="report_item_tiles">Applis dans les tuiles</string>
+    <string name="report_item_maps">Google Maps dans une tuile</string>
+    <string name="report_item_obd">Adaptateur OBD</string>
+    <string name="report_item_can">Données de la voiture : portes, clim, trajet</string>
+    <string name="report_item_camera">Caméra de recul</string>
+    <string name="report_item_sound">Volume et musique</string>
+    <string name="report_item_sleep">Revient après la mise en veille</string>
 </resources>

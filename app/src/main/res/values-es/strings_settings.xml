@@ -321,4 +321,24 @@
     <string name="map_servers_style_light">Estilo de mapa, claro</string>
     <string name="map_servers_routing">Dirección de rutas de Valhalla</string>
     <string name="map_servers_reset">Servidores gratuitos</string>
+    <string name="report_title">Contar cómo funciona</string>
+    <string name="report_row_detail">Tu equipo y lo que funciona en él, como incidencia de GitHub</string>
+    <string name="report_compat_intro">Marca lo que funciona en este equipo. El informe incluye el modelo, el firmware y la versión de Dashwheel, nada personal.</string>
+    <string name="report_crash_title">Dashwheel se cerró la última vez</string>
+    <string name="report_crash_intro">Envía el error para que se pueda corregir. El informe incluye el error, el modelo y el firmware, nada personal.</string>
+    <string name="report_scan">Escanea con el móvil para enviarlo</string>
+    <string name="report_open">Abrir aquí</string>
+    <string name="report_delete">Eliminar</string>
+    <string name="report_later">Ahora no</string>
+    <string name="report_works">Funciona</string>
+    <string name="report_fails">No funciona</string>
+    <string name="report_item_home">El botón Inicio abre Dashwheel</string>
+    <string name="report_item_wheel">Botones del volante</string>
+    <string name="report_item_tiles">Apps en mosaicos</string>
+    <string name="report_item_maps">Google Maps en un mosaico</string>
+    <string name="report_item_obd">Adaptador OBD</string>
+    <string name="report_item_can">Datos del coche: puertas, clima, trayecto</string>
+    <string name="report_item_camera">Cámara de marcha atrás</string>
+    <string name="report_item_sound">Volumen y música</string>
+    <string name="report_item_sleep">Vuelve tras la suspensión del coche</string>
 </resources>

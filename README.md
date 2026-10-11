@@ -2,7 +2,7 @@
 
 # Dashwheel
 
-**The free, open-source car launcher for Android head units (FYT / UIS7862 and similar).** Map, music and live car data on one calm screen: up to seven dashboards you arrange yourself, 30+ widgets, whole-design skins, an AI mechanic that explains warning lights, and your phone's calls and messages on the big screen. No ads, no trial, no account.
+**The free, open-source car launcher for Android head units (FYT / UIS7862 and similar).** Map, music and live car data on one calm screen: up to seven dashboards you arrange yourself, 55+ widgets, whole-design skins, an AI mechanic that explains warning lights, and your phone's calls and messages on the big screen. No ads, no trial, no account.
 
 ![Dashwheel: map, speed, weather and music on one screen](docs/screenshots/01_hero.jpg)
 
@@ -25,7 +25,7 @@ Dashwheel is free, with no ads. If it makes your drives nicer, a coffee on Ko-fi
 | ![Road trip](docs/screenshots/04_road_trip.jpg) | ![Widget designs](docs/screenshots/05_widget_designs.jpg) |
 | **Road trip**: next turn, break reminder, eco score, fuel prices nearby | **60+ widget designs**, one per tile |
 | ![Skins](docs/screenshots/06_skins.jpg) | ![Arranged your way](docs/screenshots/07_customise.jpg) |
-| **Whole-design skins**: Orbit, Cockpit, Horizon, Tape Deck | **Your dashboards**, live widget previews, templates |
+| **Whole-design skins**: Panorama, Cockpit, Racing, Orbit, Canvas and more | **Your dashboards**, live widget previews, templates |
 | ![Calls](docs/screenshots/13_calls.jpg) | ![Upright screens](docs/screenshots/14_upright.jpg) |
 | **Calls** from the paired phone, answered from the screen | **Upright screens** get their own layout |
 
@@ -39,7 +39,7 @@ Dashwheel is free, with no ads. If it makes your drives nicer, a coffee on Ko-fi
 - **Your own alerts and reverse view** instead of the head unit's pop-ups
 - **Hands-free**: spoken alerts, steering-wheel buttons, volume that follows speed
 - **Second screen** (experimental): a Raspberry Pi drives a second monitor in the car
-- **9 languages**, day and night themes, updates from GitHub Releases
+- **9 languages**, day and night themes, updates from GitHub Releases on a stable or a beta channel
 - **Root is optional**: extra features appear only when the unit allows them ([what needs what](https://github.com/deviloufr-ai/Dashwheel/wiki/Root-and-PMPatch3))
 
 ## Two editions
@@ -60,11 +60,23 @@ Dashwheel is free, with no ads. If it makes your drives nicer, a coffee on Ko-fi
 2. Optional: `dashwheel-companion.apk` on your phone, an ELM327 Bluetooth adapter, a free Gemini key.
 3. Follow the first-run setup and the tour.
 
+Updates: Dashwheel updates itself from the stable channel. Turn on **Settings, About, Beta updates** to get each new version as soon as it is built; a beta becomes stable once it has been tried.
+
 Details: [Installation and updates](https://github.com/deviloufr-ai/Dashwheel/wiki/Installation-and-Updates) · [Troubleshooting](https://github.com/deviloufr-ai/Dashwheel/wiki/Troubleshooting)
+
+## iPhone owners
+
+The Dashwheel Companion app is Android only, so an iPhone gets no notifications, messages, drive log, phone GPS or "where's my car" on the head unit. Everything else works without it:
+
+- dashboards, widgets and skins, the built-in map and turn-by-turn guidance
+- live car data from an OBD adapter and the head unit's CAN box, the AI mechanic, servicing reminders
+- calls through the head unit's own Bluetooth (on ROCO K706 / QF units), and its radio and Bluetooth music
+- CarPlay, where the head unit has it, next to Dashwheel
 
 ## Feedback and support
 
-- Something broken, or a unit that isn't listed? [Open an issue](https://github.com/deviloufr-ai/Dashwheel/issues) and say which head unit you have.
+- Something broken, or a unit that isn't listed? In the app, **Settings, About, Report how it works** fills in a GitHub issue with your unit's model and firmware (a QR code for your phone). Or [open an issue](https://github.com/deviloufr-ai/Dashwheel/issues/new/choose) yourself.
+- After a crash, Dashwheel offers to send the error the next time it starts, once the car is parked.
 - If Dashwheel is useful to you, a ⭐ on this repo helps other drivers find it.
 - [Ko-fi](https://ko-fi.com/deviloufr) pays for test hardware.
 
@@ -74,7 +86,7 @@ Installers and resellers: custom or branded builds, and licences for closed dist
 
 ## Build from source
 
-Android Studio with a Gradle JDK of 17–21, then `./gradlew assembleDebug`. Toolchain, modules, CI and release signing: [Building from source](https://github.com/deviloufr-ai/Dashwheel/wiki/Building-from-Source).
+Android Studio with a Gradle JDK of 17–21, then `./gradlew assembleDebug`. Toolchain, modules, CI and release signing: [Building from source](https://github.com/deviloufr-ai/Dashwheel/wiki/Building-from-Source). Pull requests are welcome: see [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## License
 

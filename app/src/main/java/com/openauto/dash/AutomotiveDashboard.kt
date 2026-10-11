@@ -378,7 +378,7 @@ fun AutomotiveDashboard(inSplitMode: Boolean = false) {
         if (!editing && dashSheet == null) CanvasTabs.tabFor(barTabsState.value, trigger)?.let { showPage(it.page) }
     }
     // Moments (Moments.kt): Home shows the moment of the drive, in its own place.
-    remember { MomentStore.load(context) }
+    MomentStore.load(context)
     val momentSettings by MomentStore.settings.collectAsState()
     // An app in a window or inside a tile on Home keeps its place on screen: no moment takes it away.
     val homeHoldsApps = pages.getOrNull(DashboardStore.CENTER).orEmpty().any { it.holdsAnApp() }
@@ -2141,6 +2141,8 @@ fun AutomotiveDashboard(inSplitMode: Boolean = false) {
     }
 
     StopGuidancePrompt()
+    // The last start ended in a crash: offered once, parked, as an issue to send.
+    CrashOffer()
     layoutNotice?.let { notice ->
         AlertDialog(
             modifier = Modifier.keepClearOfWindows(),

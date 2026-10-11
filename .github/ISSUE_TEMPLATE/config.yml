@@ -1,0 +1,7 @@
+# Blank issues stay on: the app's "Report how it works" and crash reports open
+# a filled-in blank issue through the new-issue address.
+blank_issues_enabled: true
+contact_links:
+  - name: Help and setup guides
+    url: https://github.com/deviloufr-ai/Dashwheel/wiki
+    about: Installation, root, steering wheel buttons, troubleshooting

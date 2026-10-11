@@ -320,4 +320,24 @@
     <string name="map_servers_style_light">Map style, light</string>
     <string name="map_servers_routing">Valhalla route address</string>
     <string name="map_servers_reset">Free servers</string>
+    <string name="report_title">Report how it works</string>
+    <string name="report_row_detail">Your unit and what works on it, as a GitHub issue</string>
+    <string name="report_compat_intro">Mark what works on this unit. The report holds the unit\'s model and firmware and Dashwheel\'s version, nothing personal.</string>
+    <string name="report_crash_title">Dashwheel stopped last time</string>
+    <string name="report_crash_intro">Send the error so it can be fixed. The report holds the error and the unit\'s model and firmware, nothing personal.</string>
+    <string name="report_scan">Scan with your phone to send it</string>
+    <string name="report_open">Open here</string>
+    <string name="report_delete">Delete</string>
+    <string name="report_later">Not now</string>
+    <string name="report_works">Works</string>
+    <string name="report_fails">Doesn\'t</string>
+    <string name="report_item_home">Home button opens Dashwheel</string>
+    <string name="report_item_wheel">Steering wheel buttons</string>
+    <string name="report_item_tiles">Apps in tiles</string>
+    <string name="report_item_maps">Google Maps in a tile</string>
+    <string name="report_item_obd">OBD adapter</string>
+    <string name="report_item_can">Car data: doors, climate, trip</string>
+    <string name="report_item_camera">Reversing camera</string>
+    <string name="report_item_sound">Volume and music</string>
+    <string name="report_item_sleep">Comes back after the car sleeps</string>
 </resources>
