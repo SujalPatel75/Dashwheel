@@ -33,8 +33,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.Dispatchers
@@ -65,7 +63,6 @@ internal fun AiSettingsDialog(onDismiss: () -> Unit) {
     }
     // (worked, message) from the last test.
     var result by remember { mutableStateOf<Pair<Boolean, String>?>(null) }
-    var code by remember { mutableStateOf("") }
 
     fun close() {
         AiSettings.save(context, config)
@@ -74,8 +71,8 @@ internal fun AiSettingsDialog(onDismiss: () -> Unit) {
         onDismiss()
     }
 
-    /** Saves, then checks the key with a tiny request; [activated] says the key just came from the code. */
-    fun test(activated: Boolean = false) {
+    /** Saves, then checks the key with a tiny request. */
+    fun test() {
         AiSettings.save(context, config)
         testing = true
         result = null
@@ -89,7 +86,7 @@ internal fun AiSettingsDialog(onDismiss: () -> Unit) {
             // The voice is the launcher's, whatever language Gemini writes its answers in.
             val voiceLocale = InAppNav.locale(context)
             reply.onSuccess {
-                val works = context.getString(if (activated) R.string.ai_test_activated_ok else R.string.ai_test_ok, it.model)
+                val works = context.getString(R.string.ai_test_ok, it.model)
                 // The missing voice is named in the screen's language ("allemand" on a French screen).
                 val voice = if (CarVoice.canSpeak(voiceLocale) == false) {
                     " " + context.getString(R.string.ai_no_voice, voiceLocale.getDisplayLanguage(Locale.getDefault()))
@@ -103,27 +100,7 @@ internal fun AiSettingsDialog(onDismiss: () -> Unit) {
                 } else {
                     AiMechanic.describe(context, it)
                 }
-                // An activated key is saved either way; only reaching Gemini failed.
-                result = activated to context.getString(
-                    if (activated) R.string.ai_test_activated_unreachable else R.string.ai_test_failed,
-                    why
-                )
-            }
-        }
-    }
-
-    fun activate() {
-        testing = true
-        result = null
-        scope.launch {
-            val key = withContext(Dispatchers.Default) { AiKeyVault.unlock(code) }
-            testing = false
-            if (key == null) {
-                result = false to context.getString(R.string.ai_wrong_code)
-            } else {
-                config = config.copy(apiKey = key, keyFromCode = true)
-                code = ""
-                test(activated = true)
+                result = false to context.getString(R.string.ai_test_failed, why)
             }
         }
     }
@@ -140,32 +117,10 @@ internal fun AiSettingsDialog(onDismiss: () -> Unit) {
             style = MaterialTheme.typography.bodyMedium
         )
 
-        if (AiKeyVault.available) {
-            Label(stringResource(R.string.ai_activation_code))
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                OutlinedTextField(
-                    value = code,
-                    onValueChange = { code = it; result = null },
-                    placeholder = { Text(stringResource(R.string.ai_activation_hint), color = DashColors.Muted) },
-                    singleLine = true,
-                    modifier = Modifier.weight(1f),
-                    colors = fieldColors()
-                )
-                Spacer(Modifier.size(12.dp))
-                Button(
-                    enabled = !testing && code.isNotBlank(),
-                    onClick = ::activate,
-                    colors = buttonColors()
-                ) { Text(stringResource(R.string.ai_activate)) }
-            }
-        }
-
-        Label(stringResource(if (AiKeyVault.available) R.string.ai_own_key else R.string.ai_key))
+        Label(stringResource(R.string.ai_key))
         OutlinedTextField(
             value = config.apiKey,
-            onValueChange = { config = config.copy(apiKey = it.trim(), keyFromCode = false); result = null },
-            // The built-in key stays hidden; typing replaces it with your own.
-            visualTransformation = if (config.keyFromCode) PasswordVisualTransformation() else VisualTransformation.None,
+            onValueChange = { config = config.copy(apiKey = it.trim()); result = null },
             placeholder = { Text(stringResource(R.string.ai_key_hint), color = DashColors.Muted) },
             singleLine = true,
             modifier = Modifier.fillMaxWidth(),

@@ -1393,6 +1393,13 @@ private fun UpdateRow(m: TopBarModel) {
         return
     }
     SettingsRow(Icons.Filled.SystemUpdate, updateTitle(m), updateDetail(m)) { updateTap(m) }
+    val context = LocalContext.current
+    var beta by remember { mutableStateOf(UpdateManager.beta(context)) }
+    SettingsToggle(Icons.Filled.Science, stringResource(R.string.settings_beta_updates), stringResource(R.string.settings_beta_updates_detail), beta) {
+        beta = it
+        UpdateManager.setBeta(context, it)
+        m.onCheckUpdates()
+    }
 }
 
 /** "Update to 1.0.531", or "Check for updates" while none is known. */

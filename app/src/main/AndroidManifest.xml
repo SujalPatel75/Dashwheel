@@ -75,7 +75,10 @@
     <uses-feature android:name="android.hardware.camera" android:required="false" />
 
     <!-- Hardware Requirements -->
-    <uses-feature android:name="android.hardware.bluetooth_le" android:required="true" />
+    <!-- OBD adapters are classic Bluetooth (or USB, or relayed by the phone): nothing needs BLE,
+         and a unit that doesn't declare it must still find the app on Google Play. -->
+    <uses-feature android:name="android.hardware.bluetooth_le" android:required="false" />
+    <uses-feature android:name="android.hardware.bluetooth" android:required="false" />
     <uses-feature android:name="android.hardware.location.gps" android:required="false" />
     <uses-feature android:name="android.hardware.audio.output" android:required="true" />
     <!-- OBD adapters on a USB cable (UsbObd.kt); Bluetooth ones still work without it. -->

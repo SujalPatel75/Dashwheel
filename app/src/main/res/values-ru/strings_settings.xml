@@ -316,4 +316,6 @@
         <item quantity="many">%d в стиле Dashwheel</item>
         <item quantity="other">%d в стиле Dashwheel</item>
     </plurals>
+    <string name="settings_beta_updates">Бета-обновления</string>
+    <string name="settings_beta_updates_detail">Новые версии сразу после сборки, раньше всех</string>
 </resources>

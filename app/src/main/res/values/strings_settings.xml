@@ -310,4 +310,6 @@
         <item quantity="one">%d in Dashwheel\'s look</item>
         <item quantity="other">%d in Dashwheel\'s look</item>
     </plurals>
+    <string name="settings_beta_updates">Beta updates</string>
+    <string name="settings_beta_updates_detail">New versions as soon as they are built, before they reach everyone</string>
 </resources>

@@ -3,10 +3,6 @@
     <!-- Settings dialog (also the menu item) -->
     <string name="ai_title">AI-monteur</string>
     <string name="ai_explanation">Een nieuwe foutcode wordt door Gemini uitgelegd en voorgelezen. Naar Google gaan de codes, motorwaarden, het automodel en je stem als je hardop een vraag stelt.</string>
-    <string name="ai_activation_code">Activeringscode</string>
-    <string name="ai_activation_hint">Ontgrendelt de ingebouwde sleutel</string>
-    <string name="ai_activate">Activeren</string>
-    <string name="ai_own_key">Of je eigen Gemini-API-sleutel</string>
     <string name="ai_key">Gemini-API-sleutel</string>
     <string name="ai_key_hint">Gratis op aistudio.google.com → Get API key</string>
     <string name="ai_language">Taal van de antwoorden</string>
@@ -17,11 +13,8 @@
 
     <!-- Settings dialog: test results -->
     <string name="ai_test_ok">Gemini werkt: %1$s</string>
-    <string name="ai_test_activated_ok">Geactiveerd. Gemini werkt: %1$s</string>
     <string name="ai_test_failed">Mislukt: %1$s</string>
-    <string name="ai_test_activated_unreachable">Geactiveerd. Gemini nog niet bereikbaar: %1$s</string>
     <string name="ai_test_waiting">Verbinding met Google… %1$d s</string>
-    <string name="ai_wrong_code">Onjuiste activeringscode</string>
     <string name="ai_no_voice">Geen stem voor %1$s op dit apparaat: voeg er een toe via Android-instellingen → Tekst-naar-spraak.</string>
 
     <!-- Spoken by the car, in the mechanic's language (resolved with the AI language, not the screen's) -->

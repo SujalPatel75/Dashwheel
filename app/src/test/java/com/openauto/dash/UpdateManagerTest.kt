@@ -69,4 +69,12 @@ class UpdateManagerTest {
         assertNull(UpdateManager.parseBuildNumber("nightly"))
         assertNull(UpdateManager.parseBuildNumber(""))
     }
+
+    @Test
+    fun onlyBuildsOfMainAreUpdates() {
+        assertTrue(UpdateManager.isMainTag("v1.0.712"))
+        assertFalse(UpdateManager.isMainTag("my-branch-v1.0.700"))
+        assertFalse(UpdateManager.isMainTag("second-screen-image"))
+        assertFalse(UpdateManager.isMainTag("v1.0.712-rc"))
+    }
 }

@@ -3,10 +3,6 @@
     <!-- Settings dialog (also the menu item) -->
     <string name="ai_title">Mécanicien IA</string>
     <string name="ai_explanation">Un nouveau code défaut est expliqué par Gemini et lu à voix haute. Envoyés à Google : les codes, les mesures moteur, le modèle, et votre voix quand vous posez une question à l\'oral.</string>
-    <string name="ai_activation_code">Code d\'activation</string>
-    <string name="ai_activation_hint">Déverrouille la clé intégrée</string>
-    <string name="ai_activate">Activer</string>
-    <string name="ai_own_key">Ou votre propre clé API Gemini</string>
     <string name="ai_key">Clé API Gemini</string>
     <string name="ai_key_hint">Gratuite sur aistudio.google.com → Get API key</string>
     <string name="ai_language">Langue des réponses</string>
@@ -17,11 +13,8 @@
 
     <!-- Settings dialog: test results -->
     <string name="ai_test_ok">Gemini fonctionne : %1$s</string>
-    <string name="ai_test_activated_ok">Activé. Gemini fonctionne : %1$s</string>
     <string name="ai_test_failed">Échec : %1$s</string>
-    <string name="ai_test_activated_unreachable">Activé. Gemini pas encore joignable : %1$s</string>
     <string name="ai_test_waiting">Connexion à Google… %1$d s</string>
-    <string name="ai_wrong_code">Code d\'activation incorrect</string>
     <string name="ai_no_voice">Aucune voix en %1$s sur cet appareil : ajoutez-en une dans Paramètres Android → Synthèse vocale.</string>
 
     <!-- Spoken by the car, in the mechanic's language (resolved with the AI language, not the screen's) -->

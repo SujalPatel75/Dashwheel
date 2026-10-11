@@ -68,8 +68,12 @@ val UpdateStatus.updateInfo: UpdateInfo?
  * In-app updater that tracks the installed version against the latest GitHub
  * Release and downloads/installs a newer APK.
  *
+ * Two channels: stable follows GitHub's "latest" release (a beta promoted by
+ * hand); beta ([beta]) takes the newest build of main, pre-releases included,
+ * as soon as it passed its tests.
+ *
  * Version tracking: the installed [currentVersionCode] comes from the APK
- * (set by CI to the Actions run number); the latest build number is parsed from
+ * (set by CI from main's history); the latest build number is parsed from
  * the release tag (e.g. `v1.0.42` → 42). A newer build number means an update.
  *
  * Note: Android always shows its own install confirmation, and a downloaded APK
@@ -131,13 +135,30 @@ class UpdateManager(private val context: Context) {
             caps.hasCapability(android.net.NetworkCapabilities.NET_CAPABILITY_INTERNET)
     }
 
+    /** The newest release of the driver's channel: GitHub's "latest" (stable), or the newest build of main (beta). */
     private fun fetchLatestRelease(): UpdateInfo? {
+        val base = "https://api.github.com/repos/${BuildConfig.GITHUB_OWNER}/${BuildConfig.GITHUB_REPO}/releases"
+        if (!beta(context)) return fetchJson("$base/latest")?.let { runCatching { releaseInfo(JSONObject(it)) }.getOrNull() }
+        val list = fetchJson("$base?per_page=30")?.let { runCatching { org.json.JSONArray(it) }.getOrNull() } ?: return null
+        return (0 until list.length())
+            .mapNotNull { list.optJSONObject(it) }
+            .filter { !it.optBoolean("draft") && isMainTag(it.optString("tag_name")) }
+            .mapNotNull { releaseInfo(it) }
+            .maxByOrNull { it.buildNumber }
+    }
+
+    /** A release's version, notes and launcher APK; null when it has no APK for this edition. */
+    private fun releaseInfo(json: JSONObject): UpdateInfo? {
+        val tag = json.optString("tag_name")
+        val buildNumber = parseBuildNumber(tag) ?: return null
+        val apkUrl = firstApkAssetUrl(json) ?: return null
+        return UpdateInfo(versionName = tag, buildNumber = buildNumber, apkUrl = apkUrl, notes = json.optString("body"))
+    }
+
+    private fun fetchJson(url: String): String? {
         var connection: HttpURLConnection? = null
         return try {
-            val endpoint = URL(
-                "https://api.github.com/repos/" +
-                    "${BuildConfig.GITHUB_OWNER}/${BuildConfig.GITHUB_REPO}/releases/latest"
-            )
+            val endpoint = URL(url)
             connection = (endpoint.openConnection() as HttpURLConnection).apply {
                 requestMethod = "GET"
                 setRequestProperty("Accept", "application/vnd.github+json")
@@ -151,19 +172,7 @@ class UpdateManager(private val context: Context) {
                 return null
             }
 
-            connection.inputStream.bufferedReader().use { reader ->
-                val json = JSONObject(reader.readText())
-                val tag = json.optString("tag_name")
-                val notes = json.optString("body")
-                val buildNumber = parseBuildNumber(tag) ?: return null
-                val apkUrl = firstApkAssetUrl(json) ?: return null
-                UpdateInfo(
-                    versionName = tag,
-                    buildNumber = buildNumber,
-                    apkUrl = apkUrl,
-                    notes = notes
-                )
-            }
+            connection.inputStream.bufferedReader().use { it.readText() }
         } catch (e: Exception) {
             null
         } finally {
@@ -420,6 +429,21 @@ class UpdateManager(private val context: Context) {
         private const val INSTALL_WAIT_MS = 45_000L
         private const val KEY_DISMISSED = "dismissed_build"
         private const val KEY_DOWNLOADED = "downloaded_build"
+        private const val KEY_BETA = "beta"
+
+        /** The driver takes beta builds: every build of main that passed its tests, before it is promoted. */
+        fun beta(context: Context): Boolean =
+            context.getSharedPreferences(PREFS, Context.MODE_PRIVATE).getBoolean(KEY_BETA, false)
+
+        fun setBeta(context: Context, on: Boolean) {
+            context.getSharedPreferences(PREFS, Context.MODE_PRIVATE).edit().putBoolean(KEY_BETA, on).apply()
+        }
+
+        /**
+         * A build of main ("v1.0.712"), stable or beta: not a branch's test
+         * build ("my-branch-v1.0.700") nor the second screen's card image.
+         */
+        internal fun isMainTag(tag: String): Boolean = Regex("^v\\d+\\.\\d+\\.\\d+$").matches(tag)
 
         /** Build number from a release tag or name: "v1.0.42" -> 42 (the last number wins). */
         internal fun parseBuildNumber(text: String): Long? =

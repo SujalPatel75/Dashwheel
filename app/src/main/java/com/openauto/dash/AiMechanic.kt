@@ -60,8 +60,6 @@ enum class AiLanguage(val label: String, val promptName: String, val locale: Loc
 
 data class AiConfig(
     val apiKey: String = "",
-    /** The key was unlocked with the activation code, so it isn't shown on screen. */
-    val keyFromCode: Boolean = false,
     /** The driver's pick for Gemini's written answers; null follows the launcher's language. */
     val languageChoice: AiLanguage? = null,
     /** Gemini Live is Dashwheel's own (DashAssistant, knows the car), not Google's Gemini app. */
@@ -80,9 +78,11 @@ object AiSettings {
 
     fun load(context: Context): AiConfig {
         val p = context.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
+        // The shared key that came with an activation code is withdrawn: the
+        // driver pastes a key of their own, as the AI settings ask.
+        val shared = p.getBoolean("key_from_code", false)
         return AiConfig(
-            apiKey = p.getString("api_key", "").orEmpty(),
-            keyFromCode = p.getBoolean("key_from_code", false),
+            apiKey = if (shared) "" else p.getString("api_key", "").orEmpty(),
             languageChoice = p.getString("language", null)?.let { runCatching { AiLanguage.valueOf(it) }.getOrNull() },
             ownLive = p.getBoolean("own_live", true)
         )
@@ -91,7 +91,7 @@ object AiSettings {
     fun save(context: Context, config: AiConfig) {
         context.getSharedPreferences(PREFS, Context.MODE_PRIVATE).edit()
             .putString("api_key", config.apiKey.trim())
-            .putBoolean("key_from_code", config.keyFromCode)
+            .remove("key_from_code")
             .apply { config.languageChoice?.let { putString("language", it.name) } ?: remove("language") }
             .putBoolean("own_live", config.ownLive)
             .apply()

@@ -3,10 +3,6 @@
     <!-- Settings dialog (also the menu item) -->
     <string name="ai_title">ИИ-механик</string>
     <string name="ai_explanation">Gemini объясняет каждый новый код ошибки и зачитывает его вслух. В Google отправляются: коды, показания двигателя, модель автомобиля и ваш голос, когда вы задаёте вопрос вслух.</string>
-    <string name="ai_activation_code">Код активации</string>
-    <string name="ai_activation_hint">Открывает встроенный ключ</string>
-    <string name="ai_activate">Активировать</string>
-    <string name="ai_own_key">Или ваш собственный API-ключ Gemini</string>
     <string name="ai_key">API-ключ Gemini</string>
     <string name="ai_key_hint">Бесплатно на aistudio.google.com → Get API key</string>
     <string name="ai_language">Язык ответов</string>
@@ -17,11 +13,8 @@
 
     <!-- Settings dialog: test results -->
     <string name="ai_test_ok">Gemini работает: %1$s</string>
-    <string name="ai_test_activated_ok">Активировано. Gemini работает: %1$s</string>
     <string name="ai_test_failed">Не удалось: %1$s</string>
-    <string name="ai_test_activated_unreachable">Активировано. Gemini пока недоступен: %1$s</string>
     <string name="ai_test_waiting">Связь с Google… %1$d с</string>
-    <string name="ai_wrong_code">Неверный код активации</string>
     <string name="ai_no_voice">На этой магнитоле нет голоса для языка %1$s: добавьте его в Настройки Android → Синтез речи.</string>
 
     <!-- Spoken by the car, in the launcher's language -->

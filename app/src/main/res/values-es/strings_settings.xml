@@ -311,4 +311,6 @@
         <item quantity="many">%d al estilo de Dashwheel</item>
         <item quantity="other">%d al estilo de Dashwheel</item>
     </plurals>
+    <string name="settings_beta_updates">Actualizaciones beta</string>
+    <string name="settings_beta_updates_detail">Las versiones nuevas en cuanto están listas, antes que nadie</string>
 </resources>
