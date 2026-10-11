@@ -140,3 +140,31 @@ object AppUsage {
 
     const val MIN_OPENINGS = 2
 }
+
+/** How big the app drawer draws its apps: the driver's pick, from the drawer's own header. */
+object DrawerIconSize {
+    private const val PREFS = "app_drawer"
+    private const val KEY = "icon_scale"
+    /** Normal, large, larger; a tap on the header's button goes to the next. */
+    internal val SCALES = listOf(1f, 1.3f, 1.6f)
+
+    private val _scale = MutableStateFlow(SCALES.first())
+    val scale: StateFlow<Float> = _scale.asStateFlow()
+    private var loaded = false
+
+    @Synchronized
+    fun load(context: Context) {
+        if (loaded) return
+        loaded = true
+        val saved = context.getSharedPreferences(PREFS, Context.MODE_PRIVATE).getFloat(KEY, SCALES.first())
+        _scale.value = SCALES.firstOrNull { it == saved } ?: SCALES.first()
+    }
+
+    @Synchronized
+    fun next(context: Context) {
+        load(context)
+        val next = SCALES[(SCALES.indexOf(_scale.value) + 1) % SCALES.size]
+        _scale.value = next
+        context.getSharedPreferences(PREFS, Context.MODE_PRIVATE).edit().putFloat(KEY, next).apply()
+    }
+}

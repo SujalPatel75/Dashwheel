@@ -146,4 +146,5 @@
     <string name="apps_in_tile_window">Остаётся открытым в окне размером с плитку</string>
     <string name="apps_side_by_side">Рядом</string>
     <string name="apps_side_by_side_detail">Два приложения сразу на разделённом экране</string>
+    <string name="apps_icon_size">Размер значков</string>
 </resources>

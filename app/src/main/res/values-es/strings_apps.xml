@@ -144,4 +144,5 @@
     <string name="apps_in_tile_window">Queda abierta en una ventana del tamaño de la ficha</string>
     <string name="apps_side_by_side">Lado a lado</string>
     <string name="apps_side_by_side_detail">Dos aplicaciones a la vez, en pantalla dividida</string>
+    <string name="apps_icon_size">Tamaño de los iconos</string>
 </resources>

@@ -144,4 +144,5 @@
     <string name="apps_in_tile_window">Stays open in a window the size of the tile</string>
     <string name="apps_side_by_side">Side by side</string>
     <string name="apps_side_by_side_detail">Two apps at once, in split screen</string>
+    <string name="apps_icon_size">Icon size</string>
 </resources>

@@ -39,6 +39,7 @@ import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material.icons.filled.FormatSize
 import androidx.compose.material.icons.filled.Map
 import androidx.compose.material.icons.filled.Splitscreen
 import androidx.compose.material.icons.filled.Warning
@@ -264,6 +265,8 @@ internal fun AppShortcutTile(
     app: AppEntry?,
     packageName: String,
     editing: Boolean = false,
+    /** Bigger than usual, in the drawer when the driver asked for it ([DrawerIconSize]). */
+    scale: Float = 1f,
     onClick: () -> Unit
 ) {
     val tap = rememberTapFeedback()
@@ -278,22 +281,22 @@ internal fun AppShortcutTile(
     ) {
         Box(
             modifier = Modifier
-                .size(64.dp)
+                .size(64.dp * scale)
                 .clip(CircleShape)
                 .itemFill(DashColors.CardHi, CircleShape),
             contentAlignment = Alignment.Center
         ) {
             if (app != null) {
-                AppIcon(icon = app.icon, size = if (DashColors.Bare) 56.dp else 44.dp)
+                AppIcon(icon = app.icon, size = (if (DashColors.Bare) 56.dp else 44.dp) * scale)
             } else {
-                Icon(Icons.Filled.Apps, contentDescription = null, tint = DashColors.Muted, modifier = Modifier.size(30.dp))
+                Icon(Icons.Filled.Apps, contentDescription = null, tint = DashColors.Muted, modifier = Modifier.size(30.dp * scale))
             }
         }
         Spacer(Modifier.height(6.dp))
         Text(
             text = app?.label ?: packageName.substringAfterLast('.'),
             color = DashColors.TextSecondary,
-            style = MaterialTheme.typography.labelMedium,
+            style = if (scale > 1f) MaterialTheme.typography.labelLarge else MaterialTheme.typography.labelMedium,
             textAlign = TextAlign.Center,
             maxLines = 1,
             overflow = TextOverflow.Ellipsis
@@ -440,8 +443,9 @@ internal fun AppDrawer(
     moving: Boolean = false
 ) {
     val context = androidx.compose.ui.platform.LocalContext.current
-    LaunchedEffect(Unit) { AppUsage.load(context) }
+    LaunchedEffect(Unit) { AppUsage.load(context); DrawerIconSize.load(context) }
     val counts by AppUsage.counts.collectAsState()
+    val iconScale by DrawerIconSize.scale.collectAsState()
     // The apps opened most come first, as they were when the drawer opened:
     // an app just launched does not reshuffle the row under the finger.
     val mostUsed = remember(apps, counts.isEmpty()) {
@@ -472,6 +476,14 @@ internal fun AppDrawer(
                 Spacer(Modifier.width(20.dp))
                 if (!moving && apps.isNotEmpty()) SearchField(query, { query = it }, Modifier.weight(1f)) else Spacer(Modifier.weight(1f))
                 Spacer(Modifier.width(8.dp))
+                if (!moving) IconButton(onClick = { DrawerIconSize.next(context) }, modifier = Modifier.size(DashSize.TouchPrimary)) {
+                    Icon(
+                        imageVector = Icons.Filled.FormatSize,
+                        contentDescription = stringResource(R.string.apps_icon_size),
+                        tint = DashColors.TextSecondary,
+                        modifier = Modifier.size(28.dp)
+                    )
+                }
                 IconButton(onClick = onClose, modifier = Modifier.size(DashSize.TouchPrimary)) {
                     Icon(
                         imageVector = Icons.Filled.Close,
@@ -507,7 +519,7 @@ internal fun AppDrawer(
                 }
             } else {
                 LazyVerticalGrid(
-                    columns = GridCells.Adaptive(minSize = 92.dp),
+                    columns = GridCells.Adaptive(minSize = 92.dp * iconScale),
                     contentPadding = PaddingValues(16.dp),
                     horizontalArrangement = Arrangement.spacedBy(8.dp),
                     verticalArrangement = Arrangement.spacedBy(18.dp),
@@ -516,12 +528,12 @@ internal fun AppDrawer(
                     if (sections) {
                         item(key = "h:top", span = { GridItemSpan(maxLineSpan) }) { DrawerSection(stringResource(R.string.apps_most_used)) }
                         items(mostUsed, key = { "top:" + it.packageName }) { app ->
-                            AppShortcutTile(app = app, packageName = app.packageName, onClick = { onLaunch(app) })
+                            AppShortcutTile(app = app, packageName = app.packageName, scale = iconScale, onClick = { onLaunch(app) })
                         }
                         item(key = "h:all", span = { GridItemSpan(maxLineSpan) }) { DrawerSection(stringResource(R.string.apps_all_apps)) }
                     }
                     items(shown, key = { it.packageName }) { app ->
-                        AppShortcutTile(app = app, packageName = app.packageName, onClick = { onLaunch(app) })
+                        AppShortcutTile(app = app, packageName = app.packageName, scale = iconScale, onClick = { onLaunch(app) })
                     }
                 }
             }

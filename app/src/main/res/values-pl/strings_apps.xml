@@ -145,4 +145,5 @@
     <string name="apps_in_tile_window">Pozostaje otwarta w oknie wielkości kafelka</string>
     <string name="apps_side_by_side">Obok siebie</string>
     <string name="apps_side_by_side_detail">Dwie aplikacje naraz, na podzielonym ekranie</string>
+    <string name="apps_icon_size">Rozmiar ikon</string>
 </resources>

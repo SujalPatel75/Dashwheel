@@ -137,4 +137,15 @@ class CarBoxDataTest {
         assertEquals(listOf(CarLight.MAIN_BEAM, CarLight.REAR_FOG), lightsOn(body(2 to 0b1101_0000)))
         assertEquals(listOf(CarLight.HAZARD, CarLight.SIDELIGHTS), lightsOn(body(2 to 0b0000_0010, 3 to 0b1000_0000)))
     }
+
+    @Test
+    fun linePictureAsSteeringAngle() {
+        assertEquals(0f, traceIndexDegrees(45, 545f)!!, 0.01f)
+        assertEquals(545f, traceIndexDegrees(90, 545f)!!, 0.01f)
+        assertEquals(-545f, traceIndexDegrees(0, 545f)!!, 0.01f)
+        // One step of the picture on a car that locks at 450°: 10°.
+        assertEquals(10f, traceIndexDegrees(46, 450f)!!, 0.01f)
+        assertNull(traceIndexDegrees(91, 545f))
+        assertNull(traceIndexDegrees(-1, 545f))
+    }
 }

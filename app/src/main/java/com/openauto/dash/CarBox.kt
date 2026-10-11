@@ -5,6 +5,8 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.database.ContentObserver
+import android.net.Uri
 import android.os.SystemClock
 import android.util.Log
 import androidx.core.content.ContextCompat
@@ -40,6 +42,16 @@ object CarBox {
     private const val ACTION_STEERING = "com.qf.vehicle.action.swa"
     /** Steering wheel tenths of a degree, right positive; a new one each time its line picture changes (about 12°). */
     private const val EXTRA_STEERING = "extra_angle"
+    /** The car's full lock in tenths of a degree, as the car app counts it (5450 on the C4 Picasso). */
+    private const val EXTRA_STEERING_RATE = "extra_rate"
+    /**
+     * The car app's line picture, 0..90 with 45 straight ahead: written at
+     * every step of the wheel, its own lines on or off (VehicleSender in the
+     * ROM's car app), so it still moves once the driver turned those lines off.
+     */
+    private const val TRACE_INDEX = "KeyDefaultTraceAngle"
+    /** After the broadcast or the log ([steeringWrite]), the coarser line picture keeps out of the way this long. */
+    private const val FINE_ANGLE_MS = 3_000L
     /** The ROM's own reverse flag, "true" while reverse is engaged. */
     private const val REVERSE_FLAG = "sys.qf.backcar_state"
     /** While reversing, the flag is read again this often ([watchReverse]). */
@@ -72,24 +84,40 @@ object CarBox {
     /** The steering wheel's angle in degrees, right positive, once the car has sent it ([ReverseView]). */
     val steering: StateFlow<Float?> = _steering
 
-    /**
-     * The car app's last line picture (0..90, 45 straight ahead, global
-     * KeyDefaultTraceAngle) as an angle: its broadcast only comes when the
-     * wheel turns, so a reverse with the wheel still would have none.
-     */
-    private fun lastSteering(context: Context) {
-        if (_steering.value != null) return
-        val index = runCatching { android.provider.Settings.Global.getInt(context.contentResolver, "KeyDefaultTraceAngle") }.getOrNull() ?: return
-        if (index !in 0..90) return
-        _steering.value = (index - 45) * FULL_LOCK_DEG / 45f
-    }
+    /** When the broadcast or the log last gave the angle ([SystemClock.elapsedRealtime]). */
+    @Volatile private var fineAngleAt = 0L
+    /** The car's full lock in degrees: the C4 Picasso's until the car app's broadcast tells this car's. */
+    @Volatile private var fullLockDeg = DEFAULT_FULL_LOCK_DEG
+    private const val DEFAULT_FULL_LOCK_DEG = 545f
+    private const val PREFS = "car_box"
+    private const val PREF_FULL_LOCK = "full_lock_deg"
 
-    /** The car app's full lock (its extra_rate, 5450 tenths of a degree on the C4 Picasso). */
-    private const val FULL_LOCK_DEG = 545f
+    /**
+     * The car app's line picture ([TRACE_INDEX]) as an angle: at the start,
+     * when reverse comes on, and each time it changes. It is the only angle
+     * left once the car app's own moving lines are off (its broadcast stops
+     * with them), and the broadcast only comes when the wheel turns, so a
+     * reverse with the wheel still would have none.
+     */
+    private fun traceSteering(context: Context) {
+        if (SystemClock.elapsedRealtime() - fineAngleAt < FINE_ANGLE_MS) return
+        val index = runCatching { android.provider.Settings.Global.getInt(context.contentResolver, TRACE_INDEX) }.getOrNull() ?: return
+        traceIndexDegrees(index, fullLockDeg)?.let { _steering.value = it }
+    }
 
     /** The angle read from the car app's log ([StockLines]), when its broadcast is off. */
     internal fun steeringWrite(degrees: Float) {
+        fineAngleAt = SystemClock.elapsedRealtime()
         _steering.value = degrees
+    }
+
+    private fun onSteeringBroadcast(context: Context, intent: Intent) {
+        val rate = intent.getFloatExtra(EXTRA_STEERING_RATE, 0f) / 10f
+        if (rate in 90f..900f && rate != fullLockDeg) {
+            fullLockDeg = rate
+            context.getSharedPreferences(PREFS, Context.MODE_PRIVATE).edit().putFloat(PREF_FULL_LOCK, rate).apply()
+        }
+        steeringWrite(intent.getIntExtra(EXTRA_STEERING, 0) / 10f)
     }
 
     /** Whether this unit's car app shares the car's data (the QF firmware). */
@@ -103,7 +131,17 @@ object CarBox {
         flagSeenOn = systemProperty(REVERSE_FLAG) == "true"
         _reversing.value = flagSeenOn
         watchReverse()
-        lastSteering(app)
+        fullLockDeg = app.getSharedPreferences(PREFS, Context.MODE_PRIVATE).getFloat(PREF_FULL_LOCK, DEFAULT_FULL_LOCK_DEG)
+        traceSteering(app)
+        // Called on a binder thread: one settings read per step of the wheel.
+        runCatching {
+            app.contentResolver.registerContentObserver(
+                android.provider.Settings.Global.getUriFor(TRACE_INDEX), false,
+                object : ContentObserver(null) {
+                    override fun onChange(selfChange: Boolean, uri: Uri?) = traceSteering(app)
+                }
+            )
+        }.onFailure { Log.w(TAG, "no steering from the line picture", it) }
         val filter = IntentFilter().apply {
             addAction(ACTION_SHARE)
             addAction(ACTION_RADAR)
@@ -184,13 +222,25 @@ object CarBox {
                     intent.getParcelableExtra<RadarState>(EXTRA_RADAR)?.let { _radar.value = it.toRadar() }
                 }.onFailure { Log.w(TAG, "unreadable radar", it) }
                 ACTION_REVERSE_ON -> {
-                    lastSteering(context)
+                    traceSteering(context)
                     _reversing.value = true
+                    logSteeringSource(context)
                 }
                 ACTION_REVERSE_OFF -> _reversing.value = false
-                ACTION_STEERING -> if (intent.hasExtra(EXTRA_STEERING)) _steering.value = intent.getIntExtra(EXTRA_STEERING, 0) / 10f
+                ACTION_STEERING -> if (intent.hasExtra(EXTRA_STEERING)) onSteeringBroadcast(context, intent)
             }
         }
+    }
+
+    /** For the debug log: where this reverse's steering lines get their angle. */
+    private fun logSteeringSource(context: Context) {
+        val r = context.contentResolver
+        fun global(key: String) = runCatching { android.provider.Settings.Global.getString(r, key) }.getOrNull()
+        Log.i(
+            TAG,
+            "reverse: car app lines ${global("KeyTrackSwitch")}, line picture ${global(TRACE_INDEX)}, " +
+                "full lock $fullLockDeg°, last fine angle ${(SystemClock.elapsedRealtime() - fineAngleAt) / 1000} s ago"
+        )
     }
 
     private fun onShare(data: ByteArray?) {
@@ -247,6 +297,14 @@ object CarBox {
         Class.forName("android.os.SystemProperties").getMethod("get", String::class.java).invoke(null, name) as String
     }.getOrNull()
 }
+
+/**
+ * The car app's line picture [index] (0..90, 45 straight ahead) as steering
+ * wheel degrees, right positive, for a car that locks at [fullLockDeg]; null
+ * when it isn't one. The car app picks it as 45 + angle × 45 / full lock.
+ */
+internal fun traceIndexDegrees(index: Int, fullLockDeg: Float): Float? =
+    if (index in 0..90) (index - 45) * fullLockDeg / 45f else null
 
 /**
  * What the ROM's reverse flag said each time it was read again during a

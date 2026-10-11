@@ -144,4 +144,5 @@
     <string name="apps_in_tile_window">Resta aperta in una finestra grande quanto il riquadro</string>
     <string name="apps_side_by_side">Fianco a fianco</string>
     <string name="apps_side_by_side_detail">Due app insieme, a schermo diviso</string>
+    <string name="apps_icon_size">Dimensione icone</string>
 </resources>

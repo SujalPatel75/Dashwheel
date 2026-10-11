@@ -143,4 +143,5 @@
     <string name="apps_in_tile_window">Blijft open in een venster zo groot als de tegel</string>
     <string name="apps_side_by_side">Naast elkaar</string>
     <string name="apps_side_by_side_detail">Twee apps tegelijk, in gesplitst scherm</string>
+    <string name="apps_icon_size">Pictogramgrootte</string>
 </resources>

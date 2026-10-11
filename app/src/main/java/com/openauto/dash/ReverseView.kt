@@ -99,9 +99,10 @@ import kotlin.math.tan
  * the camera ([AlertWindow]); up while reverse is engaged, gone with it.
  *
  * The steering angle comes from the car app's own broadcast for its guide
- * lines ([CarBox.steering]), which it only sends while those lines are on.
- * With them hidden, it's read from the car app's log of the CAN box's frames
- * instead (root, see [StockLines]).
+ * lines ([CarBox.steering]), which it only sends while those lines are on;
+ * with them off, from the line picture the car app saves at every step of the
+ * wheel. Hidden from here, it's also read, finer, from the car app's log of
+ * the CAN box's frames (root, see [StockLines]).
  */
 
 internal enum class ReverseLayout(val titleRes: Int) {
