@@ -345,4 +345,6 @@
     <string name="report_item_camera">Kamera cofania</string>
     <string name="report_item_sound">Głośność i muzyka</string>
     <string name="report_item_sleep">Wraca po uśpieniu auta</string>
+    <string name="automation_title">Aplikacje do automatyzacji</string>
+    <string name="automation_detail">Tasker i podobne aplikacje mogą zmieniać pulpity, nawigować, mówić i śledzić zapłon oraz bieg wsteczny</string>
 </resources>

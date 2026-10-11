@@ -549,6 +549,15 @@ object DashThemeStore {
         _appearanceAsked.tryEmit(appearance)
     }
 
+    private val _modeAsked = kotlinx.coroutines.flow.MutableSharedFlow<DashThemeMode>(extraBufferCapacity = 1)
+    /** A skin asked for from outside Settings (an automation app, [Automation]): the dashboard takes it up. */
+    val modeAsked: kotlinx.coroutines.flow.SharedFlow<DashThemeMode> = _modeAsked
+
+    fun askMode(context: Context, mode: DashThemeMode) {
+        save(context, mode)
+        _modeAsked.tryEmit(mode)
+    }
+
     fun loadEffects(context: Context): DashEffects = runCatching {
         DashEffects.valueOf(
             context.getSharedPreferences(PREFS, Context.MODE_PRIVATE)

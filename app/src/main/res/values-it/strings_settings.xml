@@ -341,4 +341,6 @@
     <string name="report_item_camera">Telecamera di retromarcia</string>
     <string name="report_item_sound">Volume e musica</string>
     <string name="report_item_sleep">Riparte dopo lo standby dell\'auto</string>
+    <string name="automation_title">App di automazione</string>
+    <string name="automation_detail">Tasker e app simili possono cambiare dashboard, navigare, parlare e seguire l\'accensione e la retromarcia</string>
 </resources>

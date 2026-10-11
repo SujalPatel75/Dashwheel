@@ -340,4 +340,6 @@
     <string name="report_item_camera">Reversing camera</string>
     <string name="report_item_sound">Volume and music</string>
     <string name="report_item_sleep">Comes back after the car sleeps</string>
+    <string name="automation_title">Automation apps</string>
+    <string name="automation_detail">Tasker and similar apps can switch dashboards, navigate, speak, and follow the ignition and reverse</string>
 </resources>

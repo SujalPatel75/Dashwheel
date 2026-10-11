@@ -346,4 +346,6 @@
     <string name="report_item_camera">Камера заднего вида</string>
     <string name="report_item_sound">Громкость и музыка</string>
     <string name="report_item_sleep">Возвращается после сна</string>
+    <string name="automation_title">Приложения автоматизации</string>
+    <string name="automation_detail">Tasker и похожие приложения могут переключать панели, вести по маршруту, говорить и следить за зажиганием и задним ходом</string>
 </resources>

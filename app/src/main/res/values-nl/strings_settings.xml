@@ -337,4 +337,6 @@
     <string name="report_item_camera">Achteruitrijcamera</string>
     <string name="report_item_sound">Volume en muziek</string>
     <string name="report_item_sleep">Komt terug na de slaapstand</string>
+    <string name="automation_title">Automatiseringsapps</string>
+    <string name="automation_detail">Tasker en vergelijkbare apps kunnen van dashboard wisselen, navigeren, spreken en het contact en de achteruit volgen</string>
 </resources>

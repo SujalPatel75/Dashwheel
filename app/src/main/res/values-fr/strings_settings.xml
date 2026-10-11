@@ -341,4 +341,6 @@
     <string name="report_item_camera">Caméra de recul</string>
     <string name="report_item_sound">Volume et musique</string>
     <string name="report_item_sleep">Revient après la mise en veille</string>
+    <string name="automation_title">Applis d\'automatisation</string>
+    <string name="automation_detail">Tasker et les applis du même genre peuvent changer de tableau de bord, guider, parler, et suivre le contact et la marche arrière</string>
 </resources>

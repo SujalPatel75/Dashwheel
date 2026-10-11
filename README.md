@@ -38,6 +38,7 @@ Dashwheel is free, with no ads. If it makes your drives nicer, a coffee on Ko-fi
 - **Phone link** (Dashwheel Companion app): notifications, messages, calls, where's my car, drive log
 - **Your own alerts and reverse view** instead of the head unit's pop-ups
 - **Hands-free**: spoken alerts, steering-wheel buttons, volume that follows speed
+- **Share and automate**: share a dashboard and its look as a QR code or a short code; Tasker and similar apps can drive Dashwheel and react to the car ([automation](docs/automation.md))
 - **Second screen** (experimental): a Raspberry Pi drives a second monitor in the car
 - **9 languages**, day and night themes, updates from GitHub Releases on a stable or a beta channel
 - **Root is optional**: extra features appear only when the unit allows them ([what needs what](https://github.com/deviloufr-ai/Dashwheel/wiki/Root-and-PMPatch3))

@@ -76,6 +76,7 @@ import androidx.compose.material.icons.filled.PlayCircle
 import androidx.compose.material.icons.filled.PowerSettingsNew
 import androidx.compose.material.icons.filled.Remove
 import androidx.compose.material.icons.filled.Science
+import androidx.compose.material.icons.filled.SmartToy
 import androidx.compose.material.icons.filled.ScreenRotation
 import androidx.compose.material.icons.filled.SensorDoor
 import androidx.compose.material.icons.filled.Sensors
@@ -1135,6 +1136,10 @@ private fun SystemPane(m: TopBarModel, open: (Deep) -> Unit, all: Boolean, onSho
     ) { m.onDemo() }
     if (all) {
         SettingsRow(Icons.Filled.Checklist, stringResource(R.string.setup_again), stringResource(R.string.setup_again_detail)) { m.onSetup(true) }
+        val automation by Automation.on.collectAsState()
+        SettingsToggle(Icons.Filled.SmartToy, stringResource(R.string.automation_title), stringResource(R.string.automation_detail), automation) {
+            Automation.setOn(context, it)
+        }
         val servers by MapServers.current.collectAsState()
         SettingsRow(
             Icons.Filled.Dns, stringResource(R.string.map_servers_title),
@@ -1177,6 +1182,7 @@ private fun SystemPane(m: TopBarModel, open: (Deep) -> Unit, all: Boolean, onSho
         listOfNotNull(
             stringResource(R.string.setup_again),
             stringResource(R.string.map_servers_title),
+            stringResource(R.string.automation_title),
             if (FreeformBar.supported && Edition.full) stringResource(R.string.settings_unit_bar_title) else null
         ),
         onShowAll

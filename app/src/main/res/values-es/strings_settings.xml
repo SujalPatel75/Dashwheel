@@ -341,4 +341,6 @@
     <string name="report_item_camera">Cámara de marcha atrás</string>
     <string name="report_item_sound">Volumen y música</string>
     <string name="report_item_sleep">Vuelve tras la suspensión del coche</string>
+    <string name="automation_title">Apps de automatización</string>
+    <string name="automation_detail">Tasker y apps similares pueden cambiar de panel, guiar, hablar y seguir el contacto y la marcha atrás</string>
 </resources>

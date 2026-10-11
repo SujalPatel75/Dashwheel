@@ -341,4 +341,6 @@
     <string name="report_item_camera">Câmara de marcha-atrás</string>
     <string name="report_item_sound">Volume e música</string>
     <string name="report_item_sleep">Volta depois da suspensão</string>
+    <string name="automation_title">Apps de automação</string>
+    <string name="automation_detail">O Tasker e apps semelhantes podem mudar de painel, guiar, falar e seguir a ignição e a marcha-atrás</string>
 </resources>

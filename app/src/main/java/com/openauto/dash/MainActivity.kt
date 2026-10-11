@@ -189,6 +189,8 @@ class MainActivity : ComponentActivity() {
                     { McuFeed.start(this) },
                     // The map and route servers the driver chose, before any route is asked for.
                     { MapServers.load(this) },
+                    // Tasker and the like, once the driver allowed them (Settings, System).
+                    { Automation.start(this) },
                     // The tyres from the TPMS sensors, and their warnings.
                     { Tyres.start(this) },
                     { TyreAlertOverlay.start(this) },

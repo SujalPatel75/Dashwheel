@@ -337,4 +337,6 @@
     <string name="report_item_camera">Rückfahrkamera</string>
     <string name="report_item_sound">Lautstärke und Musik</string>
     <string name="report_item_sleep">Kommt nach dem Schlafmodus zurück</string>
+    <string name="automation_title">Automatisierungs-Apps</string>
+    <string name="automation_detail">Tasker und ähnliche Apps können Dashboards wechseln, navigieren, sprechen und Zündung und Rückwärtsgang verfolgen</string>
 </resources>
