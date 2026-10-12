@@ -32,27 +32,48 @@ class UnitBtModuleTest {
 
     @Test
     fun theLinkGivenToAndroidAutoIsSeen() {
-        assertTrue(UnitBtModule.misrouted(misroutedLog, mac))
+        assertTrue(UnitBtModule.read(misroutedLog, mac) == UnitBtModule.Finding.MISROUTED)
     }
 
     @Test
     fun aLinkRoutedAsItShouldBeIsLeftAlone() {
-        assertFalse(UnitBtModule.misrouted(healthyLog, mac))
-        assertFalse(UnitBtModule.misrouted("", mac))
-        assertFalse(UnitBtModule.misrouted(misroutedLog, "AA:BB:CC:DD:EE:FF"))
+        assertEquals(UnitBtModule.Finding.NONE, UnitBtModule.read(healthyLog, mac))
+        assertEquals(UnitBtModule.Finding.NONE, UnitBtModule.read("", mac))
+        assertEquals(UnitBtModule.Finding.NONE, UnitBtModule.read(misroutedLog, "AA:BB:CC:DD:EE:FF"))
     }
 
     @Test
     fun theLastTryDecides() {
         // Misrouted once, then a new try that went through: nothing to restart.
-        assertFalse(UnitBtModule.misrouted(misroutedLog + "\n" + healthyLog, mac))
+        assertEquals(UnitBtModule.Finding.NONE, UnitBtModule.read(misroutedLog + "\n" + healthyLog, mac))
         // A good try, then a misrouted one: restart.
-        assertTrue(UnitBtModule.misrouted(healthyLog + "\n" + misroutedLog, mac))
+        assertEquals(UnitBtModule.Finding.MISROUTED, UnitBtModule.read(healthyLog + "\n" + misroutedLog, mac))
     }
 
     @Test
     fun theDaemonsServiceIsFoundInGetprop() {
         assertEquals("gocsdk_zj", UnitBtModule.serviceName("[init.svc.gpsd]: [running]\n[init.svc.gocsdk_zj]: [running]"))
         assertEquals("gocsdk_zj", UnitBtModule.serviceName("nothing here"))
+    }
+
+    /** The daemon with the phone's wireless Android Auto going round, and not one try at the adapter. */
+    private val jammedLog = (1..30).joinToString("\n") {
+        """
+        D/sd      (15972): uart recv:5 byte/s
+        D/sd      (15972): uart send:3 byte/s
+        D/sd      (15972): spp_disconnect: wireless_conn[0x02]
+        D/sd      (15972): SUPPORT_ZJ_CARPLAY, AA DISCONN
+        D/sd      (15972): aa connected.., handle:e0051.
+        D/sd      (15972): SUPPORT_ZJ_CARPLAY, AA CONNECT
+        """.trimIndent()
+    }
+
+    @Test
+    fun requestsIgnoredWhileAndroidAutoGoesRoundAreSeen() {
+        assertEquals(UnitBtModule.Finding.IGNORED, UnitBtModule.read(jammedLog, mac))
+        assertTrue(UnitBtModule.androidAutoLoop(jammedLog))
+        // A short log says too little to call the adapter ignored.
+        assertEquals(UnitBtModule.Finding.NONE, UnitBtModule.read("D/sd      (1): uart recv:5 byte/s", mac))
+        assertFalse(UnitBtModule.androidAutoLoop(healthyLog))
     }
 }

@@ -236,4 +236,6 @@
     <string name="vehicle_speed_fix_not_connected">Podłącz adapter OBD, aby widzieć skorygowaną prędkość na żywo.</string>
     <string name="vehicle_clear_confirm_title">Wyczyścić kody błędów?</string>
     <string name="vehicle_clear_confirm_body">Zostaną usunięte z auta na dobre. Warsztat potrzebuje ich, żeby znaleźć usterkę.</string>
+    <string name="vehicle_err_unit_bt_aa">Bezprzewodowe Android Auto telefonu zajmuje Bluetooth radia i %1$s nie może się połączyć: wyłącz bezprzewodowe Android Auto w telefonie</string>
+    <string name="vehicle_err_unit_bt_restarted">Bluetooth radia się zawiesił i został uruchomiony ponownie: %1$s połączy się za minutę</string>
 </resources>

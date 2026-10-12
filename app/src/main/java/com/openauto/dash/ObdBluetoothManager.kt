@@ -432,9 +432,11 @@ object ObdBluetoothManager {
             Log.w(TAG, "no RFCOMM channel to $deviceAddress accepted the connection")
             return fail(R.string.vehicle_err_refused, label)
         }
-        // Every way in connected and nothing answered: on the QF firmware, its
-        // Bluetooth module may have given the link to Android Auto (UnitBtModule).
-        UnitBtModule.afterSilentLink(context, deviceAddress)
+        // Every way in "connected" and nothing answered: on the QF firmware, its
+        // Bluetooth module may have given the link to Android Auto, or ignored it (UnitBtModule).
+        val module = UnitBtModule.afterSilentLink(context, deviceAddress)
+        if (module.androidAutoLoop) return fail(R.string.vehicle_err_unit_bt_aa, label)
+        if (module.restarted) return fail(R.string.vehicle_err_unit_bt_restarted, label)
         // A call through the unit: its Bluetooth leaves the adapter alone until the call ends
         // (seen on the K706 with a WhatsApp call), and [VehicleMonitor] dials again then.
         if (inCall()) return fail(R.string.vehicle_err_in_call)
