@@ -470,6 +470,28 @@ internal object PsaWarnings {
 
     fun of(code: Int): Warning? = known[code]
 
+    /**
+     * The car's warnings showing now, worded in English for the AI mechanic's
+     * prompt ("left rear brake bulb...: see a garage"); notices and unknown
+     * codes left out. Empty when the car has sent none.
+     */
+    fun forPrompt(): List<String> {
+        val context = appContext ?: return emptyList()
+        // The same list the Car problems tile shows: the last the car sent.
+        val codes = PsaTripComputer.state.value?.warnings.orEmpty()
+        if (codes.isEmpty()) return emptyList()
+        val english = context.createConfigurationContext(
+            android.content.res.Configuration(context.resources.configuration).apply { setLocale(java.util.Locale.ENGLISH) }
+        ).resources
+        return codes.mapNotNull { known[it] }.distinctBy { it.textRes }.map { w ->
+            english.getString(w.textRes) + when (w.level) {
+                Level.STOP -> " (stop the car)"
+                Level.SERVICE -> " (see a garage)"
+                Level.INFO -> ""
+            }
+        }
+    }
+
     @Volatile private var appContext: Context? = null
 
     fun setContext(context: Context) {

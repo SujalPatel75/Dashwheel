@@ -36,7 +36,9 @@ internal data class CarSnapshot(
     /** Servicing coming due or overdue. */
     val upkeep: List<UpkeepDue> = emptyList(),
     /** Extra engine readings found for this car ([PidExplorer]), already worded. */
-    val extras: List<String> = emptyList()
+    val extras: List<String> = emptyList(),
+    /** The car's own dashboard warnings showing now (a bulb out, low coolant...), worded ([PsaWarnings.forPrompt]). */
+    val carWarnings: List<String> = emptyList()
 )
 
 /**
@@ -91,6 +93,9 @@ internal object CarQuestionPrompt {
             add(parts.joinToString(", "))
         }
         s.lampOn?.let { add("engine warning lamp " + if (it) "on" else "off") }
+        if (s.carWarnings.isNotEmpty()) {
+            add("warnings the car shows on its own dashboard right now (its body computer, not engine fault codes): " + s.carWarnings.joinToString("; "))
+        }
         s.codes?.let { codes ->
             val stored = codes.filter { it !in s.pending }
             val pending = codes.filter { it in s.pending }
@@ -159,6 +164,7 @@ internal fun currentCarSnapshot(now: Long = System.currentTimeMillis()): CarSnap
         upkeep = Maintenance.state.value.statuses(now).filter { it.stage == UpkeepStage.SOON || it.stage == UpkeepStage.DUE },
         extras = PidExplorer.readings.value
             .filter { (_, v) -> now - v.at in 0..EXTRA_FRESH_MS }
-            .map { (r, v) -> CarQuestionPrompt.extraLine(r, v.value) }
+            .map { (r, v) -> CarQuestionPrompt.extraLine(r, v.value) },
+        carWarnings = PsaWarnings.forPrompt()
     )
 }

@@ -88,10 +88,14 @@ internal object QuestionPrompt {
         codes: List<String>,
         diagnosis: Diagnosis?,
         focus: String,
-        previous: Exchange?
+        previous: Exchange?,
+        carWarnings: List<String> = emptyList()
     ): String = buildString {
         appendLine(MechanicPersona.of(car) + " You are talking with its driver.")
         appendLine("Its stored fault codes: ${codes.joinToString(", ")}. The driver is looking at $focus.")
+        if (carWarnings.isNotEmpty()) {
+            appendLine("The car's own dashboard also shows (its body computer, not engine codes): ${carWarnings.joinToString("; ")}.")
+        }
         diagnosis?.let { d ->
             appendLine("What you already told the driver: ${d.summary} ${d.overview}".trim())
             adviceLines(d).forEach { appendLine(it) }
@@ -355,7 +359,7 @@ object AskMechanic {
             val car = CarProfileStore.current
             // The readings as the question ends, not as it began.
             val prompt = when (val t = q.topic) {
-                is Topic.Fault -> QuestionPrompt.build(car.promptDescription(), config.language, t.codes, t.diagnosis, t.code, before)
+                is Topic.Fault -> QuestionPrompt.build(car.promptDescription(), config.language, t.codes, t.diagnosis, t.code, before, PsaWarnings.forPrompt())
                 Topic.Car -> CarQuestionPrompt.build(currentCarSnapshot(now), config.language, Units.current.value, before)
             }
             val reply = GeminiClient.generate(

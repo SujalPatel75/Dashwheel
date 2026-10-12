@@ -96,4 +96,13 @@ class CarQuestionTest {
         assertTrue(prompt.contains("stop somewhere safe"))
         assertFalse(CarQuestionPrompt.build(s, AiLanguage.FRENCH).contains("miles"))
     }
+
+    @Test
+    fun theCarsOwnWarningsAreTold() {
+        val s = CarSnapshot(car, carWarnings = listOf("Left rear brake bulb failed (see a garage)"))
+        val lines = CarQuestionPrompt.readings(s)
+        assertTrue(lines.any { it.contains("own dashboard") && it.contains("Left rear brake bulb failed") })
+        // None showing: no line about them.
+        assertFalse(CarQuestionPrompt.readings(CarSnapshot(car)).any { it.contains("own dashboard") })
+    }
 }
