@@ -37,6 +37,7 @@ import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Autorenew
 import androidx.compose.material.icons.filled.VerticalAlignTop
 import androidx.compose.material.icons.filled.VerifiedUser
 import androidx.compose.material.icons.filled.AcUnit
@@ -520,6 +521,16 @@ private fun ObdSheet(onPickObd: () -> Unit, onDismiss: () -> Unit) {
             // Deep OBD holds the adapter then: nothing to pick here.
             if (deepObd == ObdSource.ADAPTER) {
                 ObdAdapterRow(onPickObd)
+                val auto by ObdBluetoothManager.autoConnect.collectAsState()
+                val scope = rememberCoroutineScope()
+                SettingsToggle(
+                    Icons.Filled.Autorenew, stringResource(R.string.settings_obd_auto),
+                    stringResource(if (auto) R.string.settings_obd_auto_on else R.string.settings_obd_auto_off), auto
+                ) { on ->
+                    ObdBluetoothManager.setAutoConnect(on)
+                    // Off: the link closes now; on: dialled now.
+                    scope.launch { if (on) VehicleMonitor.connectSaved() else ObdBluetoothManager.disconnect() }
+                }
                 ObdRouteSetting()
             }
         }

@@ -343,4 +343,7 @@
     <string name="report_item_sleep">Vuelve tras la suspensión del coche</string>
     <string name="automation_title">Apps de automatización</string>
     <string name="automation_detail">Tasker y apps similares pueden cambiar de panel, guiar, hablar y seguir el contacto y la marcha atrás</string>
+    <string name="settings_obd_auto">Conectar solo</string>
+    <string name="settings_obd_auto_on">Al arrancar el coche, y de nuevo si se pierde la conexión</string>
+    <string name="settings_obd_auto_off">Desactivado: el adaptador sigue emparejado y se conecta al tocar OBD en la barra</string>
 </resources>

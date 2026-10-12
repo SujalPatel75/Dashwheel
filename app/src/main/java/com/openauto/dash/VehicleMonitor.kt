@@ -1,5 +1,6 @@
 package com.openauto.dash
 
+import android.os.SystemClock
 import android.bluetooth.BluetoothAdapter
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -51,6 +52,9 @@ internal object VehicleMonitor {
     /** The launcher is in front; see [redials]. */
     private val foreground = MutableStateFlow(false)
 
+    /** When CarPlay or Android Auto last connected (elapsed realtime); null while it isn't. */
+    @Volatile private var projectionSince: Long? = null
+
     fun start(context: Context) {
         if (started) return
         started = true
@@ -74,6 +78,7 @@ internal object VehicleMonitor {
         scope.launch { reconnectWhileWanted() }
         scope.launch { redialAfterCalls() }
         scope.launch { followPhoneOffer() }
+        scope.launch { UnitSignals.projection.collect { on -> projectionSince = if (on) SystemClock.elapsedRealtime() else null } }
         // The bar's alerts, judged at every reading whatever is on screen (the demo's too).
         // The application context, not [context]: this runs for good and must not keep the first screen alive.
         val app = context.applicationContext
@@ -155,6 +160,10 @@ internal object VehicleMonitor {
         val context = appContext ?: return
         // Deep OBD holds the adapter and reports by itself: nothing to dial.
         if (DeepObdSource.owns()) return
+        // The driver turned connecting by itself off: only their tap on OBD dials.
+        if (!ObdBluetoothManager.autoConnect.value) return
+        // CarPlay or Android Auto starting: it needs the unit's Bluetooth to itself for a moment.
+        if (projectionStarting(UnitSignals.projectionOnScreen.value, UnitSignals.projection.value, projectionSince, SystemClock.elapsedRealtime())) return
         if (CarPower.ignition.value == false) return
         if (!ObdBluetoothManager.connectionState.value.isIdle) return
         // Which way to dial asks the USB service (and the phone's offer): off the main thread, like the dial itself.
@@ -291,3 +300,15 @@ internal object VehicleMonitor {
  * On a unit that doesn't say ([ignition] null), only with the launcher [inFront].
  */
 internal fun redials(inFront: Boolean, ignition: Boolean?): Boolean = ignition ?: inFront
+
+/** How long after CarPlay or Android Auto connects the adapter is left alone: the phone's link settles. */
+internal const val PROJECTION_SETTLE_MS = 45_000L
+
+/**
+ * Whether CarPlay or Android Auto is starting: its app is on screen waiting
+ * for the phone, or connected less than [PROJECTION_SETTLE_MS] ago ([since]).
+ * The unit's one Bluetooth chip carries the phone's handshake then, and an
+ * adapter dialled meanwhile could make it fail.
+ */
+internal fun projectionStarting(onScreen: Boolean, connected: Boolean, since: Long?, now: Long): Boolean =
+    (onScreen && !connected) || (connected && since != null && now - since < PROJECTION_SETTLE_MS)

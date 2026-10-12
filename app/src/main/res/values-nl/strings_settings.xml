@@ -339,4 +339,7 @@
     <string name="report_item_sleep">Komt terug na de slaapstand</string>
     <string name="automation_title">Automatiseringsapps</string>
     <string name="automation_detail">Tasker en vergelijkbare apps kunnen van dashboard wisselen, navigeren, spreken en het contact en de achteruit volgen</string>
+    <string name="settings_obd_auto">Vanzelf verbinden</string>
+    <string name="settings_obd_auto_on">Bij het starten van de auto, en opnieuw als de verbinding wegvalt</string>
+    <string name="settings_obd_auto_off">Uit: de adapter blijft gekoppeld en verbindt als u op OBD in de balk tikt</string>
 </resources>

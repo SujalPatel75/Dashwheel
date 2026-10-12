@@ -104,6 +104,8 @@ object ObdBluetoothManager {
     private const val KEY_MAC = "obd_device_mac"
     /** Which of [socketFactories] reached the adapter last time. */
     private const val KEY_CHANNEL = "obd_channel"
+    /** Whether the saved adapter is dialled by itself ([autoConnect]). */
+    private const val KEY_AUTO = "obd_auto"
     private const val CHANNEL_PAUSE_MS = 500L
 
     // Serializes all adapter I/O: the 500ms poll loop and Scan/Clear must not
@@ -280,6 +282,7 @@ object ObdBluetoothManager {
         appContext = context.applicationContext
         if (adapterWatched) return
         adapterWatched = true
+        _autoConnect.value = context.getSharedPreferences(PREFS, Context.MODE_PRIVATE).getBoolean(KEY_AUTO, true)
         // The adapter's name and route, kept fresh for the screens off the main thread.
         scope.launch {
             combine(_connectionState, PhoneObd.offer, DeepObdSource.source) { c, o, s -> Triple(c, o, s) }
@@ -441,7 +444,11 @@ object ObdBluetoothManager {
         // (seen on the K706 with a WhatsApp call), and [VehicleMonitor] dials again then.
         if (inCall()) return fail(R.string.vehicle_err_in_call)
         // The unit's phone connected at the same time: its Android Auto is the likely holder.
-        val phone = UnitSignals.phone.value
+        // Not an iPhone's (no Android Auto), nor while CarPlay or Android Auto runs or starts:
+        // then the adapter is more likely off, and the phone is doing what the driver asked.
+        val phone = UnitSignals.phone.value?.takeUnless {
+            it.name.contains("iphone", ignoreCase = true) || UnitSignals.projection.value || UnitSignals.projectionOnScreen.value
+        }
         if (phone != null) {
             _phoneBlocking.value = true
             sayPhoneBlocking(context, phone.name)
@@ -542,6 +549,20 @@ object ObdBluetoothManager {
 
     /** A call ringing or going on, through the unit's Bluetooth or the companion. */
     internal fun inCall(): Boolean = HeadUnitPhone.call.value != null || talking(PhoneLink.call.value)
+
+    private val _autoConnect = MutableStateFlow(true)
+    /**
+     * Whether Dashwheel dials the saved adapter by itself (ignition on, the
+     * launcher in front...). Off, the adapter stays paired and connects only
+     * at the driver's tap on OBD: for a driver who rarely uses it, so the unit's
+     * Bluetooth isn't kept calling an adapter that isn't there.
+     */
+    val autoConnect: StateFlow<Boolean> = _autoConnect.asStateFlow()
+
+    fun setAutoConnect(on: Boolean) {
+        _autoConnect.value = on
+        appContext?.getSharedPreferences(PREFS, Context.MODE_PRIVATE)?.edit()?.putBoolean(KEY_AUTO, on)?.apply()
+    }
 
     private fun sayPhoneBlocking(context: Context, phoneName: String) {
         if (phoneBlockingSaid || DemoMode.isOn) return

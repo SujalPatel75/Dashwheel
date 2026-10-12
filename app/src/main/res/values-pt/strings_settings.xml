@@ -343,4 +343,7 @@
     <string name="report_item_sleep">Volta depois da suspensão</string>
     <string name="automation_title">Apps de automação</string>
     <string name="automation_detail">O Tasker e apps semelhantes podem mudar de painel, guiar, falar e seguir a ignição e a marcha-atrás</string>
+    <string name="settings_obd_auto">Ligar sozinho</string>
+    <string name="settings_obd_auto_on">Ao ligar o carro, e de novo se a ligação cair</string>
+    <string name="settings_obd_auto_off">Desligado: o adaptador continua emparelhado e liga quando toca em OBD na barra</string>
 </resources>

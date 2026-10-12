@@ -343,4 +343,7 @@
     <string name="report_item_sleep">Riparte dopo lo standby dell\'auto</string>
     <string name="automation_title">App di automazione</string>
     <string name="automation_detail">Tasker e app simili possono cambiare dashboard, navigare, parlare e seguire l\'accensione e la retromarcia</string>
+    <string name="settings_obd_auto">Connetti da solo</string>
+    <string name="settings_obd_auto_on">All\'avvio dell\'auto, e di nuovo se il collegamento cade</string>
+    <string name="settings_obd_auto_off">Disattivato: l\'adattatore resta associato e si connette quando tocchi OBD nella barra</string>
 </resources>

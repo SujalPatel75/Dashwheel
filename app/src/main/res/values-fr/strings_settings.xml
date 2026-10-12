@@ -343,4 +343,7 @@
     <string name="report_item_sleep">Revient après la mise en veille</string>
     <string name="automation_title">Applis d\'automatisation</string>
     <string name="automation_detail">Tasker et les applis du même genre peuvent changer de tableau de bord, guider, parler, et suivre le contact et la marche arrière</string>
+    <string name="settings_obd_auto">Se connecter tout seul</string>
+    <string name="settings_obd_auto_on">Au démarrage de la voiture, et de nouveau si la liaison tombe</string>
+    <string name="settings_obd_auto_off">Désactivé : l\'adaptateur reste associé et se connecte quand vous touchez OBD dans la barre</string>
 </resources>

@@ -348,4 +348,7 @@
     <string name="report_item_sleep">Возвращается после сна</string>
     <string name="automation_title">Приложения автоматизации</string>
     <string name="automation_detail">Tasker и похожие приложения могут переключать панели, вести по маршруту, говорить и следить за зажиганием и задним ходом</string>
+    <string name="settings_obd_auto">Подключаться само</string>
+    <string name="settings_obd_auto_on">При запуске машины и снова, если связь пропадёт</string>
+    <string name="settings_obd_auto_off">Выкл.: адаптер остаётся сопряжённым и подключается, когда вы нажимаете OBD на панели</string>
 </resources>

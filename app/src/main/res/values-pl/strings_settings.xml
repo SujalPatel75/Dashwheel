@@ -347,4 +347,7 @@
     <string name="report_item_sleep">Wraca po uśpieniu auta</string>
     <string name="automation_title">Aplikacje do automatyzacji</string>
     <string name="automation_detail">Tasker i podobne aplikacje mogą zmieniać pulpity, nawigować, mówić i śledzić zapłon oraz bieg wsteczny</string>
+    <string name="settings_obd_auto">Łącz samodzielnie</string>
+    <string name="settings_obd_auto_on">Przy uruchomieniu auta i ponownie, gdy połączenie zniknie</string>
+    <string name="settings_obd_auto_off">Wyłączone: adapter pozostaje sparowany i łączy się po dotknięciu OBD na pasku</string>
 </resources>
