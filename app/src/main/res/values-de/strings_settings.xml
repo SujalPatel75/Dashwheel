@@ -148,7 +148,7 @@
     <string name="settings_obd_route_usb">USB</string>
     <string name="settings_obd_route_usb_hint">Der Adapter wird über sein USB-Kabel erreicht, an diesem Radio eingesteckt.</string>
     <string name="settings_obd_route_hint">Zuerst ein eingesteckter USB-Adapter, dann das Handy, wenn die Begleit-App den Adapter hält, sonst das Bluetooth des Radios.</string>
-    <string name="settings_speed_fix_detail">Wird zur gemeldeten Geschwindigkeit addiert, passend zum Tacho. Während der Fahrt über die Kachel Motoranzeigen einstellen.</string>
+    <string name="settings_speed_fix_detail">Wird zur angezeigten Geschwindigkeit addiert, vom Auto oder vom GPS ab 15 km/h, damit sie zum Tacho passt. Während der Fahrt über die Kachel Motoranzeigen einstellen.</string>
     <string name="settings_backup_section">Deine Einrichtung</string>
     <string name="settings_backup_save">Einrichtung sichern</string>
     <string name="settings_backup_save_detail">Dashboards, Einstellungen und Orte in eine Datei. Ohne KI-Schlüssel und gekoppelte Telefone.</string>

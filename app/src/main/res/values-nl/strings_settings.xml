@@ -148,7 +148,7 @@
     <string name="settings_obd_route_usb">USB</string>
     <string name="settings_obd_route_usb_hint">De adapter wordt bereikt via zijn USB-kabel, aangesloten op deze radio.</string>
     <string name="settings_obd_route_hint">Eerst een aangesloten USB-adapter, dan de telefoon als de companion-app de adapter vasthoudt, anders de Bluetooth van de radio.</string>
-    <string name="settings_speed_fix_detail">Opgeteld bij de snelheid die de auto meldt, om bij de snelheidsmeter te passen. Pas het onderweg aan via de tegel Motormeters.</string>
+    <string name="settings_speed_fix_detail">Opgeteld bij de getoonde snelheid, van de auto of van de gps boven 15 km/u, zodat ze klopt met de snelheidsmeter. Tijdens het rijden in te stellen via de tegel Motormeters.</string>
     <string name="settings_backup_section">Jouw instellingen</string>
     <string name="settings_backup_save">Instellingen bewaren</string>
     <string name="settings_backup_save_detail">Dashboards, instellingen en plaatsen in een bestand. Zonder AI-sleutel en gekoppelde telefoons.</string>

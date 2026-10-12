@@ -281,13 +281,16 @@ internal fun Modifier.cachedDraw(vararg keys: Any?, block: CacheDrawScope.() -> 
 
 /**
  * Speed in km/h from OBD when connected, else from a GPS fix under 5 s old,
- * else null. Keeps the GPS feed running while on screen.
+ * else null; both with the driver's correction ([SpeedCorrection]). Keeps
+ * the GPS feed running while on screen.
  */
 @Composable
 internal fun rememberSpeedKmh(obdData: ObdData, connection: ObdConnectionState): Int? {
     UseLocationFeed()
     val gpsKmh by LocationFeed.freshSpeedKmh.collectAsState()
-    return if (connection == ObdConnectionState.CONNECTED) obdData.speedKmh else gpsKmh
+    // Followed, so a change in Settings shows at once.
+    SpeedCorrection.offsetKmh.collectAsState().value
+    return if (connection == ObdConnectionState.CONNECTED) obdData.speedKmh else gpsKmh?.let(SpeedCorrection::correctedGps)
 }
 
 /** Whether [rememberSpeedKmh] has a speed to give, without following the speed itself (it changes at every reading). */

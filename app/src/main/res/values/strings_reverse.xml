@@ -73,4 +73,5 @@
     <string name="car_paint_blue">Blue</string>
     <string name="car_paint_green">Green</string>
     <string name="car_paint_beige">Beige</string>
+    <string name="car_paint_brown">Dark brown</string>
 </resources>

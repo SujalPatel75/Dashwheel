@@ -190,7 +190,17 @@ class CarMediaController(private val context: Context) {
         val artist = metadata?.getString(MediaMetadata.METADATA_KEY_ARTIST).orEmpty()
         val track = listOf(controller.packageName, title, artist, metadata?.getString(MediaMetadata.METADATA_KEY_ALBUM))
         val durationMs = (metadata?.getLong(MediaMetadata.METADATA_KEY_DURATION) ?: 0L).coerceAtLeast(0L)
-        val station = controller.packageName?.let { stations.note(it, title, artist, live = durationMs == 0L) }.orEmpty()
+        val album = metadata?.getString(MediaMetadata.METADATA_KEY_ALBUM).orEmpty()
+        val station = controller.packageName?.let { stations.note(it, title, artist, album, live = durationMs == 0L) }.orEmpty()
+        // What a live stream says, in the unit's log: radios name their station in many ways (RadioStations).
+        if (durationMs == 0L && metadata != null) {
+            val said = listOf(controller.packageName, title, artist, album, metadata.getString(MediaMetadata.METADATA_KEY_DISPLAY_TITLE),
+                metadata.getString(MediaMetadata.METADATA_KEY_DISPLAY_SUBTITLE), station)
+            if (said != lastLiveLogged) {
+                lastLiveLogged = said
+                DebugLog.note(context, "media live: ${said.joinToString(" | ")}")
+            }
+        }
         showMedia(MediaState(
             title = MediaTitle.clean(title, artist),
             artist = artist,
@@ -211,6 +221,7 @@ class CarMediaController(private val context: Context) {
     // title then takes turns: the song, then the station, every few seconds.
 
     private val stations = RadioStations()
+    private var lastLiveLogged: List<String?>? = null
     /** The state as the player gave it, before the turns. */
     private var shownBase = MediaState()
     private var stationTurn = false

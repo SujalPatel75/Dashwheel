@@ -148,7 +148,7 @@
     <string name="settings_obd_route_usb">USB</string>
     <string name="settings_obd_route_usb_hint">L\'adattatore si raggiunge col suo cavo USB, collegato a questa autoradio.</string>
     <string name="settings_obd_route_hint">Prima un adattatore USB collegato, poi il telefono quando la sua app compagna tiene l\'adattatore, altrimenti il Bluetooth dell\'autoradio.</string>
-    <string name="settings_speed_fix_detail">Aggiunto alla velocità riportata dall\'auto, per allinearla al tachimetro. In marcia, regolalo dal riquadro Strumenti motore.</string>
+    <string name="settings_speed_fix_detail">Aggiunta alla velocità mostrata, dell\'auto o del GPS oltre i 15 km/h, per farla coincidere col tachimetro. In marcia, regolala dal riquadro Strumenti motore.</string>
     <string name="settings_backup_section">La tua configurazione</string>
     <string name="settings_backup_save">Salva la configurazione</string>
     <string name="settings_backup_save_detail">Cruscotti, impostazioni e luoghi, in un file. Senza la chiave IA né i telefoni associati.</string>

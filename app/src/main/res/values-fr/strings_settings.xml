@@ -148,7 +148,7 @@
     <string name="settings_obd_route_usb">USB</string>
     <string name="settings_obd_route_usb_hint">L\'adaptateur est joint par son câble USB, branché sur cet autoradio.</string>
     <string name="settings_obd_route_hint">Un adaptateur USB branché d\'abord, puis le téléphone quand son compagnon tient l\'adaptateur, sinon le Bluetooth de l\'autoradio.</string>
-    <string name="settings_speed_fix_detail">Ajouté à la vitesse annoncée par la voiture, pour coller au compteur. En roulant, réglez-le depuis la tuile Jauges moteur.</string>
+    <string name="settings_speed_fix_detail">Ajoutée à la vitesse affichée, celle de la voiture ou du GPS au-delà de 15 km/h, pour coller au compteur. En roulant, réglez-la depuis la tuile Jauges moteur.</string>
     <string name="settings_backup_section">Votre configuration</string>
     <string name="settings_backup_save">Enregistrer ma configuration</string>
     <string name="settings_backup_save_detail">Tableaux de bord, réglages et lieux, dans un fichier. Sans la clé IA ni les téléphones associés.</string>

@@ -229,7 +229,7 @@
     <string name="vehicle_obd_connect_from_bar">Подключите кнопкой OBD на панели</string>
     <string name="vehicle_recent_alerts">Недавние оповещения</string>
     <string name="vehicle_speed_fix">Поправка скорости</string>
-    <string name="vehicle_speed_fix_detail">Прибавляется к скорости от автомобиля, чтобы совпадать со спидометром</string>
+    <string name="vehicle_speed_fix_detail">Прибавляется к показываемой скорости, от машины или от GPS выше 15 км/ч, чтобы совпадала со спидометром</string>
     <string name="vehicle_speed_fix_less">Уменьшить поправку</string>
     <string name="vehicle_speed_fix_more">Увеличить поправку</string>
     <string name="vehicle_speed_fix_now">Скорость сейчас: %1$d км/ч. Настройте, пока она не совпадёт со спидометром.</string>

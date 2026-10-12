@@ -73,4 +73,5 @@
     <string name="car_paint_blue">Синий</string>
     <string name="car_paint_green">Зелёный</string>
     <string name="car_paint_beige">Бежевый</string>
+    <string name="car_paint_brown">Тёмно-коричневый</string>
 </resources>

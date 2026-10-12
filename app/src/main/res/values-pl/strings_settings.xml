@@ -148,7 +148,7 @@
     <string name="settings_obd_route_usb">USB</string>
     <string name="settings_obd_route_usb_hint">Adapter jest łączony kablem USB podłączonym do tego radia.</string>
     <string name="settings_obd_route_hint">Najpierw podłączony adapter USB, potem telefon, gdy aplikacja towarzysząca trzyma adapter, w przeciwnym razie Bluetooth radia.</string>
-    <string name="settings_speed_fix_detail">Dodawane do prędkości podawanej przez auto, by zgadzała się z licznikiem. W trakcie jazdy zmień to z kafelka Wskaźniki silnika.</string>
+    <string name="settings_speed_fix_detail">Dodawana do pokazywanej prędkości, z auta lub z GPS powyżej 15 km/h, by zgadzała się z prędkościomierzem. W czasie jazdy ustaw ją w kafelku Wskaźniki silnika.</string>
     <string name="settings_backup_section">Twoja konfiguracja</string>
     <string name="settings_backup_save">Zapisz konfigurację</string>
     <string name="settings_backup_save_detail">Pulpity, ustawienia i miejsca do pliku. Bez klucza AI i sparowanych telefonów.</string>

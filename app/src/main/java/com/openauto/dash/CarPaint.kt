@@ -22,7 +22,8 @@ internal enum class CarPaint(val titleRes: Int, val color: Color?) {
     RED(R.string.car_paint_red, Color(0xFF8E1C20)),
     BLUE(R.string.car_paint_blue, Color(0xFF1E4A86)),
     GREEN(R.string.car_paint_green, Color(0xFF2D5A3C)),
-    BEIGE(R.string.car_paint_beige, Color(0xFFB5A283));
+    BEIGE(R.string.car_paint_beige, Color(0xFFB5A283)),
+    BROWN(R.string.car_paint_brown, Color(0xFF4A3426));
 
     /** The car's colours with this paint: body, windows, outline; [THEME]: the screen's own. */
     fun paint(body: Color, glass: Color, edge: Color): Triple<Color, Color, Color> {

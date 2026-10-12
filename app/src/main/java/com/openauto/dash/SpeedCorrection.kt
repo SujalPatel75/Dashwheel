@@ -38,6 +38,21 @@ object SpeedCorrection {
     /** [reportedKmh] as the car sent it, corrected. */
     fun corrected(reportedKmh: Int): Int = correct(reportedKmh, _offsetKmh.value)
 
+    /**
+     * The GPS speed, corrected like the car's ([corrected]) once the car really
+     * moves ([GPS_FROM_KMH]): below, the GPS drifts by a few km/h with the car
+     * stopped, and a correction on top made it read 9 at a standstill. For a
+     * car with no adapter, whose speed on screen is the GPS's.
+     */
+    fun correctedGps(gpsKmh: Int): Int = correctGps(gpsKmh, _offsetKmh.value)
+
+    /** Pure, for the tests: see [correctedGps]. */
+    internal fun correctGps(gpsKmh: Int, offsetKmh: Int): Int =
+        if (gpsKmh < GPS_FROM_KMH) gpsKmh else correct(gpsKmh, offsetKmh)
+
+    /** The GPS speed from which the correction applies. */
+    const val GPS_FROM_KMH = 15
+
     /** Pure, for the tests: 0 stays 0 (the car is stopped), and a correction never goes below 0. */
     internal fun correct(reportedKmh: Int, offsetKmh: Int): Int =
         if (reportedKmh <= 0) 0 else (reportedKmh + offsetKmh).coerceAtLeast(0)

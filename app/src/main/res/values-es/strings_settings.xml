@@ -148,7 +148,7 @@
     <string name="settings_obd_route_usb">USB</string>
     <string name="settings_obd_route_usb_hint">Se llega al adaptador por su cable USB, conectado a esta radio.</string>
     <string name="settings_obd_route_hint">Primero un adaptador USB conectado, luego el teléfono cuando su app acompañante tiene el adaptador; si no, el Bluetooth de la radio.</string>
-    <string name="settings_speed_fix_detail">Se suma a la velocidad que informa el coche, para igualar el velocímetro. En marcha, ajústalo desde el mosaico Indicadores del motor.</string>
+    <string name="settings_speed_fix_detail">Se suma a la velocidad mostrada, del coche o del GPS a partir de 15 km/h, para coincidir con el velocímetro. En marcha, ajústela desde el mosaico Indicadores del motor.</string>
     <string name="settings_backup_section">Tu configuración</string>
     <string name="settings_backup_save">Guardar mi configuración</string>
     <string name="settings_backup_save_detail">Paneles, ajustes y lugares, en un archivo. Sin la clave de IA ni los teléfonos vinculados.</string>

@@ -149,7 +149,7 @@
     <string name="settings_obd_route_usb">USB</string>
     <string name="settings_obd_route_usb_hint">Адаптер подключается USB-кабелем к этой магнитоле.</string>
     <string name="settings_obd_route_hint">Сначала подключённый USB-адаптер, затем телефон, если адаптер у компаньона, иначе Bluetooth магнитолы.</string>
-    <string name="settings_speed_fix_detail">Прибавляется к скорости от автомобиля, чтобы совпадать со спидометром. В пути настраивается в плитке приборов двигателя.</string>
+    <string name="settings_speed_fix_detail">Прибавляется к показываемой скорости, от машины или от GPS выше 15 км/ч, чтобы совпадала со спидометром. В пути настраивается в плитке приборов двигателя.</string>
     <string name="settings_backup_section">Ваша настройка</string>
     <string name="settings_backup_save">Сохранить настройку</string>
     <string name="settings_backup_save_detail">Панели, настройки и места в файл. Без ключа ИИ и сопряжённых телефонов.</string>
