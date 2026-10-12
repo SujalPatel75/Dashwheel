@@ -290,8 +290,6 @@
     <string name="car_warn_tpms">Pressione pneumatici non monitorata</string>
     <string name="car_warn_key_battery">Batteria della chiave scarica</string>
     <string name="car_warn_more">e altri %1$d</string>
-    <string name="car_problems_car_says">L\'AUTO SEGNALA</string>
-    <string name="car_problems_engine_codes">CODICI DI GUASTO DEL MOTORE</string>
     <string name="car_map_back">Dietro</string>
     <string name="car_map_front">Davanti</string>
     <string name="car_map_top">Sopra</string>
@@ -300,4 +298,15 @@
     <string name="mycar_ends_hint">Foto del retro e del davanti, scontornate: il riquadro Problemi dell\'auto vi mostra una lampadina bruciata</string>
     <string name="mycar_add_back">Retro</string>
     <string name="mycar_add_front">Davanti</string>
+    <string name="car_verdict_stop">Fermati appena possibile</string>
+    <string name="car_verdict_drive">Puoi guidare</string>
+    <string name="car_verdict_fine">Niente da segnalare</string>
+    <string name="car_verdict_unread">Non ancora letto</string>
+    <string name="car_verdict_stop_hint">Un problema richiede di fermare l\'auto</string>
+    <string name="car_verdict_soon_hint">Da far riparare presto</string>
+    <string name="car_verdict_fine_hint">Nessun codice guasto né avviso dall\'auto</string>
+    <string name="car_verdict_unread_hint">Collega l\'adattatore OBD per leggere il motore</string>
+    <string name="car_problem_from_car">L\'AUTO</string>
+    <string name="car_problem_from_code">CODICE MOTORE</string>
+    <string name="car_problem_with_ai">+ IA</string>
 </resources>

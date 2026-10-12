@@ -294,8 +294,6 @@
     <string name="car_warn_tpms">Давление в шинах не контролируется</string>
     <string name="car_warn_key_battery">Садится батарейка ключа</string>
     <string name="car_warn_more">и ещё %1$d</string>
-    <string name="car_problems_car_says">АВТОМОБИЛЬ СООБЩАЕТ</string>
-    <string name="car_problems_engine_codes">КОДЫ ОШИБОК ДВИГАТЕЛЯ</string>
     <string name="car_map_back">Сзади</string>
     <string name="car_map_front">Спереди</string>
     <string name="car_map_top">Сверху</string>
@@ -304,4 +302,15 @@
     <string name="mycar_ends_hint">Фото сзади и спереди без фона: плитка «Неисправности автомобиля» покажет на них перегоревшую лампу</string>
     <string name="mycar_add_back">Сзади</string>
     <string name="mycar_add_front">Спереди</string>
+    <string name="car_verdict_stop">Остановитесь, как только сможете</string>
+    <string name="car_verdict_drive">Можно ехать</string>
+    <string name="car_verdict_fine">Всё в порядке</string>
+    <string name="car_verdict_unread">Ещё не считано</string>
+    <string name="car_verdict_stop_hint">Неисправность требует остановить машину</string>
+    <string name="car_verdict_soon_hint">Скоро нужен ремонт</string>
+    <string name="car_verdict_fine_hint">Нет кодов ошибок и предупреждений машины</string>
+    <string name="car_verdict_unread_hint">Подключите адаптер OBD, чтобы считать двигатель</string>
+    <string name="car_problem_from_car">МАШИНА</string>
+    <string name="car_problem_from_code">КОД ДВИГАТЕЛЯ</string>
+    <string name="car_problem_with_ai">+ ИИ</string>
 </resources>

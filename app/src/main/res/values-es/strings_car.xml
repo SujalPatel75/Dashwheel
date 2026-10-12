@@ -290,8 +290,6 @@
     <string name="car_warn_tpms">Presión de neumáticos sin vigilar</string>
     <string name="car_warn_key_battery">Pila de la llave baja</string>
     <string name="car_warn_more">y %1$d más</string>
-    <string name="car_problems_car_says">EL COCHE AVISA</string>
-    <string name="car_problems_engine_codes">CÓDIGOS DE FALLO DEL MOTOR</string>
     <string name="car_map_back">Detrás</string>
     <string name="car_map_front">Delante</string>
     <string name="car_map_top">Arriba</string>
@@ -300,4 +298,15 @@
     <string name="mycar_ends_hint">Fotos de la parte trasera y delantera, recortadas: el mosaico Problemas del coche muestra en ellas una bombilla fundida</string>
     <string name="mycar_add_back">Trasera</string>
     <string name="mycar_add_front">Delantera</string>
+    <string name="car_verdict_stop">Deténgase en cuanto pueda</string>
+    <string name="car_verdict_drive">Puede circular</string>
+    <string name="car_verdict_fine">Nada que señalar</string>
+    <string name="car_verdict_unread">Aún sin leer</string>
+    <string name="car_verdict_stop_hint">Un problema exige detener el coche</string>
+    <string name="car_verdict_soon_hint">Hágalo reparar pronto</string>
+    <string name="car_verdict_fine_hint">Ningún código de avería ni aviso del coche</string>
+    <string name="car_verdict_unread_hint">Conecte el adaptador OBD para leer el motor</string>
+    <string name="car_problem_from_car">EL COCHE</string>
+    <string name="car_problem_from_code">CÓDIGO MOTOR</string>
+    <string name="car_problem_with_ai">+ IA</string>
 </resources>

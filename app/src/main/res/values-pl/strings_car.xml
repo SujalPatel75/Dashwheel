@@ -295,8 +295,6 @@
     <string name="car_warn_tpms">Ciśnienie w oponach nie jest monitorowane</string>
     <string name="car_warn_key_battery">Słaba bateria kluczyka</string>
     <string name="car_warn_more">i %1$d więcej</string>
-    <string name="car_problems_car_says">SAMOCHÓD ZGŁASZA</string>
-    <string name="car_problems_engine_codes">KODY BŁĘDÓW SILNIKA</string>
     <string name="car_map_back">Tył</string>
     <string name="car_map_front">Przód</string>
     <string name="car_map_top">Góra</string>
@@ -305,4 +303,15 @@
     <string name="mycar_ends_hint">Zdjęcia tyłu i przodu, wycięte: kafelek Problemy auta pokazuje na nich przepaloną żarówkę</string>
     <string name="mycar_add_back">Tył</string>
     <string name="mycar_add_front">Przód</string>
+    <string name="car_verdict_stop">Zatrzymaj się, gdy tylko można</string>
+    <string name="car_verdict_drive">Możesz jechać</string>
+    <string name="car_verdict_fine">Wszystko w porządku</string>
+    <string name="car_verdict_unread">Jeszcze nie odczytano</string>
+    <string name="car_verdict_stop_hint">Usterka wymaga zatrzymania auta</string>
+    <string name="car_verdict_soon_hint">Wkrótce do naprawy</string>
+    <string name="car_verdict_fine_hint">Brak kodów usterek i ostrzeżeń auta</string>
+    <string name="car_verdict_unread_hint">Podłącz adapter OBD, aby odczytać silnik</string>
+    <string name="car_problem_from_car">AUTO</string>
+    <string name="car_problem_from_code">KOD SILNIKA</string>
+    <string name="car_problem_with_ai">+ AI</string>
 </resources>

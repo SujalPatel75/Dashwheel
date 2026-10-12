@@ -36,7 +36,6 @@ import androidx.compose.material.icons.filled.ChevronRight
 import androidx.compose.material.icons.filled.Checklist
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.DirectionsCar
-import androidx.compose.material.icons.filled.Error
 import androidx.compose.material.icons.filled.Euro
 import androidx.compose.material.icons.filled.Handyman
 import androidx.compose.material.icons.filled.Info
@@ -77,6 +76,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.em
 import androidx.compose.ui.window.Dialog
@@ -114,19 +114,22 @@ internal fun ObdDtcCard(
     val carMessages = rememberCarMessages().let { all ->
         if (codes.isNullOrEmpty()) all else all.filter { it.code !in PsaWarnings.engineLamp }
     }
-    val seriousMessages = carMessages.filter { it.level != PsaWarnings.Level.INFO }
-    // Each problem on its part of the car (CarProblemMap): the car's messages, then the engine's codes.
+    // Each problem numbered, the car's messages first, then the engine's codes: the
+    // same number on the car's picture and in the list.
     val messageTexts = carMessages.map { carMessageText(it.code) }
+    val codeSerious = if (diagnosis?.severity == Severity.STOP) 2 else 1
     val mapProblems = remember(carMessages, messageTexts, codes, diagnosis) {
         carMessages.mapIndexedNotNull { i, m ->
-            CarProblemMap.spotOf(m.code)?.let { spot ->
-                MapProblem(spot, when (m.level) { PsaWarnings.Level.STOP -> 2; PsaWarnings.Level.SERVICE -> 1; else -> 0 }, messageTexts[i])
-            }
-        } + codes.orEmpty().mapNotNull { code ->
-            CarProblemMap.spotOfCode(code)?.let { spot -> MapProblem(spot, if (diagnosis?.severity == Severity.STOP) 2 else 1, code) }
+            CarProblemMap.spotOf(m.code)?.let { spot -> MapProblem(spot, m.serious, messageTexts[i], number = i + 1) }
+        } + codes.orEmpty().mapIndexedNotNull { i, code ->
+            CarProblemMap.spotOfCode(code)?.let { spot -> MapProblem(spot, codeSerious, code, number = carMessages.size + i + 1) }
         }
     }
     val lamp by ObdBluetoothManager.lamp.collectAsState()
+    val verdict = carVerdict(carMessages.map { it.level }, codes, diagnosis?.severity, lamp?.on == true)
+    val problemCount = carMessages.count { it.level != PsaWarnings.Level.INFO } + codes.orEmpty().size
+    val problemNames = messageTexts.filterIndexed { i, _ -> carMessages[i].level != PsaWarnings.Level.INFO } +
+        codes.orEmpty().map { c -> diagnosis?.codes?.firstOrNull { it.code == c }?.meaning?.ifBlank { null } ?: ObdCodes.describe(c).localizedTitle() }
     // Only whether the engine runs matters here: the card must not redraw on every OBD sample.
     val obd = ObdBluetoothManager.data.collectAsState()
     val engineOff by remember { derivedStateOf { obd.value.rpm == 0 } }
@@ -174,17 +177,14 @@ internal fun ObdDtcCard(
     // The title row, shared by the tile and the sheet ([onClose]: the sheet's).
     val header: @Composable (onClose: (() -> Unit)?) -> Unit = { onClose ->
         Row(verticalAlignment = Alignment.CenterVertically) {
-            TitleWithTrailing(
-                Modifier.weight(1f),
-                title = {
-                    Text(
-                        stringResource(R.string.vehicle_fault_codes_title),
-                        color = DashColors.AccentInk,
-                        fontWeight = FontWeight.Bold,
-                        style = MaterialTheme.typography.labelMedium
-                    )
-                },
-                trailing = { lamp?.let { LampChip(it) } }
+            Text(
+                stringResource(R.string.vehicle_fault_codes_title),
+                color = DashColors.AccentInk,
+                fontWeight = FontWeight.Bold,
+                style = MaterialTheme.typography.labelMedium,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+                modifier = Modifier.weight(1f)
             )
             Spacer(Modifier.width(4.dp))
             AskIconButton(ask, aiText, onClick = askAboutCar)
@@ -197,23 +197,41 @@ internal fun ObdDtcCard(
     }
     // Everything under the title. It sits whole in one scroll area, so a tile
     // too short for it clips nothing: the rest is a swipe away.
-    val body: @Composable () -> Unit = {
+    // [mapHeight]: the car's views with their numbered problems, where there is room (null: none).
+    val body: @Composable (mapHeight: Dp?) -> Unit = { mapHeight ->
+        // The answer to "can I drive?" first, then where, then what.
+        VerdictBanner(verdict, problemCount, lamp?.on == true)
+        Spacer(Modifier.height(12.dp))
         // A question about the car, asked here or hands-free; the detail sheet shows its own.
         if (ask != AskMechanic.State.Idle && opened == null) {
             AskPanel(ask, aiText, onReplay = { AskMechanic.replay(context) }, compact = true, onClose = AskMechanic::cancel)
             Spacer(Modifier.height(10.dp))
         }
-
-        if (carMessages.isNotEmpty()) {
-            Text(stringResource(R.string.car_problems_car_says), color = DashColors.TextSecondary, fontWeight = FontWeight.Bold, style = MaterialTheme.typography.labelMedium)
-            Spacer(Modifier.height(6.dp))
-            Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
-                carMessages.forEach { m -> CarMessageRow(m) }
-            }
-            Spacer(Modifier.height(14.dp))
-            Text(stringResource(R.string.car_problems_engine_codes), color = DashColors.TextSecondary, fontWeight = FontWeight.Bold, style = MaterialTheme.typography.labelMedium)
-            Spacer(Modifier.height(6.dp))
+        if (mapHeight != null && mapProblems.isNotEmpty()) {
+            CarProblemsMap(mapProblems, Modifier.fillMaxWidth().height(mapHeight))
+            Spacer(Modifier.height(12.dp))
         }
+        Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+            carMessages.forEachIndexed { i, m ->
+                ProblemRow(
+                    number = i + 1, serious = m.serious, title = messageTexts[i], detail = null,
+                    source = stringResource(R.string.car_problem_from_car), pending = false, onOpen = null
+                )
+            }
+            codes.orEmpty().forEachIndexed { index, code ->
+                val advice = adviceFor(diagnosis, codes.orEmpty(), code, index)
+                val builtIn = remember(code) { ObdCodes.describe(code) }
+                ProblemRow(
+                    number = carMessages.size + index + 1, serious = codeSerious,
+                    title = (advice?.meaning?.ifBlank { null } ?: builtIn.localizedTitle()) + " · " + code,
+                    detail = advice?.checkFirst?.ifBlank { null }?.let { aiText.getString(R.string.ai_check_first, it) } ?: builtIn.localizedFix(),
+                    source = stringResource(R.string.car_problem_from_code) + if (advice != null) "\n" + stringResource(R.string.car_problem_with_ai) else "",
+                    pending = code in pending,
+                    onOpen = if (advice != null) ({ opened = code }) else null
+                )
+            }
+        }
+        if (carMessages.isNotEmpty() || !codes.isNullOrEmpty()) Spacer(Modifier.height(12.dp))
 
         if (!connected) {
             ObdNotConnected(connection, onConnect, onPickDevice)
@@ -267,7 +285,14 @@ internal fun ObdDtcCard(
                     Text(stringResource(R.string.ai_no_codes), color = DashColors.Good, style = MaterialTheme.typography.titleMedium)
                     Text(stringResource(R.string.vehicle_obd_scope), color = DashColors.Muted, style = MaterialTheme.typography.bodySmall)
                 } else {
-                    diagnosis?.let { VerdictBand(it, aiText) }
+                    // What the mechanic made of it all, under the numbered list (the banner already gave the verdict).
+                    diagnosis?.let { d ->
+                        Text(d.summary, color = DashColors.TextPrimary, style = MaterialTheme.typography.bodyLarge)
+                        if (d.raisedByRules) {
+                            Text(aiText.getString(R.string.ai_rules_raised), color = DashColors.TextSecondary, style = MaterialTheme.typography.bodySmall)
+                        }
+                        AiDisclaimer(d, aiText)
+                    }
                     if (ai.thinking) {
                         Row(verticalAlignment = Alignment.CenterVertically) {
                             CircularProgressIndicator(color = DashColors.Accent, strokeWidth = 2.dp, modifier = Modifier.size(18.dp))
@@ -288,17 +313,6 @@ internal fun ObdDtcCard(
                             }
                         }
                     }
-                    codes.forEachIndexed { index, code ->
-                        val advice = adviceFor(diagnosis, codes, code, index)
-                        CodeCard(
-                            code = code,
-                            advice = advice,
-                            severity = diagnosis?.severity,
-                            pending = code in pending,
-                            aiText = aiText,
-                            onOpen = if (advice != null) ({ opened = code }) else null
-                        )
-                    }
                 }
             }
         }
@@ -310,11 +324,8 @@ internal fun ObdDtcCard(
             // and the buttons would leave no room for the results.
             if (maxHeight < 200.dp) {
                 CompactFaults(
-                    codes = codes, diagnosis = diagnosis, thinking = ai.thinking, lamp = lamp,
-                    connected = connected, busy = busy, message = message, aiText = aiText,
-                    carMessage = seriousMessages.firstOrNull()?.let { carMessageText(it.code) },
-                    carCount = seriousMessages.size,
-                    carStop = seriousMessages.any { it.level == PsaWarnings.Level.STOP },
+                    verdict = verdict, count = problemCount, names = problemNames, thinking = ai.thinking,
+                    connected = connected, busy = busy, message = message,
                     map = if (mapProblems.isNotEmpty() && maxWidth >= 360.dp && maxHeight >= 160.dp) {
                         { CarProblemsMap(mapProblems, Modifier.size(width = 96.dp, height = 96.dp), compact = true) }
                     } else null,
@@ -325,12 +336,9 @@ internal fun ObdDtcCard(
                 Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
                     header(null)
                     Spacer(Modifier.height(10.dp))
-                    // The car with its problems on it, where the tile is tall enough to show it and the list.
-                    if (mapProblems.isNotEmpty() && tileHeight >= 320.dp) {
-                        CarProblemsMap(mapProblems, Modifier.fillMaxWidth().height((tileHeight * 0.42f).coerceAtMost(320.dp)))
-                        Spacer(Modifier.height(10.dp))
-                    }
-                    Column(modifier = Modifier.weight(1f).fillMaxWidth().verticalScroll(rememberScrollState())) { body() }
+                    // The car with its numbered problems where the tile is tall enough for it, the banner and the list.
+                    val mapHeight = if (tileHeight >= 420.dp) (tileHeight * 0.38f).coerceAtMost(300.dp) else null
+                    Column(modifier = Modifier.weight(1f).fillMaxWidth().verticalScroll(rememberScrollState())) { body(mapHeight) }
                 }
             }
         }
@@ -347,7 +355,7 @@ internal fun ObdDtcCard(
                 Column(modifier = Modifier.padding(16.dp)) {
                     header { expanded = false }
                     Spacer(Modifier.height(10.dp))
-                    Column(modifier = Modifier.weight(1f).fillMaxWidth().verticalScroll(rememberScrollState())) { body() }
+                    Column(modifier = Modifier.weight(1f).fillMaxWidth().verticalScroll(rememberScrollState())) { body(260.dp) }
                 }
             }
         }
@@ -368,75 +376,48 @@ internal fun ObdDtcCard(
  */
 @Composable
 private fun CompactFaults(
-    codes: List<String>?,
-    diagnosis: Diagnosis?,
+    verdict: CarVerdict,
+    count: Int,
+    /** What each problem is, in a few words: the car's messages, then the codes. */
+    names: List<String>,
     thinking: Boolean,
-    lamp: EngineLamp?,
     connected: Boolean,
     busy: Boolean,
     message: DtcMessage?,
-    aiText: Resources,
-    /** The car's own most serious message, and how many it has that matter ([CarMessage]). */
-    carMessage: String?,
-    carCount: Int,
-    carStop: Boolean,
     /** The car with its problems on it, small, before the summary; null where there's no room. */
     map: (@Composable () -> Unit)?,
     oneLine: Boolean,
     onScan: () -> Unit,
     onOpen: () -> Unit
 ) {
-    val lampOn = lamp?.on == true
     val failed = message?.takeIf { it.failed }
-    // Never a green "no fault" while the engine computer says its lamp is on, nor while the car itself warns.
-    val colour = when {
-        carStop -> DashColors.Critical
-        !codes.isNullOrEmpty() -> severityColor(diagnosis?.severity)
-        carCount > 0 || lampOn -> DashColors.Warning
-        else -> DashColors.Good
-    }
-    val count = if (codes != null || carCount > 0) codes.orEmpty().size + carCount else null
-    val verdict = when {
-        failed != null -> failed.text
-        // The car's own words first: they need no adapter and say what to do.
-        carMessage != null -> carMessage
-        codes == null -> if (connected) null else stringResource(R.string.vehicle_obd_not_connected)
-        codes.isEmpty() -> stringResource(if (lampOn) R.string.vehicle_lamp_on else R.string.ai_no_codes)
-        diagnosis != null -> aiText.getString(verdictRes(diagnosis.severity))
-        thinking -> stringResource(R.string.ai_thinking)
-        else -> ObdCodes.describe(codes.first()).localizedTitle()
-    }
+    val colour = verdict.colour()
     val summary: @Composable (Modifier) -> Unit = { m ->
         Row(modifier = m, verticalAlignment = Alignment.CenterVertically) {
             if (map != null) {
                 map()
                 Spacer(Modifier.width(12.dp))
             }
-            if (count != null) {
+            if (count > 0) {
                 Text(count.toString(), color = colour, fontWeight = FontWeight.ExtraBold, style = MaterialTheme.typography.displaySmall)
                 Spacer(Modifier.width(12.dp))
             }
             Column(Modifier.weight(1f)) {
-                if (verdict != null) {
-                    Text(
-                        verdict,
-                        color = if (failed != null) DashColors.Warning else DashColors.TextPrimary,
-                        fontWeight = FontWeight.SemiBold,
-                        style = MaterialTheme.typography.titleMedium,
-                        maxLines = 2,
-                        overflow = TextOverflow.Ellipsis
-                    )
-                }
-                if (!codes.isNullOrEmpty()) {
-                    Text(
-                        codes.joinToString(" · "),
-                        color = DashColors.TextSecondary,
-                        fontFamily = FontFamily.Monospace,
-                        style = MaterialTheme.typography.labelMedium,
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis
-                    )
-                }
+                Text(
+                    failed?.text ?: stringResource(if (thinking && verdict == CarVerdict.UNREAD) R.string.ai_thinking else verdict.titleRes),
+                    color = if (failed != null) DashColors.Warning else DashColors.TextPrimary,
+                    fontWeight = FontWeight.Bold,
+                    style = MaterialTheme.typography.titleMedium,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
+                )
+                Text(
+                    names.joinToString(", ").ifEmpty { stringResource(verdict.hintRes) },
+                    color = DashColors.TextSecondary,
+                    style = MaterialTheme.typography.bodyMedium,
+                    maxLines = if (oneLine) 1 else 2,
+                    overflow = TextOverflow.Ellipsis
+                )
             }
         }
     }
@@ -451,9 +432,11 @@ private fun CompactFaults(
             ) { Text(stringResource(R.string.vehicle_scan), maxLines = 1) }
         }
     }
+    // Tinted like the banner of the full tile: the verdict reads from across the car.
+    val tint = Modifier.background(androidx.compose.ui.graphics.Brush.horizontalGradient(listOf(colour.copy(alpha = 0.16f), Color.Transparent)))
     if (oneLine) {
         Row(
-            modifier = Modifier.fillMaxSize().clickable(onClick = onOpen).padding(horizontal = 16.dp, vertical = 8.dp),
+            modifier = Modifier.fillMaxSize().then(tint).clickable(onClick = onOpen).padding(horizontal = 16.dp, vertical = 8.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             summary(Modifier.weight(1f))
@@ -461,22 +444,14 @@ private fun CompactFaults(
             scanButton(Modifier)
         }
     } else {
-        Column(modifier = Modifier.fillMaxSize().clickable(onClick = onOpen).padding(16.dp)) {
-            // No line to spare here: a lamp that is off gives way to the title, a lit one stays.
-            TitleWithTrailing(
-                Modifier.fillMaxWidth(),
-                title = {
-                    Text(
-                        stringResource(R.string.vehicle_fault_codes_title),
-                        color = DashColors.AccentInk,
-                        fontWeight = FontWeight.Bold,
-                        style = MaterialTheme.typography.labelMedium,
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis
-                    )
-                },
-                trailing = { lamp?.let { LampChip(it) } },
-                dropWhenTight = lamp?.on != true
+        Column(modifier = Modifier.fillMaxSize().then(tint).clickable(onClick = onOpen).padding(16.dp)) {
+            Text(
+                stringResource(R.string.vehicle_fault_codes_title),
+                color = DashColors.AccentInk,
+                fontWeight = FontWeight.Bold,
+                style = MaterialTheme.typography.labelMedium,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
             )
             summary(Modifier.weight(1f).fillMaxWidth())
             if (busy) {
@@ -485,6 +460,127 @@ private fun CompactFaults(
             }
             scanButton(Modifier.fillMaxWidth())
         }
+    }
+}
+
+/** What the driver needs to know first: whether to stop, drive on, or that nothing is wrong. */
+internal enum class CarVerdict(val titleRes: Int, val hintRes: Int) {
+    STOP(R.string.car_verdict_stop, R.string.car_verdict_stop_hint),
+    DRIVE(R.string.car_verdict_drive, R.string.car_verdict_soon_hint),
+    FINE(R.string.car_verdict_fine, R.string.car_verdict_fine_hint),
+    /** No code read and nothing from the car: not known yet. */
+    UNREAD(R.string.car_verdict_unread, R.string.car_verdict_unread_hint)
+}
+
+/**
+ * The verdict from the car's own messages ([levels]), the engine's codes and
+ * the mechanic's call on them, and the engine lamp: the worst of them. Never
+ * "nothing to report" while the lamp is on or before anything was read.
+ */
+internal fun carVerdict(levels: List<PsaWarnings.Level?>, codes: List<String>?, severity: Severity?, lampOn: Boolean): CarVerdict = when {
+    PsaWarnings.Level.STOP in levels || (!codes.isNullOrEmpty() && severity == Severity.STOP) -> CarVerdict.STOP
+    PsaWarnings.Level.SERVICE in levels || !codes.isNullOrEmpty() || lampOn -> CarVerdict.DRIVE
+    codes != null || levels.isNotEmpty() -> CarVerdict.FINE
+    else -> CarVerdict.UNREAD
+}
+
+@Composable
+private fun CarVerdict.colour(): Color = when (this) {
+    CarVerdict.STOP -> DashColors.Critical
+    CarVerdict.DRIVE -> DashColors.Warning
+    CarVerdict.FINE -> DashColors.Good
+    CarVerdict.UNREAD -> DashColors.TextSecondary
+}
+
+/** How serious one of the car's messages is, as the map and the list count it (2 stop, 1 garage, 0 good to know). */
+internal val CarMessage.serious: Int
+    get() = when (level) {
+        PsaWarnings.Level.STOP -> 2
+        PsaWarnings.Level.SERVICE -> 1
+        else -> 0
+    }
+
+/**
+ * The verdict as a tinted banner: how many problems, large, in the verdict's
+ * colour, what that means for driving, and the engine lamp when it is lit.
+ */
+@Composable
+private fun VerdictBanner(verdict: CarVerdict, count: Int, lampOn: Boolean) {
+    val colour = verdict.colour()
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clip(DashShape.Medium)
+            .background(androidx.compose.ui.graphics.Brush.horizontalGradient(listOf(colour.copy(alpha = 0.22f), colour.copy(alpha = 0.06f))))
+            .border(1.dp, colour.copy(alpha = 0.5f), DashShape.Medium)
+            .padding(horizontal = 16.dp, vertical = 12.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        if (count > 0) {
+            Text(count.toString(), color = colour, fontWeight = FontWeight.Black, style = MaterialTheme.typography.displaySmall)
+            Spacer(Modifier.width(14.dp))
+        } else {
+            Icon(
+                if (verdict == CarVerdict.FINE) Icons.Filled.CheckCircle else Icons.Filled.Info,
+                contentDescription = null, tint = colour, modifier = Modifier.size(32.dp)
+            )
+            Spacer(Modifier.width(14.dp))
+        }
+        Column(Modifier.weight(1f)) {
+            Text(stringResource(verdict.titleRes), color = DashColors.TextPrimary, fontWeight = FontWeight.Bold, style = MaterialTheme.typography.titleLarge)
+            val hint = stringResource(verdict.hintRes)
+            Text(
+                if (lampOn) hint + " · " + stringResource(R.string.vehicle_lamp_on) else hint,
+                color = DashColors.TextSecondary,
+                style = MaterialTheme.typography.bodyMedium
+            )
+        }
+    }
+}
+
+/**
+ * One problem in the list: its number (the same as on the car's picture) in
+ * its colour, what it is and what to check, and where it comes from. A code
+ * the mechanic explained opens its detail sheet ([onOpen]).
+ */
+@Composable
+private fun ProblemRow(number: Int, serious: Int, title: String, detail: String?, source: String, pending: Boolean, onOpen: (() -> Unit)?) {
+    val colour = when (serious) { 2 -> DashColors.Critical; 1 -> DashColors.Warning; else -> DashColors.TextSecondary }
+    val content: @Composable () -> Unit = { BoxWithConstraints {
+        // A narrow tile gives the problem's words the whole row: where it comes from can go.
+        val wide = maxWidth >= 380.dp
+        Row(modifier = Modifier.padding(horizontal = 12.dp, vertical = 10.dp), verticalAlignment = Alignment.CenterVertically) {
+            Box(Modifier.size(30.dp).clip(CircleShape).background(colour), contentAlignment = Alignment.Center) {
+                Text(number.toString(), color = if (serious == 2) Color.White else Color(0xFF111111), fontWeight = FontWeight.Black, style = MaterialTheme.typography.titleSmall)
+            }
+            Spacer(Modifier.width(12.dp))
+            Column(Modifier.weight(1f)) {
+                Text(title, color = DashColors.TextPrimary, fontWeight = FontWeight.SemiBold, style = MaterialTheme.typography.titleMedium, maxLines = 2, overflow = TextOverflow.Ellipsis)
+                if (detail != null) {
+                    Text(detail, color = DashColors.TextSecondary, style = MaterialTheme.typography.bodyMedium, maxLines = 2, overflow = TextOverflow.Ellipsis)
+                }
+                if (pending) {
+                    Text(stringResource(R.string.vehicle_pending), color = DashColors.TextSecondary, style = MaterialTheme.typography.labelSmall)
+                }
+            }
+            if (wide) {
+                Spacer(Modifier.width(10.dp))
+                Text(
+                    source, color = DashColors.Muted, style = MaterialTheme.typography.labelSmall, letterSpacing = 0.06.em,
+                    textAlign = androidx.compose.ui.text.style.TextAlign.End
+                )
+            }
+            if (onOpen != null) {
+                Spacer(Modifier.width(4.dp))
+                Icon(Icons.Filled.ChevronRight, contentDescription = null, tint = DashColors.Accent)
+            }
+        }
+    } }
+    val color = DashColors.CardHi.copy(alpha = DashColors.CardHi.alpha * 0.6f)
+    if (onOpen != null) {
+        Surface(onClick = onOpen, shape = DashShape.Medium, color = color, modifier = Modifier.fillMaxWidth()) { content() }
+    } else {
+        Surface(shape = DashShape.Medium, color = color, modifier = Modifier.fillMaxWidth()) { content() }
     }
 }
 
@@ -554,68 +650,6 @@ private fun severityColor(severity: Severity?): Color = when (severity) {
     Severity.SOON, null -> DashColors.Warning
 }
 
-/** The AI's overall call in three words, the same on the band and on a short tile. */
-private fun verdictRes(severity: Severity): Int = when (severity) {
-    Severity.OK -> R.string.ai_verdict_ok
-    Severity.SOON -> R.string.ai_verdict_soon
-    Severity.STOP -> R.string.ai_verdict_stop
-}
-
-private fun severityIcon(severity: Severity): ImageVector = when (severity) {
-    Severity.OK -> Icons.Filled.CheckCircle
-    Severity.SOON -> Icons.Filled.Warning
-    Severity.STOP -> Icons.Filled.Error
-}
-
-/** Engine lamp as the engine computer reports it: a small pill beside the title. */
-@Composable
-private fun LampChip(lamp: EngineLamp) {
-    val color = if (lamp.on) DashColors.Warning else DashColors.Good
-    Row(
-        modifier = Modifier
-            .border(1.dp, DashColors.Line, CircleShape)
-            .padding(horizontal = 10.dp, vertical = 4.dp),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Box(Modifier.size(8.dp).clip(CircleShape).background(color))
-        Spacer(Modifier.width(6.dp))
-        Text(
-            stringResource(if (lamp.on) R.string.vehicle_lamp_on else R.string.vehicle_lamp_off),
-            color = if (lamp.on) DashColors.Warning else DashColors.TextSecondary,
-            style = MaterialTheme.typography.labelMedium
-        )
-    }
-}
-
-/** The AI's overall call: a tinted band with what to do and the sentence it spoke. [aiText]: the mechanic's language. */
-@Composable
-private fun VerdictBand(d: Diagnosis, aiText: Resources) {
-    val color = severityColor(d.severity)
-    val label = aiText.getString(verdictRes(d.severity))
-    Surface(
-        shape = DashShape.Medium,
-        color = color.copy(alpha = 0.14f),
-        border = BorderStroke(1.dp, color.copy(alpha = 0.55f)),
-        modifier = Modifier.fillMaxWidth()
-    ) {
-        Row(modifier = Modifier.padding(12.dp)) {
-            Icon(severityIcon(d.severity), contentDescription = null, tint = color, modifier = Modifier.size(26.dp))
-            Spacer(Modifier.width(10.dp))
-            Column {
-                Text(label, color = DashColors.TextPrimary, fontWeight = FontWeight.Bold, style = MaterialTheme.typography.titleMedium)
-                Spacer(Modifier.height(2.dp))
-                Text(d.summary, color = DashColors.TextPrimary, style = MaterialTheme.typography.bodyLarge)
-                if (d.raisedByRules) {
-                    Spacer(Modifier.height(4.dp))
-                    Text(aiText.getString(R.string.ai_rules_raised), color = DashColors.TextSecondary, style = MaterialTheme.typography.bodySmall)
-                }
-                Spacer(Modifier.height(4.dp))
-                AiDisclaimer(d, aiText)
-            }
-        }
-    }
-}
-
 /** Says the advice is the AI's, which model gave it, and that a garage has the last word. */
 @Composable
 private fun AiDisclaimer(d: Diagnosis, aiText: Resources) {
@@ -640,53 +674,6 @@ private fun CodeBadge(code: String, severity: Severity?, large: Boolean = false)
             fontWeight = FontWeight.Bold,
             style = if (large) MaterialTheme.typography.titleLarge else MaterialTheme.typography.titleSmall
         )
-    }
-}
-
-/**
- * One code: badge, short title, and the first thing to check. With the AI's
- * advice it opens the detail sheet ([onOpen]); otherwise it shows the
- * built-in table's description.
- */
-@Composable
-private fun CodeCard(code: String, advice: CodeAdvice?, severity: Severity?, pending: Boolean, aiText: Resources, onOpen: (() -> Unit)?) {
-    val builtIn = remember(code) { ObdCodes.describe(code) }
-    val title = advice?.meaning?.ifBlank { null } ?: builtIn.localizedTitle()
-    val hint = advice?.checkFirst?.ifBlank { null }?.let { aiText.getString(R.string.ai_check_first, it) } ?: builtIn.localizedFix()
-    val shape = DashShape.Medium
-    val content: @Composable () -> Unit = {
-        Row(modifier = Modifier.padding(12.dp), verticalAlignment = Alignment.CenterVertically) {
-            Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                CodeBadge(code, severity)
-                if (pending) {
-                    Spacer(Modifier.height(4.dp))
-                    Text(stringResource(R.string.vehicle_pending), color = DashColors.TextSecondary, style = MaterialTheme.typography.labelSmall)
-                }
-            }
-            Spacer(Modifier.width(12.dp))
-            Column(Modifier.weight(1f)) {
-                Text(
-                    title,
-                    color = DashColors.TextPrimary,
-                    fontWeight = FontWeight.SemiBold,
-                    style = MaterialTheme.typography.titleMedium,
-                    maxLines = 2,
-                    overflow = TextOverflow.Ellipsis
-                )
-                Spacer(Modifier.height(2.dp))
-                Text(hint, color = DashColors.TextSecondary, style = MaterialTheme.typography.bodyMedium, maxLines = 3, overflow = TextOverflow.Ellipsis)
-            }
-            if (onOpen != null) {
-                Spacer(Modifier.width(8.dp))
-                Icon(Icons.Filled.ChevronRight, contentDescription = aiText.getString(R.string.ai_details), tint = DashColors.Accent)
-            }
-        }
-    }
-    val color = DashColors.CardHi.copy(alpha = DashColors.CardHi.alpha * 0.6f)
-    if (onOpen != null) {
-        Surface(onClick = onOpen, shape = shape, color = color, modifier = Modifier.fillMaxWidth()) { content() }
-    } else {
-        Surface(shape = shape, color = color, modifier = Modifier.fillMaxWidth()) { content() }
     }
 }
 
@@ -993,17 +980,3 @@ private fun CheckFirstBox(text: String, aiText: Resources) {
     }
 }
 
-/** One of the car's own messages: its words, marked by how serious it is. */
-@Composable
-private fun CarMessageRow(m: CarMessage) {
-    val (icon, tint) = when (m.level) {
-        PsaWarnings.Level.STOP -> Icons.Filled.Error to DashColors.Critical
-        PsaWarnings.Level.SERVICE -> Icons.Filled.Warning to DashColors.Warning
-        else -> Icons.Filled.Info to DashColors.TextSecondary
-    }
-    Row(verticalAlignment = Alignment.CenterVertically) {
-        Icon(icon, contentDescription = null, tint = tint, modifier = Modifier.size(20.dp))
-        Spacer(Modifier.width(10.dp))
-        Text(carMessageText(m.code), color = DashColors.TextPrimary, style = MaterialTheme.typography.bodyLarge)
-    }
-}

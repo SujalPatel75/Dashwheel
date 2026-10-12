@@ -59,6 +59,8 @@ object DemoMode {
     val media: StateFlow<MediaState> = _media.asStateFlow()
 
     private const val TICK_MS = 250L
+    /** The car's "left rear brake bulb out" message (PsaWarnings). */
+    private const val DEMO_BULB = 0x84
     /** Place de la Concorde: where the fake drive sets off. */
     private const val START_LAT = 48.8656
     private const val START_LNG = 2.3212
@@ -443,6 +445,10 @@ object DemoMode {
             // CANbox: doors shut, fuel and range going down with the kilometres.
             val rangeKm = (612 - tripM / 1000).roundToInt()
             McuReader.demoWrite(McuReader.DoorState(), fuelPercent = 58, rangeKm = rangeKm)
+            // A Peugeot or Citroën's own trip computer, with a brake bulb out: Car problems shows it on the car.
+            PsaTripComputer.demoWrite(
+                PsaTrip(instantL100 = 5.9f, rangeKm = rangeKm, warnings = listOf(DEMO_BULB), at = android.os.SystemClock.elapsedRealtime())
+            )
             // The car's body: dipped beams on, belts done up, mileage and trip going up.
             CarBox.demoWrite(
                 CarBody(
@@ -647,7 +653,8 @@ object DemoMode {
         val ai: AiMechanic.State,
         val body: CarBody?,
         val bodyAt: Long,
-        val tyres: Map<TyrePos, Tyre>
+        val tyres: Map<TyrePos, Tyre>,
+        val psa: PsaTrip?
     ) {
         fun restore() {
             ObdBluetoothManager.endDemo(lamp, pending)
@@ -665,6 +672,7 @@ object DemoMode {
             PidExplorer.endDemo()
             CarBox.demoWrite(body, bodyAt)
             Tyres.demoWrite(tyres)
+            PsaTripComputer.demoWrite(psa)
         }
 
         companion object {
@@ -673,7 +681,8 @@ object DemoMode {
                 LocationFeed.location.value, LocationFeed.trip.value, LocationFeed.headingDeg.value,
                 GForceFeed.g.value,
                 CarCare.state.value, AiMechanic.state.value,
-                CarBox.body.value, CarBox.bodyAt, Tyres.tyres.value
+                CarBox.body.value, CarBox.bodyAt, Tyres.tyres.value,
+                PsaTripComputer.state.value
             )
         }
     }

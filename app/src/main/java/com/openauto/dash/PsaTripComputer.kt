@@ -112,6 +112,11 @@ object PsaTripComputer {
     private val _state = MutableStateFlow<PsaTrip?>(null)
     val state: StateFlow<PsaTrip?> = _state
 
+    /** The demo's trip computer and its warnings ([DemoMode]); its end puts back what the car said ([trip]). */
+    internal fun demoWrite(trip: PsaTrip?) {
+        _state.value = trip
+    }
+
     /** [state] while fresh. */
     fun fresh(): PsaTrip? = _state.value?.takeIf { SystemClock.elapsedRealtime() - it.at <= FRESH_MS }
 

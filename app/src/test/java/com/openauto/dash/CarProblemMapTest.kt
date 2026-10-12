@@ -94,4 +94,25 @@ class CarProblemMapTest {
         val plain = rearLamps(IntArray(w * h) { silver }, w, h)
         assertEquals(0.14f, plain[0].x, 0.001f)
     }
+
+    @Test
+    fun marksOnTheSameSpotStepApart() {
+        val out = spread(listOf(Offset(100f, 50f) to 1, Offset(102f, 50f) to 2, Offset(300f, 50f) to 3), gap = 30f)
+        assertEquals(Offset(100f, 50f), out[0].first)
+        assertTrue("moved: ${out[1].first}", (out[1].first - out[0].first).getDistance() >= 30f)
+        assertEquals(Offset(300f, 50f), out[2].first)
+    }
+
+    @Test
+    fun theVerdictIsTheWorstProblem() {
+        val service = listOf(PsaWarnings.Level.SERVICE)
+        assertEquals(CarVerdict.DRIVE, carVerdict(service, emptyList(), null, lampOn = false))
+        assertEquals(CarVerdict.STOP, carVerdict(service + PsaWarnings.Level.STOP, null, null, lampOn = false))
+        assertEquals(CarVerdict.STOP, carVerdict(emptyList(), listOf("P0217"), Severity.STOP, lampOn = true))
+        // Codes read and none, nothing from the car: fine; the lamp on says otherwise.
+        assertEquals(CarVerdict.FINE, carVerdict(emptyList(), emptyList(), null, lampOn = false))
+        assertEquals(CarVerdict.DRIVE, carVerdict(emptyList(), emptyList(), null, lampOn = true))
+        // Nothing read yet.
+        assertEquals(CarVerdict.UNREAD, carVerdict(emptyList(), null, null, lampOn = false))
+    }
 }

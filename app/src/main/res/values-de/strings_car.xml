@@ -288,8 +288,6 @@
     <string name="car_warn_tpms">Reifendruck wird nicht überwacht</string>
     <string name="car_warn_key_battery">Schlüsselbatterie schwach</string>
     <string name="car_warn_more">und %1$d weitere</string>
-    <string name="car_problems_car_says">DAS AUTO MELDET</string>
-    <string name="car_problems_engine_codes">MOTOR-FEHLERCODES</string>
     <string name="car_map_back">Hinten</string>
     <string name="car_map_front">Vorne</string>
     <string name="car_map_top">Oben</string>
@@ -298,4 +296,15 @@
     <string name="mycar_ends_hint">Fotos von hinten und vorne, freigestellt: Die Kachel Fahrzeugprobleme zeigt darauf eine defekte Lampe</string>
     <string name="mycar_add_back">Hinten</string>
     <string name="mycar_add_front">Vorne</string>
+    <string name="car_verdict_stop">Sobald möglich anhalten</string>
+    <string name="car_verdict_drive">Sie können weiterfahren</string>
+    <string name="car_verdict_fine">Nichts zu melden</string>
+    <string name="car_verdict_unread">Noch nicht ausgelesen</string>
+    <string name="car_verdict_stop_hint">Ein Fehler verlangt, das Auto anzuhalten</string>
+    <string name="car_verdict_soon_hint">Bald reparieren lassen</string>
+    <string name="car_verdict_fine_hint">Kein Fehlercode und keine Warnung vom Auto</string>
+    <string name="car_verdict_unread_hint">OBD-Adapter verbinden, um den Motor auszulesen</string>
+    <string name="car_problem_from_car">DAS AUTO</string>
+    <string name="car_problem_from_code">MOTORCODE</string>
+    <string name="car_problem_with_ai">+ KI</string>
 </resources>

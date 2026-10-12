@@ -288,8 +288,6 @@
     <string name="car_warn_tpms">Tyre pressures not watched</string>
     <string name="car_warn_key_battery">Key battery low</string>
     <string name="car_warn_more">and %1$d more</string>
-    <string name="car_problems_car_says">THE CAR SAYS</string>
-    <string name="car_problems_engine_codes">ENGINE FAULT CODES</string>
     <string name="car_map_back">Rear</string>
     <string name="car_map_front">Front</string>
     <string name="car_map_top">Above</string>
@@ -298,4 +296,15 @@
     <string name="mycar_ends_hint">Photos of the rear and the front, cut out: the Car problems tile shows a broken lamp on them</string>
     <string name="mycar_add_back">Rear</string>
     <string name="mycar_add_front">Front</string>
+    <string name="car_verdict_stop">Stop as soon as it\'s safe</string>
+    <string name="car_verdict_drive">You can drive</string>
+    <string name="car_verdict_fine">Nothing to report</string>
+    <string name="car_verdict_unread">Not read yet</string>
+    <string name="car_verdict_stop_hint">A problem needs the car stopped</string>
+    <string name="car_verdict_soon_hint">Get it repaired soon</string>
+    <string name="car_verdict_fine_hint">No fault code and no warning from the car</string>
+    <string name="car_verdict_unread_hint">Connect the OBD adapter to read the engine</string>
+    <string name="car_problem_from_car">THE CAR</string>
+    <string name="car_problem_from_code">ENGINE CODE</string>
+    <string name="car_problem_with_ai">+ AI</string>
 </resources>

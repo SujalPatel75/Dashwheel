@@ -34,19 +34,29 @@ import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.scale
 import androidx.compose.ui.graphics.drawscope.translate
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextMeasurer
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.drawText
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import kotlin.math.min
 
-/** One problem to place on the car: its part, how serious it is (2 stop, 1 garage, 0 good to know), and its words. */
-internal data class MapProblem(val spot: CarSpot, val serious: Int, val label: String)
+/**
+ * One problem to place on the car: its part, how serious it is (2 stop, 1
+ * garage, 0 good to know), its words, and its [number] in the tile's list (0:
+ * a plain mark).
+ */
+internal data class MapProblem(val spot: CarSpot, val serious: Int, val label: String, val number: Int = 0)
 
 /**
  * The car with its problems on it ([CarProblemMap]): the driver's own car
  * (MyCarLook.kt), from behind, the front or above, whichever shows the most
  * serious problem best, else the drawn car from above; each problem a glow
- * on its part. With problems on more than one view, chips switch between
- * them and the other view waits in a corner. [compact]: the picture alone.
+ * on its part, numbered like the tile's list. With problems on more than one
+ * view, the views stand side by side at the same size. [compact]: the most
+ * serious view alone, plain marks.
  */
 @Composable
 internal fun CarProblemsMap(problems: List<MapProblem>, modifier: Modifier = Modifier, compact: Boolean = false) {
@@ -74,9 +84,10 @@ internal fun CarProblemsMap(problems: List<MapProblem>, modifier: Modifier = Mod
         CarMapView.BACK -> back
         CarMapView.FRONT -> front
     }
-    fun marks(view: CarMapView): List<Pair<Offset, Int>> = placed.filter { it.second == view }.flatMap { (p, _) ->
-        CarProblemMap.places(p.spot, view, topFrame, backFrame, frontFrame).map { it to p.serious }
+    fun marks(view: CarMapView): List<Pair<Offset, MapProblem>> = placed.filter { it.second == view }.flatMap { (p, _) ->
+        CarProblemMap.places(p.spot, view, topFrame, backFrame, frontFrame).map { it to p }
     }
+    val numbers = rememberTextMeasurer(cacheSize = 16)
 
     val pulse by rememberInfiniteTransition(label = "problems").animateFloat(
         0f, 1f, infiniteRepeatable(tween(1600, easing = LinearEasing), RepeatMode.Restart), label = "pulse"
@@ -112,11 +123,34 @@ internal fun CarProblemsMap(problems: List<MapProblem>, modifier: Modifier = Mod
                 }
                 Canvas(Modifier.weight(1f).fillMaxWidth()) {
                     val where = drawView(picture(v), v, style, Rect(Offset.Zero, size), body, edge, ink, garage)
-                    for ((at, serious) in marks(v)) glowMark(where.at(at), min(size.width, size.height) * 0.05f, tone(serious), pulse)
+                    val r = (min(size.width, size.height) * 0.05f).coerceAtLeast(9.dp.toPx())
+                    val spots = spread(marks(v).map { (at, p) -> where.at(at) to p }, r * 2.6f)
+                    for ((at, p) in spots) glowMark(at, r, tone(p.serious), pulse, p.number.takeIf { it > 0 && !compact }, numbers)
                 }
             }
         }
     }
+}
+
+/**
+ * Marks moved apart where they would cover each other (two problems on the
+ * same part, or on parts close together on a small picture): each one too
+ * close to one already placed steps sideways by [gap], so every number reads.
+ */
+internal fun <T> spread(marks: List<Pair<Offset, T>>, gap: Float): List<Pair<Offset, T>> {
+    val placed = ArrayList<Pair<Offset, T>>(marks.size)
+    for ((at, item) in marks) {
+        var p = at
+        var step = 0
+        while (step < 8 && placed.any { (q, _) -> (q - p).getDistance() < gap }) {
+            step++
+            // Right, left, further right, further left...
+            val side = if (step % 2 == 1) 1 else -1
+            p = Offset(at.x + side * gap * ((step + 1) / 2), at.y)
+        }
+        placed += p to item
+    }
+    return placed
 }
 
 /** The chip's name of each view. */
@@ -160,11 +194,25 @@ private fun DrawScope.drawView(
     return Rect(Offset(left, top), Size(VIEW_W * s, VIEW_H * s))
 }
 
-/** A problem's light on its part: a soft glow, a bright core and a ring that widens as it fades. */
-private fun DrawScope.glowMark(at: Offset, r: Float, tone: Color, pulse: Float) {
+/**
+ * A problem's light on its part: a soft glow, a bright core and a ring that
+ * widens as it fades. With a [number], the core is a pin carrying it, the same
+ * number as the problem's line in the list.
+ */
+private fun DrawScope.glowMark(at: Offset, r: Float, tone: Color, pulse: Float, number: Int? = null, tm: TextMeasurer? = null) {
     drawCircle(Brush.radialGradient(listOf(tone.copy(alpha = 0.55f), tone.copy(alpha = 0.18f), Color.Transparent), at, r * 3.2f), r * 3.2f, at)
+    drawCircle(tone.copy(alpha = (1f - pulse) * 0.8f), r * (1.3f + pulse * 1.6f), at, style = Stroke(r * 0.14f))
+    if (number != null && tm != null) {
+        drawCircle(Color.Black.copy(alpha = 0.35f), r * 1.25f, at)
+        drawCircle(tone, r * 1.1f, at)
+        val text = tm.measure(
+            number.toString(),
+            TextStyle(color = Color(0xFF111111), fontWeight = FontWeight.Black, fontSize = (r * 1.25f / density / fontScale).sp)
+        )
+        drawText(text, topLeft = Offset(at.x - text.size.width / 2f, at.y - text.size.height / 2f))
+        return
+    }
     drawCircle(tone.copy(alpha = 0.95f), r * 0.75f, at)
     drawCircle(Color.White.copy(alpha = 0.9f), r * 0.38f, at)
     drawCircle(tone.copy(alpha = 0.9f), r * 1.2f, at, style = Stroke(r * 0.18f))
-    drawCircle(tone.copy(alpha = (1f - pulse) * 0.8f), r * (1.3f + pulse * 1.6f), at, style = Stroke(r * 0.14f))
 }
