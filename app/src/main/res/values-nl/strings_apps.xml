@@ -18,8 +18,8 @@
     <string name="apps_kind_media_blurb">Speelt nu, met bediening</string>
     <string name="apps_kind_telemetry">Motormeters</string>
     <string name="apps_kind_telemetry_blurb">Snelheid, toerental, koelvloeistof, belasting, accu</string>
-    <string name="apps_kind_obd_dtc">Foutcodes</string>
-    <string name="apps_kind_obd_dtc_blurb">OBD-foutcodes lezen en wissen</string>
+    <string name="apps_kind_obd_dtc">Autoproblemen</string>
+    <string name="apps_kind_obd_dtc_blurb">De waarschuwingen van de auto en de foutcodes van de motor, uitgelegd</string>
     <string name="apps_kind_obd_all">Alle autogegevens</string>
     <string name="apps_kind_obd_all_blurb">Alle live OBD-waarden</string>
     <string name="apps_kind_range">Brandstof &amp; actieradius</string>

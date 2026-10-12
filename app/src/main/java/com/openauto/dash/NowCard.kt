@@ -412,7 +412,7 @@ internal fun rememberNowView(pending: PendingActionState): NowView {
                         2 -> stringResource(carWarnings[1].textRes)
                         else -> stringResource(carWarnings[1].textRes) + ", " + stringResource(R.string.car_warn_more, carWarnings.size - 2)
                     },
-                    onTap = { lock.whenParked { if (!showWidgetPage(BuiltinKind.CAR_STATUS)) page(1) } }
+                    onTap = { lock.whenParked { if (!showWidgetPage(BuiltinKind.OBD_DTC)) page(1) } }
                 )
             }
             // The distance is the headline: it is what changes, and what the eye looks for.

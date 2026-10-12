@@ -18,8 +18,8 @@
     <string name="apps_kind_media_blurb">Reproduciendo, con controles</string>
     <string name="apps_kind_telemetry">Indicadores del motor</string>
     <string name="apps_kind_telemetry_blurb">Velocidad, RPM, refrigerante, carga, batería</string>
-    <string name="apps_kind_obd_dtc">Códigos de avería</string>
-    <string name="apps_kind_obd_dtc_blurb">Leer y borrar códigos de avería OBD</string>
+    <string name="apps_kind_obd_dtc">Problemas del coche</string>
+    <string name="apps_kind_obd_dtc_blurb">Los avisos del coche y los códigos de fallo del motor, explicados</string>
     <string name="apps_kind_obd_all">Todos los datos del coche</string>
     <string name="apps_kind_obd_all_blurb">Todos los valores OBD en directo</string>
     <string name="apps_kind_range">Combustible y autonomía</string>

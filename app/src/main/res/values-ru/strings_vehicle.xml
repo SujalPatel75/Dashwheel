@@ -22,7 +22,7 @@
     <string name="vehicle_load">Нагрузка</string>
 
     <!-- Fault codes tile -->
-    <string name="vehicle_fault_codes_title">КОДЫ ОШИБОК</string>
+    <string name="vehicle_fault_codes_title">НЕИСПРАВНОСТИ</string>
     <string name="vehicle_scan">Проверить</string>
     <string name="vehicle_clear">Стереть коды</string>
 

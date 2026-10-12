@@ -22,7 +22,7 @@
     <string name="vehicle_load">Charge</string>
 
     <!-- Fault codes tile -->
-    <string name="vehicle_fault_codes_title">CODES DÉFAUT</string>
+    <string name="vehicle_fault_codes_title">PROBLÈMES DE LA VOITURE</string>
     <string name="vehicle_scan">Lire</string>
     <string name="vehicle_clear">Effacer les codes</string>
 

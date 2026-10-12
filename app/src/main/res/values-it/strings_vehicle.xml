@@ -22,7 +22,7 @@
     <string name="vehicle_load">Carico</string>
 
     <!-- Fault codes tile -->
-    <string name="vehicle_fault_codes_title">CODICI GUASTO</string>
+    <string name="vehicle_fault_codes_title">PROBLEMI DELL\'AUTO</string>
     <string name="vehicle_scan">Scansiona</string>
     <string name="vehicle_clear">Cancella codici</string>
 

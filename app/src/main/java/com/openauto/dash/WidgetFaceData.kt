@@ -303,25 +303,38 @@ private fun faultCodesFace(env: SkinTileEnv): WidgetFace {
             busy = false
         }
     })
-    val codes = ai.codes ?: return if (connected) {
-        idleFace(Icons.Filled.Warning, BuiltinKind.OBD_DTC.label, stringResource(R.string.design_no_scan_yet), action = scan)
-    } else obdIdle(BuiltinKind.OBD_DTC, env, "")
+    // The car's own messages (a Peugeot, Citroën or DS's) come first, and need no OBD adapter.
+    val messages = rememberCarMessages()
+    val messageRows = messages.map { FaceRow(carMessageText(it.code), "", alert = it.level != PsaWarnings.Level.INFO) }
+    val serious = messages.filter { it.level != PsaWarnings.Level.INFO }
+    if (ai.codes == null && messages.isEmpty()) {
+        return if (connected) {
+            idleFace(Icons.Filled.Warning, BuiltinKind.OBD_DTC.label, stringResource(R.string.design_no_scan_yet), action = scan)
+        } else obdIdle(BuiltinKind.OBD_DTC, env, "")
+    }
+    val codes = ai.codes.orEmpty()
     val titles = remember(codes, context) { codes.map { ObdCodes.describe(it).localizedTitle(context) } }
     val lampOn = lamp?.on == true
+    val count = serious.size + codes.size
     return WidgetFace(
         icon = Icons.Filled.Warning,
         title = BuiltinKind.OBD_DTC.label,
-        value = codes.size.toString(),
-        unit = pluralStringResource(R.plurals.design_codes_unit, codes.size),
+        value = count.toString(),
+        unit = pluralStringResource(R.plurals.design_codes_unit, count),
         caption = when {
+            serious.isNotEmpty() -> messageRows[messages.indexOf(serious.first())].title
             codes.isNotEmpty() -> "${codes.first()} · ${titles.first()}"
             lampOn -> stringResource(R.string.vehicle_lamp_on)
             else -> stringResource(R.string.ai_no_codes)
         },
-        fraction = if (codes.isEmpty()) 0f else 1f,
-        alert = codes.isNotEmpty() || lampOn,
-        severity = if (codes.isNotEmpty()) 2 else if (lampOn) 1 else 0,
-        rows = codes.mapIndexed { i, c ->
+        fraction = if (count == 0) 0f else 1f,
+        alert = count > 0 || lampOn,
+        severity = when {
+            serious.any { it.level == PsaWarnings.Level.STOP } || codes.isNotEmpty() -> 2
+            serious.isNotEmpty() || lampOn -> 1
+            else -> 0
+        },
+        rows = messageRows + codes.mapIndexed { i, c ->
             FaceRow("$c ${titles[i]}", if (c in pending) stringResource(R.string.vehicle_pending) else "", alert = true)
         },
         stats = listOfNotNull(lamp?.let { FaceStat(stringResource(R.string.design_engine_lamp), stringResource(if (it.on) R.string.design_on else R.string.design_off)) }),
@@ -1184,7 +1197,6 @@ private fun carStatusFace(): WidgetFace {
     val u = LocalUnits.current
     // The PSA trip computer sends no mileage: its range leads instead.
     val odometer = b?.odometer?.takeIf { it > 0f }
-    val warned = trip?.warnings.orEmpty().any { code -> PsaWarnings.of(code)?.let { it.level != PsaWarnings.Level.INFO } ?: false }
     return WidgetFace(
         icon = Icons.Filled.DirectionsCarFilled,
         title = BuiltinKind.CAR_STATUS.label,
@@ -1192,8 +1204,8 @@ private fun carStatusFace(): WidgetFace {
             ?: trip?.rangeKm?.let { u.distance(it.toDouble()).toInt().toString() } ?: "--",
         unit = if (u.imperial) u.distanceUnit else stringResource(R.string.car_status_km),
         caption = rows.firstOrNull()?.second.orEmpty(),
-        alert = CarLight.HAZARD in lights || warned,
-        severity = if (CarLight.HAZARD in lights || warned) 1 else 0,
+        alert = CarLight.HAZARD in lights,
+        severity = if (CarLight.HAZARD in lights) 1 else 0,
         rows = rows.map { (label, value) -> FaceRow(label, value) }
     )
 }

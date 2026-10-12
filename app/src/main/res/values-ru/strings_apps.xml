@@ -18,8 +18,8 @@
     <string name="apps_kind_media_blurb">Текущий трек с управлением</string>
     <string name="apps_kind_telemetry">Приборы двигателя</string>
     <string name="apps_kind_telemetry_blurb">Скорость, обороты, ОЖ, нагрузка, аккумулятор</string>
-    <string name="apps_kind_obd_dtc">Коды ошибок</string>
-    <string name="apps_kind_obd_dtc_blurb">Чтение и сброс кодов ошибок OBD</string>
+    <string name="apps_kind_obd_dtc">Неисправности автомобиля</string>
+    <string name="apps_kind_obd_dtc_blurb">Предупреждения автомобиля и коды ошибок двигателя с пояснениями</string>
     <string name="apps_kind_obd_all">Все данные авто</string>
     <string name="apps_kind_obd_all_blurb">Все значения OBD в реальном времени</string>
     <string name="apps_kind_range">Топливо и запас хода</string>

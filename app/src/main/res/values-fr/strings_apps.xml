@@ -18,8 +18,8 @@
     <string name="apps_kind_media_blurb">En cours de lecture, avec commandes</string>
     <string name="apps_kind_telemetry">Cadrans moteur</string>
     <string name="apps_kind_telemetry_blurb">Vitesse, régime, liquide de refroid., charge, batterie</string>
-    <string name="apps_kind_obd_dtc">Codes défaut</string>
-    <string name="apps_kind_obd_dtc_blurb">Lire et effacer les codes défaut OBD</string>
+    <string name="apps_kind_obd_dtc">Problèmes de la voiture</string>
+    <string name="apps_kind_obd_dtc_blurb">Les alertes de la voiture et les codes défaut moteur, expliqués</string>
     <string name="apps_kind_obd_all">Toutes les données de la voiture</string>
     <string name="apps_kind_obd_all_blurb">Toutes les valeurs OBD en direct</string>
     <string name="apps_kind_range">Carburant &amp; autonomie</string>

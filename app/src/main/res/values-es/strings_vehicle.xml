@@ -22,7 +22,7 @@
     <string name="vehicle_load">Carga</string>
 
     <!-- Fault codes tile -->
-    <string name="vehicle_fault_codes_title">CÓDIGOS DE AVERÍA</string>
+    <string name="vehicle_fault_codes_title">PROBLEMAS DEL COCHE</string>
     <string name="vehicle_scan">Escanear</string>
     <string name="vehicle_clear">Borrar códigos</string>
 

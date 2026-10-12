@@ -18,8 +18,8 @@
     <string name="apps_kind_media_blurb">In riproduzione, con comandi</string>
     <string name="apps_kind_telemetry">Strumenti motore</string>
     <string name="apps_kind_telemetry_blurb">Velocità, giri, refrigerante, carico, batteria</string>
-    <string name="apps_kind_obd_dtc">Codici guasto</string>
-    <string name="apps_kind_obd_dtc_blurb">Leggi e cancella i codici guasto OBD</string>
+    <string name="apps_kind_obd_dtc">Problemi dell\'auto</string>
+    <string name="apps_kind_obd_dtc_blurb">Gli avvisi dell\'auto e i codici di guasto del motore, spiegati</string>
     <string name="apps_kind_obd_all">Tutti i dati dell\'auto</string>
     <string name="apps_kind_obd_all_blurb">Tutti i valori OBD in tempo reale</string>
     <string name="apps_kind_range">Carburante e autonomia</string>

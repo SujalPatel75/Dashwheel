@@ -516,10 +516,11 @@ private fun serviceText(car: CarProfile): String = listOfNotNull(
 ).joinToString(" / ")
 
 /**
- * The car's own state from its CAN box ([CarBox]): the lights, the mileage,
- * the trip and the consumption, as the car's trip computer counts them, and
- * on a Peugeot, Citroën or DS its trip computer and messages read off the CAN
- * box stream ([PsaTripComputer]). A value the car doesn't send is left out.
+ * The car's own state from its CAN box ([CarBox]): the range, the
+ * consumption, the trips, the mileage and the lights, as the car's trip
+ * computer counts them (on a Peugeot, Citroën or DS read off the CAN box
+ * stream, [PsaTripComputer]). A value the car doesn't send is left out. The
+ * car's messages are on the Car problems tile ([CarMessages]).
  */
 @Composable
 internal fun CarStatusCard(modifier: Modifier = Modifier) {
@@ -528,7 +529,7 @@ internal fun CarStatusCard(modifier: Modifier = Modifier) {
     Card(modifier = modifier) {
         Column(modifier = Modifier.fillMaxSize().padding(DashSpace.Lg), verticalArrangement = Arrangement.spacedBy(5.dp)) {
             val b = body
-            TileHeader(stringResource(if (b == null && trip != null) R.string.car_status_trip_title else R.string.car_status_title))
+            TileHeader(stringResource(R.string.car_status_title))
             if (b == null && trip == null) {
                 Hint(stringResource(R.string.car_status_waiting))
             } else {
@@ -562,25 +563,41 @@ internal fun carStatusRows(b: CarBody?, trip: PsaTrip? = null): List<Pair<String
     val km = if (u.imperial) u.distanceUnit else stringResource(R.string.car_status_km)
     val consumption = b?.instantConsumption ?: trip?.instantL100
     val range = b?.range?.takeIf { it > 0f } ?: trip?.rangeKm?.toFloat()
-    // The car's own messages first, the serious ones on top: a small tile keeps its first rows.
-    val messages = trip?.warnings.orEmpty()
-        .sortedBy { PsaWarnings.of(it)?.level?.ordinal ?: PsaWarnings.Level.entries.size }
-        .map { code ->
-            stringResource(R.string.car_status_message) to (PsaWarnings.of(code)?.let { stringResource(it.textRes) }
-                ?: stringResource(R.string.car_warn_code, code.toString(16).uppercase().padStart(2, '0')))
-        }
-    return messages + listOfNotNull(
-        lights?.let { stringResource(R.string.car_status_lights) to (it.joinToString(", ").ifEmpty { stringResource(R.string.car_status_lights_off) }) },
-        // 0 is the box not sending it, as for the upkeep and the fuel tiles: left out, not "0 km".
-        b?.odometer?.takeIf { it > 0f }?.let { stringResource(R.string.car_status_odometer) to "${NumberFormat.getIntegerInstance().format(u.distance(it.toDouble()).toLong())} $km" },
-        b?.trip1?.let { stringResource(R.string.car_status_trip) to "${decimal(u.distance(it.toDouble()), 1)} $km" },
-        consumption?.let { stringResource(R.string.car_status_consumption) to consumptionText(it) },
+    // What a driver looks for first comes first: a small tile keeps its first rows.
+    return listOfNotNull(
         range?.let { stringResource(R.string.car_status_range) to "${u.distance(it.toDouble()).toInt()} $km" },
+        consumption?.let { stringResource(R.string.car_status_consumption) to consumptionText(it) },
         trip?.trip1?.let { tripPageRow(1, it) },
         trip?.trip2?.let { tripPageRow(2, it) },
+        b?.trip1?.let { stringResource(R.string.car_status_trip) to "${decimal(u.distance(it.toDouble()), 1)} $km" },
+        // 0 is the box not sending it, as for the upkeep and the fuel tiles: left out, not "0 km".
+        b?.odometer?.takeIf { it > 0f }?.let { stringResource(R.string.car_status_odometer) to "${NumberFormat.getIntegerInstance().format(u.distance(it.toDouble()).toLong())} $km" },
+        lights?.let { stringResource(R.string.car_status_lights) to (it.joinToString(", ").ifEmpty { stringResource(R.string.car_status_lights_off) }) },
         b?.let { stringResource(R.string.car_status_parking_brake) to stringResource(if (it.handbrake) R.string.car_status_on else R.string.car_status_off) }
     )
 }
+
+/** One of the car's own messages, as the Car problems tile and the Now card show it. */
+internal data class CarMessage(val code: Int, val level: PsaWarnings.Level?)
+
+/**
+ * The car's own messages now (a Peugeot, Citroën or DS's, [PsaWarnings]), the
+ * most serious first; asks the car for them while on screen. Empty for other cars.
+ */
+@Composable
+internal fun rememberCarMessages(): List<CarMessage> {
+    val trip = rememberPsaTrip()
+    return remember(trip?.warnings) {
+        trip?.warnings.orEmpty().map { CarMessage(it, PsaWarnings.of(it)?.level) }
+            .sortedBy { it.level?.ordinal ?: PsaWarnings.Level.entries.size }
+    }
+}
+
+/** A message's words: the car's own, or its number when Dashwheel has none for it. */
+@Composable
+internal fun carMessageText(code: Int): String =
+    PsaWarnings.of(code)?.let { stringResource(it.textRes) }
+        ?: stringResource(R.string.car_warn_code, code.toString(16).uppercase().padStart(2, '0'))
 
 /** "5.2 L/100 km", or the driver's own unit. */
 @Composable

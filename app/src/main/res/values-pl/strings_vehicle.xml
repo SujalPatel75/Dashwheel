@@ -22,7 +22,7 @@
     <string name="vehicle_load">Obciążenie</string>
 
     <!-- Fault codes tile -->
-    <string name="vehicle_fault_codes_title">KODY BŁĘDÓW</string>
+    <string name="vehicle_fault_codes_title">PROBLEMY AUTA</string>
     <string name="vehicle_scan">Skanuj</string>
     <string name="vehicle_clear">Skasuj kody</string>
 

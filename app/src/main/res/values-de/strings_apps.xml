@@ -18,8 +18,8 @@
     <string name="apps_kind_media_blurb">Aktuelle Wiedergabe mit Steuerung</string>
     <string name="apps_kind_telemetry">Motoranzeigen</string>
     <string name="apps_kind_telemetry_blurb">Tacho, Drehzahl, Kühlmittel, Last, Batterie</string>
-    <string name="apps_kind_obd_dtc">Fehlercodes</string>
-    <string name="apps_kind_obd_dtc_blurb">OBD-Fehlercodes lesen und löschen</string>
+    <string name="apps_kind_obd_dtc">Fahrzeugprobleme</string>
+    <string name="apps_kind_obd_dtc_blurb">Die Warnungen des Autos und die Fehlercodes des Motors, erklärt</string>
     <string name="apps_kind_obd_all">Alle Fahrzeugdaten</string>
     <string name="apps_kind_obd_all_blurb">Alle OBD-Live-Werte</string>
     <string name="apps_kind_range">Kraftstoff &amp; Reichweite</string>

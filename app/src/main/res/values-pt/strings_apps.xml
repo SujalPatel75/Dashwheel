@@ -18,8 +18,8 @@
     <string name="apps_kind_media_blurb">A reproduzir, com controlos</string>
     <string name="apps_kind_telemetry">Mostradores do motor</string>
     <string name="apps_kind_telemetry_blurb">Velocidade, rotações, líquido refrig., carga, bateria</string>
-    <string name="apps_kind_obd_dtc">Códigos de avaria</string>
-    <string name="apps_kind_obd_dtc_blurb">Ler e apagar códigos de avaria OBD</string>
+    <string name="apps_kind_obd_dtc">Problemas do carro</string>
+    <string name="apps_kind_obd_dtc_blurb">Os avisos do carro e os códigos de falha do motor, explicados</string>
     <string name="apps_kind_obd_all">Todos os dados do carro</string>
     <string name="apps_kind_obd_all_blurb">Todos os valores OBD em tempo real</string>
     <string name="apps_kind_range">Combustível e autonomia</string>

@@ -198,9 +198,9 @@
     <string name="car_spec_driver_side">Kierowca po prawej</string>
     <string name="car_spec_driver_side_detail">Kierownica po prawej: szablony umieszczają główne kafelki po prawej</string>
     <string name="car_battery_trip_range">Ta jazda: od %1$s do %2$s V</string>
-    <string name="car_kind_status">Światła i przebieg</string>
-    <string name="car_kind_status_blurb">Światła, przebieg, trasa i spalanie z auta</string>
-    <string name="car_status_title">ŚWIATŁA I PRZEBIEG</string>
+    <string name="car_kind_status">Stan auta</string>
+    <string name="car_kind_status_blurb">Zasięg, zużycie, trasy, przebieg i światła według auta</string>
+    <string name="car_status_title">STAN AUTA</string>
     <string name="car_status_waiting">Czekam na dane z auta</string>
     <string name="car_status_lights">Światła</string>
     <string name="car_status_lights_off">Wyłączone</string>
@@ -218,7 +218,6 @@
     <string name="car_status_on">Zaciągnięty</string>
     <string name="car_status_off">Zwolniony</string>
     <string name="car_status_km">km</string>
-    <string name="car_status_trip_title">KOMPUTER POKŁADOWY</string>
     <string name="car_status_trip_n">Trasa %1$d</string>
     <string name="car_status_message">Komunikat samochodu</string>
     <string name="car_warn_code">Komunikat %1$s</string>
@@ -296,4 +295,6 @@
     <string name="car_warn_tpms">Ciśnienie w oponach nie jest monitorowane</string>
     <string name="car_warn_key_battery">Słaba bateria kluczyka</string>
     <string name="car_warn_more">i %1$d więcej</string>
+    <string name="car_problems_car_says">SAMOCHÓD ZGŁASZA</string>
+    <string name="car_problems_engine_codes">KODY BŁĘDÓW SILNIKA</string>
 </resources>

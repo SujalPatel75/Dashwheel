@@ -22,7 +22,7 @@
     <string name="vehicle_load">Last</string>
 
     <!-- Fault codes tile -->
-    <string name="vehicle_fault_codes_title">FEHLERCODES</string>
+    <string name="vehicle_fault_codes_title">FAHRZEUGPROBLEME</string>
     <string name="vehicle_scan">Auslesen</string>
     <string name="vehicle_clear">Codes löschen</string>
 

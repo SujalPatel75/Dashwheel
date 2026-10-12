@@ -22,7 +22,7 @@
     <string name="vehicle_load">Belasting</string>
 
     <!-- Fault codes tile -->
-    <string name="vehicle_fault_codes_title">FOUTCODES</string>
+    <string name="vehicle_fault_codes_title">AUTOPROBLEMEN</string>
     <string name="vehicle_scan">Uitlezen</string>
     <string name="vehicle_clear">Codes wissen</string>
 

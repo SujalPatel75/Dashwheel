@@ -193,9 +193,9 @@
     <string name="car_spec_driver_side">Conducteur à droite</string>
     <string name="car_spec_driver_side_detail">Conduite à droite : les modèles placent les tuiles principales à droite</string>
     <string name="car_battery_trip_range">Ce trajet : de %1$s à %2$s V</string>
-    <string name="car_kind_status">Feux et kilométrage</string>
-    <string name="car_kind_status_blurb">Feux, kilométrage, trajet et consommation de la voiture</string>
-    <string name="car_status_title">FEUX ET KILOMÉTRAGE</string>
+    <string name="car_kind_status">État de la voiture</string>
+    <string name="car_kind_status_blurb">Autonomie, consommation, trajets, kilométrage et feux, comptés par la voiture</string>
+    <string name="car_status_title">ÉTAT DE LA VOITURE</string>
     <string name="car_status_waiting">En attente des données de la voiture</string>
     <string name="car_status_lights">Feux</string>
     <string name="car_status_lights_off">Éteints</string>
@@ -213,7 +213,6 @@
     <string name="car_status_on">Serré</string>
     <string name="car_status_off">Desserré</string>
     <string name="car_status_km">km</string>
-    <string name="car_status_trip_title">ORDINATEUR DE BORD</string>
     <string name="car_status_trip_n">Trajet %1$d</string>
     <string name="car_status_message">Message de la voiture</string>
     <string name="car_warn_code">Message %1$s</string>
@@ -291,4 +290,6 @@
     <string name="car_warn_tpms">Pression des pneus non surveillée</string>
     <string name="car_warn_key_battery">Pile de la clé faible</string>
     <string name="car_warn_more">et %1$d de plus</string>
+    <string name="car_problems_car_says">LA VOITURE SIGNALE</string>
+    <string name="car_problems_engine_codes">CODES DÉFAUT MOTEUR</string>
 </resources>

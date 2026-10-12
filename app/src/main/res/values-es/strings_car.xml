@@ -193,9 +193,9 @@
     <string name="car_spec_driver_side">Conductor a la derecha</string>
     <string name="car_spec_driver_side_detail">Volante a la derecha: las plantillas ponen las tarjetas principales a la derecha</string>
     <string name="car_battery_trip_range">Este trayecto: de %1$s a %2$s V</string>
-    <string name="car_kind_status">Luces y kilometraje</string>
-    <string name="car_kind_status_blurb">Luces, kilometraje, trayecto y consumo del coche</string>
-    <string name="car_status_title">LUCES Y KILOMETRAJE</string>
+    <string name="car_kind_status">Estado del coche</string>
+    <string name="car_kind_status_blurb">Autonomía, consumo, trayectos, kilometraje y luces, según el coche</string>
+    <string name="car_status_title">ESTADO DEL COCHE</string>
     <string name="car_status_waiting">Esperando los datos del coche</string>
     <string name="car_status_lights">Luces</string>
     <string name="car_status_lights_off">Apagadas</string>
@@ -213,7 +213,6 @@
     <string name="car_status_on">Puesto</string>
     <string name="car_status_off">Quitado</string>
     <string name="car_status_km">km</string>
-    <string name="car_status_trip_title">ORDENADOR DE A BORDO</string>
     <string name="car_status_trip_n">Trayecto %1$d</string>
     <string name="car_status_message">Mensaje del coche</string>
     <string name="car_warn_code">Mensaje %1$s</string>
@@ -291,4 +290,6 @@
     <string name="car_warn_tpms">Presión de neumáticos sin vigilar</string>
     <string name="car_warn_key_battery">Pila de la llave baja</string>
     <string name="car_warn_more">y %1$d más</string>
+    <string name="car_problems_car_says">EL COCHE AVISA</string>
+    <string name="car_problems_engine_codes">CÓDIGOS DE FALLO DEL MOTOR</string>
 </resources>

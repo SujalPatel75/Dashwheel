@@ -197,9 +197,9 @@
     <string name="car_spec_driver_side">Правый руль</string>
     <string name="car_spec_driver_side_detail">Правый руль: шаблоны размещают главные плитки справа</string>
     <string name="car_battery_trip_range">Эта поездка: от %1$s до %2$s В</string>
-    <string name="car_kind_status">Фары и пробег</string>
-    <string name="car_kind_status_blurb">Фары, пробег, поездка и расход от автомобиля</string>
-    <string name="car_status_title">ФАРЫ И ПРОБЕГ</string>
+    <string name="car_kind_status">Состояние автомобиля</string>
+    <string name="car_kind_status_blurb">Запас хода, расход, поездки, пробег и фары по данным автомобиля</string>
+    <string name="car_status_title">СОСТОЯНИЕ АВТОМОБИЛЯ</string>
     <string name="car_status_waiting">Ожидание данных автомобиля</string>
     <string name="car_status_lights">Свет</string>
     <string name="car_status_lights_off">Выкл.</string>
@@ -217,7 +217,6 @@
     <string name="car_status_on">Вкл.</string>
     <string name="car_status_off">Выкл.</string>
     <string name="car_status_km">км</string>
-    <string name="car_status_trip_title">БОРТОВОЙ КОМПЬЮТЕР</string>
     <string name="car_status_trip_n">Поездка %1$d</string>
     <string name="car_status_message">Сообщение автомобиля</string>
     <string name="car_warn_code">Сообщение %1$s</string>
@@ -295,4 +294,6 @@
     <string name="car_warn_tpms">Давление в шинах не контролируется</string>
     <string name="car_warn_key_battery">Садится батарейка ключа</string>
     <string name="car_warn_more">и ещё %1$d</string>
+    <string name="car_problems_car_says">АВТОМОБИЛЬ СООБЩАЕТ</string>
+    <string name="car_problems_engine_codes">КОДЫ ОШИБОК ДВИГАТЕЛЯ</string>
 </resources>

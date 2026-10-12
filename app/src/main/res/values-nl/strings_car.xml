@@ -191,9 +191,9 @@
     <string name="car_spec_driver_side">Bestuurder rechts</string>
     <string name="car_spec_driver_side_detail">Rechts gestuurd: sjablonen zetten de belangrijkste tegels rechts</string>
     <string name="car_battery_trip_range">Deze rit: %1$s tot %2$s V</string>
-    <string name="car_kind_status">Verlichting en kilometerstand</string>
-    <string name="car_kind_status_blurb">Verlichting, kilometerstand, rit en verbruik van de auto</string>
-    <string name="car_status_title">VERLICHTING EN KILOMETERSTAND</string>
+    <string name="car_kind_status">Autostatus</string>
+    <string name="car_kind_status_blurb">Actieradius, verbruik, ritten, kilometerstand en lichten, zoals de auto ze telt</string>
+    <string name="car_status_title">AUTOSTATUS</string>
     <string name="car_status_waiting">Wachten op de gegevens van de auto</string>
     <string name="car_status_lights">Verlichting</string>
     <string name="car_status_lights_off">Uit</string>
@@ -211,7 +211,6 @@
     <string name="car_status_on">Aan</string>
     <string name="car_status_off">Los</string>
     <string name="car_status_km">km</string>
-    <string name="car_status_trip_title">BOORDCOMPUTER</string>
     <string name="car_status_trip_n">Rit %1$d</string>
     <string name="car_status_message">Melding van de auto</string>
     <string name="car_warn_code">Melding %1$s</string>
@@ -289,4 +288,6 @@
     <string name="car_warn_tpms">Bandenspanning niet bewaakt</string>
     <string name="car_warn_key_battery">Sleutelbatterij bijna leeg</string>
     <string name="car_warn_more">en nog %1$d</string>
+    <string name="car_problems_car_says">DE AUTO MELDT</string>
+    <string name="car_problems_engine_codes">MOTORFOUTCODES</string>
 </resources>

@@ -193,9 +193,9 @@
     <string name="car_spec_driver_side">Volante a destra</string>
     <string name="car_spec_driver_side_detail">Guida a destra: i modelli mettono i riquadri principali a destra</string>
     <string name="car_battery_trip_range">Questo viaggio: da %1$s a %2$s V</string>
-    <string name="car_kind_status">Luci e chilometraggio</string>
-    <string name="car_kind_status_blurb">Luci, chilometraggio, viaggio e consumi dell\'auto</string>
-    <string name="car_status_title">LUCI E CHILOMETRAGGIO</string>
+    <string name="car_kind_status">Stato dell\'auto</string>
+    <string name="car_kind_status_blurb">Autonomia, consumi, viaggi, chilometri e luci, contati dall\'auto</string>
+    <string name="car_status_title">STATO DELL\'AUTO</string>
     <string name="car_status_waiting">In attesa dei dati dell\'auto</string>
     <string name="car_status_lights">Luci</string>
     <string name="car_status_lights_off">Spente</string>
@@ -213,7 +213,6 @@
     <string name="car_status_on">Inserito</string>
     <string name="car_status_off">Disinserito</string>
     <string name="car_status_km">km</string>
-    <string name="car_status_trip_title">COMPUTER DI BORDO</string>
     <string name="car_status_trip_n">Viaggio %1$d</string>
     <string name="car_status_message">Messaggio dell\'auto</string>
     <string name="car_warn_code">Messaggio %1$s</string>
@@ -291,4 +290,6 @@
     <string name="car_warn_tpms">Pressione pneumatici non monitorata</string>
     <string name="car_warn_key_battery">Batteria della chiave scarica</string>
     <string name="car_warn_more">e altri %1$d</string>
+    <string name="car_problems_car_says">L\'AUTO SEGNALA</string>
+    <string name="car_problems_engine_codes">CODICI DI GUASTO DEL MOTORE</string>
 </resources>

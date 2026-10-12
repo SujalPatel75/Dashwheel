@@ -85,7 +85,9 @@ import androidx.core.content.ContextCompat
 import kotlinx.coroutines.launch
 
 /**
- * Fault codes (OBD Diagnostic Trouble Codes). Scans run by themselves when the
+ * Car problems: the car's own messages first (a Peugeot, Citroën or DS's,
+ * read off its CAN box with no OBD adapter, [rememberCarMessages]), then the
+ * fault codes (OBD Diagnostic Trouble Codes). Scans run by themselves when the
  * adapter connects (see [AiMechanic]); Scan / Clear are here for doing it by
  * hand. The tile is the overview (verdict, one card per code); a code opens
  * the AI mechanic's full explanation. A short tile keeps to the verdict and
@@ -106,6 +108,9 @@ internal fun ObdDtcCard(
     val ai by AiMechanic.state.collectAsState()
     val codes = ai.codes
     val diagnosis = ai.diagnosis
+    // The car's own messages, the most serious first; asked for while the tile is on screen.
+    val carMessages = rememberCarMessages()
+    val seriousMessages = carMessages.filter { it.level != PsaWarnings.Level.INFO }
     val lamp by ObdBluetoothManager.lamp.collectAsState()
     // Only whether the engine runs matters here: the card must not redraw on every OBD sample.
     val obd = ObdBluetoothManager.data.collectAsState()
@@ -178,6 +183,17 @@ internal fun ObdDtcCard(
         if (ask != AskMechanic.State.Idle && opened == null) {
             AskPanel(ask, aiText, onReplay = { AskMechanic.replay(context) }, compact = true, onClose = AskMechanic::cancel)
             Spacer(Modifier.height(10.dp))
+        }
+
+        if (carMessages.isNotEmpty()) {
+            Text(stringResource(R.string.car_problems_car_says), color = DashColors.TextSecondary, fontWeight = FontWeight.Bold, style = MaterialTheme.typography.labelMedium)
+            Spacer(Modifier.height(6.dp))
+            Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
+                carMessages.forEach { m -> CarMessageRow(m) }
+            }
+            Spacer(Modifier.height(14.dp))
+            Text(stringResource(R.string.car_problems_engine_codes), color = DashColors.TextSecondary, fontWeight = FontWeight.Bold, style = MaterialTheme.typography.labelMedium)
+            Spacer(Modifier.height(6.dp))
         }
 
         if (!connected) {
@@ -277,6 +293,9 @@ internal fun ObdDtcCard(
                 CompactFaults(
                     codes = codes, diagnosis = diagnosis, thinking = ai.thinking, lamp = lamp,
                     connected = connected, busy = busy, message = message, aiText = aiText,
+                    carMessage = seriousMessages.firstOrNull()?.let { carMessageText(it.code) },
+                    carCount = seriousMessages.size,
+                    carStop = seriousMessages.any { it.level == PsaWarnings.Level.STOP },
                     oneLine = maxHeight < 130.dp, onScan = scan, onOpen = { expanded = true }
                 )
             } else {
@@ -329,16 +348,28 @@ private fun CompactFaults(
     busy: Boolean,
     message: DtcMessage?,
     aiText: Resources,
+    /** The car's own most serious message, and how many it has that matter ([CarMessage]). */
+    carMessage: String?,
+    carCount: Int,
+    carStop: Boolean,
     oneLine: Boolean,
     onScan: () -> Unit,
     onOpen: () -> Unit
 ) {
     val lampOn = lamp?.on == true
     val failed = message?.takeIf { it.failed }
-    // Never a green "no fault" while the engine computer says its lamp is on.
-    val colour = if (codes.isNullOrEmpty()) (if (lampOn) DashColors.Warning else DashColors.Good) else severityColor(diagnosis?.severity)
+    // Never a green "no fault" while the engine computer says its lamp is on, nor while the car itself warns.
+    val colour = when {
+        carStop -> DashColors.Critical
+        !codes.isNullOrEmpty() -> severityColor(diagnosis?.severity)
+        carCount > 0 || lampOn -> DashColors.Warning
+        else -> DashColors.Good
+    }
+    val count = if (codes != null || carCount > 0) codes.orEmpty().size + carCount else null
     val verdict = when {
         failed != null -> failed.text
+        // The car's own words first: they need no adapter and say what to do.
+        carMessage != null -> carMessage
         codes == null -> if (connected) null else stringResource(R.string.vehicle_obd_not_connected)
         codes.isEmpty() -> stringResource(if (lampOn) R.string.vehicle_lamp_on else R.string.ai_no_codes)
         diagnosis != null -> aiText.getString(verdictRes(diagnosis.severity))
@@ -347,8 +378,8 @@ private fun CompactFaults(
     }
     val summary: @Composable (Modifier) -> Unit = { m ->
         Row(modifier = m, verticalAlignment = Alignment.CenterVertically) {
-            if (codes != null) {
-                Text(codes.size.toString(), color = colour, fontWeight = FontWeight.ExtraBold, style = MaterialTheme.typography.displaySmall)
+            if (count != null) {
+                Text(count.toString(), color = colour, fontWeight = FontWeight.ExtraBold, style = MaterialTheme.typography.displaySmall)
                 Spacer(Modifier.width(12.dp))
             }
             Column(Modifier.weight(1f)) {
@@ -920,5 +951,20 @@ private fun CheckFirstBox(text: String, aiText: Resources) {
                 Text(text, color = DashColors.TextPrimary, style = MaterialTheme.typography.bodyLarge)
             }
         }
+    }
+}
+
+/** One of the car's own messages: its words, marked by how serious it is. */
+@Composable
+private fun CarMessageRow(m: CarMessage) {
+    val (icon, tint) = when (m.level) {
+        PsaWarnings.Level.STOP -> Icons.Filled.Error to DashColors.Critical
+        PsaWarnings.Level.SERVICE -> Icons.Filled.Warning to DashColors.Warning
+        else -> Icons.Filled.Info to DashColors.TextSecondary
+    }
+    Row(verticalAlignment = Alignment.CenterVertically) {
+        Icon(icon, contentDescription = null, tint = tint, modifier = Modifier.size(20.dp))
+        Spacer(Modifier.width(10.dp))
+        Text(carMessageText(m.code), color = DashColors.TextPrimary, style = MaterialTheme.typography.bodyLarge)
     }
 }

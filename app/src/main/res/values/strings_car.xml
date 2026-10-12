@@ -191,9 +191,9 @@
     <string name="car_spec_driver_side">Driver on the right</string>
     <string name="car_spec_driver_side_detail">Right-hand drive: templates put the main tiles on the right</string>
     <string name="car_battery_trip_range">This trip: %1$s to %2$s V</string>
-    <string name="car_kind_status">Car lights and odometer</string>
-    <string name="car_kind_status_blurb">Lights, mileage, trip and consumption from the car</string>
-    <string name="car_status_title">LIGHTS AND ODOMETER</string>
+    <string name="car_kind_status">Car status</string>
+    <string name="car_kind_status_blurb">Range, consumption, trips, mileage and lights, as the car counts them</string>
+    <string name="car_status_title">CAR STATUS</string>
     <string name="car_status_waiting">Waiting for the car\'s data</string>
     <string name="car_status_lights">Lights</string>
     <string name="car_status_lights_off">Off</string>
@@ -211,7 +211,6 @@
     <string name="car_status_on">On</string>
     <string name="car_status_off">Off</string>
     <string name="car_status_km">km</string>
-    <string name="car_status_trip_title">TRIP COMPUTER</string>
     <string name="car_status_trip_n">Trip %1$d</string>
     <string name="car_status_message">Car message</string>
     <string name="car_warn_code">Message %1$s</string>
@@ -289,4 +288,6 @@
     <string name="car_warn_tpms">Tyre pressures not watched</string>
     <string name="car_warn_key_battery">Key battery low</string>
     <string name="car_warn_more">and %1$d more</string>
+    <string name="car_problems_car_says">THE CAR SAYS</string>
+    <string name="car_problems_engine_codes">ENGINE FAULT CODES</string>
 </resources>

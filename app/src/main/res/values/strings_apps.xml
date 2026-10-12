@@ -18,8 +18,8 @@
     <string name="apps_kind_media_blurb">Now playing with controls</string>
     <string name="apps_kind_telemetry">Engine gauges</string>
     <string name="apps_kind_telemetry_blurb">Speed gauge, revs, coolant, load, battery</string>
-    <string name="apps_kind_obd_dtc">Fault codes</string>
-    <string name="apps_kind_obd_dtc_blurb">Read and clear OBD trouble codes</string>
+    <string name="apps_kind_obd_dtc">Car problems</string>
+    <string name="apps_kind_obd_dtc_blurb">The car\'s own warnings and the engine\'s fault codes, explained</string>
     <string name="apps_kind_obd_all">All car data</string>
     <string name="apps_kind_obd_all_blurb">Every live OBD value</string>
     <string name="apps_kind_range">Fuel &amp; range</string>

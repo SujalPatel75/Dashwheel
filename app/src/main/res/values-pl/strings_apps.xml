@@ -18,8 +18,8 @@
     <string name="apps_kind_media_blurb">Teraz odtwarzane, ze sterowaniem</string>
     <string name="apps_kind_telemetry">Wskaźniki silnika</string>
     <string name="apps_kind_telemetry_blurb">Prędkość, obroty, płyn chłodn., obciążenie, akumulator</string>
-    <string name="apps_kind_obd_dtc">Kody błędów</string>
-    <string name="apps_kind_obd_dtc_blurb">Odczyt i kasowanie kodów błędów OBD</string>
+    <string name="apps_kind_obd_dtc">Problemy auta</string>
+    <string name="apps_kind_obd_dtc_blurb">Ostrzeżenia auta i kody błędów silnika z wyjaśnieniem</string>
     <string name="apps_kind_obd_all">Wszystkie dane samochodu</string>
     <string name="apps_kind_obd_all_blurb">Wszystkie wartości OBD na żywo</string>
     <string name="apps_kind_range">Paliwo i zasięg</string>
