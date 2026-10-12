@@ -1,5 +1,6 @@
 package com.openauto.dash
 
+import android.app.ActivityOptions
 import android.content.Context
 import android.content.Intent
 import android.content.pm.LauncherApps
@@ -11,6 +12,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import org.json.JSONObject
+import org.lsposed.hiddenapibypass.HiddenApiBypass
 
 /**
  * A launchable app installed on the device.
@@ -33,6 +35,9 @@ data class AppEntry(
  * app's UI inside a view, so "opening" an app hands the whole screen to it.
  */
 object AppLauncher {
+    // WindowConfiguration.WINDOWING_MODE_FULLSCREEN (@hide).
+    private const val WINDOWING_MODE_FULLSCREEN = 1
+
 
     /** All launchable apps except this launcher, sorted alphabetically by label. */
     fun loadApps(context: Context): List<AppEntry> {
@@ -73,13 +78,21 @@ object AppLauncher {
         return { launcherApps.unregisterCallback(callback) }
     }
 
-    /** Launches [packageName] fullscreen. Returns false if it has no launch intent. */
+    /**
+     * Launches [packageName] fullscreen. Returns false if it has no launch
+     * intent. Full screen is asked for: on a unit with freeform windows,
+     * Android otherwise brings an app back in the small window it last had
+     * (the K706's TPMS app came up 220 dp wide in a corner).
+     */
     fun launch(context: Context, packageName: String): Boolean {
         val launchIntent = context.packageManager
             .getLaunchIntentForPackage(packageName)
             ?.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             ?: return false
-        val launched = runCatching { context.startActivity(launchIntent); true }.getOrDefault(false)
+        val options = ActivityOptions.makeBasic()
+        runCatching { HiddenApiBypass.invoke(ActivityOptions::class.java, options, "setLaunchWindowingMode", WINDOWING_MODE_FULLSCREEN) }
+        val launched = runCatching { context.startActivity(launchIntent, options.toBundle()); true }
+            .recoverCatching { context.startActivity(launchIntent); true }.getOrDefault(false)
         if (launched) AppUsage.opened(context, packageName)
         return launched
     }

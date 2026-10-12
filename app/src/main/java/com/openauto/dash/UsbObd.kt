@@ -309,20 +309,3 @@ internal fun looksLikeElm(reply: String): Boolean {
     val printable = reply.count { it == '\r' || it == '\n' || it in ' '..'~' }
     return printable >= reply.length * 0.9
 }
-
-/**
- * Opened by Android when a serial device is plugged in, if the driver lets
- * Dashwheel handle it (ticking "always" makes that for good): that grants
- * the access, and the link is looked at again. Nothing is saved here: a
- * serial device is not an OBD adapter until it answers as one (the unit's
- * own TPMS receiver comes up here at every start). Nothing is shown.
- */
-class UsbObdAttachActivity : Activity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        @Suppress("DEPRECATION")
-        val device = intent?.getParcelableExtra<UsbDevice>(UsbManager.EXTRA_DEVICE)
-        if (device != null && UsbSerialProber.getDefaultProber().probeDevice(device) != null) VehicleMonitor.usbChanged()
-        finish()
-    }
-}
