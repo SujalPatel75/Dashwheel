@@ -292,4 +292,12 @@
     <string name="car_warn_more">et %1$d de plus</string>
     <string name="car_problems_car_says">LA VOITURE SIGNALE</string>
     <string name="car_problems_engine_codes">CODES DÉFAUT MOTEUR</string>
+    <string name="car_map_back">Arrière</string>
+    <string name="car_map_front">Avant</string>
+    <string name="car_map_top">Dessus</string>
+    <string name="mycar_view_back">arrière</string>
+    <string name="mycar_view_front">avant</string>
+    <string name="mycar_ends_hint">Photos de l\'arrière et de l\'avant, détourées : la tuile Problèmes de la voiture y montre une ampoule grillée</string>
+    <string name="mycar_add_back">Arrière</string>
+    <string name="mycar_add_front">Avant</string>
 </resources>

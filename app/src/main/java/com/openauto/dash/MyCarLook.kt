@@ -71,7 +71,9 @@ internal class CarView(
     val wheels: List<Offset> = emptyList(),
     val nose: Offset? = null,
     val tail: Offset? = null,
-    val parts: Map<CarPart, CarLayer> = emptyMap()
+    val parts: Map<CarPart, CarLayer> = emptyMap(),
+    /** From an end, the car's own left and right lamp (fractions); empty for the other views. */
+    val lights: List<Offset> = emptyList()
 ) {
     val aspect: Float get() = photo.width.toFloat() / photo.height
 
@@ -81,7 +83,11 @@ internal class CarView(
     }
 }
 
-internal class CarLook(val name: String, val side: CarView?, val top: CarView?, val hero: CarView?) {
+internal class CarLook(
+    val name: String, val side: CarView?, val top: CarView?, val hero: CarView?,
+    /** The car from behind and from the front, where its lamps are seen face on (the Car problems map). */
+    val back: CarView? = null, val front: CarView? = null
+) {
     /** The best picture for a tile that shows the car whole: the 3/4 view, else the side. */
     val portrait: CarView? get() = hero ?: side
 }
@@ -99,7 +105,7 @@ internal object MyCarLook {
     /** The biggest file read: a pack of three large pictures. */
     private const val MAX_FILE = CarLookPart.MAX_BYTES
 
-    private val VIEWS = listOf("side", "top", "hero")
+    private val VIEWS = listOf("side", "top", "hero", "back", "front")
 
     private var appContext: Context? = null
 
@@ -156,8 +162,13 @@ internal object MyCarLook {
     // --- Import ---------------------------------------------------------------------
 
     /** Reads a car pack or a picture picked by the driver; blocking, call off the main thread. */
-    fun importUri(context: Context, uri: Uri): Result<CarLook> = runCatching {
-        val bytes = context.contentResolver.openInputStream(uri)?.use { input ->
+    fun importUri(context: Context, uri: Uri): Result<CarLook> = runCatching { importBytes(context, readUri(context, uri)) }
+
+    /** One [view] ("back", "front") from a picture the driver picked ([addView]). */
+    fun addViewUri(context: Context, view: String, uri: Uri): Result<CarLook> = runCatching { addView(context, view, readUri(context, uri)) }
+
+    private fun readUri(context: Context, uri: Uri): ByteArray =
+        context.contentResolver.openInputStream(uri)?.use { input ->
             val out = java.io.ByteArrayOutputStream()
             val buffer = ByteArray(64 * 1024)
             while (true) {
@@ -168,8 +179,6 @@ internal object MyCarLook {
             }
             out.toByteArray()
         } ?: error("unreadable")
-        importBytes(context, bytes)
-    }
 
     /** The file a unit without a file picker reads instead (beside the setup backup's). */
     fun fallbackFile(context: Context): File = File(context.getExternalFilesDir(null) ?: context.filesDir, "my-car.dwcar")
@@ -207,6 +216,7 @@ internal object MyCarLook {
                 prepared.nose?.let { put("nose", point(it)) }
                 prepared.tail?.let { put("tail", point(it)) }
                 if (parts.length() > 0) put("parts", parts)
+                lampsOf(view, prepared.photo)?.let { put("lights", JSONArray().apply { it.forEach { o -> put(point(o)) } }) }
             })
             prepared.photo.recycle()
             prepared.outline.recycle()
@@ -386,13 +396,61 @@ internal object MyCarLook {
         return Bitmap.createBitmap(out, w, h, Bitmap.Config.ARGB_8888)
     }
 
+    /**
+     * Adds or replaces one [view] ("back", "front"…) of the car already
+     * imported, from a picture of it alone (cut out, or on a flat
+     * background), keeping the rest of the pack as it is.
+     */
+    fun addView(context: Context, view: String, bytes: ByteArray): CarLook {
+        setContext(context)
+        require(view in VIEWS) { "no such view" }
+        val root = File(context.filesDir, DIR).apply { mkdirs() }
+        val file = File(root, MANIFEST)
+        val manifest = if (file.exists()) JSONObject(file.readText()) else JSONObject().put("name", CarProfileStore.current.name)
+        val prepared = prepare(RawView(bytes)) ?: error("not a picture")
+        File(root, "$view.png").outputStream().use { prepared.photo.compress(Bitmap.CompressFormat.PNG, 100, it) }
+        File(root, "${view}_line.png").outputStream().use { prepared.outline.compress(Bitmap.CompressFormat.PNG, 100, it) }
+        manifest.put(view, JSONObject().apply {
+            lampsOf(view, prepared.photo)?.let { put("lights", JSONArray().apply { it.forEach { o -> put(point(o)) } }) }
+        })
+        prepared.photo.recycle()
+        prepared.outline.recycle()
+        file.writeText(manifest.toString())
+        val look = load(context) ?: error("could not read it back")
+        publish(look)
+        return look
+    }
+
+    /**
+     * The car's left and right lamp on an end view (fractions), the car's own
+     * left first: from behind, the red of the rear lamps on each half of the
+     * picture's upper part (the car's left on the picture's left); from the
+     * front, where headlights usually sit (the car's left on the picture's
+     * right). Null for the other views.
+     */
+    internal fun lampsOf(view: String, photo: Bitmap): List<Offset>? = when (view) {
+        "back" -> {
+            val w = photo.width
+            val h = photo.height
+            val px = IntArray(w * h)
+            photo.getPixels(px, 0, w, 0, 0, w, h)
+            rearLamps(px, w, h)
+        }
+        "front" -> listOf(Offset(0.8f, 0.45f), Offset(0.2f, 0.45f))
+        else -> null
+    }
+
     private fun load(context: Context): CarLook? = runCatching {
         val root = File(context.filesDir, DIR)
         val manifest = JSONObject(File(root, MANIFEST).takeIf { it.exists() }?.readText() ?: return null)
         fun view(name: String): CarView? {
             val a = manifest.optJSONObject(name) ?: return null
             val photo = BitmapFactory.decodeFile(File(root, "$name.png").path) ?: return null
-            val outline = BitmapFactory.decodeFile(File(root, "${name}_line.png").path) ?: return null
+            // A picture put in by hand has no outline yet: drawn once, then kept.
+            val outline = BitmapFactory.decodeFile(File(root, "${name}_line.png").path)
+                ?: outlineOf(photo).also { line -> runCatching { File(root, "${name}_line.png").outputStream().use { line.compress(Bitmap.CompressFormat.PNG, 100, it) } } }
+            val lights = a.optJSONArray("lights")?.let { arr -> (0 until arr.length()).mapNotNull { offset(arr.optJSONArray(it)) } }
+                ?.takeIf { it.size == 2 } ?: lampsOf(name, photo).orEmpty()
             val wheels = a.optJSONArray("wheels")?.let { arr -> (0 until arr.length()).mapNotNull { offset(arr.optJSONArray(it)) } }.orEmpty()
             val parts = HashMap<CarPart, CarLayer>()
             a.optJSONObject("parts")?.let { p ->
@@ -403,9 +461,10 @@ internal object MyCarLook {
                     parts[part] = CarLayer(partPhoto.asImageBitmap(), partLine.asImageBitmap(), box)
                 }
             }
-            return CarView(photo.asImageBitmap(), outline.asImageBitmap(), wheels, offset(a.optJSONArray("nose")), offset(a.optJSONArray("tail")), parts)
+            return CarView(photo.asImageBitmap(), outline.asImageBitmap(), wheels, offset(a.optJSONArray("nose")), offset(a.optJSONArray("tail")), parts, lights)
         }
-        CarLook(manifest.optString("name"), view("side"), view("top"), view("hero")).takeIf { it.side != null || it.top != null || it.hero != null }
+        CarLook(manifest.optString("name"), view("side"), view("top"), view("hero"), view("back"), view("front"))
+            .takeIf { it.side != null || it.top != null || it.hero != null || it.back != null || it.front != null }
     }.getOrNull()
 
     private fun point(o: Offset) = JSONArray().put(o.x.toDouble()).put(o.y.toDouble())
@@ -560,4 +619,29 @@ private fun tintRamp(light: Color): ColorFilter {
     val g = row(dark.green, light.green)
     val b = row(dark.blue, light.blue)
     return ColorFilter.colorMatrix(ColorMatrix(r + g + b + floatArrayOf(0f, 0f, 0f, 1f, 0f)))
+}
+
+/**
+ * The rear lamps of a car seen from behind ([px], [w] x [h], transparent
+ * around it): the middle of the red on each half of its upper 70 %, the car's
+ * left (the picture's left) first; where too little red is found, where rear
+ * lamps usually sit. Pure, so it is unit-tested.
+ */
+internal fun rearLamps(px: IntArray, w: Int, h: Int): List<Offset> {
+    fun lamp(from: Int, until: Int, fallbackX: Float): Offset {
+        var sx = 0L
+        var sy = 0L
+        var n = 0
+        for (y in 0 until (h * 0.7f).toInt()) for (x in from until until) {
+            val c = px[y * w + x]
+            if ((c ushr 24) < 128) continue
+            val r = (c shr 16) and 0xFF
+            val g = (c shr 8) and 0xFF
+            val b = c and 0xFF
+            if (r > 110 && r > g * 1.6f && r > b * 1.4f) { sx += x; sy += y; n++ }
+        }
+        val area = (until - from) * h * 0.7f
+        return if (n >= area * 0.004f) Offset(sx.toFloat() / n / w, sy.toFloat() / n / h) else Offset(fallbackX, 0.4f)
+    }
+    return listOf(lamp(0, w / 2, 0.14f), lamp(w / 2, w, 0.86f))
 }

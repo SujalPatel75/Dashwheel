@@ -290,4 +290,12 @@
     <string name="car_warn_more">und %1$d weitere</string>
     <string name="car_problems_car_says">DAS AUTO MELDET</string>
     <string name="car_problems_engine_codes">MOTOR-FEHLERCODES</string>
+    <string name="car_map_back">Hinten</string>
+    <string name="car_map_front">Vorne</string>
+    <string name="car_map_top">Oben</string>
+    <string name="mycar_view_back">hinten</string>
+    <string name="mycar_view_front">vorne</string>
+    <string name="mycar_ends_hint">Fotos von hinten und vorne, freigestellt: Die Kachel Fahrzeugprobleme zeigt darauf eine defekte Lampe</string>
+    <string name="mycar_add_back">Hinten</string>
+    <string name="mycar_add_front">Vorne</string>
 </resources>

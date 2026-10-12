@@ -292,4 +292,12 @@
     <string name="car_warn_more">e altri %1$d</string>
     <string name="car_problems_car_says">L\'AUTO SEGNALA</string>
     <string name="car_problems_engine_codes">CODICI DI GUASTO DEL MOTORE</string>
+    <string name="car_map_back">Dietro</string>
+    <string name="car_map_front">Davanti</string>
+    <string name="car_map_top">Sopra</string>
+    <string name="mycar_view_back">posteriore</string>
+    <string name="mycar_view_front">anteriore</string>
+    <string name="mycar_ends_hint">Foto del retro e del davanti, scontornate: il riquadro Problemi dell\'auto vi mostra una lampadina bruciata</string>
+    <string name="mycar_add_back">Retro</string>
+    <string name="mycar_add_front">Davanti</string>
 </resources>

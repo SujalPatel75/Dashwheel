@@ -296,4 +296,12 @@
     <string name="car_warn_more">и ещё %1$d</string>
     <string name="car_problems_car_says">АВТОМОБИЛЬ СООБЩАЕТ</string>
     <string name="car_problems_engine_codes">КОДЫ ОШИБОК ДВИГАТЕЛЯ</string>
+    <string name="car_map_back">Сзади</string>
+    <string name="car_map_front">Спереди</string>
+    <string name="car_map_top">Сверху</string>
+    <string name="mycar_view_back">сзади</string>
+    <string name="mycar_view_front">спереди</string>
+    <string name="mycar_ends_hint">Фото сзади и спереди без фона: плитка «Неисправности автомобиля» покажет на них перегоревшую лампу</string>
+    <string name="mycar_add_back">Сзади</string>
+    <string name="mycar_add_front">Спереди</string>
 </resources>

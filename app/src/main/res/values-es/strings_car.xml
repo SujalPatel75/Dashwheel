@@ -292,4 +292,12 @@
     <string name="car_warn_more">y %1$d más</string>
     <string name="car_problems_car_says">EL COCHE AVISA</string>
     <string name="car_problems_engine_codes">CÓDIGOS DE FALLO DEL MOTOR</string>
+    <string name="car_map_back">Detrás</string>
+    <string name="car_map_front">Delante</string>
+    <string name="car_map_top">Arriba</string>
+    <string name="mycar_view_back">trasera</string>
+    <string name="mycar_view_front">delantera</string>
+    <string name="mycar_ends_hint">Fotos de la parte trasera y delantera, recortadas: el mosaico Problemas del coche muestra en ellas una bombilla fundida</string>
+    <string name="mycar_add_back">Trasera</string>
+    <string name="mycar_add_front">Delantera</string>
 </resources>

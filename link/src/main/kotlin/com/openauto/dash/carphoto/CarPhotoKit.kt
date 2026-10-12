@@ -94,7 +94,7 @@ class CarOpenPart(val part: CarPart, val image: Argb, val box: List<Float>)
 
 /**
  * Everything built from the photos; [back] is the back photo cleaned, kept for
- * the reverse view; [open]: the parts found open in a picture of the car from
+ * the reverse view and the Car problems map ([front] too); [open]: the parts found open in a picture of the car from
  * above with its doors open ([CarPhotoKit.openParts]).
  */
 class CarPhotoResult(
@@ -102,7 +102,9 @@ class CarPhotoResult(
     val side: CarSide,
     val top: CarTop?,
     val back: Argb?,
-    val open: List<CarOpenPart> = emptyList()
+    val open: List<CarOpenPart> = emptyList(),
+    /** The front photo cleaned: with the back, the Car problems map's end views. */
+    val front: Argb? = null
 ) {
 
     /** The pictures of a car pack by file name, for the caller to encode as PNG. */
@@ -110,6 +112,7 @@ class CarPhotoResult(
         put("side.png", side.image)
         top?.let { put("top.png", it.image) }
         back?.let { put("back.png", it) }
+        front?.let { put("front.png", it) }
         for (p in open) put("top_${p.part.key}.png", p.image)
     }
 
@@ -121,6 +124,7 @@ class CarPhotoResult(
             put("side", "side.png")
             if (top != null) put("top", "top.png")
             if (back != null) put("back", "back.png")
+            if (front != null) put("front", "front.png")
         }
         putJsonObject("anchors") {
             putJsonObject("side") {
@@ -221,7 +225,7 @@ object CarPhotoKit {
         } else null
         val top = above?.let { topFrom(it, sideOut, built) } ?: built
         val open = if (opened != null && top != null) openParts(opened, top) else emptyList()
-        return CarPhotoResult(name, sideOut, top, backCut?.let { picture(it) }, open)
+        return CarPhotoResult(name, sideOut, top, backCut?.let { picture(it) }, open, frontCut?.let { picture(it) })
     }
 
     /**

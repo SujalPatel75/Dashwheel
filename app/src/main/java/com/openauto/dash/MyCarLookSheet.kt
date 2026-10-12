@@ -71,6 +71,19 @@ internal fun MyCarLookSheet(onDismiss: () -> Unit) {
     val open = rememberLauncherForActivityResult(ActivityResultContracts.OpenDocument()) { uri ->
         if (uri != null) import { MyCarLook.importUri(context, uri) }
     }
+    // A view from one end, for the Car problems map: the rear lamps face on.
+    var endView by remember { mutableStateOf("back") }
+    val openEnd = rememberLauncherForActivityResult(ActivityResultContracts.OpenDocument()) { uri ->
+        if (uri != null) import { MyCarLook.addViewUri(context, endView, uri) }
+    }
+    val pickEnd: (String) -> Unit = { view ->
+        endView = view
+        try {
+            openEnd.launch(arrayOf("image/*"))
+        } catch (e: ActivityNotFoundException) {
+            Toast.makeText(context, context.getString(R.string.mycar_no_picker, MyCarLook.fallbackFile(context).path), Toast.LENGTH_LONG).show()
+        }
+    }
     val noCar = stringResource(R.string.mycar_photos_no_car)
     val openPhotos = rememberLauncherForActivityResult(ActivityResultContracts.OpenMultipleDocuments()) { uris ->
         if (uris.isNotEmpty()) {
@@ -140,7 +153,9 @@ internal fun MyCarLookSheet(onDismiss: () -> Unit) {
                 l.side?.let { stringResource(R.string.mycar_view_side) },
                 l.top?.let { stringResource(R.string.mycar_view_top) },
                 l.top?.takeIf { it.parts.isNotEmpty() }?.let { stringResource(R.string.mycar_view_open) },
-                l.hero?.let { stringResource(R.string.mycar_view_hero) }
+                l.hero?.let { stringResource(R.string.mycar_view_hero) },
+                l.back?.let { stringResource(R.string.mycar_view_back) },
+                l.front?.let { stringResource(R.string.mycar_view_front) }
             )
             Text(stringResource(R.string.mycar_views, views.joinToString(", ")), color = DashColors.TextSecondary, style = MaterialTheme.typography.bodySmall)
 
@@ -176,6 +191,14 @@ internal fun MyCarLookSheet(onDismiss: () -> Unit) {
                 style = MaterialTheme.typography.bodySmall, modifier = Modifier.weight(1f)
             )
             SheetButton(stringResource(R.string.mycar_photos), primary = false) { if (!busy) pickPhotos() }
+        }
+        Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+            Text(
+                stringResource(R.string.mycar_ends_hint), color = DashColors.TextSecondary,
+                style = MaterialTheme.typography.bodySmall, modifier = Modifier.weight(1f)
+            )
+            SheetButton(stringResource(R.string.mycar_add_back), primary = false) { if (!busy) pickEnd("back") }
+            SheetButton(stringResource(R.string.mycar_add_front), primary = false) { if (!busy) pickEnd("front") }
         }
         Text(stringResource(R.string.mycar_phone_hint), color = DashColors.TextSecondary, style = MaterialTheme.typography.bodySmall)
     }

@@ -290,4 +290,12 @@
     <string name="car_warn_more">and %1$d more</string>
     <string name="car_problems_car_says">THE CAR SAYS</string>
     <string name="car_problems_engine_codes">ENGINE FAULT CODES</string>
+    <string name="car_map_back">Rear</string>
+    <string name="car_map_front">Front</string>
+    <string name="car_map_top">Above</string>
+    <string name="mycar_view_back">rear</string>
+    <string name="mycar_view_front">front</string>
+    <string name="mycar_ends_hint">Photos of the rear and the front, cut out: the Car problems tile shows a broken lamp on them</string>
+    <string name="mycar_add_back">Rear</string>
+    <string name="mycar_add_front">Front</string>
 </resources>

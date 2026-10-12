@@ -239,7 +239,7 @@ class CarPhotoKitTest {
         File(out, "real.dwcar").writeBytes(zip)
         val names = ArrayList<String>()
         ZipInputStream(ByteArrayInputStream(zip)).use { z -> while (true) names.add((z.nextEntry ?: break).name) }
-        assertEquals(listOf("car.json", "side.png", "top.png", "back.png"), names)
+        assertEquals(listOf("car.json", "side.png", "top.png", "back.png", "front.png"), names)
     }
 
     @Test

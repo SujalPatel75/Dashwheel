@@ -297,4 +297,12 @@
     <string name="car_warn_more">i %1$d więcej</string>
     <string name="car_problems_car_says">SAMOCHÓD ZGŁASZA</string>
     <string name="car_problems_engine_codes">KODY BŁĘDÓW SILNIKA</string>
+    <string name="car_map_back">Tył</string>
+    <string name="car_map_front">Przód</string>
+    <string name="car_map_top">Góra</string>
+    <string name="mycar_view_back">tył</string>
+    <string name="mycar_view_front">przód</string>
+    <string name="mycar_ends_hint">Zdjęcia tyłu i przodu, wycięte: kafelek Problemy auta pokazuje na nich przepaloną żarówkę</string>
+    <string name="mycar_add_back">Tył</string>
+    <string name="mycar_add_front">Przód</string>
 </resources>

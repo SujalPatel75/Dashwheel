@@ -111,6 +111,17 @@ internal fun ObdDtcCard(
     // The car's own messages, the most serious first; asked for while the tile is on screen.
     val carMessages = rememberCarMessages()
     val seriousMessages = carMessages.filter { it.level != PsaWarnings.Level.INFO }
+    // Each problem on its part of the car (CarProblemMap): the car's messages, then the engine's codes.
+    val messageTexts = carMessages.map { carMessageText(it.code) }
+    val mapProblems = remember(carMessages, messageTexts, codes, diagnosis) {
+        carMessages.mapIndexedNotNull { i, m ->
+            CarProblemMap.spotOf(m.code)?.let { spot ->
+                MapProblem(spot, when (m.level) { PsaWarnings.Level.STOP -> 2; PsaWarnings.Level.SERVICE -> 1; else -> 0 }, messageTexts[i])
+            }
+        } + codes.orEmpty().mapNotNull { code ->
+            CarProblemMap.spotOfCode(code)?.let { spot -> MapProblem(spot, if (diagnosis?.severity == Severity.STOP) 2 else 1, code) }
+        }
+    }
     val lamp by ObdBluetoothManager.lamp.collectAsState()
     // Only whether the engine runs matters here: the card must not redraw on every OBD sample.
     val obd = ObdBluetoothManager.data.collectAsState()
@@ -296,12 +307,21 @@ internal fun ObdDtcCard(
                     carMessage = seriousMessages.firstOrNull()?.let { carMessageText(it.code) },
                     carCount = seriousMessages.size,
                     carStop = seriousMessages.any { it.level == PsaWarnings.Level.STOP },
+                    map = if (mapProblems.isNotEmpty() && maxWidth >= 300.dp && maxHeight >= 110.dp) {
+                        { CarProblemsMap(mapProblems, Modifier.size(width = 96.dp, height = 96.dp), compact = true) }
+                    } else null,
                     oneLine = maxHeight < 130.dp, onScan = scan, onOpen = { expanded = true }
                 )
             } else {
+                val tileHeight = maxHeight
                 Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
                     header(null)
                     Spacer(Modifier.height(10.dp))
+                    // The car with its problems on it, where the tile is tall enough to show it and the list.
+                    if (mapProblems.isNotEmpty() && tileHeight >= 320.dp) {
+                        CarProblemsMap(mapProblems, Modifier.fillMaxWidth().height((tileHeight * 0.42f).coerceAtMost(320.dp)))
+                        Spacer(Modifier.height(10.dp))
+                    }
                     Column(modifier = Modifier.weight(1f).fillMaxWidth().verticalScroll(rememberScrollState())) { body() }
                 }
             }
@@ -352,6 +372,8 @@ private fun CompactFaults(
     carMessage: String?,
     carCount: Int,
     carStop: Boolean,
+    /** The car with its problems on it, small, before the summary; null where there's no room. */
+    map: (@Composable () -> Unit)?,
     oneLine: Boolean,
     onScan: () -> Unit,
     onOpen: () -> Unit
@@ -378,6 +400,10 @@ private fun CompactFaults(
     }
     val summary: @Composable (Modifier) -> Unit = { m ->
         Row(modifier = m, verticalAlignment = Alignment.CenterVertically) {
+            if (map != null) {
+                map()
+                Spacer(Modifier.width(12.dp))
+            }
             if (count != null) {
                 Text(count.toString(), color = colour, fontWeight = FontWeight.ExtraBold, style = MaterialTheme.typography.displaySmall)
                 Spacer(Modifier.width(12.dp))

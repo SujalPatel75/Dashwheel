@@ -290,4 +290,12 @@
     <string name="car_warn_more">en nog %1$d</string>
     <string name="car_problems_car_says">DE AUTO MELDT</string>
     <string name="car_problems_engine_codes">MOTORFOUTCODES</string>
+    <string name="car_map_back">Achter</string>
+    <string name="car_map_front">Voor</string>
+    <string name="car_map_top">Boven</string>
+    <string name="mycar_view_back">achter</string>
+    <string name="mycar_view_front">voor</string>
+    <string name="mycar_ends_hint">Foto\'s van de achter- en voorkant, uitgesneden: de tegel Autoproblemen toont er een kapotte lamp op</string>
+    <string name="mycar_add_back">Achter</string>
+    <string name="mycar_add_front">Voor</string>
 </resources>
