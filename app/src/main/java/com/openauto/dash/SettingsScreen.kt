@@ -48,6 +48,7 @@ import androidx.compose.material.icons.filled.AirlineSeatReclineNormal
 import androidx.compose.material.icons.filled.Android
 import androidx.compose.material.icons.filled.AutoAwesome
 import androidx.compose.material.icons.filled.Bluetooth
+import androidx.compose.material.icons.filled.Calculate
 import androidx.compose.material.icons.filled.Usb
 import androidx.compose.material.icons.filled.Build
 import androidx.compose.material.icons.filled.Extension
@@ -173,7 +174,7 @@ internal enum class SettingsTab(@StringRes val titleRes: Int, val icon: ImageVec
 
 /** The settings that open further into the pane; Lab's open over Lab. */
 internal enum class Deep {
-    CAR, CAR_LOOK, REVERSE, SIGNALS, AI, UPKEEP, EXPLORER, WHEEL, PLACES, LANGUAGE, SECOND_SCREEN, LPG,
+    CAR, CAR_LOOK, REVERSE, SIGNALS, AI, UPKEEP, EXPLORER, WHEEL, PLACES, LANGUAGE, SECOND_SCREEN, LPG, MY_READINGS,
     OBD, UNITS, ACCESS, ABOUT, LAB, UNIT_TOOLS, MAP_SERVERS
 }
 
@@ -257,6 +258,7 @@ internal fun SettingsScreen(
                         Deep.LANGUAGE -> LanguageSheet(onDismiss = back)
                         Deep.SECOND_SCREEN -> SecondScreenSheet(onDismiss = back)
                         Deep.LPG -> LpgTankSheet(onDismiss = back)
+                        Deep.MY_READINGS -> MyReadingsSheet(onDismiss = back)
                         Deep.OBD -> ObdSheet(onPickObd = onPickObd, onDismiss = back)
                         Deep.UNITS -> UnitsSheet(onDismiss = back)
                         Deep.ACCESS -> AccessSheet(onPickObd = onPickObd, onDismiss = back)
@@ -455,6 +457,7 @@ private fun CarPane(open: (Deep) -> Unit) {
     SettingsRow(Icons.Filled.AutoAwesome, stringResource(R.string.ai_title), stringResource(R.string.settings_ai_detail)) { open(Deep.AI) }
     SettingsRow(Icons.Filled.Handyman, stringResource(R.string.upkeep_dialog_title), stringResource(R.string.upkeep_settings_detail)) { open(Deep.UPKEEP) }
     LpgSettingsRow { open(Deep.LPG) }
+    SettingsRow(Icons.Filled.Calculate, stringResource(R.string.mine_title), stringResource(R.string.mine_settings_detail)) { open(Deep.MY_READINGS) }
     // Settings is parked-only; the Telemetry tile's tuning button opens the same row on the move.
     SpeedCorrectionRow(detail = stringResource(R.string.settings_speed_fix_detail))
     SettingsRow(Icons.Filled.Videocam, stringResource(R.string.reverse_title), stringResource(R.string.reverse_settings_detail)) { open(Deep.REVERSE) }

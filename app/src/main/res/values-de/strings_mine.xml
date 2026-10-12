@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- My readings: the driver's own OBD requests and formulas (MyReadings.kt, MyReadingsTile.kt) -->
+    <string name="mine_title">Meine Messwerte</string>
+    <string name="mine_settings_detail">Eigene OBD-Abfragen und Formeln</string>
+    <string name="mine_kind_blurb">Eigene OBD-Messwerte und Formeln, in den Einstellungen festgelegt</string>
+    <string name="mine_tile_empty">Messwerte unter Einstellungen → Auto → Meine Messwerte hinzufügen.</string>
+    <string name="mine_explanation">Fragen Sie das Auto per Abfrage nach jedem Messwert oder berechnen Sie eigene Werte aus den anderen.</string>
+    <string name="mine_none">Noch keine Messwerte.</string>
+    <string name="mine_add">Messwert hinzufügen</string>
+    <string name="mine_examples_detail">LPG-Verbrauch aus dem Luftstrom berechnet. Passen Sie die Zahlen an Ihr Auto an.</string>
+    <string name="mine_add_examples">Beispiele hinzufügen</string>
+    <string name="mine_ex_maf">Luftmasse</string>
+    <string name="mine_ex_lpg_lh">LPG-Verbrauch</string>
+    <string name="mine_ex_lpg_used">LPG verbraucht</string>
+    <string name="mine_ex_lpg_l100">LPG pro 100 km</string>
+    <string name="mine_kind_pid">Vom Auto</string>
+    <string name="mine_kind_formula">Berechnet</string>
+    <string name="mine_kind_total">Summe</string>
+    <string name="mine_new">Neuer Messwert</string>
+    <string name="mine_delete">Löschen</string>
+    <string name="mine_save">Speichern</string>
+    <string name="mine_type">Art</string>
+    <string name="mine_name">Name</string>
+    <string name="mine_unit">Einheit</string>
+    <string name="mine_key">Name in Formeln</string>
+    <string name="mine_request">Abfrage</string>
+    <string name="mine_header">Steuergerät-Adresse</string>
+    <string name="mine_reply">Antwortadresse</string>
+    <string name="mine_session">Sitzung</string>
+    <string name="mine_hint_address">Adressen und Sitzung für Standard-OBD-Abfragen wie 0110 leer lassen.</string>
+    <string name="mine_formula">Formel</string>
+    <string name="mine_hint_pid">Die Buchstaben A bis H sind die Bytes der Antwort, zum Beispiel (A*256+B)/100 für 0110.</string>
+    <string name="mine_hint_formula">Nutzen Sie die Namen unten mit + - * / und min, max, abs, round, if.</string>
+    <string name="mine_hint_total">Summiert den Wert pro Stunde: aus L/h werden Liter, aus km/h Kilometer.</string>
+    <string name="mine_names">Namen: %1$s</string>
+    <string name="mine_decimals">Nachkommastellen</string>
+    <string name="mine_on_tile">Auf der Kachel</string>
+    <string name="mine_on_tile_detail">Auf der Kachel Meine Messwerte gezeigt</string>
+    <string name="mine_test">Testen</string>
+    <string name="mine_answer">Antwort: %1$s</string>
+    <string name="mine_no_answer">keine Antwort</string>
+    <string name="mine_value">Wert: %1$s</string>
+    <string name="mine_err_unknown">Unbekannter Name: %1$s</string>
+    <string name="mine_err_no_value">Noch kein Wert für %1$s.</string>
+    <string name="mine_err_no_reading">Die Antwort passt nicht zu dieser Abfrage.</string>
+    <string name="mine_err_math">Die Formel teilt durch null.</string>
+    <string name="mine_err_syntax">Die Formel ist nicht lesbar.</string>
+    <string name="mine_reset">Zurücksetzen</string>
+    <string name="mine_err_name">Geben Sie ihm einen Namen.</string>
+    <string name="mine_err_key">Name in Formeln: zuerst ein Buchstabe, dann Buchstaben, Ziffern oder _. A bis H allein und eingebaute Namen sind vergeben.</string>
+    <string name="mine_err_key_taken">Ein anderer Messwert nutzt diesen Namen schon.</string>
+    <string name="mine_err_request">Nur Leseabfragen in Hex: Modus 01, 09, 21 oder 22.</string>
+    <string name="mine_err_address">Adressen haben 3 oder 8 Hex-Ziffern, und eine Antwortadresse braucht eine Steuergerät-Adresse.</string>
+    <string name="mine_err_session">Sitzung: nur 1001, 1003, 1081, 1092 oder 10C0, mit Steuergerät-Adresse.</string>
+    <string name="mine_err_no_bytes">Die Buchstaben A bis H gibt es nur bei einem Messwert vom Auto.</string>
+</resources>

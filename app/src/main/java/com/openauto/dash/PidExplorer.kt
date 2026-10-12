@@ -97,69 +97,250 @@ data class ExtraValue(val value: Double, val at: Long)
 /**
  * Evaluates the little arithmetic formulas OBD tables use ("(A*256+B)/10-40",
  * "A*100/255"): + - * / parentheses, numbers, and the letters A..H for the
- * data bytes. Pure, unit-tested.
+ * data bytes. The driver's own readings (MyReadings.kt) also use names
+ * ("maf * 3600 / 14.7"), the comparisons < > <= >= == != (1 or 0), and the
+ * functions in [FUNCTIONS]. Pure, unit-tested.
  */
 object Formula {
-    fun eval(expr: String, bytes: List<Int>): Double? {
-        val src = expr.replace(" ", "").uppercase(Locale.ROOT)
-        if (src.isEmpty()) return null
-        val parser = Parser(src, bytes)
-        val v = parser.expression() ?: return null
-        return if (parser.done && v.isFinite()) v else null
+    /** The functions a formula may call, and how many arguments each takes (-1: one or more). */
+    val FUNCTIONS: Map<String, Int> = mapOf(
+        "min" to -1, "max" to -1, "abs" to 1, "round" to 1, "sqrt" to 1, "if" to 3,
+        "bit" to 2, "signed" to 1, "signed16" to 1
+    )
+
+    /** What went wrong: [SYNTAX] the text, [UNKNOWN] a name that isn't one, [NO_VALUE] a name with nothing to give yet, [MATH] a division by 0. */
+    enum class Problem { SYNTAX, UNKNOWN, NO_VALUE, MATH }
+
+    /** The value, or the [problem] and the [name] it is about. */
+    data class Result(val value: Double?, val problem: Problem? = null, val name: String? = null)
+
+    /**
+     * Where names get their value. [known] says whether a name exists at all
+     * (a typo is told apart from a reading the car hasn't given yet); [value]
+     * is its value now, null when it has none.
+     */
+    interface Names {
+        fun known(name: String): Boolean
+        fun value(name: String): Double?
     }
 
-    /** Recursive descent over expression → term → factor; local functions can't call each other, so a class. */
-    private class Parser(private val src: String, private val bytes: List<Int>) {
+    private val NO_NAMES = object : Names {
+        override fun known(name: String) = false
+        override fun value(name: String): Double? = null
+    }
+
+    fun eval(expr: String, bytes: List<Int>): Double? = evaluate(expr, bytes, NO_NAMES).value
+
+    /** [expr] worked out over the reply's [bytes] (null: not a request's formula, A..H mean nothing) and [names]. */
+    fun evaluate(expr: String, bytes: List<Int>?, names: Names): Result {
+        val node = parse(expr) ?: return Result(null, Problem.SYNTAX)
+        val e = Evaluator(bytes, names)
+        val v = e.eval(node)
+        return when {
+            e.problem != null -> Result(null, e.problem, e.name)
+            v == null || !v.isFinite() -> Result(null, Problem.MATH)
+            else -> Result(v)
+        }
+    }
+
+    /** The names [expr] reads, bytes and functions left out; null when it can't be read. */
+    fun names(expr: String): Set<String>? {
+        val node = parse(expr) ?: return null
+        val out = linkedSetOf<String>()
+        fun walk(n: Node) {
+            when (n) {
+                is Node.Ref -> out += n.name
+                is Node.Neg -> walk(n.of)
+                is Node.Op -> { walk(n.left); walk(n.right) }
+                is Node.Call -> n.args.forEach(::walk)
+                is Node.Num, is Node.Byte -> Unit
+            }
+        }
+        walk(node)
+        return out
+    }
+
+    /** Whether [expr] reads an answer's bytes (A..H). */
+    fun usesBytes(expr: String): Boolean {
+        fun walk(n: Node): Boolean = when (n) {
+            is Node.Byte -> true
+            is Node.Neg -> walk(n.of)
+            is Node.Op -> walk(n.left) || walk(n.right)
+            is Node.Call -> n.args.any(::walk)
+            is Node.Num, is Node.Ref -> false
+        }
+        return parse(expr)?.let(::walk) ?: false
+    }
+
+    private sealed interface Node {
+        data class Num(val v: Double) : Node
+        data class Byte(val index: Int) : Node
+        data class Ref(val name: String) : Node
+        data class Neg(val of: Node) : Node
+        data class Op(val op: String, val left: Node, val right: Node) : Node
+        data class Call(val fn: String, val args: List<Node>) : Node
+    }
+
+    // The driver's readings are worked out every second from the same few texts: each is read once.
+    private val parsed = object : LinkedHashMap<String, Node?>(32, 0.75f, true) {
+        override fun removeEldestEntry(eldest: MutableMap.MutableEntry<String, Node?>?) = size > 64
+    }
+
+    private fun parse(expr: String): Node? = synchronized(parsed) {
+        if (parsed.containsKey(expr)) return parsed[expr]
+        val src = expr.filterNot { it.isWhitespace() }
+        val node = if (src.isEmpty()) null else Parser(src).let { p -> p.comparison()?.takeIf { p.done } }
+        parsed[expr] = node
+        node
+    }
+
+    /** Recursive descent over comparison → sum → term → factor; local functions can't call each other, so a class. */
+    private class Parser(private val src: String) {
         private var pos = 0
         val done: Boolean get() = pos == src.length
         private fun peek(): Char? = src.getOrNull(pos)
 
-        fun expression(): Double? {
+        fun comparison(): Node? {
+            val left = sum() ?: return null
+            val op = COMPARISONS.firstOrNull { src.startsWith(it, pos) } ?: return left
+            pos += op.length
+            val right = sum() ?: return null
+            return Node.Op(op, left, right)
+        }
+
+        private fun sum(): Node? {
             var left = term() ?: return null
             while (peek() == '+' || peek() == '-') {
-                val op = src[pos++]
-                val right = term() ?: return null
-                left = if (op == '+') left + right else left - right
+                val op = src[pos++].toString()
+                left = Node.Op(op, left, term() ?: return null)
             }
             return left
         }
 
-        private fun term(): Double? {
+        private fun term(): Node? {
             var left = factor() ?: return null
             while (peek() == '*' || peek() == '/') {
-                val op = src[pos++]
-                val right = factor() ?: return null
-                left = if (op == '*') left * right else if (right == 0.0) return null else left / right
+                val op = src[pos++].toString()
+                left = Node.Op(op, left, factor() ?: return null)
             }
             return left
         }
 
-        private fun factor(): Double? {
+        private fun factor(): Node? {
             val c = peek() ?: return null
             return when {
                 c == '(' -> {
                     pos++
-                    val v = expression() ?: return null
+                    val v = comparison() ?: return null
                     if (peek() != ')') return null
                     pos++
                     v
                 }
                 c == '-' -> {
                     pos++
-                    factor()?.let { -it }
+                    factor()?.let { Node.Neg(it) }
                 }
-                c in 'A'..'H' -> {
-                    pos++
-                    bytes.getOrNull(c - 'A')?.toDouble()
-                }
+                c.isLetter() || c == '_' -> word()
                 c.isDigit() || c == '.' -> {
                     val start = pos
                     while (peek()?.let { it.isDigit() || it == '.' } == true) pos++
-                    src.substring(start, pos).toDoubleOrNull()
+                    src.substring(start, pos).toDoubleOrNull()?.let { Node.Num(it) }
                 }
                 else -> null
             }
         }
+
+        /** A function call, a byte (A..H alone) or a name. */
+        private fun word(): Node? {
+            val start = pos
+            while (peek()?.let { it.isLetterOrDigit() || it == '_' } == true) pos++
+            val word = src.substring(start, pos).lowercase(Locale.ROOT)
+            if (peek() != '(') {
+                return if (word.length == 1 && word[0] in 'a'..'h') Node.Byte(word[0] - 'a') else Node.Ref(word)
+            }
+            val arity = FUNCTIONS[word] ?: return null
+            pos++
+            val args = mutableListOf<Node>()
+            if (peek() != ')') {
+                while (true) {
+                    args += comparison() ?: return null
+                    if (peek() == ',') pos++ else break
+                }
+            }
+            if (peek() != ')') return null
+            pos++
+            if (if (arity < 0) args.isEmpty() else args.size != arity) return null
+            return Node.Call(word, args)
+        }
+
+        companion object {
+            // Longest first, so "<=" isn't read as "<" then "=".
+            val COMPARISONS = listOf("<=", ">=", "==", "!=", "<", ">")
+        }
+    }
+
+    /** Works a parsed formula out; the first problem met is kept and the value is then null. */
+    private class Evaluator(private val bytes: List<Int>?, private val names: Names) {
+        var problem: Problem? = null
+        var name: String? = null
+
+        private fun fail(p: Problem, n: String? = null): Double? {
+            if (problem == null) {
+                problem = p
+                name = n
+            }
+            return null
+        }
+
+        fun eval(n: Node): Double? = when (n) {
+            is Node.Num -> n.v
+            is Node.Byte -> {
+                val letter = ('A' + n.index).toString()
+                if (bytes == null) fail(Problem.UNKNOWN, letter) else bytes.getOrNull(n.index)?.toDouble() ?: fail(Problem.NO_VALUE, letter)
+            }
+            is Node.Ref -> if (!names.known(n.name)) fail(Problem.UNKNOWN, n.name) else names.value(n.name) ?: fail(Problem.NO_VALUE, n.name)
+            is Node.Neg -> eval(n.of)?.let { -it }
+            is Node.Op -> op(n)
+            is Node.Call -> call(n)
+        }
+
+        private fun op(n: Node.Op): Double? {
+            val a = eval(n.left) ?: return null
+            val b = eval(n.right) ?: return null
+            return when (n.op) {
+                "+" -> a + b
+                "-" -> a - b
+                "*" -> a * b
+                "/" -> if (b == 0.0) fail(Problem.MATH) else a / b
+                "<" -> flag(a < b)
+                ">" -> flag(a > b)
+                "<=" -> flag(a <= b)
+                ">=" -> flag(a >= b)
+                "==" -> flag(a == b)
+                else -> flag(a != b)
+            }
+        }
+
+        private fun call(n: Node.Call): Double? {
+            // Only the branch taken is worked out: if(speed > 5, use / speed * 100, 0) at a standstill is 0, not a division by 0.
+            if (n.fn == "if") {
+                val c = eval(n.args[0]) ?: return null
+                return eval(if (c != 0.0) n.args[1] else n.args[2])
+            }
+            val a = n.args.map { eval(it) ?: return null }
+            return when (n.fn) {
+                "min" -> a.min()
+                "max" -> a.max()
+                "abs" -> kotlin.math.abs(a[0])
+                "round" -> Math.rint(a[0])
+                "sqrt" -> if (a[0] < 0) fail(Problem.MATH) else kotlin.math.sqrt(a[0])
+                "bit" -> ((a[0].toLong() shr a[1].toInt().coerceIn(0, 62)) and 1L).toDouble()
+                "signed" -> a[0].toLong().let { if (it and 0x80L != 0L) (it and 0xFFL) - 256 else it and 0xFFL }.toDouble()
+                else -> a[0].toLong().let { if (it and 0x8000L != 0L) (it and 0xFFFFL) - 65536 else it and 0xFFFFL }.toDouble()
+            }
+        }
+
+        private fun flag(b: Boolean) = if (b) 1.0 else 0.0
     }
 }
 

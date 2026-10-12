@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- My readings: the driver's own OBD requests and formulas (MyReadings.kt, MyReadingsTile.kt) -->
+    <string name="mine_title">Mijn metingen</string>
+    <string name="mine_settings_detail">Eigen OBD-verzoeken en formules</string>
+    <string name="mine_kind_blurb">Eigen OBD-metingen en formules, ingesteld in Instellingen</string>
+    <string name="mine_tile_empty">Voeg metingen toe via Instellingen → Auto → Mijn metingen.</string>
+    <string name="mine_explanation">Vraag de auto om elke meting via haar verzoek, of reken je eigen waarden uit de andere uit.</string>
+    <string name="mine_none">Nog geen metingen.</string>
+    <string name="mine_add">Meting toevoegen</string>
+    <string name="mine_examples_detail">LPG-verbruik berekend uit de luchtstroom. Pas de getallen aan voor je auto.</string>
+    <string name="mine_add_examples">Voorbeelden toevoegen</string>
+    <string name="mine_ex_maf">Luchtstroom</string>
+    <string name="mine_ex_lpg_lh">LPG-verbruik</string>
+    <string name="mine_ex_lpg_used">LPG verbruikt</string>
+    <string name="mine_ex_lpg_l100">LPG per 100 km</string>
+    <string name="mine_kind_pid">Van de auto</string>
+    <string name="mine_kind_formula">Berekend</string>
+    <string name="mine_kind_total">Totaal</string>
+    <string name="mine_new">Nieuwe meting</string>
+    <string name="mine_delete">Verwijderen</string>
+    <string name="mine_save">Opslaan</string>
+    <string name="mine_type">Soort</string>
+    <string name="mine_name">Naam</string>
+    <string name="mine_unit">Eenheid</string>
+    <string name="mine_key">Naam in formules</string>
+    <string name="mine_request">Verzoek</string>
+    <string name="mine_header">Adres regeleenheid</string>
+    <string name="mine_reply">Antwoordadres</string>
+    <string name="mine_session">Sessie</string>
+    <string name="mine_hint_address">Laat adressen en sessie leeg voor standaard OBD-verzoeken zoals 0110.</string>
+    <string name="mine_formula">Formule</string>
+    <string name="mine_hint_pid">De letters A tot H zijn de bytes van het antwoord, bijvoorbeeld (A*256+B)/100 voor 0110.</string>
+    <string name="mine_hint_formula">Gebruik de namen hieronder met + - * / en min, max, abs, round, if.</string>
+    <string name="mine_hint_total">Telt de waarde per uur op: L/h wordt liters, km/h wordt kilometers.</string>
+    <string name="mine_names">Namen: %1$s</string>
+    <string name="mine_decimals">Decimalen</string>
+    <string name="mine_on_tile">Op de tegel</string>
+    <string name="mine_on_tile_detail">Getoond op de tegel Mijn metingen</string>
+    <string name="mine_test">Testen</string>
+    <string name="mine_answer">Antwoord: %1$s</string>
+    <string name="mine_no_answer">geen antwoord</string>
+    <string name="mine_value">Waarde: %1$s</string>
+    <string name="mine_err_unknown">Onbekende naam: %1$s</string>
+    <string name="mine_err_no_value">Nog geen waarde voor %1$s.</string>
+    <string name="mine_err_no_reading">Het antwoord past niet bij dit verzoek.</string>
+    <string name="mine_err_math">De formule deelt door nul.</string>
+    <string name="mine_err_syntax">De formule is niet leesbaar.</string>
+    <string name="mine_reset">Op nul zetten</string>
+    <string name="mine_err_name">Geef het een naam.</string>
+    <string name="mine_err_key">Naam in formules: eerst een letter, dan letters, cijfers of _. A tot H alleen en de ingebouwde namen zijn bezet.</string>
+    <string name="mine_err_key_taken">Een andere meting gebruikt die naam al.</string>
+    <string name="mine_err_request">Alleen leesverzoeken in hex: modus 01, 09, 21 of 22.</string>
+    <string name="mine_err_address">Adressen hebben 3 of 8 hexcijfers, en een antwoordadres vraagt om een adres van de regeleenheid.</string>
+    <string name="mine_err_session">Sessie: alleen 1001, 1003, 1081, 1092 of 10C0, met een adres van de regeleenheid.</string>
+    <string name="mine_err_no_bytes">De letters A tot H betekenen alleen iets bij een meting van de auto.</string>
+</resources>

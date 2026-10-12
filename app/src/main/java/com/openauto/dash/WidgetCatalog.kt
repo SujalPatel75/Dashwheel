@@ -39,6 +39,7 @@ import androidx.compose.material.icons.filled.Adjust
 import androidx.compose.material.icons.filled.Apps
 import androidx.compose.material.icons.filled.BatteryChargingFull
 import androidx.compose.material.icons.filled.Build
+import androidx.compose.material.icons.filled.Calculate
 import androidx.compose.material.icons.filled.Call
 import androidx.compose.material.icons.filled.CarRepair
 import androidx.compose.material.icons.filled.Coffee
@@ -121,7 +122,7 @@ enum class WidgetSource(@StringRes val needsRes: Int) {
 internal val BuiltinKind.needs: Set<WidgetSource>
     get() = when (this) {
         BuiltinKind.TELEMETRY, BuiltinKind.OBD_DTC, BuiltinKind.OBD_ALL, BuiltinKind.WARMUP, BuiltinKind.BATTERY,
-        BuiltinKind.FILTER_CARE, BuiltinKind.ECO_DRIVE, BuiltinKind.ENGINE_TEMPS -> setOf(WidgetSource.OBD)
+        BuiltinKind.FILTER_CARE, BuiltinKind.ECO_DRIVE, BuiltinKind.ENGINE_TEMPS, BuiltinKind.MY_READINGS -> setOf(WidgetSource.OBD)
         BuiltinKind.RANGE, BuiltinKind.FUEL_TO_DEST, BuiltinKind.GEAR -> if (CarBox.available) emptySet() else setOf(WidgetSource.OBD)
         BuiltinKind.SHARE_ETA -> setOf(WidgetSource.PHONE)
         BuiltinKind.WEATHER, BuiltinKind.WEATHER_ALERTS, BuiltinKind.FUEL_PRICES, BuiltinKind.SPEED_CAMERAS,
@@ -216,6 +217,7 @@ internal fun kindIcon(kind: BuiltinKind): ImageVector = when (kind) {
     BuiltinKind.ENGINE_TEMPS -> Icons.Filled.Thermostat
     BuiltinKind.COMMUTE -> Icons.Filled.Commute
     BuiltinKind.LPG_TANK -> Icons.Filled.PropaneTank
+    BuiltinKind.MY_READINGS -> Icons.Filled.Calculate
     BuiltinKind.DRIVE_HISTORY -> Icons.Filled.History
     BuiltinKind.NOW -> Icons.Filled.Layers
 }

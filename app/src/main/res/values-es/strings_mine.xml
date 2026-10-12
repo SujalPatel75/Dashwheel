@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- My readings: the driver's own OBD requests and formulas (MyReadings.kt, MyReadingsTile.kt) -->
+    <string name="mine_title">Mis lecturas</string>
+    <string name="mine_settings_detail">Tus propias peticiones OBD y fórmulas</string>
+    <string name="mine_kind_blurb">Tus propias lecturas OBD y fórmulas, configuradas en Ajustes</string>
+    <string name="mine_tile_empty">Añade lecturas en Ajustes → Coche → Mis lecturas.</string>
+    <string name="mine_explanation">Pide al coche cualquier lectura por su petición, o calcula tus propias cifras a partir de las demás.</string>
+    <string name="mine_none">Aún no hay lecturas.</string>
+    <string name="mine_add">Añadir una lectura</string>
+    <string name="mine_examples_detail">Consumo de GLP calculado del caudal de aire. Ajusta las cifras a tu coche.</string>
+    <string name="mine_add_examples">Añadir ejemplos</string>
+    <string name="mine_ex_maf">Caudal de aire</string>
+    <string name="mine_ex_lpg_lh">Consumo GLP</string>
+    <string name="mine_ex_lpg_used">GLP gastado</string>
+    <string name="mine_ex_lpg_l100">GLP cada 100 km</string>
+    <string name="mine_kind_pid">Del coche</string>
+    <string name="mine_kind_formula">Calculada</string>
+    <string name="mine_kind_total">Acumulado</string>
+    <string name="mine_new">Nueva lectura</string>
+    <string name="mine_delete">Eliminar</string>
+    <string name="mine_save">Guardar</string>
+    <string name="mine_type">Tipo</string>
+    <string name="mine_name">Nombre</string>
+    <string name="mine_unit">Unidad</string>
+    <string name="mine_key">Nombre en fórmulas</string>
+    <string name="mine_request">Petición</string>
+    <string name="mine_header">Dirección de centralita</string>
+    <string name="mine_reply">Dirección de respuesta</string>
+    <string name="mine_session">Sesión</string>
+    <string name="mine_hint_address">Deja vacías las direcciones y la sesión para peticiones OBD estándar como 0110.</string>
+    <string name="mine_formula">Fórmula</string>
+    <string name="mine_hint_pid">Las letras A a H son los bytes de la respuesta, por ejemplo (A*256+B)/100 para 0110.</string>
+    <string name="mine_hint_formula">Usa los nombres de abajo con + - * / y min, max, abs, round, if.</string>
+    <string name="mine_hint_total">Suma el valor por hora: los L/h pasan a litros, los km/h a kilómetros.</string>
+    <string name="mine_names">Nombres: %1$s</string>
+    <string name="mine_decimals">Decimales</string>
+    <string name="mine_on_tile">En el mosaico</string>
+    <string name="mine_on_tile_detail">Se muestra en el mosaico Mis lecturas</string>
+    <string name="mine_test">Probar</string>
+    <string name="mine_answer">Respuesta: %1$s</string>
+    <string name="mine_no_answer">sin respuesta</string>
+    <string name="mine_value">Valor: %1$s</string>
+    <string name="mine_err_unknown">Nombre desconocido: %1$s</string>
+    <string name="mine_err_no_value">Aún no hay valor para %1$s.</string>
+    <string name="mine_err_no_reading">La respuesta no corresponde a esta petición.</string>
+    <string name="mine_err_math">La fórmula divide entre cero.</string>
+    <string name="mine_err_syntax">La fórmula no se puede leer.</string>
+    <string name="mine_reset">Poner a cero</string>
+    <string name="mine_err_name">Ponle un nombre.</string>
+    <string name="mine_err_key">Nombre en fórmulas: primero una letra, luego letras, cifras o _. A a H solas y los nombres integrados están ocupados.</string>
+    <string name="mine_err_key_taken">Otra lectura ya usa ese nombre.</string>
+    <string name="mine_err_request">Solo peticiones de lectura en hexadecimal: modo 01, 09, 21 o 22.</string>
+    <string name="mine_err_address">Las direcciones tienen 3 u 8 cifras hexadecimales, y una dirección de respuesta necesita una dirección de centralita.</string>
+    <string name="mine_err_session">Sesión: solo 1001, 1003, 1081, 1092 o 10C0, con dirección de centralita.</string>
+    <string name="mine_err_no_bytes">Las letras A a H solo tienen sentido en una lectura del coche.</string>
+</resources>

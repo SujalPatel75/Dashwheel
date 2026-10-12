@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- My readings: the driver's own OBD requests and formulas (MyReadings.kt, MyReadingsTile.kt) -->
+    <string name="mine_title">As minhas leituras</string>
+    <string name="mine_settings_detail">Os seus pedidos OBD e fórmulas</string>
+    <string name="mine_kind_blurb">As suas leituras OBD e fórmulas, definidas nas Definições</string>
+    <string name="mine_tile_empty">Adicione leituras em Definições → Carro → As minhas leituras.</string>
+    <string name="mine_explanation">Peça ao carro qualquer leitura pelo seu pedido, ou calcule os seus próprios valores a partir dos outros.</string>
+    <string name="mine_none">Ainda sem leituras.</string>
+    <string name="mine_add">Adicionar leitura</string>
+    <string name="mine_examples_detail">Consumo de GPL calculado pelo caudal de ar. Ajuste os números ao seu carro.</string>
+    <string name="mine_add_examples">Adicionar exemplos</string>
+    <string name="mine_ex_maf">Caudal de ar</string>
+    <string name="mine_ex_lpg_lh">Consumo GPL</string>
+    <string name="mine_ex_lpg_used">GPL gasto</string>
+    <string name="mine_ex_lpg_l100">GPL aos 100 km</string>
+    <string name="mine_kind_pid">Do carro</string>
+    <string name="mine_kind_formula">Calculada</string>
+    <string name="mine_kind_total">Acumulado</string>
+    <string name="mine_new">Nova leitura</string>
+    <string name="mine_delete">Eliminar</string>
+    <string name="mine_save">Guardar</string>
+    <string name="mine_type">Tipo</string>
+    <string name="mine_name">Nome</string>
+    <string name="mine_unit">Unidade</string>
+    <string name="mine_key">Nome nas fórmulas</string>
+    <string name="mine_request">Pedido</string>
+    <string name="mine_header">Endereço da centralina</string>
+    <string name="mine_reply">Endereço de resposta</string>
+    <string name="mine_session">Sessão</string>
+    <string name="mine_hint_address">Deixe endereços e sessão vazios para pedidos OBD normais como 0110.</string>
+    <string name="mine_formula">Fórmula</string>
+    <string name="mine_hint_pid">As letras A a H são os bytes da resposta, por exemplo (A*256+B)/100 para 0110.</string>
+    <string name="mine_hint_formula">Use os nomes abaixo com + - * / e min, max, abs, round, if.</string>
+    <string name="mine_hint_total">Soma o valor por hora: L/h passam a litros, km/h a quilómetros.</string>
+    <string name="mine_names">Nomes: %1$s</string>
+    <string name="mine_decimals">Casas decimais</string>
+    <string name="mine_on_tile">No mosaico</string>
+    <string name="mine_on_tile_detail">Mostrada no mosaico As minhas leituras</string>
+    <string name="mine_test">Testar</string>
+    <string name="mine_answer">Resposta: %1$s</string>
+    <string name="mine_no_answer">sem resposta</string>
+    <string name="mine_value">Valor: %1$s</string>
+    <string name="mine_err_unknown">Nome desconhecido: %1$s</string>
+    <string name="mine_err_no_value">Ainda sem valor para %1$s.</string>
+    <string name="mine_err_no_reading">A resposta não corresponde a este pedido.</string>
+    <string name="mine_err_math">A fórmula divide por zero.</string>
+    <string name="mine_err_syntax">A fórmula não pode ser lida.</string>
+    <string name="mine_reset">Pôr a zero</string>
+    <string name="mine_err_name">Dê-lhe um nome.</string>
+    <string name="mine_err_key">Nome nas fórmulas: primeiro uma letra, depois letras, algarismos ou _. A a H sozinhas e os nomes integrados estão ocupados.</string>
+    <string name="mine_err_key_taken">Outra leitura já usa esse nome.</string>
+    <string name="mine_err_request">Só pedidos de leitura em hexadecimal: modo 01, 09, 21 ou 22.</string>
+    <string name="mine_err_address">Os endereços têm 3 ou 8 dígitos hexadecimais, e um endereço de resposta precisa de um endereço de centralina.</string>
+    <string name="mine_err_session">Sessão: só 1001, 1003, 1081, 1092 ou 10C0, com endereço de centralina.</string>
+    <string name="mine_err_no_bytes">As letras A a H só fazem sentido numa leitura do carro.</string>
+</resources>

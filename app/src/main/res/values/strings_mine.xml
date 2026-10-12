@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- My readings: the driver's own OBD requests and formulas (MyReadings.kt, MyReadingsTile.kt) -->
+    <string name="mine_title">My readings</string>
+    <string name="mine_settings_detail">Your own OBD requests and formulas</string>
+    <string name="mine_kind_blurb">Your own OBD readings and formulas, set up in Settings</string>
+    <string name="mine_tile_empty">Add readings in Settings → Car → My readings.</string>
+    <string name="mine_explanation">Ask the car for any reading by its request, or work your own figures out from the others.</string>
+    <string name="mine_none">No readings yet.</string>
+    <string name="mine_add">Add a reading</string>
+    <string name="mine_examples_detail">LPG use worked out from the air flow. Adjust the numbers for your car.</string>
+    <string name="mine_add_examples">Add examples</string>
+    <string name="mine_ex_maf">Air flow</string>
+    <string name="mine_ex_lpg_lh">LPG use</string>
+    <string name="mine_ex_lpg_used">LPG used</string>
+    <string name="mine_ex_lpg_l100">LPG per 100 km</string>
+    <string name="mine_kind_pid">From the car</string>
+    <string name="mine_kind_formula">Worked out</string>
+    <string name="mine_kind_total">Running total</string>
+    <string name="mine_new">New reading</string>
+    <string name="mine_delete">Delete</string>
+    <string name="mine_save">Save</string>
+    <string name="mine_type">Kind</string>
+    <string name="mine_name">Name</string>
+    <string name="mine_unit">Unit</string>
+    <string name="mine_key">Name in formulas</string>
+    <string name="mine_request">Request</string>
+    <string name="mine_header">ECU address</string>
+    <string name="mine_reply">Answer address</string>
+    <string name="mine_session">Session</string>
+    <string name="mine_hint_address">Leave the addresses and session empty for standard OBD requests such as 0110.</string>
+    <string name="mine_formula">Formula</string>
+    <string name="mine_hint_pid">The letters A to H are the bytes of the answer, for example (A*256+B)/100 for 0110.</string>
+    <string name="mine_hint_formula">Use the names below with + - * / and min, max, abs, round, if.</string>
+    <string name="mine_hint_total">Adds the value up per hour: L/h becomes litres, km/h becomes kilometres.</string>
+    <string name="mine_names">Names: %1$s</string>
+    <string name="mine_decimals">Decimals</string>
+    <string name="mine_on_tile">On the tile</string>
+    <string name="mine_on_tile_detail">Shown on the My readings tile</string>
+    <string name="mine_test">Test</string>
+    <string name="mine_answer">Answer: %1$s</string>
+    <string name="mine_no_answer">no answer</string>
+    <string name="mine_value">Value: %1$s</string>
+    <string name="mine_err_unknown">Unknown name: %1$s</string>
+    <string name="mine_err_no_value">No value yet for %1$s.</string>
+    <string name="mine_err_no_reading">The answer does not match this request.</string>
+    <string name="mine_err_math">The formula divides by zero.</string>
+    <string name="mine_err_syntax">The formula can\'t be read.</string>
+    <string name="mine_reset">Reset</string>
+    <string name="mine_err_name">Give it a name.</string>
+    <string name="mine_err_key">Name in formulas: a letter first, then letters, digits or _. A to H alone and the built-in names are taken.</string>
+    <string name="mine_err_key_taken">Another reading already uses that name.</string>
+    <string name="mine_err_request">Only read requests in hex: mode 01, 09, 21 or 22.</string>
+    <string name="mine_err_address">Addresses are 3 or 8 hex digits, and an answer address needs an ECU address.</string>
+    <string name="mine_err_session">Session: 1001, 1003, 1081, 1092 or 10C0 only, with an ECU address.</string>
+    <string name="mine_err_no_bytes">The letters A to H only mean something in a reading from the car.</string>
+</resources>

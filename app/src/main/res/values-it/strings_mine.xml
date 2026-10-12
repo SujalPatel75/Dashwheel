@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- My readings: the driver's own OBD requests and formulas (MyReadings.kt, MyReadingsTile.kt) -->
+    <string name="mine_title">Le mie letture</string>
+    <string name="mine_settings_detail">Le tue richieste OBD e formule</string>
+    <string name="mine_kind_blurb">Le tue letture OBD e formule, impostate nelle Impostazioni</string>
+    <string name="mine_tile_empty">Aggiungi letture in Impostazioni → Auto → Le mie letture.</string>
+    <string name="mine_explanation">Chiedi all\'auto qualsiasi lettura con la sua richiesta, o calcola i tuoi valori dagli altri.</string>
+    <string name="mine_none">Ancora nessuna lettura.</string>
+    <string name="mine_add">Aggiungi una lettura</string>
+    <string name="mine_examples_detail">Consumo GPL calcolato dal flusso d\'aria. Adatta i numeri alla tua auto.</string>
+    <string name="mine_add_examples">Aggiungi esempi</string>
+    <string name="mine_ex_maf">Flusso d\'aria</string>
+    <string name="mine_ex_lpg_lh">Consumo GPL</string>
+    <string name="mine_ex_lpg_used">GPL usato</string>
+    <string name="mine_ex_lpg_l100">GPL per 100 km</string>
+    <string name="mine_kind_pid">Dall\'auto</string>
+    <string name="mine_kind_formula">Calcolata</string>
+    <string name="mine_kind_total">Totale</string>
+    <string name="mine_new">Nuova lettura</string>
+    <string name="mine_delete">Elimina</string>
+    <string name="mine_save">Salva</string>
+    <string name="mine_type">Tipo</string>
+    <string name="mine_name">Nome</string>
+    <string name="mine_unit">Unità</string>
+    <string name="mine_key">Nome nelle formule</string>
+    <string name="mine_request">Richiesta</string>
+    <string name="mine_header">Indirizzo centralina</string>
+    <string name="mine_reply">Indirizzo di risposta</string>
+    <string name="mine_session">Sessione</string>
+    <string name="mine_hint_address">Lascia vuoti indirizzi e sessione per le richieste OBD standard come 0110.</string>
+    <string name="mine_formula">Formula</string>
+    <string name="mine_hint_pid">Le lettere da A a H sono i byte della risposta, ad esempio (A*256+B)/100 per 0110.</string>
+    <string name="mine_hint_formula">Usa i nomi qui sotto con + - * / e min, max, abs, round, if.</string>
+    <string name="mine_hint_total">Somma il valore per ora: i L/h diventano litri, i km/h chilometri.</string>
+    <string name="mine_names">Nomi: %1$s</string>
+    <string name="mine_decimals">Decimali</string>
+    <string name="mine_on_tile">Sul riquadro</string>
+    <string name="mine_on_tile_detail">Mostrata nel riquadro Le mie letture</string>
+    <string name="mine_test">Prova</string>
+    <string name="mine_answer">Risposta: %1$s</string>
+    <string name="mine_no_answer">nessuna risposta</string>
+    <string name="mine_value">Valore: %1$s</string>
+    <string name="mine_err_unknown">Nome sconosciuto: %1$s</string>
+    <string name="mine_err_no_value">Ancora nessun valore per %1$s.</string>
+    <string name="mine_err_no_reading">La risposta non corrisponde a questa richiesta.</string>
+    <string name="mine_err_math">La formula divide per zero.</string>
+    <string name="mine_err_syntax">La formula non è leggibile.</string>
+    <string name="mine_reset">Azzera</string>
+    <string name="mine_err_name">Dagli un nome.</string>
+    <string name="mine_err_key">Nome nelle formule: prima una lettera, poi lettere, cifre o _. Da A a H da sole e i nomi predefiniti sono occupati.</string>
+    <string name="mine_err_key_taken">Un\'altra lettura usa già questo nome.</string>
+    <string name="mine_err_request">Solo richieste di lettura in esadecimale: modo 01, 09, 21 o 22.</string>
+    <string name="mine_err_address">Gli indirizzi hanno 3 o 8 cifre esadecimali, e un indirizzo di risposta richiede un indirizzo centralina.</string>
+    <string name="mine_err_session">Sessione: solo 1001, 1003, 1081, 1092 o 10C0, con indirizzo centralina.</string>
+    <string name="mine_err_no_bytes">Le lettere da A a H hanno senso solo in una lettura dall\'auto.</string>
+</resources>

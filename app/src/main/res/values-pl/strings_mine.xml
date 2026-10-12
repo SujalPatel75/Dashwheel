@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- My readings: the driver's own OBD requests and formulas (MyReadings.kt, MyReadingsTile.kt) -->
+    <string name="mine_title">Moje odczyty</string>
+    <string name="mine_settings_detail">Własne zapytania OBD i wzory</string>
+    <string name="mine_kind_blurb">Własne odczyty OBD i wzory, ustawiane w Ustawieniach</string>
+    <string name="mine_tile_empty">Dodaj odczyty w Ustawienia → Samochód → Moje odczyty.</string>
+    <string name="mine_explanation">Zapytaj samochód o dowolny odczyt jego zapytaniem albo wylicz własne wartości z pozostałych.</string>
+    <string name="mine_none">Brak odczytów.</string>
+    <string name="mine_add">Dodaj odczyt</string>
+    <string name="mine_examples_detail">Zużycie LPG wyliczone z przepływu powietrza. Dopasuj liczby do swojego auta.</string>
+    <string name="mine_add_examples">Dodaj przykłady</string>
+    <string name="mine_ex_maf">Przepływ powietrza</string>
+    <string name="mine_ex_lpg_lh">Zużycie LPG</string>
+    <string name="mine_ex_lpg_used">Zużyte LPG</string>
+    <string name="mine_ex_lpg_l100">LPG na 100 km</string>
+    <string name="mine_kind_pid">Z samochodu</string>
+    <string name="mine_kind_formula">Wyliczony</string>
+    <string name="mine_kind_total">Suma</string>
+    <string name="mine_new">Nowy odczyt</string>
+    <string name="mine_delete">Usuń</string>
+    <string name="mine_save">Zapisz</string>
+    <string name="mine_type">Rodzaj</string>
+    <string name="mine_name">Nazwa</string>
+    <string name="mine_unit">Jednostka</string>
+    <string name="mine_key">Nazwa we wzorach</string>
+    <string name="mine_request">Zapytanie</string>
+    <string name="mine_header">Adres sterownika</string>
+    <string name="mine_reply">Adres odpowiedzi</string>
+    <string name="mine_session">Sesja</string>
+    <string name="mine_hint_address">Przy standardowych zapytaniach OBD, takich jak 0110, zostaw adresy i sesję puste.</string>
+    <string name="mine_formula">Wzór</string>
+    <string name="mine_hint_pid">Litery od A do H to bajty odpowiedzi, na przykład (A*256+B)/100 dla 0110.</string>
+    <string name="mine_hint_formula">Użyj nazw poniżej z + - * / oraz min, max, abs, round, if.</string>
+    <string name="mine_hint_total">Sumuje wartość na godzinę: L/h stają się litrami, km/h kilometrami.</string>
+    <string name="mine_names">Nazwy: %1$s</string>
+    <string name="mine_decimals">Miejsca po przecinku</string>
+    <string name="mine_on_tile">Na kafelku</string>
+    <string name="mine_on_tile_detail">Widoczny na kafelku Moje odczyty</string>
+    <string name="mine_test">Testuj</string>
+    <string name="mine_answer">Odpowiedź: %1$s</string>
+    <string name="mine_no_answer">brak odpowiedzi</string>
+    <string name="mine_value">Wartość: %1$s</string>
+    <string name="mine_err_unknown">Nieznana nazwa: %1$s</string>
+    <string name="mine_err_no_value">Brak jeszcze wartości dla %1$s.</string>
+    <string name="mine_err_no_reading">Odpowiedź nie pasuje do tego zapytania.</string>
+    <string name="mine_err_math">Wzór dzieli przez zero.</string>
+    <string name="mine_err_syntax">Nie można odczytać wzoru.</string>
+    <string name="mine_reset">Zeruj</string>
+    <string name="mine_err_name">Nadaj mu nazwę.</string>
+    <string name="mine_err_key">Nazwa we wzorach: najpierw litera, potem litery, cyfry lub _. Same litery od A do H i nazwy wbudowane są zajęte.</string>
+    <string name="mine_err_key_taken">Inny odczyt używa już tej nazwy.</string>
+    <string name="mine_err_request">Tylko zapytania odczytu w hex: tryb 01, 09, 21 lub 22.</string>
+    <string name="mine_err_address">Adresy mają 3 lub 8 cyfr hex, a adres odpowiedzi wymaga adresu sterownika.</string>
+    <string name="mine_err_session">Sesja: tylko 1001, 1003, 1081, 1092 lub 10C0, z adresem sterownika.</string>
+    <string name="mine_err_no_bytes">Litery od A do H mają sens tylko w odczycie z samochodu.</string>
+</resources>

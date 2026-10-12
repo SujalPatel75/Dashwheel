@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- My readings: the driver's own OBD requests and formulas (MyReadings.kt, MyReadingsTile.kt) -->
+    <string name="mine_title">Mes mesures</string>
+    <string name="mine_settings_detail">Vos propres requêtes OBD et formules</string>
+    <string name="mine_kind_blurb">Vos propres mesures OBD et formules, à régler dans Réglages</string>
+    <string name="mine_tile_empty">Ajoutez des mesures dans Réglages → Voiture → Mes mesures.</string>
+    <string name="mine_explanation">Demandez n\'importe quelle mesure à la voiture par sa requête, ou calculez vos propres chiffres à partir des autres.</string>
+    <string name="mine_none">Aucune mesure pour l\'instant.</string>
+    <string name="mine_add">Ajouter une mesure</string>
+    <string name="mine_examples_detail">Consommation GPL calculée d\'après le débit d\'air. Ajustez les chiffres pour votre voiture.</string>
+    <string name="mine_add_examples">Ajouter des exemples</string>
+    <string name="mine_ex_maf">Débit d\'air</string>
+    <string name="mine_ex_lpg_lh">Conso GPL</string>
+    <string name="mine_ex_lpg_used">GPL consommé</string>
+    <string name="mine_ex_lpg_l100">GPL aux 100 km</string>
+    <string name="mine_kind_pid">De la voiture</string>
+    <string name="mine_kind_formula">Calculée</string>
+    <string name="mine_kind_total">Cumul</string>
+    <string name="mine_new">Nouvelle mesure</string>
+    <string name="mine_delete">Supprimer</string>
+    <string name="mine_save">Enregistrer</string>
+    <string name="mine_type">Type</string>
+    <string name="mine_name">Nom</string>
+    <string name="mine_unit">Unité</string>
+    <string name="mine_key">Nom dans les formules</string>
+    <string name="mine_request">Requête</string>
+    <string name="mine_header">Adresse du calculateur</string>
+    <string name="mine_reply">Adresse de réponse</string>
+    <string name="mine_session">Session</string>
+    <string name="mine_hint_address">Laissez adresses et session vides pour les requêtes OBD standard comme 0110.</string>
+    <string name="mine_formula">Formule</string>
+    <string name="mine_hint_pid">Les lettres A à H sont les octets de la réponse, par exemple (A*256+B)/100 pour 0110.</string>
+    <string name="mine_hint_formula">Utilisez les noms ci-dessous avec + - * / et min, max, abs, round, if.</string>
+    <string name="mine_hint_total">Additionne la valeur par heure : les L/h deviennent des litres, les km/h des kilomètres.</string>
+    <string name="mine_names">Noms : %1$s</string>
+    <string name="mine_decimals">Décimales</string>
+    <string name="mine_on_tile">Sur la tuile</string>
+    <string name="mine_on_tile_detail">Affichée sur la tuile Mes mesures</string>
+    <string name="mine_test">Tester</string>
+    <string name="mine_answer">Réponse : %1$s</string>
+    <string name="mine_no_answer">pas de réponse</string>
+    <string name="mine_value">Valeur : %1$s</string>
+    <string name="mine_err_unknown">Nom inconnu : %1$s</string>
+    <string name="mine_err_no_value">Pas encore de valeur pour %1$s.</string>
+    <string name="mine_err_no_reading">La réponse ne correspond pas à cette requête.</string>
+    <string name="mine_err_math">La formule divise par zéro.</string>
+    <string name="mine_err_syntax">La formule est illisible.</string>
+    <string name="mine_reset">Remettre à zéro</string>
+    <string name="mine_err_name">Donnez-lui un nom.</string>
+    <string name="mine_err_key">Nom dans les formules : une lettre d\'abord, puis lettres, chiffres ou _. A à H seuls et les noms intégrés sont pris.</string>
+    <string name="mine_err_key_taken">Une autre mesure utilise déjà ce nom.</string>
+    <string name="mine_err_request">Requêtes de lecture en hexadécimal uniquement : mode 01, 09, 21 ou 22.</string>
+    <string name="mine_err_address">Les adresses font 3 ou 8 chiffres hexadécimaux, et une adresse de réponse demande une adresse de calculateur.</string>
+    <string name="mine_err_session">Session : 1001, 1003, 1081, 1092 ou 10C0 uniquement, avec une adresse de calculateur.</string>
+    <string name="mine_err_no_bytes">Les lettres A à H n\'ont de sens que pour une mesure de la voiture.</string>
+</resources>

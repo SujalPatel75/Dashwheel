@@ -101,6 +101,8 @@ enum class BuiltinKind(
     COMMUTE(R.string.widgets_commute, WidgetCategory.NAVIGATION, R.string.widgets_commute_blurb, 4, 2),
     // The second tank of an LPG car, its level worked out (LpgTank.kt).
     LPG_TANK(R.string.lpg_kind, WidgetCategory.VEHICLE, R.string.lpg_kind_blurb, 4, 3),
+    // The driver's own OBD requests and formulas (MyReadings.kt).
+    MY_READINGS(R.string.mine_title, WidgetCategory.VEHICLE, R.string.mine_kind_blurb, 4, 2),
     // The last drives the drive log kept, with this week's total (DriveHistoryTile.kt).
     DRIVE_HISTORY(R.string.widgets_history, WidgetCategory.DRIVING, R.string.widgets_history_blurb, 4, 3),
     // The one thing that matters right now, picked from the other feeds (NowCard.kt).

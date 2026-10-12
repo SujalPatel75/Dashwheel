@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- My readings: the driver's own OBD requests and formulas (MyReadings.kt, MyReadingsTile.kt) -->
+    <string name="mine_title">Мои показания</string>
+    <string name="mine_settings_detail">Свои OBD-запросы и формулы</string>
+    <string name="mine_kind_blurb">Свои OBD-показания и формулы, задаются в Настройках</string>
+    <string name="mine_tile_empty">Добавьте показания: Настройки → Автомобиль → Мои показания.</string>
+    <string name="mine_explanation">Запросите у машины любое показание по его запросу или вычислите свои значения из остальных.</string>
+    <string name="mine_none">Показаний пока нет.</string>
+    <string name="mine_add">Добавить показание</string>
+    <string name="mine_examples_detail">Расход газа по расходу воздуха. Подберите числа под свою машину.</string>
+    <string name="mine_add_examples">Добавить примеры</string>
+    <string name="mine_ex_maf">Расход воздуха</string>
+    <string name="mine_ex_lpg_lh">Расход газа</string>
+    <string name="mine_ex_lpg_used">Газа израсходовано</string>
+    <string name="mine_ex_lpg_l100">Газ на 100 км</string>
+    <string name="mine_kind_pid">Из машины</string>
+    <string name="mine_kind_formula">Вычисляемое</string>
+    <string name="mine_kind_total">Накопительное</string>
+    <string name="mine_new">Новое показание</string>
+    <string name="mine_delete">Удалить</string>
+    <string name="mine_save">Сохранить</string>
+    <string name="mine_type">Тип</string>
+    <string name="mine_name">Название</string>
+    <string name="mine_unit">Единица</string>
+    <string name="mine_key">Имя в формулах</string>
+    <string name="mine_request">Запрос</string>
+    <string name="mine_header">Адрес блока</string>
+    <string name="mine_reply">Адрес ответа</string>
+    <string name="mine_session">Сессия</string>
+    <string name="mine_hint_address">Для стандартных OBD-запросов вроде 0110 оставьте адреса и сессию пустыми.</string>
+    <string name="mine_formula">Формула</string>
+    <string name="mine_hint_pid">Буквы от A до H это байты ответа, например (A*256+B)/100 для 0110.</string>
+    <string name="mine_hint_formula">Используйте имена ниже с + - * / и min, max, abs, round, if.</string>
+    <string name="mine_hint_total">Суммирует значение за час: л/ч становятся литрами, км/ч километрами.</string>
+    <string name="mine_names">Имена: %1$s</string>
+    <string name="mine_decimals">Знаков после запятой</string>
+    <string name="mine_on_tile">На плитке</string>
+    <string name="mine_on_tile_detail">Показывается на плитке Мои показания</string>
+    <string name="mine_test">Проверить</string>
+    <string name="mine_answer">Ответ: %1$s</string>
+    <string name="mine_no_answer">нет ответа</string>
+    <string name="mine_value">Значение: %1$s</string>
+    <string name="mine_err_unknown">Неизвестное имя: %1$s</string>
+    <string name="mine_err_no_value">Пока нет значения для %1$s.</string>
+    <string name="mine_err_no_reading">Ответ не подходит к этому запросу.</string>
+    <string name="mine_err_math">Формула делит на ноль.</string>
+    <string name="mine_err_syntax">Формулу не удаётся прочитать.</string>
+    <string name="mine_reset">Сбросить</string>
+    <string name="mine_err_name">Дайте ему название.</string>
+    <string name="mine_err_key">Имя в формулах: сначала буква, затем буквы, цифры или _. Одиночные A–H и встроенные имена заняты.</string>
+    <string name="mine_err_key_taken">Это имя уже занято другим показанием.</string>
+    <string name="mine_err_request">Только запросы чтения в hex: режим 01, 09, 21 или 22.</string>
+    <string name="mine_err_address">Адрес состоит из 3 или 8 hex-цифр, а адресу ответа нужен адрес блока.</string>
+    <string name="mine_err_session">Сессия: только 1001, 1003, 1081, 1092 или 10C0, с адресом блока.</string>
+    <string name="mine_err_no_bytes">Буквы от A до H имеют смысл только в показании из машины.</string>
+</resources>

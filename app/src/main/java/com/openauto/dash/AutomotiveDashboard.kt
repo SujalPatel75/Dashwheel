@@ -991,6 +991,7 @@ fun AutomotiveDashboard(inSplitMode: Boolean = false) {
         MessageAlerts.start()
         CarNews.start(context)
         PidExplorer.setContext(context)
+        MyReadings.setContext(context)
         AiMechanic.setContext(context)
         SteeringWheelStore.setContext(context)
         // Read now: a wheel button may ask for home, or the drawer for the apps used most, at any time.

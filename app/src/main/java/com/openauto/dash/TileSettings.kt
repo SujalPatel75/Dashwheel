@@ -46,6 +46,7 @@ internal class TileSettings(@StringRes val title: Int, val page: @Composable (on
 /** The settings page that belongs to [kind]'s tile; null for a tile with none. */
 internal fun tileSettings(kind: BuiltinKind): TileSettings? = when (kind) {
     BuiltinKind.LPG_TANK -> TileSettings(R.string.lpg_title) { LpgTankSheet(onDismiss = it) }
+    BuiltinKind.MY_READINGS -> TileSettings(R.string.mine_title) { MyReadingsSheet(onDismiss = it) }
     BuiltinKind.SERVICE -> TileSettings(R.string.upkeep_dialog_title) { UpkeepDialog(onDismiss = it) }
     BuiltinKind.HOME_WORK, BuiltinKind.COMMUTE -> TileSettings(R.string.places_title) { PlacesSheet(onDismiss = it) }
     // Tiles that read the car's specs: tank, battery, filter, gears, running temperature, tyre pressures.

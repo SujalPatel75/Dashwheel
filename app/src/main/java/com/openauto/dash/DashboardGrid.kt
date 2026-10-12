@@ -762,6 +762,7 @@ internal fun TileContent(
             BuiltinKind.DRIVE_HISTORY -> DriveHistoryCard(modifier = Modifier.fillMaxSize())
             BuiltinKind.NOW -> NowCard(modifier = Modifier.fillMaxSize())
             BuiltinKind.LPG_TANK -> LpgTankCard(modifier = Modifier.fillMaxSize())
+            BuiltinKind.MY_READINGS -> MyReadingsCard(modifier = Modifier.fillMaxSize())
             BuiltinKind.FILTER_CARE -> FilterCareCard(modifier = Modifier.fillMaxSize())
             BuiltinKind.WARMUP -> WarmupCard(obd.value, obdConnection.value == ObdConnectionState.CONNECTED, Modifier.fillMaxSize())
             BuiltinKind.BATTERY -> BatteryCard(obd.value, obdConnection.value == ObdConnectionState.CONNECTED, Modifier.fillMaxSize())

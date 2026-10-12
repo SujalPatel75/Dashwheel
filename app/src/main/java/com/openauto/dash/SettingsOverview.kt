@@ -439,6 +439,7 @@ private val SETTINGS_INDEX: List<SettingsEntry> by lazy {
         SettingsEntry(R.string.ai_title, SettingsTab.CAR, listOf(Deep.AI), detail = R.string.settings_ai_detail),
         SettingsEntry(R.string.upkeep_dialog_title, SettingsTab.CAR, listOf(Deep.UPKEEP), detail = R.string.upkeep_settings_detail),
         SettingsEntry(R.string.lpg_title, SettingsTab.CAR, listOf(Deep.LPG)),
+        SettingsEntry(R.string.mine_title, SettingsTab.CAR, listOf(Deep.MY_READINGS), detail = R.string.mine_settings_detail),
         SettingsEntry(R.string.vehicle_speed_fix, SettingsTab.CAR, detail = R.string.settings_speed_fix_detail),
         SettingsEntry(R.string.reverse_title, SettingsTab.CAR, listOf(Deep.REVERSE), detail = R.string.reverse_settings_detail),
 
@@ -528,6 +529,7 @@ private fun Deep.titleRes(): Int = when (this) {
     Deep.LANGUAGE -> R.string.language_title
     Deep.SECOND_SCREEN -> R.string.settings_section_second_screen
     Deep.LPG -> R.string.lpg_title
+    Deep.MY_READINGS -> R.string.mine_title
     Deep.OBD -> R.string.settings_obd_title
     Deep.UNITS -> R.string.units_title
     Deep.ACCESS -> R.string.setup_access_title
