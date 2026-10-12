@@ -116,4 +116,29 @@ class PsaTripComputerTest {
         assertNull(McuFeed.rdsName("A,B     ".toByteArray()))
         assertEquals("Now: Daft Punk", McuFeed.rdsText("Now:  Daft Punk\r ".toByteArray()))
     }
+
+    @Test
+    fun theWarningsOnTheCarAppsScreenAreKnown() {
+        // As the car app showed them on the C4: a brake light bulb, then the engine.
+        val t = PsaTripComputer.decode(PsaTrip(), 0x3A, bytes(2, 0x84, 0x77))!!
+        assertEquals(listOf(0x84, 0x77), t.warnings)
+        assertEquals(R.string.car_warn_bulb_brake_left_rear, PsaWarnings.of(0x84)!!.textRes)
+        assertEquals(PsaWarnings.Level.SERVICE, PsaWarnings.of(0x84)!!.level)
+        assertEquals(PsaWarnings.Level.SERVICE, PsaWarnings.of(0x77)!!.level)
+        assertEquals(PsaWarnings.Level.STOP, PsaWarnings.of(0x0E)!!.level)
+    }
+
+    @Test
+    fun noticesAreNoWarnings() {
+        // "Door locked", "automatic wipers on", "diagnosis complete": the car says them, nothing to act on.
+        val t = PsaTripComputer.decode(PsaTrip(), 0x3A, bytes(4, 0x07, 0x40, 0x3B, 0x34))!!
+        assertEquals(listOf(0x34), t.warnings)
+    }
+
+    @Test
+    fun everyCodeIsAWarningOrANotice() {
+        for (code in 0x01..0x87) {
+            assertTrue("code ${code.toString(16)}", PsaWarnings.of(code) != null || code in PsaWarnings.notices)
+        }
+    }
 }

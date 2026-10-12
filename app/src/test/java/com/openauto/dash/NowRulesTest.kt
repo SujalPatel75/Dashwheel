@@ -192,4 +192,16 @@ class NowRulesTest {
         assertEquals(1, found[BuiltinKind.CLOCK])
         assertNull(found[BuiltinKind.SERVICE])
     }
+
+    @Test
+    fun theCarsOwnWarningsTakeTheirPlace() {
+        // A stop-now warning is as pressing as a stop-now fault, ahead of the turn.
+        val stop = NowRules.cards(NowInputs(carWarning = PsaWarnings.Level.STOP, guiding = true, turnMetres = 300), now).map { it.kind }
+        assertEquals(NowKind.CAR, stop.first())
+        // A bulb or a garage visit waits behind the appointment, beside the servicing.
+        val soon = NowRules.cards(NowInputs(carWarning = PsaWarnings.Level.SERVICE, nextEventAt = now + 30 * min), now).map { it.kind }
+        assertEquals(listOf(NowKind.AGENDA, NowKind.CAR, NowKind.CALM), soon)
+        // What is only good to know gets no card.
+        assertEquals(listOf(NowKind.CALM), NowRules.cards(NowInputs(carWarning = PsaWarnings.Level.INFO), now).map { it.kind })
+    }
 }

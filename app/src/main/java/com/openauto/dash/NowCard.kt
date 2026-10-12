@@ -64,7 +64,8 @@ import kotlin.math.roundToInt
 
 /*
  * "Now": one tile with the single most pressing thing at this moment, like a
- * phone's smart stack but for the driver. It changes by itself: a fault, the
+ * phone's smart stack but for the driver. It changes by itself: a fault or a
+ * warning of the car's own (a Peugeot or Citroën's, [PsaWarnings]), the
  * next turn, low fuel, the parking about to run out, a break, the weather, the
  * next appointment, the servicing, else a calm line with the time. While the
  * car moves it never pages on its own (a moving picture pulls the eye off the
@@ -73,7 +74,7 @@ import kotlin.math.roundToInt
  */
 
 /** What the Now card can be about. */
-internal enum class NowKind { FAULT, TURN, FUEL, PARKING, BREAK, WEATHER, AGENDA, SERVICE, CALM }
+internal enum class NowKind { FAULT, CAR, TURN, FUEL, PARKING, BREAK, WEATHER, AGENDA, SERVICE, CALM }
 
 /** One candidate card: what it is about and how pressing it is now (higher wins). */
 internal data class NowCard(val kind: NowKind, val priority: Int)
@@ -84,6 +85,8 @@ internal data class NowCard(val kind: NowKind, val priority: Int)
  */
 internal data class NowInputs(
     val faultCodes: List<String> = emptyList(),
+    /** The most serious of the car's own warnings ([PsaWarnings]); null when it has none worth a card. */
+    val carWarning: PsaWarnings.Level? = null,
     /** The mechanic's verdict on [faultCodes], or the car's own rules' floor while there is none. */
     val faultSeverity: Severity? = null,
     /** When a scan last found a code not seen before ([AiMechanic.newFaultAt]). */
@@ -177,6 +180,12 @@ internal object NowRules {
                 i.faultSeverity == Severity.OK -> FAULT_MINOR
                 else -> FAULT_SOON
             }))
+        }
+        // The car's own warning: stop now as a fault would be, a garage visit beside the servicing.
+        when (i.carWarning) {
+            PsaWarnings.Level.STOP -> add(NowCard(NowKind.CAR, FAULT_STOP))
+            PsaWarnings.Level.SERVICE -> add(NowCard(NowKind.CAR, FAULT_SOON))
+            else -> {}
         }
         if (i.guiding) add(NowCard(NowKind.TURN, if (i.turnMetres != null && i.turnMetres <= TURN_NEAR_M) TURN_NEAR else TURN_FAR))
         if (lowFuel(i.rangeKm, i.fuelWasLow)) add(NowCard(NowKind.FUEL, FUEL_LOW))
@@ -312,6 +321,12 @@ internal fun rememberNowView(pending: PendingActionState): NowView {
     val agenda = rememberAgendaSource()
     val upkeep by Maintenance.state.collectAsState()
 
+    // The car's own warnings, the most serious first; the ones only good to know stay on the Car status tile.
+    val trip by PsaTripComputer.state.collectAsState()
+    val carWarnings = remember(trip?.warnings) {
+        trip?.warnings.orEmpty().mapNotNull { PsaWarnings.of(it) }.filter { it.level != PsaWarnings.Level.INFO }
+            .sortedBy { it.level.ordinal }.distinctBy { it.textRes }
+    }
     val now = clock
     val codes = ai.codes.orEmpty()
     val severity = if (codes.isEmpty()) null else ai.diagnosis?.severity ?: SeverityFloor.of(codes, 0, car.hotC)
@@ -323,6 +338,7 @@ internal fun rememberNowView(pending: PendingActionState): NowView {
     var fuelWasLow by remember { mutableStateOf(false) }
     val inputs = NowInputs(
         faultCodes = codes, faultSeverity = severity, newFaultAt = newFaultAt,
+        carWarning = carWarnings.firstOrNull()?.level,
         guiding = nav.active, turnMetres = NowRules.metres(nav.distance),
         rangeKm = fuel?.rangeKm, fuelWasLow = fuelWasLow,
         parkingEndsAt = parkingEnds, drivingMs = drivingMin * 60_000L,
@@ -383,6 +399,20 @@ internal fun rememberNowView(pending: PendingActionState): NowView {
                     stringResource(verdictText(severity)),
                     ai.diagnosis?.summary?.takeIf { it.isNotBlank() } ?: (first + ": " + stringResource(ObdCodes.describe(first).titleRes)),
                     onTap = { lock.whenParked { if (!showWidgetPage(BuiltinKind.OBD_DTC)) page(1) } }
+                )
+            }
+            NowKind.CAR -> {
+                val first = carWarnings.first()
+                NowItem(
+                    c.kind, c.priority, if (first.level == PsaWarnings.Level.STOP) Icons.Filled.Error else Icons.Filled.Warning,
+                    stringResource(R.string.car_status_message),
+                    stringResource(first.textRes),
+                    when (carWarnings.size) {
+                        1 -> ""
+                        2 -> stringResource(carWarnings[1].textRes)
+                        else -> stringResource(carWarnings[1].textRes) + ", " + stringResource(R.string.car_warn_more, carWarnings.size - 2)
+                    },
+                    onTap = { lock.whenParked { if (!showWidgetPage(BuiltinKind.CAR_STATUS)) page(1) } }
                 )
             }
             // The distance is the headline: it is what changes, and what the eye looks for.

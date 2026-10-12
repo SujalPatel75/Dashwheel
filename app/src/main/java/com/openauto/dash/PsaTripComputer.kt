@@ -14,6 +14,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
@@ -158,7 +159,7 @@ object PsaTripComputer {
         }
         TYPE_WARNINGS -> if (d.isEmpty()) null else {
             val n = (d[0].toInt() and 0xFF).coerceAtMost(d.size - 1)
-            was.copy(warnings = (1..n).map { d[it].toInt() and 0xFF }.filter { it != 0x00 && it != 0xF0 && it != 0xFF }.distinct())
+            was.copy(warnings = (1..n).map { d[it].toInt() and 0xFF }.filter { it != 0x00 && it != 0xF0 && it != 0xFF && it !in PsaWarnings.notices }.distinct())
         }
         else -> null
     }
@@ -195,6 +196,53 @@ object PsaTripComputer {
         poll?.cancel()
         poll = null
         McuReader.stop()
+    }
+
+    private var started = false
+    /** The car's warnings and range are asked for this often while the ignition is on, tile or none. */
+    private const val ASK_EVERY_MS = 5 * 60_000L
+    /** The CAN box wakes with the car: the first question waits this long. */
+    private const val FIRST_ASK_MS = 15_000L
+    /** Without the MCU service, the root log is read this long around each question, for the answer. */
+    private const val LOG_WINDOW_MS = 30_000L
+
+    /**
+     * From the start: the car's warnings (and the range) asked for when the
+     * ignition comes on and every [ASK_EVERY_MS] while it is, so a warning
+     * shows and is said without any tile on screen. The car app itself asks
+     * only when its UART starts and when its trip screen opens.
+     */
+    @Synchronized
+    fun start(context: Context) {
+        if (started) return
+        started = true
+        PsaWarnings.setContext(context)
+        val app = context.applicationContext
+        scope.launch {
+            // An ignition the unit doesn't tell (null) counts as on.
+            CarPower.ignition.collectLatest { on ->
+                if (on == false) return@collectLatest
+                delay(FIRST_ASK_MS)
+                while (isActive) {
+                    if (forThisCar() && !DemoMode.isOn) {
+                        val questions = listOf(TYPE_WARNINGS, TYPE_PAGE0).map { queryFrame(it) }
+                        if (McuFeed.listening.value) {
+                            CanBoxLink.ask(app, questions)
+                        } else {
+                            McuReader.start()
+                            // Let go even when the ignition goes off meanwhile (collectLatest cancels).
+                            try {
+                                CanBoxLink.ask(app, questions)
+                                delay(LOG_WINDOW_MS)
+                            } finally {
+                                McuReader.stop()
+                            }
+                        }
+                    }
+                    delay(ASK_EVERY_MS)
+                }
+            }
+        }
     }
 
     /** The car app's own question for one page: `FD 04 8F type sum` (the service puts the sum in). */
@@ -300,31 +348,109 @@ internal object PsaWarnings {
 
     class Warning(val textRes: Int, val level: Level)
 
+    private fun stop(res: Int) = Warning(res, Level.STOP)
+    private fun service(res: Int) = Warning(res, Level.SERVICE)
+    private fun info(res: Int) = Warning(res, Level.INFO)
+
+    // Every code the car app has a warning for (getWarningString). Its notices
+    // that are no warning (an aid switched on, a door locked, a drive mode) are
+    // left out, and so are the ones Dashwheel has its own alert for (belts).
     private val known: Map<Int, Warning> = mapOf(
-        0x0B to Warning(R.string.car_warn_engine_temp, Level.STOP),
-        0x0E to Warning(R.string.car_warn_oil_pressure, Level.STOP),
-        0x0F to Warning(R.string.car_warn_brakes, Level.STOP),
-        0x1A to Warning(R.string.car_warn_brakes, Level.STOP),
-        0x76 to Warning(R.string.car_warn_engine_stop, Level.STOP),
-        0x0C to Warning(R.string.car_warn_coolant, Level.SERVICE),
-        0x0D to Warning(R.string.car_warn_oil_level, Level.SERVICE),
-        0x13 to Warning(R.string.car_warn_dpf, Level.SERVICE),
-        0x16 to Warning(R.string.car_warn_steering, Level.SERVICE),
-        0x1E to Warning(R.string.car_warn_abs, Level.SERVICE),
-        0x1F to Warning(R.string.car_warn_esp, Level.SERVICE),
-        0x21 to Warning(R.string.car_warn_gearbox, Level.SERVICE),
-        0x23 to Warning(R.string.car_warn_additive, Level.SERVICE),
-        0x27 to Warning(R.string.car_warn_battery, Level.SERVICE),
-        0x5A to Warning(R.string.car_warn_airbag, Level.SERVICE),
-        0x5B to Warning(R.string.car_warn_water_diesel, Level.SERVICE),
-        0x77 to Warning(R.string.car_warn_engine_repair, Level.SERVICE),
-        0x85 to Warning(R.string.car_warn_pollution, Level.SERVICE),
-        0x11 to Warning(R.string.car_warn_open, Level.INFO),
-        0x28 to Warning(R.string.car_warn_tyres, Level.INFO),
-        0x39 to Warning(R.string.car_warn_tyres, Level.INFO),
-        0x33 to Warning(R.string.car_warn_washer, Level.INFO),
-        0x34 to Warning(R.string.car_warn_fuel, Level.INFO),
-        0x31 to Warning(R.string.car_warn_ice, Level.INFO)
+        // Stop the car.
+        0x0B to stop(R.string.car_warn_engine_temp),
+        0x0E to stop(R.string.car_warn_oil_pressure),
+        0x0F to stop(R.string.car_warn_brakes),
+        0x1A to stop(R.string.car_warn_brakes),
+        0x76 to stop(R.string.car_warn_engine_stop),
+        0x12 to stop(R.string.car_warn_puncture),
+        0x7F to stop(R.string.car_warn_puncture),
+        0x80 to stop(R.string.car_warn_puncture),
+        0x81 to stop(R.string.car_warn_puncture),
+        0x82 to stop(R.string.car_warn_puncture),
+        // See a garage.
+        0x0C to service(R.string.car_warn_coolant),
+        0x0D to service(R.string.car_warn_oil_level),
+        0x13 to service(R.string.car_warn_dpf),
+        0x14 to service(R.string.car_warn_suspension),
+        0x15 to service(R.string.car_warn_suspension),
+        0x16 to service(R.string.car_warn_steering),
+        0x1B to service(R.string.car_warn_brake_pads),
+        0x1C to service(R.string.car_warn_parking_brake),
+        0x6F to service(R.string.car_warn_parking_brake),
+        0x1E to service(R.string.car_warn_abs),
+        0x1F to service(R.string.car_warn_esp),
+        0x4A to service(R.string.car_warn_esp),
+        0x20 to service(R.string.car_warn_gearbox),
+        0x21 to service(R.string.car_warn_gearbox),
+        0x22 to service(R.string.car_warn_cruise),
+        0x23 to service(R.string.car_warn_additive),
+        0x79 to service(R.string.car_warn_additive),
+        0x24 to service(R.string.car_warn_immobiliser),
+        0x5F to service(R.string.car_warn_immobiliser),
+        0x27 to service(R.string.car_warn_battery),
+        0x5A to service(R.string.car_warn_airbag),
+        0x5B to service(R.string.car_warn_water_diesel),
+        0x60 to service(R.string.car_warn_steering_lock),
+        0x64 to service(R.string.car_warn_hybrid),
+        0x65 to service(R.string.car_warn_hybrid),
+        0x67 to service(R.string.car_warn_hybrid),
+        0x66 to service(R.string.car_warn_headlight_levelling),
+        0x6E to service(R.string.car_warn_headlight_levelling),
+        0x6D to service(R.string.car_warn_driving_aid),
+        0x25 to service(R.string.car_warn_driving_aid),
+        0x26 to service(R.string.car_warn_driving_aid),
+        0x78 to service(R.string.car_warn_driving_aid),
+        0x70 to service(R.string.car_warn_driving_aid),
+        0x77 to service(R.string.car_warn_engine_repair),
+        0x85 to service(R.string.car_warn_pollution),
+        0x86 to service(R.string.car_warn_pollution_start),
+        // A bulb out: a garage or a bulb, and the others on the road can't see the car brake or turn.
+        0x29 to service(R.string.car_warn_bulb_dipped),
+        0x2A to service(R.string.car_warn_bulb_main),
+        0x2B to service(R.string.car_warn_bulb_brake),
+        0x61 to service(R.string.car_warn_bulb_brake_middle),
+        0x83 to service(R.string.car_warn_bulb_brake_right_rear),
+        0x84 to service(R.string.car_warn_bulb_brake_left_rear),
+        0x2C to service(R.string.car_warn_bulb_fog),
+        0x2D to service(R.string.car_warn_bulb_indicator),
+        0x2E to service(R.string.car_warn_bulb_reversing),
+        0x2F to service(R.string.car_warn_bulb_sidelight),
+        // Good to know.
+        0x11 to info(R.string.car_warn_open),
+        0x53 to info(R.string.car_warn_open),
+        0x54 to info(R.string.car_warn_open),
+        0x55 to info(R.string.car_warn_open),
+        0x56 to info(R.string.car_warn_open),
+        0x57 to info(R.string.car_warn_open),
+        0x58 to info(R.string.car_warn_open),
+        0x28 to info(R.string.car_warn_tyres),
+        0x39 to info(R.string.car_warn_tyres),
+        0x38 to info(R.string.car_warn_tyres),
+        0x7B to info(R.string.car_warn_tyres),
+        0x7C to info(R.string.car_warn_tyres),
+        0x7D to info(R.string.car_warn_tyres),
+        0x7E to info(R.string.car_warn_tyres),
+        0x37 to info(R.string.car_warn_tpms),
+        0x5C to info(R.string.car_warn_tpms),
+        0x6A to info(R.string.car_warn_tpms),
+        0x71 to info(R.string.car_warn_tpms),
+        0x72 to info(R.string.car_warn_tpms),
+        0x73 to info(R.string.car_warn_tpms),
+        0x74 to info(R.string.car_warn_tpms),
+        0x75 to info(R.string.car_warn_tpms),
+        0x33 to info(R.string.car_warn_washer),
+        0x34 to info(R.string.car_warn_fuel),
+        0x31 to info(R.string.car_warn_ice),
+        0x36 to info(R.string.car_warn_key_battery)
+    )
+
+    /** The car's notices that are no warning: never shown, never said. */
+    internal val notices: Set<Int> = setOf(
+        0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x30, 0x32, 0x3A, 0x3B, 0x3C, 0x3D, 0x3E, 0x3F,
+        0x40, 0x41, 0x42, 0x43, 0x4B, 0x4C, 0x4D, 0x4E, 0x4F, 0x51, 0x59, 0x62, 0x63, 0x6C,
+        // Hard tops, a rear wing and a trailer: not on these cars; the rest says nothing to act on.
+        0x10, 0x17, 0x18, 0x19, 0x1D, 0x35, 0x44, 0x45, 0x46, 0x47, 0x48, 0x49, 0x50, 0x52, 0x5D, 0x5E, 0x68, 0x69,
+        0x6B, 0x7A, 0x87
     )
 
     fun of(code: Int): Warning? = known[code]
