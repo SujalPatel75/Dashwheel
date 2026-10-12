@@ -228,8 +228,8 @@ object ObdBluetoothManager {
 
     /**
      * Whether the next link goes over a USB cable: chosen so, or Automatic
-     * with the saved USB adapter (or one Dashwheel was let use) plugged in.
-     * A cable beats Bluetooth: nothing else shares it.
+     * with the saved USB adapter plugged in, once it answered as one or the
+     * driver picked it ([UsbObd.chosen]). A cable beats Bluetooth: nothing else shares it.
      */
     fun usesUsb(): Boolean = !DeepObdSource.owns() && when (route()) {
         ObdRoute.USB -> true
@@ -1170,7 +1170,7 @@ object ObdBluetoothManager {
 
 /** Which way the head unit reaches the OBD adapter (Settings, Car). Saved by name: the order is only the switch's. */
 enum class ObdRoute {
-    /** A USB adapter plugged in, else through the phone when its companion offers the adapter, else this unit's Bluetooth. */
+    /** The USB adapter that answered before (or was picked) when plugged in, else through the phone when its companion offers the adapter, else this unit's Bluetooth. */
     AUTO,
     /** Always this unit's own Bluetooth. */
     UNIT,

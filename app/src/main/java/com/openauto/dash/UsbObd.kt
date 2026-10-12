@@ -49,6 +49,12 @@ internal object UsbObd {
     private const val TAG = "Obd"
     private const val PREFS = "obd_prefs"
     private const val KEY_DEVICE = "obd_usb"
+    /**
+     * The saved device answered as an ELM327, or the driver picked it: only
+     * then does Automatic take it. A head unit's own serial devices (a TPMS
+     * receiver on a CH340, a GPS, a DVR) use the same chips as OBD cables.
+     */
+    private const val KEY_OK = "obd_usb_ok"
     private const val KEY_BAUD = "obd_usb_baud"
     private const val ACTION_PERMISSION = "com.openauto.dash.USB_OBD_PERMISSION"
 
@@ -86,34 +92,43 @@ internal object UsbObd {
 
     fun savedKey(context: Context): String? = prefs(context).getString(KEY_DEVICE, null)
 
+    /** [key] is the adapter: it answered as one, or the driver picked it. */
     fun save(context: Context, key: String) {
         val prefs = prefs(context)
-        val edit = prefs.edit().putString(KEY_DEVICE, key)
+        val edit = prefs.edit().putString(KEY_DEVICE, key).putBoolean(KEY_OK, true)
         // Another adapter may run at another speed.
         if (key != prefs.getString(KEY_DEVICE, null)) edit.remove(KEY_BAUD)
         edit.apply()
     }
 
     fun forget(context: Context) {
-        prefs(context).edit().remove(KEY_DEVICE).remove(KEY_BAUD).apply()
+        prefs(context).edit().remove(KEY_DEVICE).remove(KEY_BAUD).remove(KEY_OK).apply()
     }
 
     private fun prefs(context: Context) = context.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
 
     /**
-     * The adapter to use with Automatic: the saved one, else one Dashwheel
-     * was let use; null when neither is plugged in. Another serial device
-     * isn't taken by itself.
+     * The adapter to use with Automatic: the saved one, plugged in, and only
+     * once it answered as an adapter or the driver picked it. Automatic never
+     * tries another serial device: opening it takes it away from the app that
+     * uses it (the unit's TPMS receiver lost its tyres that way). Saved by an
+     * older version without that proof, it isn't taken either.
      */
     fun chosen(context: Context): UsbObdAdapter? {
-        val all = attached(context)
-        val saved = savedKey(context)
-        return all.firstOrNull { it.key == saved } ?: all.firstOrNull { permitted(context, it) }
+        val prefs = prefs(context)
+        val saved = prefs.getString(KEY_DEVICE, null) ?: return null
+        if (!prefs.getBoolean(KEY_OK, false)) return null
+        return attached(context).firstOrNull { it.key == saved }
     }
 
-    /** The adapter to use with USB chosen in Settings: as [chosen], else the first serial device plugged in. */
-    fun pick(context: Context, anyDevice: Boolean): UsbObdAdapter? =
-        chosen(context) ?: if (anyDevice) attached(context).firstOrNull() else null
+    /** The adapter to use with USB chosen in Settings: as [chosen], else the saved one, one Dashwheel may use, or the first plugged in. */
+    fun pick(context: Context, anyDevice: Boolean): UsbObdAdapter? {
+        chosen(context)?.let { return it }
+        if (!anyDevice) return null
+        val all = attached(context)
+        val saved = savedKey(context)
+        return all.firstOrNull { it.key == saved } ?: all.firstOrNull { permitted(context, it) } ?: all.firstOrNull()
+    }
 
     /** Android's dialog asking to let Dashwheel use [adapter]; true once allowed. */
     suspend fun allow(context: Context, adapter: UsbObdAdapter): Boolean {
@@ -296,19 +311,18 @@ internal fun looksLikeElm(reply: String): Boolean {
 }
 
 /**
- * Opened by Android when an adapter is plugged in, if the driver lets
+ * Opened by Android when a serial device is plugged in, if the driver lets
  * Dashwheel handle it (ticking "always" makes that for good): that grants
- * the access, and the adapter is saved and dialled. Nothing is shown.
+ * the access, and the link is looked at again. Nothing is saved here: a
+ * serial device is not an OBD adapter until it answers as one (the unit's
+ * own TPMS receiver comes up here at every start). Nothing is shown.
  */
 class UsbObdAttachActivity : Activity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         @Suppress("DEPRECATION")
         val device = intent?.getParcelableExtra<UsbDevice>(UsbManager.EXTRA_DEVICE)
-        if (device != null && UsbSerialProber.getDefaultProber().probeDevice(device) != null) {
-            UsbObd.save(this, UsbObd.keyOf(device))
-            VehicleMonitor.usbChanged()
-        }
+        if (device != null && UsbSerialProber.getDefaultProber().probeDevice(device) != null) VehicleMonitor.usbChanged()
         finish()
     }
 }
