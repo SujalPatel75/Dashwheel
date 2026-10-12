@@ -9,6 +9,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -295,28 +296,42 @@ internal fun DirectionsEmpty(
     action: String,
     onAction: () -> Unit
 ) {
+    // A short tile keeps the title and the button whole: the icon goes first, then the hint.
+    BoxWithConstraints(modifier = Modifier.fillMaxSize()) {
+    val roomy = maxHeight >= 200.dp
+    val hinted = maxHeight >= 140.dp
     Column(
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        Icon(icon, contentDescription = null, tint = DashColors.Muted, modifier = Modifier.size(40.dp))
-        Spacer(Modifier.height(8.dp))
-        Text(title, color = DashColors.TextPrimary, fontWeight = FontWeight.SemiBold, style = MaterialTheme.typography.titleMedium)
+        if (roomy) {
+            Icon(icon, contentDescription = null, tint = DashColors.Muted, modifier = Modifier.size(40.dp))
+            Spacer(Modifier.height(8.dp))
+        }
         Text(
-            hint,
-            color = DashColors.TextSecondary,
-            textAlign = TextAlign.Center,
-            style = MaterialTheme.typography.bodySmall,
-            modifier = Modifier.padding(horizontal = 12.dp, vertical = 4.dp)
+            title, color = DashColors.TextPrimary, fontWeight = FontWeight.SemiBold, style = MaterialTheme.typography.titleMedium,
+            textAlign = TextAlign.Center, maxLines = 2, overflow = TextOverflow.Ellipsis
         )
+        if (hinted) {
+            Text(
+                hint,
+                color = DashColors.TextSecondary,
+                textAlign = TextAlign.Center,
+                style = MaterialTheme.typography.bodySmall,
+                maxLines = if (roomy) 3 else 2,
+                overflow = TextOverflow.Ellipsis,
+                modifier = Modifier.padding(horizontal = 12.dp, vertical = 4.dp)
+            )
+        }
         Spacer(Modifier.height(6.dp))
         Button(
             onClick = onAction,
             colors = ButtonDefaults.buttonColors(containerColor = DashColors.Accent, contentColor = DashColors.OnAccent),
             shape = DashShape.Medium,
             contentPadding = PaddingValues(horizontal = 16.dp, vertical = 6.dp)
-        ) { Text(action) }
+        ) { Text(action, maxLines = 1, overflow = TextOverflow.Ellipsis) }
+    }
     }
 }
 

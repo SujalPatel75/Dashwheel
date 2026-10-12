@@ -285,7 +285,7 @@ private fun engraved(size: TextUnit, color: Color = DashColors.TextSecondary): T
     color = color,
     fontFamily = CondensedFamily,
     fontWeight = FontWeight.SemiBold,
-    fontSize = size,
+    fontSize = readableCaps(size),
     letterSpacing = 0.18.em,
     shadow = if (DashColors.Light) {
         Shadow(Color.White.copy(alpha = 0.55f), Offset(0f, 1.5f), 1f)
@@ -774,7 +774,7 @@ private fun BoxScope.LcdMessage(title: String, hint: String, width: Dp, height: 
     ) {
         Text(
             title,
-            style = lcd(titleSize.fixedSp(), ink.copy(alpha = 0.45f)),
+            style = lcd(titleSize.fixedSp(), ink.copy(alpha = 0.8f)),
             textAlign = TextAlign.Center,
             maxLines = if (lcdWidth(title, titleSize) <= room) 1 else 2,
             overflow = TextOverflow.Ellipsis

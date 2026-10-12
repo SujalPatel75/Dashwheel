@@ -194,7 +194,7 @@ private fun caps(sizeSp: Float, color: Color = DashColors.Muted): TextStyle = Te
     color = color,
     fontFamily = FontFamily.SansSerif,
     fontWeight = FontWeight.Medium,
-    fontSize = sizeSp.sp,
+    fontSize = readableCaps(sizeSp.sp),
     lineHeight = 1.3.em,
     letterSpacing = 0.25.em,
     shadow = softShadow(sizeSp)

@@ -140,7 +140,19 @@ data class DashPalette(
         }
         ink
     }
+
+    /**
+     * Text on [Accent] → [Accent2] (buttons, picked options): white or near
+     * black, whichever reads better on the worse end of the gradient. A bright
+     * accent (cyan, sky blue, yellow) needs dark words, by day and by night.
+     */
+    val OnAccentInk: Color by lazy {
+        val ends = listOf(Accent, Accent2)
+        listOf(Color.White, NearBlack).maxBy { ink -> ends.minOf { contrastRatio(ink, it.copy(alpha = 1f)) } }
+    }
 }
+
+private val NearBlack = Color(0xFF0B0F14)
 
 /** WCAG AA for body text. */
 internal const val TEXT_CONTRAST = 4.5f
@@ -193,7 +205,7 @@ private val AuroraPalette = DashPalette(
 private val AuroraLightPalette = DashPalette(
     Background = Color(0xFFF3F6FC), Bar = Color(0xCCFFFFFF), Card = Color(0xF2FFFFFF), CardHi = Color(0x140E1630),
     Accent = Color(0xFF0092D6), Secondary = Color(0xFF0E9F6A), Critical = Color(0xFFE0344F),
-    Good = Color(0xFF0E9F6A), Muted = Color(0xFF6B7794), TextPrimary = Color(0xFF0E1630), TextSecondary = Color(0xFF4D5B7A),
+    Good = Color(0xFF0E9F6A), Muted = Color(0xFF626D8A), TextPrimary = Color(0xFF0E1630), TextSecondary = Color(0xFF4D5B7A),
     Accent2 = Color(0xFF7B5CF0), Line = Color(0x1A0E1630), Glass = true, Glow = 0.3f,
     BackgroundStops = listOf(Color(0xFFE6F0FF), Color(0xFFF6F8FC), Color(0xFFEFE9FF)), Light = true
 )
@@ -207,7 +219,7 @@ private val NeonDarkPalette = DashPalette(
 private val NeonLightPalette = DashPalette(
     Background = Color(0xFFF4F6FF), Bar = Color.White, Card = Color.White, CardHi = Color(0xFFE6EBFA),
     Accent = Color(0xFF2F6BFF), Secondary = Color(0xFF8A4DFF), Critical = Color(0xFFE5364D),
-    Good = Color(0xFF0FA36B), Muted = Color(0xFF6A7390), TextPrimary = Color(0xFF0A1330), TextSecondary = Color(0xFF4A5577),
+    Good = Color(0xFF0FA36B), Muted = Color(0xFF656E8B), TextPrimary = Color(0xFF0A1330), TextSecondary = Color(0xFF4A5577),
     Accent2 = Color(0xFF8A4DFF), Line = Color.Black.copy(alpha = 0.08f), Glow = 0.2f,
     BackgroundStops = listOf(Color(0xFFEBF0FF), Color(0xFFF7F8FF)), Light = true
 )
@@ -233,7 +245,7 @@ private val DarkGlassPalette = DashPalette(
 private val FrostedGlassPalette = DashPalette(
     Background = Color(0xFFF2F4F8), Bar = Color(0xCCFFFFFF), Card = Color(0xE6FFFFFF), CardHi = Color(0x140B1220),
     Accent = Color(0xFF2F72D6), Secondary = Color(0xFF7652E0), Critical = Color(0xFFD93A4C),
-    Good = Color(0xFF15A06E), Muted = Color(0xFF697489), TextPrimary = Color(0xFF0B1220), TextSecondary = Color(0xFF4B5567),
+    Good = Color(0xFF15A06E), Muted = Color(0xFF646F84), TextPrimary = Color(0xFF0B1220), TextSecondary = Color(0xFF4B5567),
     Accent2 = Color(0xFF7652E0), Line = Color(0x1A0B1220), Glass = true, Glow = 0.2f,
     BackgroundStops = listOf(Color(0xFFE8EEF7), Color(0xFFF5F7FA), Color(0xFFEEEAF7)), Light = true
 )
@@ -263,7 +275,7 @@ private val FloatingPalette = DashPalette(
 private val FloatingLightPalette = DashPalette(
     Background = Color(0xFFF4F6FA), Bar = Color.Transparent, Card = Color.White, CardHi = Color(0xFFE8ECF2),
     Accent = Color(0xFF1C7FD6), Secondary = Color(0xFFD9791A), Critical = Color(0xFFE04848),
-    Good = Color(0xFF17A165), Muted = Color(0xFF687385), TextPrimary = Color(0xFF0E141F), TextSecondary = Color(0xFF4E5868),
+    Good = Color(0xFF17A165), Muted = Color(0xFF646E80), TextPrimary = Color(0xFF0E141F), TextSecondary = Color(0xFF4E5868),
     Accent2 = Color(0xFF7B55E0), Line = Color.Black.copy(alpha = 0.08f), Glow = 0.15f, Bare = true,
     BackgroundStops = listOf(Color(0xFFE6EEFA), Color(0xFFF6F8FB), Color(0xFFEFEAFA)), Light = true
 )
@@ -278,14 +290,14 @@ private val OrbitPalette = DashPalette(
 private val OrbitLightPalette = DashPalette(
     Background = Color(0xFFF4F1FA), Bar = Color.Transparent, Card = Color.White, CardHi = Color(0x14161A33),
     Accent = Color(0xFFF0603F), Secondary = Color(0xFF0E8F7C), Critical = Color(0xFFE0405F),
-    Good = Color(0xFF0E8F7C), Muted = Color(0xFF6F7596), TextPrimary = Color(0xFF161A33), TextSecondary = Color(0xFF4A5075),
+    Good = Color(0xFF0E8F7C), Muted = Color(0xFF666C8C), TextPrimary = Color(0xFF161A33), TextSecondary = Color(0xFF4A5075),
     Accent2 = Color(0xFF6B5CF0), Line = Color(0x1A161A33), Glow = 0.3f, Bare = true,
     Skin = DashSkin.ORBIT, Light = true
 )
 private val CockpitPalette = DashPalette(
     Background = Color(0xFF17130F), Bar = Color.Transparent, Card = Color(0xFF211B16), CardHi = Color(0xFF2E2620),
     Accent = Color(0xFFFF8A1F), Secondary = Color(0xFFFFB347), Critical = Color(0xFFFF4A1C),
-    Good = Color(0xFF39D353), Muted = Color(0xFF8C8074), TextPrimary = Color(0xFFE9E1D3), TextSecondary = Color(0xFFCBBFAE),
+    Good = Color(0xFF39D353), Muted = Color(0xFF918579), TextPrimary = Color(0xFFE9E1D3), TextSecondary = Color(0xFFCBBFAE),
     Accent2 = Color(0xFFFFB347), Line = Color.White.copy(alpha = 0.08f), Glow = 0.5f, Bare = true,
     Skin = DashSkin.COCKPIT, Tacho = Color(0xFFFFB347)
 )
@@ -293,7 +305,7 @@ private val CockpitPalette = DashPalette(
 private val CockpitLightPalette = DashPalette(
     Background = Color(0xFFE3D5C1), Bar = Color.Transparent, Card = Color(0xFFF3EADC), CardHi = Color(0xFFE2D4BF),
     Accent = Color(0xFFD9660A), Secondary = Color(0xFFB9770E), Critical = Color(0xFFD23A12),
-    Good = Color(0xFF1F9A3A), Muted = Color(0xFF7D6E5E), TextPrimary = Color(0xFF2A2119), TextSecondary = Color(0xFF5C4E40),
+    Good = Color(0xFF1F9A3A), Muted = Color(0xFF685B4D), TextPrimary = Color(0xFF2A2119), TextSecondary = Color(0xFF5C4E40),
     Accent2 = Color(0xFFB9770E), Line = Color(0x1A2A2119), Glow = 0.1f, Bare = true,
     Skin = DashSkin.COCKPIT, Light = true, Tacho = Color(0xFF8F5A10)
 )
@@ -308,7 +320,7 @@ private val HorizonPalette = DashPalette(
 private val HorizonLightPalette = DashPalette(
     Background = Color(0xFFCFE3F5), Bar = Color.Transparent, Card = Color(0xFFF8F4EC), CardHi = Color(0x1A1B2440),
     Accent = Color(0xFFB9531A), Secondary = Color(0xFF1E9C6A), Critical = Color(0xFFD9472B),
-    Good = Color(0xFF1E9C6A), Muted = Color(0x991B2440), TextPrimary = Color(0xFF1B2440), TextSecondary = Color(0xC71B2440),
+    Good = Color(0xFF1E9C6A), Muted = Color(0xAD1B2440), TextPrimary = Color(0xFF1B2440), TextSecondary = Color(0xC71B2440),
     Accent2 = Color(0xFFD9472B), Line = Color(0x331B2440), Glow = 0.2f, Bare = true,
     Skin = DashSkin.HORIZON, Light = true, Tacho = Color(0xFF9A5A08)
 )
@@ -323,7 +335,7 @@ private val TapeDeckPalette = DashPalette(
 private val TapeDeckLightPalette = DashPalette(
     Background = Color(0xFFFDEFF6), Bar = Color.Transparent, Card = Color.White, CardHi = Color(0xFFF1E4F0),
     Accent = Color(0xFF00A0B4), Secondary = Color(0xFF12B368), Critical = Color(0xFFE8175D),
-    Good = Color(0xFF12B368), Muted = Color(0xFF7A6E92), TextPrimary = Color(0xFF2A0F45), TextSecondary = Color(0xFF5E4C78),
+    Good = Color(0xFF12B368), Muted = Color(0xFF72658A), TextPrimary = Color(0xFF2A0F45), TextSecondary = Color(0xFF5E4C78),
     Accent2 = Color(0xFFE8175D), Line = Color(0x40E8175D), Glow = 0.4f, Bare = true,
     Skin = DashSkin.TAPE_DECK, Light = true
 )
@@ -343,7 +355,7 @@ private val MistralPalette = DashPalette(
 private val MistralLightPalette = DashPalette(
     Background = Color(0xFFE9EDF1), Bar = Color(0xFFF6F8FA), Card = Color.White, CardHi = Color(0xFFDDE3E9),
     Accent = Color(0xFF1F5F8F), Secondary = Color(0xFF4F9AD1), Critical = Color(0xFFB8161C),
-    Good = Color(0xFF1E8A55), Muted = Color(0xFF6B7682), TextPrimary = Color(0xFF14181D), TextSecondary = Color(0xFF48525C),
+    Good = Color(0xFF1E8A55), Muted = Color(0xFF5E6973), TextPrimary = Color(0xFF14181D), TextSecondary = Color(0xFF48525C),
     Accent2 = Color(0xFF4F9AD1), Line = Color.Black.copy(alpha = 0.08f),
     BackgroundStops = listOf(Color(0xFFF3F5F8), Color(0xFFE4E8EC)), Light = true,
     Font = DashFont.CONDENSED, HeroWeight = FontWeight.SemiBold, BarStyle = DashBarStyle.CLUSTER
@@ -354,7 +366,7 @@ private val MistralLightPalette = DashPalette(
 private val ZenithLightPalette = DashPalette(
     Background = Color(0xFFF1F3F5), Bar = Color(0xCCFFFFFF), Card = Color.White, CardHi = Color(0xFFE6EAEF),
     Accent = Color(0xFF2A6FB0), Secondary = Color(0xFF4FB3E8), Critical = Color(0xFFC8102E),
-    Good = Color(0xFF2E8B57), Muted = Color(0xFF6B7480), TextPrimary = Color(0xFF1B1F24), TextSecondary = Color(0xFF4A525C),
+    Good = Color(0xFF2E8B57), Muted = Color(0xFF67707B), TextPrimary = Color(0xFF1B1F24), TextSecondary = Color(0xFF4A525C),
     Accent2 = Color(0xFF4FB3E8), Line = Color(0x1A1B1F24),
     BackgroundStops = listOf(Color(0xFFF8FAFC), Color(0xFFEEF1F4), Color(0xFFE4E9EE)), Light = true,
     HeroWeight = FontWeight.Medium
@@ -392,14 +404,14 @@ private val LuxuryLightPalette = DashPalette(
 private val EcoLeafPalette = DashPalette(
     Background = Color(0xFF1B2A22), Bar = Color(0xCC22342A), Card = Color(0xCC34503F), CardHi = Color(0x24FFFFFF),
     Accent = Color(0xFF9FE3B8), Secondary = Color(0xFF7FC8D8), Critical = Color(0xFFFF6B5E),
-    Good = Color(0xFF9FE3B8), Muted = Color(0xFF94AA9C), TextPrimary = Color(0xFFF1F7F2), TextSecondary = Color(0xFFBFD0C4),
+    Good = Color(0xFF9FE3B8), Muted = Color(0xFFA2B6A9), TextPrimary = Color(0xFFF1F7F2), TextSecondary = Color(0xFFBFD0C4),
     Accent2 = Color(0xFFD7F2C4), Line = Color(0x33D7F2C4), Glass = true, Glow = 0.3f,
     BackgroundStops = listOf(Color(0xFF2A3F33), Color(0xFF1B2A22), Color(0xFF15221B))
 )
 private val EcoLeafLightPalette = DashPalette(
     Background = Color(0xFFEEF3EC), Bar = Color(0xCCFFFFFF), Card = Color(0xF2FFFFFF), CardHi = Color(0x1416261C),
     Accent = Color(0xFF2E7D4F), Secondary = Color(0xFF2C7A8C), Critical = Color(0xFFC62828),
-    Good = Color(0xFF2E7D4F), Muted = Color(0xFF66786B), TextPrimary = Color(0xFF16261C), TextSecondary = Color(0xFF46584B),
+    Good = Color(0xFF2E7D4F), Muted = Color(0xFF5E7063), TextPrimary = Color(0xFF16261C), TextSecondary = Color(0xFF46584B),
     Accent2 = Color(0xFF6BAF5A), Line = Color(0x1A16261C), Glass = true, Glow = 0.15f,
     BackgroundStops = listOf(Color(0xFFF4F8F1), Color(0xFFEAF1E7), Color(0xFFE2ECDF)), Light = true
 )
@@ -426,7 +438,7 @@ private val CyberSportLightPalette = DashPalette(
 private val NordicPalette = DashPalette(
     Background = Color(0xFF1E2024), Bar = Color(0xFF232529), Card = Color(0xFF2A2D32), CardHi = Color(0xFF34383E),
     Accent = Color(0xFFB8CCDD), Secondary = Color(0xFF9FB7A8), Critical = Color(0xFFFF5C5C),
-    Good = Color(0xFF8FCFA6), Muted = Color(0xFF8B9097), TextPrimary = Color(0xFFF0F2F4), TextSecondary = Color(0xFFAEB3BA),
+    Good = Color(0xFF8FCFA6), Muted = Color(0xFF90959C), TextPrimary = Color(0xFFF0F2F4), TextSecondary = Color(0xFFAEB3BA),
     Accent2 = Color(0xFFDDE6EE), Line = Color.White.copy(alpha = 0.08f),
     BackgroundStops = listOf(Color(0xFF24272C), Color(0xFF1C1E22)),
     HeroWeight = FontWeight.Light
@@ -434,7 +446,7 @@ private val NordicPalette = DashPalette(
 private val NordicLightPalette = DashPalette(
     Background = Color(0xFFF3F4F5), Bar = Color.White, Card = Color.White, CardHi = Color(0xFFE6E8EB),
     Accent = Color(0xFF3E5F7A), Secondary = Color(0xFF4F7A62), Critical = Color(0xFFC62828),
-    Good = Color(0xFF2F7A4F), Muted = Color(0xFF6C7178), TextPrimary = Color(0xFF1B1D20), TextSecondary = Color(0xFF50555C),
+    Good = Color(0xFF2F7A4F), Muted = Color(0xFF686D74), TextPrimary = Color(0xFF1B1D20), TextSecondary = Color(0xFF50555C),
     Accent2 = Color(0xFF7B97AE), Line = Color.Black.copy(alpha = 0.08f),
     BackgroundStops = listOf(Color(0xFFF8F9FA), Color(0xFFEDEFF1)), Light = true,
     HeroWeight = FontWeight.Light
@@ -452,7 +464,7 @@ private val CanvasPalette = DashPalette(
 private val CanvasLightPalette = DashPalette(
     Background = Color(0xFFEEF1F4), Bar = Color(0xDBFFFFFF), Card = Color(0xDBFFFFFF), CardHi = Color(0x0F0E141B),
     Accent = Color(0xFF0088C2), Secondary = Color(0xFF0F8A5F), Critical = Color(0xFFC8261B),
-    Good = Color(0xFF0F8A5F), Muted = Color(0xFF6B737D), TextPrimary = Color(0xFF0E141B), TextSecondary = Color(0xFF545C66),
+    Good = Color(0xFF0F8A5F), Muted = Color(0xFF666E78), TextPrimary = Color(0xFF0E141B), TextSecondary = Color(0xFF545C66),
     Accent2 = Color(0xFF34A9DC), Line = Color(0x1A0E141B), Light = true, Skin = DashSkin.CANVAS
 )
 
@@ -768,12 +780,8 @@ object DashColors {
     /** Diagonal accent → accent2 gradient for primary controls. */
     val AccentBrush: Brush get() = Brush.linearGradient(listOf(current.Accent, current.Accent2))
 
-    /** Text colour that reads on top of [AccentBrush]. Light themes use deep accents, so white. */
-    val OnAccent: Color get() = when {
-        current.Light -> Color.White
-        current.Glass || current.Glow > 0f -> Color(0xFF03111F)
-        else -> current.Background
-    }
+    /** Text colour that reads on top of [AccentBrush] ([DashPalette.OnAccentInk]). */
+    val OnAccent: Color get() = current.OnAccentInk
 
     /** Brightest ink, for glowing numerals: white at night, the text colour by day. */
     val Bright: Color get() = if (current.Light) current.TextPrimary else Color.White

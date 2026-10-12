@@ -170,14 +170,18 @@ internal fun ObdDtcCard(
     // The title row, shared by the tile and the sheet ([onClose]: the sheet's).
     val header: @Composable (onClose: (() -> Unit)?) -> Unit = { onClose ->
         Row(verticalAlignment = Alignment.CenterVertically) {
-            Text(
-                stringResource(R.string.vehicle_fault_codes_title),
-                color = DashColors.AccentInk,
-                fontWeight = FontWeight.Bold,
-                style = MaterialTheme.typography.labelMedium,
-                modifier = Modifier.weight(1f)
+            TitleWithTrailing(
+                Modifier.weight(1f),
+                title = {
+                    Text(
+                        stringResource(R.string.vehicle_fault_codes_title),
+                        color = DashColors.AccentInk,
+                        fontWeight = FontWeight.Bold,
+                        style = MaterialTheme.typography.labelMedium
+                    )
+                },
+                trailing = { lamp?.let { LampChip(it) } }
             )
-            lamp?.let { LampChip(it) }
             Spacer(Modifier.width(4.dp))
             AskIconButton(ask, aiText, onClick = askAboutCar)
             if (onClose != null) {
@@ -214,7 +218,7 @@ internal fun ObdDtcCard(
                 Button(
                     enabled = !busy,
                     onClick = scan,
-                    colors = ButtonDefaults.buttonColors(containerColor = DashColors.Accent, contentColor = DashColors.Background)
+                    colors = ButtonDefaults.buttonColors(containerColor = DashColors.Accent, contentColor = DashColors.OnAccent)
                 ) { Text(stringResource(R.string.vehicle_scan)) }
                 Button(
                     enabled = !busy && codes?.isNotEmpty() == true,
@@ -307,7 +311,7 @@ internal fun ObdDtcCard(
                     carMessage = seriousMessages.firstOrNull()?.let { carMessageText(it.code) },
                     carCount = seriousMessages.size,
                     carStop = seriousMessages.any { it.level == PsaWarnings.Level.STOP },
-                    map = if (mapProblems.isNotEmpty() && maxWidth >= 300.dp && maxHeight >= 110.dp) {
+                    map = if (mapProblems.isNotEmpty() && maxWidth >= 360.dp && maxHeight >= 160.dp) {
                         { CarProblemsMap(mapProblems, Modifier.size(width = 96.dp, height = 96.dp), compact = true) }
                     } else null,
                     oneLine = maxHeight < 130.dp, onScan = scan, onOpen = { expanded = true }
@@ -438,7 +442,7 @@ private fun CompactFaults(
             Button(
                 enabled = !busy,
                 onClick = onScan,
-                colors = ButtonDefaults.buttonColors(containerColor = DashColors.Accent, contentColor = DashColors.Background),
+                colors = ButtonDefaults.buttonColors(containerColor = DashColors.Accent, contentColor = DashColors.OnAccent),
                 modifier = m.height(DashSize.TouchPrimary)
             ) { Text(stringResource(R.string.vehicle_scan), maxLines = 1) }
         }
@@ -454,17 +458,22 @@ private fun CompactFaults(
         }
     } else {
         Column(modifier = Modifier.fillMaxSize().clickable(onClick = onOpen).padding(16.dp)) {
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Text(
-                    stringResource(R.string.vehicle_fault_codes_title),
-                    color = DashColors.AccentInk,
-                    fontWeight = FontWeight.Bold,
-                    style = MaterialTheme.typography.labelMedium,
-                    maxLines = 1,
-                    modifier = Modifier.weight(1f)
-                )
-                lamp?.let { LampChip(it) }
-            }
+            // No line to spare here: a lamp that is off gives way to the title, a lit one stays.
+            TitleWithTrailing(
+                Modifier.fillMaxWidth(),
+                title = {
+                    Text(
+                        stringResource(R.string.vehicle_fault_codes_title),
+                        color = DashColors.AccentInk,
+                        fontWeight = FontWeight.Bold,
+                        style = MaterialTheme.typography.labelMedium,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
+                    )
+                },
+                trailing = { lamp?.let { LampChip(it) } },
+                dropWhenTight = lamp?.on != true
+            )
             summary(Modifier.weight(1f).fillMaxWidth())
             if (busy) {
                 LinearProgressIndicator(modifier = Modifier.fillMaxWidth(), color = DashColors.Accent)

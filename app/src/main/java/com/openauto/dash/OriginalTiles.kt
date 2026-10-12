@@ -384,8 +384,8 @@ internal fun OriginalAnalogGauge(
     ) {
         val gaugePx = min(maxWidth.value, maxHeight.value)
         val valueSize = (gaugePx * 0.20f).coerceIn(16f, 46f).sp
-        val unitSize = (gaugePx * 0.075f).coerceIn(8f, 14f).sp
-        val labelSize = (gaugePx * 0.085f).coerceIn(9f, 15f).sp
+        val unitSize = (gaugePx * 0.075f).coerceIn(MIN_TEXT_DP, 16f).sp
+        val labelSize = (gaugePx * 0.085f).coerceIn(MIN_TEXT_DP, 17f).sp
 
         Canvas(modifier = Modifier.fillMaxSize()) {
             val frac = sweep.value

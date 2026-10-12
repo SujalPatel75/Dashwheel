@@ -26,6 +26,7 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items as lazyColumnItems
 import androidx.compose.foundation.shape.CircleShape
@@ -80,6 +81,7 @@ import androidx.compose.ui.text.drawText
 import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.em
 import androidx.compose.ui.unit.sp
@@ -163,7 +165,7 @@ internal fun ObdNotConnected(connection: ObdConnectionState, onConnect: () -> Un
         Button(
             onClick = onConnect,
             enabled = !connecting,
-            colors = ButtonDefaults.buttonColors(containerColor = DashColors.Accent, contentColor = DashColors.Background)
+            colors = ButtonDefaults.buttonColors(containerColor = DashColors.Accent, contentColor = DashColors.OnAccent)
         ) { Text(if (connecting) "\u2026" else stringResource(R.string.vehicle_connect)) }
         if (onPickDevice != null) {
             TextButton(onClick = onPickDevice, enabled = !connecting) {
@@ -541,11 +543,11 @@ internal fun AnalogGauge(
     ) {
         val gaugePx = min(maxWidth.value, maxHeight.value)
         val valueSize = if (hero) (gaugePx * 0.30f).coerceIn(22f, 76f).sp else (gaugePx * 0.20f).coerceIn(16f, 46f).sp
-        val unitSize = (gaugePx * 0.075f).coerceIn(8f, 14f).sp
-        val labelSize = (gaugePx * 0.085f).coerceIn(9f, 15f).sp
-        val tickLabelSize = (gaugePx * 0.05f).coerceIn(7f, 12f).sp
+        val unitSize = (gaugePx * 0.075f).coerceIn(MIN_TEXT_DP, 16f).sp
+        val labelSize = (gaugePx * 0.085f).coerceIn(MIN_TEXT_DP, 17f).sp
+        val tickLabelSize = (gaugePx * 0.055f).coerceIn(11f, 14f).sp
         val textMeasurer = rememberTextMeasurer()
-        val tickLabelColor = DashColors.TextSecondary.copy(alpha = 0.55f)
+        val tickLabelColor = DashColors.TextSecondary.copy(alpha = 0.85f)
         // The hero's tick labels ("0" ... "220"), measured once per size and style
         // rather than a dozen times on every frame of the needle's swing.
         val tickCount = (majorTicks - 1) * (if (hero) 4 else 1)
@@ -736,16 +738,27 @@ internal fun AnalogGauge(
                     } else null
                 )
             )
-            Text(
-                text = if (hero) unit.uppercase() else unit,
-                color = if (hero) DashColors.TextSecondary else DashColors.Muted,
-                fontSize = unitSize,
-                fontWeight = if (hero) FontWeight.SemiBold else FontWeight.Normal,
-                letterSpacing = if (hero) 0.3.em else 0.15.em
-            )
+            // Inside the dial's opening, one line each: a small gauge drops its unit line
+            // (the source, "approx.") rather than spill it over the arc.
+            val inner = Modifier.widthIn(max = (gaugePx * 0.66f).dp)
+            if (hero || gaugePx >= 150f) {
+                Text(
+                    text = if (hero) unit.uppercase() else unit,
+                    color = if (hero) DashColors.TextSecondary else DashColors.Muted,
+                    fontSize = unitSize,
+                    fontWeight = if (hero) FontWeight.SemiBold else FontWeight.Normal,
+                    letterSpacing = if (hero) 0.3.em else 0.15.em,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                    modifier = inner
+                )
+            }
             if (!hero) {
                 Spacer(Modifier.height(2.dp))
-                Text(text = label, color = accent, fontSize = labelSize, fontWeight = FontWeight.SemiBold)
+                Text(
+                    text = label, color = accent, fontSize = labelSize, fontWeight = FontWeight.SemiBold,
+                    maxLines = 1, overflow = TextOverflow.Ellipsis, modifier = inner
+                )
             }
         }
     }
@@ -885,16 +898,16 @@ internal fun RangeCard(
             modifier = Modifier.fillMaxSize().padding(DashSpace.Lg),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                Text(stringResource(R.string.vehicle_fuel_range_title), color = DashColors.AccentInk, fontWeight = FontWeight.Bold, style = MaterialTheme.typography.labelMedium)
-                source?.let {
-                    Text(it, color = if (fromCan) DashColors.Good else DashColors.Muted, style = MaterialTheme.typography.labelSmall)
-                }
-            }
+            TitleWithTrailing(
+                Modifier.fillMaxWidth(),
+                title = { Text(stringResource(R.string.vehicle_fuel_range_title), color = DashColors.AccentInk, fontWeight = FontWeight.Bold, style = MaterialTheme.typography.labelMedium) },
+                trailing = {
+                    source?.let {
+                        Text(it, color = if (fromCan) DashColors.Good else DashColors.Muted, style = MaterialTheme.typography.labelSmall, maxLines = 1)
+                    }
+                },
+                dropWhenTight = true
+            )
 
             if (fuel == null) {
                 // Nothing yet: explain and offer the finders / OBD connect.
@@ -913,7 +926,7 @@ internal fun RangeCard(
                     // fuel byte takes days of driving to learn, so range comes first.
                     Button(
                         onClick = { lock.whenParked { showRangeFinder = true } },
-                        colors = ButtonDefaults.buttonColors(containerColor = DashColors.Accent, contentColor = DashColors.Background)
+                        colors = ButtonDefaults.buttonColors(containerColor = DashColors.Accent, contentColor = DashColors.OnAccent)
                     ) {
                         Icon(Icons.Filled.Speed, null, modifier = Modifier.size(18.dp))
                         Spacer(Modifier.width(6.dp))
@@ -1046,7 +1059,7 @@ internal fun RangeFinderDialog(onDismiss: () -> Unit) {
                     Button(
                         onClick = ::search,
                         enabled = entries.isNotEmpty() && typed.any { it.isDigit() },
-                        colors = ButtonDefaults.buttonColors(containerColor = DashColors.Accent, contentColor = DashColors.Background)
+                        colors = ButtonDefaults.buttonColors(containerColor = DashColors.Accent, contentColor = DashColors.OnAccent)
                     ) { Text(stringResource(R.string.vehicle_range_search)) }
                 }
                 Spacer(Modifier.height(8.dp))

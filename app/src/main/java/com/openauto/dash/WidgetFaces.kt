@@ -95,9 +95,9 @@ internal class FaceMetrics(val w: Float, val h: Float, private val density: Dens
     val wide: Boolean get() = w / h >= 1.4f
     fun dp(cq: Float): Dp = (u * cq).dp
     fun sp(dpValue: Float): TextUnit = with(density) { dpValue.dp.toSp() }
-    val label: TextUnit get() = sp(max(u * 6.2f, 10f))
-    val caption: TextUnit get() = sp(max(u * 7.2f, 11f))
-    val body: TextUnit get() = sp(max(u * 6.6f, 11f))
+    val label: TextUnit get() = sp(max(u * 6.2f, MIN_TEXT_DP + 1f))
+    val caption: TextUnit get() = sp(max(u * 7.2f, MIN_TEXT_DP + 1f))
+    val body: TextUnit get() = sp(max(u * 6.6f, MIN_TEXT_DP + 1f))
 }
 
 /** A built-in widget drawn in [design] (never [WidgetDesign.STANDARD]; that is the widget's own renderer). */
@@ -304,13 +304,16 @@ internal fun FaceText(
 ) {
     val halo = look.glow
     var scale by remember(text, size) { mutableFloatStateOf(1f) }
-    val shrinking = fit && scale > MIN_FIT_SCALE
+    // Shrinking stops at the smallest readable size: past it the label is cut instead.
+    val floor = if (size.isSp && size.value > 0f) (MIN_TEXT_DP / size.value).coerceAtMost(1f) else 0f
+    val shrinking = fit && scale > max(MIN_FIT_SCALE, floor)
+    val drawn = readable(size * scale)
     Text(
         text = text,
         modifier = modifier,
         color = color,
-        fontSize = size * scale,
-        lineHeight = size * scale * 1.12f,
+        fontSize = drawn,
+        lineHeight = drawn * 1.12f,
         fontWeight = weight,
         fontFamily = family,
         fontStyle = if (italic) FontStyle.Italic else FontStyle.Normal,
@@ -321,7 +324,7 @@ internal fun FaceText(
         // Through softTextShadow: a blurred glow redone at every reading is what "effects reduced" is there to spare.
         style = (if (glow && halo != null) softTextShadow(halo, blurRadius = size.value * 0.6f) else null)
             ?.let { TextStyle(shadow = it) } ?: TextStyle.Default,
-        onTextLayout = { if (shrinking && it.hasVisualOverflow) scale = (scale - 0.08f).coerceAtLeast(MIN_FIT_SCALE) }
+        onTextLayout = { if (shrinking && it.hasVisualOverflow) scale = (scale - 0.08f).coerceAtLeast(max(MIN_FIT_SCALE, floor)) }
     )
 }
 
@@ -925,7 +928,7 @@ private fun DialLayout(f: WidgetFace, look: FaceLook, m: FaceMetrics) {
                     val c = Offset(size.width / 2f, size.height / 2f)
                     val r = size.minDimension / 2f
                     val tickOuter = r * (if (chrome) 0.88f else 0.9f)
-                    val labelStyle = TextStyle(fontFamily = look.numFont, fontWeight = FontWeight.Bold, fontSize = (r * 0.16f / density / fontScale).sp)
+                    val labelStyle = TextStyle(fontFamily = look.numFont, fontWeight = FontWeight.Bold, fontSize = (max(r * 0.16f / density, MIN_TEXT_DP) / fontScale).sp)
                     val labels = letters.mapIndexed { i, l -> measurer.measure(l, labelStyle.copy(color = if (i == 0) look.accent else look.ink)) }
                     val rim = if (chrome) Brush.linearGradient(listOf(Color(0xFFEEF0F3), Color(0xFF7C838C), Color(0xFFD9DDE2), Color(0xFF5D636B))) else null
                     val rimStroke = Stroke(1.2f)
@@ -971,7 +974,7 @@ private fun DialLayout(f: WidgetFace, look: FaceLook, m: FaceMetrics) {
                     if (showValueInDial && dialValue.isNotEmpty()) {
                         val v = measurer.measure(dialValue, TextStyle(color = look.ink, fontFamily = look.numFont, fontWeight = FontWeight.Bold, fontSize = (r * 0.22f / density / fontScale).sp))
                         drawText(v, topLeft = Offset(c.x - v.size.width / 2f, c.y + r * 0.34f - v.size.height / 2f))
-                        val u = measurer.measure(dialUnit, TextStyle(color = look.dim, fontFamily = look.font, fontSize = (r * 0.09f / density / fontScale).sp, letterSpacing = 0.1.em))
+                        val u = measurer.measure(dialUnit, TextStyle(color = look.dim, fontFamily = look.font, fontSize = (max(r * 0.09f / density, MIN_TEXT_DP) / fontScale).sp, letterSpacing = 0.1.em))
                         drawText(u, topLeft = Offset(c.x - u.size.width / 2f, c.y + r * 0.52f - u.size.height / 2f))
                     }
                     // No reading, no needle: at rest on the first mark it would read as 0, or as due north.

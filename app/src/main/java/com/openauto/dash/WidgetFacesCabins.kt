@@ -395,9 +395,9 @@ internal fun TrendLayout(f: WidgetFace, look: FaceLook, m: FaceMetrics) {
 @Composable
 private fun Modifier.drawAreaChart(points: List<Float>, look: FaceLook, alert: Boolean, m: FaceMetrics, live: Boolean): Modifier {
     val tm = rememberTextMeasurer(cacheSize = 8)
-    val labelSize = max(m.u * 4.4f, 9f)
+    val labelSize = max(m.u * 4.4f, MIN_TEXT_DP)
     return this.drawWithCache {
-        val axisW = 22.dp.toPx()
+        val axisW = 30.dp.toPx()
         val labelStyle = TextStyle(color = look.dim, fontSize = labelSize.sp)
         val line = Stroke(2.dp.toPx(), cap = StrokeCap.Round, join = StrokeJoin.Round)
         val color = if (alert) look.warn else look.accent

@@ -173,7 +173,7 @@ internal fun msCaps(size: TextUnit, color: Color = DashColors.Muted, weight: Fon
     color = color,
     fontFamily = CondensedFamily,
     fontWeight = weight,
-    fontSize = size,
+    fontSize = readableCaps(size),
     lineHeight = 1.15.em,
     letterSpacing = 0.16.em
 )
@@ -183,7 +183,7 @@ internal fun msBody(size: TextUnit, color: Color = DashColors.TextSecondary, wei
     color = color,
     fontFamily = FontFamily.SansSerif,
     fontWeight = weight,
-    fontSize = size,
+    fontSize = readable(size),
     lineHeight = 1.2.em
 )
 

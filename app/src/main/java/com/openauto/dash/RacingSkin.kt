@@ -206,16 +206,16 @@ private fun hud(
     weight: FontWeight = FontWeight.Bold,
     spacing: Float = 0.06f,
     glow: Color? = null
-): TextStyle = TextStyle(
+): TextStyle = (if (spacing >= 0.1f) readableCaps(size) else readable(size)).let { s -> TextStyle(
     color = color,
-    fontSize = size,
-    lineHeight = size * 1.12f,
+    fontSize = s,
+    lineHeight = s * 1.12f,
     fontFamily = CondensedFamily,
     fontWeight = weight,
     fontStyle = FontStyle.Italic,
     letterSpacing = spacing.em,
     shadow = glow?.let { neon(it, size.value * 0.7f) }
-)
+) }
 
 /** Huge black italic numerals (speed, clock, distance), trimmed to their digits. */
 private fun hero(size: TextUnit, color: Color, glow: Color? = null): TextStyle = TextStyle(
@@ -1782,7 +1782,7 @@ private fun StageCellView(cell: StageCell, valueSp: Float, labelSp: Float, cellW
         Row {
             NumText(cell.value, hero(sp.sp, cell.valueInk), Modifier.alignByBaseline())
             if (cell.unit.isNotEmpty()) {
-                NumText(" ${cell.unit}", hud((sp * 0.42f).coerceAtLeast(min(11f, sp)).sp, DashColors.TextSecondary, FontWeight.Bold), Modifier.alignByBaseline())
+                NumText(" ${cell.unit}", hud((sp * 0.42f).coerceAtLeast(MIN_TEXT_DP).sp, DashColors.TextSecondary, FontWeight.Bold), Modifier.alignByBaseline())
             }
         }
     }

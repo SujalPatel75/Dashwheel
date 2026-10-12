@@ -720,7 +720,9 @@ internal fun QuickDialCard(modifier: Modifier = Modifier) {
                                             Text(
                                                 f.name.split(' ').take(2).mapNotNull { it.firstOrNull()?.uppercase() }.joinToString(""),
                                                 color = DashColors.OnAccent, fontWeight = FontWeight.ExtraBold,
-                                                style = MaterialTheme.typography.titleMedium
+                                                // Sized to the disc: the theme's title size spilled out of a small one.
+                                                fontSize = (avatar.value * 0.4f).coerceIn(MIN_TEXT_DP, 22f).sp,
+                                                maxLines = 1
                                             )
                                         }
                                     }

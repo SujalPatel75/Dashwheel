@@ -41,6 +41,7 @@ import kotlinx.coroutines.delay
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
+import kotlin.math.max
 import kotlin.math.roundToInt
 
 /*
@@ -124,9 +125,34 @@ internal fun rememberDateFormat(pattern: String, best: Boolean = false): SimpleD
     }
 }
 
-/** Text size that follows a dp geometry whatever the system font scale, so text sized from a tile never outgrows it. */
+/**
+ * The smallest text the dashboard draws, in dp: on the head unit's 1280x720
+ * at 160 dpi a dp is a pixel, and below 12 a label read at arm's length in
+ * a moving car is a grey smudge. Sizes worked out from a tile stop here.
+ */
+internal const val MIN_TEXT_DP = 12f
+
+/**
+ * The smallest spaced capitals ("TRAJET", "KM/H"), in dp: a capital is only
+ * about 0.7 of the size tall and has no ascenders to help, so labels set in
+ * capitals stop higher than plain text.
+ */
+internal const val MIN_CAPS_DP = 14f
+
+/** [size] kept at [MIN_TEXT_DP] or above (sp sizes only; em and unspecified pass through). */
+internal fun readable(size: TextUnit): TextUnit =
+    if (size.isSp && size.value < MIN_TEXT_DP) MIN_TEXT_DP.sp else size
+
+/** [readable] for a label in spaced capitals: [MIN_CAPS_DP] or above. */
+internal fun readableCaps(size: TextUnit): TextUnit =
+    if (size.isSp && size.value < MIN_CAPS_DP) MIN_CAPS_DP.sp else size
+
+/**
+ * Text size that follows a dp geometry whatever the system font scale, so text sized from a tile never outgrows it;
+ * never under [MIN_TEXT_DP].
+ */
 @Composable
-internal fun fixedSp(dp: Float): TextUnit = (dp / LocalDensity.current.fontScale).sp
+internal fun fixedSp(dp: Float): TextUnit = (max(dp, MIN_TEXT_DP) / LocalDensity.current.fontScale).sp
 
 /** [fixedSp] for a [Dp]. */
 @Composable

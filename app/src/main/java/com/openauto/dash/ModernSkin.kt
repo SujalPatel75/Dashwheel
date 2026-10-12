@@ -210,7 +210,9 @@ private val TightLines = LineHeightStyle(LineHeightStyle.Alignment.Center, LineH
  * tabular digits (the mockup's Manrope 800 at -2 px), [Face.TEXT] a slightly
  * tight sans, [Face.CAPS] small letter-spaced capitals.
  */
-internal fun modernStyle(fontSize: TextUnit, color: Color, weight: FontWeight, face: Face): TextStyle = when (face) {
+internal fun modernStyle(fontSize: TextUnit, color: Color, weight: FontWeight, face: Face): TextStyle = modernStyleAt(if (face == Face.CAPS) readableCaps(fontSize) else readable(fontSize), color, weight, face)
+
+private fun modernStyleAt(fontSize: TextUnit, color: Color, weight: FontWeight, face: Face): TextStyle = when (face) {
     Face.NUMBER -> TextStyle(
         color = color, fontSize = fontSize, fontWeight = weight, fontFamily = FontFamily.SansSerif,
         letterSpacing = (-0.035).em, fontFeatureSettings = "tnum", lineHeight = 1.05.em, lineHeightStyle = TightLines

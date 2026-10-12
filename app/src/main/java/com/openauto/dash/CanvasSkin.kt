@@ -24,6 +24,7 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -590,13 +591,15 @@ private fun CanvasJourney(env: SkinTileEnv) {
         // Too narrow for a line worth reading (a phone upright, a small tile): the
         // turn or the time, and the arrival beside it.
         if (maxWidth < NARROW_STRIP) {
+            val stripW = maxWidth
             Row(modifier = Modifier.fillMaxSize().padding(horizontal = 18.dp, vertical = 12.dp), verticalAlignment = Alignment.CenterVertically) {
                 Box(modifier = Modifier.weight(1f)) {
                     if (nav.active) NextTurn(nav, onOpen = { openNavApp(context, nav.packageName) })
                     else Today(clock, timeFmt, onMaps = { openNavApp(context, null) })
                 }
                 if (endStop != null) {
-                    Column(horizontalAlignment = Alignment.End) {
+                    // At most a third of the strip, so the turn keeps the room to read.
+                    Column(horizontalAlignment = Alignment.End, modifier = Modifier.padding(start = 12.dp).widthIn(max = stripW * 0.32f)) {
                         Num(endStop.title, 22f, DashColors.Good)
                         Label(endStop.caption, 13f, align = TextAlign.End, maxLines = 2)
                     }

@@ -65,6 +65,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.em
 import androidx.compose.ui.unit.sp
@@ -85,23 +86,64 @@ import kotlinx.coroutines.delay
  * and the parking-spot finder. All fed by LiveFeeds (GPS, accelerometer).
  */
 
-/** Small uppercase tile title with an optional trailing element. */
+/** Small uppercase tile title with an optional trailing element ([TitleWithTrailing]: below it when both don't fit). */
 @Composable
 internal fun TileHeader(title: String, trailing: @Composable () -> Unit = {}) {
-    Row(
-        modifier = Modifier.fillMaxWidth(),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween
-    ) {
-        Text(
-            // Upper case here, so a title passed in sentence case (a widget's name) matches the others.
-            title.uppercase(Locale.getDefault()),
-            color = DashColors.AccentInk,
-            fontWeight = FontWeight.Bold,
-            letterSpacing = 1.5.sp,
-            style = MaterialTheme.typography.labelMedium
-        )
-        trailing()
+    TitleWithTrailing(
+        Modifier.fillMaxWidth(),
+        title = {
+            Text(
+                // Upper case here, so a title passed in sentence case (a widget's name) matches the others.
+                title.uppercase(Locale.getDefault()),
+                color = DashColors.AccentInk,
+                fontWeight = FontWeight.Bold,
+                letterSpacing = 1.5.sp,
+                style = MaterialTheme.typography.labelMedium
+            )
+        },
+        trailing = trailing
+    )
+}
+
+/**
+ * A tile's title and what goes at its end (a status chip, a source, a
+ * button) on one line, the end piece at the right edge, when the two fit side
+ * by side; else the end piece drops to its own line under the title. Squeezed
+ * into one row, the title came out cut to a few letters or the chip broken
+ * over three lines. With [dropWhenTight] (a tile with no line to spare) the
+ * end piece is left out instead.
+ */
+@Composable
+internal fun TitleWithTrailing(
+    modifier: Modifier,
+    title: @Composable () -> Unit,
+    trailing: @Composable () -> Unit,
+    dropWhenTight: Boolean = false
+) {
+    Layout(contents = listOf(title, trailing), modifier = modifier) { (titles, ends), c ->
+        val gap = 8.dp.roundToPx()
+        val loose = c.copy(minWidth = 0, minHeight = 0)
+        val endPlaceables = ends.map { it.measure(loose) }
+        val endW = endPlaceables.maxOfOrNull { it.width } ?: 0
+        val endH = endPlaceables.maxOfOrNull { it.height } ?: 0
+        val titleWanted = titles.maxOfOrNull { it.maxIntrinsicWidth(c.maxHeight) } ?: 0
+        val oneRow = endW == 0 || titleWanted + gap + endW <= c.maxWidth
+        val dropped = !oneRow && dropWhenTight
+        val titlePlaceables = titles.map { it.measure(loose.copy(maxWidth = if (oneRow && endW > 0) c.maxWidth - endW - gap else c.maxWidth)) }
+        val titleH = titlePlaceables.maxOfOrNull { it.height } ?: 0
+        val width = if (c.hasBoundedWidth) c.maxWidth else (titlePlaceables.maxOfOrNull { it.width } ?: 0) + gap + endW
+        val height = when {
+            oneRow -> maxOf(titleH, endH)
+            dropped -> titleH
+            else -> titleH + 4.dp.roundToPx() + endH
+        }
+        layout(width, height.coerceIn(c.minHeight, c.maxHeight)) {
+            titlePlaceables.forEach { it.place(0, if (oneRow) (height - it.height) / 2 else 0) }
+            if (!dropped) endPlaceables.forEach {
+                if (oneRow) it.place(width - it.width, (height - it.height) / 2)
+                else it.place(width - it.width, titleH + 4.dp.roundToPx())
+            }
+        }
     }
 }
 

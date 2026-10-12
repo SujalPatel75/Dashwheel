@@ -105,7 +105,7 @@ internal val FuturisticPalette = DashPalette(
 internal val FuturisticLightPalette = DashPalette(
     Background = Color(0xFFEAF2F7), Bar = Color.Transparent, Card = Color(0xFFF9FCFE), CardHi = Color(0x1A0A6E7C),
     Accent = Color(0xFF0A6E7C), Secondary = Color(0xFF5B4BD0), Critical = Color(0xFFD12C4A),
-    Good = Color(0xFF138A4C), Muted = Color(0xFF557584), TextPrimary = Color(0xFF07262E), TextSecondary = Color(0xFF2C4D59),
+    Good = Color(0xFF138A4C), Muted = Color(0xFF517180), TextPrimary = Color(0xFF07262E), TextSecondary = Color(0xFF2C4D59),
     Accent2 = Color(0xFF5B4BD0), Line = Color(0x400A6E7C), Glow = 0.25f, Light = true, Bare = true,
     BackgroundStops = listOf(Color(0xFFF5FAFC), Color(0xFFE6F0F5), Color(0xFFEDEAFA)),
     Skin = DashSkin.FUTURISTIC
@@ -176,7 +176,7 @@ internal fun futCaps(sizeDp: Float, color: Color = DashColors.Muted, weight: Fon
     color = color,
     fontFamily = FontFamily.SansSerif,
     fontWeight = weight,
-    fontSize = fixedSp(sizeDp),
+    fontSize = fixedSp(max(sizeDp, MIN_CAPS_DP)),
     lineHeight = 1.25.em,
     letterSpacing = 0.2.em
 )

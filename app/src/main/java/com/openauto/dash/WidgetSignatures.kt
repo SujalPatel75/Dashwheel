@@ -275,6 +275,7 @@ private fun Vb(
         val s = if (slice) max(size.width / w, size.height / h) else min(size.width / w, size.height / h)
         val dx = (size.width - w * s) / 2f - x0 * s
         val dy = (size.height - h * s) / 2f - y0 * s
+        drawingScale = s
         withTransform({
             translate(dx, dy)
             scale(s, s, Offset.Zero)
@@ -282,7 +283,13 @@ private fun Vb(
     }
 }
 
-/** Text in drawing units: [size] tall, baseline at [y], anchored at [x] by [align] (0 start, 0.5 centre, 1 end). */
+/** Pixels per drawing unit of the drawing being drawn (set by the canvas before its content; drawing runs on one thread). */
+private var drawingScale = 1f
+
+/**
+ * Text in drawing units: [size] tall, baseline at [y], anchored at [x] by [align] (0 start, 0.5 centre, 1 end).
+ * Never smaller on screen than [MIN_TEXT_DP]: a small tile scales its drawing down, its words stay readable.
+ */
 private fun DrawScope.label(
     tm: TextMeasurer,
     text: String,
@@ -299,7 +306,7 @@ private fun DrawScope.label(
     val layout = tm.measure(
         text,
         TextStyle(
-            color = color, fontSize = (size / (density * fontScale)).sp, fontWeight = weight,
+            color = color, fontSize = (max(size, MIN_TEXT_DP * density / drawingScale.coerceAtLeast(0.01f)) / (density * fontScale)).sp, fontWeight = weight,
             fontFamily = family, fontStyle = if (italic) FontStyle.Italic else FontStyle.Normal
         ),
         softWrap = false,
