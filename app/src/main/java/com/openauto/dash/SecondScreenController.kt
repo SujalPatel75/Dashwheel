@@ -129,13 +129,16 @@ internal object SecondScreenController {
         ShadowRoute.start(scope, appContext)
         WazeDestination.start(scope, appContext)
         scope.launch {
-            combine(SecondScreenStore.config, DisplayLink.state, moving, encoderFailed, relief) { config, link, isMoving, failed, lighter ->
+            // In reverse the rear view takes the screen, streamed even where the display draws its own cluster.
+            val configAndRear = combine(SecondScreenStore.config, ReverseView.secondScreenShown) { config, rear -> config to (rear != null) }
+            combine(configAndRear, DisplayLink.state, moving, encoderFailed, relief) { (config, rear), link, isMoving, failed, lighter ->
                 val display = (link as? DisplayLinkState.Connected)?.display
                 val canStream = display != null && com.openauto.dash.link.CODEC_H264 in display.decoders && !failed
                 val (output, block) = SecondScreenRules.output(
                     config, connected = display != null, canStream = canStream, moving = isMoving,
                     appIsVideo = config.appPackage?.let(::isVideoApp) == true,
-                    canMoveApps = SecondScreenRules.appsMovable(android.os.Build.VERSION.SDK_INT)
+                    canMoveApps = SecondScreenRules.appsMovable(android.os.Build.VERSION.SDK_INT),
+                    rearView = rear
                 )
                 Wanted(output, block, config, display, lighter)
             }

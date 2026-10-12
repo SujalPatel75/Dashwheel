@@ -326,4 +326,20 @@ class SecondScreenRulesTest {
         // Light chosen and following: dark at night all the same.
         assertEquals(ClusterBackground.DARK, SecondScreenRules.background(follows.copy(background = ClusterBackground.LIGHT), day = false))
     }
+
+    @Test
+    fun inReverseADisplayDrawingItsOwnMapIsStreamedTheRearView() {
+        val ownMap = SecondScreenConfig(mode = SecondScreenMode.CLUSTER, video = false)
+        assertEquals(SecondScreenOutput.DATA, SecondScreenRules.output(ownMap, connected = true, canStream = true, moving = false, appIsVideo = false).first)
+        assertEquals(
+            SecondScreenOutput.VIDEO_CLUSTER,
+            SecondScreenRules.output(ownMap, connected = true, canStream = true, moving = false, appIsVideo = false, rearView = true).first
+        )
+        // A display that can't decode a stream keeps its own pages; one switched off stays off.
+        assertEquals(SecondScreenOutput.DATA, SecondScreenRules.output(ownMap, connected = true, canStream = false, moving = false, appIsVideo = false, rearView = true).first)
+        assertEquals(
+            SecondScreenOutput.NONE,
+            SecondScreenRules.output(ownMap.copy(mode = SecondScreenMode.OFF), connected = true, canStream = true, moving = false, appIsVideo = false, rearView = true).first
+        )
+    }
 }

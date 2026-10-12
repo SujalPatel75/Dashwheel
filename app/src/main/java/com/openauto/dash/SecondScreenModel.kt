@@ -284,6 +284,9 @@ object SecondScreenRules {
      * [appIsVideo]: the chosen app plays video (films, YouTube), which the
      * driver must not see while [moving] unless the monitor is for the back seats.
      * [canMoveApps]: this Android can move an app's window onto the streamed display ([appsMovable]).
+     * [rearView]: the car is in reverse and the rear view goes to this screen
+     * ([ReverseView.secondScreenShown]): the cluster is streamed for it, even
+     * on a display that otherwise draws its own (its map), and back after.
      */
     fun output(
         config: SecondScreenConfig,
@@ -291,9 +294,11 @@ object SecondScreenRules {
         canStream: Boolean,
         moving: Boolean,
         appIsVideo: Boolean,
-        canMoveApps: Boolean = true
+        canMoveApps: Boolean = true,
+        rearView: Boolean = false
     ): Pair<SecondScreenOutput, SecondScreenBlock> {
         if (config.mode == SecondScreenMode.OFF || !connected) return SecondScreenOutput.NONE to SecondScreenBlock.NONE
+        if (rearView && canStream) return SecondScreenOutput.VIDEO_CLUSTER to SecondScreenBlock.NONE
         val cluster = if (config.video && canStream) SecondScreenOutput.VIDEO_CLUSTER else SecondScreenOutput.DATA
         if (config.mode == SecondScreenMode.CLUSTER) return cluster to SecondScreenBlock.NONE
         return when {

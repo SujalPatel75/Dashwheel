@@ -214,14 +214,15 @@ internal object ReverseView {
 
     /**
      * What the second screen shows now ([ReverseSecondScreen]): in reverse gear,
-     * whether or not the head unit shows Dashwheel's reverse view, on a second
-     * screen streamed by the head unit (one that draws its pages itself can't
-     * show it). Its camera picture is the head unit's ([ReverseCamera.mirror]):
-     * without it, the radar.
+     * whether or not the head unit shows Dashwheel's reverse view. A screen
+     * that draws its own pages (the Pi's map) is streamed the head unit's
+     * picture for it while it lasts ([SecondScreenRules.output]). Its camera
+     * picture is the head unit's ([ReverseCamera.mirror]): without it, the radar.
      */
     val secondScreenShown: StateFlow<ReverseLayout?> =
         combine(CarBox.reversing, _preview, _secondScreen, SecondScreenStore.config) { reversing, preview, shown, config ->
-            shown?.takeIf { (reversing || preview) && config.video }
+            // Whether the screen streams or draws its own cluster: in reverse it streams this ([SecondScreenRules.output]).
+            shown?.takeIf { (reversing || preview) && config.mode != SecondScreenMode.OFF }
         }.stateIn(scope, SharingStarted.Eagerly, null)
 
     private val _covering = MutableStateFlow(false)
