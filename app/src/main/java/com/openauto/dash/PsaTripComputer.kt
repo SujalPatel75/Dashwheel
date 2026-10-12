@@ -471,6 +471,13 @@ internal object PsaWarnings {
     fun of(code: Int): Warning? = known[code]
 
     /**
+     * The car's messages for the engine computer's own warning lamp: the
+     * same fault as its OBD fault codes, said with less (Car problems leaves
+     * them out once the codes are read).
+     */
+    val engineLamp: Set<Int> = setOf(0x77, 0x85, 0x86)
+
+    /**
      * The car's warnings showing now, worded in English for the AI mechanic's
      * prompt ("left rear brake bulb...: see a garage"); notices and unknown
      * codes left out. Empty when the car has sent none.

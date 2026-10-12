@@ -109,7 +109,11 @@ internal fun ObdDtcCard(
     val codes = ai.codes
     val diagnosis = ai.diagnosis
     // The car's own messages, the most serious first; asked for while the tile is on screen.
-    val carMessages = rememberCarMessages()
+    // The engine's own warning ("engine fault, have it repaired", the pollution ones) says no more than its
+    // fault codes once they are read: then only the codes show.
+    val carMessages = rememberCarMessages().let { all ->
+        if (codes.isNullOrEmpty()) all else all.filter { it.code !in PsaWarnings.engineLamp }
+    }
     val seriousMessages = carMessages.filter { it.level != PsaWarnings.Level.INFO }
     // Each problem on its part of the car (CarProblemMap): the car's messages, then the engine's codes.
     val messageTexts = carMessages.map { carMessageText(it.code) }

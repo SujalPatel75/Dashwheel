@@ -7,27 +7,20 @@ import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
@@ -75,8 +68,6 @@ internal fun CarProblemsMap(problems: List<MapProblem>, modifier: Modifier = Mod
     if (placed.isEmpty()) return
     // The views in use, the one with the most serious problem first.
     val views = placed.sortedByDescending { it.first.serious }.map { it.second }.distinct()
-    var chosen by rememberSaveable { mutableStateOf<CarMapView?>(null) }
-    val shown = chosen?.takeIf { it in views } ?: views.first()
 
     fun picture(view: CarMapView): CarView? = when (view) {
         CarMapView.TOP -> top
@@ -98,50 +89,30 @@ internal fun CarProblemsMap(problems: List<MapProblem>, modifier: Modifier = Mod
     val edge = DashColors.TextSecondary
     val ink = DashColors.Accent
 
-    Column(modifier) {
-        if (!compact && views.size > 1) {
-            Row(horizontalArrangement = Arrangement.spacedBy(8.dp), modifier = Modifier.padding(bottom = 8.dp)) {
-                for (v in views) {
+    // Every view with a problem on it, side by side and the same size (the most serious first);
+    // a small tile shows the first alone.
+    val drawn = if (compact) views.take(1) else views
+    Row(modifier, horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+        for (v in drawn) {
+            Column(Modifier.weight(1f).fillMaxHeight()) {
+                if (drawn.size > 1) {
                     val n = placed.count { it.second == v }
-                    val active = v == shown
                     val worst = placed.filter { it.second == v }.maxOf { it.first.serious }
                     Text(
                         "${stringResource(v.titleRes)}  $n",
-                        color = if (active) DashColors.TextPrimary else DashColors.TextSecondary,
+                        color = DashColors.TextPrimary,
                         fontWeight = FontWeight.SemiBold,
                         style = MaterialTheme.typography.labelLarge,
                         modifier = Modifier
+                            .padding(bottom = 6.dp)
                             .clip(DashShape.Small)
-                            .background(if (active) DashColors.CardHi else Color.Transparent)
-                            .border(1.dp, if (active) tone(worst) else DashColors.Line, DashShape.Small)
-                            .clickable { chosen = v }
-                            .padding(horizontal = 14.dp, vertical = 8.dp)
+                            .border(1.dp, tone(worst), DashShape.Small)
+                            .padding(horizontal = 12.dp, vertical = 6.dp)
                     )
                 }
-            }
-        }
-        Box(Modifier.weight(1f).fillMaxWidth()) {
-            Canvas(Modifier.fillMaxSize()) {
-                val where = drawView(picture(shown), shown, style, Rect(Offset.Zero, size), body, edge, ink, garage)
-                for ((at, serious) in marks(shown)) glowMark(where.at(at), min(size.width, size.height) * 0.05f, tone(serious), pulse)
-            }
-            // The other view in a corner, its problems on it: a tap shows it.
-            val other = views.firstOrNull { it != shown }
-            if (!compact && other != null) {
-                Box(
-                    Modifier
-                        .align(Alignment.TopEnd)
-                        .size(width = 92.dp, height = 120.dp)
-                        .clip(DashShape.Small)
-                        .background(DashColors.Card.copy(alpha = 0.85f))
-                        .border(1.dp, DashColors.Line, DashShape.Small)
-                        .clickable { chosen = other }
-                        .padding(6.dp)
-                ) {
-                    Canvas(Modifier.fillMaxSize()) {
-                        val where = drawView(picture(other), other, style, Rect(Offset.Zero, size), body, edge, ink, garage)
-                        for ((at, serious) in marks(other)) glowMark(where.at(at), min(size.width, size.height) * 0.07f, tone(serious), pulse)
-                    }
+                Canvas(Modifier.weight(1f).fillMaxWidth()) {
+                    val where = drawView(picture(v), v, style, Rect(Offset.Zero, size), body, edge, ink, garage)
+                    for ((at, serious) in marks(v)) glowMark(where.at(at), min(size.width, size.height) * 0.05f, tone(serious), pulse)
                 }
             }
         }
