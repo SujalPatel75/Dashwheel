@@ -562,7 +562,14 @@ internal fun carStatusRows(b: CarBody?, trip: PsaTrip? = null): List<Pair<String
     val km = if (u.imperial) u.distanceUnit else stringResource(R.string.car_status_km)
     val consumption = b?.instantConsumption ?: trip?.instantL100
     val range = b?.range?.takeIf { it > 0f } ?: trip?.rangeKm?.toFloat()
-    return listOfNotNull(
+    // The car's own messages first, the serious ones on top: a small tile keeps its first rows.
+    val messages = trip?.warnings.orEmpty()
+        .sortedBy { PsaWarnings.of(it)?.level?.ordinal ?: PsaWarnings.Level.entries.size }
+        .map { code ->
+            stringResource(R.string.car_status_message) to (PsaWarnings.of(code)?.let { stringResource(it.textRes) }
+                ?: stringResource(R.string.car_warn_code, code.toString(16).uppercase().padStart(2, '0')))
+        }
+    return messages + listOfNotNull(
         lights?.let { stringResource(R.string.car_status_lights) to (it.joinToString(", ").ifEmpty { stringResource(R.string.car_status_lights_off) }) },
         // 0 is the box not sending it, as for the upkeep and the fuel tiles: left out, not "0 km".
         b?.odometer?.takeIf { it > 0f }?.let { stringResource(R.string.car_status_odometer) to "${NumberFormat.getIntegerInstance().format(u.distance(it.toDouble()).toLong())} $km" },
@@ -572,10 +579,7 @@ internal fun carStatusRows(b: CarBody?, trip: PsaTrip? = null): List<Pair<String
         trip?.trip1?.let { tripPageRow(1, it) },
         trip?.trip2?.let { tripPageRow(2, it) },
         b?.let { stringResource(R.string.car_status_parking_brake) to stringResource(if (it.handbrake) R.string.car_status_on else R.string.car_status_off) }
-    ) + trip?.warnings.orEmpty().map { code ->
-        stringResource(R.string.car_status_message) to (PsaWarnings.of(code)?.let { stringResource(it.textRes) }
-            ?: stringResource(R.string.car_warn_code, code.toString(16).uppercase().padStart(2, '0')))
-    }
+    )
 }
 
 /** "5.2 L/100 km", or the driver's own unit. */

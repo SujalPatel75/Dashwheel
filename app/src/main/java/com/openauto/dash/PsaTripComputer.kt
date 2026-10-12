@@ -284,8 +284,14 @@ internal object CanBoxLink {
         }
     }
 
-    /** Writes [frames] to the CAN box, binding the service first when needed. */
+    /**
+     * Writes [frames] to the CAN box: through the MCU, as the car app does on
+     * units where the box sits behind it, and through the car app's CAN
+     * service as well (binding it first when needed) for units where it
+     * doesn't. A question asked twice is answered twice, nothing worse.
+     */
     fun ask(context: Context, frames: List<ByteArray>) {
+        for (f in frames) McuFeed.send(McuFeed.CMD_TO_CAN, withSum(f))
         val app = context.applicationContext
         val now = SystemClock.elapsedRealtime()
         val b = synchronized(this) {
@@ -326,6 +332,15 @@ internal object CanBoxLink {
             // The car app leaves no gap either, but the box reads a frame at a time.
             Thread.sleep(40)
         }
+    }
+
+    /** [frame] with its last byte set to the sum of LEN, TYPE and data, as the CAN box checks it. */
+    internal fun withSum(frame: ByteArray): ByteArray {
+        val out = frame.copyOf()
+        var sum = 0
+        for (i in 1 until out.size - 1) sum += out[i].toInt() and 0xFF
+        out[out.size - 1] = sum.toByte()
+        return out
     }
 
     @Synchronized

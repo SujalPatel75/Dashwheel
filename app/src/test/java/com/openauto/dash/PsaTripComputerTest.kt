@@ -141,4 +141,11 @@ class PsaTripComputerTest {
             assertTrue("code ${code.toString(16)}", PsaWarnings.of(code) != null || code in PsaWarnings.notices)
         }
     }
+
+    @Test
+    fun questionsThroughTheMcuCarryTheirSum() {
+        // Sent on the car 2026-10-12 as MCU cmd 0x40, and the CAN box answered with its warnings.
+        assertEquals(listOf(0xFD, 0x04, 0x8F, 0x3A, 0xCD), CanBoxLink.withSum(PsaTripComputer.queryFrame(0x3A)).map { it.toInt() and 0xFF })
+        assertEquals(0xC6, CanBoxLink.withSum(PsaTripComputer.queryFrame(0x33)).last().toInt() and 0xFF)
+    }
 }

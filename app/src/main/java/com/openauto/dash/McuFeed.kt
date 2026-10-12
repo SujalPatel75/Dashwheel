@@ -30,6 +30,10 @@ object McuFeed {
     private const val LISTENER = "android.qf.mcu.IMcuListener"
     private const val TX_REGISTER = 2
     private const val TX_ON_INFO = 1
+    /** RPC_SendMcuMsgData(byte cmd, byte[] data, int len): a request frame to the MCU, as is. */
+    private const val TX_SEND = 29
+    /** Head unit → MCU: bytes for the CAN box behind it, as the car app sends its questions. */
+    internal const val CMD_TO_CAN = 0x40
     /** The firmware's service restarts: listen again after this. */
     private const val RETRY_MS = 2_000L
 
@@ -125,6 +129,33 @@ object McuFeed {
             CMD_RDS_PS -> if (m.size > 8) rdsName(m.copyOfRange(1, 9))?.let { HeadUnitMedia.mcuRds(name = it, text = null) }
             // The radio app leaves the last two bytes out.
             CMD_RDS_TEXT -> if (m.size > 3) rdsText(m.copyOfRange(1, m.size - 2))?.let { HeadUnitMedia.mcuRds(name = null, text = it) }
+        }
+    }
+
+    /**
+     * Sends [data] to the MCU under [cmd]; false when the service isn't
+     * reached. On these units the CAN box sits behind the MCU: the car app's
+     * own questions to it go out this way (cmd [CMD_TO_CAN]), and its CAN
+     * service drops what an app asks it to write (checked on the car 2026-10-12).
+     */
+    fun send(cmd: Int, data: ByteArray): Boolean {
+        val binder = service ?: serviceBinder() ?: return false
+        val parcel = Parcel.obtain()
+        val reply = Parcel.obtain()
+        return try {
+            parcel.writeInterfaceToken(MANAGER)
+            parcel.writeByte(cmd.toByte())
+            parcel.writeByteArray(data)
+            parcel.writeInt(data.size)
+            binder.transact(TX_SEND, parcel, reply, 0)
+            reply.readException()
+            true
+        } catch (e: Exception) {
+            Log.w(TAG, "could not send to the MCU", e)
+            false
+        } finally {
+            parcel.recycle()
+            reply.recycle()
         }
     }
 
