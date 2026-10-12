@@ -38,7 +38,9 @@ import kotlin.math.sqrt
  *
  * Between two GPS fixes (about one a second) the car goes on at its speed
  * and the camera eases after it, so the picture moves smoothly when the
- * screen draws more often than the fixes come ([moving]).
+ * screen draws more often than the fixes come ([moving]). While it follows
+ * the route it is held on it ([RouteSnap]): on the route's line, with the
+ * road's heading, and on along the line between fixes, round the bends.
  */
 internal class ChaseMap {
     /** The car moves or the camera is still catching up: another picture soon would show it. */
@@ -50,6 +52,12 @@ internal class ChaseMap {
 
     // The last fix and how the car was going then.
     private var fixLat = Double.NaN
+    /** Where the last fix really was (world pixels), before it was put on the route. */
+    private var rawX = 0.0
+    private var rawY = 0.0
+    /** The last fix on the route, when the car follows it; null off it. */
+    private var fixSpot: RouteSnap.Spot? = null
+    private var snap: RouteSnap? = null
     private var fixLon = Double.NaN
     private var fixHeadingDeg: Int? = null
     private var fixAtNs = 0L
@@ -138,6 +146,7 @@ internal class ChaseMap {
         val w = box.width
         val h = box.height
         if (w < 8 || h < 8) return
+        ensureRoute(route)
         follow(pos, s.speedKmh, nowNs)
 
         val (top, carRow) = when (look.tilt) {
@@ -213,7 +222,7 @@ internal class ChaseMap {
             // A new fix: its speed is the car's when the head unit sends one, else what the last two fixes say.
             val seconds = (nowNs - fixAtNs) / 1e9
             if (!fixLat.isNaN() && seconds < 10) { fixes++; fixGapsNs += nowNs - fixAtNs }
-            val moved = if (fixLat.isNaN()) 0.0 else hypot(x - fixX, y - fixY) * mpp
+            val moved = if (fixLat.isNaN()) 0.0 else hypot(x - rawX, y - rawY) * mpp
             fixSpeed = speedKmh?.let { it / 3.6 } ?: if (seconds in 0.2..5.0) moved / seconds else 0.0
             fixLat = pos.lat
             fixLon = pos.lon
@@ -223,10 +232,21 @@ internal class ChaseMap {
             if (!wander) {
                 placeLat = pos.lat
                 fixAtNs = nowNs
-                fixX = x
-                fixY = y
+                rawX = x
+                rawY = y
                 fixAhead = 0.0
-                pos.headingDeg?.let { goHeading = Math.toRadians(it.toDouble()) }
+                // On the route: its line and its heading, not the GPS's wander.
+                val spot = snap?.match(x, y, pos.headingDeg?.let { Math.toRadians(it.toDouble()) }, mpp)
+                fixSpot = spot
+                if (spot != null) {
+                    fixX = spot.x
+                    fixY = spot.y
+                    goHeading = spot.heading
+                } else {
+                    fixX = x
+                    fixY = y
+                    pos.headingDeg?.let { goHeading = Math.toRadians(it.toDouble()) }
+                }
             }
         } else if (speedKmh != null) {
             fixSpeed = speedKmh / 3.6
@@ -238,8 +258,19 @@ internal class ChaseMap {
         val sinceLast = if (paintedAtNs == 0L) since else ((paintedAtNs - fixAtNs) / 1e9).coerceIn(0.0, MAX_AHEAD_S)
         fixAhead += speed * max(0.0, since - sinceLast)
         val ahead = fixAhead / mpp
-        val targetX = fixX + sin(goHeading) * ahead
-        val targetY = fixY - cos(goHeading) * ahead
+        val spot = fixSpot
+        val targetX: Double
+        val targetY: Double
+        if (spot != null && snap != null) {
+            // On along the route's line, round its bends, rather than straight on.
+            val there = snap!!.along(spot, fixAhead, mpp)
+            targetX = there.x
+            targetY = there.y
+            goHeading = there.heading
+        } else {
+            targetX = fixX + sin(goHeading) * ahead
+            targetY = fixY - cos(goHeading) * ahead
+        }
         val dt = if (paintedAtNs == 0L) 1.0 else ((nowNs - paintedAtNs) / 1e9).coerceIn(0.0, 1.0)
         paintedAtNs = nowNs
         val off = hypot(targetX - shownX, targetY - shownY) * mpp
@@ -528,17 +559,24 @@ internal class ChaseMap {
 
     // --- The route ---------------------------------------------------------------------------------
 
+    /** The route in world pixels, and the car's matcher to it, worked out again when a new route comes. */
+    private fun ensureRoute(route: List<Double>) {
+        if (route === routeSource) return
+        routeSource = route
+        routeWorld = DoubleArray(route.size / 2 * 2)
+        for (i in 0 until route.size / 2) {
+            routeWorld[2 * i] = WebMercator.x(route[2 * i + 1], Z0)
+            routeWorld[2 * i + 1] = WebMercator.y(route[2 * i], Z0)
+        }
+        snap = if (route.size >= 4) RouteSnap(routeWorld) else null
+        // A new route (a reroute, the end of guidance): the next fix decides afresh.
+        fixSpot = null
+    }
+
     /** The route as a ribbon on the road: a dark casing, the accent on it, cut where it passes under the camera. */
     private fun routeRibbon(v: Graphics2D, cam: Camera, route: List<Double>, across: Double, accent: Color, night: Boolean) {
         if (route.size < 4) return
-        if (route !== routeSource) {
-            routeSource = route
-            routeWorld = DoubleArray(route.size / 2 * 2)
-            for (i in 0 until route.size / 2) {
-                routeWorld[2 * i] = WebMercator.x(route[2 * i + 1], Z0)
-                routeWorld[2 * i + 1] = WebMercator.y(route[2 * i], Z0)
-            }
-        }
+        ensureRoute(route)
         val n = routeWorld.size / 2
         val lat = DoubleArray(n)
         val fwd = DoubleArray(n)
