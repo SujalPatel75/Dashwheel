@@ -62,6 +62,7 @@ import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.withTransform
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -112,10 +113,23 @@ internal enum class ReverseLayout(val titleRes: Int) {
 }
 
 /**
+ * How the radar looks in the reverse view: on the ground the camera filmed,
+ * on plain dark, or as the parking radar alert draws it ([RadarFromAbove]).
+ */
+internal enum class ReverseRadarLook(val titleRes: Int, val hintRes: Int) {
+    GROUND(R.string.reverse_radar_ground, R.string.reverse_radar_ground_hint),
+    PLAIN(R.string.reverse_radar_plain, R.string.reverse_radar_plain_hint),
+    ALERT(R.string.reverse_radar_alert, R.string.reverse_radar_alert_hint)
+}
+
+/**
  * Where the guide lines sit on the camera picture, set on the reverse screen
  * itself: [shift] moves them sideways (a share of the screen width), [bumper]
  * and [far] are the heights of the 0 m and 3 m lines, [width] the car's width
- * at the bumper; [mirror] bends the steering lines the other way.
+ * at the bumper; [mirror] bends the steering lines the other way, [steer]
+ * bends them more or less than the car says (a box that counts the wheel in
+ * other units), and [flipPicture] turns Dashwheel's own picture left to
+ * right on top of what the car app does ([ReverseCamera.flips]).
  */
 internal data class ReverseCalibration(
     val shift: Float = 0f,
@@ -124,7 +138,9 @@ internal data class ReverseCalibration(
     val width: Float = 0.60f,
     val mirror: Boolean = false,
     /** The wide-angle lens's bend: negative pulls the picture's edges in, as a fish-eye shows them. */
-    val lens: Float = 0f
+    val lens: Float = 0f,
+    val steer: Float = 1f,
+    val flipPicture: Boolean = false
 )
 
 /** The car's shape for the lines, in metres: the user's C4 Picasso until the car profile carries it. */
@@ -175,6 +191,9 @@ internal object ReverseView {
      */
     val secondScreen: StateFlow<ReverseLayout?> = _secondScreen.asStateFlow()
 
+    private val _radarLook = MutableStateFlow(ReverseRadarLook.GROUND)
+    val radarLook: StateFlow<ReverseRadarLook> = _radarLook.asStateFlow()
+
     private val _tailgate = MutableStateFlow(DEFAULT_TAILGATE_M)
     /** Room the tailgate needs behind the bumper to open, in metres; 0 hides its line. */
     val tailgate: StateFlow<Float> = _tailgate.asStateFlow()
@@ -209,10 +228,10 @@ internal object ReverseView {
     /** The reverse view is up: the radar alert stays away ([RadarOverlay]). */
     val covering: StateFlow<Boolean> = _covering.asStateFlow()
 
-    /** Steering wheel degrees, right positive, mirrored if asked. */
+    /** Steering wheel degrees, right positive, scaled and mirrored if asked. */
     val steering: StateFlow<Float?> =
         combine(CarBox.steering, previewSteering, _preview, _calibration) { real, fake, preview, cal ->
-            (if (preview) fake else real)?.let { if (cal.mirror) -it else it }
+            (if (preview) fake else real?.times(cal.steer))?.let { if (cal.mirror) -it else it }
         }.stateIn(scope, SharingStarted.Eagerly, null)
 
     val radar: StateFlow<Radar?> =
@@ -261,6 +280,7 @@ internal object ReverseView {
         // The own picture takes the camera from the car app as root: never in the Play edition.
         _ownCamera.value = Edition.full && p.getBoolean("own_camera", false)
         _tailgate.value = p.getFloat("tailgate", DEFAULT_TAILGATE_M)
+        _radarLook.value = ReverseRadarLook.entries.firstOrNull { it.name == p.getString("radar_look", null) } ?: ReverseRadarLook.GROUND
         _secondScreen.value = when (val saved = p.getString("second_screen", null)) {
             null -> ReverseLayout.BOTH
             SECOND_SCREEN_OFF -> null
@@ -273,7 +293,9 @@ internal object ReverseView {
             far = p.getFloat("far", d.far),
             width = p.getFloat("width", d.width),
             lens = p.getFloat("lens", d.lens),
-            mirror = p.getBoolean("mirror", d.mirror)
+            mirror = p.getBoolean("mirror", d.mirror),
+            steer = p.getFloat("steer", d.steer),
+            flipPicture = p.getBoolean("flip_picture", d.flipPicture)
         )
     }
 
@@ -300,6 +322,11 @@ internal object ReverseView {
         prefs(context).edit().putString("second_screen", shown?.name ?: SECOND_SCREEN_OFF).apply()
     }
 
+    fun setRadarLook(context: Context, look: ReverseRadarLook) {
+        _radarLook.value = look
+        prefs(context).edit().putString("radar_look", look.name).apply()
+    }
+
     fun setLayout(context: Context, layout: ReverseLayout) {
         _layout.value = layout
         prefs(context).edit().putString("layout", layout.name).apply()
@@ -311,12 +338,14 @@ internal object ReverseView {
             bumper = c.bumper.coerceIn(0.5f, 1.1f),
             far = c.far.coerceIn(0.1f, c.bumper.coerceIn(0.5f, 1.1f) - 0.05f),
             width = c.width.coerceIn(0.2f, 1.2f),
-            lens = c.lens.coerceIn(-0.6f, 0.3f)
+            lens = c.lens.coerceIn(-0.6f, 0.3f),
+            steer = c.steer.coerceIn(MIN_STEER, MAX_STEER)
         )
         _calibration.value = fixed
         prefs(context).edit()
             .putFloat("shift", fixed.shift).putFloat("bumper", fixed.bumper).putFloat("far", fixed.far)
             .putFloat("width", fixed.width).putBoolean("mirror", fixed.mirror).putFloat("lens", fixed.lens)
+            .putFloat("steer", fixed.steer).putBoolean("flip_picture", fixed.flipPicture)
             .apply()
     }
 
@@ -367,6 +396,10 @@ internal object ReverseView {
         previewSteering.value = null
         previewRadar.value = null
     }
+
+    /** How far the steering lines can be scaled: a fifth to eight times what the car says. */
+    const val MIN_STEER = 0.2f
+    const val MAX_STEER = 8f
 
     /** Beyond the farthest level a sensor sees nothing. */
     private fun Int.clear(): Int = if (this > Radar.MAX_LEVEL) 0 else this
@@ -724,7 +757,18 @@ private fun DrawScope.sensorGlows(levels: List<Int?>, rear: Boolean, onScreen: (
 }
 
 /** What the view from above shows besides the sensors: the manoeuvre's memory and the tailgate's room. */
-private class Above(val pose: Pose?, val version: Int, val ground: Boolean, val tailgate: Float)
+private class Above(val pose: Pose?, val version: Int, val ground: Boolean, val tailgate: Float, val look: ReverseRadarLook)
+
+/** The radar from above in the look the driver chose ([ReverseRadarLook]): the reverse view's own, or the parking radar alert's. */
+@Composable
+private fun RadarArea(modifier: Modifier, radar: Radar?, steering: Float?, top: CarView?, lookStyle: CarLookStyle, above: Above) {
+    if (above.look == ReverseRadarLook.ALERT) {
+        RadarFromAbove(radar ?: NO_RADAR, modifier)
+    } else Canvas(modifier) { fromAbove(radar, steering, top, lookStyle, above) }
+}
+
+/** No sensor at all, for the alert's look before the car has sent any. */
+private val NO_RADAR = Radar(emptyList(), emptyList(), emptyList(), emptyList())
 
 /** The filmed ground under and around the car, turned with it, the car's rear axle at ([cx], [axleY]), [m] pixels a metre. */
 private fun DrawScope.groundMap(pose: Pose, cx: Float, axleY: Float, m: Float) {
@@ -817,7 +861,8 @@ private fun ReverseScreen() {
     val memoryVersion by ObstacleMemory.version.collectAsState()
     val groundVersion by GroundMemory.version.collectAsState()
     val ground by GroundMemory.filled.collectAsState()
-    val above = Above(pose, memoryVersion + groundVersion, ground, tailgate)
+    val radarLook by ReverseView.radarLook.collectAsState()
+    val above = Above(pose, memoryVersion + groundVersion, ground && radarLook == ReverseRadarLook.GROUND, tailgate, radarLook)
     val top = look?.top
 
     // Camera and radar side by side when the picture is Dashwheel's own (the car app's can't be moved).
@@ -872,16 +917,22 @@ internal fun ReverseSecondScreen() {
     val memoryVersion by ObstacleMemory.version.collectAsState()
     val groundVersion by GroundMemory.version.collectAsState()
     val ground by GroundMemory.filled.collectAsState()
-    val above = Above(pose, memoryVersion + groundVersion, ground, tailgate)
+    val radarLook by ReverseView.radarLook.collectAsState()
+    val above = Above(pose, memoryVersion + groundVersion, ground && radarLook == ReverseRadarLook.GROUND, tailgate, radarLook)
     val top = look?.top
     val pictureUp = preview || frame != null
+    val flips = ReverseCamera.flips(calibration)
     val shown = if (wanted != ReverseLayout.RADAR && !pictureUp) ReverseLayout.RADAR else wanted
 
     @Composable
     fun Picture(modifier: Modifier) {
         Box(modifier) {
             val f = frame
-            if (f != null && !preview) Image(f, contentDescription = null, contentScale = ContentScale.FillBounds, modifier = Modifier.fillMaxSize())
+            // A copy of the picture as the camera gives it: turned here the way the head unit shows it.
+            if (f != null && !preview) Image(
+                f, contentDescription = null, contentScale = ContentScale.FillBounds,
+                modifier = Modifier.fillMaxSize().graphicsLayer(scaleX = if (flips.first) -1f else 1f, scaleY = if (flips.second) -1f else 1f)
+            )
             else Box(Modifier.fillMaxSize().background(Color(0xFF2B2C2E)))
             Canvas(Modifier.fillMaxSize()) {
                 val g = Ground(size.width, size.height, calibration)
@@ -897,7 +948,7 @@ internal fun ReverseSecondScreen() {
         when (shown) {
             ReverseLayout.RADAR -> Column(Modifier.fillMaxSize().padding(24.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
                 Nearest(radar)
-                Canvas(Modifier.weight(1f).fillMaxWidth()) { fromAbove(radar, shownSteering, top, lookStyle, above) }
+                RadarArea(Modifier.weight(1f).fillMaxWidth(), radar, shownSteering, top, lookStyle, above)
             }
             ReverseLayout.CAMERA -> Box(Modifier.fillMaxSize()) {
                 Picture(Modifier.fillMaxSize())
@@ -907,7 +958,7 @@ internal fun ReverseSecondScreen() {
                 val panels = SplitPanels(maxWidth, maxHeight)
                 Column(panels.radar.background(ReverseInk.Chip).padding(16.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
                     Nearest(radar, compact = true)
-                    Canvas(Modifier.weight(1f).fillMaxWidth()) { fromAbove(radar, shownSteering, top, lookStyle, above) }
+                    RadarArea(Modifier.weight(1f).fillMaxWidth(), radar, shownSteering, top, lookStyle, above)
                 }
                 Box(panels.camera.background(Color.Black)) { Picture(panels.picture.align(Alignment.Center)) }
             }
@@ -924,9 +975,7 @@ private fun FullScreen(
 ) {
     Box(Modifier.fillMaxSize()) {
         if (layout == ReverseLayout.RADAR) {
-            Canvas(Modifier.fillMaxSize().background(ReverseInk.PanelSolid).padding(24.dp)) {
-                fromAbove(radar, steering, top, lookStyle, above)
-            }
+            RadarArea(Modifier.fillMaxSize().background(ReverseInk.PanelSolid).padding(24.dp), radar, steering, top, lookStyle, above)
         } else {
             if (preview) Box(Modifier.fillMaxSize().background(Color(0xFF2B2C2E)))
             if (pictureUp) Canvas(Modifier.fillMaxSize()) {
@@ -939,14 +988,15 @@ private fun FullScreen(
             if (layout == ReverseLayout.BOTH && pictureUp && !adjusting) {
                 // In the corner over the far end of the picture, the least useful part when backing up.
                 BoxWithConstraints(Modifier.fillMaxSize()) {
-                    Canvas(
+                    RadarArea(
                         Modifier
                             .align(Alignment.TopEnd)
                             .padding(16.dp)
                             .width(maxWidth * 0.26f)
                             .height(maxHeight * 0.62f)
-                            .padding(10.dp)
-                    ) { fromAbove(radar, steering, top, lookStyle, above) }
+                            .padding(10.dp),
+                        radar, steering, top, lookStyle, above
+                    )
                 }
             }
         }
@@ -1015,7 +1065,7 @@ private fun SplitScreen(
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
             Nearest(radar, compact = true)
-            Canvas(Modifier.weight(1f).fillMaxWidth()) { fromAbove(radar, steering, top, lookStyle, above) }
+            RadarArea(Modifier.weight(1f).fillMaxWidth(), radar, steering, top, lookStyle, above)
             LayoutChips(layout)
         }
         Box(panels.camera) {
@@ -1061,15 +1111,17 @@ private fun LayoutChips(layout: ReverseLayout) {
     }
 }
 
-/** The closest thing any sensor sees, in its colour: Stop, Close, or just there. */
+/** The closest thing any sensor sees, in its colour: Stop, Close, or just there, in front or behind. */
 @Composable
 private fun Nearest(radar: Radar?, compact: Boolean = false) {
     val level = radar?.closest ?: return
     val ink = levelInk(level) ?: return
+    fun nearest(levels: List<Int?>) = levels.filterNotNull().filter { it in 1..Radar.MAX_LEVEL }.minOrNull() ?: Int.MAX_VALUE
     val text = stringResource(
         when {
             level <= 3 -> R.string.reverse_near_stop
             level <= 6 -> R.string.reverse_near_close
+            nearest(radar.front) < nearest(radar.rear) -> R.string.reverse_near_ahead
             else -> R.string.reverse_near_far
         }
     )
@@ -1119,6 +1171,7 @@ private fun Chip(text: String, selected: Boolean, icon: ImageVector? = null, com
 }
 
 /** Lining the lines up with the road, on the camera picture itself. */
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 private fun AdjustPanel(c: ReverseCalibration) {
     val context = androidx.compose.ui.platform.LocalContext.current
@@ -1136,8 +1189,16 @@ private fun AdjustPanel(c: ReverseCalibration) {
         Stepper(stringResource(R.string.reverse_far), { set(c.copy(far = c.far - 0.01f)) }, { set(c.copy(far = c.far + 0.01f)) })
         Stepper(stringResource(R.string.reverse_width), { set(c.copy(width = c.width - 0.01f)) }, { set(c.copy(width = c.width + 0.01f)) })
         Stepper(stringResource(R.string.reverse_lens), { set(c.copy(lens = c.lens - 0.02f)) }, { set(c.copy(lens = c.lens + 0.02f)) })
-        Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+        // In steps of 15 %: a box that counts the wheel in other units can be several times off.
+        Stepper(stringResource(R.string.reverse_steer), { set(c.copy(steer = c.steer / 1.15f)) }, { set(c.copy(steer = c.steer * 1.15f)) })
+        val ownCamera by ReverseView.ownCamera.collectAsState()
+        val camera by ReverseCamera.state.collectAsState()
+        FlowRow(horizontalArrangement = Arrangement.spacedBy(10.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
             Chip(stringResource(R.string.reverse_mirror), selected = c.mirror) { set(c.copy(mirror = !c.mirror)) }
+            // Only Dashwheel's own picture can be turned: the car app's is its own.
+            if (ownCamera && camera == ReverseCamera.State.LIVE) {
+                Chip(stringResource(R.string.reverse_flip_picture), selected = c.flipPicture) { set(c.copy(flipPicture = !c.flipPicture)) }
+            }
             Chip(stringResource(R.string.reverse_done), selected = true) { ReverseView.adjusting.value = false }
         }
     }

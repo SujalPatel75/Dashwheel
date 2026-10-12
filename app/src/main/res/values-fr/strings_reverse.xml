@@ -51,4 +51,14 @@
     <string name="reverse_second_hint">Prend le second écran tout seul en marche arrière.</string>
     <string name="reverse_second_hint_rom">La caméra demande la vue de recul activée avec l\'image de Dashwheel : d\'ici là, le second écran montre le radar.</string>
     <string name="reverse_second_hint_video">Demande Affichage simple désactivé dans les réglages du second écran.</string>
+    <string name="reverse_near_ahead">Obstacle devant</string>
+    <string name="reverse_steer">Lignes de braquage</string>
+    <string name="reverse_flip_picture">Inverser l\'image</string>
+    <string name="reverse_radar_title">Aspect du radar</string>
+    <string name="reverse_radar_ground">Sol</string>
+    <string name="reverse_radar_plain">Simple</string>
+    <string name="reverse_radar_alert">Radar de recul</string>
+    <string name="reverse_radar_ground_hint">Le sol filmé par la caméra, sous les capteurs.</string>
+    <string name="reverse_radar_plain_hint">Seulement la voiture, les distances et les capteurs.</string>
+    <string name="reverse_radar_alert_hint">Les arcs du radar de recul, comme en roulant.</string>
 </resources>

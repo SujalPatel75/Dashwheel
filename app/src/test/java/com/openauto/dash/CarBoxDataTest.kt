@@ -148,4 +148,14 @@ class CarBoxDataTest {
         assertNull(traceIndexDegrees(91, 545f))
         assertNull(traceIndexDegrees(-1, 545f))
     }
+
+    @Test
+    fun steeringBroadcastInTenthsOrAsAShareOfFullLock() {
+        // The C4 Picasso: tenths of a degree, full lock 5450.
+        assertEquals(-123.4f, broadcastDegrees(-1234, 5450f, 545f), 0.01f)
+        // A box in whole degrees that locks at 540: half lock is half of the car's.
+        assertEquals(272.5f, broadcastDegrees(270, 540f, 545f), 0.01f)
+        // No full lock sent: tenths.
+        assertEquals(30f, broadcastDegrees(300, 0f, 545f), 0.01f)
+    }
 }

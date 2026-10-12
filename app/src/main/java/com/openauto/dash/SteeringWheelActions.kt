@@ -237,4 +237,4 @@ internal sealed class WheelAssignment {
 
 /** The launcher icon for a [WheelAssignment.LaunchApp], or null once the app is gone. */
 internal fun loadAppIcon(context: Context, packageName: String) =
-    runCatching { context.packageManager.getApplicationIcon(packageName) }.getOrNull()
+    runCatching { context.packageManager.getApplicationIcon(AppLauncher.packageOf(packageName)) }.getOrNull()

@@ -51,4 +51,14 @@
     <string name="reverse_second_hint">Sam przejmuje drugi ekran na biegu wstecznym.</string>
     <string name="reverse_second_hint_rom">Kamera wymaga włączonego widoku cofania z obrazem Dashwheel: do tego czasu drugi ekran pokazuje radar.</string>
     <string name="reverse_second_hint_video">Wymaga wyłączenia opcji Prosty widok w ustawieniach drugiego ekranu.</string>
+    <string name="reverse_near_ahead">Coś z przodu</string>
+    <string name="reverse_steer">Linie skrętu</string>
+    <string name="reverse_flip_picture">Odbij obraz</string>
+    <string name="reverse_radar_title">Wygląd radaru</string>
+    <string name="reverse_radar_ground">Podłoże</string>
+    <string name="reverse_radar_plain">Prosty</string>
+    <string name="reverse_radar_alert">Radar parkowania</string>
+    <string name="reverse_radar_ground_hint">Podłoże nagrane przez kamerę, pod czujnikami.</string>
+    <string name="reverse_radar_plain_hint">Tylko auto, odległości i czujniki.</string>
+    <string name="reverse_radar_alert_hint">Łuki radaru parkowania, jak podczas jazdy.</string>
 </resources>

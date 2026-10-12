@@ -51,4 +51,14 @@
     <string name="reverse_second_hint">Neemt het tweede scherm vanzelf over in de achteruit.</string>
     <string name="reverse_second_hint_rom">De camera heeft het achteruitrijbeeld aan nodig met het beeld van Dashwheel: tot dan toont het tweede scherm de radar.</string>
     <string name="reverse_second_hint_video">Vereist Eenvoudige weergave uit in de instellingen van het tweede scherm.</string>
+    <string name="reverse_near_ahead">Iets ervoor</string>
+    <string name="reverse_steer">Stuurlijnen</string>
+    <string name="reverse_flip_picture">Beeld spiegelen</string>
+    <string name="reverse_radar_title">Radarweergave</string>
+    <string name="reverse_radar_ground">Grond</string>
+    <string name="reverse_radar_plain">Eenvoudig</string>
+    <string name="reverse_radar_alert">Parkeerradar</string>
+    <string name="reverse_radar_ground_hint">De grond die de camera filmde, onder de sensoren.</string>
+    <string name="reverse_radar_plain_hint">Alleen de auto, de afstanden en de sensoren.</string>
+    <string name="reverse_radar_alert_hint">De bogen van de parkeerradar, zoals tijdens het rijden.</string>
 </resources>

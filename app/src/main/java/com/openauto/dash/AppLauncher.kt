@@ -39,25 +39,57 @@ object AppLauncher {
     private const val WINDOWING_MODE_FULLSCREEN = 1
 
 
-    /** All launchable apps except this launcher, sorted alphabetically by label. */
+    /**
+     * All launchable apps except this launcher, sorted alphabetically by label.
+     * An app with more than one entry in the app list gets one per entry: the
+     * one its package opens keyed by the package, the others by
+     * "package/activity" ([launchIntent]), as the car app's Front Camera
+     * beside its AUX.
+     */
     fun loadApps(context: Context): List<AppEntry> {
         val pm = context.packageManager
         val intent = Intent(Intent.ACTION_MAIN).addCategory(Intent.CATEGORY_LAUNCHER)
+        val opens = HashMap<String, String?>()
 
         return pm.queryIntentActivities(intent, 0)
             .mapNotNull { resolveInfo ->
-                val pkg = resolveInfo.activityInfo?.packageName ?: return@mapNotNull null
+                val info = resolveInfo.activityInfo ?: return@mapNotNull null
+                val pkg = info.packageName
                 if (pkg == context.packageName) return@mapNotNull null // hide ourselves
+                if (pkg == ROM_CAMERA_PACKAGE && info.name == ROM_FRONT_CAMERA && !hasFrontCamera()) return@mapNotNull null
+                val main = if (pkg in opens) opens[pkg] else pm.getLaunchIntentForPackage(pkg)?.component?.className.also { opens[pkg] = it }
                 runCatching {
                     AppEntry(
                         label = resolveInfo.loadLabel(pm).toString(),
-                        packageName = pkg,
+                        packageName = if (main == null || main == info.name) pkg else "$pkg/${info.name}",
                         icon = resolveInfo.loadIcon(pm)
                     )
                 }.getOrNull()
             }
             .distinctBy { it.packageName }
             .sortedBy { it.label.lowercase() }
+    }
+
+    /** The car app's camera screens: its AUX input, and the front camera beside it. */
+    private const val ROM_CAMERA_PACKAGE = "com.qf.backcar"
+    private const val ROM_FRONT_CAMERA = "com.qf.backcar.FrontVdoActivity"
+
+    /** The unit is set up with a front camera: the car app's own launcher lists it only then (persist.sys.foresight_time above 0). */
+    @android.annotation.SuppressLint("PrivateApi")
+    private fun hasFrontCamera(): Boolean = runCatching {
+        val v = Class.forName("android.os.SystemProperties").getMethod("get", String::class.java).invoke(null, RomAfterReverse.FRONT_TIME) as String
+        (v.trim().toIntOrNull() ?: 0) > 0
+    }.getOrDefault(false)
+
+    /** The package of an app list key ([loadApps]): the key itself, or the part before "/". */
+    fun packageOf(key: String): String = key.substringBefore('/')
+
+    /** What opens the app list entry [key] ([loadApps]); null when it is gone. */
+    fun launchIntent(context: Context, key: String): Intent? {
+        val activity = key.substringAfter('/', "")
+        if (activity.isEmpty()) return context.packageManager.getLaunchIntentForPackage(key)
+        val intent = Intent(Intent.ACTION_MAIN).addCategory(Intent.CATEGORY_LAUNCHER).setClassName(packageOf(key), activity)
+        return intent.takeIf { context.packageManager.resolveActivity(it, 0) != null }
     }
 
     /**
@@ -85,8 +117,7 @@ object AppLauncher {
      * (the K706's TPMS app came up 220 dp wide in a corner).
      */
     fun launch(context: Context, packageName: String): Boolean {
-        val launchIntent = context.packageManager
-            .getLaunchIntentForPackage(packageName)
+        val launchIntent = launchIntent(context, packageName)
             ?.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             ?: return false
         val options = ActivityOptions.makeBasic()

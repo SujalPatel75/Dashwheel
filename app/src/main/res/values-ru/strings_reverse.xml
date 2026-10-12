@@ -52,4 +52,14 @@
     <string name="reverse_second_hint">Сам занимает второй экран при включении задней передачи.</string>
     <string name="reverse_second_hint_rom">Для камеры нужен задний вид с изображением Dashwheel: до этого на втором экране показывается парктроник.</string>
     <string name="reverse_second_hint_video">Выключите простой режим в настройках второго экрана.</string>
+    <string name="reverse_near_ahead">Что-то спереди</string>
+    <string name="reverse_steer">Линии поворота</string>
+    <string name="reverse_flip_picture">Отразить картинку</string>
+    <string name="reverse_radar_title">Вид радара</string>
+    <string name="reverse_radar_ground">Земля</string>
+    <string name="reverse_radar_plain">Простой</string>
+    <string name="reverse_radar_alert">Парктроник</string>
+    <string name="reverse_radar_ground_hint">Земля, снятая камерой, под датчиками.</string>
+    <string name="reverse_radar_plain_hint">Только машина, расстояния и датчики.</string>
+    <string name="reverse_radar_alert_hint">Дуги парктроника, как во время езды.</string>
 </resources>

@@ -51,4 +51,14 @@
     <string name="reverse_second_hint">Übernimmt den zweiten Bildschirm von selbst im Rückwärtsgang.</string>
     <string name="reverse_second_hint_rom">Die Kamera braucht die Rückfahransicht mit dem Bild von Dashwheel: bis dahin zeigt der zweite Bildschirm das Radar.</string>
     <string name="reverse_second_hint_video">Braucht Einfache Anzeige aus in den Einstellungen des zweiten Bildschirms.</string>
+    <string name="reverse_near_ahead">Etwas davor</string>
+    <string name="reverse_steer">Lenklinien</string>
+    <string name="reverse_flip_picture">Bild spiegeln</string>
+    <string name="reverse_radar_title">Radar-Ansicht</string>
+    <string name="reverse_radar_ground">Boden</string>
+    <string name="reverse_radar_plain">Schlicht</string>
+    <string name="reverse_radar_alert">Einparkradar</string>
+    <string name="reverse_radar_ground_hint">Der von der Kamera gefilmte Boden unter den Sensoren.</string>
+    <string name="reverse_radar_plain_hint">Nur das Auto, die Abstände und die Sensoren.</string>
+    <string name="reverse_radar_alert_hint">Die Bögen des Einparkradars, wie beim Fahren.</string>
 </resources>

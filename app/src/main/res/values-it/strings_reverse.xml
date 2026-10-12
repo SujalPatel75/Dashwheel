@@ -51,4 +51,14 @@
     <string name="reverse_second_hint">Prende da solo il secondo schermo in retromarcia.</string>
     <string name="reverse_second_hint_rom">La telecamera richiede la vista posteriore attiva con l\'immagine di Dashwheel: fino ad allora il secondo schermo mostra il radar.</string>
     <string name="reverse_second_hint_video">Richiede Vista semplice disattivata nelle impostazioni del secondo schermo.</string>
+    <string name="reverse_near_ahead">Ostacolo davanti</string>
+    <string name="reverse_steer">Linee di sterzata</string>
+    <string name="reverse_flip_picture">Specchia immagine</string>
+    <string name="reverse_radar_title">Aspetto del radar</string>
+    <string name="reverse_radar_ground">Suolo</string>
+    <string name="reverse_radar_plain">Semplice</string>
+    <string name="reverse_radar_alert">Radar di parcheggio</string>
+    <string name="reverse_radar_ground_hint">Il suolo ripreso dalla telecamera, sotto i sensori.</string>
+    <string name="reverse_radar_plain_hint">Solo l\'auto, le distanze e i sensori.</string>
+    <string name="reverse_radar_alert_hint">Gli archi del radar di parcheggio, come durante la guida.</string>
 </resources>

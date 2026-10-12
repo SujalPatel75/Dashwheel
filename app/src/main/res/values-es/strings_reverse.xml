@@ -51,4 +51,14 @@
     <string name="reverse_second_hint">Ocupa la segunda pantalla por sí solo en marcha atrás.</string>
     <string name="reverse_second_hint_rom">La cámara necesita la vista trasera activada con la imagen de Dashwheel: mientras tanto la segunda pantalla muestra el radar.</string>
     <string name="reverse_second_hint_video">Requiere Vista simple desactivada en los ajustes de la segunda pantalla.</string>
+    <string name="reverse_near_ahead">Algo delante</string>
+    <string name="reverse_steer">Líneas de giro</string>
+    <string name="reverse_flip_picture">Invertir imagen</string>
+    <string name="reverse_radar_title">Aspecto del radar</string>
+    <string name="reverse_radar_ground">Suelo</string>
+    <string name="reverse_radar_plain">Sencillo</string>
+    <string name="reverse_radar_alert">Radar de aparcamiento</string>
+    <string name="reverse_radar_ground_hint">El suelo que grabó la cámara, bajo los sensores.</string>
+    <string name="reverse_radar_plain_hint">Solo el coche, las distancias y los sensores.</string>
+    <string name="reverse_radar_alert_hint">Los arcos del radar de aparcamiento, como al conducir.</string>
 </resources>

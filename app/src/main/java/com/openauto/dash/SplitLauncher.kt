@@ -52,7 +52,7 @@ object SplitLauncher {
     fun launchSplit(context: Context, packageName: String): Boolean {
         // An app that is gone (a tile kept after it was removed): nothing to open, so
         // the dashboard is not docked to half the screen with nothing beside it.
-        if (context.packageManager.getLaunchIntentForPackage(packageName) == null) return false
+        if (AppLauncher.launchIntent(context, packageName) == null) return false
         // Already split: the toggle would *exit* split on this ROM and the app
         // would land full screen. The other half takes it as it is.
         if (SplitAccessibilityService.isSplit()) {
@@ -98,7 +98,7 @@ object SplitLauncher {
      * once the windows are dealt with.
      */
     fun launchSplitPair(context: Context, primary: String, secondary: String): Boolean {
-        val primaryIntent = context.packageManager.getLaunchIntentForPackage(primary)?.apply {
+        val primaryIntent = AppLauncher.launchIntent(context, primary)?.apply {
             addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         } ?: return false
 
@@ -148,7 +148,7 @@ object SplitLauncher {
      * [launchFreeform]).
      */
     private fun launchIntoAdjacent(context: Context, packageName: String): Boolean {
-        val intent = context.packageManager.getLaunchIntentForPackage(packageName)?.apply {
+        val intent = AppLauncher.launchIntent(context, packageName)?.apply {
             addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_LAUNCH_ADJACENT)
         } ?: return false
 
@@ -169,7 +169,7 @@ object SplitLauncher {
      * to the one already running, and each copy spoke every voice prompt.
      */
     fun launchFreeform(context: Context, packageName: String, launchBounds: Rect? = null): Boolean {
-        val intent = context.packageManager.getLaunchIntentForPackage(packageName)?.apply {
+        val intent = AppLauncher.launchIntent(context, packageName)?.apply {
             addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         } ?: return false
 

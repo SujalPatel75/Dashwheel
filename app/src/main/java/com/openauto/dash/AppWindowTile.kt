@@ -270,7 +270,7 @@ internal fun PipAnchorCard(
                         PipAnchor.setAutoOpen(context, true, packageName)
                         PipAnchor.openedByTile(packageName)
                         if (!SplitLauncher.launchFreeform(context, packageName, bounds)) {
-                            context.packageManager.getLaunchIntentForPackage(packageName)?.let { context.launchSafely(it) }
+                            AppLauncher.launchIntent(context, packageName)?.let { context.launchSafely(it) }
                         }
                     },
                     colors = ButtonDefaults.buttonColors(containerColor = DashColors.Accent, contentColor = DashColors.OnAccent),

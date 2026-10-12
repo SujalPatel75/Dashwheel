@@ -7,8 +7,10 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Layers
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.DirectionsCar
 import androidx.compose.material.icons.filled.LayersClear
 import androidx.compose.material.icons.filled.Sensors
+import androidx.compose.material.icons.filled.Terrain
 import androidx.compose.material.icons.filled.Videocam
 import androidx.compose.material.icons.filled.ViewQuilt
 import androidx.compose.material3.MaterialTheme
@@ -82,6 +84,26 @@ internal fun ReverseViewSheet(onDismiss: () -> Unit) {
             onChoose = { ReverseView.setLayout(context, it) }
         )
         SwitchHint(stringResource(R.string.reverse_layout_hint))
+
+        // The radar's look only matters where the radar shows.
+        if (layout != ReverseLayout.CAMERA) {
+            val radarLook by ReverseView.radarLook.collectAsState()
+            SettingsSection(stringResource(R.string.reverse_radar_title))
+            SegmentedSwitch(
+                options = ReverseRadarLook.entries,
+                chosen = radarLook,
+                icon = {
+                    when (it) {
+                        ReverseRadarLook.GROUND -> Icons.Filled.Terrain
+                        ReverseRadarLook.PLAIN -> Icons.Filled.DirectionsCar
+                        ReverseRadarLook.ALERT -> Icons.Filled.Sensors
+                    }
+                },
+                title = { stringResource(it.titleRes) },
+                onChoose = { ReverseView.setRadarLook(context, it) }
+            )
+            SwitchHint(stringResource(radarLook.hintRes))
+        }
 
         // Dashwheel's own camera picture and hiding the car app's lines both run as root: not in the Play edition.
         if (Edition.full) {

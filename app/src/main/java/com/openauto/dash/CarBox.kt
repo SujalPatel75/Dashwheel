@@ -112,12 +112,13 @@ object CarBox {
     }
 
     private fun onSteeringBroadcast(context: Context, intent: Intent) {
-        val rate = intent.getFloatExtra(EXTRA_STEERING_RATE, 0f) / 10f
+        val rawRate = intent.getFloatExtra(EXTRA_STEERING_RATE, 0f)
+        val rate = rawRate / 10f
         if (rate in 90f..900f && rate != fullLockDeg) {
             fullLockDeg = rate
             context.getSharedPreferences(PREFS, Context.MODE_PRIVATE).edit().putFloat(PREF_FULL_LOCK, rate).apply()
         }
-        steeringWrite(intent.getIntExtra(EXTRA_STEERING, 0) / 10f)
+        steeringWrite(broadcastDegrees(intent.getIntExtra(EXTRA_STEERING, 0), rawRate, fullLockDeg))
     }
 
     /** Whether this unit's car app shares the car's data (the QF firmware). */
@@ -297,6 +298,16 @@ object CarBox {
         Class.forName("android.os.SystemProperties").getMethod("get", String::class.java).invoke(null, name) as String
     }.getOrNull()
 }
+
+/**
+ * The car app's steering [angle] as wheel degrees, right positive. It comes in
+ * tenths of a degree with the full lock [rate] in the same tenths (5450 on the
+ * C4 Picasso); a box that counts in other units still gives its full lock in
+ * them, so the angle is then taken as a share of it, on a car that locks at
+ * [fullLockDeg].
+ */
+internal fun broadcastDegrees(angle: Int, rate: Float, fullLockDeg: Float): Float =
+    if (rate > 0f && rate / 10f !in 90f..900f) angle / rate * fullLockDeg else angle / 10f
 
 /**
  * The car app's line picture [index] (0..90, 45 straight ahead) as steering

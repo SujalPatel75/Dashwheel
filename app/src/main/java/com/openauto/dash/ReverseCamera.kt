@@ -17,6 +17,8 @@ import android.view.TextureView
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.viewinterop.AndroidView
 import kotlinx.coroutines.CancellationException
@@ -81,6 +83,8 @@ internal object ReverseCamera {
     private const val MIRROR_W = 960
     private const val MIRROR_H = 540
     private const val MIRROR_MS = 80L
+    /** The car app's setting for turning the picture ([romMirror]). */
+    private const val ROM_MIRROR = "persist.sys.backcar_mirror"
 
     /** TAKING: the car app's picture is still up; OPENING: it's gone, Dashwheel's not there yet. */
     enum class State { OFF, TAKING, OPENING, LIVE, FAILED }
@@ -116,6 +120,24 @@ internal object ReverseCamera {
     val mirror: StateFlow<ImageBitmap?> = _mirror.asStateFlow()
     private var mirrorJob: Job? = null
     private var liveView: TextureView? = null
+
+    private val _romMirror = MutableStateFlow(0)
+    /** How the car app turns its picture ([romMirror]), read as each reverse starts. */
+    val romTurn: StateFlow<Int> = _romMirror.asStateFlow()
+
+    /**
+     * Whether Dashwheel's picture is turned (left to right, upside down): as
+     * the car app turns its own, the driver's left-right flip on top
+     * ([ReverseCalibration.flipPicture]).
+     */
+    fun flips(c: ReverseCalibration): Pair<Boolean, Boolean> {
+        val rom = _romMirror.value
+        return ((rom and 1 != 0) != c.flipPicture) to (rom and 2 != 0)
+    }
+
+    private fun readRomMirror() {
+        _romMirror.value = romMirror(systemProperty(ROM_MIRROR)?.trim()?.toIntOrNull() ?: 0, systemProperty("ro.qf.platform").orEmpty())
+    }
 
     /** The second screen shows the camera ([ReverseView.secondScreenShown]): [mirror] is kept up to date. */
     fun setMirror(on: Boolean) {
@@ -153,6 +175,7 @@ internal object ReverseCamera {
     fun watch(context: Context) {
         if (watching) return
         watching = true
+        readRomMirror()
         val manager = context.applicationContext.getSystemService(Context.CAMERA_SERVICE) as CameraManager
         runCatching {
             manager.registerAvailabilityCallback(object : CameraManager.AvailabilityCallback() {
@@ -191,6 +214,8 @@ internal object ReverseCamera {
 
     /** The picture's view is on screen: once its surface is there, the camera is taken from the ROM app. */
     fun attach(context: Context, view: TextureView) {
+        // The driver may have changed it in the car app's settings since.
+        readRomMirror()
         if (_state.value == State.FAILED) return
         val app = context.applicationContext
         view.surfaceTextureListener = object : TextureView.SurfaceTextureListener {
@@ -381,6 +406,9 @@ internal object ReverseCamera {
                 val w = view.width.toFloat()
                 val h = view.height.toFloat()
                 val cal = ReverseView.calibration.value
+                // The copy comes as the camera gives it: turned like the picture on screen, under the lines.
+                val (flipX, flipY) = flips(cal)
+                turnPixels(pixels, FRAME_W, FRAME_H, flipX, flipY)
                 withContext(Dispatchers.Default) {
                     GroundMemory.onFrame(pixels, FRAME_W, FRAME_H, w, h, cal) { step ->
                         step?.let { ParkingMotion.cameraStep(it) }
@@ -410,14 +438,55 @@ internal object ReverseCamera {
     }
 }
 
-/** The camera's picture, full screen under the lines. */
+/** The camera's picture, full screen under the lines, turned the way the car app turns it. */
 @Composable
 internal fun ReverseCameraPicture(modifier: Modifier = Modifier) {
+    val calibration by ReverseView.calibration.collectAsState()
+    // Read again as each reverse starts (attach): the picture follows.
+    ReverseCamera.romTurn.collectAsState().value
+    val (flipX, flipY) = ReverseCamera.flips(calibration)
     AndroidView(
         factory = { ctx -> TextureView(ctx).also { ReverseCamera.attach(ctx, it) } },
         modifier = modifier,
+        update = { view ->
+            view.scaleX = if (flipX) -1f else 1f
+            view.scaleY = if (flipY) -1f else 1f
+        },
         onRelease = { ReverseCamera.detach() }
     )
+}
+
+/**
+ * How the car app turns the camera's picture (its BaseBackCarView.AdjustMirror):
+ * 0 as it comes, 1 left to right, 2 upside down, 3 both, from its [setting]
+ * (persist.sys.backcar_mirror). On the Unisoc [platform]s, the K706's among
+ * them, the left-right half counts the other way: 0 there is turned left to
+ * right, the way a reversing camera is looked at.
+ */
+internal fun romMirror(setting: Int, platform: String): Int {
+    val turn = setting.takeIf { it in 0..3 } ?: 0
+    return if (UNISOC_PLATFORMS.any { it in platform }) turn xor 1 else turn
+}
+
+private val UNISOC_PLATFORMS = listOf("7862", "8581", "7861", "7870")
+
+/** Turns a [w] x [h] picture's [pixels] in place: left to right with [flipX], upside down with [flipY]. */
+internal fun turnPixels(pixels: IntArray, w: Int, h: Int, flipX: Boolean, flipY: Boolean) {
+    if (flipX) for (y in 0 until h) {
+        var a = y * w
+        var b = a + w - 1
+        while (a < b) {
+            val t = pixels[a]; pixels[a] = pixels[b]; pixels[b] = t
+            a++; b--
+        }
+    }
+    if (flipY) for (y in 0 until h / 2) {
+        val top = y * w
+        val bottom = (h - 1 - y) * w
+        for (x in 0 until w) {
+            val t = pixels[top + x]; pixels[top + x] = pixels[bottom + x]; pixels[bottom + x] = t
+        }
+    }
 }
 
 /**

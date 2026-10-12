@@ -1597,7 +1597,7 @@ internal object EmbeddedApp {
                 }
                 return
             }
-            val intent = context.packageManager.getLaunchIntentForPackage(packageName)
+            val intent = AppLauncher.launchIntent(context, packageName)
             if (intent == null) {
                 _status.value = Status.MISSING
                 return

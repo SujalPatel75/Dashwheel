@@ -52,4 +52,14 @@
     <string name="reverse_second_hint">Takes over the second screen by itself in reverse gear.</string>
     <string name="reverse_second_hint_rom">The camera needs the reverse view on with Dashwheel\'s picture: until then the second screen shows the radar.</string>
     <string name="reverse_second_hint_video">Needs Simple display off in the second screen\'s settings.</string>
+    <string name="reverse_near_ahead">Something in front</string>
+    <string name="reverse_steer">Steering lines</string>
+    <string name="reverse_flip_picture">Mirror picture</string>
+    <string name="reverse_radar_title">Radar look</string>
+    <string name="reverse_radar_ground">Ground</string>
+    <string name="reverse_radar_plain">Plain</string>
+    <string name="reverse_radar_alert">Parking radar</string>
+    <string name="reverse_radar_ground_hint">The ground the camera filmed, under the sensors.</string>
+    <string name="reverse_radar_plain_hint">Only the car, the distances and the sensors.</string>
+    <string name="reverse_radar_alert_hint">The parking radar\'s arcs, as while driving.</string>
 </resources>

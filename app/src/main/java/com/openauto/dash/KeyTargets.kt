@@ -61,10 +61,10 @@ object KeyTargets {
      * needs the app's own start activity. True when the unit took it.
      */
     suspend fun set(context: Context, key: Key, pkg: String?): Boolean = runCatching {
-        val value = pkg ?: UNSET
+        val value = pkg?.let { AppLauncher.packageOf(it) } ?: UNSET
         DockShell.shell(context, "setprop ${key.prop} $value")
         key.classProp?.let { classProp ->
-            val cls = pkg?.let { context.packageManager.getLaunchIntentForPackage(it)?.component?.className } ?: UNSET
+            val cls = pkg?.let { AppLauncher.launchIntent(context, it)?.component?.className } ?: UNSET
             DockShell.shell(context, "setprop $classProp $cls")
         }
         val now = systemProperty(key.prop)
