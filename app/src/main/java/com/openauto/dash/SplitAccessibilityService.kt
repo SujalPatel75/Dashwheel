@@ -593,9 +593,63 @@ class SplitAccessibilityService : AccessibilityService() {
          * The view that has the keyboard focus, in whatever window: where text
          * from the phone is typed ([PhoneKeyboard]). Null when nothing has it
          * or the service is not bound; the caller recycles it.
+         *
+         * Android asks the focused view for its focused field, and a Compose
+         * screen (Dashwheel's own, and many apps') answers with the whole screen
+         * instead of the field the cursor is in: the phone's text then went to
+         * the clipboard, "no field selected". So when the answer is not a
+         * field, the windows are searched for the field marked focused.
          */
-        fun inputFocus(): AccessibilityNodeInfo? =
-            instance?.let { runCatching { it.findFocus(AccessibilityNodeInfo.FOCUS_INPUT) }.getOrNull() }
+        fun inputFocus(): AccessibilityNodeInfo? {
+            val service = instance ?: return null
+            val direct = runCatching { service.findFocus(AccessibilityNodeInfo.FOCUS_INPUT) }.getOrNull()
+            if (direct == null || !direct.isEditable) {
+                val field = runCatching { focusedField(service) }.getOrNull()
+                if (field != null) {
+                    direct?.let(::recycleNode)
+                    return field
+                }
+            }
+            return direct
+        }
+
+        /** Nodes looked at, at most, per window: a field is near the top of any screen worth typing into. */
+        private const val FIELD_SEARCH_LIMIT = 4_000
+
+        /** The editable node marked focused, in the focused window first, then the others; null when there is none. */
+        private fun focusedField(service: AccessibilityService): AccessibilityNodeInfo? {
+            val windows = runCatching { service.windows }.getOrNull().orEmpty()
+                .sortedByDescending { it.isFocused || it.isActive }
+            val roots = windows.mapNotNull { it.root }.ifEmpty { listOfNotNull(service.rootInActiveWindow) }
+            for ((index, root) in roots.withIndex()) {
+                val queue = ArrayDeque<AccessibilityNodeInfo>().apply { add(root) }
+                var seen = 0
+                var found: AccessibilityNodeInfo? = null
+                while (queue.isNotEmpty()) {
+                    val node = queue.removeFirst()
+                    if (found == null && seen < FIELD_SEARCH_LIMIT && node.isEditable && node.isFocused) {
+                        found = node
+                        continue
+                    }
+                    if (found == null && seen < FIELD_SEARCH_LIMIT) {
+                        seen++
+                        for (i in 0 until node.childCount) node.getChild(i)?.let(queue::add)
+                    }
+                    recycleNode(node)
+                }
+                if (found != null) {
+                    roots.drop(index + 1).forEach(::recycleNode)
+                    return found
+                }
+            }
+            return null
+        }
+
+        // Before Android 13 node objects come from a pool and go back to it only when recycled.
+        @Suppress("DEPRECATION")
+        private fun recycleNode(node: AccessibilityNodeInfo) {
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) runCatching { node.recycle() }
+        }
 
         /** Any `GLOBAL_ACTION_*` (back, recents, notifications...); false when the service is not bound. */
         fun globalAction(action: Int): Boolean =
