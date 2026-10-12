@@ -371,7 +371,9 @@ internal class AlertWindow(
     /** The panel and full-screen designs stop above the dashboard's bar, so its buttons stay in reach. */
     private val clearOfBar: Boolean = false,
     /** Where it stands among the alerts up at once ([AlertKind.rank]); the reverse view is ahead of them all. */
-    val rank: Int = -1
+    val rank: Int = -1,
+    /** A tap anywhere beside the alert (the screen under it still gets it); null: none watched. */
+    private val onOutsideTap: (() -> Unit)? = null
 ) {
     /** The shown window is the accessibility service's. */
     private var above = false
@@ -407,6 +409,12 @@ internal class AlertWindow(
             }
         }
         v.addOnLayoutChangeListener { _, l, t, r, b, ol, ot, or, ob -> if (r - l != or - ol || b - t != ob - ot) AlertStack.settle() }
+        onOutsideTap?.let { tap ->
+            v.setOnTouchListener { _, e ->
+                if (e.actionMasked == android.view.MotionEvent.ACTION_OUTSIDE) tap()
+                false
+            }
+        }
         return runCatching { wm.addView(v, params(style, type).also { ownY = it.y }) }
             .onSuccess { view = v; owner = o; this.style = style; visible = state; above = host != null; AlertStack.add(this) }
             .onFailure { Log.w(TAG, "could not add the $name window", it); o.destroy() }
@@ -477,8 +485,9 @@ internal class AlertWindow(
         return WindowManager.LayoutParams(
             w, h,
             type,
-            // Touchable (the buttons), but never takes the keyboard or the back key.
-            WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE or WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN,
+            // Touchable (the buttons), but never takes the keyboard or the back key; told of a tap beside it when asked.
+            WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE or WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN or
+                (if (onOutsideTap != null) WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH else 0),
             PixelFormat.TRANSLUCENT
         ).apply {
             gravity = when (style) {

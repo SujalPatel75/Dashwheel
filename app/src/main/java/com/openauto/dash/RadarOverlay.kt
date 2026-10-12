@@ -3,6 +3,7 @@ package com.openauto.dash
 import android.content.Context
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -42,6 +43,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
@@ -54,7 +56,10 @@ import kotlin.math.min
  * design the driver chose ([AlertStyle]; never full screen, it would hide the
  * reversing camera): the car from above with an arc per sensor, closer to the
  * car and redder as something gets near. Up while reversing, or while any
- * sensor sees something; gone a second after. Drawn through the accessibility
+ * sensor sees something; gone a second after. Out of reverse it also goes
+ * once nothing has come closer for a while (the car stopped by a wall with its
+ * radar on), or at a tap on it or beside it, and comes back when something
+ * gets closer than it was, or in reverse. Drawn through the accessibility
  * service, the only window Dashwheel can put above the ROM's reversing camera
  * ([AlertWindow]).
  */
@@ -68,14 +73,37 @@ object RadarOverlay {
     /** A second without anything near before the radar goes, so it doesn't flicker. */
     private const val LINGER_MS = 1_000L
 
-    /** The sensors to show, or null when there's no radar up: the picker's made-up ones while it is tried. */
-    val alert: StateFlow<Radar?> =
-        combine(RomPopups.replaced, CarBox.radar, CarBox.reversing, AlertPreview.radar, ReverseView.covering) { replaced, radar, reversing, preview, reverseView ->
+    /** Out of reverse, how long the radar stays with nothing coming closer. */
+    private const val QUIET_MS = 8_000L
+
+    /** The car's radar as it would show, before the driver sends it away. */
+    private val carRadar: StateFlow<Radar?> =
+        combine(RomPopups.replaced, CarBox.radar, CarBox.reversing, ReverseView.covering) { replaced, radar, reversing, reverseView ->
             // The reverse view has its own radar.
-            preview ?: radar.takeIf {
+            radar.takeIf {
                 !reverseView && RomPopups.Kind.RADAR in replaced && it != null && it.present && (reversing || it.active)
             }
         }.stateIn(scope, SharingStarted.Eagerly, null)
+
+    /**
+     * Sent away (a tap, or quiet for [QUIET_MS]) at this closest level: the
+     * radar stays away until something is closer than that. Null: shown.
+     */
+    private val snoozedAt = MutableStateFlow<Int?>(null)
+
+    /** How close the nearest thing is, 1 the closest; past [Radar.MAX_LEVEL] for nothing near. */
+    private fun level(r: Radar): Int = r.closest ?: (Radar.MAX_LEVEL + 1)
+
+    /** The sensors to show, or null when there's no radar up: the picker's made-up ones while it is tried. */
+    val alert: StateFlow<Radar?> =
+        combine(carRadar, snoozedAt, AlertPreview.radar) { radar, snooze, preview ->
+            preview ?: radar?.takeIf { snooze == null || level(it) < snooze }
+        }.stateIn(scope, SharingStarted.Eagerly, null)
+
+    /** A tap on the radar or beside it: away until something gets closer. */
+    fun dismiss() {
+        carRadar.value?.let { snoozedAt.value = level(it) }
+    }
 
     val style: StateFlow<AlertStyle?> =
         combine(alert, AlertStyleStore.styles) { radar, styles -> radar?.let { styles.of(AlertKind.RADAR) } }
@@ -86,11 +114,42 @@ object RadarOverlay {
         if (started) return
         started = true
         val app = AppLanguage.wrap(context.applicationContext)
+        // Out of reverse, the radar goes once nothing has come closer for a while.
+        scope.launch {
+            var wasReversing = false
+            var nearest = Int.MAX_VALUE
+            var quiet: Job? = null
+            combine(carRadar, CarBox.reversing) { r, reversing -> r to reversing }.collect { (r, reversing) ->
+                // Gone, or a new reverse: whatever was sent away comes back next time.
+                if (r == null || (reversing && !wasReversing)) snoozedAt.value = null
+                wasReversing = reversing
+                if (r == null || reversing) {
+                    quiet?.cancel()
+                    quiet = null
+                    nearest = Int.MAX_VALUE
+                    return@collect
+                }
+                val l = level(r)
+                if (l < nearest || quiet == null) {
+                    nearest = l
+                    quiet?.cancel()
+                    quiet = launch {
+                        delay(QUIET_MS)
+                        carRadar.value?.let { snoozedAt.value = level(it) }
+                        nearest = Int.MAX_VALUE
+                        quiet = null
+                    }
+                }
+            }
+        }
         scope.launch {
             style.collect { style ->
                 if (style != null) {
                     hiding?.cancel()
-                    val w = window ?: AlertWindow(app, "radar", AlertKind.RADAR.cardAt.gravity, aboveCamera = { true }, rank = AlertKind.RADAR.rank).also { window = it }
+                    val w = window ?: AlertWindow(
+                        app, "radar", AlertKind.RADAR.cardAt.gravity, aboveCamera = { true }, rank = AlertKind.RADAR.rank,
+                        onOutsideTap = ::dismiss
+                    ).also { window = it }
                     if (w.canShow()) w.show(style) { RadarAlertContent(style) }
                 } else if (hiding?.isActive != true) {
                     hiding = launch {
@@ -107,7 +166,8 @@ object RadarOverlay {
 internal fun RadarAlertContent(style: AlertStyle) {
     val live by RadarOverlay.alert.collectAsState()
     val radar = rememberLast(live) ?: return
-    RadarAlert(radar, style)
+    // A tap on it sends it away, as one beside it does (AlertWindow's onOutsideTap).
+    Box(Modifier.clickable(interactionSource = null, indication = null, onClick = RadarOverlay::dismiss)) { RadarAlert(radar, style) }
 }
 
 @Composable
