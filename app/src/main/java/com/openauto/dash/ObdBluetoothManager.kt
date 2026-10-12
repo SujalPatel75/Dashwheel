@@ -368,8 +368,12 @@ object ObdBluetoothManager {
         val adapter = manager?.adapter ?: return fail(R.string.vehicle_err_bt_off)
         if (!adapter.isEnabled && !comingOn(adapter)) {
             Log.w(TAG, "Bluetooth is off")
-            if (!byDriver) return fail(R.string.vehicle_err_bt_off)
             // Tapped by the driver: switch it on rather than send them looking for the setting.
+            // By itself too, with the ignition on: the QF firmware leaves it off after a
+            // restart. Once in a while only, so Bluetooth switched off by hand stays off.
+            val auto = !byDriver && CarPower.ignition.value != false && autoBtOnDue()
+            if (!byDriver && !auto) return fail(R.string.vehicle_err_bt_off)
+            if (auto) lastAutoBtOnAt = SystemClock.elapsedRealtime()
             if (!switchBluetoothOn(adapter)) return fail(R.string.vehicle_err_bt_still_off)
         }
         freshLink()
@@ -428,6 +432,9 @@ object ObdBluetoothManager {
             Log.w(TAG, "no RFCOMM channel to $deviceAddress accepted the connection")
             return fail(R.string.vehicle_err_refused, label)
         }
+        // Every way in connected and nothing answered: on the QF firmware, its
+        // Bluetooth module may have given the link to Android Auto (UnitBtModule).
+        UnitBtModule.afterSilentLink(context, deviceAddress)
         // A call through the unit: its Bluetooth leaves the adapter alone until the call ends
         // (seen on the K706 with a WhatsApp call), and [VehicleMonitor] dials again then.
         if (inCall()) return fail(R.string.vehicle_err_in_call)
@@ -571,6 +578,13 @@ object ObdBluetoothManager {
     @SuppressLint("MissingPermission")
     private fun isBonded(adapter: BluetoothAdapter, address: String): Boolean =
         adapter.bondedDevices.any { it.address.equals(address, ignoreCase = true) }
+
+    /** When Bluetooth was last switched on without the driver asking. */
+    @Volatile private var lastAutoBtOnAt = 0L
+    private const val AUTO_BT_ON_GAP_MS = 30 * 60_000L
+
+    private fun autoBtOnDue(): Boolean =
+        lastAutoBtOnAt == 0L || SystemClock.elapsedRealtime() - lastAutoBtOnAt >= AUTO_BT_ON_GAP_MS
 
     /**
      * Switches the head unit's Bluetooth on; true once it is. Through the
