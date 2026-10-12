@@ -61,4 +61,15 @@
     <string name="reverse_radar_ground_hint">Il suolo ripreso dalla telecamera, sotto i sensori.</string>
     <string name="reverse_radar_plain_hint">Solo l\'auto, le distanze e i sensori.</string>
     <string name="reverse_radar_alert_hint">Gli archi del radar di parcheggio, come durante la guida.</string>
+    <string name="car_paint_title">Colore dell\'auto nel radar</string>
+    <string name="car_paint_hint">L\'auto disegnata qui e nella finestra del radar di parcheggio</string>
+    <string name="car_paint_theme">Tema</string>
+    <string name="car_paint_black">Nero</string>
+    <string name="car_paint_graphite">Grafite</string>
+    <string name="car_paint_silver">Argento</string>
+    <string name="car_paint_white">Bianco</string>
+    <string name="car_paint_red">Rosso</string>
+    <string name="car_paint_blue">Blu</string>
+    <string name="car_paint_green">Verde</string>
+    <string name="car_paint_beige">Beige</string>
 </resources>

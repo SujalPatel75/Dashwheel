@@ -61,4 +61,15 @@
     <string name="reverse_radar_ground_hint">Le sol filmé par la caméra, sous les capteurs.</string>
     <string name="reverse_radar_plain_hint">Seulement la voiture, les distances et les capteurs.</string>
     <string name="reverse_radar_alert_hint">Les arcs du radar de recul, comme en roulant.</string>
+    <string name="car_paint_title">Couleur de la voiture sur le radar</string>
+    <string name="car_paint_hint">La voiture dessinée ici et dans la fenêtre du radar de stationnement</string>
+    <string name="car_paint_theme">Thème</string>
+    <string name="car_paint_black">Noir</string>
+    <string name="car_paint_graphite">Graphite</string>
+    <string name="car_paint_silver">Argent</string>
+    <string name="car_paint_white">Blanc</string>
+    <string name="car_paint_red">Rouge</string>
+    <string name="car_paint_blue">Bleu</string>
+    <string name="car_paint_green">Vert</string>
+    <string name="car_paint_beige">Beige</string>
 </resources>

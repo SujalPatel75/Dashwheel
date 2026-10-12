@@ -62,4 +62,15 @@
     <string name="reverse_radar_ground_hint">Земля, снятая камерой, под датчиками.</string>
     <string name="reverse_radar_plain_hint">Только машина, расстояния и датчики.</string>
     <string name="reverse_radar_alert_hint">Дуги парктроника, как во время езды.</string>
+    <string name="car_paint_title">Цвет машины на радаре</string>
+    <string name="car_paint_hint">Нарисованная машина здесь и в окне парктроника</string>
+    <string name="car_paint_theme">Тема</string>
+    <string name="car_paint_black">Чёрный</string>
+    <string name="car_paint_graphite">Графит</string>
+    <string name="car_paint_silver">Серебро</string>
+    <string name="car_paint_white">Белый</string>
+    <string name="car_paint_red">Красный</string>
+    <string name="car_paint_blue">Синий</string>
+    <string name="car_paint_green">Зелёный</string>
+    <string name="car_paint_beige">Бежевый</string>
 </resources>

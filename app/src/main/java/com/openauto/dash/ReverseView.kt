@@ -240,6 +240,7 @@ internal object ReverseView {
             .stateIn(scope, SharingStarted.Eagerly, null)
 
     fun start(context: Context) {
+        CarPaintStore.load(context)
         if (started) return
         started = true
         val app = AppLanguage.wrap(context.applicationContext)
@@ -688,7 +689,9 @@ private fun DrawScope.fromAbove(radar: Radar?, steeringDeg: Float?, look: CarVie
             translate(car.left - 35f * car.width / 70f, car.top - 35f * car.height / 190f)
             scale(car.width / 70f, car.height / 190f, Offset.Zero)
         }) {
-            drawCar(Color(0xFF3A3D42), Color(0x4DF1EFE8), Color(0xFF9A9C9F), ReverseInk.Red, 0f, 0f, 0f, 0f, 0f, 0f)
+            // In the paint the driver chose (CarPaint), else graphite on the dark panel.
+            val (body, glass, edge) = CarPaintStore.paint.value.paint(Color(0xFF3A3D42), Color(0x4DF1EFE8), Color(0xFF9A9C9F))
+            drawCar(body, glass, edge, ReverseInk.Red, 0f, 0f, 0f, 0f, 0f, 0f)
         }
     }
 }

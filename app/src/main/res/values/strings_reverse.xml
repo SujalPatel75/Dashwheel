@@ -62,4 +62,15 @@
     <string name="reverse_radar_ground_hint">The ground the camera filmed, under the sensors.</string>
     <string name="reverse_radar_plain_hint">Only the car, the distances and the sensors.</string>
     <string name="reverse_radar_alert_hint">The parking radar\'s arcs, as while driving.</string>
+    <string name="car_paint_title">Car colour on the radar</string>
+    <string name="car_paint_hint">The drawn car here and in the parking radar pop-up</string>
+    <string name="car_paint_theme">Theme</string>
+    <string name="car_paint_black">Black</string>
+    <string name="car_paint_graphite">Graphite</string>
+    <string name="car_paint_silver">Silver</string>
+    <string name="car_paint_white">White</string>
+    <string name="car_paint_red">Red</string>
+    <string name="car_paint_blue">Blue</string>
+    <string name="car_paint_green">Green</string>
+    <string name="car_paint_beige">Beige</string>
 </resources>

@@ -113,6 +113,7 @@ object RadarOverlay {
     fun start(context: Context) {
         if (started) return
         started = true
+        CarPaintStore.load(context)
         val app = AppLanguage.wrap(context.applicationContext)
         // Out of reverse, the radar goes once nothing has come closer for a while.
         scope.launch {
@@ -253,9 +254,11 @@ private fun RadarPanel(radar: Radar) {
 @Composable
 internal fun RadarFromAbove(radar: Radar, modifier: Modifier = Modifier) {
     // A translucent CardHi (the glass and skinned looks) laid on the card, not made opaque as it is: that is white.
-    val body = DashColors.CardHi.compositeOver(DashColors.Card.copy(alpha = 1f))
-    val edge = DashColors.TextSecondary
-    val glass = edge.copy(alpha = 0.24f)
+    // In the paint the driver chose (CarPaint), else the theme's.
+    val paint by CarPaintStore.paint.collectAsState()
+    val (body, glass, edge) = paint.paint(
+        DashColors.CardHi.compositeOver(DashColors.Card.copy(alpha = 1f)), DashColors.TextSecondary.copy(alpha = 0.24f), DashColors.TextSecondary
+    )
     val warn = DashColors.Warning
     val front = radar.front.map { it to levelColor(it) }
     val rear = radar.rear.map { it to levelColor(it) }

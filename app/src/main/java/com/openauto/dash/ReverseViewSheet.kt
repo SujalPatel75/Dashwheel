@@ -29,6 +29,32 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import kotlinx.coroutines.launch
+import androidx.compose.ui.Alignment
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.layout.Column
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.semantics.Role
+import androidx.compose.foundation.layout.Row
+import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.ui.graphics.compositeOver
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.unit.dp
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.ui.semantics.selected
+import androidx.compose.foundation.horizontalScroll
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.ui.draw.clip
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 
 /*
  * Settings, Car, Reverse view: Dashwheel's guide lines and radar over the
@@ -103,6 +129,7 @@ internal fun ReverseViewSheet(onDismiss: () -> Unit) {
                 onChoose = { ReverseView.setRadarLook(context, it) }
             )
             SwitchHint(stringResource(radarLook.hintRes))
+            CarPaintPicker()
         }
 
         // Dashwheel's own camera picture and hiding the car app's lines both run as root: not in the Play edition.
@@ -196,4 +223,51 @@ internal fun ReverseViewSheet(onDismiss: () -> Unit) {
         SettingsSection(stringResource(R.string.reverse_lines_title))
         Text(stringResource(R.string.reverse_lines_hint), color = DashColors.TextSecondary, style = MaterialTheme.typography.bodyMedium)
     }
+}
+
+/**
+ * The drawn car's paint (CarPaint), as swatches: the theme's own grey first,
+ * then dark to light and the colours. Here and in the parking radar pop-up.
+ */
+@Composable
+private fun CarPaintPicker() {
+    val context = LocalContext.current
+    val chosen by CarPaintStore.paint.collectAsState()
+    SettingsSection(stringResource(R.string.car_paint_title))
+    Row(
+        modifier = Modifier.fillMaxWidth().horizontalScroll(rememberScrollState()),
+        horizontalArrangement = Arrangement.spacedBy(10.dp)
+    ) {
+        for (p in CarPaint.entries) {
+            val selected = p == chosen
+            val name = stringResource(p.titleRes)
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = Modifier
+                    .clip(DashShape.Medium)
+                    .clickable(role = Role.RadioButton) { CarPaintStore.set(context, p) }
+                    .semantics { contentDescription = name; this.selected = selected }
+                    .padding(6.dp)
+            ) {
+                val ring = if (selected) DashColors.Accent else DashColors.Line
+                Box(
+                    modifier = Modifier
+                        .size(44.dp)
+                        .border(if (selected) 3.dp else 1.dp, ring, CircleShape)
+                        .padding(5.dp)
+                        .clip(CircleShape)
+                        .background(
+                            p.color?.let { SolidColor(it) }
+                                ?: Brush.linearGradient(listOf(DashColors.CardHi.compositeOver(DashColors.Card.copy(alpha = 1f)), DashColors.TextSecondary))
+                        )
+                )
+                Spacer(Modifier.height(4.dp))
+                Text(
+                    name, color = if (selected) DashColors.TextPrimary else DashColors.TextSecondary,
+                    style = MaterialTheme.typography.labelMedium, maxLines = 1
+                )
+            }
+        }
+    }
+    SwitchHint(stringResource(R.string.car_paint_hint))
 }

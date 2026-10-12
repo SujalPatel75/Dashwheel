@@ -61,4 +61,15 @@
     <string name="reverse_radar_ground_hint">Der von der Kamera gefilmte Boden unter den Sensoren.</string>
     <string name="reverse_radar_plain_hint">Nur das Auto, die Abstände und die Sensoren.</string>
     <string name="reverse_radar_alert_hint">Die Bögen des Einparkradars, wie beim Fahren.</string>
+    <string name="car_paint_title">Fahrzeugfarbe im Radar</string>
+    <string name="car_paint_hint">Das gezeichnete Auto hier und im Parkradar-Fenster</string>
+    <string name="car_paint_theme">Design</string>
+    <string name="car_paint_black">Schwarz</string>
+    <string name="car_paint_graphite">Graphit</string>
+    <string name="car_paint_silver">Silber</string>
+    <string name="car_paint_white">Weiß</string>
+    <string name="car_paint_red">Rot</string>
+    <string name="car_paint_blue">Blau</string>
+    <string name="car_paint_green">Grün</string>
+    <string name="car_paint_beige">Beige</string>
 </resources>

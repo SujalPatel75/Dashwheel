@@ -61,4 +61,15 @@
     <string name="reverse_radar_ground_hint">O chão filmado pela câmara, sob os sensores.</string>
     <string name="reverse_radar_plain_hint">Só o carro, as distâncias e os sensores.</string>
     <string name="reverse_radar_alert_hint">Os arcos do radar de estacionamento, como a conduzir.</string>
+    <string name="car_paint_title">Cor do carro no radar</string>
+    <string name="car_paint_hint">O carro desenhado aqui e na janela do radar de estacionamento</string>
+    <string name="car_paint_theme">Tema</string>
+    <string name="car_paint_black">Preto</string>
+    <string name="car_paint_graphite">Grafite</string>
+    <string name="car_paint_silver">Prata</string>
+    <string name="car_paint_white">Branco</string>
+    <string name="car_paint_red">Vermelho</string>
+    <string name="car_paint_blue">Azul</string>
+    <string name="car_paint_green">Verde</string>
+    <string name="car_paint_beige">Bege</string>
 </resources>

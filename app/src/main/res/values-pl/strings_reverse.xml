@@ -61,4 +61,15 @@
     <string name="reverse_radar_ground_hint">Podłoże nagrane przez kamerę, pod czujnikami.</string>
     <string name="reverse_radar_plain_hint">Tylko auto, odległości i czujniki.</string>
     <string name="reverse_radar_alert_hint">Łuki radaru parkowania, jak podczas jazdy.</string>
+    <string name="car_paint_title">Kolor auta na radarze</string>
+    <string name="car_paint_hint">Rysowane auto tutaj i w okienku czujników parkowania</string>
+    <string name="car_paint_theme">Motyw</string>
+    <string name="car_paint_black">Czarny</string>
+    <string name="car_paint_graphite">Grafit</string>
+    <string name="car_paint_silver">Srebrny</string>
+    <string name="car_paint_white">Biały</string>
+    <string name="car_paint_red">Czerwony</string>
+    <string name="car_paint_blue">Niebieski</string>
+    <string name="car_paint_green">Zielony</string>
+    <string name="car_paint_beige">Beżowy</string>
 </resources>

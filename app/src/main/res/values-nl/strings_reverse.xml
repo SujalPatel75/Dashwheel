@@ -61,4 +61,15 @@
     <string name="reverse_radar_ground_hint">De grond die de camera filmde, onder de sensoren.</string>
     <string name="reverse_radar_plain_hint">Alleen de auto, de afstanden en de sensoren.</string>
     <string name="reverse_radar_alert_hint">De bogen van de parkeerradar, zoals tijdens het rijden.</string>
+    <string name="car_paint_title">Kleur van de auto op de radar</string>
+    <string name="car_paint_hint">De getekende auto hier en in het parkeerradarvenster</string>
+    <string name="car_paint_theme">Thema</string>
+    <string name="car_paint_black">Zwart</string>
+    <string name="car_paint_graphite">Grafiet</string>
+    <string name="car_paint_silver">Zilver</string>
+    <string name="car_paint_white">Wit</string>
+    <string name="car_paint_red">Rood</string>
+    <string name="car_paint_blue">Blauw</string>
+    <string name="car_paint_green">Groen</string>
+    <string name="car_paint_beige">Beige</string>
 </resources>
