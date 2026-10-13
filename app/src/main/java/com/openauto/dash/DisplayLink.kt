@@ -91,7 +91,11 @@ object DisplayLink {
     private const val KEY_LAST_ADDRESS = "last_address"
     private const val CONNECT_TIMEOUT_MS = 2_000
     /** The Pi's own address on a cable straight to it: its eth0 hands out 10.47.0.x (tools/pi/install.sh). */
-    private const val WIRED_DISPLAY = "10.47.0.1"
+    const val WIRED_DISPLAY = "10.47.0.1"
+    /** A link on Wi-Fi checks this often whether the cable to the display works, to move onto it. */
+    private const val CABLE_CHECK_MS = 5_000L
+    /** After a move onto the cable, the next one waits this long: no back and forth when the cable half works. */
+    private const val CABLE_RETRY_MS = 60_000L
     private const val PROBE_TIMEOUT_MS = 350
     private const val PROBE_PARALLEL = 32
     /**
@@ -180,6 +184,9 @@ object DisplayLink {
 
     /** Frames refused since the last call ([VIDEO_BACKLOG]): the link fell behind, as the display's dropped ones say it did. */
     fun takeRefusedFrames(): Int = videoRefused.getAndSet(0)
+
+    /** When a link on Wi-Fi was last closed to move it onto the cable (elapsed realtime). */
+    @Volatile private var movedToCableAt = Long.MIN_VALUE / 2
 
     /** Addresses the display announced itself on (DNS-SD, beacons). */
     private val announced = ConcurrentHashMap.newKeySet<String>()
@@ -392,6 +399,21 @@ object DisplayLink {
                 }
             }
         }
+        // Linked over Wi-Fi before the cable had its address (the hotspot comes up first): moved
+        // onto the cable once it answers, the same picture without the Wi-Fi lag.
+        val cableWatch = if (address == WIRED_DISPLAY) null else scope.launch {
+            val wired = InetAddress.getByName(WIRED_DISPLAY)
+            while (isActive) {
+                delay(CABLE_CHECK_MS)
+                val now = android.os.SystemClock.elapsedRealtime()
+                if (now - movedToCableAt < CABLE_RETRY_MS || networkFor(context, wired) == null) continue
+                if (!portOpen(context, wired)) continue
+                movedToCableAt = now
+                note("the display answers on the cable: moving the link onto it")
+                link.close()
+                break
+            }
+        }
         try {
             while (true) {
                 val frame = link.receiveAny() as? Incoming.Message ?: continue
@@ -424,6 +446,7 @@ object DisplayLink {
         } finally {
             pinger.cancel()
             watchdog.cancel()
+            cableWatch?.cancel()
             link.close()
             if (session === link) session = null
             _stats.value = null

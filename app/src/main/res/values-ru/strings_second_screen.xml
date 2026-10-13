@@ -34,6 +34,8 @@
     <string name="second_screen_output_video">Передача изображения · %1$d кбит/с</string>
     <string name="second_screen_output_data">Передача показаний; экран сам рисует приборы</string>
     <string name="second_screen_program">программа %1$s</string>
+    <string name="second_screen_by_cable">по кабелю</string>
+    <string name="second_screen_by_wifi">по Wi-Fi</string>
     <string name="second_screen_program_older">Программа экрана старее этого приложения: запишите его карту заново.</string>
     <string name="second_screen_program_newer">Программа экрана новее этого приложения: обновите Dashwheel.</string>
     <string name="second_screen_health_under_powered">Плате экрана не хватает питания, и она замедляется: используйте блок питания 5 В 2,5 А и короткий толстый кабель.</string>

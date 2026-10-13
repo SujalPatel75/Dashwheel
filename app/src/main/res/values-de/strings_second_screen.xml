@@ -34,6 +34,8 @@
     <string name="second_screen_output_video">Bild wird gestreamt · %1$d kbit/s</string>
     <string name="second_screen_output_data">Messwerte werden gesendet; der Bildschirm zeichnet das Kombiinstrument</string>
     <string name="second_screen_program">Programm %1$s</string>
+    <string name="second_screen_by_cable">per Kabel</string>
+    <string name="second_screen_by_wifi">über WLAN</string>
     <string name="second_screen_program_older">Das Programm des Bildschirms ist älter als diese App: Schreiben Sie seine Karte neu.</string>
     <string name="second_screen_program_newer">Das Programm des Bildschirms ist neuer als diese App: Aktualisieren Sie Dashwheel.</string>
     <string name="second_screen_health_under_powered">Die Platine des Bildschirms bekommt zu wenig Strom und wird langsamer: Verwenden Sie ein 5-V-Netzteil mit 2,5 A und ein kurzes, dickes Kabel.</string>

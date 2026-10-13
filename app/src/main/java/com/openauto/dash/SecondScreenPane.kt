@@ -137,7 +137,8 @@ private fun SecondScreenSettings() {
     val (title, detail) = when (val s = state) {
         is DisplayLinkState.Connected -> stringResource(R.string.second_screen_status_connected, s.display.name) to
             (stringResource(R.string.second_screen_size, s.display.width, s.display.height) + " · " +
-                stringResource(R.string.second_screen_program, s.display.appVersion))
+                stringResource(R.string.second_screen_program, s.display.appVersion) + " · " +
+                stringResource(if (s.address == DisplayLink.WIRED_DISPLAY) R.string.second_screen_by_cable else R.string.second_screen_by_wifi))
         DisplayLinkState.Searching -> stringResource(R.string.second_screen_status_searching) to stringResource(R.string.second_screen_status_searching_detail)
         DisplayLinkState.Unpaired -> stringResource(R.string.second_screen_status_unpaired) to stringResource(R.string.second_screen_status_unpaired_detail)
     }

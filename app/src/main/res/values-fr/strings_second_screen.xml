@@ -34,6 +34,8 @@
     <string name="second_screen_output_video">Image diffusée · %1$d kbit/s</string>
     <string name="second_screen_output_data">Envoi des mesures ; l\'écran dessine le combiné</string>
     <string name="second_screen_program">programme %1$s</string>
+    <string name="second_screen_by_cable">par câble</string>
+    <string name="second_screen_by_wifi">par Wi-Fi</string>
     <string name="second_screen_program_older">Le programme de l\'écran est plus ancien que cette appli : réécrivez sa carte.</string>
     <string name="second_screen_program_newer">Le programme de l\'écran est plus récent que cette appli : mettez Dashwheel à jour.</string>
     <string name="second_screen_health_under_powered">La carte de l\'écran manque de courant et ralentit : utilisez une alimentation 5 V 2,5 A et un câble court et épais.</string>
