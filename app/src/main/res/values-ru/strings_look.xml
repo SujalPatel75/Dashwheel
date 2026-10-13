@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="look_family_new">Новые</string>
+    <string name="look_family_scenes">Сцены</string>
+    <string name="look_family_dials">Приборы</string>
+    <string name="look_family_calm">Спокойные</string>
+    <string name="look_family_colours">Только цвета</string>
+    <string name="look_arrange_home">Главный экран как в теме</string>
+    <string name="look_arrange_home_detail">Тема со своим главным экраном расставит на нём свои виджеты, с отменой</string>
+    <string name="look_home_own">Со своим главным экраном</string>
+    <string name="look_home_own_off">Есть свой главный экран. Расстановка выключена.</string>
+    <string name="look_home_keeps">Главный экран не меняется</string>
+</resources>

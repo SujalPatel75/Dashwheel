@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="look_family_new">Új</string>
+    <string name="look_family_scenes">Jelenetek</string>
+    <string name="look_family_dials">Műszerek</string>
+    <string name="look_family_calm">Letisztult</string>
+    <string name="look_family_colours">Csak színek</string>
+    <string name="look_arrange_home">Kezdőlap a téma szerint</string>
+    <string name="look_arrange_home_detail">A saját kezdőlappal érkező téma a kezdőlapra teszi a widgetjeit, visszavonhatóan</string>
+    <string name="look_home_own">Saját kezdőlappal érkezik</string>
+    <string name="look_home_own_off">Saját kezdőlapja van. Az elrendezés ki van kapcsolva.</string>
+    <string name="look_home_keeps">A kezdőlap marad, ahogy van</string>
+</resources>

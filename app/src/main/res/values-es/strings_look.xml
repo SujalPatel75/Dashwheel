@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="look_family_new">Nuevos</string>
+    <string name="look_family_scenes">Escenas</string>
+    <string name="look_family_dials">Relojes</string>
+    <string name="look_family_calm">Tranquilos</string>
+    <string name="look_family_colours">Solo colores</string>
+    <string name="look_arrange_home">Disponer Inicio como el tema</string>
+    <string name="look_arrange_home_detail">Un tema con su propio Inicio pone sus widgets en Inicio, con Deshacer</string>
+    <string name="look_home_own">Trae su propio Inicio</string>
+    <string name="look_home_own_off">Tiene su propio Inicio. Disponer está desactivado.</string>
+    <string name="look_home_keeps">Inicio se queda como está</string>
+</resources>

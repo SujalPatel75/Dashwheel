@@ -744,16 +744,16 @@ private fun deepFieldLabel(field: ObdField): Int = when (field) {
 }
 
 /**
- * What the dashboard looks like: the theme, its day and night, the bottom
- * bar's hiding; under "Show all" the effects, the bar's readouts and the
- * side rail.
+ * What the dashboard looks like: the look in use with the Home it brings and
+ * the looks by family (LookPage.kt), then day and night beside the effects,
+ * and the bottom bar's hiding and size; under "Show all" the bar's readouts
+ * and the side rail.
  */
 @Composable
 private fun LookPane(theme: ThemeState, all: Boolean, onShowAll: (Boolean) -> Unit) {
-    ThemeGallery(theme)
-    Spacer(Modifier.height(20.dp))
-    if (theme.mode == DashThemeMode.CANVAS) CanvasMapSetting()
-    AppearanceSetting(theme)
+    LookPicker(theme)
+    Spacer(Modifier.height(16.dp))
+    LookLightAndEffects(theme)
     Spacer(Modifier.height(20.dp))
     // One "Bottom bar": its auto-hide, then its readouts under the same heading.
     BarAutoHideSetting(theme)
@@ -761,14 +761,11 @@ private fun LookPane(theme: ThemeState, all: Boolean, onShowAll: (Boolean) -> Un
     if (all) {
         BarItemsSetting()
         Spacer(Modifier.height(20.dp))
-        EffectsSetting(theme)
-        Spacer(Modifier.height(20.dp))
         NavigationSetting(theme)
     }
     ShowAllRow(
         all,
         listOf(
-            stringResource(R.string.dash_effects_title),
             stringResource(R.string.bar_items_custom),
             stringResource(R.string.settings_navigation_title)
         ),
