@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Glyph skin -->
+    <string name="glyph_key_map">Karte</string>
+    <string name="glyph_key_map_cd">Navigation öffnen</string>
+    <string name="glyph_key_music">Musik</string>
+    <string name="glyph_key_music_cd">Musik öffnen</string>
+    <string name="glyph_key_phone">Tel</string>
+    <string name="glyph_key_phone_cd">Telefon öffnen</string>
+    <string name="glyph_key_car">Auto</string>
+    <string name="glyph_key_talk">Reden</string>
+    <string name="glyph_key_talk_cd">Mit dem Assistenten reden</string>
+    <string name="glyph_fuel_cd">Kraftstoff %1$d %%</string>
+    <string name="glyph_car_cd">Dein Auto aus Punkten</string>
+    <string name="glyph_my_car">Mein Auto</string>
+    <string name="glyph_live">Live</string>
+    <string name="glyph_door_open">Tür offen</string>
+    <string name="glyph_sunset">Untergang %1$s</string>
+    <string name="glyph_sunrise">Aufgang %1$s</string>
+    <string name="glyph_label_time">Zeit</string>
+    <string name="glyph_label_car">Auto</string>
+    <string name="glyph_label_range">Reichweite</string>
+    <string name="glyph_label_coolant">Kühlmittel %1$s</string>
+    <string name="glyph_label_speed">Tempo %1$s</string>
+    <string name="glyph_label_speed_short">Tempo</string>
+    <string name="glyph_no_speed">Kein Tempo</string>
+    <string name="glyph_label_nav">Navi</string>
+    <string name="glyph_arrival">Ankunft %1$s</string>
+    <string name="glyph_label_audio">Audio</string>
+    <string name="glyph_label_fuel">Kraftstoff</string>
+    <string name="glyph_label_weather">Wetter</string>
+    <string name="glyph_high_low">H %1$d° T %2$d°</string>
+    <string name="glyph_launch_bar_empty">Noch keine Apps. Tippe auf den Stift, um welche hinzuzufügen.</string>
+</resources>
