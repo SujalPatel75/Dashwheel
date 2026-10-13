@@ -86,7 +86,9 @@ internal class CarView(
 internal class CarLook(
     val name: String, val side: CarView?, val top: CarView?, val hero: CarView?,
     /** The car from behind and from the front, where its lamps are seen face on (the Car problems map). */
-    val back: CarView? = null, val front: CarView? = null
+    val back: CarView? = null, val front: CarView? = null,
+    /** The car in 3D (glTF binary) for the Car problems card (Car3D.kt), when the pack brought one. */
+    val model: File? = null
 ) {
     /** The best picture for a tile that shows the car whole: the 3/4 view, else the side. */
     val portrait: CarView? get() = hero ?: side
@@ -98,6 +100,7 @@ internal object MyCarLook {
     private const val KEY_STYLE = "style"
     private const val DIR = "mycar"
     private const val MANIFEST = "look.json"
+    private const val MODEL = "model.glb"
 
     /** The longest side a picture is kept at: sharp on a full-screen tile, light in memory. */
     private const val MAX_SIDE = 1400
@@ -190,7 +193,9 @@ internal object MyCarLook {
     fun importBytes(context: Context, bytes: ByteArray): CarLook {
         setContext(context)
         val isZip = bytes.size > 4 && bytes[0] == 'P'.code.toByte() && bytes[1] == 'K'.code.toByte()
-        val (name, views) = if (isZip) readPack(bytes) else (CarProfileStore.current.name to mapOf("side" to RawView(bytes)))
+        val pack = if (isZip) readPack(bytes) else Pack(CarProfileStore.current.name, mapOf("side" to RawView(bytes)), null)
+        val name = pack.name
+        val views = pack.views
         require(views.isNotEmpty()) { "no picture" }
 
         // Built beside the current one, then swapped in whole: a failed import leaves the old car.
@@ -227,6 +232,10 @@ internal object MyCarLook {
             prepared.outline.recycle()
         }
         require(VIEWS.any { manifest.has(it) }) { "no picture" }
+        pack.model?.let { glb ->
+            File(next, MODEL).writeBytes(glb)
+            manifest.put("model", MODEL)
+        }
         // The ends added by hand ([addView]) stay when the new car brings none of its own.
         val old = runCatching { JSONObject(File(root, MANIFEST).readText()) }.getOrNull()
         for (view in END_VIEWS) {
@@ -249,6 +258,9 @@ internal object MyCarLook {
 
     private class RawPart(val bytes: ByteArray, val box: Rect)
 
+    /** What a pack holds: the car's name, its views and its 3D model (glTF binary), if any. */
+    private class Pack(val name: String, val views: Map<String, RawView>, val model: ByteArray?)
+
     private class RawView(
         val bytes: ByteArray,
         val wheels: List<Offset> = emptyList(),
@@ -270,7 +282,7 @@ internal object MyCarLook {
      * parts with their place on it. Only the files car.json names are read,
      * each at most [MAX_FILE] bytes.
      */
-    private fun readPack(bytes: ByteArray): Pair<String, Map<String, RawView>> {
+    private fun readPack(bytes: ByteArray): Pack {
         val files = HashMap<String, ByteArray>()
         ZipInputStream(ByteArrayInputStream(bytes)).use { zip ->
             var total = 0L
@@ -316,7 +328,10 @@ internal object MyCarLook {
             out[view] = RawView(data, wheels, offset(a?.optJSONArray("nose")), offset(a?.optJSONArray("tail")), parts, lights)
         }
         val name = json.optString("name").ifBlank { CarProfileStore.current.name }
-        return name to out
+        // The 3D model, only when it really is a glTF binary ("glTF" first).
+        val model = json.optString("model").takeIf { it.isNotBlank() }?.let { files[it.substringAfterLast('/')] }
+            ?.takeIf { it.size > 12 && it[0] == 'g'.code.toByte() && it[1] == 'l'.code.toByte() && it[2] == 'T'.code.toByte() && it[3] == 'F'.code.toByte() }
+        return Pack(name, out, model)
     }
 
     /** Decoded no longer than [MAX_SIDE] a side. */
@@ -482,7 +497,8 @@ internal object MyCarLook {
             }
             return CarView(photo.asImageBitmap(), outline.asImageBitmap(), wheels, offset(a.optJSONArray("nose")), offset(a.optJSONArray("tail")), parts, lights)
         }
-        CarLook(manifest.optString("name"), view("side"), view("top"), view("hero"), view("back"), view("front"))
+        val model = File(root, MODEL).takeIf { manifest.has("model") && it.isFile }
+        CarLook(manifest.optString("name"), view("side"), view("top"), view("hero"), view("back"), view("front"), model)
             .takeIf { it.side != null || it.top != null || it.hero != null || it.back != null || it.front != null }
     }.getOrNull()
 

@@ -4,6 +4,10 @@
 # coroutines). The entries below cover the ones that reach into native code or
 # reflection and are not fully covered by consumer rules.
 
+# Filament (Car3D.kt): JNI callbacks into Java by name.
+-keep class com.google.android.filament.** { *; }
+-dontwarn com.google.android.filament.**
+
 # MapLibre GL + navigation: native bridge and Gson-mapped route models.
 -keep class org.maplibre.** { *; }
 -dontwarn org.maplibre.**

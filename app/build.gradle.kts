@@ -85,7 +85,7 @@ android {
             // head unit, so size matters. Keep rules live in proguard-rules.pro.
             isMinifyEnabled = true
             isShrinkResources = true
-            // Head units are ARM. MapLibre otherwise also ships its
+            // Head units are ARM. MapLibre and Filament otherwise also ship their
             // x86 / x86_64 native code (emulators only), tens of MB in every OTA
             // download and in the /system copy. Debug builds keep every ABI.
             ndk {
@@ -200,6 +200,11 @@ dependencies {
     // MapLibre GL — free/open-source map (OpenFreeMap style, no token/API key).
     // Exclude its bundled GeoJSON/Turf so the navigation SDK's newer 7.x ones
     // provide those classes (otherwise duplicate-class build failure).
+    // Filament: the driver's own car live in 3D on the Car problems card (Car3D.kt),
+    // drawn only while it moves.
+    implementation("com.google.android.filament:filament-android:1.71.5")
+    implementation("com.google.android.filament:gltfio-android:1.71.5")
+    implementation("com.google.android.filament:filament-utils-android:1.71.5")
     implementation("org.maplibre.gl:android-sdk:11.11.0") {
         exclude(group = "org.maplibre.gl", module = "android-sdk-geojson")
         exclude(group = "org.maplibre.gl", module = "android-sdk-turf")

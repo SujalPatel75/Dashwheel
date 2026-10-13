@@ -293,6 +293,10 @@
     <string name="car_map_back">Dietro</string>
     <string name="car_map_front">Davanti</string>
     <string name="car_map_top">Sopra</string>
+    <string name="car3d_problem">Problema %1$d</string>
+    <string name="car3d_whole_car">Tutta l\'auto</string>
+    <string name="car3d_drag_hint">Trascina per girare l\'auto</string>
+    <string name="car3d_details">Dettagli</string>
     <string name="mycar_view_back">posteriore</string>
     <string name="mycar_view_front">anteriore</string>
     <string name="mycar_ends_hint">Foto del retro e del davanti, scontornate: il riquadro Problemi dell\'auto vi mostra una lampadina bruciata</string>

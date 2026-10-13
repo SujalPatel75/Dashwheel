@@ -118,11 +118,15 @@ internal fun ObdDtcCard(
     // same number on the car's picture and in the list.
     val messageTexts = carMessages.map { carMessageText(it.code) }
     val codeSerious = if (diagnosis?.severity == Severity.STOP) 2 else 1
-    val mapProblems = remember(carMessages, messageTexts, codes, diagnosis) {
+    // A code's words on the car: what it means (the mechanic's, else the built-in table's) and the code.
+    val codeNames = codes.orEmpty().map { c ->
+        (diagnosis?.codes?.firstOrNull { it.code == c }?.meaning?.ifBlank { null } ?: ObdCodes.describe(c).localizedTitle()) + " · " + c
+    }
+    val mapProblems = remember(carMessages, messageTexts, codes, diagnosis, codeNames) {
         carMessages.mapIndexedNotNull { i, m ->
             CarProblemMap.spotOf(m.code)?.let { spot -> MapProblem(spot, m.serious, messageTexts[i], number = i + 1) }
         } + codes.orEmpty().mapIndexedNotNull { i, code ->
-            CarProblemMap.spotOfCode(code)?.let { spot -> MapProblem(spot, codeSerious, code, number = carMessages.size + i + 1) }
+            CarProblemMap.spotOfCode(code)?.let { spot -> MapProblem(spot, codeSerious, codeNames[i], number = carMessages.size + i + 1) }
         }
     }
     val lamp by ObdBluetoothManager.lamp.collectAsState()
@@ -173,6 +177,12 @@ internal fun ObdDtcCard(
     }
     // A short tile shows the verdict alone; a tap on it opens the whole tile in a sheet.
     var expanded by remember { mutableStateOf(false) }
+    // With the car in 3D: the problem it is turned to (a tap on a row or a chip), by number,
+    // 0 the whole car; at first the most serious one.
+    val in3d = rememberCar3DModel() != null
+    var picked by remember { mutableStateOf<Int?>(null) }
+    val turnedTo = picked?.takeIf { p -> p == 0 || mapProblems.any { it.number == p } }
+        ?: mapProblems.maxByOrNull { it.serious }?.number ?: 0
 
     // The title row, shared by the tile and the sheet ([onClose]: the sheet's).
     val header: @Composable (onClose: (() -> Unit)?) -> Unit = { onClose ->
@@ -208,26 +218,35 @@ internal fun ObdDtcCard(
             Spacer(Modifier.height(10.dp))
         }
         if (mapHeight != null && mapProblems.isNotEmpty()) {
-            CarProblemsMap(mapProblems, Modifier.fillMaxWidth().height(mapHeight))
+            CarProblemsMap(
+                mapProblems, Modifier.fillMaxWidth().height(mapHeight),
+                selected = turnedTo, onSelect = { picked = it }, interactive = !moving
+            )
             Spacer(Modifier.height(12.dp))
         }
         Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
             carMessages.forEachIndexed { i, m ->
+                val number = i + 1
                 ProblemRow(
-                    number = i + 1, serious = m.serious, title = messageTexts[i], detail = null,
-                    source = stringResource(R.string.car_problem_from_car), pending = false, onOpen = null
+                    number = number, serious = m.serious, title = messageTexts[i], detail = null,
+                    source = stringResource(R.string.car_problem_from_car), pending = false, onOpen = null,
+                    selected = in3d && turnedTo == number,
+                    onSelect = if (in3d && mapProblems.any { it.number == number }) ({ picked = number }) else null
                 )
             }
             codes.orEmpty().forEachIndexed { index, code ->
                 val advice = adviceFor(diagnosis, codes.orEmpty(), code, index)
                 val builtIn = remember(code) { ObdCodes.describe(code) }
+                val number = carMessages.size + index + 1
                 ProblemRow(
-                    number = carMessages.size + index + 1, serious = codeSerious,
+                    number = number, serious = codeSerious,
                     title = (advice?.meaning?.ifBlank { null } ?: builtIn.localizedTitle()) + " · " + code,
                     detail = advice?.checkFirst?.ifBlank { null }?.let { aiText.getString(R.string.ai_check_first, it) } ?: builtIn.localizedFix(),
                     source = stringResource(R.string.car_problem_from_code) + if (advice != null) "\n" + stringResource(R.string.car_problem_with_ai) else "",
                     pending = code in pending,
-                    onOpen = if (advice != null) ({ opened = code }) else null
+                    onOpen = if (advice != null) ({ opened = code }) else null,
+                    selected = in3d && turnedTo == number,
+                    onSelect = if (in3d && mapProblems.any { it.number == number }) ({ picked = number }) else null
                 )
             }
         }
@@ -544,7 +563,13 @@ private fun VerdictBanner(verdict: CarVerdict, count: Int, lampOn: Boolean) {
  * the mechanic explained opens its detail sheet ([onOpen]).
  */
 @Composable
-private fun ProblemRow(number: Int, serious: Int, title: String, detail: String?, source: String, pending: Boolean, onOpen: (() -> Unit)?) {
+private fun ProblemRow(
+    number: Int, serious: Int, title: String, detail: String?, source: String, pending: Boolean, onOpen: (() -> Unit)?,
+    /** The car in 3D is turned to it. */
+    selected: Boolean = false,
+    /** Turns the car in 3D to it; the details then open from the arrow alone. */
+    onSelect: (() -> Unit)? = null
+) {
     val colour = when (serious) { 2 -> DashColors.Critical; 1 -> DashColors.Warning; else -> DashColors.TextSecondary }
     val content: @Composable () -> Unit = { BoxWithConstraints {
         // A narrow tile gives the problem's words the whole row: where it comes from can go.
@@ -570,17 +595,24 @@ private fun ProblemRow(number: Int, serious: Int, title: String, detail: String?
                     textAlign = androidx.compose.ui.text.style.TextAlign.End
                 )
             }
-            if (onOpen != null) {
+            if (onOpen != null && onSelect != null) {
+                Spacer(Modifier.width(4.dp))
+                IconButton(onClick = onOpen) {
+                    Icon(Icons.Filled.ChevronRight, contentDescription = stringResource(R.string.car3d_details), tint = DashColors.Accent)
+                }
+            } else if (onOpen != null) {
                 Spacer(Modifier.width(4.dp))
                 Icon(Icons.Filled.ChevronRight, contentDescription = null, tint = DashColors.Accent)
             }
         }
     } }
     val color = DashColors.CardHi.copy(alpha = DashColors.CardHi.alpha * 0.6f)
-    if (onOpen != null) {
-        Surface(onClick = onOpen, shape = DashShape.Medium, color = color, modifier = Modifier.fillMaxWidth()) { content() }
+    val ring = if (selected) Modifier.border(1.5.dp, colour, DashShape.Medium) else Modifier
+    val tap = onSelect ?: onOpen
+    if (tap != null) {
+        Surface(onClick = tap, shape = DashShape.Medium, color = color, modifier = Modifier.fillMaxWidth().then(ring)) { content() }
     } else {
-        Surface(shape = DashShape.Medium, color = color, modifier = Modifier.fillMaxWidth()) { content() }
+        Surface(shape = DashShape.Medium, color = color, modifier = Modifier.fillMaxWidth().then(ring)) { content() }
     }
 }
 

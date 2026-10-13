@@ -293,6 +293,10 @@
     <string name="car_map_back">Arrière</string>
     <string name="car_map_front">Avant</string>
     <string name="car_map_top">Dessus</string>
+    <string name="car3d_problem">Problème %1$d</string>
+    <string name="car3d_whole_car">Toute la voiture</string>
+    <string name="car3d_drag_hint">Glissez pour tourner la voiture</string>
+    <string name="car3d_details">Détails</string>
     <string name="mycar_view_back">arrière</string>
     <string name="mycar_view_front">avant</string>
     <string name="mycar_ends_hint">Photos de l\'arrière et de l\'avant, détourées : la tuile Problèmes de la voiture y montre une ampoule grillée</string>

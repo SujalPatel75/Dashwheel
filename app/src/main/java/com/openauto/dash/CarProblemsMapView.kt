@@ -59,10 +59,27 @@ internal data class MapProblem(val spot: CarSpot, val serious: Int, val label: S
  * serious view alone, plain marks.
  */
 @Composable
-internal fun CarProblemsMap(problems: List<MapProblem>, modifier: Modifier = Modifier, compact: Boolean = false) {
+internal fun CarProblemsMap(
+    problems: List<MapProblem>,
+    modifier: Modifier = Modifier,
+    compact: Boolean = false,
+    /** With the car in 3D: the problem it turns to, by number (0: the whole car). */
+    selected: Int = 0,
+    onSelect: (Int) -> Unit = {},
+    /** With the car in 3D: a finger may turn it (parked). */
+    interactive: Boolean = false
+) {
     val mine by MyCarLook.shown.collectAsState()
     val style by MyCarLook.style.collectAsState()
     val car by CarProfileStore.profile.collectAsState()
+    val model = rememberCar3DModel()
+    if (!compact && model != null && problems.isNotEmpty()) {
+        val in3d = remember(problems, car.driverOnRight) {
+            problems.filter { it.number > 0 }.map { Problem3D(it.number, Car3DSpots.of(it.spot, car.driverOnRight), it.label, it.serious) }
+        }
+        Car3DProblems(model, in3d, in3d.firstOrNull { it.number == selected }, interactive, { onSelect(it ?: 0) }, modifier)
+        return
+    }
     val top = mine?.top
     val back = mine?.back?.takeIf { it.lights.size == 2 }
     val front = mine?.front?.takeIf { it.lights.size == 2 }

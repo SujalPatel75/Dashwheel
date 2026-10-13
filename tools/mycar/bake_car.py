@@ -18,6 +18,14 @@ Options after "--":
     --keep-world        keep the .blend's own world, lights and exposure (a model that
                         brings its own sky for realistic reflections) instead of the
                         plain studio
+    --live FILE.glb     a light copy of the car for the app to show live in 3D (the Car
+                        problems card turns it to each problem), put in the pack as
+                        model.glb. Nose to +x in glTF, under ~100k triangles, plain PBR
+                        materials. Name its parts so the app can find them: Lamp_tail_l,
+                        Lamp_tail_r, Lamp_head_l, Lamp_head_r, Wheel_fl/fr/rl/rr,
+                        Door_fl/fr/rl/rr, Tailgate, and the empties they turn on:
+                        Hinge_door_fl/fr/rl/rr (about the vertical), Hinge_tailgate and
+                        Hinge_bonnet (about the car's width)
 
 The pack is a zip: car.json, side.png (nose to the right), top.png (nose up),
 hero.png (three-quarter front), back.png and front.png (seen from each end, for
@@ -46,7 +54,7 @@ def args():
     argv = sys.argv[sys.argv.index("--") + 1:] if "--" in sys.argv else []
     if not argv:
         sys.exit("usage: blender -b model.blend --python bake_car.py -- out.dwcar [--model f] [--nose +x] [--hide a,b] [--name n]")
-    opts = {"out": argv[0], "model": None, "nose": "+x", "hide": [], "name": "", "keep_world": False}
+    opts = {"out": argv[0], "model": None, "nose": "+x", "hide": [], "name": "", "keep_world": False, "live": None}
     i = 1
     while i < len(argv):
         key = argv[i].lstrip("-")
@@ -311,10 +319,14 @@ def main():
         "views": {v: v + ".png" for v in VIEWS},
         "anchors": anchors,
     }
+    if o["live"]:
+        car["model"] = "model.glb"
     with zipfile.ZipFile(o["out"], "w", zipfile.ZIP_DEFLATED) as z:
         z.writestr("car.json", json.dumps(car, indent=1))
         for v in VIEWS:
             z.write(os.path.join(tmp, v + ".png"), v + ".png")
+        if o["live"]:
+            z.write(o["live"], "model.glb")
     print("BAKED", os.path.abspath(o["out"]), "wheels found" if wheels else "no wheels found",
           "tail lamps found" if "lights" in back else "no tail lamps found",
           "headlights found" if "lights" in front else "no headlights found")

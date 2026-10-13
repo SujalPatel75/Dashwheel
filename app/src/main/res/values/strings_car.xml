@@ -291,6 +291,10 @@
     <string name="car_map_back">Rear</string>
     <string name="car_map_front">Front</string>
     <string name="car_map_top">Above</string>
+    <string name="car3d_problem">Problem %1$d</string>
+    <string name="car3d_whole_car">Whole car</string>
+    <string name="car3d_drag_hint">Drag to turn the car</string>
+    <string name="car3d_details">Details</string>
     <string name="mycar_view_back">rear</string>
     <string name="mycar_view_front">front</string>
     <string name="mycar_ends_hint">Photos of the rear and the front, cut out: the Car problems tile shows a broken lamp on them</string>
