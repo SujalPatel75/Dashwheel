@@ -87,4 +87,23 @@ class VideoSinkTest {
         video.feed(key)
         assertEquals(1, sinks.last().written.size)
     }
+
+    @Test
+    fun framesLostWaitingAfterAFullDecoderAreTheDecodersToo() {
+        val sink = FakeSink(room = 2)
+        val video = VideoSink(start = { sink }, requestKeyFrame = {})
+        video.configure(config())
+        video.feed(key)
+        video.feed(delta)
+        video.feed(delta) // the decoder is full
+        sink.room = 10
+        video.feed(delta) // waiting for a key frame: still the board's fault, not the link's
+        video.feed(delta)
+        assertEquals(VideoSink.Stats(shown = 2, dropped = 3, droppedLate = 3, bytes = 30L), video.takeStats())
+        video.feed(key)
+        // Joined mid-stream later: those are the link's again.
+        video.configure(config())
+        video.feed(delta)
+        assertEquals(VideoSink.Stats(shown = 1, dropped = 1, droppedLate = 0, bytes = 12L), video.takeStats())
+    }
 }

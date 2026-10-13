@@ -30,6 +30,11 @@ class VideoSink(
     private var sink: Sink? = null
     private var csd = ByteArray(0)
     private var waitingForKey = true
+    /**
+     * The wait for a key frame began with a frame the decoder had no room for: the
+     * frames dropped until the key frame are this board's fault too, not the link's.
+     */
+    private var waitIsLate = false
 
     private var shown = 0
     private var dropped = 0
@@ -41,6 +46,7 @@ class VideoSink(
     fun configure(config: VideoConfig) {
         csd = runCatching { Base64.getDecoder().decode(config.csd) }.getOrDefault(ByteArray(0))
         waitingForKey = true
+        waitIsLate = false
     }
 
     /** Starts the decoder ahead of the first packet: it takes a couple of seconds on a Pi 3. */
@@ -73,6 +79,7 @@ class VideoSink(
         }
         // Not started yet, or the decoder died: start afresh from a key frame.
         waitingForKey = true
+        waitIsLate = false
         if (dead != null) requestKeyFrame()
         log("video: decoder starting")
         startedAt = now
@@ -90,16 +97,19 @@ class VideoSink(
             if (!packet.keyFrame) {
                 // Joined mid-stream or lost a frame: ask rather than wait out the key-frame interval.
                 dropped++
+                if (waitIsLate) droppedLate++
                 requestKeyFrame()
                 return
             }
             if (!running.offer(csd + packet.data)) {
                 dropped++
                 droppedLate++
+                waitIsLate = true
                 requestKeyFrame()
                 return
             }
             waitingForKey = false
+            waitIsLate = false
             log("video: key frame, decoding")
             shown++
             return
@@ -112,6 +122,7 @@ class VideoSink(
             dropped++
             droppedLate++
             waitingForKey = true
+            waitIsLate = true
             requestKeyFrame()
         }
     }
@@ -127,6 +138,7 @@ class VideoSink(
         buried = null
         quickDeaths = 0
         waitingForKey = true
+        waitIsLate = false
     }
 
     companion object {
