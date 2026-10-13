@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Brutal skin -->
+    <string name="brutal_talk">Praten</string>
+    <string name="brutal_talk_cd">Praat met de assistent</string>
+    <string name="brutal_next_turn">Volgende afslag</string>
+    <string name="brutal_speed">Snelheid %1$s</string>
+    <string name="brutal_limit">Limiet</string>
+    <string name="brutal_weather">Weer</string>
+    <string name="brutal_rain">Regen</string>
+    <string name="brutal_rain_from">Vanaf %1$s</string>
+    <string name="brutal_rain_until">Tot %1$s</string>
+    <string name="brutal_feels">Voelt als %1$s</string>
+    <string name="brutal_now_playing">Speelt nu</string>
+    <string name="brutal_range">Bereik</string>
+    <string name="brutal_coolant">Koelvloeistof</string>
+    <string name="brutal_fuel">Brandstof</string>
+    <string name="brutal_outside">Buiten</string>
+    <string name="brutal_battery">Accu</string>
+    <string name="brutal_all_good">Alles goed</string>
+    <string name="brutal_check_car">Check de auto</string>
+</resources>
