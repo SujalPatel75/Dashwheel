@@ -18,8 +18,9 @@ internal class RadioStations {
     private val byApp = HashMap<String, String>()
 
     /**
-     * Notes what [app] plays now; the station's name when [title] is a song
-     * on it, else empty (a station naming itself, a track with a length).
+     * Notes what [app] plays now; the station's name, held from the moment it
+     * names itself to the next one (empty for a track with a length, or a
+     * song with no station known).
      */
     fun note(app: String, title: String, artist: String, album: String = "", live: Boolean): String {
         if (!live || title.isBlank()) return ""
@@ -29,7 +30,7 @@ internal class RadioStations {
         val song = (a.isNotEmpty() && !a.equals(t, ignoreCase = true)) || SONG.containsMatchIn(t)
         if (!song) {
             byApp[app] = t
-            return ""
+            return t
         }
         val known = byApp[app]
         val station = when {

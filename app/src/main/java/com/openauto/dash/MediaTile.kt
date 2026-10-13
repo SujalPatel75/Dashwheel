@@ -170,12 +170,18 @@ internal fun MediaCard(
                             )
                             Spacer(Modifier.width(6.dp))
                         }
+                        // A radio's station, held on this line for as long as it plays; else what the player does.
+                        val station = mediaState.station
                         Text(
-                            text = stringResource(if (!mediaState.isPlaying && mediaState.hasMedia && mediaState.title.isNotBlank()) R.string.info_paused else R.string.info_now_playing),
+                            text = station.ifEmpty {
+                                stringResource(if (!mediaState.isPlaying && mediaState.hasMedia && mediaState.title.isNotBlank()) R.string.info_paused else R.string.info_now_playing)
+                            },
                             color = DashColors.AccentInk,
-                            style = MaterialTheme.typography.labelSmall,
+                            style = if (station.isNotEmpty()) MaterialTheme.typography.labelLarge else MaterialTheme.typography.labelSmall,
                             fontWeight = FontWeight.Bold,
-                            letterSpacing = 1.5.sp
+                            letterSpacing = if (station.isNotEmpty()) 0.5.sp else 1.5.sp,
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis
                         )
                     }
                     Spacer(Modifier.height(2.dp))
@@ -193,11 +199,18 @@ internal fun MediaCard(
                     )
                     val tapToEnable = stringResource(R.string.info_media_tap_to_enable)
                     Text(
-                        text = mediaState.artist.ifBlank { if (hasAccess) "\u2014" else tapToEnable },
+                        // The station is on its own line above: not again after the artist. On a radio's own
+                        // text the artist field is the station, and the line stays empty.
+                        text = if (mediaState.station.isNotEmpty()) {
+                            mediaState.artist.removeSuffix(" · " + mediaState.station).takeUnless { it == mediaState.station }.orEmpty()
+                        } else {
+                            mediaState.artist.ifBlank { if (hasAccess) "\u2014" else tapToEnable }
+                        },
                         color = DashColors.TextSecondary,
+                        fontWeight = FontWeight.SemiBold,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
-                        style = MaterialTheme.typography.bodyMedium
+                        style = MaterialTheme.typography.bodyLarge
                     )
                 }
             }
