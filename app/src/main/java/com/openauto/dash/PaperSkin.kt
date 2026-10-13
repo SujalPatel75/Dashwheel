@@ -31,6 +31,8 @@ internal val PaperLightPalette = DashPalette(
     Accent = Color(0xFF141414), Secondary = Color(0xFF444444), Critical = Color(0xFFC62828), Good = Color(0xFF0E8A55),
     Muted = Color(0xFF55564F), TextPrimary = Color(0xFF141414), TextSecondary = Color(0xFF33342F),
     Accent2 = Color(0xFF141414), Line = Color(0xFF141414), Glow = 0f, Bare = true, Light = true,
+    // The standard day amber is too pale on this grey paper: a deeper one, still amber.
+    Tacho = Color(0xFF9A5B00),
     BackgroundStops = listOf(Color(0xFFCFD0C8), Color(0xFFCFD0C8)),
     Font = DashFont.SANS,
     HeroWeight = FontWeight.Bold,
