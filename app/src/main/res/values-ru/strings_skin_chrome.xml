@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Chrome skin -->
+    <string name="chrome_talk_cd">Поговорить с ассистентом</string>
+    <string name="chrome_navigation">Навигация</string>
+    <string name="chrome_left_in">Налево через</string>
+    <string name="chrome_right_in">Направо через</string>
+    <string name="chrome_next_in">Поворот через</string>
+    <string name="chrome_arrival">Прибытие</string>
+    <string name="chrome_to_go">Осталось</string>
+    <string name="chrome_limit">Лимит %1$d</string>
+    <string name="chrome_range">Запас хода</string>
+    <string name="chrome_fuel">Топливо</string>
+    <string name="chrome_revs">Обороты</string>
+    <string name="chrome_coolant">Охлаждение</string>
+    <string name="chrome_battery">Аккумулятор</string>
+    <string name="chrome_load">Нагрузка</string>
+    <string name="chrome_engine">Двигатель</string>
+    <string name="chrome_weather">Погода</string>
+    <string name="chrome_launch_bar_empty">Пока нет приложений. Нажмите карандаш, чтобы добавить.</string>
+</resources>

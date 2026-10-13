@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Chrome skin -->
+    <string name="chrome_talk_cd">Parler à l\'assistant</string>
+    <string name="chrome_navigation">Navigation</string>
+    <string name="chrome_left_in">À gauche dans</string>
+    <string name="chrome_right_in">À droite dans</string>
+    <string name="chrome_next_in">Prochaine étape dans</string>
+    <string name="chrome_arrival">Arrivée</string>
+    <string name="chrome_to_go">Reste</string>
+    <string name="chrome_limit">Limite %1$d</string>
+    <string name="chrome_range">Autonomie</string>
+    <string name="chrome_fuel">Carburant</string>
+    <string name="chrome_revs">Régime</string>
+    <string name="chrome_coolant">Refroidissement</string>
+    <string name="chrome_battery">Batterie</string>
+    <string name="chrome_load">Charge</string>
+    <string name="chrome_engine">Moteur</string>
+    <string name="chrome_weather">Météo</string>
+    <string name="chrome_launch_bar_empty">Pas encore d\'apps. Touchez le crayon pour en ajouter.</string>
+</resources>
