@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Spatial skin -->
+    <string name="spatial_talk_cd">Praat met de assistent</string>
+    <string name="spatial_rain_from">regen vanaf %1$s</string>
+    <string name="spatial_rain_until">regen tot %1$s</string>
+    <string name="spatial_arrival">Aankomst %1$s</string>
+    <string name="spatial_tab_turn">Afslag</string>
+    <string name="spatial_tab_arrival">Aankomst</string>
+    <string name="spatial_tab_fuel">Brandstof</string>
+    <string name="spatial_range">Bereik</string>
+    <string name="spatial_fuel_enough">Genoeg brandstof om er te komen</string>
+    <string name="spatial_fuel_short">Tank voor je aankomt</string>
+    <string name="spatial_speed_limit_cd">Snelheidslimiet %1$d</string>
+    <string name="spatial_rpm">tpm</string>
+    <string name="spatial_coolant">Koelvloeistof</string>
+    <string name="spatial_battery">Accu</string>
+    <string name="spatial_load">Belasting</string>
+    <string name="spatial_launch_bar_empty">Nog geen apps. Tik op het potlood om ze toe te voegen.</string>
+</resources>

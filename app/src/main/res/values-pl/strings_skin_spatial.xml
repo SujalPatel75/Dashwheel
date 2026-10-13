@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Spatial skin -->
+    <string name="spatial_talk_cd">Porozmawiaj z asystentem</string>
+    <string name="spatial_rain_from">deszcz od %1$s</string>
+    <string name="spatial_rain_until">deszcz do %1$s</string>
+    <string name="spatial_arrival">Przyjazd %1$s</string>
+    <string name="spatial_tab_turn">Skręt</string>
+    <string name="spatial_tab_arrival">Przyjazd</string>
+    <string name="spatial_tab_fuel">Paliwo</string>
+    <string name="spatial_range">Zasięg</string>
+    <string name="spatial_fuel_enough">Paliwa wystarczy do celu</string>
+    <string name="spatial_fuel_short">Zatankuj przed dojazdem</string>
+    <string name="spatial_speed_limit_cd">Ograniczenie prędkości %1$d</string>
+    <string name="spatial_rpm">obr/min</string>
+    <string name="spatial_coolant">Płyn chłodzący</string>
+    <string name="spatial_battery">Akumulator</string>
+    <string name="spatial_load">Obciążenie</string>
+    <string name="spatial_launch_bar_empty">Brak aplikacji. Dotknij ołówka, aby dodać.</string>
+</resources>

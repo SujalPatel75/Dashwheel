@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Spatial skin -->
+    <string name="spatial_talk_cd">Поговорить с ассистентом</string>
+    <string name="spatial_rain_from">дождь с %1$s</string>
+    <string name="spatial_rain_until">дождь до %1$s</string>
+    <string name="spatial_arrival">Прибытие %1$s</string>
+    <string name="spatial_tab_turn">Поворот</string>
+    <string name="spatial_tab_arrival">Прибытие</string>
+    <string name="spatial_tab_fuel">Топливо</string>
+    <string name="spatial_range">Запас хода</string>
+    <string name="spatial_fuel_enough">Топлива хватит до места</string>
+    <string name="spatial_fuel_short">Заправьтесь до прибытия</string>
+    <string name="spatial_speed_limit_cd">Ограничение скорости %1$d</string>
+    <string name="spatial_rpm">об/мин</string>
+    <string name="spatial_coolant">Охлаждающая жидкость</string>
+    <string name="spatial_battery">Аккумулятор</string>
+    <string name="spatial_load">Нагрузка</string>
+    <string name="spatial_launch_bar_empty">Приложений пока нет. Нажмите на карандаш, чтобы добавить.</string>
+</resources>
