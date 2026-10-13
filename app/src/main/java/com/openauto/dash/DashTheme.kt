@@ -57,7 +57,14 @@ enum class DashThemeMode(@StringRes val titleRes: Int, @StringRes val descriptio
     KINETIC(R.string.dash_theme_kinetic, R.string.dash_theme_kinetic_desc),
     GLYPH(R.string.dash_theme_glyph, R.string.dash_theme_glyph_desc),
     WINDSHIELD(R.string.dash_theme_windshield, R.string.dash_theme_windshield_desc),
-    TERRAIN(R.string.dash_theme_terrain, R.string.dash_theme_terrain_desc)
+    TERRAIN(R.string.dash_theme_terrain, R.string.dash_theme_terrain_desc),
+    // The 2026-10-13 looks that need no car picture (D:/dashwheel-design/v17-no-car).
+    AMBIENT(R.string.dash_theme_ambient, R.string.dash_theme_ambient_desc),
+    BRUTAL(R.string.dash_theme_brutal, R.string.dash_theme_brutal_desc),
+    CLAY(R.string.dash_theme_clay, R.string.dash_theme_clay_desc),
+    CHROME(R.string.dash_theme_chrome, R.string.dash_theme_chrome_desc),
+    SPATIAL(R.string.dash_theme_spatial, R.string.dash_theme_spatial_desc),
+    PAPER(R.string.dash_theme_paper, R.string.dash_theme_paper_desc)
 }
 
 /** Dark or light version of the theme; [AUTO] follows the car's day/night mode. */
@@ -83,7 +90,7 @@ enum class DashEffects(@StringRes val titleRes: Int, @StringRes val hintRes: Int
  * background, top bar and renderers for the main widgets (see Skins.kt).
  * [STANDARD] is every colour-only theme.
  */
-enum class DashSkin { STANDARD, ORBIT, COCKPIT, HORIZON, TAPE_DECK, CANVAS, FUTURISTIC, SIMPLE, MODERN, MOTORSPORT, ANIME, RACING, PANORAMA, LIQUID, EXPRESSIVE, KINETIC, GLYPH, WINDSHIELD, TERRAIN }
+enum class DashSkin { STANDARD, ORBIT, COCKPIT, HORIZON, TAPE_DECK, CANVAS, FUTURISTIC, SIMPLE, MODERN, MOTORSPORT, ANIME, RACING, PANORAMA, LIQUID, EXPRESSIVE, KINETIC, GLYPH, WINDSHIELD, TERRAIN, AMBIENT, BRUTAL, CLAY, CHROME, SPATIAL, PAPER }
 
 /**
  * Colours plus a few style knobs for one dashboard theme.
@@ -681,6 +688,12 @@ internal fun paletteFor(mode: DashThemeMode, light: Boolean): DashPalette = when
     DashThemeMode.GLYPH -> if (light) GlyphLightPalette else GlyphPalette
     DashThemeMode.WINDSHIELD -> if (light) WindshieldLightPalette else WindshieldPalette
     DashThemeMode.TERRAIN -> if (light) TerrainLightPalette else TerrainPalette
+    DashThemeMode.AMBIENT -> if (light) AmbientLightPalette else AmbientPalette
+    DashThemeMode.BRUTAL -> if (light) BrutalLightPalette else BrutalPalette
+    DashThemeMode.CLAY -> if (light) ClayLightPalette else ClayPalette
+    DashThemeMode.CHROME -> if (light) ChromeLightPalette else ChromePalette
+    DashThemeMode.SPATIAL -> if (light) SpatialLightPalette else SpatialPalette
+    DashThemeMode.PAPER -> if (light) PaperLightPalette else PaperPalette
 }
 
 /**
