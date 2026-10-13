@@ -68,6 +68,20 @@ class RadioStationsTest {
     }
 
     @Test
+    fun dabZKeepsTheStationWhenTheSongGetsALength() {
+        // Tester's unit, 2026-10-13: the station showed for 28 s, then went when DAB-Z gave the song a length.
+        val r = RadioStations()
+        val app = "com.zoulou.dab"
+        assertEquals("Center Slo", r.note(app, "Center Slo", "Center Slo", "SLO DAB+ R1", live = true))
+        assertEquals("Center Slo", r.note(app, "DIOR", "MK & CHRYSTAL", "Center Slo - SLO DAB+ R1", live = true))
+        assertEquals("Center Slo", r.note(app, "DIOR", "MK & CHRYSTAL", "Center Slo - SLO DAB+ R1", live = false))
+        // A track with a length that doesn't name the station: no radio.
+        assertEquals("", r.note(app, "So What", "Miles Davis", "Kind of Blue", live = false))
+        // An app that never named a station.
+        assertEquals("", r.note("music", "DIOR", "MK & CHRYSTAL", "Center Slo - SLO DAB+ R1", live = false))
+    }
+
+    @Test
     fun theStationGoesAfterTheArtistOnce() {
         val song = MediaState(title = "DAI DAI", artist = "SHAKIRA IN BURNA BOY", station = "Radio Si")
         assertEquals("SHAKIRA IN BURNA BOY · Radio Si", withStation(song).artist)
@@ -75,5 +89,12 @@ class RadioStationsTest {
         val text = MediaState(title = "Your Home of Music", artist = "Radio Si", station = "Radio Si")
         assertEquals("Radio Si", withStation(text).artist)
         assertEquals("Radio Si", withStation(MediaState(title = "x", artist = "", station = "Radio Si")).artist)
+    }
+
+    @Test
+    fun theStationLineAboveTakesItOffTheArtist() {
+        assertEquals("SHAKIRA IN BURNA BOY", artistBesideStation(withStation(MediaState(title = "DAI DAI", artist = "SHAKIRA IN BURNA BOY", station = "Radio Si"))))
+        // The radio text, the station as the artist: nothing under the song.
+        assertEquals("", artistBesideStation(withStation(MediaState(title = "Your Home of Music", artist = "Radio Si", station = "Radio Si"))))
     }
 }

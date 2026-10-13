@@ -199,10 +199,9 @@ internal fun MediaCard(
                     )
                     val tapToEnable = stringResource(R.string.info_media_tap_to_enable)
                     Text(
-                        // The station is on its own line above: not again after the artist. On a radio's own
-                        // text the artist field is the station, and the line stays empty.
+                        // The station is on its own line above: not again after the artist.
                         text = if (mediaState.station.isNotEmpty()) {
-                            mediaState.artist.removeSuffix(" · " + mediaState.station).takeUnless { it == mediaState.station }.orEmpty()
+                            artistBesideStation(mediaState)
                         } else {
                             mediaState.artist.ifBlank { if (hasAccess) "\u2014" else tapToEnable }
                         },

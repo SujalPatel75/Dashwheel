@@ -23,10 +23,17 @@ internal class RadioStations {
      * song with no station known).
      */
     fun note(app: String, title: String, artist: String, album: String = "", live: Boolean): String {
-        if (!live || title.isBlank()) return ""
+        if (title.isBlank()) return ""
         val t = title.trim()
         val a = artist.trim()
         val b = album.trim()
+        if (!live) {
+            // DAB-Z gives a song a length some 28 s after it starts: still the radio while the
+            // album or the artist names the station it tuned. Any other track is no radio.
+            val known = byApp[app] ?: return ""
+            val still = b.startsWith(known, ignoreCase = true) || a.equals(known, ignoreCase = true)
+            return known.takeIf { still && !t.contains(it, ignoreCase = true) }.orEmpty()
+        }
         val song = (a.isNotEmpty() && !a.equals(t, ignoreCase = true)) || SONG.containsMatchIn(t)
         if (!song) {
             byApp[app] = t

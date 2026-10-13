@@ -105,6 +105,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -137,6 +138,7 @@ import com.openauto.dash.link.PhoneAbilities
 import com.openauto.dash.link.TypeText
 import java.text.DateFormat
 import java.util.Date
+import kotlinx.coroutines.launch
 
 /**
  * The companion's only screen: is the car connected, what still needs
@@ -280,8 +282,10 @@ private fun CompanionScreen(resumes: Int, offer: PairingOffer?, onScanned: (Stri
     }
     // ...and so does the car from a 3D model.
     var fromModel by rememberSaveable { mutableStateOf(false) }
+    // Opened with a model chosen through "Choose a file" ([CarLookCard]).
+    var modelChosen by rememberSaveable { mutableStateOf(false) }
     if (fromModel) {
-        CarFromModelScreen(connected, onClose = { fromModel = false })
+        CarFromModelScreen(connected, onClose = { fromModel = false; modelChosen = false }, newModel = modelChosen)
         return
     }
 
@@ -373,7 +377,12 @@ private fun CompanionScreen(resumes: Int, offer: PairingOffer?, onScanned: (Stri
                 Tab.CAR -> {
                     item { SectionTitle(stringResource(R.string.tab_car), top = 2.dp) }
                     item { ObdRelayCard(onPick = { pick(BluetoothPick.OBD) }) }
-                    item { CarLookCard(connected, onFromPhotos = { fromPhotos = true }, onFromModel = { fromModel = true }) }
+                    item {
+                        CarLookCard(
+                            connected, onFromPhotos = { fromPhotos = true }, onFromModel = { fromModel = true },
+                            onModelChosen = { modelChosen = true; fromModel = true }
+                        )
+                    }
                     item { RegistrationCard(connected) }
                     item { SectionTitle(stringResource(R.string.cars_title)) }
                     items(units, key = { it.id }) { unit -> CarRow(unit, onRemove = { removing = unit }) }
@@ -872,11 +881,20 @@ private fun CarSpotCard() {
  */
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-private fun CarLookCard(connected: Boolean, onFromPhotos: () -> Unit, onFromModel: () -> Unit) {
+private fun CarLookCard(connected: Boolean, onFromPhotos: () -> Unit, onFromModel: () -> Unit, onModelChosen: () -> Unit) {
     val context = LocalContext.current
+    val scope = rememberCoroutineScope()
     val status by CarLookSender.status.collectAsState()
     val choose = rememberLauncherForActivityResult(ActivityResultContracts.OpenDocument()) { uri ->
-        if (uri != null) CarLookSender.send(context, uri)
+        if (uri == null) return@rememberLauncherForActivityResult
+        // A 3D model is drawn into the car's pictures first, not sent as it is.
+        scope.launch {
+            when (keepIfModel(context, uri)) {
+                true -> onModelChosen()
+                false -> Toast.makeText(context, R.string.car_model_unreadable, Toast.LENGTH_LONG).show()
+                null -> CarLookSender.send(context, uri)
+            }
+        }
     }
     val line = when {
         status == CarLookSender.Status.SENDING -> stringResource(R.string.car_look_sending)
@@ -903,7 +921,7 @@ private fun CarLookCard(connected: Boolean, onFromPhotos: () -> Unit, onFromMode
                 Button(onClick = onFromPhotos) { Text(stringResource(R.string.car_photos_open)) }
                 Button(onClick = onFromModel) { Text(stringResource(R.string.car_model_open)) }
                 OutlinedButton(
-                    onClick = { choose.launch(arrayOf("image/*", "application/zip", "application/octet-stream")) },
+                    onClick = { choose.launch(arrayOf("image/*", "application/zip", "application/octet-stream", "model/*")) },
                     enabled = connected && status != CarLookSender.Status.SENDING
                 ) { Text(stringResource(R.string.car_look_choose)) }
             }

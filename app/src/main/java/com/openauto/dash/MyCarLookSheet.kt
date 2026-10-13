@@ -58,13 +58,18 @@ internal fun MyCarLookSheet(onDismiss: () -> Unit) {
     val scope = rememberCoroutineScope()
     val ready = stringResource(R.string.mycar_ready)
     val failed = stringResource(R.string.mycar_failed)
+    val modelOnPhone = stringResource(R.string.mycar_model_on_phone)
 
     fun import(read: () -> Result<CarLook>) {
         busy = true
         scope.launch {
             val result = withContext(Dispatchers.IO) { read() }
             busy = false
-            Toast.makeText(context, if (result.isSuccess) ready else failed, Toast.LENGTH_SHORT).show()
+            when {
+                result.isSuccess -> Toast.makeText(context, ready, Toast.LENGTH_SHORT).show()
+                result.exceptionOrNull() is MyCarLook.ModelOnPhone -> Toast.makeText(context, modelOnPhone, Toast.LENGTH_LONG).show()
+                else -> Toast.makeText(context, failed, Toast.LENGTH_SHORT).show()
+            }
         }
     }
 
@@ -104,7 +109,7 @@ internal fun MyCarLookSheet(onDismiss: () -> Unit) {
     }
     val pick = {
         try {
-            open.launch(arrayOf("image/*", "application/zip", "application/octet-stream"))
+            open.launch(arrayOf("image/*", "application/zip", "application/octet-stream", "model/*"))
         } catch (e: ActivityNotFoundException) {
             // No file picker on this unit: a fixed file in the app's own folder.
             val file = MyCarLook.fallbackFile(context)

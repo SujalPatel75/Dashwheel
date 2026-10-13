@@ -8,6 +8,7 @@
     <string name="mycar_working">Przygotowywanie</string>
     <string name="mycar_ready">Obraz twojego auta jest gotowy</string>
     <string name="mycar_failed">Nie udało się odczytać obrazu. Spróbuj JPG lub PNG.</string>
+    <string name="mycar_model_on_phone">Model 3D zamienia się w Twoje auto na telefonie: w Dashwheel Companion, karta Auto, Z modelu 3D.</string>
     <string name="mycar_no_picker">Brak wyboru plików w tym urządzeniu. Umieść plik tutaj: %1$s</string>
     <string name="mycar_pick">Wybierz plik</string>
     <string name="mycar_remove">Usuń</string>

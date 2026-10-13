@@ -168,7 +168,19 @@ internal object MyCarLook {
     // --- Import ---------------------------------------------------------------------
 
     /** Reads a car pack or a picture picked by the driver; blocking, call off the main thread. */
-    fun importUri(context: Context, uri: Uri): Result<CarLook> = runCatching { importBytes(context, readUri(context, uri)) }
+    fun importUri(context: Context, uri: Uri): Result<CarLook> = runCatching {
+        if (isModel(context, uri)) throw ModelOnPhone()
+        importBytes(context, readUri(context, uri))
+    }
+
+    /** A 3D model (.glb) picked on the unit: only the phone app makes a car of one ([MyCarLookSheet] says so). */
+    class ModelOnPhone : IllegalArgumentException("a 3D model")
+
+    /** A glTF binary starts "glTF". */
+    private fun isGlb(head: ByteArray) = head.size >= 4 && String(head, 0, 4, Charsets.US_ASCII) == "glTF"
+
+    private fun isModel(context: Context, uri: Uri): Boolean =
+        context.contentResolver.openInputStream(uri)?.use { s -> ByteArray(4).let { s.read(it) == 4 && isGlb(it) } } ?: false
 
     /** One [view] ("back", "front") from a picture the driver picked ([addView]). */
     fun addViewUri(context: Context, view: String, uri: Uri): Result<CarLook> = runCatching { addView(context, view, readUri(context, uri)) }
@@ -191,6 +203,7 @@ internal object MyCarLook {
 
     /** A car pack (zip) or a single picture of the car from the side. */
     fun importBytes(context: Context, bytes: ByteArray): CarLook {
+        if (isGlb(bytes)) throw ModelOnPhone()
         setContext(context)
         val isZip = bytes.size > 4 && bytes[0] == 'P'.code.toByte() && bytes[1] == 'K'.code.toByte()
         val pack = if (isZip) readPack(bytes) else Pack(CarProfileStore.current.name, mapOf("side" to RawView(bytes)), null)

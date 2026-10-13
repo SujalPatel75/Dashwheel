@@ -95,7 +95,7 @@ private class Baked(
 private const val MAX_MODEL_BYTES = 64 * 1024 * 1024
 
 @Composable
-internal fun CarFromModelScreen(connected: Boolean, onClose: () -> Unit) {
+internal fun CarFromModelScreen(connected: Boolean, onClose: () -> Unit, newModel: Boolean = false) {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
     var baked by remember { mutableStateOf<Baked?>(null) }
@@ -137,7 +137,8 @@ internal fun CarFromModelScreen(connected: Boolean, onClose: () -> Unit) {
     // Back after a restart of the screen: the model and the doors picture already picked.
     LaunchedEffect(Unit) {
         opened = withContext(Dispatchers.IO) { runCatching { openedFile(context).takeIf { it.exists() }?.let(::decode) }.getOrNull() }
-        bake(autoTurn = false)
+        // A model just chosen on the main screen: its nose found as for one picked here.
+        bake(autoTurn = newModel)
     }
 
     val pickModel = rememberLauncherForActivityResult(ActivityResultContracts.OpenDocument()) { uri ->
@@ -320,6 +321,21 @@ internal fun CarFromModelScreen(connected: Boolean, onClose: () -> Unit) {
 private fun folder(context: Context) = File(context.cacheDir, "car_model").apply { mkdirs() }
 private fun modelFile(context: Context) = File(folder(context), "kept_model.glb")
 private fun openedFile(context: Context) = File(folder(context), "kept_opened")
+
+/**
+ * A file picked with "Choose a file" ([CarLookCard]): kept for this screen when it is a 3D
+ * model (a .glb starts "glTF"), as the car can't use one as it is. Null for anything else,
+ * false for a model too big to read.
+ */
+internal suspend fun keepIfModel(context: Context, uri: Uri): Boolean? = withContext(Dispatchers.IO) {
+    val glb = runCatching {
+        context.contentResolver.openInputStream(uri)?.use { s ->
+            val head = ByteArray(4)
+            s.read(head) == 4 && String(head, Charsets.US_ASCII) == "glTF"
+        }
+    }.getOrNull() ?: false
+    if (!glb) null else runCatching { keepModel(context, uri) }.getOrDefault(false)
+}
 
 /** The model at [uri] kept for this screen; false when it is too big or no glTF binary. */
 private fun keepModel(context: Context, uri: Uri): Boolean {
