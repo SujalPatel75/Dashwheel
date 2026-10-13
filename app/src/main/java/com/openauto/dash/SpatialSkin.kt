@@ -137,16 +137,14 @@ internal val SpatialShapes = skinShapes(36, 32, 24)
 /**
  * The Home Spatial was drawn around (SkinLayouts.kt): the turn's window on
  * the left, the music's on the right, the speed floating between them at the
- * top and the city left open in the middle, the dock's apps in a small glass
- * ornament over the bar.
+ * top and the city left open in the middle; the dock's apps stay on the bar.
  */
 internal val SpatialLayout = SkinLayout(
-    home = TemplatePage(listOf(BuiltinKind.NAVIGATION, BuiltinKind.MEDIA, BuiltinKind.SPEED_HUD, BuiltinKind.WEATHER), dock = true),
+    home = TemplatePage(listOf(BuiltinKind.NAVIGATION, BuiltinKind.MEDIA, BuiltinKind.SPEED_HUD, BuiltinKind.WEATHER)),
     wide = listOf(
         DashboardItem.BuiltinWidget(BuiltinKind.NAVIGATION, x = 0, y = 0, w = 4, h = 5),
         DashboardItem.BuiltinWidget(BuiltinKind.SPEED_HUD, x = 4, y = 0, w = 4, h = 2),
-        DashboardItem.BuiltinWidget(BuiltinKind.MEDIA, x = 8, y = 0, w = 4, h = 5),
-        DashboardItem.LaunchBar(x = 4, y = 6, w = 4, h = 1)
+        DashboardItem.BuiltinWidget(BuiltinKind.MEDIA, x = 8, y = 0, w = 4, h = 5)
     )
 )
 

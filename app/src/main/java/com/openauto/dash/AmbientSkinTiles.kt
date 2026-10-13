@@ -353,8 +353,10 @@ private fun AmTurn(nav: NavState, env: SkinTileEnv) {
             .amTap(!env.editing, stringResource(R.string.horizon_open_navigation)) { openNavigationApp(context, nav) }
     ) {
         val disc = min(maxHeight.value * 0.44f, maxWidth.value * 0.2f).coerceIn(56f, 130f).dp
-        val beside = maxWidth >= disc * 2 + 280.dp
-        val textW = if (beside) maxWidth - (disc + 20.dp) * 2 else maxWidth - 16.dp
+        // The disc's glow reaches 0.35 of its size past it: the disc keeps that far from the tile's edge, or the glow is cut square.
+        val inset = disc * 0.36f
+        val beside = maxWidth >= (disc + inset) * 2 + 280.dp
+        val textW = if (beside) maxWidth - (disc + inset + 20.dp) * 2 else maxWidth - 16.dp
         val streetSize = min(maxHeight.value * 0.085f, maxWidth.value / 26f).coerceIn(16f, 28f)
         val etaSize = (streetSize * 0.72f).coerceIn(14f, 20f)
         val wordsH = (if (beside) maxHeight else maxHeight - disc - 12.dp) -
@@ -377,7 +379,7 @@ private fun AmTurn(nav: NavState, env: SkinTileEnv) {
         if (beside) {
             Box(Modifier.fillMaxSize()) {
                 Box(Modifier.align(Alignment.Center)) { words() }
-                AmTurnDisc(nav, side, disc, Modifier.align(if (side == TurnSide.RIGHT) Alignment.CenterEnd else Alignment.CenterStart))
+                AmTurnDisc(nav, side, disc, Modifier.align(if (side == TurnSide.RIGHT) Alignment.CenterEnd else Alignment.CenterStart).padding(horizontal = inset))
             }
         } else {
             Column(
