@@ -24,6 +24,8 @@ import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Cast
+import androidx.compose.material.icons.filled.Speed
 import androidx.compose.material.icons.filled.Restore
 import androidx.compose.material.icons.filled.Widgets
 import androidx.compose.material3.AlertDialog
@@ -68,19 +70,30 @@ internal fun ClusterBoard() {
     var editing by remember { mutableStateOf(config.page) }
     var selected by remember { mutableIntStateOf(0) }
     var choosingWidget by remember { mutableStateOf(false) }
-    val layout = config.layoutFor(editing)
+    // Full and simple display each have their own pages: the one in use first.
+    var simple by remember { mutableStateOf(!config.video) }
+    val layout = config.layoutFor(editing, simple)
     val slot = layout.slots.getOrNull(selected) ?: layout.slots.first()
     fun save(change: (ClusterLayout) -> ClusterLayout) = SecondScreenStore.update(context) { c ->
-        val next = ClusterLayouts.sanitize(change(c.layoutFor(editing)), editing)
-        c.copy(layouts = if (next == ClusterLayouts.default(editing)) c.layouts - editing else c.layouts + (editing to next))
+        val next = ClusterLayouts.sanitize(change(c.layoutFor(editing, simple)), editing)
+        val pages = c.layoutsFor(simple)
+        c.withLayouts(simple, if (next == ClusterLayouts.default(editing)) pages - editing else pages + (editing to next))
     }
 
     SettingsSection(stringResource(R.string.second_screen_board))
+    SegmentedSwitch(
+        options = listOf(false, true),
+        chosen = simple,
+        icon = { if (it) Icons.Filled.Speed else Icons.Filled.Cast },
+        title = { stringResource(if (it) R.string.second_screen_video else R.string.second_screen_board_full) },
+        onChoose = { simple = it; selected = 0 }
+    )
     Text(
-        stringResource(if (config.video) R.string.second_screen_board_detail else R.string.second_screen_board_no_video),
+        stringResource(if (simple) R.string.second_screen_board_no_video else R.string.second_screen_board_detail) +
+            " " + stringResource(if (simple == !config.video) R.string.second_screen_board_in_use else R.string.second_screen_board_not_in_use),
         color = DashColors.TextSecondary,
         style = MaterialTheme.typography.bodyMedium,
-        modifier = Modifier.padding(horizontal = 12.dp)
+        modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp)
     )
     fun pickPage(page: ClusterPage) {
         editing = page
@@ -198,9 +211,9 @@ internal fun ClusterBoard() {
             onPick = { d -> save { ClusterLayouts.withSlot(it, selected, slot.kind, d) } }
         )
     }
-    if (editing in config.layouts) {
+    if (editing in config.layoutsFor(simple)) {
         SettingsRow(Icons.Filled.Restore, stringResource(R.string.second_screen_board_reset), null) {
-            SecondScreenStore.update(context) { it.copy(layouts = it.layouts - editing) }
+            SecondScreenStore.update(context) { it.withLayouts(simple, it.layoutsFor(simple) - editing) }
             selected = 0
         }
     }
@@ -208,6 +221,7 @@ internal fun ClusterBoard() {
     if (choosingWidget) {
         WidgetChooserDialog(
             current = slot,
+            simple = simple,
             onPick = { pick -> save { ClusterLayouts.withSlot(it, selected, pick.kind, app = pick.app) }; choosingWidget = false },
             onDismiss = { choosingWidget = false }
         )
@@ -305,7 +319,7 @@ private fun installed(context: android.content.Context, pkg: String): Boolean =
  * the widgets.
  */
 @Composable
-private fun WidgetChooserDialog(current: ClusterSlot, onPick: (ClusterSlot) -> Unit, onDismiss: () -> Unit) {
+private fun WidgetChooserDialog(current: ClusterSlot, simple: Boolean, onPick: (ClusterSlot) -> Unit, onDismiss: () -> Unit) {
     val context = LocalContext.current
     val hosted by EmbeddedApp.hosted.collectAsState()
     val apps = remember(hosted) {
@@ -315,7 +329,7 @@ private fun WidgetChooserDialog(current: ClusterSlot, onPick: (ClusterSlot) -> U
         add(ClusterSlot(BuiltinKind.NAVMAP, WidgetDesign.STANDARD))
         apps.forEach { add(ClusterSlot(BuiltinKind.MAPS_INSIDE, WidgetDesign.STANDARD, it)) }
         ClusterLayouts.KINDS.filter { it !in ClusterLayouts.PICTURES }.forEach { add(ClusterSlot(it, WidgetDesign.STANDARD)) }
-    }
+    }.filter { !simple || SecondScreenRules.faceOf(it.kind) != null } // the simple display draws only the widgets it knows
     AlertDialog(
         modifier = Modifier.keepClearOfWindows(),
         onDismissRequest = onDismiss,

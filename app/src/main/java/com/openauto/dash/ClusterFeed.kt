@@ -103,7 +103,8 @@ internal object ClusterFeed {
             // The turn as the navigation knows it (in-app), so the display needn't read the words.
             maneuver = nav.maneuver,
             // The page as laid out on the board, so the display draws the same widgets in the same places.
-            layout = SecondScreenRules.layoutMessage(config.layoutFor(page)),
+            // Readings only go to a screen that draws its own pages: the simple display's.
+            layout = SecondScreenRules.layoutMessage(config.layoutFor(page, simple = true)),
             // Where the car is, for the display's own map: rounded so a parked car sends nothing new.
             position = LocationFeed.location.value?.let { l ->
                 ClusterState.Position(

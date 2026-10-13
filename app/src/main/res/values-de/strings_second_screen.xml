@@ -123,4 +123,7 @@
     <string name="second_screen_pi_no_signal">Kein Signal von Dashwheel</string>
     <string name="second_screen_pi_connected">Verbunden</string>
     <string name="second_screen_pi_scan">Mit der Dashwheel-App auf dem Handy scannen</string>
+    <string name="second_screen_board_full">Volle Anzeige</string>
+    <string name="second_screen_board_in_use">Diese Seiten sind gerade auf dem Bildschirm.</string>
+    <string name="second_screen_board_not_in_use">Gerade nicht in Gebrauch: Diese Seiten erscheinen, wenn Sie zu dieser Anzeige wechseln.</string>
 </resources>

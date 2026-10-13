@@ -261,7 +261,7 @@ internal object SecondScreenController {
             val (w, h) = SecondScreenRules.streamSize(display.width, display.height, maxHeight, display.maxWidth, display.maxHeight)
             // A page with a live map or an app's copy moves like video: smoother, and each frame waits less.
             // Decided for all the pages at once, so turning one never restarts the stream.
-            val live = wanted.config.pages.any { p -> wanted.config.layoutFor(p).slots.any { it.kind in LIVE_KINDS } }
+            val live = wanted.config.pages.any { p -> wanted.config.layoutFor(p, simple = false).slots.any { it.kind in LIVE_KINDS } }
             val fps = SecondScreenRules.reliefFps(if (wanted.output == SecondScreenOutput.VIDEO_APP || live) APP_FPS else CLUSTER_FPS, wanted.relief)
             val shape = listOf(w, h, fps, wanted.config.bitrateKbps)
             if (streamShape != shape) {

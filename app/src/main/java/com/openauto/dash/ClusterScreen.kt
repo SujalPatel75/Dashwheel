@@ -73,7 +73,8 @@ private fun ClusterFrame(config: SecondScreenConfig, shown: ClusterPage, all: Li
         val inset: Dp = (minOf(maxWidth, maxHeight) * overscanPct / 100f) + 12.dp
         Box(Modifier.fillMaxSize().padding(inset)) {
             Crossfade(targetState = shown, animationSpec = tween(150), label = "cluster page") { p ->
-                ClusterPageBody(config.layoutFor(p), env)
+                // Streamed: the full display's pages.
+                ClusterPageBody(config.layoutFor(p, simple = false), env)
             }
         }
         if (all.size > 1) {

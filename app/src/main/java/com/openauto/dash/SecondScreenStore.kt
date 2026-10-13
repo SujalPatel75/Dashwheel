@@ -30,6 +30,8 @@ object SecondScreenStore {
             mediaKeysTurnPages = p.getBoolean("media_keys_pages", d.mediaKeysTurnPages),
             barSwipeTurnsPages = p.getBoolean("bar_swipe_pages", d.barSwipeTurnsPages),
             layouts = SecondScreenCodec.decodeLayouts(p.getString("layouts", null)),
+            // Before they were apart, both displays had the full one's pages: they start from those.
+            simpleLayouts = SecondScreenCodec.decodeLayouts(p.getString("simple_layouts", null) ?: p.getString("layouts", null)),
             background = enumOr(p.getString("background", null), d.background),
             followDayNight = p.getBoolean("follow_day_night", d.followDayNight),
             alertsFullScreen = p.getBoolean("alerts_full_screen", d.alertsFullScreen),
@@ -67,6 +69,7 @@ object SecondScreenStore {
             .putBoolean("media_keys_pages", c.mediaKeysTurnPages)
             .putBoolean("bar_swipe_pages", c.barSwipeTurnsPages)
             .putString("layouts", SecondScreenCodec.encodeLayouts(c.layouts))
+            .putString("simple_layouts", SecondScreenCodec.encodeLayouts(c.simpleLayouts))
             .putString("background", c.background.name)
             .putBoolean("follow_day_night", c.followDayNight)
             .putBoolean("alerts_full_screen", c.alertsFullScreen)

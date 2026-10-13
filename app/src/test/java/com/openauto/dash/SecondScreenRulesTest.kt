@@ -342,4 +342,18 @@ class SecondScreenRulesTest {
             SecondScreenRules.output(ownMap.copy(mode = SecondScreenMode.OFF), connected = true, canStream = true, moving = false, appIsVideo = false, rearView = true).first
         )
     }
+
+    @Test
+    fun fullAndSimpleDisplaysKeepTheirOwnPages() {
+        val full = ClusterLayout(ClusterArrangement.ONE, listOf(ClusterSlot(BuiltinKind.NAVMAP, WidgetDesign.STANDARD)))
+        val simple = ClusterLayout(ClusterArrangement.HALVES, listOf(ClusterSlot(BuiltinKind.SPEED_HUD, WidgetDesign.HERO), ClusterSlot(BuiltinKind.CLOCK, WidgetDesign.HERO)))
+        val c = SecondScreenConfig().withLayouts(simple = false, mapOf(ClusterPage.DRIVE to full)).withLayouts(simple = true, mapOf(ClusterPage.DRIVE to simple))
+        assertEquals(full, c.layoutFor(ClusterPage.DRIVE, simple = false))
+        assertEquals(simple, c.layoutFor(ClusterPage.DRIVE, simple = true))
+        // By default, the one in use: the full display while the head unit streams it.
+        assertEquals(full, c.layoutFor(ClusterPage.DRIVE))
+        assertEquals(simple, c.copy(video = false).layoutFor(ClusterPage.DRIVE))
+        // A page laid out on one only: the other keeps the page as it comes.
+        assertEquals(ClusterLayouts.default(ClusterPage.MEDIA), c.withLayouts(simple = true, mapOf(ClusterPage.MEDIA to simple)).layoutFor(ClusterPage.MEDIA, simple = false))
+    }
 }

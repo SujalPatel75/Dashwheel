@@ -55,8 +55,10 @@ data class SecondScreenConfig(
     val mediaKeysTurnPages: Boolean = false,
     /** A sideways swipe on the launcher's bar turns the cluster's page instead of the launcher's. */
     val barSwipeTurnsPages: Boolean = false,
-    /** Pages the driver laid out on the board; the others keep [ClusterLayouts.default]. */
+    /** Pages the driver laid out on the board for the full display (streamed); the others keep [ClusterLayouts.default]. */
     val layouts: Map<ClusterPage, ClusterLayout> = emptyMap(),
+    /** The same for the simple display (drawn by the screen itself): its own pages, apart from the full display's. */
+    val simpleLayouts: Map<ClusterPage, ClusterLayout> = emptyMap(),
     /** The cluster's background; it stays as chosen, day and night, unless [followDayNight]. */
     val background: ClusterBackground = ClusterBackground.BLACK,
     /** Light by day, [background] (or dark) by night, as the dashboard's automatic look. */
@@ -79,8 +81,19 @@ data class SecondScreenConfig(
     /** The last display linked could set its brightness: the levels stay offered while it is away. */
     val brightnessWired: Boolean = false
 ) {
-    /** What [page] shows: the driver's board, or the page as it comes. */
-    fun layoutFor(page: ClusterPage): ClusterLayout = layouts[page] ?: ClusterLayouts.default(page)
+    /**
+     * What [page] shows on the full display or, with [simple], on the simple
+     * one (by default the one chosen, [video]): the driver's board, or the page as it comes.
+     */
+    fun layoutFor(page: ClusterPage, simple: Boolean = !video): ClusterLayout =
+        layoutsFor(simple)[page] ?: ClusterLayouts.default(page)
+
+    /** The pages laid out for the simple display, or the full one. */
+    fun layoutsFor(simple: Boolean): Map<ClusterPage, ClusterLayout> = if (simple) simpleLayouts else layouts
+
+    /** This config with [pages] as the simple display's layouts, or the full one's. */
+    fun withLayouts(simple: Boolean, pages: Map<ClusterPage, ClusterLayout>): SecondScreenConfig =
+        if (simple) copy(simpleLayouts = pages) else copy(layouts = pages)
 }
 
 /** How a cluster page shares the screen between its widgets; [slots] is how many it holds. */
