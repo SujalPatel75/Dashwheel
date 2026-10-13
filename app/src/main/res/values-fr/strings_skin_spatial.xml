@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Spatial skin -->
+    <string name="spatial_talk_cd">Parler à l\'assistant</string>
+    <string name="spatial_rain_from">pluie dès %1$s</string>
+    <string name="spatial_rain_until">pluie jusqu\'à %1$s</string>
+    <string name="spatial_arrival">Arrivée %1$s</string>
+    <string name="spatial_tab_turn">Virage</string>
+    <string name="spatial_tab_arrival">Arrivée</string>
+    <string name="spatial_tab_fuel">Carburant</string>
+    <string name="spatial_range">Autonomie</string>
+    <string name="spatial_fuel_enough">Assez de carburant pour arriver</string>
+    <string name="spatial_fuel_short">Faites le plein avant d\'arriver</string>
+    <string name="spatial_speed_limit_cd">Vitesse limitée à %1$d</string>
+    <string name="spatial_rpm">tr/min</string>
+    <string name="spatial_coolant">Eau</string>
+    <string name="spatial_battery">Batterie</string>
+    <string name="spatial_load">Charge</string>
+    <string name="spatial_launch_bar_empty">Aucune appli. Touchez le crayon pour en ajouter.</string>
+</resources>
