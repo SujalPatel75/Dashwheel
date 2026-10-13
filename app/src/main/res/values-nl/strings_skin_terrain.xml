@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Terrain skin -->
+    <string name="terrain_talk_cd">Praat met de assistent</string>
+    <string name="terrain_car_cd">Uw auto</string>
+    <string name="terrain_range">Bereik</string>
+    <string name="terrain_next_turn">Volgende afslag</string>
+    <string name="terrain_weather_next">Weer · komende %1$d u</string>
+    <string name="terrain_rain_from">Regen vanaf %1$s</string>
+    <string name="terrain_rain_until">Regen tot %1$s</string>
+    <string name="terrain_rain_for">%1$d u lang</string>
+    <string name="terrain_dry">Geen regen in %1$d u</string>
+    <string name="terrain_rain_hours_cd">Regen in %1$d van de komende 6 uur</string>
+    <string name="terrain_music">Muziek</string>
+    <string name="terrain_playing">Speelt</string>
+    <string name="terrain_paused">Gepauzeerd</string>
+    <string name="terrain_engine">Motor</string>
+    <string name="terrain_speed">Snelheid</string>
+    <string name="terrain_launch_bar_empty">Nog geen apps. Tik op het potlood om toe te voegen.</string>
+    <string name="terrain_compass">N,NO,O,ZO,Z,ZW,W,NW</string>
+    <string name="terrain_altitude">Hoogte</string>
+    <string name="terrain_heading">Koers</string>
+    <plurals name="terrain_more_problems">
+        <item quantity="one">Nog %d probleem</item>
+        <item quantity="other">Nog %d problemen</item>
+    </plurals>
+</resources>

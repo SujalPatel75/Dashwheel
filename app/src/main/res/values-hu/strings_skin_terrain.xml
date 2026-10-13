@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Terrain skin -->
+    <string name="terrain_talk_cd">Beszélj az asszisztenssel</string>
+    <string name="terrain_car_cd">Az autód</string>
+    <string name="terrain_range">Hatótáv</string>
+    <string name="terrain_next_turn">Következő kanyar</string>
+    <string name="terrain_weather_next">Időjárás · következő %1$d óra</string>
+    <string name="terrain_rain_from">Eső ekkortól: %1$s</string>
+    <string name="terrain_rain_until">Eső eddig: %1$s</string>
+    <string name="terrain_rain_for">%1$d órán át</string>
+    <string name="terrain_dry">Nincs eső %1$d órán át</string>
+    <string name="terrain_rain_hours_cd">Eső a következő 6 órából %1$d órában</string>
+    <string name="terrain_music">Zene</string>
+    <string name="terrain_playing">Szól</string>
+    <string name="terrain_paused">Szünetel</string>
+    <string name="terrain_engine">Motor</string>
+    <string name="terrain_speed">Sebesség</string>
+    <string name="terrain_launch_bar_empty">Még nincs alkalmazás. Koppints a ceruzára a hozzáadáshoz.</string>
+    <string name="terrain_compass">É,ÉK,K,DK,D,DNy,Ny,ÉNy</string>
+    <string name="terrain_altitude">Mag</string>
+    <string name="terrain_heading">Irány</string>
+    <plurals name="terrain_more_problems">
+        <item quantity="one">Még %d probléma</item>
+        <item quantity="other">Még %d probléma</item>
+    </plurals>
+</resources>

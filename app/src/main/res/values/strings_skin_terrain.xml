@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Terrain skin -->
+    <string name="terrain_talk_cd">Talk to the assistant</string>
+    <string name="terrain_car_cd">Your car</string>
+    <string name="terrain_range">Range</string>
+    <string name="terrain_next_turn">Next turn</string>
+    <string name="terrain_weather_next">Weather · next %1$d h</string>
+    <string name="terrain_rain_from">Rain from %1$s</string>
+    <string name="terrain_rain_until">Rain until %1$s</string>
+    <string name="terrain_rain_for">For %1$d h</string>
+    <string name="terrain_dry">No rain for %1$d h</string>
+    <string name="terrain_rain_hours_cd">Rain in %1$d of the next 6 hours</string>
+    <string name="terrain_music">Music</string>
+    <string name="terrain_playing">Playing</string>
+    <string name="terrain_paused">Paused</string>
+    <string name="terrain_engine">Engine</string>
+    <string name="terrain_speed">Speed</string>
+    <string name="terrain_launch_bar_empty">No apps yet. Tap the pencil to add some.</string>
+    <string name="terrain_compass">N,NE,E,SE,S,SW,W,NW</string>
+    <string name="terrain_altitude">Alt</string>
+    <string name="terrain_heading">Heading</string>
+    <plurals name="terrain_more_problems">
+        <item quantity="one">%d more problem</item>
+        <item quantity="other">%d more problems</item>
+    </plurals>
+</resources>
