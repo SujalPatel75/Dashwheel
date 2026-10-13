@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="look_family_new">Nowe</string>
+    <string name="look_family_scenes">Sceny</string>
+    <string name="look_family_dials">Zegary</string>
+    <string name="look_family_calm">Spokojne</string>
+    <string name="look_family_colours">Tylko kolory</string>
+    <string name="look_arrange_home">Układaj Start jak motyw</string>
+    <string name="look_arrange_home_detail">Motyw z własnym Startem układa na nim swoje widżety, z Cofnij</string>
+    <string name="look_home_own">Ma własny Start</string>
+    <string name="look_home_own_off">Ma własny Start. Układanie jest wyłączone.</string>
+    <string name="look_home_keeps">Start zostaje bez zmian</string>
+</resources>

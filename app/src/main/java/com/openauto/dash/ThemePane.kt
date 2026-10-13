@@ -46,8 +46,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.em
 import androidx.compose.ui.unit.sp
 import androidx.compose.foundation.Canvas
-import androidx.compose.material.icons.filled.ExpandLess
-import androidx.compose.material.icons.filled.ExpandMore
 import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
@@ -58,7 +56,6 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.drawText
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.rememberTextMeasurer
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.material.icons.filled.Timer
 import androidx.compose.material.icons.filled.VerticalAlignBottom
@@ -72,10 +69,10 @@ import androidx.compose.runtime.setValue
 import kotlin.math.roundToInt
 
 /*
- * The Look settings: the themes as a gallery of small dashboards drawn with
- * each theme's own palette, so the choice is made on what the screen will
- * look like rather than on a name; then the day and night switch and the
- * effects switch. The bottom bar's auto-hide is here too, shown under Display.
+ * The Look settings' parts: the theme card and its stamp, a small dashboard
+ * drawn with each theme's own palette, so a look is chosen on what the screen
+ * will look like rather than on a name (the page itself is LookPage.kt); the
+ * day and night switch, the effects switch and the bottom bar's auto-hide.
  */
 
 /**
@@ -206,41 +203,6 @@ internal fun EffectsSetting(theme: ThemeState) {
     SwitchHint(stringResource(theme.effects.hintRes))
 }
 
-/** The themes: three up front (the one in use first), the rest behind one tap. */
-@Composable
-internal fun ThemeGallery(theme: ThemeState) {
-    val lead = (listOf(theme.mode) + StarterThemes).distinct().take(3)
-    var showAll by remember { mutableStateOf(false) }
-    ThemeGroup(stringResource(R.string.dash_theme_picker_title), lead, theme)
-    val tap = rememberTapFeedback()
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .heightIn(min = 48.dp)
-            .clip(DashShape.Medium)
-            .clickable { tap(); showAll = !showAll }
-            .padding(horizontal = 12.dp),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Icon(
-            if (showAll) Icons.Filled.ExpandLess else Icons.Filled.ExpandMore,
-            contentDescription = null, tint = DashColors.Accent, modifier = Modifier.size(22.dp)
-        )
-        Spacer(Modifier.width(10.dp))
-        Text(
-            stringResource(if (showAll) R.string.dash_theme_show_fewer else R.string.dash_theme_show_all, DashThemeMode.entries.size),
-            color = DashColors.Accent, fontWeight = FontWeight.SemiBold, style = MaterialTheme.typography.bodyMedium
-        )
-    }
-    if (showAll) {
-        Spacer(Modifier.height(12.dp))
-        val skins = DashThemeMode.entries.filter { paletteFor(it, false).Skin != DashSkin.STANDARD && it !in lead }
-        val colours = DashThemeMode.entries.filter { it !in lead && paletteFor(it, false).Skin == DashSkin.STANDARD }
-        ThemeGroup(stringResource(R.string.dash_theme_group_colours), colours, theme)
-        ThemeGroup(stringResource(R.string.dash_theme_group_skins), skins, theme)
-    }
-}
-
 /**
  * The bottom bar: always there, or hiding itself once unused for the chosen
  * 0 to 20 seconds and coming back with a swipe up (BarAutoHide.kt).
@@ -295,21 +257,6 @@ internal fun BarAutoHideSetting(theme: ThemeState) {
     SwitchHint(stringResource(R.string.dash_bar_swipe_up_detail))
 }
 
-/** A titled group of themes, three to a row. */
-@Composable
-private fun ThemeGroup(title: String, modes: List<DashThemeMode>, theme: ThemeState) {
-    SettingsSection(title)
-    modes.chunked(3).forEach { row ->
-        Row(horizontalArrangement = Arrangement.spacedBy(12.dp), modifier = Modifier.fillMaxWidth()) {
-            row.forEach { mode ->
-                ThemeCard(mode, mode == theme.mode, Modifier.weight(1f)) { theme.onMode(mode) }
-            }
-            repeat(3 - row.size) { Spacer(Modifier.weight(1f)) }
-        }
-        Spacer(Modifier.height(12.dp))
-    }
-}
-
 /**
  * One theme: a stamp of its dashboard in the version (day or night) on
  * screen now, its name and its one-line description. The stamp is drawn
@@ -354,17 +301,23 @@ internal fun ThemeCard(mode: DashThemeMode, selected: Boolean, modifier: Modifie
     }
 }
 
-/** A dashboard the size of a stamp in [p]'s colours and the skin's own shapes. */
+/**
+ * A dashboard the size of a stamp in [p]'s colours and the skin's own shapes.
+ * Drawn at any size: the figures grow with it, so the Look page's large
+ * preview and its small cards are the same picture.
+ */
 @Composable
-private fun ThemeStamp(p: DashPalette, modifier: Modifier) {
+internal fun ThemeStamp(p: DashPalette, modifier: Modifier) {
     val digits = rememberTextMeasurer()
     val heroFont = if (p.Font == DashFont.CONDENSED) CondensedFamily else FontFamily.Default
     Canvas(modifier = modifier) {
         drawRect(Brush.linearGradient(p.BackgroundStops, start = Offset.Zero, end = Offset(size.width, size.height)))
         val w = size.width
         val h = size.height
+        // The sizes below are for a stamp as tall as STAMP_HEIGHT, the cards of the first gallery.
+        val textScale = (h / STAMP_HEIGHT.toPx()).coerceIn(0.5f, 3f)
         fun number(text: String, x: Float, y: Float, sizeSp: Float, color: Color, family: FontFamily = heroFont, weight: FontWeight = p.HeroWeight) {
-            val layout = digits.measure(text, TextStyle(fontSize = sizeSp.sp, fontWeight = weight, fontFamily = family, color = color))
+            val layout = digits.measure(text, TextStyle(fontSize = (sizeSp * textScale).sp, fontWeight = weight, fontFamily = family, color = color))
             drawText(layout, topLeft = Offset(x - layout.size.width / 2f, y - layout.size.height / 2f))
         }
         val num: StampNumber = { t, x, y, s, c -> number(t, x, y, s, c) }
@@ -485,6 +438,9 @@ private fun ThemeStamp(p: DashPalette, modifier: Modifier) {
         }
     }
 }
+
+/** The height a stamp's figure sizes are given for; larger and smaller stamps scale them. */
+private val STAMP_HEIGHT = 144.dp
 
 /** One line under a switch saying what the chosen segment does. */
 @Composable

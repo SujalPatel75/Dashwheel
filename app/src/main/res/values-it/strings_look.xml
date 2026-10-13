@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="look_family_new">Nuovi</string>
+    <string name="look_family_scenes">Scenari</string>
+    <string name="look_family_dials">Strumenti</string>
+    <string name="look_family_calm">Essenziali</string>
+    <string name="look_family_colours">Solo colori</string>
+    <string name="look_arrange_home">Disporre la Home come il tema</string>
+    <string name="look_arrange_home_detail">Un tema con la sua Home mette i suoi widget sulla Home, con Annulla</string>
+    <string name="look_home_own">Ha la sua Home</string>
+    <string name="look_home_own_off">Ha la sua Home. Disporre è spento.</string>
+    <string name="look_home_keeps">La Home resta com\'è</string>
+</resources>
