@@ -8,6 +8,7 @@
     <string name="mycar_working">Getting it ready</string>
     <string name="mycar_ready">Your car\'s picture is in</string>
     <string name="mycar_failed">That picture could not be read. Try a JPG or PNG.</string>
+    <string name="mycar_model_on_phone">A 3D model becomes your car on the phone: in Dashwheel Companion, Car tab, From a 3D model.</string>
     <string name="mycar_no_picker">No file picker on this unit. Put the file here: %1$s</string>
     <string name="mycar_pick">Pick a file</string>
     <string name="mycar_remove">Remove</string>

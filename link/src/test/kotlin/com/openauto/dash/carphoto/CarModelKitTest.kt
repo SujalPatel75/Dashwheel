@@ -126,6 +126,20 @@ class CarModelKitTest {
         assertTrue(r.backLights.isEmpty())
     }
 
+    @Test
+    fun turningAroundIsReadingTurned() {
+        val read = CarModelKit.read(boxCar(), ::decode, turned = true)
+        val turned = CarModelKit.read(boxCar(), ::decode).turnedAround()
+        assertTrue(same(read.tris.pos, turned.tris.pos))
+        assertTrue(same(read.tris.nrm, turned.tris.nrm))
+        assertTrue(read.glbForLive().contentEquals(turned.glbForLive()))
+        // And back again.
+        assertTrue(same(CarModelKit.read(boxCar(), ::decode).tris.pos, turned.turnedAround().tris.pos))
+    }
+
+    /** Equal as numbers (0 and -0 alike). */
+    private fun same(a: FloatArray, b: FloatArray) = a.size == b.size && a.indices.all { a[it] == b[it] }
+
     /** [a] with a green cross at each point, to see the anchors. */
     private fun marked(a: Argb, points: List<CarPoint>): Argb {
         val o = Argb(a.w, a.h, a.px.copyOf())
@@ -147,7 +161,7 @@ class CarModelKitTest {
             val t0 = System.nanoTime()
             var model = CarModelKit.read(f.readBytes(), ::decode)
             val backwards = CarModelKit.noseLooksBackwards(model)
-            if (backwards) model = CarModelKit.read(f.readBytes(), ::decode, turned = true)
+            if (backwards) model = model.turnedAround()
             val r = CarModelKit.bake(model, f.nameWithoutExtension)
             val ms = (System.nanoTime() - t0) / 1_000_000
             val tag = f.nameWithoutExtension.replace(Regex("[^A-Za-z0-9]+"), "_")

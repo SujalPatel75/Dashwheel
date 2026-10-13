@@ -193,9 +193,11 @@ class CarMediaController(private val context: Context) {
         val album = metadata?.getString(MediaMetadata.METADATA_KEY_ALBUM).orEmpty()
         val station = controller.packageName?.let { stations.note(it, title, artist, album, live = durationMs == 0L) }.orEmpty()
         // What a live stream says, in the unit's log: radios name their station in many ways (RadioStations).
-        if (durationMs == 0L && metadata != null) {
+        // A radio's song with a length too (DAB-Z gives some one), with that length.
+        if ((durationMs == 0L || station.isNotEmpty()) && metadata != null) {
             val said = listOf(controller.packageName, title, artist, album, metadata.getString(MediaMetadata.METADATA_KEY_DISPLAY_TITLE),
-                metadata.getString(MediaMetadata.METADATA_KEY_DISPLAY_SUBTITLE), station)
+                metadata.getString(MediaMetadata.METADATA_KEY_DISPLAY_SUBTITLE), station) +
+                listOfNotNull(if (durationMs > 0L) "${durationMs / 1000} s long" else null)
             if (said != lastLiveLogged) {
                 lastLiveLogged = said
                 DebugLog.note(context, "media live: ${said.joinToString(" | ")}")
@@ -443,6 +445,13 @@ class CarMediaController(private val context: Context) {
         }
     }
 }
+
+/**
+ * The artist line of a tile that gives the station its own line above the song: without the
+ * station again. On a radio's own text the artist field is the station, and the line stays empty.
+ */
+internal fun artistBesideStation(state: MediaState): String =
+    state.artist.removeSuffix(" · " + state.station).takeUnless { it == state.station }.orEmpty()
 
 /** [state] with its radio station after the artist on the second line ("Toto · Radio Swiss Pop"), once. */
 internal fun withStation(state: MediaState): MediaState {

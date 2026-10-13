@@ -637,12 +637,14 @@ private fun mediaFace(env: SkinTileEnv): WidgetFace {
     val fraction = if (state.durationMs > 0L) (positionMs.toFloat() / state.durationMs).coerceIn(0f, 1f) else null
     val art = remember(state.artwork) { state.artwork?.asImageBitmap() }
     val controller = env.mediaController
+    // A radio's station on the line above the song, for as long as it plays; not again after the artist.
+    val station = state.station
     return WidgetFace(
         icon = Icons.Filled.MusicNote,
-        title = stringResource(if (!state.isPlaying && state.title.isNotBlank()) R.string.info_paused else R.string.info_now_playing),
+        title = station.ifEmpty { stringResource(if (!state.isPlaying && state.title.isNotBlank()) R.string.info_paused else R.string.info_now_playing) },
         value = state.title.ifBlank { stringResource(R.string.info_nothing_playing) },
         textValue = true,
-        caption = state.artist,
+        caption = if (station.isNotEmpty()) artistBesideStation(state) else state.artist,
         fraction = fraction,
         art = art,
         active = state.isPlaying,

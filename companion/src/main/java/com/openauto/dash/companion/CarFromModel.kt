@@ -95,7 +95,7 @@ private class Baked(
 private const val MAX_MODEL_BYTES = 64 * 1024 * 1024
 
 @Composable
-internal fun CarFromModelScreen(connected: Boolean, onClose: () -> Unit) {
+internal fun CarFromModelScreen(connected: Boolean, onClose: () -> Unit, newModel: Boolean = false) {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
     var baked by remember { mutableStateOf<Baked?>(null) }
@@ -116,12 +116,11 @@ internal fun CarFromModelScreen(connected: Boolean, onClose: () -> Unit) {
         scope.launch {
             val outcome = withContext(Dispatchers.Default) {
                 runCatching {
-                    val bytes = file.readBytes()
                     var way = asTurned
-                    var model = CarModelKit.read(bytes, ::decodeTexture, way)
+                    var model = CarModelKit.read(file.readBytes(), ::decodeTexture, way)
                     if (autoTurn && CarModelKit.noseLooksBackwards(model)) {
                         way = !way
-                        model = CarModelKit.read(bytes, ::decodeTexture, way)
+                        model = model.turnedAround()
                     }
                     draw(model, doors) to way
                 }
@@ -134,20 +133,45 @@ internal fun CarFromModelScreen(connected: Boolean, onClose: () -> Unit) {
         }
     }
 
+    /**
+     * The nose the other way: the model already read is turned, not read again. A big
+     * model read a second time while the first is still on screen didn't fit in the
+     * phone's memory, and the app closed.
+     */
+    fun turnAround() {
+        val current = baked ?: return
+        busy = true
+        val doors = opened?.photo
+        scope.launch {
+            val outcome = withContext(Dispatchers.Default) { runCatching { draw(current.model.turnedAround(), doors) } }
+            busy = false
+            // When it fails, the car stays as it was.
+            outcome.onSuccess { baked = it; turned = !turned }.onFailure {
+                Toast.makeText(context, R.string.car_model_turn_failed, Toast.LENGTH_LONG).show()
+            }
+        }
+    }
+
     // Back after a restart of the screen: the model and the doors picture already picked.
     LaunchedEffect(Unit) {
         opened = withContext(Dispatchers.IO) { runCatching { openedFile(context).takeIf { it.exists() }?.let(::decode) }.getOrNull() }
-        bake(autoTurn = false)
+        // A model just chosen on the main screen: its nose found as for one picked here.
+        bake(autoTurn = newModel)
     }
 
     val pickModel = rememberLauncherForActivityResult(ActivityResultContracts.OpenDocument()) { uri ->
         if (uri == null) return@rememberLauncherForActivityResult
         busy = true
+        // The car on screen goes first: two models at once may not fit in memory.
+        baked = null
         scope.launch {
             val ok = withContext(Dispatchers.IO) { runCatching { keepModel(context, uri) }.getOrDefault(false) }
             busy = false
-            if (!ok) Toast.makeText(context, R.string.car_model_unreadable, Toast.LENGTH_LONG).show()
-            else {
+            if (!ok) {
+                Toast.makeText(context, R.string.car_model_unreadable, Toast.LENGTH_LONG).show()
+                // The car kept before comes back.
+                bake(autoTurn = false)
+            } else {
                 turned = false
                 bake(autoTurn = true)
             }
@@ -225,7 +249,7 @@ internal fun CarFromModelScreen(connected: Boolean, onClose: () -> Unit) {
             }
             Text(stringResource(R.string.car_model_detail), color = CompanionColors.Muted, style = MaterialTheme.typography.bodyMedium)
             val car = baked
-            if (busy && car == null) {
+            if (busy) {
                 Row(Modifier.padding(top = 24.dp), verticalAlignment = Alignment.CenterVertically) {
                     CircularProgressIndicator(Modifier.size(20.dp), strokeWidth = 2.dp)
                     Spacer(Modifier.width(12.dp))
@@ -243,7 +267,7 @@ internal fun CarFromModelScreen(connected: Boolean, onClose: () -> Unit) {
             CarPreview(car.hero, emptyList(), Modifier.padding(top = 10.dp).fillMaxWidth().height(200.dp))
             CarPreview(car.doors ?: car.top, car.result.topView.wheels.takeIf { car.doors == null }.orEmpty(), Modifier.padding(top = 10.dp).fillMaxWidth().height(260.dp))
             OutlinedButton(
-                onClick = { turned = !turned; bake(autoTurn = false) },
+                onClick = { turnAround() },
                 enabled = !busy,
                 modifier = Modifier.fillMaxWidth().padding(top = 10.dp).height(46.dp)
             ) { Text(stringResource(R.string.car_model_turn)) }
@@ -300,13 +324,7 @@ internal fun CarFromModelScreen(connected: Boolean, onClose: () -> Unit) {
                 },
                 enabled = connected && !busy && status != CarLookSender.Status.SENDING,
                 modifier = Modifier.fillMaxWidth().padding(top = 14.dp).height(50.dp)
-            ) {
-                if (busy) {
-                    CircularProgressIndicator(Modifier.size(18.dp), strokeWidth = 2.dp, color = CompanionColors.Background)
-                    Spacer(Modifier.width(10.dp))
-                }
-                Text(stringResource(R.string.car_photos_send))
-            }
+            ) { Text(stringResource(R.string.car_photos_send)) }
             OutlinedButton(
                 onClick = { pickModel.launch(arrayOf("model/gltf-binary", "application/octet-stream", "*/*")) },
                 enabled = !busy,
@@ -320,6 +338,21 @@ internal fun CarFromModelScreen(connected: Boolean, onClose: () -> Unit) {
 private fun folder(context: Context) = File(context.cacheDir, "car_model").apply { mkdirs() }
 private fun modelFile(context: Context) = File(folder(context), "kept_model.glb")
 private fun openedFile(context: Context) = File(folder(context), "kept_opened")
+
+/**
+ * A file picked with "Choose a file" ([CarLookCard]): kept for this screen when it is a 3D
+ * model (a .glb starts "glTF"), as the car can't use one as it is. Null for anything else,
+ * false for a model too big to read.
+ */
+internal suspend fun keepIfModel(context: Context, uri: Uri): Boolean? = withContext(Dispatchers.IO) {
+    val glb = runCatching {
+        context.contentResolver.openInputStream(uri)?.use { s ->
+            val head = ByteArray(4)
+            s.read(head) == 4 && String(head, Charsets.US_ASCII) == "glTF"
+        }
+    }.getOrNull() ?: false
+    if (!glb) null else runCatching { keepModel(context, uri) }.getOrDefault(false)
+}
 
 /** The model at [uri] kept for this screen; false when it is too big or no glTF binary. */
 private fun keepModel(context: Context, uri: Uri): Boolean {

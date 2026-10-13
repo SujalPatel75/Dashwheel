@@ -187,6 +187,7 @@
     <string name="car_model_pick">3D-modell kiválasztása (.glb)</string>
     <string name="car_model_drawing">Az autója rajzolása</string>
     <string name="car_model_turn">Rossz irányba néz? Fordítsa meg</string>
+    <string name="car_model_turn_failed">Ez a modell túl nagy ahhoz, hogy ezen a telefonon megfordítsa. Fordítsa meg egy 3D-alkalmazásban, és válassza ki újra.</string>
     <string name="car_model_no_live">Túl részletes a 3D-s megjelenítéshez az autóban: csak a képeket kapja meg.</string>
     <string name="car_model_unreadable">Ez a fájl nem olvasható be 3D-modellként. Exportálja .glb formátumban, tömörítés nélkül.</string>
     <string name="car_model_change">Másik modell kiválasztása</string>

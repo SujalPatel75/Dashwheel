@@ -186,6 +186,7 @@
     <string name="car_model_pick">3D-model kiezen (.glb)</string>
     <string name="car_model_drawing">Je auto wordt getekend</string>
     <string name="car_model_turn">Neus aan de verkeerde kant? Draai hem om</string>
+    <string name="car_model_turn_failed">Dit model is te groot om op deze telefoon om te draaien. Draai het in een 3D-app en kies het opnieuw.</string>
     <string name="car_model_no_live">Te gedetailleerd voor 3D in de auto: die krijgt alleen de afbeeldingen.</string>
     <string name="car_model_unreadable">Dit bestand is niet te lezen als 3D-model. Exporteer het als .glb zonder compressie.</string>
     <string name="car_model_change">Ander model kiezen</string>

@@ -39,6 +39,7 @@ object UnitSignals {
     /** The firmware only says the temperature again when it changes: a reading this recent is still shown after a restart. */
     private const val OUT_TEMP_KEEP_MS = 2 * 3_600_000L
 
+    private var outTempLogged = false
     private val _outsideTempC = MutableStateFlow<Double?>(null)
     /** The car's outside temperature sensor in °C, or null when the car doesn't send one. */
     val outsideTempC: StateFlow<Double?> = _outsideTempC
@@ -139,6 +140,12 @@ object UnitSignals {
 
     private fun onOutsideTemp(context: Context, text: String?) {
         val c = parseOutsideTemp(text)
+        // In the unit's log: whether this car's CAN box sends its sensor at all (else the bar shows the
+        // weather's). The first reading of each start only, and when it goes, as it is sent on change.
+        if (!outTempLogged || c == null) {
+            outTempLogged = c != null
+            DebugLog.note(context, "outside temperature from the car: \"${text.orEmpty()}\"")
+        }
         setOutsideTemp(c)
         val p = context.getSharedPreferences(PREFS, Context.MODE_PRIVATE).edit()
         if (c == null) p.remove(KEY_OUT_TEMP).remove(KEY_OUT_TEMP_AT)
