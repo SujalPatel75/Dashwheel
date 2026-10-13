@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Glyph skin -->
+    <string name="glyph_key_map">Карта</string>
+    <string name="glyph_key_map_cd">Открыть навигацию</string>
+    <string name="glyph_key_music">Музыка</string>
+    <string name="glyph_key_music_cd">Открыть музыку</string>
+    <string name="glyph_key_phone">Тел</string>
+    <string name="glyph_key_phone_cd">Открыть телефон</string>
+    <string name="glyph_key_car">Авто</string>
+    <string name="glyph_key_talk">Говорить</string>
+    <string name="glyph_key_talk_cd">Поговорить с ассистентом</string>
+    <string name="glyph_fuel_cd">Топливо %1$d %%</string>
+    <string name="glyph_car_cd">Ваша машина из точек</string>
+    <string name="glyph_my_car">Моя машина</string>
+    <string name="glyph_live">Live</string>
+    <string name="glyph_door_open">Дверь открыта</string>
+    <string name="glyph_sunset">Закат %1$s</string>
+    <string name="glyph_sunrise">Восход %1$s</string>
+    <string name="glyph_label_time">Время</string>
+    <string name="glyph_label_car">Авто</string>
+    <string name="glyph_label_range">Запас хода</string>
+    <string name="glyph_label_coolant">ОЖ %1$s</string>
+    <string name="glyph_label_speed">Скорость %1$s</string>
+    <string name="glyph_label_speed_short">Скорость</string>
+    <string name="glyph_no_speed">Нет скорости</string>
+    <string name="glyph_label_nav">Нав</string>
+    <string name="glyph_arrival">Прибытие %1$s</string>
+    <string name="glyph_label_audio">Аудио</string>
+    <string name="glyph_label_fuel">Топливо</string>
+    <string name="glyph_label_weather">Погода</string>
+    <string name="glyph_high_low">Макс %1$d° мин %2$d°</string>
+    <string name="glyph_launch_bar_empty">Приложений нет. Нажмите карандаш, чтобы добавить.</string>
+</resources>
