@@ -42,8 +42,8 @@ internal object UnitBtModule {
         IGNORED
     }
 
-    /** What [afterSilentLink] found and did. */
-    data class Outcome(val finding: Finding, val restarted: Boolean, val androidAutoLoop: Boolean)
+    /** What [afterSilentLink] found and did; [logRead] false when the daemon's log couldn't be read (no root, other firmware). */
+    data class Outcome(val finding: Finding, val restarted: Boolean, val androidAutoLoop: Boolean, val logRead: Boolean = true)
 
     /** This firmware's outside Bluetooth module is in charge. */
     fun outside(): Boolean = systemProperty("persist.sys.is.ext.bt") == "true"
@@ -55,7 +55,7 @@ internal object UnitBtModule {
      * wireless Android Auto keeps it busy. The next redial finds the adapter.
      */
     suspend fun afterSilentLink(context: Context, mac: String): Outcome {
-        val none = Outcome(Finding.NONE, restarted = false, androidAutoLoop = false)
+        val none = Outcome(Finding.NONE, restarted = false, androidAutoLoop = false, logRead = false)
         if (!outside() || !PrivilegedShell.access.value.shell) return none
         val app = context.applicationContext
         val log = runCatching { DockShell.shell(app, "logcat -d -v brief -s sd:D 2>/dev/null | tail -n 400") }.getOrDefault("")

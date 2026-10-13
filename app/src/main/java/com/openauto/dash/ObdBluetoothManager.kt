@@ -446,12 +446,16 @@ object ObdBluetoothManager {
         // The unit's phone connected at the same time: its Android Auto is the likely holder.
         // Not an iPhone's (no Android Auto), nor while CarPlay or Android Auto runs or starts:
         // then the adapter is more likely off, and the phone is doing what the driver asked.
+        // Nor when the module's log was read and shows no Android Auto: a phone without
+        // wireless Android Auto was blamed (and told so aloud) for an adapter that was just off.
+        val logClears = module.logRead && module.finding == UnitBtModule.Finding.NONE
         val phone = UnitSignals.phone.value?.takeUnless {
-            it.name.contains("iphone", ignoreCase = true) || UnitSignals.projection.value || UnitSignals.projectionOnScreen.value
+            logClears || it.name.contains("iphone", ignoreCase = true) || UnitSignals.projection.value || UnitSignals.projectionOnScreen.value
         }
         if (phone != null) {
             _phoneBlocking.value = true
-            sayPhoneBlocking(context, phone.name)
+            // Said aloud only when the module's log backs it; otherwise a guess, left on the screen.
+            if (module.logRead) sayPhoneBlocking(context, phone.name)
             return fail(R.string.vehicle_err_phone_aa, phone.name)
         }
         // A socket nothing answers on is no adapter: fail, so it is tried again.
