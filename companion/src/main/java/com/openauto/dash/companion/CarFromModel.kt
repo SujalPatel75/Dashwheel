@@ -116,12 +116,11 @@ internal fun CarFromModelScreen(connected: Boolean, onClose: () -> Unit, newMode
         scope.launch {
             val outcome = withContext(Dispatchers.Default) {
                 runCatching {
-                    val bytes = file.readBytes()
                     var way = asTurned
-                    var model = CarModelKit.read(bytes, ::decodeTexture, way)
+                    var model = CarModelKit.read(file.readBytes(), ::decodeTexture, way)
                     if (autoTurn && CarModelKit.noseLooksBackwards(model)) {
                         way = !way
-                        model = CarModelKit.read(bytes, ::decodeTexture, way)
+                        model = model.turnedAround()
                     }
                     draw(model, doors) to way
                 }
@@ -130,6 +129,25 @@ internal fun CarFromModelScreen(connected: Boolean, onClose: () -> Unit, newMode
             outcome.onSuccess { (car, way) -> baked = car; turned = way }.onFailure {
                 baked = null
                 Toast.makeText(context, R.string.car_model_unreadable, Toast.LENGTH_LONG).show()
+            }
+        }
+    }
+
+    /**
+     * The nose the other way: the model already read is turned, not read again. A big
+     * model read a second time while the first is still on screen didn't fit in the
+     * phone's memory, and the app closed.
+     */
+    fun turnAround() {
+        val current = baked ?: return
+        busy = true
+        val doors = opened?.photo
+        scope.launch {
+            val outcome = withContext(Dispatchers.Default) { runCatching { draw(current.model.turnedAround(), doors) } }
+            busy = false
+            // When it fails, the car stays as it was.
+            outcome.onSuccess { baked = it; turned = !turned }.onFailure {
+                Toast.makeText(context, R.string.car_look_failed, Toast.LENGTH_LONG).show()
             }
         }
     }
@@ -144,11 +162,16 @@ internal fun CarFromModelScreen(connected: Boolean, onClose: () -> Unit, newMode
     val pickModel = rememberLauncherForActivityResult(ActivityResultContracts.OpenDocument()) { uri ->
         if (uri == null) return@rememberLauncherForActivityResult
         busy = true
+        // The car on screen goes first: two models at once may not fit in memory.
+        baked = null
         scope.launch {
             val ok = withContext(Dispatchers.IO) { runCatching { keepModel(context, uri) }.getOrDefault(false) }
             busy = false
-            if (!ok) Toast.makeText(context, R.string.car_model_unreadable, Toast.LENGTH_LONG).show()
-            else {
+            if (!ok) {
+                Toast.makeText(context, R.string.car_model_unreadable, Toast.LENGTH_LONG).show()
+                // The car kept before comes back.
+                bake(autoTurn = false)
+            } else {
                 turned = false
                 bake(autoTurn = true)
             }
@@ -226,7 +249,7 @@ internal fun CarFromModelScreen(connected: Boolean, onClose: () -> Unit, newMode
             }
             Text(stringResource(R.string.car_model_detail), color = CompanionColors.Muted, style = MaterialTheme.typography.bodyMedium)
             val car = baked
-            if (busy && car == null) {
+            if (busy) {
                 Row(Modifier.padding(top = 24.dp), verticalAlignment = Alignment.CenterVertically) {
                     CircularProgressIndicator(Modifier.size(20.dp), strokeWidth = 2.dp)
                     Spacer(Modifier.width(12.dp))
@@ -244,7 +267,7 @@ internal fun CarFromModelScreen(connected: Boolean, onClose: () -> Unit, newMode
             CarPreview(car.hero, emptyList(), Modifier.padding(top = 10.dp).fillMaxWidth().height(200.dp))
             CarPreview(car.doors ?: car.top, car.result.topView.wheels.takeIf { car.doors == null }.orEmpty(), Modifier.padding(top = 10.dp).fillMaxWidth().height(260.dp))
             OutlinedButton(
-                onClick = { turned = !turned; bake(autoTurn = false) },
+                onClick = { turnAround() },
                 enabled = !busy,
                 modifier = Modifier.fillMaxWidth().padding(top = 10.dp).height(46.dp)
             ) { Text(stringResource(R.string.car_model_turn)) }
@@ -301,13 +324,7 @@ internal fun CarFromModelScreen(connected: Boolean, onClose: () -> Unit, newMode
                 },
                 enabled = connected && !busy && status != CarLookSender.Status.SENDING,
                 modifier = Modifier.fillMaxWidth().padding(top = 14.dp).height(50.dp)
-            ) {
-                if (busy) {
-                    CircularProgressIndicator(Modifier.size(18.dp), strokeWidth = 2.dp, color = CompanionColors.Background)
-                    Spacer(Modifier.width(10.dp))
-                }
-                Text(stringResource(R.string.car_photos_send))
-            }
+            ) { Text(stringResource(R.string.car_photos_send)) }
             OutlinedButton(
                 onClick = { pickModel.launch(arrayOf("model/gltf-binary", "application/octet-stream", "*/*")) },
                 enabled = !busy,

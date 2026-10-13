@@ -167,9 +167,9 @@ class CarLiveModelTest {
         val files = dir.listFiles { f -> f.name.endsWith(".glb") }.orEmpty()
         val out = File("build/carmodel-out").apply { mkdirs() }
         for (f in files) {
-            // As the phone does: read again the other way round when the nose looks backwards.
+            // As the phone does: turned around when the nose looks backwards.
             var model = CarModelKit.read(f.readBytes(), ::decode)
-            if (CarModelKit.noseLooksBackwards(model)) model = CarModelKit.read(f.readBytes(), ::decode, turned = true)
+            if (CarModelKit.noseLooksBackwards(model)) model = model.turnedAround()
             val live = CarModelKit.bake(model, f.nameWithoutExtension).model ?: continue
             File(out, f.nameWithoutExtension + ".live.glb").writeBytes(live)
             println("${f.name}: ${model.triangles} triangles -> ${live.size / 1024} KB, nodes ${nodes(live).keys}")

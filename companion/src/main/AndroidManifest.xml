@@ -50,11 +50,13 @@
 
     <!-- The pairing secret lives in this app's preferences: never in a backup,
          nor in a device-to-device transfer (which allowBackup alone doesn't stop on Android 12+). -->
+    <!-- largeHeap: a 3D model of the car (From a 3D model, up to 64 MB) is read and drawn on the phone. -->
     <application
         android:allowBackup="false"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:largeHeap="true"
         android:localeConfig="@xml/locales_config"
         android:supportsRtl="true"
         android:theme="@style/Theme.Companion">

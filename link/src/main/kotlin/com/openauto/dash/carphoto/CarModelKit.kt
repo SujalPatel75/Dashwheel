@@ -58,6 +58,24 @@ class CarModel internal constructor(
      * above its scene that turns it nose to +x, y up, centred, wheels on y = 0.
      */
     fun glbForLive(): ByteArray = CarModelKit.rewrap(glb, CarModelKit.carToGltf(toCar))
+
+    /**
+     * The same car nose the other way, as [CarModelKit.read] gives it with
+     * turned the other way, without reading the file again: half a turn about
+     * the upright, so only the corners and normals are new, the rest is shared.
+     */
+    fun turnedAround(): CarModel {
+        val t = Tris(tris.count, FloatArray(tris.pos.size), FloatArray(tris.nrm.size), tris.uv, tris.mat, tris.part)
+        for (i in tris.pos.indices) {
+            val up = i % 3 == 2
+            t.pos[i] = if (up) tris.pos[i] else -tris.pos[i]
+            t.nrm[i] = if (up) tris.nrm[i] else -tris.nrm[i]
+        }
+        // Car x and y the other way: the matrix's first two rows, their shift included.
+        val m = toCar.copyOf()
+        for (c in 0 until 8) m[c] = -m[c]
+        return CarModel(t, mats, parts, glb, m, length, width, height)
+    }
 }
 
 /** Everything baked from a model, ready for a car pack. */
@@ -137,13 +155,14 @@ class CarModelResult(
 }
 
 /** Triangles as flat arrays: 9 floats a triangle for corners and normals, 6 for texture places. */
-internal class Tris(val count: Int) {
-    val pos = FloatArray(count * 9)
-    val nrm = FloatArray(count * 9)
-    val uv = FloatArray(count * 6)
-    val mat = IntArray(count)
-    val part = IntArray(count)
-}
+internal class Tris(
+    val count: Int,
+    val pos: FloatArray = FloatArray(count * 9),
+    val nrm: FloatArray = FloatArray(count * 9),
+    val uv: FloatArray = FloatArray(count * 6),
+    val mat: IntArray = IntArray(count),
+    val part: IntArray = IntArray(count)
+)
 
 /** A material as the renderer uses it; colours linear, the texture as given (sRGB). */
 internal class ModelMat(
@@ -188,20 +207,19 @@ object CarModelKit {
         val raw = Glb.triangles(doc, decodeImage)
         require(raw.count > 0) { "no triangles in the model" }
         val toCar = carFrame(raw, turned)
-        val tris = Tris(raw.count)
-        raw.mat.copyInto(tris.mat)
-        raw.part.copyInto(tris.part)
-        raw.uv.copyInto(tris.uv)
+        // Brought to car space in the arrays just read: a big model doesn't fit twice in a phone's memory.
+        val tris = Tris(raw.count, raw.pos, raw.nrm, raw.uv, raw.mat, raw.part)
         val lo = floatArrayOf(Float.MAX_VALUE, Float.MAX_VALUE, Float.MAX_VALUE)
         val hi = floatArrayOf(-Float.MAX_VALUE, -Float.MAX_VALUE, -Float.MAX_VALUE)
         for (v in 0 until raw.count * 3) {
             val i = v * 3
-            val x = raw.pos[i]; val y = raw.pos[i + 1]; val z = raw.pos[i + 2]
+            val x = tris.pos[i]; val y = tris.pos[i + 1]; val z = tris.pos[i + 2]
+            val nx = tris.nrm[i]; val ny = tris.nrm[i + 1]; val nz = tris.nrm[i + 2]
             for (k in 0..2) {
                 val c = toCar[k * 4] * x + toCar[k * 4 + 1] * y + toCar[k * 4 + 2] * z + toCar[k * 4 + 3]
                 tris.pos[i + k] = c
                 if (raw.keep[v / 3]) { lo[k] = min(lo[k], c); hi[k] = max(hi[k], c) }
-                tris.nrm[i + k] = toCar[k * 4] * raw.nrm[i] + toCar[k * 4 + 1] * raw.nrm[i + 1] + toCar[k * 4 + 2] * raw.nrm[i + 2]
+                tris.nrm[i + k] = toCar[k * 4] * nx + toCar[k * 4 + 1] * ny + toCar[k * 4 + 2] * nz
             }
         }
         // Centred across and along, wheels on the ground.
@@ -295,7 +313,7 @@ object CarModelKit {
      * Whether the nose seems to point the other way: the red lamps are at the
      * nose's end, or (no telling red lamps) the side picture's outline (the
      * bonnet is low, the tail high) says the car faces left. The caller
-     * reads the model again with turned = true then.
+     * takes [CarModel.turnedAround] then.
      */
     fun noseLooksBackwards(model: CarModel): Boolean {
         // Red lamps say where the back is better than the outline does.
