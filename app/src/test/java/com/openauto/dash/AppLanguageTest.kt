@@ -8,8 +8,8 @@ class AppLanguageTest {
 
     @Test
     fun aDeviceInALanguageWithoutTextSpeaksEnglish() {
-        // Hungarian: the text is English, so the voice and the numbers must be too.
-        assertEquals("en", AppLanguage.textLanguage(chosenTag = null, systemLanguage = "hu"))
+        // Swedish: the text is English, so the voice and the numbers must be too.
+        assertEquals("en", AppLanguage.textLanguage(chosenTag = null, systemLanguage = "sv"))
     }
 
     @Test
@@ -20,7 +20,7 @@ class AppLanguageTest {
 
     @Test
     fun aChosenLanguageWins() {
-        assertEquals("de", AppLanguage.textLanguage(chosenTag = "de", systemLanguage = "hu"))
+        assertEquals("de", AppLanguage.textLanguage(chosenTag = "de", systemLanguage = "sv"))
         assertEquals("fr", AppLanguage.textLanguage(chosenTag = "fr", systemLanguage = "en"))
     }
 }
