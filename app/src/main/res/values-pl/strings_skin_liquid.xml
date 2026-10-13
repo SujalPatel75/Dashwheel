@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Liquid skin -->
+    <string name="liquid_talk_cd">Porozmawiaj z asystentem</string>
+    <string name="liquid_show_dashboard">Pokaż %1$s</string>
+    <string name="liquid_speed_limit_cd">Ograniczenie %1$d</string>
+    <string name="liquid_arrival">Przyjazd %1$s</string>
+    <string name="liquid_revs">Obroty</string>
+    <string name="liquid_rpm">obr/min</string>
+    <string name="liquid_battery">Akumulator</string>
+    <string name="liquid_load">Obciążenie</string>
+    <string name="liquid_coolant">Płyn chłodzący</string>
+    <string name="liquid_engine">Silnik</string>
+    <string name="liquid_range">Zasięg</string>
+    <string name="liquid_launch_bar_empty">Brak aplikacji. Dotknij ołówka, aby dodać.</string>
+    <string name="liquid_car_cd">Twój samochód</string>
+    <string name="liquid_car_open_cd">Twój samochód, drzwi są otwarte</string>
+    <string name="liquid_doors">Drzwi</string>
+    <string name="liquid_doors_open">otwarte</string>
+</resources>

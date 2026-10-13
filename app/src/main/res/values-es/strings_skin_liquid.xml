@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Liquid skin -->
+    <string name="liquid_talk_cd">Hablar con el asistente</string>
+    <string name="liquid_show_dashboard">Mostrar %1$s</string>
+    <string name="liquid_speed_limit_cd">Límite %1$d</string>
+    <string name="liquid_arrival">Llegada %1$s</string>
+    <string name="liquid_revs">Revoluciones</string>
+    <string name="liquid_rpm">rpm</string>
+    <string name="liquid_battery">Batería</string>
+    <string name="liquid_load">Carga</string>
+    <string name="liquid_coolant">Refrigerante</string>
+    <string name="liquid_engine">Motor</string>
+    <string name="liquid_range">Autonomía</string>
+    <string name="liquid_launch_bar_empty">Aún no hay apps. Toca el lápiz para añadir.</string>
+    <string name="liquid_car_cd">Tu coche</string>
+    <string name="liquid_car_open_cd">Tu coche, una puerta está abierta</string>
+    <string name="liquid_doors">Puertas</string>
+    <string name="liquid_doors_open">abierta</string>
+</resources>
