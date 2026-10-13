@@ -187,6 +187,7 @@
     <string name="car_model_pick">Pick a 3D model (.glb)</string>
     <string name="car_model_drawing">Drawing your car</string>
     <string name="car_model_turn">Nose the wrong way? Turn it around</string>
+    <string name="car_model_turn_failed">This model is too big to turn on this phone. Turn it in a 3D app and choose it again.</string>
     <string name="car_model_no_live">Too detailed to show in 3D on the car: it gets the pictures only.</string>
     <string name="car_model_unreadable">This file can\'t be read as a 3D model. Export it as a .glb without compression.</string>
     <string name="car_model_change">Pick another model</string>

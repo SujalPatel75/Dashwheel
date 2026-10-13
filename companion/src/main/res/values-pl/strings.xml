@@ -186,6 +186,7 @@
     <string name="car_model_pick">Wybierz model 3D (.glb)</string>
     <string name="car_model_drawing">Rysowanie Twojego auta</string>
     <string name="car_model_turn">Przód po złej stronie? Obróć</string>
+    <string name="car_model_turn_failed">Ten model jest za duży, aby obrócić go na tym telefonie. Obróć go w aplikacji 3D i wybierz ponownie.</string>
     <string name="car_model_no_live">Zbyt szczegółowy na 3D w aucie: dostaje tylko obrazy.</string>
     <string name="car_model_unreadable">Tego pliku nie da się odczytać jako modelu 3D. Wyeksportuj go jako .glb bez kompresji.</string>
     <string name="car_model_change">Wybierz inny model</string>

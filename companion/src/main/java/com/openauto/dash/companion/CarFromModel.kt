@@ -147,7 +147,7 @@ internal fun CarFromModelScreen(connected: Boolean, onClose: () -> Unit, newMode
             busy = false
             // When it fails, the car stays as it was.
             outcome.onSuccess { baked = it; turned = !turned }.onFailure {
-                Toast.makeText(context, R.string.car_look_failed, Toast.LENGTH_LONG).show()
+                Toast.makeText(context, R.string.car_model_turn_failed, Toast.LENGTH_LONG).show()
             }
         }
     }
