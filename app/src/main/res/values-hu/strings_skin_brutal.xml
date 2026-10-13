@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Brutal skin -->
+    <string name="brutal_talk">Beszéd</string>
+    <string name="brutal_talk_cd">Beszélj az asszisztenssel</string>
+    <string name="brutal_next_turn">Következő kanyar</string>
+    <string name="brutal_speed">Sebesség %1$s</string>
+    <string name="brutal_limit">Korlát</string>
+    <string name="brutal_weather">Időjárás</string>
+    <string name="brutal_rain">Eső</string>
+    <string name="brutal_rain_from">%1$s-tól</string>
+    <string name="brutal_rain_until">%1$s-ig</string>
+    <string name="brutal_feels">Hőérzet %1$s</string>
+    <string name="brutal_now_playing">Most szól</string>
+    <string name="brutal_range">Hatótáv</string>
+    <string name="brutal_coolant">Hűtővíz</string>
+    <string name="brutal_fuel">Üzemanyag</string>
+    <string name="brutal_outside">Kint</string>
+    <string name="brutal_battery">Akkumulátor</string>
+    <string name="brutal_all_good">Minden rendben</string>
+    <string name="brutal_check_car">Nézd meg az autót</string>
+</resources>
