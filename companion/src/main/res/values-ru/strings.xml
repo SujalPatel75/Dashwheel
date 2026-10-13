@@ -181,6 +181,15 @@
     <string name="car_photos_opened_hint">Необязательно: Gemini откроет их на виде сверху</string>
     <string name="car_photos_gemini_open">Открыть двери в Gemini</string>
     <string name="car_photos_gemini_open_prompt">Перерисуй именно это изображение моего автомобиля строго сверху, сохранив размер, положение, ракурс и цвета, но со всеми четырьмя дверями, распахнутыми настежь, открытой дверью багажника и открытым капотом. Однотонный белый фон, без текста и логотипов.</string>
+    <string name="car_model_open">Из 3D-модели</string>
+    <string name="car_model_title">Ваш автомобиль из 3D-модели</string>
+    <string name="car_model_detail">Выберите автомобиль в виде файла .glb. Телефон нарисует его со всех сторон для экрана в машине и отправит саму модель, чтобы показать её в 3D.</string>
+    <string name="car_model_pick">Выбрать 3D-модель (.glb)</string>
+    <string name="car_model_drawing">Рисуем ваш автомобиль</string>
+    <string name="car_model_turn">Перед не с той стороны? Развернуть</string>
+    <string name="car_model_no_live">Слишком детальная для 3D в машине: она получит только изображения.</string>
+    <string name="car_model_unreadable">Этот файл не читается как 3D-модель. Экспортируйте его в .glb без сжатия.</string>
+    <string name="car_model_change">Выбрать другую модель</string>
 
     <!-- Tabs and the companion's own updates. -->
     <string name="tab_home">Главная</string>

@@ -180,6 +180,15 @@
     <string name="car_photos_opened_hint">Facoltativa: Gemini le apre sulla vista dall\'alto</string>
     <string name="car_photos_gemini_open">Apri le porte in Gemini</string>
     <string name="car_photos_gemini_open_prompt">Ridisegna esattamente questa immagine della mia auto vista dall\'alto, con le stesse dimensioni, posizione, angolazione e colori, ma con tutte e quattro le porte spalancate, il portellone aperto e il cofano aperto. Sfondo bianco uniforme, senza testo né logo.</string>
+    <string name="car_model_open">Da un modello 3D</string>
+    <string name="car_model_title">La tua auto da un modello 3D</string>
+    <string name="car_model_detail">Scegli la tua auto come file .glb. Il telefono la disegna da ogni lato per lo schermo dell\'auto e invia anche il modello per mostrarla in 3D.</string>
+    <string name="car_model_pick">Scegli un modello 3D (.glb)</string>
+    <string name="car_model_drawing">Disegno della tua auto</string>
+    <string name="car_model_turn">Muso dal lato sbagliato? Girala</string>
+    <string name="car_model_no_live">Troppo dettagliato per il 3D in auto: riceve solo le immagini.</string>
+    <string name="car_model_unreadable">Questo file non si legge come modello 3D. Esportalo come .glb senza compressione.</string>
+    <string name="car_model_change">Scegli un altro modello</string>
 
     <string name="tab_home">Home</string>
     <string name="permissions_title">Autorizzazioni</string>

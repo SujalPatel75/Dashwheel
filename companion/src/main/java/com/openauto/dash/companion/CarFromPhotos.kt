@@ -111,10 +111,10 @@ internal enum class CarShot(val titleRes: Int, val hintRes: Int? = null) {
 }
 
 /** The Gemini app, which draws the view from above from the three photos for free. */
-private const val GEMINI_APP = "com.google.android.apps.bard"
+internal const val GEMINI_APP = "com.google.android.apps.bard"
 
 /** A photo as picked: the decoded picture and a small copy for its slot. */
-private class Shot(val photo: Argb, val thumb: Bitmap)
+internal class Shot(val photo: Argb, val thumb: Bitmap)
 
 /** What building ended with. */
 private sealed interface Built {
@@ -371,7 +371,7 @@ internal fun CarFromPhotosScreen(connected: Boolean, onClose: () -> Unit) {
 
 /** One photo's slot: its picture once there, else a + to add it. */
 @Composable
-private fun ShotSlot(shot: CarShot, taken: Shot?, onClick: () -> Unit) {
+internal fun ShotSlot(shot: CarShot, taken: Shot?, onClick: () -> Unit) {
     Row(
         Modifier
             .fillMaxWidth()
@@ -410,7 +410,7 @@ private fun ShotSlot(shot: CarShot, taken: Shot?, onClick: () -> Unit) {
 
 /** A built picture with a ring on each wheel, as the car will use them. */
 @Composable
-private fun CarPreview(picture: Bitmap, wheels: List<CarPoint>, modifier: Modifier) {
+internal fun CarPreview(picture: Bitmap, wheels: List<CarPoint>, modifier: Modifier) {
     Box(modifier.clip(RoundedCornerShape(14.dp)).background(StageColor), contentAlignment = Alignment.Center) {
         Box(Modifier.padding(10.dp).aspectRatio(picture.width.toFloat() / picture.height, matchHeightConstraintsFirst = picture.height >= picture.width)) {
             Image(picture.asImageBitmap(), contentDescription = null, contentScale = ContentScale.Fit, modifier = Modifier.fillMaxSize())
@@ -427,10 +427,10 @@ private fun CarPreview(picture: Bitmap, wheels: List<CarPoint>, modifier: Modifi
 }
 
 /** Behind a built picture: darker than the cards, like the car's screen. */
-private val StageColor = Color(0xFF070B16)
+internal val StageColor = Color(0xFF070B16)
 
 /** Where the camera app puts a slot's photo (shared through the app's FileProvider). */
-private fun cameraUri(context: Context, shot: CarShot): Uri {
+internal fun cameraUri(context: Context, shot: CarShot): Uri {
     val dir = File(context.cacheDir, "car_photos").apply { mkdirs() }
     return FileProvider.getUriForFile(context, "${context.packageName}.logs", File(dir, "${shot.name.lowercase()}.jpg"))
 }
@@ -439,7 +439,7 @@ private fun cameraUri(context: Context, shot: CarShot): Uri {
  * A slot's photo as a JPEG in the app's shared folder, to hand to another app.
  * A new name each time: under the same one, Gemini showed the photo it got before.
  */
-private fun shareUri(context: Context, shot: CarShot, photo: Argb): Uri {
+internal fun shareUri(context: Context, shot: CarShot, photo: Argb): Uri {
     val dir = File(context.cacheDir, "car_photos").apply { mkdirs() }
     val prefix = "share_${shot.name.lowercase()}"
     dir.listFiles { f -> f.name.startsWith(prefix) }?.forEach { it.delete() }
@@ -473,7 +473,7 @@ private fun keep(context: Context, shot: CarShot, uri: Uri): Shot {
 }
 
 /** A photo decoded upright (camera rotation applied) and no bigger than needed. */
-private fun decode(file: File): Shot {
+internal fun decode(file: File): Shot {
     val source = ImageDecoder.createSource(file)
     val bitmap = ImageDecoder.decodeBitmap(source) { decoder, info, _ ->
         decoder.allocator = ImageDecoder.ALLOCATOR_SOFTWARE

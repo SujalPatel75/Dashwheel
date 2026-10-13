@@ -180,6 +180,15 @@
     <string name="car_photos_opened_hint">Opcional: Gemini las abre en la vista desde arriba</string>
     <string name="car_photos_gemini_open">Abrir las puertas en Gemini</string>
     <string name="car_photos_gemini_open_prompt">Vuelve a dibujar exactamente esta imagen de mi coche visto desde arriba, con el mismo tamaño, posición, ángulo y colores, pero con las cuatro puertas abiertas de par en par, el portón trasero abierto y el capó abierto. Fondo blanco liso, sin texto ni logotipo.</string>
+    <string name="car_model_open">Desde un modelo 3D</string>
+    <string name="car_model_title">Tu coche desde un modelo 3D</string>
+    <string name="car_model_detail">Elige tu coche como archivo .glb. El teléfono lo dibuja desde todos los lados para la pantalla del coche y envía también el modelo para mostrarlo en 3D.</string>
+    <string name="car_model_pick">Elegir un modelo 3D (.glb)</string>
+    <string name="car_model_drawing">Dibujando tu coche</string>
+    <string name="car_model_turn">¿El frontal al revés? Dale la vuelta</string>
+    <string name="car_model_no_live">Demasiado detallado para el 3D en el coche: solo recibe las imágenes.</string>
+    <string name="car_model_unreadable">Este archivo no se puede leer como modelo 3D. Expórtalo como .glb sin compresión.</string>
+    <string name="car_model_change">Elegir otro modelo</string>
 
     <string name="tab_home">Inicio</string>
     <string name="permissions_title">Permisos</string>

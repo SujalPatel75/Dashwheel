@@ -25,6 +25,8 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -276,6 +278,12 @@ private fun CompanionScreen(resumes: Int, offer: PairingOffer?, onScanned: (Stri
         CarFromPhotosScreen(connected, onClose = { fromPhotos = false })
         return
     }
+    // ...and so does the car from a 3D model.
+    var fromModel by rememberSaveable { mutableStateOf(false) }
+    if (fromModel) {
+        CarFromModelScreen(connected, onClose = { fromModel = false })
+        return
+    }
 
     // Paired, the screen splits in tabs; before that there is only pairing and setup.
     var tab by rememberSaveable { mutableStateOf(Tab.HOME) }
@@ -365,7 +373,7 @@ private fun CompanionScreen(resumes: Int, offer: PairingOffer?, onScanned: (Stri
                 Tab.CAR -> {
                     item { SectionTitle(stringResource(R.string.tab_car), top = 2.dp) }
                     item { ObdRelayCard(onPick = { pick(BluetoothPick.OBD) }) }
-                    item { CarLookCard(connected, onFromPhotos = { fromPhotos = true }) }
+                    item { CarLookCard(connected, onFromPhotos = { fromPhotos = true }, onFromModel = { fromModel = true }) }
                     item { RegistrationCard(connected) }
                     item { SectionTitle(stringResource(R.string.cars_title)) }
                     items(units, key = { it.id }) { unit -> CarRow(unit, onRemove = { removing = unit }) }
@@ -862,8 +870,9 @@ private fun CarSpotCard() {
  * EXPERIMENTAL: the driver's own car on the car's screen ([CarLookSender]):
  * a car pack or a picture of the car from the side, picked here and sent.
  */
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
-private fun CarLookCard(connected: Boolean, onFromPhotos: () -> Unit) {
+private fun CarLookCard(connected: Boolean, onFromPhotos: () -> Unit, onFromModel: () -> Unit) {
     val context = LocalContext.current
     val status by CarLookSender.status.collectAsState()
     val choose = rememberLauncherForActivityResult(ActivityResultContracts.OpenDocument()) { uri ->
@@ -885,9 +894,14 @@ private fun CarLookCard(connected: Boolean, onFromPhotos: () -> Unit) {
     Panel {
         Column(Modifier.padding(18.dp)) {
             CardHeading(Icons.Filled.Image, stringResource(R.string.car_look_title), line, tint)
-            Row(Modifier.fillMaxWidth().padding(top = 12.dp), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                // Building from photos works offline; only sending needs the car.
+            FlowRow(
+                Modifier.fillMaxWidth().padding(top = 12.dp),
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                verticalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                // Building from photos or a model works offline; only sending needs the car.
                 Button(onClick = onFromPhotos) { Text(stringResource(R.string.car_photos_open)) }
+                Button(onClick = onFromModel) { Text(stringResource(R.string.car_model_open)) }
                 OutlinedButton(
                     onClick = { choose.launch(arrayOf("image/*", "application/zip", "application/octet-stream")) },
                     enabled = connected && status != CarLookSender.Status.SENDING

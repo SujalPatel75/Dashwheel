@@ -181,6 +181,15 @@
     <string name="car_photos_opened_hint">Optional: Gemini opens them on the view from above</string>
     <string name="car_photos_gemini_open">Open the doors in Gemini</string>
     <string name="car_photos_gemini_open_prompt">Redraw this exact picture of my car seen from directly above, keeping the same size, position, angle and colours, but with all four doors swung wide open, the tailgate open and the bonnet open. Plain white background, no text or logo.</string>
+    <string name="car_model_open">From a 3D model</string>
+    <string name="car_model_title">Your car from a 3D model</string>
+    <string name="car_model_detail">Pick your car as a .glb file. The phone draws it from every side for the car\'s screen, and sends the model too so the car can show it in 3D.</string>
+    <string name="car_model_pick">Pick a 3D model (.glb)</string>
+    <string name="car_model_drawing">Drawing your car</string>
+    <string name="car_model_turn">Nose the wrong way? Turn it around</string>
+    <string name="car_model_no_live">Too detailed to show in 3D on the car: it gets the pictures only.</string>
+    <string name="car_model_unreadable">This file can\'t be read as a 3D model. Export it as a .glb without compression.</string>
+    <string name="car_model_change">Pick another model</string>
 
     <!-- Tabs and the companion's own updates. -->
     <string name="tab_home">Home</string>

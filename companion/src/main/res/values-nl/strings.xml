@@ -180,6 +180,15 @@
     <string name="car_photos_opened_hint">Optioneel: Gemini zet ze open op het bovenaanzicht</string>
     <string name="car_photos_gemini_open">Deuren openen in Gemini</string>
     <string name="car_photos_gemini_open_prompt">Teken precies deze afbeelding van mijn auto van bovenaf opnieuw, met dezelfde grootte, positie, hoek en kleuren, maar met alle vier de deuren wijd open, de achterklep open en de motorkap open. Effen witte achtergrond, zonder tekst of logo.</string>
+    <string name="car_model_open">Uit een 3D-model</string>
+    <string name="car_model_title">Je auto uit een 3D-model</string>
+    <string name="car_model_detail">Kies je auto als .glb-bestand. De telefoon tekent hem van alle kanten voor het scherm in de auto en stuurt ook het model, zodat de auto hem in 3D toont.</string>
+    <string name="car_model_pick">3D-model kiezen (.glb)</string>
+    <string name="car_model_drawing">Je auto wordt getekend</string>
+    <string name="car_model_turn">Neus aan de verkeerde kant? Draai hem om</string>
+    <string name="car_model_no_live">Te gedetailleerd voor 3D in de auto: die krijgt alleen de afbeeldingen.</string>
+    <string name="car_model_unreadable">Dit bestand is niet te lezen als 3D-model. Exporteer het als .glb zonder compressie.</string>
+    <string name="car_model_change">Ander model kiezen</string>
 
     <string name="tab_home">Start</string>
     <string name="permissions_title">Toestemmingen</string>

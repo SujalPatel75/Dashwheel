@@ -180,6 +180,15 @@
     <string name="car_photos_opened_hint">Optional: Gemini öffnet sie in der Ansicht von oben</string>
     <string name="car_photos_gemini_open">Türen in Gemini öffnen</string>
     <string name="car_photos_gemini_open_prompt">Zeichne genau dieses Bild meines Autos von oben neu, mit gleicher Größe, Position, gleichem Winkel und gleichen Farben, aber mit allen vier Türen weit geöffnet, offener Heckklappe und offener Motorhaube. Schlichter weißer Hintergrund, ohne Text oder Logo.</string>
+    <string name="car_model_open">Aus einem 3D-Modell</string>
+    <string name="car_model_title">Ihr Auto aus einem 3D-Modell</string>
+    <string name="car_model_detail">Wählen Sie Ihr Auto als .glb-Datei. Das Handy zeichnet es von allen Seiten für den Bildschirm im Auto und sendet auch das Modell, damit das Auto es in 3D zeigt.</string>
+    <string name="car_model_pick">3D-Modell wählen (.glb)</string>
+    <string name="car_model_drawing">Ihr Auto wird gezeichnet</string>
+    <string name="car_model_turn">Front auf der falschen Seite? Umdrehen</string>
+    <string name="car_model_no_live">Zu detailliert für 3D im Auto: es bekommt nur die Bilder.</string>
+    <string name="car_model_unreadable">Diese Datei lässt sich nicht als 3D-Modell lesen. Exportieren Sie sie als .glb ohne Komprimierung.</string>
+    <string name="car_model_change">Anderes Modell wählen</string>
 
     <string name="tab_home">Start</string>
     <string name="permissions_title">Berechtigungen</string>
