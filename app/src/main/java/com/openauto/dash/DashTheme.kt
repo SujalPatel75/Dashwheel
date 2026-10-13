@@ -50,7 +50,14 @@ enum class DashThemeMode(@StringRes val titleRes: Int, @StringRes val descriptio
     MOTORSPORT(R.string.dash_theme_motorsport, R.string.dash_theme_motorsport_desc),
     ANIME(R.string.dash_theme_anime, R.string.dash_theme_anime_desc),
     RACING(R.string.dash_theme_racing, R.string.dash_theme_racing_desc),
-    PANORAMA(R.string.dash_theme_panorama, R.string.dash_theme_panorama_desc)
+    PANORAMA(R.string.dash_theme_panorama, R.string.dash_theme_panorama_desc),
+    // The 2026-10-13 looks, after that year's car and phone design (docs: D:/dashwheel-design/v16-trends).
+    LIQUID(R.string.dash_theme_liquid, R.string.dash_theme_liquid_desc),
+    EXPRESSIVE(R.string.dash_theme_expressive, R.string.dash_theme_expressive_desc),
+    KINETIC(R.string.dash_theme_kinetic, R.string.dash_theme_kinetic_desc),
+    GLYPH(R.string.dash_theme_glyph, R.string.dash_theme_glyph_desc),
+    WINDSHIELD(R.string.dash_theme_windshield, R.string.dash_theme_windshield_desc),
+    TERRAIN(R.string.dash_theme_terrain, R.string.dash_theme_terrain_desc)
 }
 
 /** Dark or light version of the theme; [AUTO] follows the car's day/night mode. */
@@ -76,7 +83,7 @@ enum class DashEffects(@StringRes val titleRes: Int, @StringRes val hintRes: Int
  * background, top bar and renderers for the main widgets (see Skins.kt).
  * [STANDARD] is every colour-only theme.
  */
-enum class DashSkin { STANDARD, ORBIT, COCKPIT, HORIZON, TAPE_DECK, CANVAS, FUTURISTIC, SIMPLE, MODERN, MOTORSPORT, ANIME, RACING, PANORAMA }
+enum class DashSkin { STANDARD, ORBIT, COCKPIT, HORIZON, TAPE_DECK, CANVAS, FUTURISTIC, SIMPLE, MODERN, MOTORSPORT, ANIME, RACING, PANORAMA, LIQUID, EXPRESSIVE, KINETIC, GLYPH, WINDSHIELD, TERRAIN }
 
 /**
  * Colours plus a few style knobs for one dashboard theme.
@@ -523,6 +530,7 @@ object DashThemeStore {
     private const val KEY_BAR_AUTO_HIDE = "bar_auto_hide"
     private const val KEY_BAR_HIDE_SECONDS = "bar_hide_seconds"
     private const val KEY_RAIL = "side_rail"
+    private const val KEY_LOOK_LAYOUT = "look_layout"
     private const val KEY_TABS = "tabs_instead_of_swiping"
 
     /** Seconds the bottom bar waits before hiding, until the driver picks another delay. */
@@ -602,6 +610,17 @@ object DashThemeStore {
     }
 
     /**
+     * Whether choosing a look also arranges Home the way the look was drawn
+     * ([skinLayout]), with Undo; on by default. Colour-only looks leave Home alone.
+     */
+    fun loadLookLayout(context: Context): Boolean =
+        context.getSharedPreferences(PREFS, Context.MODE_PRIVATE).getBoolean(KEY_LOOK_LAYOUT, true)
+
+    fun saveLookLayout(context: Context, on: Boolean) {
+        context.getSharedPreferences(PREFS, Context.MODE_PRIVATE).edit().putBoolean(KEY_LOOK_LAYOUT, on).apply()
+    }
+
+    /**
      * The side rail in the bottom bar's place (Settings, Display, Navigation):
      * the driver's choice, or null while they have not made one, when it
      * follows the theme (on with Canvas, as it always was there), see [railOn].
@@ -616,7 +635,7 @@ object DashThemeStore {
     }
 
     /** Whether the rail shows: the choice made, else the theme's own habit. */
-    fun railOn(choice: Boolean?, mode: DashThemeMode): Boolean = choice ?: (mode == DashThemeMode.CANVAS)
+    fun railOn(choice: Boolean?, mode: DashThemeMode): Boolean = choice ?: (mode == DashThemeMode.CANVAS || mode == DashThemeMode.TERRAIN)
 
     /** Tabs in the rail instead of swiping, asked for; off by default (a map app under the dashboards turns them on by itself). */
     fun loadTabs(context: Context): Boolean =
@@ -656,6 +675,12 @@ internal fun paletteFor(mode: DashThemeMode, light: Boolean): DashPalette = when
     DashThemeMode.ANIME -> if (light) AnimeLightPalette else AnimePalette
     DashThemeMode.RACING -> if (light) RacingLightPalette else RacingPalette
     DashThemeMode.PANORAMA -> if (light) PanoramaLightPalette else PanoramaPalette
+    DashThemeMode.LIQUID -> if (light) LiquidLightPalette else LiquidPalette
+    DashThemeMode.EXPRESSIVE -> if (light) ExpressiveLightPalette else ExpressivePalette
+    DashThemeMode.KINETIC -> if (light) KineticLightPalette else KineticPalette
+    DashThemeMode.GLYPH -> if (light) GlyphLightPalette else GlyphPalette
+    DashThemeMode.WINDSHIELD -> if (light) WindshieldLightPalette else WindshieldPalette
+    DashThemeMode.TERRAIN -> if (light) TerrainLightPalette else TerrainPalette
 }
 
 /**

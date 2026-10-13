@@ -83,6 +83,12 @@ internal val alertFinish: AlertFinish
             DashSkin.RACING -> AlertFinish.NEON
             // Panorama's panes of glass: the sheen and the catch of light along the top.
             DashSkin.PANORAMA -> AlertFinish.GLASS
+            DashSkin.LIQUID -> AlertFinish.GLASS
+            DashSkin.EXPRESSIVE -> AlertFinish.PLAIN
+            DashSkin.KINETIC -> AlertFinish.LIT
+            DashSkin.GLYPH -> AlertFinish.PLAIN
+            DashSkin.WINDSHIELD -> AlertFinish.NEON
+            DashSkin.TERRAIN -> AlertFinish.SMOKED
             DashSkin.STANDARD -> when {
                 DashColors.Glass -> AlertFinish.GLASS
                 // The theme's own glow, before the effects setting scales it.

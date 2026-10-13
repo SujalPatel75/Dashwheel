@@ -16,7 +16,8 @@ import androidx.compose.ui.unit.dp
 
 /*
  * Whole-design skins (Orbit, Cockpit, Horizon, Tape Deck, Canvas, and Futuristic,
- * Simple, Modern, Motorsport, Anime, Racing, Panorama). The active skin's
+ * Simple, Modern, Motorsport, Anime, Racing, Panorama, and Liquid, Expressive,
+ * Kinetic, Glyph, Windshield, Terrain). The active skin's
  * file draws the page background, the top bar, the frame over a docked Maps
  * window and the main widgets; every other tile keeps its standard renderer on
  * the skin's (bare) palette.
@@ -83,6 +84,12 @@ internal fun SkinTile(item: DashboardItem, env: SkinTileEnv) {
         DashSkin.ANIME -> AnimeTile(item, env)
         DashSkin.RACING -> RacingTile(item, env)
         DashSkin.PANORAMA -> PanoramaTile(item, env)
+        DashSkin.LIQUID -> LiquidTile(item, env)
+        DashSkin.EXPRESSIVE -> ExpressiveTile(item, env)
+        DashSkin.KINETIC -> KineticTile(item, env)
+        DashSkin.GLYPH -> GlyphTile(item, env)
+        DashSkin.WINDSHIELD -> WindshieldTile(item, env)
+        DashSkin.TERRAIN -> TerrainTile(item, env)
         DashSkin.STANDARD -> Unit
     }
 }
@@ -103,6 +110,12 @@ internal fun SkinTopBar(m: TopBarModel) {
         DashSkin.ANIME -> AnimeTopBar(m)
         DashSkin.RACING -> RacingTopBar(m)
         DashSkin.PANORAMA -> PanoramaTopBar(m)
+        DashSkin.LIQUID -> LiquidTopBar(m)
+        DashSkin.EXPRESSIVE -> ExpressiveTopBar(m)
+        DashSkin.KINETIC -> KineticTopBar(m)
+        DashSkin.GLYPH -> GlyphTopBar(m)
+        DashSkin.WINDSHIELD -> WindshieldTopBar(m)
+        DashSkin.TERRAIN -> TerrainTopBar(m)
         DashSkin.STANDARD -> Unit
     }
 }
@@ -123,6 +136,12 @@ internal fun skinBackground(): Modifier = when (DashColors.Skin) {
     DashSkin.ANIME -> animeBackground()
     DashSkin.RACING -> racingBackground()
     DashSkin.PANORAMA -> panoramaBackground()
+    DashSkin.LIQUID -> liquidBackground()
+    DashSkin.EXPRESSIVE -> expressiveBackground()
+    DashSkin.KINETIC -> kineticBackground()
+    DashSkin.GLYPH -> glyphBackground()
+    DashSkin.WINDSHIELD -> windshieldBackground()
+    DashSkin.TERRAIN -> terrainBackground()
     DashSkin.STANDARD -> Modifier
 }
 
@@ -146,6 +165,12 @@ internal fun SkinWindowFrame(modifier: Modifier) {
         DashSkin.ANIME -> AnimeWindowFrame(modifier)
         DashSkin.RACING -> RacingWindowFrame(modifier)
         DashSkin.PANORAMA -> PanoramaWindowFrame(modifier)
+        DashSkin.LIQUID -> LiquidWindowFrame(modifier)
+        DashSkin.EXPRESSIVE -> ExpressiveWindowFrame(modifier)
+        DashSkin.KINETIC -> KineticWindowFrame(modifier)
+        DashSkin.GLYPH -> GlyphWindowFrame(modifier)
+        DashSkin.WINDSHIELD -> WindshieldWindowFrame(modifier)
+        DashSkin.TERRAIN -> TerrainWindowFrame(modifier)
         DashSkin.STANDARD -> Unit
     }
 }
@@ -165,6 +190,12 @@ internal fun SkinFallbackPanel(content: @Composable () -> Unit) {
         DashSkin.FUTURISTIC -> Modifier.futPanel(DashColors.Accent).padding(6.dp)
         DashSkin.SIMPLE -> Modifier.simpleGlass()
         DashSkin.PANORAMA -> Modifier.panoFallbackPanel()
+        DashSkin.LIQUID -> Modifier.liquidFallbackPanel()
+        DashSkin.EXPRESSIVE -> Modifier.expressiveFallbackPanel()
+        DashSkin.KINETIC -> Modifier.kineticFallbackPanel()
+        DashSkin.GLYPH -> Modifier.glyphFallbackPanel()
+        DashSkin.WINDSHIELD -> Modifier.windshieldFallbackPanel()
+        DashSkin.TERRAIN -> Modifier.terrainFallbackPanel()
         DashSkin.MODERN -> Modifier.modernGlass()
         DashSkin.MOTORSPORT -> Modifier.msPanel()
         DashSkin.TAPE_DECK -> Modifier.tapeDeckPanel().padding(4.dp)
@@ -258,6 +289,12 @@ internal fun skinChrome(): SkinChrome = when (DashColors.Skin) {
     DashSkin.ANIME -> SkinChrome(AnimeShapes)
     DashSkin.RACING -> SkinChrome(RacingShapes)
     DashSkin.PANORAMA -> SkinChrome(PanoramaShapes)
+    DashSkin.LIQUID -> SkinChrome(LiquidShapes)
+    DashSkin.EXPRESSIVE -> SkinChrome(ExpressiveShapes)
+    DashSkin.KINETIC -> SkinChrome(KineticShapes)
+    DashSkin.GLYPH -> SkinChrome(GlyphShapes)
+    DashSkin.WINDSHIELD -> SkinChrome(WindshieldShapes)
+    DashSkin.TERRAIN -> SkinChrome(TerrainShapes)
     DashSkin.STANDARD -> SkinChrome(StandardShapes)
 }
 
