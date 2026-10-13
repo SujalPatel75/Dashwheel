@@ -107,6 +107,9 @@ internal object MyCarLook {
 
     private val VIEWS = listOf("side", "top", "hero", "back", "front")
 
+    /** The views seen from an end, which the driver may add one by one. */
+    private val END_VIEWS = listOf("back", "front")
+
     private var appContext: Context? = null
 
     private val _look = MutableStateFlow<CarLook?>(null)
@@ -216,12 +219,26 @@ internal object MyCarLook {
                 prepared.nose?.let { put("nose", point(it)) }
                 prepared.tail?.let { put("tail", point(it)) }
                 if (parts.length() > 0) put("parts", parts)
-                lampsOf(view, prepared.photo)?.let { put("lights", JSONArray().apply { it.forEach { o -> put(point(o)) } }) }
+                // The pack's own lamps (a 3D bake knows them), else found on the picture.
+                (raw.lights.takeIf { it.size == 2 }?.map(prepared.move) ?: lampsOf(view, prepared.photo))
+                    ?.let { put("lights", JSONArray().apply { it.forEach { o -> put(point(o)) } }) }
             })
             prepared.photo.recycle()
             prepared.outline.recycle()
         }
         require(VIEWS.any { manifest.has(it) }) { "no picture" }
+        // The ends added by hand ([addView]) stay when the new car brings none of its own.
+        val old = runCatching { JSONObject(File(root, MANIFEST).readText()) }.getOrNull()
+        for (view in END_VIEWS) {
+            if (manifest.has(view)) continue
+            val entry = old?.optJSONObject(view) ?: continue
+            val photo = File(root, "$view.png").takeIf { it.exists() } ?: continue
+            runCatching {
+                photo.copyTo(File(next, "$view.png"), overwrite = true)
+                File(root, "${view}_line.png").takeIf { it.exists() }?.copyTo(File(next, "${view}_line.png"), overwrite = true)
+                manifest.put(view, entry)
+            }
+        }
         File(next, MANIFEST).writeText(manifest.toString())
         root.deleteRecursively()
         check(next.renameTo(root)) { "could not keep it" }
@@ -237,7 +254,8 @@ internal object MyCarLook {
         val wheels: List<Offset> = emptyList(),
         val nose: Offset? = null,
         val tail: Offset? = null,
-        val parts: Map<String, RawPart> = emptyMap()
+        val parts: Map<String, RawPart> = emptyMap(),
+        val lights: List<Offset> = emptyList()
     )
 
     /** [move]: a point of the picture as it came (fractions) to the same point of [photo]. */
@@ -285,6 +303,7 @@ internal object MyCarLook {
             val data = files[file.substringAfterLast('/')] ?: continue
             val a = anchors.optJSONObject(view)
             val wheels = a?.optJSONArray("wheels")?.let { arr -> (0 until arr.length()).mapNotNull { offset(arr.optJSONArray(it)) } }.orEmpty()
+            val lights = a?.optJSONArray("lights")?.let { arr -> (0 until arr.length()).mapNotNull { offset(arr.optJSONArray(it)) } }.orEmpty()
             val parts = LinkedHashMap<String, RawPart>()
             allParts.optJSONObject(view)?.let { p ->
                 for (part in CarPart.entries) {
@@ -294,7 +313,7 @@ internal object MyCarLook {
                     parts[part.key] = RawPart(bytes, box)
                 }
             }
-            out[view] = RawView(data, wheels, offset(a?.optJSONArray("nose")), offset(a?.optJSONArray("tail")), parts)
+            out[view] = RawView(data, wheels, offset(a?.optJSONArray("nose")), offset(a?.optJSONArray("tail")), parts, lights)
         }
         val name = json.optString("name").ifBlank { CarProfileStore.current.name }
         return name to out

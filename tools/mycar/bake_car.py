@@ -15,11 +15,17 @@ Options after "--":
                         glTF and most downloads face -y)
     --hide A,B          objects to leave out (stray parts, a ground plane)
     --name "C4 Picasso" the car's name in the pack
+    --keep-world        keep the .blend's own world, lights and exposure (a model that
+                        brings its own sky for realistic reflections) instead of the
+                        plain studio
 
-The pack is a zip: car.json, side.png (nose to the right), top.png (nose up)
-and hero.png (three-quarter front), each on a transparent background, plus
-where the wheels and the bumpers are on each picture (fractions of its width
-and height), so the app can draw its signals on the car. The wheels are found
+The pack is a zip: car.json, side.png (nose to the right), top.png (nose up),
+hero.png (three-quarter front), back.png and front.png (seen from each end, for
+the Car problems map), each on a transparent background, plus where the wheels,
+the bumpers and the lamps are on each picture (fractions of its width and
+height), so the app can draw its signals on the car. The lamps are found by
+material or object name (tail light, headlight...); without them the app looks
+for the red of the rear lamps itself. The wheels are found
 by name (wheel, tyre, tire, rim) or, failing that, as the low round parts at
 the four corners. The app trims each picture to the car itself.
 """
@@ -40,10 +46,14 @@ def args():
     argv = sys.argv[sys.argv.index("--") + 1:] if "--" in sys.argv else []
     if not argv:
         sys.exit("usage: blender -b model.blend --python bake_car.py -- out.dwcar [--model f] [--nose +x] [--hide a,b] [--name n]")
-    opts = {"out": argv[0], "model": None, "nose": "+x", "hide": [], "name": ""}
+    opts = {"out": argv[0], "model": None, "nose": "+x", "hide": [], "name": "", "keep_world": False}
     i = 1
     while i < len(argv):
         key = argv[i].lstrip("-")
+        if key == "keep-world":
+            opts["keep_world"] = True
+            i += 1
+            continue
         val = argv[i + 1] if i + 1 < len(argv) else ""
         if key == "hide":
             opts["hide"] = [s.strip() for s in val.split(",") if s.strip()]
@@ -96,6 +106,8 @@ def nose_turn(nose):
     return {"+x": 0.0, "-x": math.pi, "+y": -math.pi / 2, "-y": math.pi / 2}.get(nose, 0.0)
 
 
+VIEWS = ("side", "top", "hero", "back", "front")
+
 WHEEL_NAME = re.compile(r"(^|[^a-z])(wheel|tyre|tire|rim)s?([^a-z]|$)")
 
 
@@ -128,6 +140,41 @@ def find_wheels(meshes, lo, hi):
     return wheels if len(wheels) == 4 else None
 
 
+TAIL_NAME = re.compile(r"tail.?(light|lamp|clear|reflector)|rear.?(lamp|light)|stop.?lamp|brake.?light|feu.?arr|r[uü]ckl")
+HEAD_NAME = re.compile(r"head.?(light|lamp|lens)|phare|scheinwerfer")
+
+
+def lamp_centres(meshes, pattern, facing):
+    """
+    The car's left and right lamp, as the area-weighted middle of the faces
+    whose material (or object) name matches [pattern], weighted by how much
+    they face [facing] (+1: the nose, -1: the tail), so the part wrapping round
+    the side doesn't pull it off. Car space, nose to +x, the car's left at +y.
+    """
+    sums = {True: [Vector(), 0.0], False: [Vector(), 0.0]}
+    for o in meshes:
+        mats = [s.material.name.lower() if s.material else "" for s in o.material_slots]
+        whole = bool(pattern.search(o.name.lower()))
+        if not whole and not any(pattern.search(m) for m in mats):
+            continue
+        mw = o.matrix_world
+        rot = mw.to_3x3()
+        for poly in o.data.polygons:
+            if not whole and not (poly.material_index < len(mats) and pattern.search(mats[poly.material_index])):
+                continue
+            n = (rot @ poly.normal).normalized()
+            wgt = poly.area * max(0.0, n.x * facing)
+            if wgt <= 0:
+                continue
+            c = mw @ poly.center
+            acc = sums[c.y > 0]
+            acc[0] += c * wgt
+            acc[1] += wgt
+    if sums[True][1] <= 0 or sums[False][1] <= 0:
+        return None
+    return [sums[True][0] / sums[True][1], sums[False][0] / sums[False][1]]
+
+
 def main():
     o = args()
     if o["model"]:
@@ -156,25 +203,27 @@ def main():
     length, width, height = hi.x - lo.x, hi.y - lo.y, hi.z - lo.z
 
     # Studio light: a soft sky over a dark floor, and a camera.
-    world = bpy.data.worlds.new("bake_studio")
-    world.use_nodes = True
-    nt = world.node_tree
-    nt.nodes.clear()
-    tc = nt.nodes.new("ShaderNodeTexCoord")
-    sep = nt.nodes.new("ShaderNodeSeparateXYZ")
-    ramp = nt.nodes.new("ShaderNodeValToRGB")
-    bg = nt.nodes.new("ShaderNodeBackground")
-    out = nt.nodes.new("ShaderNodeOutputWorld")
-    nt.links.new(tc.outputs["Generated"], sep.inputs[0])
-    nt.links.new(sep.outputs["Z"], ramp.inputs[0])
-    ramp.color_ramp.elements[0].position = 0.45
-    ramp.color_ramp.elements[0].color = (0.05, 0.05, 0.06, 1)
-    ramp.color_ramp.elements[1].position = 0.75
-    ramp.color_ramp.elements[1].color = (0.9, 0.92, 0.95, 1)
-    nt.links.new(ramp.outputs[0], bg.inputs["Color"])
-    bg.inputs["Strength"].default_value = 1.2
-    nt.links.new(bg.outputs[0], out.inputs[0])
-    sc.world = world
+    keep = o["keep_world"] and sc.world is not None
+    world = sc.world if keep else bpy.data.worlds.new("bake_studio")
+    if not keep:
+        world.use_nodes = True
+        nt = world.node_tree
+        nt.nodes.clear()
+        tc = nt.nodes.new("ShaderNodeTexCoord")
+        sep = nt.nodes.new("ShaderNodeSeparateXYZ")
+        ramp = nt.nodes.new("ShaderNodeValToRGB")
+        bg = nt.nodes.new("ShaderNodeBackground")
+        out = nt.nodes.new("ShaderNodeOutputWorld")
+        nt.links.new(tc.outputs["Generated"], sep.inputs[0])
+        nt.links.new(sep.outputs["Z"], ramp.inputs[0])
+        ramp.color_ramp.elements[0].position = 0.45
+        ramp.color_ramp.elements[0].color = (0.05, 0.05, 0.06, 1)
+        ramp.color_ramp.elements[1].position = 0.75
+        ramp.color_ramp.elements[1].color = (0.9, 0.92, 0.95, 1)
+        nt.links.new(ramp.outputs[0], bg.inputs["Color"])
+        bg.inputs["Strength"].default_value = 1.2
+        nt.links.new(bg.outputs[0], out.inputs[0])
+        sc.world = world
     if not any(ob.type == "LIGHT" for ob in bpy.data.objects):
         sun = bpy.data.objects.new("bake_sun", bpy.data.lights.new("bake_sun", "SUN"))
         sun.data.energy = 3.0
@@ -189,7 +238,8 @@ def main():
     sc.render.film_transparent = True
     sc.render.image_settings.file_format = "PNG"
     sc.render.image_settings.color_mode = "RGBA"
-    sc.view_settings.exposure = 1.1
+    if not keep:
+        sc.view_settings.exposure = 1.1
 
     tmp = tempfile.mkdtemp(prefix="dwcar_")
     far = max(length, width, height) * 10
@@ -229,6 +279,22 @@ def main():
         top["wheels"] = [project(wheels[k], 600, 1000) for k in ("fl", "fr", "rl", "rr")]
     anchors["top"] = top
 
+    # Each end, the car's lamps seen face on (the Car problems map). From behind
+    # the car's left is on the picture's left, from the front on its right.
+    span = max(width, height * 1000 / 800) * 1.08
+    ortho("back", (-far, 0, mid_z), (90, 0, -90), span, 1000, 800)
+    back = {}
+    lamps = lamp_centres(meshes, TAIL_NAME, -1)
+    if lamps:
+        back["lights"] = [project(p, 1000, 800) for p in lamps]
+    anchors["back"] = back
+    ortho("front", (far, 0, mid_z), (90, 0, 90), span, 1000, 800)
+    front = {}
+    lamps = lamp_centres(meshes, HEAD_NAME, 1)
+    if lamps:
+        front["lights"] = [project(p, 1000, 800) for p in lamps]
+    anchors["front"] = front
+
     # Three-quarter front, from the right.
     cam.data.type = "PERSP"
     cam.data.lens = 62
@@ -242,14 +308,16 @@ def main():
     car = {
         "v": 1,
         "name": o["name"],
-        "views": {"side": "side.png", "top": "top.png", "hero": "hero.png"},
+        "views": {v: v + ".png" for v in VIEWS},
         "anchors": anchors,
     }
     with zipfile.ZipFile(o["out"], "w", zipfile.ZIP_DEFLATED) as z:
         z.writestr("car.json", json.dumps(car, indent=1))
-        for v in ("side", "top", "hero"):
+        for v in VIEWS:
             z.write(os.path.join(tmp, v + ".png"), v + ".png")
-    print("BAKED", os.path.abspath(o["out"]), "wheels found" if wheels else "no wheels found")
+    print("BAKED", os.path.abspath(o["out"]), "wheels found" if wheels else "no wheels found",
+          "tail lamps found" if "lights" in back else "no tail lamps found",
+          "headlights found" if "lights" in front else "no headlights found")
 
 
 main()
