@@ -251,7 +251,7 @@
     <string name="dash_theme_windshield">Para-brisa</string>
     <string name="dash_theme_windshield_desc">Uma faixa no topo com tudo o que olha de relance, sobre uma estrada desenhada à noite.</string>
     <string name="dash_theme_terrain">Terreno</string>
-    <string name="dash_theme_terrain_desc">O seu carro no mapa de curvas de nível do local, um problema marcado na própria peça.</string>
+    <string name="dash_theme_terrain_desc">O seu carro numa paisagem de curvas de nível, um problema marcado na própria peça.</string>
     <string name="dash_theme_ambient">Ambiente</string>
     <string name="dash_theme_ambient_desc">Um campo de luz com poucas palavras: um brilho quente sobe do lado da próxima viragem.</string>
     <string name="dash_theme_brutal">Brutal</string>

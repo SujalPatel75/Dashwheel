@@ -250,7 +250,7 @@
     <string name="dash_theme_windshield">Voorruit</string>
     <string name="dash_theme_windshield_desc">Eén band bovenaan met alles waar je even naar kijkt, boven een getekende weg bij nacht.</string>
     <string name="dash_theme_terrain">Terrein</string>
-    <string name="dash_theme_terrain_desc">Je auto op de hoogtelijnenkaart van waar je bent, een probleem vastgepind op het onderdeel zelf.</string>
+    <string name="dash_theme_terrain_desc">Je auto op een landschap van hoogtelijnen, een probleem vastgepind op het onderdeel zelf.</string>
     <string name="dash_theme_ambient">Sfeer</string>
     <string name="dash_theme_ambient_desc">Een veld van licht met weinig woorden: een warme gloed komt op aan de kant van de volgende afslag.</string>
     <string name="dash_theme_brutal">Brutaal</string>

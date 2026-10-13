@@ -250,7 +250,7 @@
     <string name="dash_theme_windshield">Frontscheibe</string>
     <string name="dash_theme_windshield_desc">Ein Band oben mit allem, worauf Sie kurz schauen, über einer gezeichneten Straße bei Nacht.</string>
     <string name="dash_theme_terrain">Gelände</string>
-    <string name="dash_theme_terrain_desc">Ihr Auto auf der Höhenlinienkarte des Ortes, ein Problem direkt am Bauteil markiert.</string>
+    <string name="dash_theme_terrain_desc">Ihr Auto auf einer Landschaft aus Höhenlinien, ein Problem direkt am Bauteil markiert.</string>
     <string name="dash_theme_ambient">Ambient</string>
     <string name="dash_theme_ambient_desc">Ein Lichtfeld mit wenigen Worten: Ein warmes Leuchten steigt auf der Seite der nächsten Abbiegung auf.</string>
     <string name="dash_theme_brutal">Brutal</string>

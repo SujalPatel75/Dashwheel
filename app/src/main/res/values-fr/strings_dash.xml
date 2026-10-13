@@ -255,7 +255,7 @@
     <string name="dash_theme_windshield">Pare-brise</string>
     <string name="dash_theme_windshield_desc">Un bandeau en haut avec tout ce que vous regardez d\'un coup d\'œil, sur une route dessinée de nuit.</string>
     <string name="dash_theme_terrain">Relief</string>
-    <string name="dash_theme_terrain_desc">Votre voiture sur la carte en courbes de niveau du lieu, un problème épinglé sur la pièce.</string>
+    <string name="dash_theme_terrain_desc">Votre voiture sur un paysage de courbes de niveau, un problème épinglé sur la pièce.</string>
     <string name="dash_theme_ambient">Ambiance</string>
     <string name="dash_theme_ambient_desc">Un champ de lumière et peu de mots : une lueur chaude monte du côté du prochain virage.</string>
     <string name="dash_theme_brutal">Brutal</string>

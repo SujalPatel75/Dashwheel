@@ -256,7 +256,7 @@
     <string name="dash_theme_windshield">Szélvédő</string>
     <string name="dash_theme_windshield_desc">Egy sáv felül mindennel, amire rápillantasz, egy éjszakai rajzolt út fölött.</string>
     <string name="dash_theme_terrain">Terep</string>
-    <string name="dash_theme_terrain_desc">Az autód a hely szintvonalas térképén, a hiba magán az alkatrészen jelölve.</string>
+    <string name="dash_theme_terrain_desc">Az autód egy szintvonalas tájon, a hiba magán az alkatrészen jelölve.</string>
     <string name="dash_theme_ambient">Hangulat</string>
     <string name="dash_theme_ambient_desc">Fénymező kevés szóval: meleg ragyogás emelkedik a következő kanyar felőli oldalon.</string>
     <string name="dash_theme_brutal">Brutál</string>

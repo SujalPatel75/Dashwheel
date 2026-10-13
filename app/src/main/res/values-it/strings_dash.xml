@@ -255,7 +255,7 @@
     <string name="dash_theme_windshield">Parabrezza</string>
     <string name="dash_theme_windshield_desc">Una fascia in alto con tutto ciò che guardi di sfuggita, su una strada disegnata di notte.</string>
     <string name="dash_theme_terrain">Terreno</string>
-    <string name="dash_theme_terrain_desc">La tua auto sulla mappa a curve di livello del luogo, un problema segnato sul pezzo stesso.</string>
+    <string name="dash_theme_terrain_desc">La tua auto su un paesaggio a curve di livello, un problema segnato sul pezzo stesso.</string>
     <string name="dash_theme_ambient">Ambiente</string>
     <string name="dash_theme_ambient_desc">Un campo di luce con poche parole: un bagliore caldo sale dal lato della prossima svolta.</string>
     <string name="dash_theme_brutal">Brutale</string>

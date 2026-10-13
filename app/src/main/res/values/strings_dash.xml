@@ -257,7 +257,7 @@
     <string name="dash_theme_windshield">Windshield</string>
     <string name="dash_theme_windshield_desc">One band across the top with everything you glance at, over a drawn road at night.</string>
     <string name="dash_theme_terrain">Terrain</string>
-    <string name="dash_theme_terrain_desc">Your car on the contour map of where you are, a problem pinned on the part itself.</string>
+    <string name="dash_theme_terrain_desc">Your car on a landscape of contour lines, a problem pinned on the part itself.</string>
     <string name="dash_theme_ambient">Ambient</string>
     <string name="dash_theme_ambient_desc">A field of light with few words: a warm glow rises from the side of the next turn.</string>
     <string name="dash_theme_brutal">Brutal</string>

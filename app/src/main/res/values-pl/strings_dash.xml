@@ -252,7 +252,7 @@
     <string name="dash_theme_windshield">Przednia szyba</string>
     <string name="dash_theme_windshield_desc">Jeden pas u góry ze wszystkim, na co zerkasz, nad rysowaną drogą nocą.</string>
     <string name="dash_theme_terrain">Teren</string>
-    <string name="dash_theme_terrain_desc">Twój samochód na mapie poziomic miejsca, w którym jesteś, usterka zaznaczona na samej części.</string>
+    <string name="dash_theme_terrain_desc">Twój samochód na krajobrazie z poziomic, usterka zaznaczona na samej części.</string>
     <string name="dash_theme_ambient">Nastrój</string>
     <string name="dash_theme_ambient_desc">Pole światła i mało słów: ciepła poświata wznosi się po stronie następnego skrętu.</string>
     <string name="dash_theme_brutal">Brutalny</string>

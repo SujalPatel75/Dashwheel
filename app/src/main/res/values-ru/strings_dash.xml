@@ -258,7 +258,7 @@
     <string name="dash_theme_windshield">Лобовое стекло</string>
     <string name="dash_theme_windshield_desc">Одна полоса сверху со всем, на что вы бросаете взгляд, над нарисованной ночной дорогой.</string>
     <string name="dash_theme_terrain">Рельеф</string>
-    <string name="dash_theme_terrain_desc">Ваш автомобиль на карте с горизонталями местности, неисправность отмечена прямо на детали.</string>
+    <string name="dash_theme_terrain_desc">Ваш автомобиль на пейзаже из горизонталей, неисправность отмечена прямо на детали.</string>
     <string name="dash_theme_ambient">Свет</string>
     <string name="dash_theme_ambient_desc">Поле света и мало слов: тёплое свечение поднимается со стороны следующего поворота.</string>
     <string name="dash_theme_brutal">Брутальный</string>
