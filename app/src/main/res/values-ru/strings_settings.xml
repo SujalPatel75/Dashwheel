@@ -351,4 +351,8 @@
     <string name="settings_obd_auto">Подключаться само</string>
     <string name="settings_obd_auto_on">При запуске машины и снова, если связь пропадёт</string>
     <string name="settings_obd_auto_off">Выкл.: адаптер остаётся сопряжённым и подключается, когда вы нажимаете OBD на панели</string>
+    <string name="settings_log_save">Сохранить журнал на магнитоле</string>
+    <string name="settings_log_save_detail">В папке Download, Dashwheel, чтобы скопировать на флешку</string>
+    <string name="settings_log_saved">Сохранено в Download, Dashwheel: %1$s</string>
+    <string name="settings_log_save_failed">Не удалось сохранить журнал</string>
 </resources>

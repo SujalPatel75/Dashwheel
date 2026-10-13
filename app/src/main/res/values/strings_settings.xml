@@ -345,4 +345,8 @@
     <string name="settings_obd_auto">Connect by itself</string>
     <string name="settings_obd_auto_on">When the car starts, and again if the link drops</string>
     <string name="settings_obd_auto_off">Off: the adapter stays paired and connects when you tap OBD in the bar</string>
+    <string name="settings_log_save">Save the unit\'s log here</string>
+    <string name="settings_log_save_detail">In the Download, Dashwheel folder, to copy to a USB stick</string>
+    <string name="settings_log_saved">Saved in Download, Dashwheel: %1$s</string>
+    <string name="settings_log_save_failed">Could not save the log on the unit</string>
 </resources>

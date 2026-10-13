@@ -342,4 +342,8 @@
     <string name="settings_obd_auto">Automatisch verbinden</string>
     <string name="settings_obd_auto_on">Beim Start des Autos und erneut, wenn die Verbindung abbricht</string>
     <string name="settings_obd_auto_off">Aus: Der Adapter bleibt gekoppelt und verbindet sich, wenn Sie in der Leiste auf OBD tippen</string>
+    <string name="settings_log_save">Protokoll auf dem Gerät speichern</string>
+    <string name="settings_log_save_detail">Im Ordner Download, Dashwheel, zum Kopieren auf einen USB-Stick</string>
+    <string name="settings_log_saved">Gespeichert in Download, Dashwheel: %1$s</string>
+    <string name="settings_log_save_failed">Protokoll konnte nicht gespeichert werden</string>
 </resources>

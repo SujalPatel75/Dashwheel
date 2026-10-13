@@ -50,4 +50,30 @@ class RadioStationsTest {
         assertEquals(54, SpeedCorrection.correctGps(50, 4))
         assertEquals(0, SpeedCorrection.correctGps(0, 4))
     }
+
+    @Test
+    fun dabZAsTheTesterSentIt() {
+        // From a K706 tester's unit log, 2026-10-13: (title, artist, album) as DAB-Z published them.
+        val r = RadioStations()
+        fun dab(t: String, a: String, b: String) = r.note("com.zoulou.dab", t, a, b, live = true)
+        assertEquals("", dab("Radio Salomon", "Radio Salomon", "SLO DAB+ R1"))
+        // The radio text, the station as the artist: already on the second line.
+        assertEquals("Radio Salomon", dab("HEAVY D & THE BOYZ/NOW THAT WE FOUND LOVE", "Radio Salomon", "SLO DAB+ R1"))
+        assertEquals("Radio Salomon", dab("Your Home of Music", "Radio Salomon", "SLO DAB+ R1"))
+        // The song and its singer, "station - multiplex" as the album.
+        assertEquals("Radio Salomon", dab("NOW THAT WE FOUND LOVE", "HEAVY D & THE BOYZ", "Radio Salomon - SLO DAB+ R1"))
+        // Another station: tuned, then its song.
+        assertEquals("", dab("Radio Si", "Radio Si", "SLO DAB+ R1"))
+        assertEquals("Radio Si", dab("DAI DAI", "SHAKIRA IN BURNA BOY", "Radio Si - SLO DAB+ R1"))
+    }
+
+    @Test
+    fun theStationGoesAfterTheArtistOnce() {
+        val song = MediaState(title = "DAI DAI", artist = "SHAKIRA IN BURNA BOY", station = "Radio Si")
+        assertEquals("SHAKIRA IN BURNA BOY · Radio Si", withStation(song).artist)
+        // Already there (the radio text with the station as the artist): left as it is.
+        val text = MediaState(title = "Your Home of Music", artist = "Radio Si", station = "Radio Si")
+        assertEquals("Radio Si", withStation(text).artist)
+        assertEquals("Radio Si", withStation(MediaState(title = "x", artist = "", station = "Radio Si")).artist)
+    }
 }

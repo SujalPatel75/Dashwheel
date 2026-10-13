@@ -1,11 +1,15 @@
 package com.openauto.dash
 
 /**
- * The station each radio app tunes, from what its media session says, for
- * the title's turns between the song and the station (a live session, no
- * length). Radio apps say it in different ways:
- * - the station first as the title, then the song in its place (the station
- *   is the title seen before the first song);
+ * The station each radio app tunes, from what its media session says, to
+ * show under the song (a live session, no length). Radio apps say it in
+ * different ways:
+ * - the station first as the title (often as the artist too), then the song
+ *   in its place: the station is the title seen before the first song;
+ * - DAB-Z (com.zoulou.dab): tuned, title and artist are the station and the
+ *   album its multiplex ("SLO DAB+ R1"); then the radio text as the title
+ *   with the station as the artist; then the song and its singer, the album
+ *   reading "station - multiplex";
  * - the song as the title and the station as the album, or as the artist
  *   while the title reads "artist - song".
  * Pure, so it's unit-tested.
@@ -27,19 +31,27 @@ internal class RadioStations {
             byApp[app] = t
             return ""
         }
+        val known = byApp[app]
         val station = when {
-            // An album that isn't the song's words is the station's name on a live stream.
-            b.isNotEmpty() && !b.equals(t, ignoreCase = true) && !b.equals(a, ignoreCase = true) -> b
+            // The station it named itself, still the artist (the radio text as the title) or the album's start.
+            known != null && (a.equals(known, ignoreCase = true) || b.startsWith(known, ignoreCase = true)) -> known
+            // "Station - multiplex" as the album.
+            ALBUM_SPLIT in b -> b.substringBefore(ALBUM_SPLIT).trim()
+            // An album that isn't the song's words, with no station named before: the station's name.
+            known == null && b.isNotEmpty() && !b.equals(t, ignoreCase = true) && !b.equals(a, ignoreCase = true) -> b
             // "Artist - Song" as the title, the station as the artist.
             SONG.containsMatchIn(t) && a.isNotEmpty() && !t.contains(a, ignoreCase = true) -> a
-            else -> byApp[app] ?: return ""
+            else -> known ?: return ""
         }
-        // A song whose words already carry the station's name needs no turn.
-        return station.takeUnless { t.contains(it, ignoreCase = true) }.orEmpty()
+        // A song whose words already carry the station's name needs it no more.
+        return station.takeUnless { it.isEmpty() || t.contains(it, ignoreCase = true) }.orEmpty()
     }
 
     private companion object {
         /** "Artist - Song", the way radios that send no artist write it. */
         val SONG = Regex("\\S\\s[-–/|:]\\s\\S")
+
+        /** Between the station and its multiplex in a DAB album. */
+        const val ALBUM_SPLIT = " - "
     }
 }

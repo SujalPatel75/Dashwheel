@@ -37,6 +37,7 @@ import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.SaveAlt
 import androidx.compose.material.icons.filled.Autorenew
 import androidx.compose.material.icons.filled.VerticalAlignTop
 import androidx.compose.material.icons.filled.VerifiedUser
@@ -1257,6 +1258,7 @@ private fun LabSheet(open: (Deep) -> Unit, onDismiss: () -> Unit) {
                 ) { expanded = !expanded }
             }
             SendLogRow()
+            SaveLogRow()
         }
     }
 }
@@ -1752,6 +1754,34 @@ internal fun SettingsToggle(icon: ImageVector, title: String, detail: String, ch
         )
     }
     HorizontalDivider(color = DashColors.Line, modifier = Modifier.padding(horizontal = 12.dp))
+}
+
+/** Saves the unit's log on the unit itself, for a driver with no phone linked ([DebugLog.saveOnUnit]). */
+@Composable
+private fun SaveLogRow() {
+    val context = LocalContext.current
+    val scope = rememberCoroutineScope()
+    var saved by remember { mutableStateOf<String?>(null) }
+    var failed by remember { mutableStateOf(false) }
+    var saving by remember { mutableStateOf(false) }
+    SettingsRow(
+        Icons.Filled.SaveAlt, stringResource(R.string.settings_log_save),
+        when {
+            saving -> stringResource(R.string.settings_log_sending)
+            saved != null -> stringResource(R.string.settings_log_saved, saved!!)
+            failed -> stringResource(R.string.settings_log_save_failed)
+            else -> stringResource(R.string.settings_log_save_detail)
+        }
+    ) {
+        if (saving) return@SettingsRow
+        saving = true
+        scope.launch {
+            val name = DebugLog.saveOnUnit(context)
+            saving = false
+            saved = name
+            failed = name == null
+        }
+    }
 }
 
 /** Test builds: gives the unit's log to the phone, to share as a bug report ([DebugLog]). */

@@ -342,4 +342,8 @@
     <string name="settings_obd_auto">Vanzelf verbinden</string>
     <string name="settings_obd_auto_on">Bij het starten van de auto, en opnieuw als de verbinding wegvalt</string>
     <string name="settings_obd_auto_off">Uit: de adapter blijft gekoppeld en verbindt als u op OBD in de balk tikt</string>
+    <string name="settings_log_save">Logboek op het toestel bewaren</string>
+    <string name="settings_log_save_detail">In de map Download, Dashwheel, om naar een USB-stick te kopiëren</string>
+    <string name="settings_log_saved">Bewaard in Download, Dashwheel: %1$s</string>
+    <string name="settings_log_save_failed">Logboek kon niet worden bewaard</string>
 </resources>

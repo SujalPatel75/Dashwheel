@@ -346,4 +346,8 @@
     <string name="settings_obd_auto">Ligar sozinho</string>
     <string name="settings_obd_auto_on">Ao ligar o carro, e de novo se a ligação cair</string>
     <string name="settings_obd_auto_off">Desligado: o adaptador continua emparelhado e liga quando toca em OBD na barra</string>
+    <string name="settings_log_save">Guardar o registo na unidade</string>
+    <string name="settings_log_save_detail">Na pasta Download, Dashwheel, para copiar para uma pen USB</string>
+    <string name="settings_log_saved">Guardado em Download, Dashwheel: %1$s</string>
+    <string name="settings_log_save_failed">Não foi possível guardar o registo na unidade</string>
 </resources>

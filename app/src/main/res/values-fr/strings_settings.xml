@@ -346,4 +346,8 @@
     <string name="settings_obd_auto">Se connecter tout seul</string>
     <string name="settings_obd_auto_on">Au démarrage de la voiture, et de nouveau si la liaison tombe</string>
     <string name="settings_obd_auto_off">Désactivé : l\'adaptateur reste associé et se connecte quand vous touchez OBD dans la barre</string>
+    <string name="settings_log_save">Enregistrer le journal sur l\'autoradio</string>
+    <string name="settings_log_save_detail">Dans le dossier Download, Dashwheel, à copier sur une clé USB</string>
+    <string name="settings_log_saved">Enregistré dans Download, Dashwheel : %1$s</string>
+    <string name="settings_log_save_failed">Impossible d\'enregistrer le journal sur l\'autoradio</string>
 </resources>

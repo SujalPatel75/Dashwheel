@@ -350,4 +350,8 @@
     <string name="settings_obd_auto">Łącz samodzielnie</string>
     <string name="settings_obd_auto_on">Przy uruchomieniu auta i ponownie, gdy połączenie zniknie</string>
     <string name="settings_obd_auto_off">Wyłączone: adapter pozostaje sparowany i łączy się po dotknięciu OBD na pasku</string>
+    <string name="settings_log_save">Zapisz dziennik w urządzeniu</string>
+    <string name="settings_log_save_detail">W folderze Download, Dashwheel, do skopiowania na pendrive</string>
+    <string name="settings_log_saved">Zapisano w Download, Dashwheel: %1$s</string>
+    <string name="settings_log_save_failed">Nie udało się zapisać dziennika</string>
 </resources>

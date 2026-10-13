@@ -346,4 +346,8 @@
     <string name="settings_obd_auto">Connetti da solo</string>
     <string name="settings_obd_auto_on">All\'avvio dell\'auto, e di nuovo se il collegamento cade</string>
     <string name="settings_obd_auto_off">Disattivato: l\'adattatore resta associato e si connette quando tocchi OBD nella barra</string>
+    <string name="settings_log_save">Salva il registro sull\'unità</string>
+    <string name="settings_log_save_detail">Nella cartella Download, Dashwheel, da copiare su una chiavetta USB</string>
+    <string name="settings_log_saved">Salvato in Download, Dashwheel: %1$s</string>
+    <string name="settings_log_save_failed">Impossibile salvare il registro sull\'unità</string>
 </resources>

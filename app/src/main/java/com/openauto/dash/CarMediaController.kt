@@ -29,8 +29,8 @@ data class MediaState(
     val artwork: Bitmap? = null,
     /**
      * A radio's station name while [title] is the song it plays (DAB+, web
-     * radio: live, with no length); empty otherwise. The title takes turns
-     * with it ([CarMediaController.STATION_TURN_MS]).
+     * radio: live, with no length); empty otherwise. Already on the second
+     * line, after the artist ([withStation]).
      */
     val station: String = ""
 )
@@ -214,44 +214,18 @@ class CarMediaController(private val context: Context) {
         ))
     }
 
-    // --- A radio's station and its song, in turns --------------------------
+    // --- A radio's station under its song -------------------------------
     //
     // A DAB+ or web radio app names the station first, then the song once the
-    // station sends it, and the station's name is gone from the tile. The
-    // title then takes turns: the song, then the station, every few seconds.
+    // station sends it, and the station's name was gone from the tile. It
+    // stays on the second line, after the artist: the song above, both below.
 
     private val stations = RadioStations()
     private var lastLiveLogged: List<String?>? = null
-    /** The state as the player gave it, before the turns. */
-    private var shownBase = MediaState()
-    private var stationTurn = false
-    private val turnTick = object : Runnable {
-        override fun run() {
-            // Another player (or none) took the tile meanwhile: its state is left alone.
-            if (shownBase.station.isEmpty() || _mediaState.value != turned(shownBase)) return
-            stationTurn = !stationTurn
-            _mediaState.value = turned(shownBase)
-            main.postDelayed(this, STATION_TURN_MS)
-        }
-    }
 
     private fun showMedia(state: MediaState) {
-        val hadStation = shownBase.station.isNotEmpty()
-        shownBase = state
-        if (state.station.isEmpty()) {
-            main.removeCallbacks(turnTick)
-            stationTurn = false
-        } else if (!hadStation) {
-            // A new song starts on its own name.
-            stationTurn = false
-            main.removeCallbacks(turnTick)
-            main.postDelayed(turnTick, STATION_TURN_MS)
-        }
-        _mediaState.value = turned(state)
+        _mediaState.value = withStation(state)
     }
-
-    private fun turned(state: MediaState): MediaState =
-        if (stationTurn && state.station.isNotEmpty()) state.copy(title = state.station) else state
 
     // --- The head unit's own players --------------------------------------
     //
@@ -420,8 +394,6 @@ class CarMediaController(private val context: Context) {
         /** How often the head unit player's play state and position are read again while it's shown. */
         private const val STOCK_TICK_MS = 1_000L
 
-        /** How long the song and the station each show, in turns, for a radio ([MediaState.station]). */
-        const val STATION_TURN_MS = 6_000L
         /** How long a player opened by [playPause] has to publish its session. */
         private const val PENDING_PLAY_MS = 15_000L
         /** Covers larger than this on a side are shrunk: no tile shows more, and a 1024² cover is 4 MB to upload. */
@@ -470,4 +442,11 @@ class CarMediaController(private val context: Context) {
             AccessDisclosure.openSystemPage(context, AccessDisclosure.Kind.NOTIFICATIONS)
         }
     }
+}
+
+/** [state] with its radio station after the artist on the second line ("Toto · Radio Swiss Pop"), once. */
+internal fun withStation(state: MediaState): MediaState {
+    val station = state.station
+    if (station.isEmpty() || state.artist.contains(station, ignoreCase = true)) return state
+    return state.copy(artist = listOf(state.artist, station).filter { it.isNotBlank() }.joinToString(" · "))
 }

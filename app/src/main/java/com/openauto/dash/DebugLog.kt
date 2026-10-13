@@ -161,5 +161,28 @@ object DebugLog {
     suspend fun sendToPhone(context: Context): Boolean? =
         PhoneLink.sendLog("Unit log ${SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.US).format(Date())}", report(context))
 
+    /**
+     * Saves the report on the unit itself, in Download/Dashwheel, to copy to
+     * a USB stick or read with a file manager; the file's name, or null when
+     * it could not be written.
+     */
+    suspend fun saveOnUnit(context: Context): String? {
+        val text = report(context)
+        return withContext(Dispatchers.IO) {
+            val name = "Unit-log-${SimpleDateFormat("yyyy-MM-dd-HH-mm", Locale.US).format(Date())}.txt"
+            runCatching {
+                val values = android.content.ContentValues().apply {
+                    put(android.provider.MediaStore.MediaColumns.DISPLAY_NAME, name)
+                    put(android.provider.MediaStore.MediaColumns.MIME_TYPE, "text/plain")
+                    put(android.provider.MediaStore.MediaColumns.RELATIVE_PATH, "${android.os.Environment.DIRECTORY_DOWNLOADS}/Dashwheel")
+                }
+                val resolver = context.contentResolver
+                val uri = resolver.insert(android.provider.MediaStore.Downloads.EXTERNAL_CONTENT_URI, values) ?: error("no file")
+                resolver.openOutputStream(uri)?.use { it.write(text.toByteArray()) } ?: error("not writable")
+                name
+            }.getOrNull()
+        }
+    }
+
     private fun stamp() = SimpleDateFormat("MM-dd HH:mm:ss", Locale.US).format(Date())
 }
