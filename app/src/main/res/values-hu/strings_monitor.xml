@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="monitor_kind">Fejegység-monitor</string>
+    <string name="monitor_kind_blurb">CPU, memória, hőmérséklet és a legaktívabb alkalmazások</string>
+    <string name="monitor_cpu">CPU</string>
+    <string name="monitor_ram">RAM</string>
+    <string name="monitor_chip">Chip</string>
+    <string name="monitor_storage">Tárhely</string>
+    <string name="monitor_up">Üzemidő: %1$s</string>
+    <string name="monitor_apps_running">Futó alkalmazások</string>
+    <plurals name="monitor_apps_count">
+        <item quantity="one">%1$d alkalmazás</item>
+        <item quantity="other">%1$d alkalmazás</item>
+    </plurals>
+    <string name="monitor_busiest">Legaktívabb: %1$s</string>
+    <string name="monitor_no_shell">A CPU és a futó alkalmazások megjelenítéséhez root kell</string>
+    <string name="monitor_reading">A fejegység olvasása…</string>
+    <string name="monitor_stop">Leállítás</string>
+    <string name="monitor_stop_hint">Egy alkalmazás leállítása felszabadítja a memóriáját. A navigáció és a zene is leáll vele.</string>
+    <string name="monitor_system">Rendszer</string>
+    <string name="monitor_hot_alert">A fejegység túlmelegszik, %1$d fok.</string>
+    <string name="gear_kind">Fokozat</string>
+    <string name="gear_kind_blurb">A kapcsolt fokozat és a hátramenet</string>
+    <string name="gear_reverse">Hátramenet</string>
+    <string name="gear_free">Gurulás</string>
+    <string name="gear_stopped">Áll</string>
+    <string name="gear_nth">%1$d. fokozat</string>
+    <string name="gear_needs_data">OBD-adapter vagy CAN-box szükséges</string>
+    <string name="design_gear_gate">Váltókulissza</string>
+    <string name="design_gear_gate_desc">A fokozatok egy sorban, a kapcsolt kiemelve</string>
+    <string name="monitor_title">FEJEGYSÉG-MONITOR</string>
+    <string name="gear_title">FOKOZAT</string>
+    <plurals name="monitor_cores">
+        <item quantity="one">%1$d mag</item>
+        <item quantity="other">%1$d mag</item>
+    </plurals>
+    <string name="monitor_board_title">Második kijelző</string>
+    <string name="monitor_board_clock">Frekvencia</string>
+    <string name="monitor_board_under_powered">Kevés a táp: lelassul</string>
+    <string name="monitor_board_hot">Túl meleg: lelassul</string>
+    <string name="monitor_board_throttled">A firmware visszafogja</string>
+</resources>

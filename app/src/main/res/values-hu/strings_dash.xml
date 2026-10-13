@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Common buttons and labels -->
+    <string name="dash_cancel">Mégse</string>
+    <string name="dash_done">Kész</string>
+    <string name="dash_close">Bezárás</string>
+    <string name="dash_add">Hozzáadás</string>
+    <string name="dash_selected">Kiválasztva</string>
+    <string name="dash_dismiss">Elvetés</string>
+    <string name="dash_got_it">Értem</string>
+
+    <!-- Top bar -->
+    <string name="dash_all_apps">Összes alkalmazás</string>
+    <string name="dash_screen_layout">Google Maps helye: %1$s</string>
+    <string name="dash_more">Továbbiak</string>
+    <string name="dash_obd_connected">OBD csatlakoztatva</string>
+    <string name="dash_obd_connecting">OBD csatlakozik</string>
+    <string name="dash_obd_error">OBD-hiba, koppintson az újracsatlakozáshoz</string>
+    <string name="dash_obd_off">OBD ki, koppintson a csatlakozáshoz</string>
+    <string name="dash_alert_battery">Akku %1$.1fV</string>
+    <string name="dash_alert_coolant">Hűtőfolyadék %1$d°C</string>
+
+    <!-- Top bar menu -->
+    <string name="dash_menu_edit_dashboards">Műszerfalak szerkesztése</string>
+    <string name="dash_menu_done_editing">Szerkesztés vége</string>
+    <string name="dash_menu_theme">Téma</string>
+
+    <!-- Edit bar (arranging a dashboard) -->
+    <string name="dash_arranging_dashboard">%1$s elrendezése</string>
+    <string name="dash_arranging_hint">Koppintson egy csempére a beállításaiért, tartsa nyomva az áthelyezéshez, a sarkát húzva méretezheti át.</string>
+    <string name="dash_undo">Visszavonás</string>
+    <string name="dash_reset_page">Műszerfal eltávolítása…</string>
+
+    <!-- Update banner -->
+    <string name="dash_update_downloading">Frissítés letöltése… %1$d %%</string>
+    <string name="dash_update_installing">Telepítő indítása…</string>
+    <string name="dash_menu_check_updates">Frissítések keresése</string>
+    <string name="dash_update_checking">Frissítések keresése…</string>
+    <string name="dash_update_up_to_date">A Dashwheel naprakész, v%1$s</string>
+    <string name="dash_update">Frissítés</string>
+
+    <!-- Tiles while arranging -->
+    <string name="dash_resize_tile">%1$s átméretezése</string>
+    <string name="dash_app_window">%1$s ablak</string>
+    <string name="dash_app_inside">%1$s beágyazva</string>
+    <string name="dash_describe_split_pair">osztott pár</string>
+    <string name="dash_describe_launch_bar">indítósáv</string>
+    <string name="dash_describe_widget">widget</string>
+    <string name="dash_app_widget">Alkalmazás-widget</string>
+    <string name="dash_shown_while_arranging">Elrendezés közben látható</string>
+    <string name="dash_map_needs_gpu">A térképhez valódi GPU kell</string>
+    <string name="dash_not_on_emulator">Emulátoron nem érhető el</string>
+
+    <!-- Layout notices -->
+    <string name="dash_notice_title">Nincs elég hely</string>
+    <string name="dash_notice_no_space">Ezen a műszerfalon nincs hely ehhez a csempéhez. Távolítson el vagy méretezzen át csempéket, vagy használjon másik műszerfalat.</string>
+    <string name="dash_notice_no_room_to_move">Nincs hely a többi csempe elmozdításához. Előbb szabadítson fel helyet.</string>
+    <string name="dash_notice_resize_overlap">Ez a méret átfed egy másik csempét. Átméretezés előtt csináljon helyet.</string>
+    <string name="dash_full_title">Ez a műszerfal megtelt</string>
+    <string name="dash_full_body">Egy újabb hozzáadásához távolítson el egy csempét, vagy kicsinyítsen le egyet.</string>
+
+    <!-- Add to dashboard -->
+
+    <!-- Split screen -->
+    <string name="dash_swap_split">Osztott alkalmazások cseréje bal/jobb</string>
+    <string name="dash_split_with">Osztott képernyő ezzel…</string>
+    <string name="dash_enable_split_title">Osztott képernyő bekapcsolása</string>
+    <string name="dash_enable_split_body">A Dashwheel a rendszer saját osztott képernyőjét használja, azt, amelyik a legutóbbi alkalmazásoknál van. Kapcsolja be egyszer a Dashwheelt a Beállítások, Kisegítő lehetőségek menüben.</string>
+    <string name="dash_open_settings">Beállítások megnyitása</string>
+
+    <!-- System app install (root) -->
+    <string name="dash_system_app_title">Rendszeralkalmazás</string>
+    <string name="dash_system_app_body">A Dashwheelt rendszeralkalmazásként telepíti, így az Android-widgetek külön kérdés nélkül hozzáadhatók. Root vagy a fejegység belső ADB-je kell a(z) %1$d porton, utána újraindítás.</string>
+    <string name="dash_root_checking">Root ellenőrzése…</string>
+    <string name="dash_root_available">Root elérhető. Magisk-modulként települ, ha a Magisk jelen van.</string>
+    <string name="dash_root_missing">Nincs root. A belső ADB-vel próbálkozik a(z) %1$d porton.</string>
+    <string name="dash_install_system_app">Telepítés rendszeralkalmazásként</string>
+    <string name="dash_reboot_now">Újraindítás most</string>
+    <string name="dash_system_installed">Telepítve. A befejezéshez indítsa újra.</string>
+    <string name="dash_system_failed">Sikertelen: %1$s</string>
+
+    <!-- System app-widget picker -->
+    <string name="dash_widget_unavailable">Hiányzó widget. Az alkalmazását eltávolították vagy megváltozott.</string>
+    <string name="dash_choose_widget">Widget kiválasztása</string>
+    <string name="dash_no_widgets_found">Nem található widget.</string>
+
+    <!-- Theme picker -->
+    <string name="dash_theme_picker_title">Műszerfal témája</string>
+    <string name="dash_appearance_auto">Auto</string>
+    <string name="dash_appearance_dark">Sötét</string>
+    <string name="dash_appearance_light">Világos</string>
+    <string name="dash_appearance_auto_hint">Minden téma követi az autó nappali/éjszakai módját</string>
+    <string name="dash_appearance_dark_hint">Minden téma a sötét változatát használja</string>
+    <string name="dash_appearance_light_hint">Minden téma a világos változatát használja</string>
+    <string name="dash_auto_by_car">Autó</string>
+    <string name="dash_auto_by_sun">Nap</string>
+    <string name="dash_auto_by_times">Időpontok</string>
+    <string name="dash_auto_sun_today">Ma %1$s és %2$s között világos, ott, ahol az autó van</string>
+    <string name="dash_auto_sun_no_place">Világos %1$s és %2$s között, amíg az autónak nincs GPS-pozíciója</string>
+    <string name="dash_auto_sun_polar">Itt a nap egész nap fent vagy lent marad</string>
+    <string name="dash_auto_light_from">Világos ettől</string>
+    <string name="dash_auto_light_from_detail">Mikor indul a világos változat</string>
+    <string name="dash_auto_dark_from">Sötét ettől</string>
+    <string name="dash_auto_dark_from_detail">Mikor indul a sötét változat</string>
+    <string name="dash_auto_earlier">Korábban</string>
+    <string name="dash_auto_later">Később</string>
+
+    <!-- Effects switch (theme picker): how much halo and glass a theme draws -->
+    <string name="dash_effects_title">Olvashatóság</string>
+    <string name="dash_effects_none">Egyszerű, napfényhez</string>
+    <string name="dash_effects_reduced">Lágy</string>
+    <string name="dash_effects_full">Teljes ragyogás</string>
+    <string name="dash_effects_none_hint">Átlátszatlan kártyák, egyszerű számok, ragyogás nélkül: tűző napon is olvasható</string>
+    <string name="dash_effects_reduced_hint">Lágyabb ragyogás, az üveg marad</string>
+    <string name="dash_effects_full_hint">Minden téma teljes ragyogással és üveggel</string>
+    <string name="dash_bar_title">Alsó sáv</string>
+    <string name="dash_bar_auto_hide">A sáv automatikus elrejtése</string>
+    <string name="dash_bar_auto_hide_detail">Használaton kívül eltűnik, hogy több hely jusson a műszerfalaknak</string>
+    <string name="dash_bar_hide_after">Elrejtés %1$d mp után</string>
+    <string name="dash_bar_hide_now">Azonnali elrejtés</string>
+    <string name="dash_bar_swipe_up_detail">Ha rejtve van, az alsó széltől felfelé húzva hozhatja vissza</string>
+    <string name="dash_bar_swipe_up_hint">Húzza felfelé a sávért</string>
+    <string name="dash_bar_show">A sáv megjelenítése</string>
+
+    <!-- Moving: edits wait until the car has stopped -->
+    <string name="dash_drive_lock_notice">A módosításhoz álljon meg</string>
+    <string name="dash_theme_group_recommended">Ajánlott</string>
+    <string name="dash_theme_group_colours">Témák</string>
+    <string name="dash_theme_group_skins">Skinek</string>
+    <string name="dash_theme_night">Éjszaka</string>
+    <string name="dash_theme_day">Nappal</string>
+
+    <!-- Theme names and descriptions (the enum names are what gets saved) -->
+    <string name="dash_theme_standard">Standard</string>
+    <string name="dash_theme_standard_desc">Egyszerű kártyák lágyan ragyogó műszerekkel</string>
+    <string name="dash_theme_original">Eredeti</string>
+    <string name="dash_theme_original_desc">Az indító első kinézete: lapos kártyák, kettős mutatós műszerek</string>
+    <string name="dash_theme_aurora">Aurora üveg</string>
+    <string name="dash_theme_aurora_desc">Üvegpanelek, ragyogó műszerek, színátmenetes vezérlők</string>
+    <string name="dash_theme_neon">Neon</string>
+    <string name="dash_theme_neon_desc">Kék + lila futurisztikus pilótafülke</string>
+    <string name="dash_theme_clean">Letisztult</string>
+    <string name="dash_theme_clean_desc">Minimalista, nagy kontrasztú, könnyen olvasható</string>
+    <string name="dash_theme_premium_glass">Prémium üveg</string>
+    <string name="dash_theme_premium_glass_desc">Éjjel füstüveg, nappal matt üveg</string>
+    <string name="dash_theme_sporty">Sportos</string>
+    <string name="dash_theme_sporty_desc">Piros sportpilótafülke</string>
+    <string name="dash_theme_floating">Lebegő</string>
+    <string name="dash_theme_floating_desc">Nincs csempeháttér: a widgetek és ikonok közvetlenül a háttéren ülnek</string>
+    <string name="dash_theme_orbit">Orbit</string>
+    <string name="dash_theme_orbit_desc">Minden kerek: forgó hanglemez, gyűrűs műszerek, buborékok</string>
+    <string name="dash_theme_cockpit">Cockpit</string>
+    <string name="dash_theme_cockpit_desc">Krómgyűrűs analóg órák és billenőkapcsolók tűzött bőrön</string>
+    <string name="dash_theme_horizon">Horizont</string>
+    <string name="dash_theme_horizon_desc">Nincsenek widgetek, csak az ég és az út előttünk</string>
+    <string name="dash_theme_tape_deck">Kazettás magnó</string>
+    <string name="dash_theme_tape_deck_desc">80-as évekbeli synthwave fejegység: kazetta, neonrács, LED-számjegyek</string>
+    <string name="dash_theme_mistral">Mistral</string>
+    <string name="dash_theme_mistral_desc">A C4 Picasso középső műszeregysége: hideg fehér számok füstös grafiton, borostyán figyelmeztetések</string>
+    <string name="dash_theme_zenith">Zénith</string>
+    <string name="dash_theme_zenith_desc">A lounge utastér: gyöngyszürke, fehér panelek, egyetlen mélykék kiemelés</string>
+    <string name="dash_theme_luxury">Klasszikus luxus</string>
+    <string name="dash_theme_luxury_desc">Éjkék üveg, pezsgőarany hajszálvonalak, vékony számok</string>
+    <string name="dash_theme_eco_leaf">Öko levél</string>
+    <string name="dash_theme_eco_leaf_desc">Deres zsályazöld, mentaszínű értékek, nyugodt és könnyed</string>
+    <string name="dash_theme_cyber">Cyber Sport</string>
+    <string name="dash_theme_cyber_desc">Karbonfekete, karmazsinból magentába, versenyműszer a sávban</string>
+    <string name="dash_theme_nordic">Északi minimál</string>
+    <string name="dash_theme_nordic_desc">Grafit és jégkék, vékony vonalak, semmi harsány</string>
+    <string name="dash_theme_canvas">Canvas</string>
+    <string name="dash_theme_canvas_desc">A térkép kitölti a képernyőt, az út egyetlen sorban. Alapból oldalsávot mutat, ezt a Kijelző alatt módosíthatja.</string>
+
+    <!-- Screen layouts (the enum names are what gets saved) -->
+    <string name="dash_layout_grid">Csak műszerfalak</string>
+    <string name="dash_layout_grid_desc">Lapozható műszerfalak töltik ki a képernyőt</string>
+    <string name="dash_layout_maps_left">Google Maps bal oldalt</string>
+    <string name="dash_layout_maps_left_desc">Google Maps a bal felén, a műszerfalak jobb oldalt lapozhatók</string>
+    <string name="dash_layout_maps_right">Google Maps jobb oldalt</string>
+    <string name="dash_layout_maps_right_desc">Google Maps a jobb felén, a műszerfalak bal oldalt lapozhatók</string>
+    <string name="dash_layout_maps_top">Google Maps felül</string>
+    <string name="dash_layout_maps_bottom">Google Maps alul</string>
+    <string name="dash_layout_button">Elrendezés</string>
+    <string name="dash_layout_another_app">Másik alkalmazás a műszerfalak mellett…</string>
+    <string name="dash_update_dot_hint">Egy frissítés vár a menüben</string>
+    <string name="dash_update_dot_menu">A menügombon lévő pont ezt a frissítést jelzi</string>
+
+    <!-- The pages' places in the cross, and an empty page -->
+    <string name="dash_page_home">Kezdőlap</string>
+    <string name="dash_page_left">Kezdőlaptól balra</string>
+    <string name="dash_page_right">Kezdőlaptól jobbra</string>
+    <string name="dash_page_above">Kezdőlap felett</string>
+    <string name="dash_page_above2">Kettővel a Kezdőlap felett</string>
+    <string name="dash_page_below">Kezdőlap alatt</string>
+    <string name="dash_page_below2">Kettővel a Kezdőlap alatt</string>
+    <string name="dash_empty_title">Itt még nincs semmi</string>
+    <string name="dash_empty_body">Töltse fel egy sablonból, vagy adjon hozzá csempéket egyenként.</string>
+    <!-- Updates without a strip (⋮ dot, Settings row, ready prompt); edit-mode confirms; tile options; theme gallery -->
+    <string name="dash_update_to">Frissítés erre: %1$s</string>
+    <string name="dash_update_available_detail">Újabb build, mint a v%1$s. A telepítés újraindítja a Dashwheelt.</string>
+    <string name="dash_update_ready_detail">Letöltve, telepítésre kész</string>
+    <string name="dash_update_ready_title">A frissítés kész</string>
+    <string name="dash_update_ready_body">%1$s letöltve. A telepítés fél percig tart, és újraindítja a Dashwheelt.</string>
+    <string name="dash_update_now">Frissítés most</string>
+    <string name="dash_update_not_this_version">Ezt a verziót nem</string>
+    <string name="dash_update_allow_installs">Engedélyezze a Dashwheelnek a frissítések telepítését, majd koppintson újra a Frissítésre</string>
+    <string name="dash_dashboard_options">Műszerfal beállításai</string>
+    <string name="dash_remove_dashboard_title">%1$s eltávolítása?</string>
+    <string name="dash_remove_dashboard_body">Kiürítheti, vagy a csempéivel együtt kiveheti a lapozásból. A Visszavonás visszahozza őket.</string>
+    <string name="dash_theme_show_all">Mind a %1$d téma</string>
+    <string name="dash_theme_show_fewer">Kevesebb</string>
+    <string name="dash_tile_move">Áthelyezés másik műszerfalra</string>
+    <string name="dash_tile_remove">Eltávolítás</string>
+    <!-- The bar's Apps button, labelled -->
+    <string name="dash_apps">Appok</string>
+    <!-- Tiles on the dashboard that live on root or the unit's ADB, where Dashwheel has neither -->
+    <string name="dash_rootless_title">Root-hozzáférés kell</string>
+    <plurals name="dash_rootless_body">
+        <item quantity="one">%1$s root-hozzáférést igényel, amellyel a Dashwheel ezen a fejegységen nem rendelkezik. Eltávolítjuk a műszerfalról.</item>
+        <item quantity="other">%1$s root-hozzáférést igényelnek, amellyel a Dashwheel ezen a fejegységen nem rendelkezik. Eltávolítjuk őket a műszerfalról.</item>
+    </plurals>
+    <!-- The bar's position chip (PagePosition.kt) -->
+    <string name="dash_position_chip">Műszerfal: %1$s</string>
+    <string name="dash_position_title">Ugrás egy műszerfalra</string>
+    <!-- Every dashboard at once, with + and - (DashboardsOverview.kt) -->
+    <string name="dash_dashboards">Műszerfalak</string>
+    <string name="dash_dashboards_hint">Koppintson egyre a megnyitásához</string>
+    <string name="dash_dashboard_add">Műszerfal hozzáadása ide</string>
+    <string name="dash_dashboard_removed">%1$s eltávolítva</string>
+    <string name="dash_remove_empty">Kiürítés</string>
+    <string name="dash_remove_take_out">Kivétel a lapozásból</string>
+    <string name="dash_bring_back_title">%1$s visszahozása?</string>
+    <string name="dash_bring_back_body">A csempe oda kerül, és a műszerfal újra bekerül a lapozásba.</string>
+    <string name="dash_bring_back">Visszahozás</string>
+    <string name="dash_moved_to">Áthelyezve ide: %1$s</string>
+    <string name="dash_page_removed">%1$s, kivéve a lapozásból</string>
+    <string name="dash_way_home_up">Húzza felfelé a Kezdőlapért</string>
+    <string name="dash_way_home_down">Húzza lefelé a Kezdőlapért</string>
+    <string name="dash_add_tile">Csempe hozzáadása</string>
+    <string name="dash_theme_futuristic">Futurisztikus</string>
+    <string name="dash_theme_futuristic_desc">Az autója hologramként egy mozgó fényrács felett, rajta jelölve az értékek.</string>
+    <string name="dash_theme_simple">Egyszerű</string>
+    <string name="dash_theme_simple_desc">Nagy, jól olvasható számok, az autója bemutatótermi fényben, néhány nagy gomb.</string>
+    <string name="dash_theme_modern">Modern</string>
+    <string name="dash_theme_modern_desc">Matt üvegkártyák egy 3D-s város felett, ragyogó útvonallal.</string>
+    <string name="dash_theme_motorsport">Motorsport</string>
+    <string name="dash_theme_motorsport_desc">Versenyautó kijelzője: váltófények, szektoridők, a zászló színére váltó keret.</string>
+    <string name="dash_theme_anime">Anime</string>
+    <string name="dash_theme_anime_desc">Képregénykockák naplementés égen, az autója beszélő matricaként.</string>
+    <string name="dash_theme_racing">Verseny</string>
+    <string name="dash_theme_racing_desc">Éjszakai út neonfényben: csíkos nap, egy versenyjáték műszerei és minitérképe.</string>
+    <string name="dash_theme_panorama">Panorama</string>
+    <string name="dash_theme_panorama_desc">Világító szegmensekből álló ívelt üvegsáv, az autója egy ragyogó talapzaton, és egy kormánykerék-dokk.</string>
+    <string name="dash_bar_size">Sávméret</string>
+    <string name="dash_bar_size_normal">Normál</string>
+    <string name="dash_bar_size_large">Nagy</string>
+    <string name="dash_bar_size_larger">Nagyobb</string>
+</resources>

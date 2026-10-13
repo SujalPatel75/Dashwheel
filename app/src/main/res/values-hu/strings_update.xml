@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Release notes of an available update (ReleaseNotes.kt), from the update strip -->
+    <string name="update_notes_title">A(z) %1$s újdonságai</string>
+    <string name="update_notes_empty">Ehhez a verzióhoz nincs kiadási megjegyzés.</string>
+    <!-- The Ko-fi ask beside every release's notes, GitHub edition (ReleaseNotes.kt) -->
+    <string name="update_support_title">A szabadidőmben készült</string>
+    <string name="update_support_body">A Dashwheel ingyenes, és esténként, sok késő éjszakán készül. Ha jobbá teszi az utazásait, egy kávé kitart a következő kiadásig. Köszönöm!</string>
+</resources>

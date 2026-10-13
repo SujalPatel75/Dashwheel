@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- First-run tour (TourScreen.kt): six tips over the real dashboard -->
+    <string name="tour_welcome_kicker">Üdvözli a Dashwheel</string>
+    <string name="tour_welcome_title">Gyors bemutató az alapokról</string>
+    <string name="tour_welcome_body">Néhány rövid tipp. Körülbelül egy perc. Bármikor abbahagyhatja.</string>
+    <string name="tour_topic_swipe">Műszerfalváltás</string>
+    <string name="tour_topic_arrange">Mozgatás, átméretezés</string>
+    <string name="tour_topic_add">Elemek hozzáadása</string>
+    <string name="tour_topic_look">Megjelenés</string>
+    <string name="tour_topic_obd">Autóadatok</string>
+    <string name="tour_topic_hands">Kéz nélkül</string>
+    <string name="tour_show_me">Mutassa</string>
+    <string name="tour_not_now">Most nem</string>
+    <string name="tour_tip">Tipp: %1$d/%2$d</string>
+    <string name="tour_skip">Kihagyás</string>
+    <string name="tour_next">Tovább</string>
+    <string name="tour_back">Vissza</string>
+    <string name="tour_finish">Befejezés</string>
+    <string name="tour_read_aloud">Felolvasás</string>
+    <string name="tour_swipe_title">Húzza el a műszerfalváltáshoz</string>
+    <string name="tour_swipe_body">A Kezdőlap középen van. Húzzon balra vagy jobbra a mellette lévő kettőhöz. Fölé és alá további műszerfalak kerülhetnek.</string>
+    <string name="tour_try_swipe">Próbálja ki: húzza el a képernyőt</string>
+    <string name="tour_arrange_title">Csempék mozgatása és átméretezése</string>
+    <string name="tour_arrange_body">Koppintson egy csempére a beállításaiért, tartsa nyomva a mozgatáshoz, és húzza a sarkát az átméretezéshez. A műszerfal nyomva tartásával is elkezdheti az elrendezést.</string>
+    <string name="tour_arrange_hint">Később a menüből nyithatja meg: Műszerfalak szerkesztése.</string>
+    <string name="tour_add_title">Widget vagy alkalmazás hozzáadása</string>
+    <string name="tour_add_body">Koppintson a Hozzáadás gombra, hogy zenét, autóadatokat, időjárást vagy bármilyen alkalmazást tegyen erre a műszerfalra.</string>
+    <string name="tour_add_hint">Siet? A sablonok egy lépésben kitöltenek egy egész műszerfalat.</string>
+    <string name="tour_look_title">Tegye a sajátjává</string>
+    <string name="tour_look_body">Nyissa meg a menüt, majd a Beállításokat, aztán a Megjelenést. Válasszon témát és nappali vagy éjszakai színeket.</string>
+    <string name="tour_obd_title">Csatlakoztassa az OBD-adaptert</string>
+    <string name="tour_obd_body">A kormány alatti aljzatba kell dugni. Egyszer párosítsa az Android Bluetooth-beállításaiban, utána a Dashwheel magától újracsatlakozik.</string>
+    <string name="tour_obd_off">Nincs bedugva</string>
+    <string name="tour_obd_looking">Keresés</string>
+    <string name="tour_obd_connected">Csatlakozva</string>
+    <string name="tour_hands_title">Figyeljen az útra</string>
+    <string name="tour_hands_body">A kormánygombokkal műszerfalat válthat, számot léptethet vagy elindíthatja a hangsegédet. A Dashwheel magától megszólal, ha valami fontos történik.</string>
+    <string name="tour_hands_hint">A gombokat a Beállítások, Vezetés, Kormánygombok alatt állíthatja be.</string>
+    <string name="tour_wheel_dashboard">Következő műszerfal</string>
+    <string name="tour_wheel_music">Zene</string>
+    <string name="tour_wheel_voice">Hangsegéd</string>
+    <string name="tour_wheel_alerts">Hangos figyelmeztetések</string>
+    <string name="tour_done_title">Minden kész</string>
+    <string name="tour_done_body">A bemutatót bármikor újra megnézheti a Beállítások, Rendszer, Névjegy alatt.</string>
+    <string name="tour_start_driving">Indulás</string>
+    <string name="tour_settings_row">Az alapok bemutatója</string>
+    <string name="tour_settings_row_detail">Hat rövid tipp a műszerfalról</string>
+</resources>

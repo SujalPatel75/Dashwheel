@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Racing skin: words on the HUD (caps, as the game shows them) -->
+    <string name="skin_racing_finish">CÉL</string>
+    <string name="skin_racing_stage">SZAKASZ</string>
+    <string name="skin_racing_fuel">ÜZEMANYAG</string>
+    <string name="skin_racing_rpm">F/PERC</string>
+    <string name="skin_racing_temp">HŐM.</string>
+    <string name="skin_racing_batt">AKKU</string>
+    <string name="skin_racing_load">TERHELÉS</string>
+    <!-- Racing skin: OBD link state on the stage card -->
+    <string name="skin_racing_live">ÉLŐ</string>
+    <string name="skin_racing_linking">KAPCSOLÓDÁS</string>
+    <string name="skin_racing_no_obd_tap">NINCS OBD · KOPPINTSON</string>
+    <string name="skin_racing_obd_error_tap">OBD-HIBA · KOPPINTSON</string>
+    <string name="skin_racing_connect_obd">OBD-adapter csatlakoztatása</string>
+    <string name="skin_racing_choose_adapter">Másik OBD-adapter választása</string>
+    <!-- Racing skin: turn banner and navigation -->
+    <string name="skin_racing_left">BALRA</string>
+    <string name="skin_racing_right">JOBBRA</string>
+    <string name="skin_racing_tap_open_maps">KOPPINTSON A TÉRKÉPHEZ</string>
+    <string name="skin_racing_tap_to_allow">KOPPINTSON AZ ENGEDÉLYHEZ</string>
+    <string name="skin_racing_open_navigation">Navigáció megnyitása</string>
+    <string name="skin_racing_allow_access">Értesítési hozzáférés engedélyezése</string>
+    <!-- Racing skin: music ticker and buttons -->
+    <string name="skin_racing_start_music">INDÍTSON EGY ZENEI APPOT</string>
+    <string name="skin_racing_unknown_artist">ISMERETLEN ELŐADÓ</string>
+    <string name="skin_racing_cd_previous">Előző szám</string>
+    <string name="skin_racing_cd_next">Következő szám</string>
+    <string name="skin_racing_cd_play">Lejátszás</string>
+    <string name="skin_racing_cd_pause">Szünet</string>
+    <!-- Racing skin: clock and weather -->
+    <string name="skin_racing_open_clock">Ébresztők megnyitása</string>
+    <string name="skin_racing_loading">BETÖLTÉS</string>
+    <string name="skin_racing_feels">HŐÉRZET %1$d°</string>
+    <string name="skin_racing_wind_kmh">SZÉL %1$d KM/H</string>
+    <string name="skin_racing_wind_mph">SZÉL %1$d MPH</string>
+    <!-- Racing skin: apps and launch bars -->
+    <string name="skin_racing_open_app">%1$s megnyitása</string>
+    <string name="skin_racing_edit_launch_bar">Indítósáv szerkesztése</string>
+    <string name="skin_racing_launch_bar_empty">MÉG NINCS APP · KOPPINTSON A CERUZÁRA</string>
+    <string name="skin_racing_gear">Fokozat: %1$s</string>
+</resources>

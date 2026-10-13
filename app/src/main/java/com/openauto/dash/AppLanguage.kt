@@ -29,7 +29,8 @@ enum class AppLanguage(val tag: String?, val nativeName: String) {
     PORTUGUESE("pt", "Português"),
     DUTCH("nl", "Nederlands"),
     POLISH("pl", "Polski"),
-    RUSSIAN("ru", "Русский");
+    RUSSIAN("ru", "Русский"),
+    HUNGARIAN("hu", "Magyar");
 
     companion object {
         private const val PREFS = "app_language"

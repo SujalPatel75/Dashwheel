@@ -1,0 +1,33 @@
+A Dashwheel lecseréli az Android-alapú autós fejegység kezdőképernyőjét. A térkép, a zene és az élő autóadatok egyetlen nyugodt képernyőn osztoznak, és Ön rendezi el őket.
+
+1280x720-as fejegységekhez készült (ROCO K706, FYT és QF egységek). Álló képernyőkön és telefonokon is működik. Android 10 vagy újabb. Nem kell hozzá root.
+
+MŰSZERFALAK
+• Legfeljebb hét műszerfal kereszt alakban: három egymás mellett, kettő a középső felett és kettő alatta
+• Mindet egyszerre láthatja, a + gombbal újat ad hozzá, a − gombbal eltávolít egyet
+• Mindegyiken szabad rács: egy csempét nyomva tartva áthelyezhet, a sarkát húzva átméretezhet, és bármely változtatás visszavonható
+• Kész sablonok: Mindennapi, Hosszú út és Autó állapota
+• Több mint 30 beépített widget több mint 60 dizájnnal, valamint Android-widgetek és alkalmazás-parancsikonok
+• 14 téma, ebből négy teljes megjelenést adó skin, mindegyik nappali és éjszakai változattal
+
+AZ ÖN AUTÓJA
+• Élő adatok Bluetooth ELM327 OBD-adapterről: sebesség, fordulatszám, hőmérsékletek, üzemanyag, feszültség, hibakódok olvasása és törlése
+• A fejegység saját autóadatai, ahol az egység megosztja őket: ajtók, üzemanyagszint, világítás, kilométeróra-állás, guminyomás
+• Autóápolás: a részecskeszűrő állapota, a motor bemelegedése, akkumulátor, szervizütemező hangos emlékeztetőkkel
+• Tankolási napló, LPG-tartály becslés, parkolási időzítő és hogy hol parkolt
+
+ÚTON
+• Ingyenes térkép kereséssel és útvonalakkal, saját lépésenkénti navigációval vagy átadva az Ön navigációs alkalmazásának
+• A Google Maps vagy a Waze következő kanyarja külön csempén
+• Pihenőemlékeztető, takarékos vezetési pontszám, sebességkorlátozások, közeli üzemanyagárak (Franciaország)
+• A sebességet követő hangerő, hangos figyelmeztetések és indításkori összefoglaló
+• Saját felugró ablakok a hívásokhoz és az autó eseményeihez, és saját kiosztású kormánygombok
+
+OPCIONÁLIS EXTRÁK
+• AI-szerelő: a hibakódok közérthető magyarázata a Google Gemini segítségével (saját ingyenes API-kulccsal)
+• Telefonkapcsolat a Dashwheel Companion alkalmazással: értesítések, üzenetek és hívások a nagy képernyőn, QR-kódos párosítással és végpontok közötti titkosítással
+• Osztott képernyő és gépelés a telefonról az Android kisegítő szolgáltatásán keresztül, amelyet Ön kapcsol be, és bármikor kikapcsolhat
+
+10 nyelv: angol, francia, német, spanyol, olasz, portugál, holland, lengyel, orosz, magyar.
+
+Ingyenes és nyílt forráskódú, GPL v3 licenccel. Nincs reklám, nincs követés, nincs fiók.

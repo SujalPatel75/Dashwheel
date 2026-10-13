@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Dashboard templates: ready-made widget sets for all 7 dashboards -->
+    <string name="templates_button">Sablonok</string>
+    <string name="templates_daily">Mindennapi</string>
+    <string name="templates_daily_blurb">Elöl térkép és zene, az autó és a napja egy lapozásnyira</string>
+    <string name="templates_road_trip">Hosszú út</string>
+    <string name="templates_road_trip_blurb">Nagy térkép, hatótáv, időjárás és megállók hosszú utakra</string>
+    <string name="templates_car_health">Autó állapota</string>
+    <string name="templates_car_health_blurb">Autóadatok és hibakódok a Kezdőlapon</string>
+    <string name="templates_no_obd">Még nincs kiválasztott OBD-adapter, ezért az autóadat-widgetek kimaradnak.</string>
+    <string name="templates_fill_this">Műszerfal feltöltése</string>
+    <string name="templates_fill_this_hint">Csak a sablon %1$s oldala kerül rá.</string>
+    <string name="templates_fill">Feltöltés</string>
+    <string name="templates_all_dashboards">Összes műszerfal…</string>
+    <string name="templates_none_empty">Nincs üres műszerfal a lapozhatók között</string>
+    <string name="templates_pick_title">Válasszon kiindulópontot</string>
+    <string name="templates_pick_hint">Lapozzon, és próbálja ki mindegyiket a saját képernyőjén</string>
+    <string name="templates_reach_home">Kezdőlap</string>
+    <string name="templates_reach_row">Kezdőlap és mellette</string>
+    <string name="templates_reach_all">Mind a hét</string>
+    <string name="templates_reach_all_note">A Kezdőlap és a körülötte lévő műszerfalak</string>
+    <string name="templates_use">%1$s használata</string>
+    <string name="templates_undo_note">A Visszavonás egy ideig a képernyőn marad</string>
+    <string name="templates_applied">%1$s alkalmazva a műszerfalakra</string>
+    <string name="templates_calm">Nyugodt</string>
+    <string name="templates_calm_blurb">A térkép és a sebesség, semmi más</string>
+    <string name="templates_previous">Előző sablon</string>
+    <string name="templates_next">Következő sablon</string>
+    <string name="share_button">Megosztás</string>
+    <string name="share_title">%1$s megosztása</string>
+    <string name="share_this">Műszerfal továbbadása</string>
+    <string name="share_with_look">A megjelenésével</string>
+    <string name="share_with_look_detail">A téma nappal és éjjel, és a sáv</string>
+    <string name="share_scan">Olvassa be telefonnal, vagy adja tovább a kódot szövegként</string>
+    <string name="share_save_file">Mentés fájlként</string>
+    <string name="share_widgets_left_out">Az Android-widgetek ezen az egységen maradnak, ezért kimaradnak.</string>
+    <string name="share_use">Megosztott műszerfal használata</string>
+    <string name="share_paste_hint">DW1: kód</string>
+    <string name="share_open_file">Fájl megnyitása</string>
+    <string name="share_use_hint">Írjon be vagy illesszen be egy kódot, nyisson meg egy fájlt, vagy olvasson be QR-kódot a Dashwheel Companion alkalmazással.</string>
+    <string name="share_missing_apps">Ezen az egységen hiányzó alkalmazások: %1$d. A csempéik megmaradnak, amíg nem módosítja őket.</string>
+    <string name="share_take_look">A megjelenését is</string>
+    <string name="share_replace">Elhelyezés itt</string>
+</resources>

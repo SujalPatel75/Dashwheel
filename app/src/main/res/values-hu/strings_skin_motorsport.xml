@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Motorsport skin (MotorsportSkin.kt, MotorsportSkinTiles.kt). -->
+<resources>
+    <string name="skin_motorsport_cd_shift_lights">Váltásjelző fények, a motorfordulat szerint világítanak</string>
+    <string name="skin_motorsport_flag_green">ZÖLD ZÁSZLÓ</string>
+    <string name="skin_motorsport_flag_yellow">SÁRGA ZÁSZLÓ</string>
+    <string name="skin_motorsport_flag_red">PIROS ZÁSZLÓ</string>
+    <string name="skin_motorsport_connect_obd">OBD csatlakoztatása</string>
+    <string name="skin_motorsport_choose_adapter">OBD-adapter kiválasztása</string>
+    <string name="skin_motorsport_gear_caps">FOKOZAT</string>
+    <string name="skin_motorsport_speed_caps">SEBESSÉG</string>
+    <string name="skin_motorsport_rpm_caps">F/PERC</string>
+    <string name="skin_motorsport_tap_connect_caps">KOPPINTSON: OBD CSATLAKOZTATÁSA</string>
+    <string name="skin_motorsport_connecting_caps">KAPCSOLÓDÁS</string>
+    <string name="skin_motorsport_obd_error_caps">OBD-HIBA · KOPPINTSON AZ ÚJRAPRÓBÁLÁSHOZ</string>
+    <string name="skin_motorsport_live_caps">ÉLŐ</string>
+    <string name="skin_motorsport_vs_usual_caps">VS SZOKÁSOS</string>
+    <string name="skin_motorsport_tyre_fl">BE</string>
+    <string name="skin_motorsport_tyre_fr">JE</string>
+    <string name="skin_motorsport_tyre_rl">BH</string>
+    <string name="skin_motorsport_tyre_rr">JH</string>
+    <string name="skin_motorsport_water_caps">VÍZ</string>
+    <string name="skin_motorsport_batt_caps">AKKU</string>
+    <string name="skin_motorsport_air_caps">LEVEGŐ</string>
+    <string name="skin_motorsport_load_caps">TERHELÉS</string>
+    <string name="skin_motorsport_track_caps">PÁLYA</string>
+    <string name="skin_motorsport_finish_caps">CÉL %1$s</string>
+    <string name="skin_motorsport_sector">S%1$d</string>
+    <string name="skin_motorsport_turn_left">B</string>
+    <string name="skin_motorsport_turn_right">J</string>
+    <string name="skin_motorsport_open_navigation">Navigáció megnyitása</string>
+    <string name="skin_motorsport_tap_allow_caps">KOPPINTSON AZ ENGEDÉLYEZÉSHEZ</string>
+    <string name="skin_motorsport_tap_maps_caps">KOPPINTSON A MAPS MEGNYITÁSÁHOZ</string>
+    <string name="skin_motorsport_team_radio_caps">CSAPATRÁDIÓ</string>
+    <string name="skin_motorsport_on_air_caps">ADÁSBAN</string>
+    <string name="skin_motorsport_allow_media">Médiahozzáférés engedélyezése</string>
+    <string name="skin_motorsport_start_music_caps">INDÍTSON EGY ZENEI APPOT</string>
+    <string name="skin_motorsport_unknown_artist">Ismeretlen előadó</string>
+    <string name="skin_motorsport_previous">Előző szám</string>
+    <string name="skin_motorsport_play">Lejátszás</string>
+    <string name="skin_motorsport_pause">Szünet</string>
+    <string name="skin_motorsport_next">Következő szám</string>
+    <string name="skin_motorsport_local_time_caps">HELYI IDŐ</string>
+    <string name="skin_motorsport_open_clock">Óra megnyitása</string>
+    <string name="skin_motorsport_conditions_caps">KÖRÜLMÉNYEK</string>
+    <string name="skin_motorsport_loading_caps">BETÖLTÉS</string>
+    <string name="skin_motorsport_feels_caps">HŐÉRZET %1$d°</string>
+    <string name="skin_motorsport_wind_caps">SZÉL %1$d %2$s</string>
+    <string name="skin_motorsport_tyre_slicks">SLICK</string>
+    <string name="skin_motorsport_tyre_inters">INTER</string>
+    <string name="skin_motorsport_tyre_wets">ESŐ</string>
+    <string name="skin_motorsport_pit_board_caps">BOXTÁBLA</string>
+    <string name="skin_motorsport_box_box_caps">BOX BOX · KEVÉS ÜZEMANYAG</string>
+    <string name="skin_motorsport_open_app">%1$s megnyitása</string>
+    <string name="skin_motorsport_edit_launch_bar">Indítósáv szerkesztése</string>
+    <string name="skin_motorsport_launch_bar_empty_caps">NINCS APP · KOPPINTSON A CERUZÁRA A HOZZÁADÁSHOZ</string>
+</resources>

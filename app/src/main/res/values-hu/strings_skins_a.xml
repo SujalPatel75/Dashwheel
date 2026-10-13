@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Cockpit skin: top bar -->
+    <string name="cockpit_apps">APPOK</string>
+    <string name="cockpit_layout">NÉZET</string>
+    <string name="cockpit_screen_layout_desc">Google Maps helye: %1$s</string>
+    <string name="cockpit_more">Továbbiak</string>
+    <string name="cockpit_time_desc">Idő: %1$s</string>
+    <string name="cockpit_out">KINT</string>
+    <string name="cockpit_connect_obd">OBD csatlakoztatása</string>
+
+    <!-- Cockpit skin: dial faces (C/H = cold/hot coolant, E/F = empty/full tank) -->
+    <string name="cockpit_dial_rpm_title">×1000 f/perc</string>
+    <string name="cockpit_dial_temp">HŐM</string>
+    <string name="cockpit_dial_fuel">TANK</string>
+    <string name="cockpit_dial_volt">VOLT</string>
+    <string name="cockpit_dial_load">TERH</string>
+    <string name="cockpit_dial_cold">50</string>
+    <string name="cockpit_dial_hot">130</string>
+    <string name="cockpit_dial_empty">0</string>
+    <string name="cockpit_dial_full">1</string>
+    <string name="cockpit_dial_fuel_title">ÜZEMANYAG</string>
+    <string name="cockpit_unit_rpm">f/perc</string>
+
+    <!-- Cockpit skin: telemetry and speed -->
+    <string name="cockpit_speed_rpm_caption">KM/H · %1$d F/PERC</string>
+    <string name="cockpit_obd_off">OBD KI</string>
+    <string name="cockpit_battery">Akkumulátor</string>
+    <string name="cockpit_coolant">Hűtőfolyadék</string>
+    <string name="cockpit_speed_warning">Sebességfigyelmeztetés</string>
+    <string name="cockpit_tap_to_connect">KOPPINTSON A\nCSATLAKOZÁSHOZ</string>
+
+    <!-- Cockpit skin: media -->
+    <string name="cockpit_tap_to_enable">KOPPINTSON A BEKAPCSOLÁSHOZ</string>
+    <string name="cockpit_grant_media_access">Médiahozzáférés engedélyezése</string>
+    <string name="cockpit_previous">Előző</string>
+    <string name="cockpit_play">Lejátszás</string>
+    <string name="cockpit_pause">Szünet</string>
+    <string name="cockpit_next">Következő</string>
+    <string name="cockpit_vu_left">B</string>
+    <string name="cockpit_vu_right">J</string>
+
+    <!-- Cockpit skin: navigation, clock, weather, range -->
+    <string name="cockpit_open_navigation">Navigáció megnyitása</string>
+    <string name="cockpit_tap_for_maps">KOPPINTSON A MAPSHEZ</string>
+    <string name="cockpit_open_alarms">Ébresztők megnyitása</string>
+    <string name="cockpit_clock">Óra</string>
+    <string name="cockpit_loading">BETÖLTÉS…</string>
+    <string name="cockpit_feels_wind">HŐÉRZET %1$d° · SZÉL %2$d KM/H</string>
+    <string name="cockpit_fuel_settings">Üzemanyagjel beállításai</string>
+    <string name="cockpit_range">HATÓTÁV</string>
+
+    <!-- Cockpit skin: app toggles and launch bar -->
+    <string name="cockpit_open_app">%1$s megnyitása</string>
+    <string name="cockpit_launch_bar_empty">INDÍTÓSÁV: KOPPINTSON A CERUZÁRA APPOK HOZZÁADÁSÁHOZ</string>
+    <string name="cockpit_edit_launch_bar">Indítósáv szerkesztése</string>
+
+    <!-- Orbit skin: top bar -->
+    <string name="orbit_all_apps">Összes alkalmazás</string>
+    <string name="orbit_screen_layout_desc">Google Maps helye: %1$s</string>
+    <string name="orbit_more">Továbbiak</string>
+
+    <!-- Orbit skin: speed dial and satellite bubbles -->
+    <string name="orbit_sat_coolant">hűtővíz</string>
+    <string name="orbit_sat_battery">akku</string>
+    <string name="orbit_sat_load">terhelés</string>
+    <string name="orbit_rpm_value">%1$s f/perc</string>
+    <string name="orbit_tap_to_connect">Koppintson a csatlakozáshoz</string>
+    <string name="orbit_connecting">Csatlakozás…</string>
+    <string name="orbit_connect_obd">OBD csatlakoztatása</string>
+
+    <!-- Orbit skin: media -->
+    <string name="orbit_tap_to_enable">Koppintson a bekapcsoláshoz</string>
+    <string name="orbit_start_music">Indítson zenét bármelyik alkalmazásban</string>
+    <string name="orbit_previous_track">Előző szám</string>
+    <string name="orbit_play">Lejátszás</string>
+    <string name="orbit_pause">Szünet</string>
+    <string name="orbit_next_track">Következő szám</string>
+    <string name="orbit_grant_access">Hozzáférés engedélyezése</string>
+
+    <!-- Orbit skin: navigation -->
+    <string name="orbit_tap_open_maps">Koppintson a Google Maps megnyitásához</string>
+    <string name="orbit_tap_allow_notifications">Koppintson az értesítési hozzáférés engedélyezéséhez</string>
+
+    <!-- Orbit skin: clock and weather -->
+    <string name="orbit_open_alarms">Ébresztők megnyitása</string>
+    <string name="orbit_feels">Hőérzet %1$d°</string>
+    <string name="orbit_wind">Szél %1$d km/h</string>
+    <string name="orbit_feels_wind">hőérzet %1$d° · %2$d km/h</string>
+    <string name="orbit_offline">Offline</string>
+    <string name="orbit_loading">Betöltés…</string>
+
+    <!-- Orbit skin: fuel and range -->
+    <string name="orbit_to_empty">kifogyásig</string>
+    <string name="orbit_liters_in_tank">≈ %1$.0f L a tankban</string>
+    <string name="orbit_via_source">forrás: %1$s</string>
+    <string name="orbit_tap_to_recalibrate">koppintson az újrakalibráláshoz</string>
+    <string name="orbit_recalibrate_fuel">Üzemanyag újrakalibrálása</string>
+    <string name="orbit_fuel_percent">üzemanyag %1$d %%</string>
+
+    <!-- Orbit skin: launch bar -->
+    <string name="orbit_launch_bar_empty">Indítósáv: koppintson a ceruzára alkalmazások hozzáadásához</string>
+    <string name="orbit_edit_launch_bar">Indítósáv szerkesztése</string>
+</resources>

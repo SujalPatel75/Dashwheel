@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Demo mode: a made-up drive that shows every tile working (DemoMode.kt) -->
+    <string name="demo_menu_start">Bemutató mód</string>
+    <string name="demo_menu_stop">Bemutató leállítása</string>
+    <!-- Settings → Advanced: what the demo does -->
+    <string name="demo_settings_detail">Egy kitalált út tölti ki az összes csempét. Semmi sem mentődik.</string>
+    <string name="demo_badge">Bemutató · kitalált adatok</string>
+    <string name="demo_stop">Leállítás</string>
+    <!-- Fake turn-by-turn instructions; %1$s = street name -->
+    <string name="demo_nav_right">Forduljon jobbra, erre: %1$s</string>
+    <string name="demo_nav_left">Forduljon balra, erre: %1$s</string>
+    <string name="demo_nav_straight">Haladjon tovább ezen: %1$s</string>
+    <!-- Fake notifications -->
+    <string name="demo_notif_message">Úton vagyok, 10 perc múlva találkozunk</string>
+    <string name="demo_notif_event_title">Fogorvosi időpont</string>
+    <string name="demo_notif_event_text">Holnap 9:30-kor</string>
+
+    <!-- The mechanic's canned advice on the demo's fault code (P0401, EGR flow too low) -->
+    <string name="demo_p0401_summary">Az EGR-szelep nem enged vissza elég kipufogógázt, valószínűleg a korom miatt. Lehet vele közlekedni; nemsokára tisztíttassa ki.</string>
+    <string name="demo_p0401_meaning">Túl alacsony EGR-áramlás</string>
+    <string name="demo_p0401_explanation">A motor a kipufogógáz egy részét visszavezeti a szívóoldalra, hogy csökkentse a károsanyag-kibocsátást. A vezérlőegység többet kért, mint amennyit kapott, ami ennél a motornál általában korommal eltömődött szelepet jelent.</string>
+    <string name="demo_p0401_cause_1">Korommal eltömődött EGR-szelep</string>
+    <string name="demo_p0401_cause_2">Beragadt EGR-szelep vagy hibás motorja</string>
+    <string name="demo_p0401_cause_3">Eltömődött EGR-hűtő vagy -cső</string>
+    <string name="demo_p0401_check_first">Szerelje ki az EGR-szelepet, és nézze meg, kormos-e</string>
+    <string name="demo_p0401_repair">Tisztítsa ki a szelepet, vagy cserélje, ha beragad</string>
+    <string name="demo_p0401_cost">Kb. 80–150 € a tisztítás, 250–400 € egy új szelep</string>
+    <string name="demo_p0401_driving">Igen. A javításig kissé egyenetlen alapjárat és nagyobb fogyasztás várható.</string>
+</resources>

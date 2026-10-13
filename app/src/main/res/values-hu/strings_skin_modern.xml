@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Modern skin (ModernSkin*.kt) -->
+    <string name="skin_modern_arrival">érkezés</string>
+    <string name="skin_modern_engine">MOTOR</string>
+    <string name="skin_modern_rpm">f/perc</string>
+    <string name="skin_modern_fuel_low">Kevés üzemanyag</string>
+    <string name="skin_modern_fuel_at">%1$s: %2$s</string>
+    <string name="skin_modern_away">%1$s távolságra</string>
+    <string name="skin_modern_range_left">Még %1$s</string>
+    <string name="skin_modern_go">Indulás</string>
+    <string name="skin_modern_recalibrate">Üzemanyag újrakalibrálása</string>
+    <string name="skin_modern_in_tank">%1$d l a tankban</string>
+    <string name="skin_modern_open_navigation">Navigáció megnyitása</string>
+    <string name="skin_modern_tap_open_navigation">Koppintson a navigáció megnyitásához</string>
+    <string name="skin_modern_allow_access">Értesítési hozzáférés engedélyezése</string>
+    <string name="skin_modern_tap_allow_access">Koppintson az értesítési hozzáférés engedélyezéséhez</string>
+    <string name="skin_modern_connect_obd">OBD csatlakoztatása</string>
+    <string name="skin_modern_tap_connect">Koppintson az OBD csatlakoztatásához</string>
+    <string name="skin_modern_open_clock">Óra megnyitása</string>
+    <string name="skin_modern_open_app">%1$s megnyitása</string>
+    <string name="skin_modern_launch_bar_empty">Még nincs alkalmazás. Koppintson a ceruzára a hozzáadáshoz.</string>
+    <string name="skin_modern_edit_launch_bar">Indítósáv szerkesztése</string>
+    <string name="skin_modern_play">Lejátszás</string>
+    <string name="skin_modern_pause">Szünet</string>
+    <string name="skin_modern_unknown_artist">Ismeretlen előadó</string>
+    <string name="skin_modern_play_something">Indítson el valamit egy zenei alkalmazásban</string>
+    <string name="skin_modern_feels">Hőérzet %1$d°</string>
+    <string name="skin_modern_wind">Szél %1$d %2$s</string>
+    <string name="skin_modern_weather_here">Időjárás az autónál</string>
+</resources>

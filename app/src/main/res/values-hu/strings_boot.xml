@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="boot_menu">Indítási logó</string>
+    <string name="boot_title">Indítási logó</string>
+    <string name="boot_search">Keresés %1$d autómárka között</string>
+    <string name="boot_no_match">Nincs egyező márka.</string>
+    <string name="boot_downloading">A logó letöltése…</string>
+    <string name="boot_bg_black">Fekete</string>
+    <string name="boot_bg_white">Fehér</string>
+    <string name="boot_show_name">A márkanév megjelenítése</string>
+    <string name="boot_show_name_detail">A logó alá írva</string>
+    <string name="boot_install">Telepítés most</string>
+    <string name="boot_play">Lejátszás most</string>
+    <string name="boot_restore">Eredeti visszaállítása</string>
+    <string name="boot_close">Bezárás</string>
+    <string name="boot_building">Az animáció készítése…</string>
+    <string name="boot_installing">Telepítés…</string>
+    <string name="boot_restoring">Visszaállítás…</string>
+    <string name="boot_playing">Lejátszás a képernyőn…</string>
+    <string name="boot_installed">Telepítve ide: %1$s. A következő indításkor látni fogja.</string>
+    <string name="boot_install_failed">Nem sikerült telepíteni: %1$s</string>
+    <string name="boot_restored">Az eredeti indítási animáció visszaállt.</string>
+    <string name="boot_nothing_to_restore">Nincs mit visszaállítani: az indítási animáció sosem változott.</string>
+    <string name="boot_restore_failed">Nem sikerült visszaállítani: %1$s</string>
+    <string name="boot_restore_confirm_title">Visszaállítja az eredetit?</string>
+    <string name="boot_restore_confirm_body">A fejegység saját indítási animációja és állóképes logója visszakerül.</string>
+    <string name="boot_play_failed">Nem sikerült lejátszani: %1$s</string>
+    <string name="boot_current">Jelenlegi indítási logó: %1$s</string>
+    <string name="boot_hint">Ezzel a márka logójával lecseréli, amit a fejegység indításkor mutat: az Android-animációt, és ha be van kapcsolva, az állóképes logót is. A fejegység belső root ADB-jét használja, és sosem nyúl a /system mappához. Az eredetiekről biztonsági mentés készül (a belső tárhelyen a Dashwheel/boot_backup mappába is), és a Visszaállítás visszateszi őket. A logók a nyílt car-logos-dataset gyűjteményből származnak.</string>
+    <string name="boot_usb">Mentés USB-re</string>
+    <string name="boot_saving_usb">Írás az USB-meghajtóra…</string>
+    <string name="boot_saved_usb">Mentve ide: %1$s. Húzza ki, majd dugja vissza a meghajtót: a fejegység importálja az animációt. Az állóképes logóhoz: Beállítások → Gyári beállítások (8888) → Logo set → válassza ezt: %2$s → Update logo.</string>
+    <string name="boot_no_usb">Nem található USB-meghajtó. Csatlakoztasson egyet, és próbálja újra.</string>
+    <string name="boot_still">Az állóképes logó cseréje is</string>
+    <string name="boot_still_detail">Az első kép, még az Android előtt. Alapból ki van kapcsolva: a logópartícióra íródik, előtte mentés készül, utána ellenőrzés.</string>
+    <string name="boot_still_confirm_title">Lecseréli az állóképes logót?</string>
+    <string name="boot_still_confirm_body">Az állóképes logó a fejegység logópartíciójára íródik, előtte mentés készül.</string>
+    <string name="boot_still_done">Az állóképes logó is frissült.</string>
+    <string name="boot_still_failed">Az állóképes logó nem változott: %1$s</string>
+    <string name="boot_still_unsupported">ezen a fejegységen nincs eszköz az állóképes logóhoz</string>
+    <string name="boot_not_qf">A Telepítés most csak a QF001 / K706 firmware-en működik, amelyhez készült. Használja helyette a Mentés USB-re lehetőséget.</string>
+    <string name="boot_no_adb">A fejegység belső ADB-je nem válaszol (port: %1$d), és a Dashwheelnek nincs rootja. Kapcsolja be az USB-hibakeresést (Beállítások → A készülékről → koppintson 7-szer a Buildszámra, majd Fejlesztői beállítások → USB-hibakeresés), vagy adjon root-jogot, és próbálja újra.</string>
+</resources>

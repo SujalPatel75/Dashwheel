@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- The driver's places (Places.kt): Settings -> Driving, the map tile, the steering wheel buttons -->
+    <string name="places_title">Saját helyek</string>
+    <string name="places_detail_empty">Otthon és munkahely, egy koppintásra vagy gombnyomásra</string>
+    <string name="places_explanation">Állítsa be őket egyszer. Utána megjelennek a térkép csempén.</string>
+    <string name="places_home">Otthon</string>
+    <string name="places_work">Munkahely</string>
+    <string name="places_not_set">Nincs beállítva</string>
+    <string name="places_address_hint">Cím vagy hely</string>
+    <string name="places_find">Keresés</string>
+    <string name="places_here">Az autó itt van</string>
+    <string name="places_forget">Törlés</string>
+    <string name="places_recent">Legutóbbi úti célok</string>
+    <string name="places_forget_recent">Lista törlése</string>
+    <string name="places_offline">Nincs kapcsolat</string>
+    <string name="places_no_nav_app">Nincs navigációs alkalmazás ezen a fejegységen</string>
+    <!-- Spoken when a steering wheel button asks for a place that isn't set -->
+    <string name="places_no_home">Az otthon nincs beállítva. Állítsa be a Beállítások, Vezetés, Saját helyek menüben.</string>
+    <string name="places_no_work">A munkahely nincs beállítva. Állítsa be a Beállítások, Vezetés, Saját helyek menüben.</string>
+</resources>

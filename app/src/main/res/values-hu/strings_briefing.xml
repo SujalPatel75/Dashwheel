@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- AI mechanic settings: the start-up briefing switch -->
+    <string name="briefing_setting">Indítási összefoglaló</string>
+    <string name="briefing_setting_detail">Az autó indulásakor: kevés üzemanyag, jegesedés, motorhibák és a következő időpont</string>
+
+    <!-- Spoken when the car starts, in the launcher's language -->
+    <string name="briefing_ice">Vigyázzon, az út jeges lehet.</string>
+    <string name="briefing_fuel_low">Kevés az üzemanyag: körülbelül %1$d kilométerre elég, tervezzen be egy tankolást.</string>
+    <plurals name="briefing_faults">
+        <item quantity="one">%1$d tárolt motorhiba: %2$s. Parkoláskor nézze meg a Hibakódok csempét.</item>
+        <item quantity="other">%1$d tárolt motorhiba: %2$s. Parkoláskor nézze meg a Hibakódok csempét.</item>
+    </plurals>
+    <plurals name="briefing_faults_untitled">
+        <item quantity="one">%1$d tárolt motorhiba. Parkoláskor nézze meg a Hibakódok csempét.</item>
+        <item quantity="other">%1$d tárolt motorhiba. Parkoláskor nézze meg a Hibakódok csempét.</item>
+    </plurals>
+    <string name="briefing_event">Következő: %1$s, %2$s órakor.</string>
+</resources>

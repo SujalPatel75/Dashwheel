@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Settings dialog (also the menu item) -->
+    <string name="ai_title">AI-szerelő</string>
+    <string name="ai_explanation">Az új hibakódot a Gemini elmagyarázza és felolvassa. A Google-nek elküldött adatok: a kódok, a motoradatok, az autótípus, és a hangja, ha hangosan kérdez.</string>
+    <string name="ai_key">Gemini API-kulcs</string>
+    <string name="ai_key_hint">Ingyenes: aistudio.google.com → Get API key</string>
+    <string name="ai_language">Válaszok nyelve</string>
+    <string name="ai_language_auto">Mint az alkalmazásé</string>
+    <string name="ai_language_detail">A Gemini írásos válaszaihoz</string>
+    <string name="ai_test">Teszt</string>
+    <string name="ai_done">Kész</string>
+
+    <!-- Settings dialog: test results -->
+    <string name="ai_test_ok">A Gemini működik: %1$s</string>
+    <string name="ai_test_failed">Nem sikerült: %1$s</string>
+    <string name="ai_test_waiting">Kapcsolódás a Google-höz… %1$d mp</string>
+    <string name="ai_no_voice">Nincs %1$s nyelvű hang ezen az egységen: adjon hozzá egyet az Android Beállítások → Szövegfelolvasás menüben.</string>
+
+    <!-- Spoken by the car, in the launcher's language -->
+    <string name="ai_say_ready">Az AI-szerelő készen áll.</string>
+    <plurals name="ai_say_new_codes">
+        <item quantity="one">%1$d új motorhiba: %2$s. Parkoláskor nézze meg a Hibakódok csempét.</item>
+        <item quantity="other">%1$d új motorhiba: %2$s. Parkoláskor nézze meg a Hibakódok csempét.</item>
+    </plurals>
+    <plurals name="ai_say_new_codes_untitled">
+        <item quantity="one">%1$d új motorhiba. Parkoláskor nézze meg a Hibakódok csempét.</item>
+        <item quantity="other">%1$d új motorhiba. Parkoláskor nézze meg a Hibakódok csempét.</item>
+    </plurals>
+    <string name="ai_say_overheat">Figyelem, a motor túlmelegszik: %1$d fok. Amint biztonságos, álljon félre, és állítsa le a motort.</string>
+    <string name="ai_say_not_charging">Az akkumulátor nem töltődik: %1$s volt járó motornál. Menjen szervizbe, és kapcsolja ki, amire nincs szüksége.</string>
+    <string name="ai_say_weak_battery">Az akkumulátor gyenge: %1$s volt álló motornál. Hamarosan vizsgáltassa be.</string>
+
+    <!-- Fault codes tile: labels around the AI advice (in the mechanic's language, like the advice) -->
+    <string name="ai_verdict_ok">Nem tűnik sürgősnek</string>
+    <string name="ai_verdict_soon">Hamarosan nézesse meg</string>
+    <string name="ai_verdict_stop">Ne vezessen tovább</string>
+    <!-- When the built-in rules rate a fault more serious than the AI did (spoken, and shown in the verdict) -->
+    <string name="ai_rules_stop">Ez a hiba károsíthatja a motort: amint biztonságos, álljon meg, és nézesse meg, mielőtt továbbmegy.</string>
+    <string name="ai_rules_soon">Ezzel a hibával néhány napon belül szervizbe kell menni: addig vezessen kíméletesen.</string>
+    <string name="ai_rules_raised">A beépített biztonsági szabályok súlyosabbnak ítélték, mint az AI.</string>
+    <string name="ai_disclaimer">AI-tanács (%1$s): tévedhet. Javítás előtt kérje ki egy szerviz véleményét.</string>
+    <string name="ai_details_parked">A részletek parkoláskor érhetők el. A kérdését hangosan most is felteheti.</string>
+    <string name="ai_check_first">Először ellenőrizze: %1$s</string>
+    <string name="ai_details">Részletek</string>
+    <string name="ai_close">Bezárás</string>
+    <string name="ai_detail_overview">Áttekintés</string>
+    <string name="ai_detail_meaning">Mit jelent</string>
+    <string name="ai_detail_symptoms">Mit tapasztalhat</string>
+    <string name="ai_detail_causes">Valószínű okok</string>
+    <string name="ai_detail_check_first">Először ellenőrizze</string>
+    <string name="ai_detail_checks">Lépésről lépésre</string>
+    <string name="ai_detail_repair">Szokásos javítás</string>
+    <string name="ai_detail_cost">Becsült költség</string>
+    <string name="ai_detail_diy">Megcsinálhatja maga?</string>
+    <string name="ai_detail_driving">Vezethetek tovább?</string>
+    <string name="ai_ask">Kérdés feltevése</string>
+    <string name="ai_ask_send">Küldés</string>
+    <string name="ai_ask_listening">Figyelek… tegye fel a kérdését; magától elküldi, amikor abbahagyja.</string>
+    <string name="ai_ask_thinking">A szerelő gondolkodik…</string>
+    <string name="ai_ask_you_asked">Az Ön kérdése: %1$s</string>
+    <string name="ai_ask_nothing_heard">Nem hallottam kérdést. Koppintson, és kérdezzen újra.</string>
+    <string name="ai_ask_mic_denied">A hangos kérdezéshez engedélyezze a mikrofont.</string>
+    <string name="ai_ask_mic_error">A mikrofon nem indult el.</string>
+    <string name="ai_ask_failed">Nincs válasz: %1$s</string>
+    <string name="ai_ask_replay">Újrahallgatás</string>
+
+    <!-- Fault codes tile: status -->
+    <string name="ai_no_codes">Nincs hibakód</string>
+    <string name="ai_cleared">Törölve</string>
+    <string name="ai_scan_failed">Sikertelen beolvasás</string>
+    <string name="ai_clear_failed">Sikertelen törlés</string>
+    <string name="ai_thinking">Kérdés az AI-szerelőnek…</string>
+    <string name="ai_retry">Újra</string>
+    <string name="ai_note_no_key">Közérthető tanácsokhoz adjon meg egy ingyenes Gemini-kulcsot a Beállítások → Autó → AI-szerelő menüben.</string>
+    <string name="ai_note_unavailable">Az AI nem érhető el: %1$s</string>
+
+    <!-- Why asking Gemini failed (follows "AI unavailable: " / "Didn't work: ") -->
+    <string name="ai_error_quota">elfogyott a mai ingyenes keret</string>
+    <string name="ai_error_key_refused">a kulcsot elutasították</string>
+    <string name="ai_error_gemini">Gemini-hiba: %1$d</string>
+    <string name="ai_error_empty">a Gemini üres választ adott</string>
+    <string name="ai_error_unreadable">a Gemini válasza olvashatatlan volt</string>
+    <string name="ai_error_offline">nincs internetkapcsolat</string>
+    <string name="ai_error_no_dns">nincs internet: a Google nem érhető el (ellenőrizze a fejegység Wi-Fi-jét vagy hotspotját)</string>
+    <string name="ai_error_no_access">a Wi-Fi csatlakozik, de nincs internet (lehet, hogy be kell jelentkezni, vagy a telefonon nincs mobiladat)</string>
+    <string name="ai_error_timeout">a Google nem válaszolt időben: a kapcsolat túl lassú, vagy nincs internet</string>
+    <string name="ai_error_gemini_busy">a Google AI-ja most túlterhelt; próbálja újra néhány perc múlva</string>
+    <string name="ai_error_tls">a biztonságos kapcsolatot elutasították: ellenőrizze a fejegység dátumát és idejét</string>
+    <string name="ai_error_connect">nem sikerült csatlakozni a Google-höz</string>
+    <string name="ai_error_unknown">ismeretlen hiba</string>
+    <string name="ai_say_overcharging">Az akkumulátor feszültsége túl magas: %1$s volt járó motornál. A töltésszabályzó hibás lehet: hamarosan vizsgáltassa be.</string>
+    <!-- Asking the mechanic about the car as it is now (fault codes tile microphone, hands-free) -->
+    <string name="ai_ask_wheel_action">Kérdés az AI-szerelőnek</string>
+    <!-- Spoken, in the mechanic's language -->
+    <string name="ai_ask_say_listening">Figyelek.</string>
+    <string name="ai_ask_say_nothing_heard">Nem hallottam kérdést.</string>
+    <string name="ai_ask_say_no_key">Az AI-szerelőhöz Gemini-kulcs kell. Adjon meg egyet az autó beállításaiban, az AI-szerelő alatt.</string>
+    <string name="ai_ask_say_mic">A mikrofon még nincs engedélyezve. Az engedélyezéshez koppintson egyszer a mikrofonra a Hibakódok csempén.</string>
+    <string name="ai_gemini_live_missing">A Gemini nincs telepítve ezen az egységen.</string>
+    <string name="ai_gemini_live_end">Befejezés</string>
+    <string name="ai_gemini_live_show">Gemini Live megjelenítése</string>
+    <string name="ai_live_connecting">Kapcsolódás</string>
+    <string name="ai_live_listening">Figyelés</string>
+    <string name="ai_live_thinking">Gondolkodik</string>
+    <string name="ai_live_speaking">Beszél</string>
+    <string name="ai_live_failed">A Gemini nem válaszol. Ellenőrizze a kapcsolatot.</string>
+    <string name="ai_live_own">Az autót ismerő Gemini</string>
+    <string name="ai_live_own_detail">Az Ön Gemini-kulcsát használja: olvassa az autót, az utat és a műszerfalat, és műveleteket végez rajtuk. Kikapcsolva: a Google Gemini alkalmazása</string>
+</resources>

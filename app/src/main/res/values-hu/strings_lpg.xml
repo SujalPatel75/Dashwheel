@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- The LPG tank (LpgTank.kt, LpgTankTile.kt) -->
+    <string name="lpg_kind">LPG-tartály</string>
+    <string name="lpg_kind_blurb">Mennyi maradt az LPG-tartályban, a megtett távolság alapján számolva</string>
+    <string name="lpg_title">LPG</string>
+    <string name="lpg_off">Állítsa be az LPG-tartályt a szintje követéséhez.</string>
+    <string name="lpg_set_up">Beállítás</string>
+    <string name="lpg_first">Tankolja tele a tartályt, majd koppintson a Tele gombra.</string>
+    <string name="lpg_full">Tele</string>
+    <string name="lpg_left">Még %1$s L</string>
+    <string name="lpg_range">Még %1$d %2$s</string>
+    <string name="lpg_on_lpg">Gázon</string>
+    <string name="lpg_on_petrol">Benzinen</string>
+    <string name="lpg_pumped">Hány litert tankolt?</string>
+    <string name="lpg_save">Mentés</string>
+    <string name="lpg_skip">Kihagyás</string>
+    <string name="lpg_use">%1$s, becsült</string>
+    <string name="lpg_use_learned">%1$s, a kútnál mérve</string>
+    <string name="lpg_use_label">Fogyasztás</string>
+    <string name="lpg_explanation">Az autó műszere csak a benzintartályt ismeri. Az LPG szintjét a gázzal megtett kilométerekből számoljuk, ezért minden tankolás után koppintson a Tele gombra.</string>
+    <string name="lpg_enable">LPG-tartály követése</string>
+    <string name="lpg_enable_detail">Megjeleníti a szintjét az LPG csempén, és szól, ha fogyóban van</string>
+    <string name="lpg_tank_size">Tartály, L</string>
+    <string name="lpg_use_setting">Fogyasztás, L/100 km</string>
+    <string name="lpg_price">Literár</string>
+    <string name="lpg_tank_hint">Amennyi egy teljes tankolásba belefér: az LPG-tartály csak 80 százalékig töltődik.</string>
+    <string name="lpg_use_hint">Hagyja üresen, ha az autó fogyasztásából indulna; minden tankolás pontosítja.</string>
+    <string name="lpg_price_hint">Hagyja üresen a legközelebbi kút árának használatához.</string>
+    <string name="lpg_mode_label">Mikor megy az autó gázon</string>
+    <string name="lpg_mode_auto">Ha bemelegedett</string>
+    <string name="lpg_mode_always">Mindig</string>
+    <string name="lpg_mode_manual">Ha átkapcsolom</string>
+    <string name="lpg_mode_auto_detail">A legtöbb rendszer benzinnel indul. Az LPG akkor számít, ha a hűtőfolyadék eléri az átkapcsolási hőmérsékletet, OBD-adapter nélkül pedig az út első kilométere után.</string>
+    <string name="lpg_mode_manual_detail">Váltson LPG és benzin között a csempén vagy egy kormánygombbal.</string>
+    <string name="lpg_switch_temp">Átkapcsolási hőmérséklet, %1$s</string>
+    <string name="lpg_level">Szint</string>
+    <string name="lpg_never_filled">Még nem volt teli tankolás</string>
+    <string name="lpg_last_fill">Utolsó teli tankolás: %1$s</string>
+    <string name="lpg_full_now">A tartály most tele</string>
+    <string name="lpg_settings_detail">Második tartály, a távolságból számolt szint</string>
+    <plurals name="lpg_voice_low">
+        <item quantity="one">Kevés a gáz: kb. %1$d kilométer van hátra.</item>
+        <item quantity="other">Kevés a gáz: kb. %1$d kilométer van hátra.</item>
+    </plurals>
+    <string name="lpg_voice_full">Az LPG-tartály tele.</string>
+    <string name="lpg_voice_off">Az LPG-tartály nincs beállítva.</string>
+    <string name="lpg_voice_on_lpg">Gázon.</string>
+    <string name="lpg_voice_on_petrol">Benzinen.</string>
+    <string name="lpg_wheel_full">LPG-tartály tele</string>
+    <string name="lpg_wheel_switch">LPG vagy benzin</string>
+    <string name="lpg_warming">Benzin, melegszik</string>
+    <string name="lpg_lpg_off">LPG kikapcsolva</string>
+    <string name="lpg_now">Most</string>
+    <string name="lpg_off_hint">Saját maga kapcsolta ki az LPG-t? Koppintson az LPG jelre a csempén, vagy használjon egy kormánygombot. Az LPG újra számít, ha visszakapcsolja, vagy ha tankol.</string>
+    <string name="lpg_method_label">Hogyan számoljuk az elhasznált LPG-t</string>
+    <string name="lpg_method_average">Átlag</string>
+    <string name="lpg_method_engine">Motor × szorzó</string>
+    <string name="lpg_method_engine_detail">A motorvezérlő gázüzemben is kiszámolja, mennyi benzinre lenne szüksége. Ezt OBD-n kiolvasva és a szorzóval megszorozva követi a városi és autópályás vezetést; adapter nélkül az átlagot használjuk.</string>
+    <string name="lpg_factor">Szorzó, liter LPG / liter benzin</string>
+    <string name="lpg_factor_learned">A kútnál mérve: %1$s</string>
+    <string name="lpg_flow_now">Motoradat most: %1$s L/h</string>
+    <string name="lpg_flow_none">Még nincs motoradat. Akkor jelenik meg, ha az adapter csatlakozik és jár a motor.</string>
+    <string name="lpg_voice_auto">Az LPG újra bekapcsol, amint bemelegszik a motor.</string>
+    <string name="lpg_voice_lpg_off">LPG kikapcsolva. Benzint számolok.</string>
+</resources>

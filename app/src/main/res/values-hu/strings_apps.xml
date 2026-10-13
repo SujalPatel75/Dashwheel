@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Add-widget catalogue: section headings -->
+    <string name="apps_category_driving">Vezetés</string>
+    <string name="apps_category_navigation">Navigáció</string>
+    <string name="apps_category_vehicle">Autó</string>
+    <string name="apps_category_info">Infó és üzenetek</string>
+    <string name="apps_category_apps">Média</string>
+
+    <!-- Add-widget catalogue: built-in tiles (name, then one-line description) -->
+    <string name="apps_kind_navmap">Térkép</string>
+    <string name="apps_kind_navmap_blurb">Ingyenes 3D térkép kereséssel és útvonaltervezéssel</string>
+    <string name="apps_kind_navigation">Útbaigazítás</string>
+    <string name="apps_kind_navigation_blurb">Következő kanyar a Google Mapsből / Waze-ből</string>
+    <string name="apps_kind_pip_anchor">Maps-ablak</string>
+    <string name="apps_kind_pip_anchor_blurb">Ide dokkolja a lebegő Maps-ablakot</string>
+    <string name="apps_kind_media">Zenelejátszó</string>
+    <string name="apps_kind_media_blurb">Ami most szól, vezérlőkkel</string>
+    <string name="apps_kind_telemetry">Motorműszerek</string>
+    <string name="apps_kind_telemetry_blurb">Sebességmérő, fordulatszám, hűtővíz, terhelés, akkumulátor</string>
+    <string name="apps_kind_obd_dtc">Autó hibái</string>
+    <string name="apps_kind_obd_dtc_blurb">Az autó saját figyelmeztetései és a motor hibakódjai, érthetően</string>
+    <string name="apps_kind_obd_all">Összes autóadat</string>
+    <string name="apps_kind_obd_all_blurb">Minden élő OBD-érték</string>
+    <string name="apps_kind_range">Üzemanyag és hatótáv</string>
+    <string name="apps_kind_range_blurb">Tankszint és a még megtehető km</string>
+    <string name="apps_kind_doors">Ajtók</string>
+    <string name="apps_kind_doors_blurb">Ajtók és csomagtartó állapota az autóból</string>
+    <string name="apps_kind_can_mon">CAN-monitor</string>
+    <string name="apps_kind_can_mon_blurb">Nyers CAN-keretek jelek kereséséhez</string>
+    <string name="apps_kind_speed_hud">Sebesség</string>
+    <string name="apps_kind_speed_hud_blurb">Nagy digitális sebesség OBD-ből vagy GPS-ből</string>
+    <string name="apps_kind_compass">Iránytű</string>
+    <string name="apps_kind_compass_blurb">Irány, magasság és GPS-sebesség</string>
+    <string name="apps_kind_trip">Fedélzeti számítógép</string>
+    <string name="apps_kind_trip_blurb">Ez az út és az utolsó tankolás óta, fogyasztással és költséggel</string>
+    <string name="apps_kind_gforce">G-erő</string>
+    <string name="apps_kind_gforce_blurb">Kanyarodási és fékezési g-erő</string>
+    <string name="apps_kind_parking">Parkolóhely</string>
+    <string name="apps_kind_parking_blurb">Mentse el, hol parkolt, és sétáljon vissza hozzá</string>
+    <string name="apps_kind_clock">Óra</string>
+    <string name="apps_kind_clock_blurb">Idő és dátum, nagyban</string>
+    <string name="apps_kind_weather">Időjárás</string>
+    <string name="apps_kind_weather_blurb">Időjárás az autó helyén, fiók nélkül</string>
+    <string name="apps_kind_calendar">Naptár</string>
+    <string name="apps_kind_calendar_blurb">A következő naptáreseményei</string>
+    <string name="apps_kind_quick_dial">Gyorshívás</string>
+    <string name="apps_kind_quick_dial_blurb">Csillagozott névjegyek, egy koppintással hívhatók</string>
+    <string name="apps_kind_notifications">Értesítések</string>
+    <string name="apps_kind_notifications_blurb">Üzenetek és értesítések az alkalmazásaiból</string>
+    <string name="apps_kind_audio">Hang</string>
+    <string name="apps_kind_audio_blurb">Hangerő, némítás, hangzás és Bluetooth-beállítások</string>
+
+    <!-- Add-widget catalogue: dialog -->
+    <string name="apps_pick_launch_bar">Alkalmazássáv</string>
+    <string name="apps_pick_launch_bar_blurb">Kedvenc alkalmazásai egy sorban</string>
+    <string name="apps_pick_system_widget">Rendszerwidget…</string>
+    <string name="apps_pick_system_widget_blurb">Bármely telepített alkalmazás widgetje</string>
+    <string name="apps_cancel">Mégse</string>
+    <string name="apps_save">Mentés</string>
+
+    <!-- Launch bar tile and its editor -->
+    <string name="apps_launch_bar_empty">Alkalmazássáv: koppintson a ceruzára alkalmazások hozzáadásához</string>
+    <string name="apps_launch_bar_edit">Alkalmazássáv szerkesztése</string>
+    <string name="apps_launch_bar_editor_title">A sáv alkalmazásai</string>
+    <string name="apps_launch_bar_editor_empty">Még nincs alkalmazás. Adja hozzá a leggyakrabban használtakat.</string>
+    <string name="apps_move_left">Mozgatás balra</string>
+    <string name="apps_move_right">Mozgatás jobbra</string>
+    <string name="apps_remove">Eltávolítás</string>
+    <string name="apps_add_app">Alkalmazás hozzáadása</string>
+    <plurals name="apps_launch_bar_full">
+        <item quantity="one">A sáv megtelt (%1$d alkalmazás)</item>
+        <item quantity="other">A sáv megtelt (%1$d alkalmazás)</item>
+    </plurals>
+    <string name="apps_launch_bar_add_title">Hozzáadás a sávhoz</string>
+
+    <!-- App picker and all-apps drawer -->
+    <string name="apps_choose_app">Válasszon alkalmazást</string>
+    <string name="apps_all_apps">Összes alkalmazás</string>
+    <string name="apps_close_drawer">Alkalmazásfiók bezárása</string>
+    <string name="apps_no_apps_found">Nem található alkalmazás</string>
+
+    <!-- Docked app window tile (%1$s is the app name; the tile title is ALL CAPS) -->
+    <string name="apps_window_title">%1$s ABLAK</string>
+    <string name="apps_window_maps_docked_beside">A Maps a műszerfal mellé van dokkolva.</string>
+    <string name="apps_window_docked">Dokkolva: %1$s (%2$s)</string>
+    <string name="apps_window_tap_to_raise">Eltűnt az ablak? Koppintson ide, hogy újra előtérbe kerüljön.</string>
+    <string name="apps_window_gave_up">A rendszer a helyén tartja: %1$s</string>
+    <string name="apps_window_moving">%1$s áthelyezése ide…</string>
+    <string name="apps_window_opening">%1$s megnyitása itt…</string>
+    <string name="apps_window_maps_hint">A Google Maps ide dokkol.\nNyissa meg lent, vagy indítsa el a navigációt, és nyomja meg a Kezdőképernyő gombot.</string>
+    <string name="apps_window_app_hint">%1$s itt fut, egy csempe méretű ablakban.</string>
+    <string name="apps_window_open">%1$s megnyitása itt</string>
+    <string name="apps_window_open_full">Teljes %1$s megnyitása itt</string>
+    <string name="apps_window_error_gave_up">Nem sikerült ablakként nyitva tartani</string>
+    <string name="apps_window_error_no_shell">Nincs root (Magisk), és az ADB-socket nem figyel (port: %1$d)</string>
+
+    <!-- Docked app window tile: diagnostics (%1$s / %2$s are pixel rectangles or system output) -->
+    <string name="apps_window_diag_position">Ablak %1$s → cél %2$s</string>
+    <string name="apps_window_diag_last">Utolsó: %1$s</string>
+    <string name="apps_window_diag_seen">Ablakok: %1$s</string>
+
+    <!-- Floating split-screen swap button (accessibility label) -->
+    <string name="apps_swap_split_panes">Osztott képernyős alkalmazások cseréje</string>
+    <!-- The add sheet (AddSheet.kt): widgets, apps and windows in one place -->
+    <string name="apps_add_title">Hozzáadás: %1$s</string>
+    <string name="apps_tab_widgets">Widgetek</string>
+    <string name="apps_tab_apps">Alkalmazások</string>
+    <string name="apps_search">Keresés</string>
+    <string name="apps_category_all">Összes</string>
+    <string name="apps_embed_app_starting">%1$s megnyitása</string>
+    <string name="apps_embed_app_missing">%1$s nincs telepítve</string>
+    <string name="apps_embed_app_blocked">%1$s ezen az egységen nem fut csempében. Adja hozzá inkább ablakként.</string>
+    <string name="apps_embed_under_dashboard">Már a műszerfal alatt van</string>
+    <string name="apps_pair_pick_first">Koppintson a bal oldali alkalmazásra.</string>
+    <string name="apps_pair_pick_second">Bal oldalon: %1$s. Most koppintson a jobb oldali alkalmazásra.</string>
+    <string name="apps_pair_change">Csere</string>
+    <string name="apps_kind_maps_inside">Beépített Google Maps</string>
+    <string name="apps_kind_maps_inside_blurb">A valódi Google Maps alkalmazás, ebben a csempében</string>
+    <string name="apps_kind_dash_bar">Műszerfalsáv</string>
+    <string name="apps_kind_dash_bar_blurb">Műszerfalai és alkalmazásai egy koppintásra, ezen a műszerfalon</string>
+    <string name="apps_most_used">Leggyakoribb</string>
+    <string name="apps_kind_screen_light">Pi kijelző fényereje</string>
+    <string name="apps_kind_screen_light_blurb">A második kijelző háttérvilágítása nappal és éjjel</string>
+    <string name="apps_kind_radios">Wi-Fi és Bluetooth</string>
+    <string name="apps_kind_radios_blurb">A fejegység Wi-Fi és Bluetooth kapcsolója</string>
+    <string name="apps_radio_wifi">Wi-Fi</string>
+    <string name="apps_radio_bluetooth">Bluetooth</string>
+    <string name="apps_radio_on">Be</string>
+    <string name="apps_radio_off">Ki</string>
+    <string name="apps_radio_switching">Váltás</string>
+
+    <!-- Add sheet: what a widget is missing right now, and the kinds already placed -->
+    <string name="apps_needs_obd">OBD-adapter szükséges</string>
+    <string name="apps_needs_phone">Telefon szükséges</string>
+    <string name="apps_needs_internet">Internet szükséges</string>
+    <string name="apps_needs_root">Root szükséges</string>
+    <string name="apps_needs_carbox">CAN-box szükséges</string>
+    <string name="apps_on_dashboard">Műszerfalon</string>
+    <string name="apps_as_icon">Ikon</string>
+    <string name="apps_as_icon_detail">Megnyitja az alkalmazást</string>
+    <string name="apps_in_tile">Csempében</string>
+    <string name="apps_in_tile_inside">A csempében fut, ezen a műszerfalon</string>
+    <string name="apps_in_tile_window">Csempe méretű ablakban marad nyitva</string>
+    <string name="apps_side_by_side">Egymás mellett</string>
+    <string name="apps_side_by_side_detail">Két alkalmazás egyszerre, osztott képernyőn</string>
+    <string name="apps_icon_size">Ikonméret</string>
+</resources>

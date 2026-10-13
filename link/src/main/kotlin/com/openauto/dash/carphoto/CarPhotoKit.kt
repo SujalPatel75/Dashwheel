@@ -606,12 +606,12 @@ object CarPhotoKit {
     /** A picture this much taller than wide is the car seen from above (nose up). */
     private const val TALL = 0.75f
 
-    // Words a photo's name may carry, in the launcher's 8 languages (accents both ways).
-    private val SIDE_WORDS = listOf("side", "cote", "côté", "profil", "seite", "lateral", "lato", "lado", "zijkant", "zij", "bok")
-    private val FRONT_WORDS = listOf("front", "avant", "face", "vorne", "delante", "frontal", "davanti", "frente", "voorkant", "voor", "przod", "przód")
-    private val BACK_WORDS = listOf("back", "rear", "arriere", "arrière", "hinten", "heck", "detras", "detrás", "trasera", "dietro", "retro", "traseira", "achterkant", "achter", "tyl", "tył")
-    private val OPEN_WORDS = listOf("open", "opened", "ouvert", "ouverte", "ouvertes", "offen", "abierto", "abiertas", "aperto", "aperte", "aberto", "abertas", "geopend", "otwarte")
-    private val ABOVE_WORDS = listOf("top", "above", "dessus", "haut", "oben", "draufsicht", "arriba", "encima", "sopra", "alto", "cima", "boven", "bovenaanzicht", "gora", "góra", "gory", "góry")
+    // Words a photo's name may carry, in the launcher's languages (accents both ways).
+    private val SIDE_WORDS = listOf("side", "cote", "côté", "profil", "seite", "lateral", "lato", "lado", "zijkant", "zij", "bok", "oldal", "oldalt")
+    private val FRONT_WORDS = listOf("front", "avant", "face", "vorne", "delante", "frontal", "davanti", "frente", "voorkant", "voor", "przod", "przód", "elol", "elöl", "eleje")
+    private val BACK_WORDS = listOf("back", "rear", "arriere", "arrière", "hinten", "heck", "detras", "detrás", "trasera", "dietro", "retro", "traseira", "achterkant", "achter", "tyl", "tył", "hatul", "hátul", "hatulja", "hátulja")
+    private val OPEN_WORDS = listOf("open", "opened", "ouvert", "ouverte", "ouvertes", "offen", "abierto", "abiertas", "aperto", "aperte", "aberto", "abertas", "geopend", "otwarte", "nyitott", "nyitva")
+    private val ABOVE_WORDS = listOf("top", "above", "dessus", "haut", "oben", "draufsicht", "arriba", "encima", "sopra", "alto", "cima", "boven", "bovenaanzicht", "gora", "góra", "gory", "góry", "felul", "felül", "felulnezet", "felülnézet")
 
     fun zip(entries: Map<String, ByteArray>): ByteArray {
         val bytes = ByteArrayOutputStream()

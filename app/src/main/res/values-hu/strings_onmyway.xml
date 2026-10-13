@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- "On my way": the arrival time texted by the phone (OnMyWay.kt). -->
+<resources>
+    <string name="onmyway_button">Úton vagyok</string>
+    <string name="onmyway_title">Érkezési idő küldése SMS-ben</string>
+    <string name="onmyway_no_contacts">Nincs telefonszámmal rendelkező kedvenc a telefonon. Jelöljön meg csillaggal egy névjegyet a telefon névjegyei között.</string>
+    <string name="onmyway_text_to">Úton vagyok ide: %1$s, kb. %2$s körül érek oda.</string>
+    <string name="onmyway_text_eta">Úton vagyok, kb. %1$s körül érek oda.</string>
+    <string name="onmyway_text_plain">Úton vagyok.</string>
+    <string name="onmyway_sent">Elküldve neki: %1$s</string>
+    <string name="onmyway_sending">Küldés neki: %1$s</string>
+    <string name="onmyway_failed">A telefon nem tudott SMS-t küldeni neki: %1$s</string>
+    <string name="onmyway_no_answer">Nincs válasz a telefontól</string>
+    <string name="phone_battery_percent">%1$d %%</string>
+    <string name="message_alert_read">Felolvasás</string>
+    <string name="message_alert_reply">Válasz</string>
+    <string name="message_alert_try">Kipróbálom</string>
+    <string name="message_alert_sample">Késésben vagyok, 7-kor találkozunk.</string>
+</resources>

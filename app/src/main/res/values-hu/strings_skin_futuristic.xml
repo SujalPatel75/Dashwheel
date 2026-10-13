@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Futuristic skin (FuturisticSkin*.kt) -->
+    <string name="skin_futuristic_cd_all_apps">Minden alkalmazás</string>
+    <string name="skin_futuristic_cd_screen_layout">Google Maps helyzete: %1$s</string>
+    <string name="skin_futuristic_cd_more">Továbbiak</string>
+    <string name="skin_futuristic_link_live">Kapcsolat aktív</string>
+    <string name="skin_futuristic_link_off">Nincs kapcsolat</string>
+    <string name="skin_futuristic_link_linking">Kapcsolódás</string>
+    <string name="skin_futuristic_link_error">Kapcsolati hiba</string>
+    <string name="skin_futuristic_connect_obd">OBD csatlakoztatása</string>
+    <string name="skin_futuristic_tap_connect_obd">Koppintson az OBD csatlakoztatásához</string>
+    <string name="skin_futuristic_choose_adapter">OBD-adapter kiválasztása</string>
+    <string name="skin_futuristic_telemetry">Telemetria</string>
+    <string name="skin_futuristic_live">Élő</string>
+    <string name="skin_futuristic_engine">Motor</string>
+    <string name="skin_futuristic_tyres">Gumik</string>
+    <string name="skin_futuristic_doors">Ajtók</string>
+    <string name="skin_futuristic_doors_closed">Zárva</string>
+    <string name="skin_futuristic_door_open">Nyitva</string>
+    <string name="skin_futuristic_rpm">f/perc</string>
+    <string name="skin_futuristic_gear">Fokozat</string>
+    <string name="skin_futuristic_load">Terhelés</string>
+    <string name="skin_futuristic_next_manoeuvre">Következő manőver</string>
+    <string name="skin_futuristic_start_navigation">Koppintson a navigáció indításához</string>
+    <string name="skin_futuristic_open_navigation">Navigáció megnyitása</string>
+    <string name="skin_futuristic_tap_allow_access">Koppintson az értesítés-hozzáférés engedélyezéséhez</string>
+    <string name="skin_futuristic_eta">Érkezés %1$s</string>
+    <string name="skin_futuristic_now_playing">Most szól</string>
+    <string name="skin_futuristic_paused">Szüneteltetve</string>
+    <string name="skin_futuristic_music">Zene</string>
+    <string name="skin_futuristic_play_something">Indítson lejátszást egy zenei alkalmazásban</string>
+    <string name="skin_futuristic_unknown_artist">Ismeretlen előadó</string>
+    <string name="skin_futuristic_cd_previous">Előző szám</string>
+    <string name="skin_futuristic_cd_play">Lejátszás</string>
+    <string name="skin_futuristic_cd_pause">Szünet</string>
+    <string name="skin_futuristic_cd_next">Következő szám</string>
+    <string name="skin_futuristic_allow_media">Médiahozzáférés engedélyezése</string>
+    <string name="skin_futuristic_open_clock">Óra megnyitása</string>
+    <string name="skin_futuristic_loading">Betöltés</string>
+    <string name="skin_futuristic_weather_at_car">Időjárás az autónál</string>
+    <string name="skin_futuristic_feels">Hőérzet %1$d°</string>
+    <string name="skin_futuristic_wind">Szél %1$d %2$s</string>
+    <string name="skin_futuristic_to_empty">Hatótáv</string>
+    <string name="skin_futuristic_recalibrate_fuel">Üzemanyag újrakalibrálása</string>
+    <string name="skin_futuristic_open_app">%1$s megnyitása</string>
+    <string name="skin_futuristic_launch_bar_empty">Még nincs alkalmazás, koppintson a ceruzára a hozzáadáshoz</string>
+    <string name="skin_futuristic_cd_edit_launch_bar">Indítósáv szerkesztése</string>
+</resources>

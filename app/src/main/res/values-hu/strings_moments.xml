@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Moments: Home follows the drive (Moments.kt, MomentsScreen.kt) -->
+    <string name="moments_title">Pillanatok</string>
+    <string name="moments_hint">A Kezdőlap követi az utat. Koppintás nélkül.</string>
+    <string name="moments_apps_note">Egy alkalmazás fut egy csempén a Kezdőlapon, ezért a Kezdőlap változatlan marad.</string>
+    <string name="moments_settings_off">Ki: a Kezdőlap úgy marad, ahogy elrendezte</string>
+    <string name="moments_master">Automatikus váltás</string>
+    <string name="moments_now">Most</string>
+    <string name="moments_any_time">Bármikor</string>
+    <string name="moments_starts">Kezdete</string>
+    <string name="moments_ends">Vége</string>
+    <string name="moments_stays">Helyben marad</string>
+    <string name="moments_stays_body">Soha nem vált, amíg Ön a képernyőt érinti</string>
+    <string name="moments_on">Be</string>
+    <string name="moments_off">Ki</string>
+    <string name="moments_change">Mit mutasson</string>
+    <string name="moments_change_hint">A másolatból kimaradnak az ablakos alkalmazások és a rendszerwidgetek.</string>
+    <string name="moments_custom">Saját választás</string>
+    <string name="moments_as_it_came">Alapértelmezett</string>
+    <string name="moments_copy_of">%1$s másolata</string>
+    <string name="moments_back_home">Vissza a saját Kezdőlapjára</string>
+    <string name="moment_engine_on">Motor jár</string>
+    <string name="moment_engine_on_shows">Üzemanyag, időjárás és a nap programja</string>
+    <string name="moment_engine_on_starts">Motorindításkor</string>
+    <string name="moment_engine_on_ends">Amikor útnak indul</string>
+    <string name="moment_guiding">Navigáció</string>
+    <string name="moment_guiding_shows">A térkép és a következő kanyar elöl</string>
+    <string name="moment_guiding_starts">Amikor a Maps vagy a Waze navigál</string>
+    <string name="moment_guiding_ends">Amikor az útvonal véget ér</string>
+    <string name="moment_long">Hosszú út</string>
+    <string name="moment_long_shows">Hatótáv, tankolások és egy pihenő</string>
+    <string name="moment_long_starts">Egy óra vezetés után</string>
+    <string name="moment_long_ends">Amikor leparkol</string>
+    <string name="moment_parked">Parkolás</string>
+    <string name="moment_parked_shows">Az autó állapota és az üzenetek</string>
+    <string name="moment_parked_starts">Út után, 2 perc állás elteltével</string>
+    <string name="moment_parked_ends">Amikor útnak indul</string>
+    <string name="moment_fault">Valami nincs rendben</string>
+    <string name="moment_fault_shows">A hibakód és a motor értékei</string>
+    <string name="moment_fault_starts">Amikor hibakód jelenik meg</string>
+    <string name="moment_fault_ends">5 perc után vagy a Kezdőlap gombbal</string>
+</resources>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Per-tile zoom while arranging (DashboardGrid.kt) -->
+    <string name="zoom_button">Szöveg- és ikonméret</string>
+    <string name="zoom_out">Kisebb</string>
+    <string name="zoom_in">Nagyobb</string>
+    <string name="zoom_reset">Vissza 100 %-ra</string>
+    <string name="zoom_page">Szövegméret</string>
+    <string name="zoom_percent">%1$d %%</string>
+    <string name="zoom_window_inside">Ha a méret nem 100 százalék, az alkalmazás a csempén belül fut.</string>
+</resources>

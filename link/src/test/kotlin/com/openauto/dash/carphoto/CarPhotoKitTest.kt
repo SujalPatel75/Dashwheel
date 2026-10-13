@@ -257,6 +257,7 @@ class CarPhotoKitTest {
         // Named, in any order and language.
         assertEquals(CarPhotoKit.Shots(2, 0, 1, null), CarPhotoKit.sortShots(listOf("avant.jpg", "IMG_arrière.jpg", "côté.jpg"), listOf(1.3f, 1.3f, 2.1f)))
         assertEquals(CarPhotoKit.Shots(1, 2, 0, 3), CarPhotoKit.sortShots(listOf("car_back.png", "car_side.jpg", "car_front.png", "car_top.png"), listOf(1f, 1f, 1f, 1f)))
+        assertEquals(CarPhotoKit.Shots(1, 2, 0, 3), CarPhotoKit.sortShots(listOf("auto_hátul.jpg", "oldal.jpg", "elöl.png", "felülnézet.png"), listOf(1f, 1f, 1f, 1f)))
         // Not named: a tall one is the view from above, the widest the side, then the order picked.
         assertEquals(CarPhotoKit.Shots(1, 0, 3, 2), CarPhotoKit.sortShots(listOf("IMG_1.jpg", "IMG_2.jpg", "IMG_3.jpg", "IMG_4.jpg"), listOf(1.2f, 2.4f, 0.46f, 1.3f)))
         // From above with the doors open: by name (before "top" counts), else the fifth photo.

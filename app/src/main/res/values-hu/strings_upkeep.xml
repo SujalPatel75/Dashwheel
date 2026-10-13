@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Servicing planner (Maintenance.kt, MaintenanceTiles.kt) -->
+    <string name="upkeep_kind">Szerviz</string>
+    <string name="upkeep_kind_blurb">Olaj, szíj, folyadékok: mi esedékes és mikor</string>
+    <string name="upkeep_oil">Olajcsere</string>
+    <string name="upkeep_air_filter">Légszűrő</string>
+    <string name="upkeep_fuel_filter">Üzemanyagszűrő</string>
+    <string name="upkeep_cabin_filter">Pollenszűrő</string>
+    <string name="upkeep_brake_fluid">Fékfolyadék</string>
+    <string name="upkeep_coolant">Hűtőfolyadék</string>
+    <string name="upkeep_timing_belt">Vezérműszíj</string>
+    <string name="upkeep_additive">Szűrőadalék</string>
+    <string name="upkeep_gearbox_oil">Váltóolaj</string>
+    <string name="upkeep_spark_plugs">Gyújtógyertyák</string>
+    <string name="upkeep_inspection">Műszaki vizsga</string>
+    <string name="upkeep_title">SZERVIZ</string>
+    <string name="upkeep_no_odometer">Koppintson az óraállás megadásához</string>
+    <string name="upkeep_needs_dates">Adja meg, mikor végezték el utoljára az egyes tételeket</string>
+    <string name="upkeep_all_good">Nincs esedékes teendő</string>
+    <string name="upkeep_next_km">%1$s %2$s km múlva</string>
+    <plurals name="upkeep_next_days">
+        <item quantity="one">%1$s %2$d nap múlva</item>
+        <item quantity="other">%1$s %2$d nap múlva</item>
+    </plurals>
+    <string name="upkeep_overdue_km">%1$s: %2$s km túllépés</string>
+    <plurals name="upkeep_overdue_days">
+        <item quantity="one">%1$s: %2$d nap késés</item>
+        <item quantity="other">%1$s: %2$d nap késés</item>
+    </plurals>
+    <string name="upkeep_due_today">%1$s ma esedékes</string>
+    <string name="upkeep_say_due_today">%1$s ma esedékes.</string>
+    <string name="upkeep_row_km">%1$s km</string>
+    <string name="upkeep_row_days">%1$d nap</string>
+    <string name="upkeep_not_set">Nincs megadva</string>
+    <string name="upkeep_dialog_title">Szerviz</string>
+    <string name="upkeep_settings_detail">Óraállás, szervizterv és hangos emlékeztetők</string>
+    <string name="upkeep_explanation">Egyszer adja meg az óraállást: az utak hozzáadódnak. Adja meg, mikor végezték el utoljára az egyes tételeket. Az esedékes tételeket indításkor bemondja.</string>
+    <string name="upkeep_odometer">Óraállás (km)</string>
+    <string name="upkeep_odometer_as_of">Megadva: %1$s, azóta további %2$d km</string>
+    <string name="upkeep_fetch">Szervizterv lekérése az AI segítségével</string>
+    <string name="upkeep_fetch_ok">Az AI kitöltötte az időközöket: ellenőrizze őket</string>
+    <string name="upkeep_fetch_failed">Nem sikerült lekérni a tervet: %1$s</string>
+    <string name="upkeep_plan_ai">Az AI által megadott időközök</string>
+    <string name="upkeep_plan_default">Az időközök még nincsenek megerősítve</string>
+    <string name="upkeep_section_items">Tételek</string>
+    <string name="upkeep_every_km">Időköz (km)</string>
+    <string name="upkeep_every_months">Időköz (hónap)</string>
+    <string name="upkeep_last_km">Utoljára (km)</string>
+    <string name="upkeep_last_date">Utoljára (ÉÉÉÉ-HH)</string>
+    <string name="upkeep_done_today">Ma elvégezve</string>
+    <plurals name="upkeep_say_soon_km">
+        <item quantity="one">%1$s %2$d kilométer múlva esedékes.</item>
+        <item quantity="other">%1$s %2$d kilométer múlva esedékes.</item>
+    </plurals>
+    <plurals name="upkeep_say_soon_days">
+        <item quantity="one">%1$s %2$d nap múlva esedékes.</item>
+        <item quantity="other">%1$s %2$d nap múlva esedékes.</item>
+    </plurals>
+    <plurals name="upkeep_say_overdue_km">
+        <item quantity="one">%1$s %2$d kilométerrel túllépve.</item>
+        <item quantity="other">%1$s %2$d kilométerrel túllépve.</item>
+    </plurals>
+    <plurals name="upkeep_say_overdue_days">
+        <item quantity="one">%1$s %2$d napja esedékes volt.</item>
+        <item quantity="other">%1$s %2$d napja esedékes volt.</item>
+    </plurals>
+</resources>

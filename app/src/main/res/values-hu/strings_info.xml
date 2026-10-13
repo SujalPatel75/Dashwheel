@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Shared -->
+    <string name="info_waiting_gps">Várakozás GPS-jelre…</string>
+    <string name="info_no_gps">Nincs GPS</string>
+    <string name="info_open">Megnyitás</string>
+    <string name="info_clear">Törlés</string>
+    <string name="info_reset">Nullázás</string>
+    <string name="info_grant_access">Hozzáférés megadása</string>
+    <string name="info_connect">Csatlakozás</string>
+
+    <!-- Weather tile -->
+    <string name="info_weather_title">IDŐJÁRÁS</string>
+    <string name="info_weather_refresh">Időjárás frissítése</string>
+    <string name="info_weather_details">Hőérzet %1$d° · Szél %2$d km/h</string>
+    <string name="info_weather_details_range">Hőérzet %1$d° · Szél %2$d km/h · %3$d° / %4$d°</string>
+    <string name="info_weather_loading">Időjárás betöltése…</string>
+    <string name="info_weather_unavailable">Nincs időjárásadat</string>
+    <string name="info_weather_unavailable_detail">Nincs időjárásadat (%1$s)</string>
+    <string name="info_as_of">Frissítve: %1$s</string>
+
+    <!-- Weather conditions (WMO codes), also used by the skins -->
+    <string name="info_wx_clear">Derült</string>
+    <string name="info_wx_mostly_clear">Többnyire derült</string>
+    <string name="info_wx_partly_cloudy">Részben felhős</string>
+    <string name="info_wx_overcast">Borult</string>
+    <string name="info_wx_fog">Köd</string>
+    <string name="info_wx_drizzle">Szitálás</string>
+    <string name="info_wx_freezing_drizzle">Ónos szitálás</string>
+    <string name="info_wx_rain">Eső</string>
+    <string name="info_wx_freezing_rain">Ónos eső</string>
+    <string name="info_wx_snow">Havazás</string>
+    <string name="info_wx_showers">Zápor</string>
+    <string name="info_wx_snow_showers">Hózápor</string>
+    <string name="info_wx_thunderstorm">Zivatar</string>
+    <string name="info_wx_hail_storm">Jégeső</string>
+    <string name="info_wx_unknown">Ismeretlen</string>
+
+    <!-- Agenda tile -->
+    <string name="info_agenda_title">NAPTÁR</string>
+    <string name="info_agenda_needs_access">A naptár közelgő eseményeinek megjelenítése</string>
+    <string name="info_agenda_allow">Naptár engedélyezése</string>
+    <string name="info_agenda_empty">Semmi a következő 36 órában</string>
+    <string name="info_agenda_no_title">Névtelen</string>
+    <string name="info_agenda_all_day">Egész nap</string>
+
+    <!-- Quick dial tile -->
+    <string name="info_quickdial_title">GYORSHÍVÁS</string>
+    <string name="info_quickdial_dialer">Tárcsázó</string>
+    <string name="info_quickdial_needs_access">Itt jelennek meg a csillagozott névjegyei</string>
+    <string name="info_quickdial_allow">Névjegyek engedélyezése</string>
+    <string name="info_quickdial_empty">Jelöljön meg névjegyeket csillaggal a Névjegyek alkalmazásban, és itt megjelennek</string>
+
+    <!-- Notifications tile -->
+    <string name="info_notif_title">ÉRTESÍTÉSEK</string>
+    <string name="info_notif_needs_access">Az alkalmazásai üzeneteinek és értesítéseinek megjelenítése</string>
+    <string name="info_notif_empty">Nincs új értesítés</string>
+
+    <!-- Audio tile -->
+    <string name="info_audio_title">HANG</string>
+    <string name="info_audio_mute">Némítás</string>
+    <string name="info_audio_unmute">Némítás feloldása</string>
+    <string name="info_audio_sound">Hangzás</string>
+
+    <!-- Speed HUD tile (the title is also the Original theme's speed gauge label) -->
+    <string name="info_speed_title">SEBESSÉG</string>
+    <string name="info_speed_no_signal">Nincs jel</string>
+
+    <!-- Compass tile -->
+    <string name="info_compass_title">IRÁNYTŰ</string>
+    <string name="info_compass_no_heading">Induljon el az irány meghatározásához</string>
+    <string name="info_compass_altitude">Magasság</string>
+    <string name="info_compass_gps_speed">GPS-sebesség</string>
+    <string name="info_compass_accuracy">Pontosság</string>
+
+    <!-- Compass points (dial letters and heading abbreviations) -->
+    <string name="info_dir_n">É</string>
+    <string name="info_dir_ne">ÉK</string>
+    <string name="info_dir_e">K</string>
+    <string name="info_dir_se">DK</string>
+    <string name="info_dir_s">D</string>
+    <string name="info_dir_sw">DNy</string>
+    <string name="info_dir_w">Ny</string>
+    <string name="info_dir_nw">ÉNy</string>
+
+    <!-- Trip computer tile -->
+    <string name="info_trip_title">ÚT</string>
+    <string name="info_trip_since">%1$s óta</string>
+    <string name="info_trip_time">Idő</string>
+    <string name="info_trip_moving">Mozgásban</string>
+    <string name="info_trip_average">Átlag</string>
+    <string name="info_trip_top">Max.</string>
+    <string name="info_trip_this_drive">Ez az út</string>
+    <string name="info_trip_since_fill">Tankolás óta</string>
+    <string name="info_trip_fuel">Üzemanyag</string>
+    <string name="info_trip_cost">Költség</string>
+    <string name="info_trip_no_fill">Még nincs rögzített tankolás</string>
+    <string name="info_duration_hm">%1$d ó %2$02d p</string>
+    <string name="info_duration_ms">%1$d p %2$02d mp</string>
+
+    <!-- G-force tile -->
+    <string name="info_gforce_title">G-ERŐ</string>
+    <string name="info_gforce_reset_peaks">Csúcsok nullázása</string>
+    <string name="info_gforce_lateral">Oldalirányú</string>
+    <string name="info_gforce_accel_brake">Gyorsítás / fékezés</string>
+    <string name="info_gforce_peaks">Csúcsok</string>
+
+    <!-- Parking tile -->
+    <string name="info_parking_title">PARKOLÁS</string>
+    <string name="info_parking_prompt">Jegyezze meg, hol áll az autó</string>
+    <string name="info_parking_save">Parkolóhely mentése</string>
+    <string name="info_parking_dir_right">A parkoló autó jobbra van, %1$d°</string>
+    <string name="info_parking_dir_left">A parkoló autó balra van, %1$d°</string>
+    <string name="info_parking_distance_unknown">Ismeretlen távolság</string>
+    <string name="info_parking_parked">Leparkolva: %1$s</string>
+    <string name="info_parking_parked_dir">Leparkolva: %1$s · %2$s</string>
+    <string name="info_parking_walk">Gyalog oda</string>
+    <string name="info_parking_map_label">Parkoló autó</string>
+    <string name="info_ago_just_now">épp most</string>
+    <string name="info_ago_minutes">%1$d perce</string>
+    <string name="info_ago_hours">%1$d ó %2$02d perce</string>
+    <string name="info_ago_days">%1$d napja</string>
+
+    <!-- Media tile (both the current and the Original theme) -->
+    <string name="info_now_playing">MOST SZÓL</string>
+    <string name="info_paused">SZÜNETEL</string>
+    <string name="info_nothing_playing">Nincs lejátszás</string>
+    <string name="info_media_access_needed">Médiahozzáférés szükséges</string>
+    <string name="info_media_tap_to_enable">Koppintson az engedélyezéshez</string>
+    <string name="info_media_previous">Előző</string>
+    <string name="info_media_play_pause">Lejátszás/szünet</string>
+    <string name="info_media_next">Következő</string>
+    <string name="info_media_grant_access">Médiahozzáférés megadása</string>
+
+    <!-- Original theme telemetry tile -->
+    <string name="info_telemetry_title">MOTORMŰSZEREK</string>
+    <string name="info_obd_live">Élő</string>
+    <string name="info_gauge_rpm">RPM</string>
+    <string name="info_unit_rpm">f/perc</string>
+    <string name="info_chip_coolant">Hűtővíz</string>
+    <string name="info_chip_load">Terhelés</string>
+    <string name="info_chip_battery">Akku</string>
+
+    <!-- Directions tile -->
+    <string name="info_directions_title">NAVIGÁCIÓ</string>
+    <string name="info_directions_no_route">Nincs útvonal</string>
+    <string name="info_directions_access_title">Értesítési hozzáférés szükséges</string>
+    <string name="info_directions_access_hint">Az útbaigazítás a Google Maps navigációs értesítéséből származik.</string>
+    <string name="info_directions_idle_title">Nincs aktív útvonal</string>
+    <string name="info_directions_idle_hint">Indítsa el a navigációt a Google Mapsben vagy a Waze-ben, és itt megjelenik a következő kanyar.</string>
+    <string name="info_directions_open_maps">%1$s megnyitása</string>
+    <string name="info_nav_continue">Folytatás</string>
+
+    <!-- Map navigator (MapLibre panel) -->
+    <string name="info_map_where_to">Hová?</string>
+    <string name="info_map_search">Keresés</string>
+    <string name="info_map_clear_route">Útvonal törlése</string>
+    <string name="info_map_ready">Navigálásra kész</string>
+    <string name="info_map_start">Indítás</string>
+    <string name="info_map_gps_not_ready">A GPS még nem kész: az Indítás így is megnyitja a Google Mapst</string>
+    <string name="info_map_no_route">Nem található útvonal</string>
+    <string name="info_map_routing_failed">Sikertelen útvonaltervezés</string>
+    <string name="info_map_routing_failed_detail">Sikertelen útvonaltervezés (%1$s)</string>
+    <string name="info_map_address_not_found">A cím nem található</string>
+    <string name="info_map_duration_hm">%1$d ó %2$02d perc</string>
+    <string name="info_map_duration_min">%1$d perc</string>
+    <string name="info_map_stop">Leállítás</string>
+    <string name="info_map_arrived">Megérkezett</string>
+    <string name="info_map_rerouting">Új útvonal keresése</string>
+    <string name="info_map_voice_on">Hang bekapcsolása</string>
+    <string name="info_map_voice_off">Hang kikapcsolása</string>
+    <string name="info_map_other_app">Navigálás Google Mapsszel vagy Waze-zel</string>
+    <string name="info_audio_by_keys">A hangerő a fejegység hangerőgombjaival állítható</string>
+    <string name="info_audio_unavailable">A hangerő innen nem állítható: használja a forgatógombot</string>
+    <string name="info_map_stop_title">Leállítja a navigációt?</string>
+    <string name="info_map_stop_body">A térkép nem ad több útbaigazítást. A térképről újraindíthatja.</string>
+    <string name="info_directions_running_title">%1$s fut</string>
+    <string name="info_directions_running_hint">A következő kanyarja itt még nem olvasható.</string>
+</resources>

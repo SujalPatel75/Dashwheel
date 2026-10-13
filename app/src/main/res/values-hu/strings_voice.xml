@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- What the car says by itself: Settings -> Alerts -> What the car says (HandsFreeSettings.kt, SpokenEvents.kt) -->
+    <string name="voice_section">Amit az autó mond</string>
+    <string name="voice_warnings">Hangos figyelmeztetések és tippek</string>
+    <string name="voice_warnings_detail">Motor, akkumulátor, részecskeszűrő, szünetek, üzemanyag, fejegység melegedése</string>
+    <string name="voice_messages">Üzenetek</string>
+    <string name="voice_messages_detail">Megmutatja és bemondja, kitől jött az üzenet.</string>
+    <string name="voice_faults">Új hibakódok</string>
+    <string name="voice_faults_detail">Név szerint bemondja, amikor a vizsgálat megtalálja őket, egyszer</string>
+    <string name="voice_limit_detail">Szól, ha tartósan túllépi a sebességkorlátot, korlátonként egyszer</string>
+    <string name="voice_weather">Időjárási figyelmeztetések</string>
+    <string name="voice_weather_detail">Narancs és piros figyelmeztetések ott, ahol van, és ahová tart</string>
+    <string name="voice_lpg">Kevés LPG</string>
+    <string name="voice_lpg_detail">Szól, ha a második tartály kiürülőben van</string>
+    <string name="voice_menu_quiet">Csend</string>
+    <string name="voice_menu_back">Hang újra be</string>
+    <string name="voice_where">Hogy az autó magától mit mond, azt a Beállítások, Hang és beszéd részben állíthatja be.</string>
+
+    <!-- Spoken -->
+    <string name="voice_say_message">Üzenet tőle: %1$s</string>
+    <string name="voice_no_message">Nincs üzenet.</string>
+    <string name="voice_status_range">Körülbelül %1$d kilométerre elegendő üzemanyag maradt.</string>
+    <string name="voice_status_no_faults">Nincs hibakód.</string>
+    <string name="voice_status_nothing">Nincs jelentenivaló.</string>
+    <string name="voice_quiet_on">Csend a következő indításig. A sürgős figyelmeztetéseket továbbra is bemondom.</string>
+    <string name="voice_quiet_off">A hang újra be van kapcsolva.</string>
+    <string name="voice_no_position">A pozíció még nem ismert.</string>
+    <string name="voice_no_fuel_prices">A környéken nincsenek üzemanyagárak.</string>
+    <plurals name="voice_fuel_station">
+        <item quantity="one">A legolcsóbb közeli benzinkút: %1$s, %2$d kilométerre.</item>
+        <item quantity="other">A legolcsóbb közeli benzinkút: %1$s, %2$d kilométerre.</item>
+    </plurals>
+    <string name="voice_guidance_stopped">Navigáció leállítva.</string>
+    <string name="voice_guidance_none">Nincs leállítható navigáció.</string>
+</resources>

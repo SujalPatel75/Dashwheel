@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Car news for the phone companion (CarNews.kt): reminders shown as notifications. -->
+<resources>
+    <string name="news_battery_title">Gyenge akkumulátor álló helyzetben</string>
+    <string name="news_battery_text">Az akkumulátor %1$s V-ot mutatott leállított motornál. Ha az autó nehezen indul, vizsgáltassa be az akkumulátort.</string>
+    <string name="news_upkeep_soon">Hamarosan esedékes: %1$s</string>
+    <string name="news_upkeep_due">Esedékes: %1$s</string>
+    <string name="news_fault_title">Motor hibakódok: %1$s</string>
+    <string name="news_fault_text">A jelentésükért nyissa meg az AI szerelőt az autóban.</string>
+    <string name="news_filter_title">A részecskeszűrőnek hosszú út kell</string>
+    <string name="news_filter_text">%1$d rövid út egymás után. Hamarosan tegyen egy 20 perces utat gyorsforgalmi úton.</string>
+</resources>

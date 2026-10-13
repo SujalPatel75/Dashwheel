@@ -28,6 +28,6 @@ OPTIONAL EXTRAS
 • Phone link with the Dashwheel Companion app: notifications, messages and calls on the big screen, paired by QR code and end-to-end encrypted
 • Split screen and typing from your phone through Android's accessibility service, which you turn on yourself and can turn off at any time
 
-9 languages: English, French, German, Spanish, Italian, Portuguese, Dutch, Polish, Russian.
+10 languages: English, French, German, Spanish, Italian, Portuguese, Dutch, Polish, Russian, Hungarian.
 
 Free and open source under the GPL v3. No ads, no tracking, no account.

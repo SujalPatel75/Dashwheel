@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- OBD tiles: shared -->
+    <string name="vehicle_obd_not_connected">OBD nincs csatlakoztatva</string>
+    <string name="vehicle_connect">Csatlakozás</string>
+    <string name="vehicle_speed">Sebesség</string>
+    <string name="vehicle_rpm">f/perc</string>
+    <string name="vehicle_coolant">Hűtőfolyadék</string>
+    <string name="vehicle_battery">Akkumulátor</string>
+    <string name="vehicle_fuel">Üzemanyag</string>
+    <string name="vehicle_close">Bezárás</string>
+    <string name="vehicle_cancel">Mégse</string>
+    <string name="vehicle_reset">Visszaállítás</string>
+    <string name="vehicle_capture_a">A rögzítése</string>
+    <string name="vehicle_capture_b">B rögzítése</string>
+
+    <!-- Telemetry tile -->
+    <string name="vehicle_telemetry_title">MOTORMŰSZEREK</string>
+    <string name="vehicle_live">Élő</string>
+    <string name="vehicle_speed_caps">SEBESSÉG</string>
+    <string name="vehicle_rpm_caps">F/PERC</string>
+    <string name="vehicle_load">Terhelés</string>
+
+    <!-- Fault codes tile -->
+    <string name="vehicle_fault_codes_title">AUTÓHIBÁK</string>
+    <string name="vehicle_scan">Olvasás</string>
+    <string name="vehicle_clear">Kódok törlése</string>
+
+    <!-- OBD data tile -->
+    <string name="vehicle_obd_data_title">AUTÓADATOK</string>
+    <string name="vehicle_intake_air">Szívott levegő</string>
+    <string name="vehicle_throttle">Fojtószelep</string>
+    <string name="vehicle_engine_load">Motorterhelés</string>
+    <string name="vehicle_fuel_level">Üzemanyagszint</string>
+
+    <!-- Fuel & range tile -->
+    <string name="vehicle_fuel_range_title">ÜZEMANYAG &amp; HATÓTÁV</string>
+    <string name="vehicle_via_canbox">CAN-boxból</string>
+    <string name="vehicle_via_obd">OBD-ről</string>
+    <string name="vehicle_fuel_no_obd">Ennek az autónak az OBD-je nem jelenti az üzemanyagszintet. Tanítsa be inkább a CAN-boxból: ehhez root kell.</string>
+    <string name="vehicle_fuel_none">Még nincs üzemanyagszint. Csatlakoztassa az OBD-adaptert: nem minden autó jelenti.</string>
+    <string name="vehicle_find_fuel_signal">Üzemanyagjel keresése</string>
+    <string name="vehicle_try_obd_fuel_pid">OBD üzemanyag-PID kipróbálása</string>
+    <string name="vehicle_km_to_empty">MEGTEHETŐ KM</string>
+    <string name="vehicle_range_approx">≈ hatótáv</string>
+    <string name="vehicle_in_tank">A tankban</string>
+    <string name="vehicle_avg_use">Átl. fogyasztás</string>
+    <string name="vehicle_learn_fuel">Üzemanyag betanítása a CAN-boxból</string>
+    <string name="vehicle_recalibrate_fuel">Üzemanyag újrakalibrálása</string>
+    <string name="vehicle_find_range_signal">Hatótáv olvasása a CAN-boxból</string>
+    <string name="vehicle_learn_range">Hatótáv a CAN-boxból</string>
+    <string name="vehicle_change_range">Hatótávjel módosítása</string>
+    <string name="vehicle_range_from_car">fedélzeti számítógép</string>
+
+    <!-- Fuel signal finder dialog -->
+    <string name="vehicle_finder_help">Állítsa be a műszerfali kijelző szerinti szintet, koppintson az A rögzítése gombra, majd zárja be ezt, és használja az autót a szokásos módon. Néhány nap múlva, amikor a kijelző kicsit lejjebb ment, nyissa meg újra, állítsa be az új értéket, és koppintson a B rögzítése gombra. Az A rögzítés újraindítás után is megmarad. Csak az üzemanyaggal együtt változó bájtok jelennek meg.</string>
+    <string name="vehicle_dash_reads">A műszer mutatja</string>
+    <string name="vehicle_waiting_canbox">Várakozás a CAN-box adataira: ehhez root kell</string>
+    <string name="vehicle_finder_step_a">Állítsa be a műszerfal szerinti üzemanyagszintet, majd koppintson az A rögzítése gombra.</string>
+    <string name="vehicle_finder_step_b">A rögzítve %1$d %% értéken, mentve. Bezárhatja ezt és vezethet a szokásos módon. Térjen vissza, amikor a kijelző néhány %%-kal lejjebb ment, állítsa be az új értéket, majd B rögzítése.</string>
+    <string name="vehicle_finder_same">Az A és a B ugyanazon a szinten van. Rögzítse a B-t más üzemanyagszintnél.</string>
+    <string name="vehicle_finder_none">Egyik bájt sem követte a változást. Rögzítse újra a B-t egy nagyobb csökkenés után.</string>
+    <string name="vehicle_finder_candidates">Az üzemanyaggal együtt változó bájtok</string>
+    <string name="vehicle_finder_frame">keret %1$s · bájt %2$d</string>
+    <string name="vehicle_finder_raw">%1$d → %2$d · tele≈%3$d</string>
+    <string name="vehicle_forget_current">Jelenlegi elfelejtése</string>
+
+    <!-- Range signal finder dialog -->
+    <string name="vehicle_range_finder_help">Nyissa meg a fejegység fedélzeti számítógépét, írja be az ott látható hatótávot (megtehető km), majd koppintson a Keresés gombra. Válassza azt a jelet, amelynek élő értéke folyamatosan egyezik a fedélzeti számítógéppel.</string>
+    <string name="vehicle_range_car_shows">A fedélzeti számítógép mutatja</string>
+    <string name="vehicle_range_search">Keresés</string>
+    <string name="vehicle_range_none">Egyik jel sem tartalmazza ezt az értéket. Ellenőrizze a számot, hagyja nyitva a fedélzeti számítógépet néhány másodpercig, és keressen újra.</string>
+    <string name="vehicle_range_candidates">Ezt az értéket tartalmazó jelek: válassza azt, amelyik követi a fedélzeti számítógépet</string>
+    <string name="vehicle_range_frame">keret %1$s · bájt %2$d–%3$d</string>
+
+    <!-- OBD adapter picker -->
+    <string name="vehicle_select_adapter">OBD-adapter kiválasztása</string>
+    <string name="vehicle_no_paired">Nincs párosított Bluetooth-eszköz és USB-adapter sem. Párosítsa az OBD-adaptert a Bluetooth-beállításokban, vagy dugjon be egy USB-adaptert.</string>
+    <string name="vehicle_bt_settings">Bluetooth-beállítások</string>
+
+    <!-- OBD adapter status messages -->
+    <string name="vehicle_unknown_device">Ismeretlen eszköz</string>
+    <string name="vehicle_no_response">Az adapter nem válaszol</string>
+    <string name="vehicle_no_dtc_answer">A motorvezérlő nem válaszolt a hibakód-lekérdezésre. Próbálja újra egy kis idő múlva.</string>
+    <string name="vehicle_lamp_no_codes">A motorhiba-jelzőfény ég, de nem érkezett kód. Próbálja újra járó motorral.</string>
+    <string name="vehicle_pending">Függőben</string>
+    <string name="vehicle_lamp_on">Motorhiba-jelzőfény ég</string>
+    <string name="vehicle_lamp_off">Motorhiba-jelzőfény nem ég</string>
+    <string name="vehicle_engine_off_hint">A motor áll: ráadott gyújtásnál a motorhiba-jelzőfény öntesztként kigyullad, és a motor beindulása után kialszik. Járó motornál az olvasás magától megismétlődik.</string>
+    <string name="vehicle_obd_scope">A szabványos OBD csak a motor- és károsanyag-kibocsátási hibákat látja; az ABS-, légzsák- és karosszériahibákhoz a Citroën diagnosztikai eszköze kell.</string>
+    <string name="vehicle_clear_rejected">Az adapter válasza: „%1$s”. Adja rá a gyújtást (a motor ne járjon), és próbálja újra.</string>
+
+    <!-- Doors tile -->
+    <string name="vehicle_doors_title">AJTÓK</string>
+    <string name="vehicle_waiting_mcu">Várakozás a CAN-box adataira: ehhez root kell</string>
+    <string name="vehicle_door_front_left">Bal első</string>
+    <string name="vehicle_door_front_right">Jobb első</string>
+    <string name="vehicle_door_rear_left">Bal hátsó</string>
+    <string name="vehicle_door_rear_right">Jobb hátsó</string>
+    <string name="vehicle_door_tailgate">Csomagtérajtó</string>
+    <string name="vehicle_door_bonnet">Motorháztető</string>
+    <string name="vehicle_door_any_open">Egy ajtó nyitva van</string>
+    <string name="vehicle_doors_all_closed">Minden zárva</string>
+    <string name="vehicle_door_open_caps">NYITVA</string>
+    <string name="vehicle_door_closed">zárva</string>
+
+    <!-- CAN monitor (debug tile) -->
+    <string name="vehicle_can_monitor_title">CAN-MONITOR: jel keresése</string>
+    <string name="vehicle_can_monitor_help">Ajtók ZÁRVA → A rögzítése. Majd NYISSA KI az ajtót → B rögzítése. Csak az eltérő diszkrét jelek jelennek meg.</string>
+    <string name="vehicle_can_a_closed">A ✓ zárva</string>
+    <string name="vehicle_can_b_open">B ✓ nyitva</string>
+    <string name="vehicle_can_prompt">Rögzítse az A-t (zárva), majd a B-t (nyitva) az összehasonlításhoz.</string>
+    <string name="vehicle_can_no_diff">Nincs egyértelmű diszkrét eltérés. Végezze ÁLLÓ motorral, hogy az érzékelők ne mászkáljanak, és a B rögzítése alatt tartsa nyitva az ajtót.</string>
+    <string name="vehicle_can_row_closed">zárva: %1$s</string>
+    <string name="vehicle_can_row_open">nyitva: %1$s</string>
+
+    <!-- Fault code (DTC) descriptions: title + what to check -->
+    <string name="vehicle_dtc_p0300_title">Véletlenszerű/több hengeres gyújtáskimaradás</string>
+    <string name="vehicle_dtc_p0300_fix">Ellenőrizze a gyújtógyertyákat és gyújtótekercseket (THP: a tekercsek ismert gyenge pontok), a befecskendezőket, és keressen falslevegőt. A gyertyákat/tekercseket egy szettben cserélje.</string>
+    <string name="vehicle_dtc_p0301_title">Gyújtáskimaradás: 1. henger</string>
+    <string name="vehicle_dtc_p0301_fix">Cserélje fel az 1. henger tekercsét/gyertyáját egy másik hengerével; ha a kimaradás vándorol, cserélje azt a tekercset/gyertyát. Ellenőrizze az 1. befecskendezőt is.</string>
+    <string name="vehicle_dtc_p0302_title">Gyújtáskimaradás: 2. henger</string>
+    <string name="vehicle_dtc_p0302_fix">Tekercs/gyertya felcserélésével szűkítse le; ellenőrizze a 2. befecskendezőt és a kompressziót.</string>
+    <string name="vehicle_dtc_p0303_title">Gyújtáskimaradás: 3. henger</string>
+    <string name="vehicle_dtc_p0303_fix">Tekercs/gyertya felcserélésével szűkítse le; ellenőrizze a 3. befecskendezőt és a kompressziót.</string>
+    <string name="vehicle_dtc_p0304_title">Gyújtáskimaradás: 4. henger</string>
+    <string name="vehicle_dtc_p0304_fix">Tekercs/gyertya felcserélésével szűkítse le; ellenőrizze a 4. befecskendezőt és a kompressziót.</string>
+    <string name="vehicle_dtc_p0016_title">Főtengely/vezérműtengely helyzete nem egyezik (1. hengersor, A jeladó)</string>
+    <string name="vehicle_dtc_p0016_fix">Tipikus 1.6 THP hiba: megnyúlt vezérműlánc. Ellenőrizze a láncot, a láncfeszítőt és a vezérmű-/főtengely-jeladót. Gyakran vezérműlánc-készlet kell.</string>
+    <string name="vehicle_dtc_p0017_title">Főtengely/vezérműtengely helyzete nem egyezik (1. hengersor, B jeladó)</string>
+    <string name="vehicle_dtc_p0017_fix">Valószínűleg megnyúlt vezérműlánc / láncfeszítő (1.6 THP). Vizsgálja meg a láncot és a lánckerekeket.</string>
+    <string name="vehicle_dtc_p0011_title">Szívóoldali vezérműtengely túl korai (1. hengersor)</string>
+    <string name="vehicle_dtc_p0011_fix">VVT-vezérműállító vagy olajvezérlő szelep. Ellenőrizze az olaj szintjét/minőségét, a VVT-mágnesszelepet és a vezérműlánc kopását.</string>
+    <string name="vehicle_dtc_p0341_title">Vezérműtengely-jeladó: tartományhiba</string>
+    <string name="vehicle_dtc_p0341_fix">Ellenőrizze a vezérműtengely-jeladót és a kábelezését; ellenőrizze, hogy a vezérlés (lánc) rendben van-e.</string>
+    <string name="vehicle_dtc_p0340_title">Vezérműtengely-jeladó: áramkörhiba</string>
+    <string name="vehicle_dtc_p0340_fix">Mérje be/cserélje a vezérműtengely-jeladót; vizsgálja meg a csatlakozót és a kábelezést.</string>
+    <string name="vehicle_dtc_p0299_title">Turbó töltőnyomása túl alacsony</string>
+    <string name="vehicle_dtc_p0299_fix">Gyakori THP/HDi motoroknál. Keressen töltőlevegő-szivárgást (csövek/intercooler), ellenőrizze a wastegate-et/turbóállítót és a lefúvatószelepet.</string>
+    <string name="vehicle_dtc_p0234_title">Turbó túltöltés</string>
+    <string name="vehicle_dtc_p0234_fix">Ellenőrizze, nem akad-e a wastegate-állító, a töltőnyomás-szabályzó szelepet, és hogy nem szorult-e be a változó geometria (VNT, HDi).</string>
+    <string name="vehicle_dtc_p0087_title">Túl alacsony a rail-nyomás</string>
+    <string name="vehicle_dtc_p0087_fix">HDi: ellenőrizze az üzemanyagszűrőt, a kisnyomású ellátást, a nagynyomású szivattyút és a rail-nyomásszabályzót; keressen levegőt/szivárgást.</string>
+    <string name="vehicle_dtc_p0089_title">Üzemanyagnyomás-szabályzó működési hiba</string>
+    <string name="vehicle_dtc_p0089_fix">Ellenőrizze a rail-nyomásszabályzót/adagolószelepet és a szivattyút; vizsgálja meg az üzemanyagszűrőt.</string>
+    <string name="vehicle_dtc_p0093_title">Nagy üzemanyag-szivárgás észlelve</string>
+    <string name="vehicle_dtc_p0093_fix">HDi: keressen gázolajszivárgást a befecskendezők visszafolyó ágán, a nagynyomású csöveken és a szivattyú tömítésein.</string>
+    <string name="vehicle_dtc_p0420_title">Katalizátor hatásfoka a küszöb alatt (1. hengersor)</string>
+    <string name="vehicle_dtc_p0420_fix">Gyakran elhasznált katalizátor vagy lusta hátsó lambdaszonda. Előbb zárja ki a kipufogószivárgást és a gyújtáskimaradást.</string>
+    <string name="vehicle_dtc_p0401_title">Elégtelen EGR-áramlás</string>
+    <string name="vehicle_dtc_p0401_fix">Tisztítsa vagy cserélje az EGR-szelepet; ellenőrizze, nem kormos-e az EGR-hűtő és a csatornák (HDi-nél gyakori).</string>
+    <string name="vehicle_dtc_p0402_title">Túl nagy EGR-áramlás</string>
+    <string name="vehicle_dtc_p0402_fix">Ellenőrizze, nem ragadt-e nyitva az EGR-szelep, és a vezérlését; tisztítsa le a kormot.</string>
+    <string name="vehicle_dtc_p2463_title">Túl sok korom a részecskeszűrőben (DPF)</string>
+    <string name="vehicle_dtc_p2463_fix">HDi dízel: tegyen meg egy hosszabb autópályás utat a regeneráláshoz; ellenőrizze a DPF nyomásérzékelőjét és az adalék (Eolys) szintjét. Kényszerregenerálás is kellhet.</string>
+    <string name="vehicle_dtc_p242f_title">Eltömődött részecskeszűrő (hamulerakódás)</string>
+    <string name="vehicle_dtc_p242f_fix">A DPF élettartama végén jár vagy eltömődött; kényszerregenerálás vagy a DPF tisztítása/cseréje kellhet.</string>
+    <string name="vehicle_dtc_p0113_title">Szívólevegő-hőmérséklet jeladó: magas jel</string>
+    <string name="vehicle_dtc_p0113_fix">Ellenőrizze a szívólevegő-hőmérséklet jeladót és a kábelezését/csatlakozóját; tisztítsa vagy cserélje a jeladót (gyakran a légtömegmérőben/szívócsőben van).</string>
+    <string name="vehicle_dtc_p0128_title">Hűtőfolyadék a termosztát nyitási hőfoka alatt</string>
+    <string name="vehicle_dtc_p0128_fix">Általában nyitva beragadt termosztát. Cserélje a termosztátot; ellenőrizze a hűtőfolyadék szintjét és a hőmérséklet-jeladót.</string>
+    <string name="vehicle_dtc_p0135_title">Lambdaszonda-fűtés (1. hengersor, 1. szonda)</string>
+    <string name="vehicle_dtc_p0135_fix">Ellenőrizze a katalizátor előtti lambdaszonda fűtőkörét és biztosítékát; ha a fűtés szakadt, cserélje a szondát.</string>
+    <string name="vehicle_dtc_p0130_title">Lambdaszonda áramköre (1. hengersor, 1. szonda)</string>
+    <string name="vehicle_dtc_p0130_fix">Vizsgálja meg a katalizátor előtti lambdaszondát és a kábelezését; cserélje, ha lusta/hibás.</string>
+    <string name="vehicle_dtc_p0171_title">Túl szegény keverék (1. hengersor)</string>
+    <string name="vehicle_dtc_p0171_fix">Keressen falslevegőt a szívóoldalon (gyakori), szennyezett légtömegmérőt, gyenge üzemanyag-szivattyút/befecskendezőket.</string>
+    <string name="vehicle_dtc_p0172_title">Túl dús keverék (1. hengersor)</string>
+    <string name="vehicle_dtc_p0172_fix">Keressen csepegő befecskendezőket, túl magas üzemanyagnyomást, szennyezett légtömegmérőt vagy hibás lambdaszondát.</string>
+    <string name="vehicle_dtc_p0505_title">Alapjárat-szabályozás</string>
+    <string name="vehicle_dtc_p0505_fix">Tisztítsa meg a fojtószelepházat; keressen falslevegőt, és ellenőrizze a fojtószelep motorjának működését.</string>
+    <string name="vehicle_dtc_p2100_title">Fojtószelep-működtető motor áramköre</string>
+    <string name="vehicle_dtc_p2100_fix">Ellenőrizze a fojtószelepház motorját és kábelezését; a fojtószelepház cseréje is kellhet.</string>
+
+    <!-- Fault codes not in the table: described from the code's structure -->
+    <string name="vehicle_dtc_unknown_code">Ismeretlen kód</string>
+    <string name="vehicle_dtc_fallback_title">%1$s, %2$s hiba: %3$s</string>
+    <string name="vehicle_dtc_fallback_fix">Nincs tárolt leírás. Keressen kapcsolódó kódokat, ellenőrizze az érintett áramkör jeladóját/kábelezését, és típusra szabott tanácsért keressen rá erre: „%1$s Citroën C4 Picasso”.</string>
+    <string name="vehicle_dtc_system_powertrain">Hajtáslánc</string>
+    <string name="vehicle_dtc_system_chassis">Futómű</string>
+    <string name="vehicle_dtc_system_body">Karosszéria</string>
+    <string name="vehicle_dtc_system_network">Hálózat</string>
+    <string name="vehicle_dtc_system_unknown">Ismeretlen</string>
+    <string name="vehicle_dtc_scope_generic">általános</string>
+    <string name="vehicle_dtc_scope_manufacturer">gyártóspecifikus</string>
+    <string name="vehicle_dtc_area_fuel_air">üzemanyag- és levegőadagolás</string>
+    <string name="vehicle_dtc_area_ignition">gyújtás / gyújtáskimaradás</string>
+    <string name="vehicle_dtc_area_emissions">kibocsátás / segédrendszerek</string>
+    <string name="vehicle_dtc_area_idle">sebesség- / alapjárat-szabályozás</string>
+    <string name="vehicle_dtc_area_computer">vezérlőegység / kimenetek</string>
+    <string name="vehicle_dtc_area_transmission">sebességváltó</string>
+    <string name="vehicle_dtc_area_system">rendszer</string>
+
+    <!-- Why the adapter is not connected -->
+    <string name="vehicle_obd_connecting_to">Csatlakozás: %1$s…</string>
+    <string name="vehicle_obd_pairing_pin">Párosítás: adja meg az adapter PIN-kódját a párbeszédablakban</string>
+    <string name="vehicle_obd_switching_bt_on">A fejegység Bluetooth-ának bekapcsolása…</string>
+    <string name="vehicle_obd_adapter">Adapter: %1$s</string>
+    <string name="vehicle_choose_adapter">Adapter kiválasztása</string>
+    <string name="vehicle_err_bt_off">A fejegység Bluetooth-a ki van kapcsolva</string>
+    <string name="vehicle_err_not_paired">%1$s nincs párosítva a fejegységgel: az újbóli párosításhoz koppintson az OBD-re</string>
+    <string name="vehicle_err_pairing_failed">A(z) %1$s párosítása nem fejeződött be: koppintson az OBD-re, és adja meg a PIN-kódját</string>
+    <string name="vehicle_err_bt_still_off">A fejegység Bluetooth-a ki van kapcsolva, és nem kapcsol be: indítsa újra a fejegységet, majd koppintson az OBD-re</string>
+    <string name="vehicle_err_bt_stuck">A fejegység Android Bluetooth-a lefagyott: indítsa újra a fejegységet, majd koppintson az OBD-re</string>
+    <string name="vehicle_err_refused">%1$s elutasította a kapcsolatot: egy telefon vagy másik alkalmazás foglalja, nincs tápja, vagy hatótávon kívül van</string>
+    <string name="vehicle_err_silent">%1$s csatlakozott, de nem válaszolt: adja rá a gyújtást, majd koppintson az OBD-re</string>
+    <string name="vehicle_usb_cable">USB-kábel</string>
+    <string name="vehicle_obd_usb_allow">A párbeszédablakban engedélyezze, hogy a Dashwheel használja az adaptert</string>
+    <string name="vehicle_err_usb_none">Nincs bedugva USB-adapter</string>
+    <string name="vehicle_err_usb_tap">Koppintson az OBD-re, hogy a Dashwheel használhassa a(z) %1$s eszközt</string>
+    <string name="vehicle_err_usb_denied">A Dashwheel nem kapott engedélyt a(z) %1$s használatára</string>
+    <string name="vehicle_err_usb_open">%1$s nem nyitható meg: húzza ki, és dugja be újra</string>
+    <string name="vehicle_err_usb_silent">%1$s nem válaszolt úgy, mint egy OBD-adapter</string>
+    <string name="vehicle_err_phone_not_linked">Az OBD a telefonon keresztül megy: előbb csatlakoztassa a telefont</string>
+    <string name="vehicle_err_phone_no_adapter">Az OBD a telefonon keresztül megy: válassza ki az adaptert a Companionben</string>
+    <string name="vehicle_obd_asking_phone">Az adapter kérése a telefontól</string>
+    <string name="vehicle_err_phone_relay">A telefon nem éri el a(z) %1$s adaptert: ellenőrizze, hogy be van-e dugva és párosítva van-e a telefonnal</string>
+    <string name="vehicle_err_in_call">Az OBD a hívás alatt szünetel, és a hívás végén folytatódik</string>
+    <string name="vehicle_err_phone_aa">A(z) %1$s telefon Android Autója blokkolja az OBD-adaptert</string>
+    <string name="vehicle_phone_aa_fix">Javítás módja</string>
+    <string name="vehicle_phone_aa_title">Az Android Auto blokkolja az OBD-t</string>
+    <string name="vehicle_phone_aa_body">A telefon és az OBD-adapter a fejegység Bluetooth-án osztozik. A telefonon futó Android Auto folyamatosan próbál kábel nélkül elindulni, és lefoglalja azt.</string>
+    <string name="vehicle_phone_aa_step1">A telefonon nyissa meg a Beállítások, majd az Alkalmazások, végül az Android Auto menüt.</string>
+    <string name="vehicle_phone_aa_step2">Koppintson az Engedélyek, majd a Közeli eszközök lehetőségre, és válassza a Nem engedélyezem opciót.</string>
+    <string name="vehicle_phone_aa_step3">Kapcsolja ki, majd újra be az autót.</string>
+    <string name="vehicle_phone_aa_note">A hívások, a zene és az USB-kábeles Android Auto továbbra is működik.</string>
+    <string name="vehicle_phone_aa_say">Az Android Auto blokkolja az OBD-t ezen a telefonon: %1$s. A javítás lépései a képernyőn láthatók.</string>
+    <string name="vehicle_err_permission">Nincs Bluetooth-engedély</string>
+    <string name="vehicle_obd_connect_from_bar">Csatlakozzon a sáv OBD gombjával</string>
+    <string name="vehicle_recent_alerts">Legutóbbi riasztások</string>
+    <string name="vehicle_speed_fix">Sebességkorrekció</string>
+    <string name="vehicle_speed_fix_detail">Hozzáadódik a kijelzett sebességhez, az autóéhoz vagy 15 km/h felett a GPS-éhez, hogy egyezzen a sebességmérővel</string>
+    <string name="vehicle_speed_fix_less">Korrekció csökkentése</string>
+    <string name="vehicle_speed_fix_more">Korrekció növelése</string>
+    <string name="vehicle_speed_fix_now">Jelenlegi sebesség: %1$d km/h. Állítsa addig, amíg egyezik a sebességmérővel.</string>
+    <string name="vehicle_speed_fix_not_connected">A korrigált sebesség élő megtekintéséhez csatlakoztassa az OBD-adaptert.</string>
+    <string name="vehicle_clear_confirm_title">Törli a hibakódokat?</string>
+    <string name="vehicle_clear_confirm_body">Végleg törlődnek az autóból. A szerviznek szüksége van rájuk a hiba megtalálásához.</string>
+    <string name="vehicle_err_unit_bt_aa">Egy telefon vezeték nélküli Android Autója foglalja a fejegység Bluetooth-át, ezért %1$s nem tud csatlakozni: kapcsolja ki a vezeték nélküli Android Autót a telefonon</string>
+    <string name="vehicle_err_unit_bt_restarted">A fejegység Bluetooth-a lefagyott, és újra lett indítva: %1$s egy percen belül újra csatlakozik</string>
+</resources>

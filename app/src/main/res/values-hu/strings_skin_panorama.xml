@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Panorama skin -->
+    <string name="skin_panorama_talk">Beszéd</string>
+    <string name="skin_panorama_talk_cd">Beszéljen az asszisztenssel</string>
+    <string name="skin_panorama_revs">Fordulat</string>
+    <string name="skin_panorama_rpm">f/perc</string>
+    <string name="skin_panorama_gear">%1$s. fokozat</string>
+    <string name="skin_panorama_fuel">Üzemanyag</string>
+    <string name="skin_panorama_fuel_range">Üzemanyag · %1$s</string>
+    <string name="skin_panorama_coolant">Hűtőfolyadék</string>
+    <string name="skin_panorama_speed_limit_cd">Sebességkorlát: %1$d</string>
+    <string name="skin_panorama_battery">Akkumulátor</string>
+    <string name="skin_panorama_load">Terhelés</string>
+    <string name="skin_panorama_doors">Ajtók</string>
+    <string name="skin_panorama_doors_closed">zárva</string>
+    <string name="skin_panorama_doors_open">nyitva</string>
+    <string name="skin_panorama_tyres">Gumik</string>
+    <string name="skin_panorama_service">Szerviz</string>
+    <string name="skin_panorama_service_due">most esedékes</string>
+    <string name="skin_panorama_car_cd">Az Ön autója</string>
+    <string name="skin_panorama_car_open_cd">Az Ön autója, egy ajtó nyitva van</string>
+    <string name="skin_panorama_next_turn">Következő kanyar</string>
+    <string name="skin_panorama_arrival">Érkezés: %1$s</string>
+    <string name="skin_panorama_launch_bar_empty">Még nincs alkalmazás. Koppintson a ceruzára a hozzáadáshoz.</string>
+    <plurals name="skin_panorama_service_days">
+        <item quantity="one">%d nap múlva</item>
+        <item quantity="other">%d nap múlva</item>
+    </plurals>
+</resources>

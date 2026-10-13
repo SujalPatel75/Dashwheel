@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- My readings: the driver's own OBD requests and formulas (MyReadings.kt, MyReadingsTile.kt) -->
+    <string name="mine_title">Saját mérések</string>
+    <string name="mine_settings_detail">Saját OBD-lekérdezések és képletek</string>
+    <string name="mine_kind_blurb">Saját OBD-mérések és képletek, a Beállításokban megadva</string>
+    <string name="mine_tile_empty">Méréseket a Beállítások → Autó → Saját mérések pontban adhat hozzá.</string>
+    <string name="mine_explanation">Kérjen le bármilyen adatot az autótól a lekérdezésével, vagy számolja ki saját értékeit a többiből.</string>
+    <string name="mine_none">Még nincs mérés.</string>
+    <string name="mine_add">Mérés hozzáadása</string>
+    <string name="mine_examples_detail">LPG-fogyasztás a légáramból számolva. Igazítsa a számokat az autójához.</string>
+    <string name="mine_add_examples">Példák hozzáadása</string>
+    <string name="mine_ex_maf">Légáram</string>
+    <string name="mine_ex_lpg_lh">LPG-fogyasztás</string>
+    <string name="mine_ex_lpg_used">Elfogyott LPG</string>
+    <string name="mine_ex_lpg_l100">LPG 100 km-en</string>
+    <string name="mine_kind_pid">Az autóból</string>
+    <string name="mine_kind_formula">Számított</string>
+    <string name="mine_kind_total">Halmozott összeg</string>
+    <string name="mine_new">Új mérés</string>
+    <string name="mine_delete">Törlés</string>
+    <string name="mine_save">Mentés</string>
+    <string name="mine_type">Típus</string>
+    <string name="mine_name">Név</string>
+    <string name="mine_unit">Mértékegység</string>
+    <string name="mine_key">Név a képletekben</string>
+    <string name="mine_request">Lekérdezés</string>
+    <string name="mine_header">ECU-cím</string>
+    <string name="mine_reply">Válaszcím</string>
+    <string name="mine_session">Munkamenet</string>
+    <string name="mine_hint_address">Szabványos OBD-lekérdezéseknél, például 0110, hagyja üresen a címeket és a munkamenetet.</string>
+    <string name="mine_formula">Képlet</string>
+    <string name="mine_hint_pid">Az A-tól H-ig terjedő betűk a válasz bájtjai, például (A*256+B)/100 a 0110-hez.</string>
+    <string name="mine_hint_formula">Használja az alábbi neveket a + - * / jelekkel és a min, max, abs, round, if függvényekkel.</string>
+    <string name="mine_hint_total">Óránként összegzi az értéket: az L/h literré, a km/h kilométerré válik.</string>
+    <string name="mine_names">Nevek: %1$s</string>
+    <string name="mine_decimals">Tizedesjegyek</string>
+    <string name="mine_on_tile">A csempén</string>
+    <string name="mine_on_tile_detail">Megjelenik a Saját mérések csempén</string>
+    <string name="mine_test">Teszt</string>
+    <string name="mine_answer">Válasz: %1$s</string>
+    <string name="mine_no_answer">nincs válasz</string>
+    <string name="mine_value">Érték: %1$s</string>
+    <string name="mine_err_unknown">Ismeretlen név: %1$s</string>
+    <string name="mine_err_no_value">Még nincs érték ehhez: %1$s.</string>
+    <string name="mine_err_no_reading">A válasz nem illik ehhez a lekérdezéshez.</string>
+    <string name="mine_err_math">A képlet nullával oszt.</string>
+    <string name="mine_err_syntax">A képlet nem értelmezhető.</string>
+    <string name="mine_reset">Nullázás</string>
+    <string name="mine_err_name">Adjon neki nevet.</string>
+    <string name="mine_err_key">Név a képletekben: előbb egy betű, utána betűk, számjegyek vagy _. Az önálló A-tól H-ig terjedő betűk és a beépített nevek foglaltak.</string>
+    <string name="mine_err_key_taken">Ezt a nevet már egy másik mérés használja.</string>
+    <string name="mine_err_request">Csak hexadecimális olvasási lekérdezések: 01, 09, 21 vagy 22 mód.</string>
+    <string name="mine_err_address">A cím 3 vagy 8 hexadecimális számjegy, és a válaszcímhez ECU-cím is kell.</string>
+    <string name="mine_err_session">Munkamenet: csak 1001, 1003, 1081, 1092 vagy 10C0, ECU-címmel.</string>
+    <string name="mine_err_no_bytes">Az A-tól H-ig terjedő betűk csak az autóból kapott mérésnél értelmezhetők.</string>
+</resources>

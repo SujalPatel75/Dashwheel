@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Anime skin: comic words on the stickers -->
+    <string name="skin_anime_turn_in">%1$s MÚLVA!</string>
+    <string name="skin_anime_fuel">üzemanyag</string>
+    <string name="skin_anime_fuel_low">tankolj!</string>
+    <string name="skin_anime_to_go">hátra</string>
+    <string name="skin_anime_engine_cold">motor ébredezik</string>
+    <string name="skin_anime_engine_happy">motor boldog</string>
+    <string name="skin_anime_engine_hot">motor forró!</string>
+    <string name="skin_anime_battery">akku</string>
+    <string name="skin_anime_rpm">f/perc</string>
+    <string name="skin_anime_load">terhelés</string>
+    <string name="skin_anime_talk">BESZÉLJ HOZZÁM!</string>
+    <string name="skin_anime_talk_end">SZIA!</string>
+</resources>

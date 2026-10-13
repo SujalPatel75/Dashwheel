@@ -28,6 +28,6 @@ EN OPTION
 • Lien avec le téléphone via l'appli Dashwheel Companion : notifications, messages et appels sur le grand écran, appairage par QR code et chiffrement de bout en bout
 • Écran partagé et saisie depuis votre téléphone via le service d'accessibilité d'Android, que vous activez vous-même et pouvez désactiver à tout moment
 
-9 langues : anglais, français, allemand, espagnol, italien, portugais, néerlandais, polonais, russe.
+10 langues : anglais, français, allemand, espagnol, italien, portugais, néerlandais, polonais, russe, hongrois.
 
 Libre et open source sous licence GPL v3. Sans publicité, sans pistage, sans compte.

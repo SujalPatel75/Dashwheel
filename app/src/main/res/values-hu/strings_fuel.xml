@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Fuel prices nearby (FuelPrices.kt, FuelPricesTile.kt) -->
+    <string name="fuel_kind">Üzemanyagárak</string>
+    <string name="fuel_kind_blurb">A legolcsóbb kutak a közelben, koppintson a navigáláshoz</string>
+    <string name="fuel_title">KUTAK A KÖZELBEN</string>
+    <string name="fuel_loading">Kutak keresése…</string>
+    <string name="fuel_none">%1$d km-en belül nincs ilyen üzemanyagot árusító kút. Az árak csak Franciaországra vonatkoznak.</string>
+    <string name="fuel_error">Az árak most nem érhetők el</string>
+    <string name="fuel_cheapest">Legolcsóbb %1$s</string>
+    <string name="fuel_navigate">koppintson a navigáláshoz</string>
+    <string name="fuel_allow_location">Helyadatok engedélyezése</string>
+    <plurals name="fuel_stations">
+        <item quantity="one">%1$d kút %2$d km-en belül</item>
+        <item quantity="other">%1$d kút %2$d km-en belül</item>
+    </plurals>
+</resources>

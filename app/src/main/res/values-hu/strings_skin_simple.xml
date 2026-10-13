@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Simple skin -->
+    <string name="skin_simple_talk">Beszéd</string>
+    <string name="skin_simple_talk_cd">Beszéljen az asszisztenssel</string>
+    <string name="skin_simple_doors_closed">Ajtók zárva</string>
+    <string name="skin_simple_fuel_chip">Üzemanyag %1$d %% · %2$s</string>
+    <string name="skin_simple_fuel_chip_short">Üzemanyag %1$d %%</string>
+    <string name="skin_simple_speed_limit_cd">Sebességkorlát: %1$d</string>
+    <string name="skin_simple_no_signal_connect">Nincs jel. Koppintson az OBD csatlakoztatásához</string>
+    <string name="skin_simple_car_cd">Az Ön autója</string>
+    <string name="skin_simple_car_open_cd">Az Ön autója, egy ajtó nyitva van</string>
+    <string name="skin_simple_launch_bar_empty">Még nincs alkalmazás. Koppintson a ceruzára a hozzáadáshoz.</string>
+</resources>

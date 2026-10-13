@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Experimental advanced readings (PidExplorer.kt, PidExplorerDialog.kt) -->
+    <string name="explore_title">Haladó adatok</string>
+    <string name="explore_settings_detail">Kísérleti: koromtelítettség és egyebek, az AI javaslatára, az autó megerősítésével</string>
+    <string name="explore_soot_load">Koromtelítettség</string>
+    <string name="explore_dpf_temp">Szűrő hőmérséklete</string>
+    <string name="explore_dpf_pressure">Szűrő nyomása</string>
+    <string name="explore_regen">Regenerálás</string>
+    <string name="explore_km_since_regen">Utolsó regenerálás óta</string>
+    <string name="explore_additive">Adalékszint</string>
+    <string name="explore_oil_temp">Olajhőmérséklet</string>
+    <string name="explore_explanation">Kísérleti: az AI javasol diagnosztikai lekérdezéseket ehhez az autóhoz, és azokat tartja meg, amelyekre az autó értelmes, stabil értékkel válaszol. Egy megtartott érték is lehet hibás.</string>
+    <string name="explore_search">Keresés AI-jal</string>
+    <string name="explore_searching">Lekérdezések próbája… %1$d mp</string>
+    <string name="explore_verified">Megerősített adatok</string>
+    <string name="explore_none_verified">Még nincs. Csatlakoztassa az adaptert járó motorral, és indítsa a keresést.</string>
+    <string name="explore_results">Kipróbálva</string>
+    <string name="explore_forget">Minden törlése</string>
+    <string name="explore_v_no_answer">nincs válasz</string>
+    <string name="explore_v_refused">elutasítva</string>
+    <string name="explore_v_unreadable">olvashatatlan</string>
+    <string name="explore_v_implausible">valószerűtlen</string>
+    <string name="explore_v_unstable">ingadozó</string>
+    <string name="explore_v_ok">megerősítve</string>
+    <string name="explore_silent">az adapter nem válaszolt</string>
+    <string name="explore_not_in_demo">Demó módban nem érhető el</string>
+    <string name="explore_nothing_found">Semmi sincs megerősítve. Lehet, hogy ez az autó csak műhelyi eszköznek adja ki ezeket.</string>
+    <string name="explore_source_standard">szabványos</string>
+    <string name="explore_source_ai">AI</string>
+    <string name="explore_regen_yes">Regenerál</string>
+    <string name="explore_regen_no">Nem regenerál</string>
+    <string name="explore_soot_status">Koromtelítettség %1$d %%</string>
+</resources>
