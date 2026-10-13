@@ -260,7 +260,7 @@
     <string name="dash_theme_chrome">Chrom</string>
     <string name="dash_theme_chrome_desc">Flüssige Chromschrift, holografische Chips und ein Metalltropfen, der sich mit der Musik bewegt.</string>
     <string name="dash_theme_spatial">Räumlich</string>
-    <string name="dash_theme_spatial_desc">Glasfenster schweben in verschiedenen Tiefen über einer 3D-Stadt, Ihre Route leuchtet hindurch.</string>
+    <string name="dash_theme_spatial_desc">Glasfenster schweben in verschiedenen Tiefen über einer nächtlichen 3D-Stadt.</string>
     <string name="dash_theme_paper">Papier</string>
     <string name="dash_theme_paper_desc">Tinte auf Grau wie E-Papier: eine Punktkarte, schlichte Fakten und nichts, was sich bewegt.</string>
     <string name="look_layout_applied">Start wie %1$s angeordnet</string>

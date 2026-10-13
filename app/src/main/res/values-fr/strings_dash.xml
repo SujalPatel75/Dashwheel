@@ -265,7 +265,7 @@
     <string name="dash_theme_chrome">Chrome</string>
     <string name="dash_theme_chrome_desc">Des lettres en chrome liquide, des pastilles holographiques et une goutte de métal qui bouge avec la musique.</string>
     <string name="dash_theme_spatial">Spatial</string>
-    <string name="dash_theme_spatial_desc">Des fenêtres de verre flottant à différentes profondeurs sur une ville en 3D, votre trajet qui brille au travers.</string>
+    <string name="dash_theme_spatial_desc">Des fenêtres de verre flottant à différentes profondeurs sur une ville en 3D, de nuit.</string>
     <string name="dash_theme_paper">Papier</string>
     <string name="dash_theme_paper_desc">De l\'encre sur du gris comme une liseuse : une carte en points, des infos simples et rien qui bouge.</string>
     <string name="look_layout_applied">Accueil disposé comme %1$s</string>

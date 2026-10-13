@@ -267,7 +267,7 @@
     <string name="dash_theme_chrome">Chrome</string>
     <string name="dash_theme_chrome_desc">Liquid chrome lettering, holographic chips and a metal drop that moves with the music.</string>
     <string name="dash_theme_spatial">Spatial</string>
-    <string name="dash_theme_spatial_desc">Glass windows floating at different depths over a 3D city, your route glowing through it.</string>
+    <string name="dash_theme_spatial_desc">Glass windows floating at different depths over a 3D city at night.</string>
     <string name="dash_theme_paper">Paper</string>
     <string name="dash_theme_paper_desc">Ink on grey like e-paper: a dotted map, plain facts and nothing that moves.</string>
     <string name="look_layout_applied">Home arranged like %1$s</string>

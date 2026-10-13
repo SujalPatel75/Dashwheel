@@ -268,7 +268,7 @@
     <string name="dash_theme_chrome">Хром</string>
     <string name="dash_theme_chrome_desc">Буквы из жидкого хрома, голографические плашки и металлическая капля, движущаяся под музыку.</string>
     <string name="dash_theme_spatial">Пространство</string>
-    <string name="dash_theme_spatial_desc">Стеклянные окна парят на разной глубине над 3D-городом, ваш маршрут светится сквозь них.</string>
+    <string name="dash_theme_spatial_desc">Стеклянные окна парят на разной глубине над ночным 3D-городом.</string>
     <string name="dash_theme_paper">Бумага</string>
     <string name="dash_theme_paper_desc">Чернила на сером, как электронная бумага: точечная карта, простые факты и ничего движущегося.</string>
     <string name="look_layout_applied">Главный экран как в «%1$s»</string>

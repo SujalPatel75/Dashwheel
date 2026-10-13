@@ -266,7 +266,7 @@
     <string name="dash_theme_chrome">Króm</string>
     <string name="dash_theme_chrome_desc">Folyékony króm betűk, holografikus címkék és egy fémcsepp, ami a zenével mozog.</string>
     <string name="dash_theme_spatial">Térbeli</string>
-    <string name="dash_theme_spatial_desc">Különböző mélységben lebegő üvegablakok egy 3D város fölött, az útvonalad átragyog rajtuk.</string>
+    <string name="dash_theme_spatial_desc">Különböző mélységben lebegő üvegablakok egy éjszakai 3D város fölött.</string>
     <string name="dash_theme_paper">Papír</string>
     <string name="dash_theme_paper_desc">Tinta szürkén, mint az e-papír: pontokból álló térkép, egyszerű tények és semmi sem mozog.</string>
     <string name="look_layout_applied">Kezdőlap a(z) %1$s szerint</string>
