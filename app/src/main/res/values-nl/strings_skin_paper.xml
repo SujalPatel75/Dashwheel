@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Paper skin -->
+    <string name="paper_map">Kaart</string>
+    <string name="paper_map_cd">Kaart openen</string>
+    <string name="paper_music">Muziek</string>
+    <string name="paper_music_cd">Muziekspeler openen</string>
+    <string name="paper_phone">Telefoon</string>
+    <string name="paper_phone_cd">Telefoon openen</string>
+    <string name="paper_talk">Praten</string>
+    <string name="paper_talk_cd">Praat met de assistent</string>
+    <string name="paper_refreshed">Ververst %1$s</string>
+    <string name="paper_arrival">Aankomst</string>
+    <string name="paper_speed">Snelheid</string>
+    <string name="paper_limit">limiet %1$d</string>
+    <string name="paper_limit_label">Limiet</string>
+    <string name="paper_rain_next">Regen, komende %1$d u</string>
+    <string name="paper_dry_next">Droog, komende %1$d u</string>
+    <string name="paper_rain_from">vanaf %1$s</string>
+    <string name="paper_rain_until">tot %1$s</string>
+    <string name="paper_coolant">Koelvloeistof</string>
+    <string name="paper_battery">Accu</string>
+    <string name="paper_revs">Toerental</string>
+    <string name="paper_rpm">t/min</string>
+    <string name="paper_load">Belasting</string>
+    <string name="paper_intake">Inlaatlucht</string>
+    <string name="paper_range">Bereik</string>
+    <string name="paper_fuel">Brandstof</string>
+    <string name="paper_litres">Liter</string>
+    <string name="paper_prev">Vorige</string>
+    <string name="paper_play">Afspelen</string>
+    <string name="paper_pause">Pauze</string>
+    <string name="paper_next">Volgende</string>
+    <string name="paper_no_route">Geen route</string>
+    <string name="paper_edit">Bewerken</string>
+    <string name="paper_connect">Verbinden</string>
+    <string name="paper_launch_bar_empty">Voeg apps toe met Bewerken</string>
+</resources>

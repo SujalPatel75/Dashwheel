@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Paper skin -->
+    <string name="paper_map">Térkép</string>
+    <string name="paper_map_cd">Térkép megnyitása</string>
+    <string name="paper_music">Zene</string>
+    <string name="paper_music_cd">Zenelejátszó megnyitása</string>
+    <string name="paper_phone">Telefon</string>
+    <string name="paper_phone_cd">Telefon megnyitása</string>
+    <string name="paper_talk">Beszéd</string>
+    <string name="paper_talk_cd">Beszélj az asszisztenssel</string>
+    <string name="paper_refreshed">Frissítve %1$s</string>
+    <string name="paper_arrival">Érkezés</string>
+    <string name="paper_speed">Sebesség</string>
+    <string name="paper_limit">korlát %1$d</string>
+    <string name="paper_limit_label">Korlát</string>
+    <string name="paper_rain_next">Eső, következő %1$d óra</string>
+    <string name="paper_dry_next">Száraz, következő %1$d óra</string>
+    <string name="paper_rain_from">%1$s-tól</string>
+    <string name="paper_rain_until">%1$s-ig</string>
+    <string name="paper_coolant">Hűtőfolyadék</string>
+    <string name="paper_battery">Akkumulátor</string>
+    <string name="paper_revs">Fordulat</string>
+    <string name="paper_rpm">f/perc</string>
+    <string name="paper_load">Terhelés</string>
+    <string name="paper_intake">Szívott levegő</string>
+    <string name="paper_range">Hatótáv</string>
+    <string name="paper_fuel">Üzemanyag</string>
+    <string name="paper_litres">Liter</string>
+    <string name="paper_prev">Előző</string>
+    <string name="paper_play">Lejátszás</string>
+    <string name="paper_pause">Szünet</string>
+    <string name="paper_next">Következő</string>
+    <string name="paper_no_route">Nincs útvonal</string>
+    <string name="paper_edit">Szerkesztés</string>
+    <string name="paper_connect">Csatlakozás</string>
+    <string name="paper_launch_bar_empty">Appok hozzáadása: Szerkesztés</string>
+</resources>
