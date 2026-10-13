@@ -89,6 +89,12 @@ internal val alertFinish: AlertFinish
             DashSkin.GLYPH -> AlertFinish.PLAIN
             DashSkin.WINDSHIELD -> AlertFinish.NEON
             DashSkin.TERRAIN -> AlertFinish.SMOKED
+            DashSkin.AMBIENT -> AlertFinish.HALO
+            DashSkin.BRUTAL -> AlertFinish.PLAIN
+            DashSkin.CLAY -> AlertFinish.PLAIN
+            DashSkin.CHROME -> AlertFinish.CHROME
+            DashSkin.SPATIAL -> AlertFinish.GLASS
+            DashSkin.PAPER -> AlertFinish.PLAIN
             DashSkin.STANDARD -> when {
                 DashColors.Glass -> AlertFinish.GLASS
                 // The theme's own glow, before the effects setting scales it.
@@ -100,7 +106,8 @@ internal val alertFinish: AlertFinish
 
 /** Looks drawn in hard edges: their pill is a small-cornered plate, not a capsule. */
 internal val alertSquare: Boolean get() = DashColors.Skin == DashSkin.COCKPIT || DashColors.Skin == DashSkin.TAPE_DECK ||
-    DashColors.Skin == DashSkin.MOTORSPORT || DashColors.Skin == DashSkin.RACING
+    DashColors.Skin == DashSkin.MOTORSPORT || DashColors.Skin == DashSkin.RACING ||
+    DashColors.Skin == DashSkin.BRUTAL || DashColors.Skin == DashSkin.PAPER
 
 /** [style]'s outline in the active look's corners; the side panel is square against the screen edge. */
 internal fun alertShape(style: AlertStyle): Shape {

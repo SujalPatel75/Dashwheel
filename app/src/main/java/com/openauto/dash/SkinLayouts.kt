@@ -38,6 +38,12 @@ internal fun skinLayout(mode: DashThemeMode): SkinLayout? = when (mode) {
     DashThemeMode.GLYPH -> GlyphLayout
     DashThemeMode.WINDSHIELD -> WindshieldLayout
     DashThemeMode.TERRAIN -> TerrainLayout
+    DashThemeMode.AMBIENT -> AmbientLayout
+    DashThemeMode.BRUTAL -> BrutalLayout
+    DashThemeMode.CLAY -> ClayLayout
+    DashThemeMode.CHROME -> ChromeLayout
+    DashThemeMode.SPATIAL -> SpatialLayout
+    DashThemeMode.PAPER -> PaperLayout
     // The earlier whole-design looks: their main widgets, placed for the screen.
     DashThemeMode.ORBIT -> SkinLayout(TemplatePage(listOf(MEDIA, SPEED_HUD, CLOCK, WEATHER), dock = true))
     DashThemeMode.COCKPIT -> SkinLayout(TemplatePage(listOf(TELEMETRY, SPEED_HUD, MEDIA, CLOCK), dock = true))

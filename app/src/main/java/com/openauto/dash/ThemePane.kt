@@ -454,6 +454,12 @@ private fun ThemeStamp(p: DashPalette, modifier: Modifier) {
             DashSkin.GLYPH -> glyphStamp(p, num)
             DashSkin.WINDSHIELD -> windshieldStamp(p, num)
             DashSkin.TERRAIN -> terrainStamp(p, num)
+            DashSkin.AMBIENT -> ambientStamp(p, num)
+            DashSkin.BRUTAL -> brutalStamp(p, num)
+            DashSkin.CLAY -> clayStamp(p, num)
+            DashSkin.CHROME -> chromeStamp(p, num)
+            DashSkin.SPATIAL -> spatialStamp(p, num)
+            DashSkin.PAPER -> paperStamp(p, num)
             DashSkin.STANDARD -> {
                 // The standard bar and two tiles; glass themes show through, bare ones draw no card.
                 val cardFill = when {
