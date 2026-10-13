@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Clay skin -->
+    <string name="clay_talk">Beszéd</string>
+    <string name="clay_talk_cd">Beszélj az asszisztenssel</string>
+    <string name="clay_map">Térkép</string>
+    <string name="clay_music">Zene</string>
+    <string name="clay_phone">Telefon</string>
+    <string name="clay_arrival">Érkezés %1$s</string>
+    <string name="clay_rpm">f/perc</string>
+    <string name="clay_gear">Fokozat %1$s</string>
+    <string name="clay_coolant">Hűtőfolyadék</string>
+    <string name="clay_battery">Akkumulátor</string>
+    <string name="clay_load">Terhelés</string>
+    <string name="clay_fuel">Üzemanyag</string>
+    <string name="clay_speed_limit_cd">Sebességkorlát %1$d</string>
+    <string name="clay_launch_bar_empty">Még nincs alkalmazás. Koppints a ceruzára a hozzáadáshoz.</string>
+</resources>
