@@ -39,6 +39,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.SaveAlt
 import androidx.compose.material.icons.filled.Autorenew
+import androidx.compose.material.icons.filled.Timer
 import androidx.compose.material.icons.filled.VerticalAlignTop
 import androidx.compose.material.icons.filled.VerifiedUser
 import androidx.compose.material.icons.filled.AcUnit
@@ -1024,6 +1025,7 @@ private fun DrivingPane(m: TopBarModel, open: (Deep) -> Unit) {
     )
     PlacesRow { open(Deep.PLACES) }
     MomentsRow(m.onMoments)
+    WazeWakeSetting()
     // Every physical button together: what the wheel's do, then what the unit's own keys open.
     val keys = remember { Edition.full && KeyTargets.available() }
     val keysLocked = keys && !shellAccess().shell
@@ -1045,6 +1047,37 @@ private fun DrivingPane(m: TopBarModel, open: (Deep) -> Unit) {
     ) { open(Deep.WHEEL) }
     KeyTargetRows()
     if (keysLocked) RootLockCard(listOf(stringResource(R.string.keys_section)))
+}
+
+/**
+ * Waze opened afresh a while after the unit wakes ([WazeWake]): only where
+ * Waze is installed, never in the Play edition (it closes another app through
+ * the privileged shell); greyed, with the reason, without a shell.
+ */
+@Composable
+private fun WazeWakeSetting() {
+    if (Edition.play) return
+    val context = LocalContext.current
+    val installed = remember { WazeWake.installed(context) }
+    if (!installed) return
+    LaunchedEffect(Unit) { WazeWake.load(context) }
+    val setting by WazeWake.setting.collectAsState()
+    val shell = shellAccess().shell
+    SettingsToggle(
+        Icons.Filled.Autorenew, stringResource(R.string.settings_waze_wake),
+        stringResource(if (shell) R.string.settings_waze_wake_detail else R.string.settings_waze_wake_locked),
+        setting.on && shell, enabled = shell
+    ) { WazeWake.save(context, setting.copy(on = it)) }
+    if (!setting.on || !shell) return
+    StepperRow(
+        Icons.Filled.Timer, stringResource(R.string.settings_waze_wake_delay), stringResource(R.string.settings_waze_wake_delay_detail),
+        value = stringResource(R.string.settings_waze_wake_seconds, setting.delayS),
+        less = stringResource(R.string.speed_volume_less), more = stringResource(R.string.speed_volume_more),
+        canLess = setting.delayS > WazeWake.DELAY_MIN_S,
+        canMore = setting.delayS < WazeWake.DELAY_MAX_S,
+        onLess = { WazeWake.save(context, setting.copy(delayS = setting.delayS - WazeWake.DELAY_STEP_S)) },
+        onMore = { WazeWake.save(context, setting.copy(delayS = setting.delayS + WazeWake.DELAY_STEP_S)) }
+    )
 }
 
 /**

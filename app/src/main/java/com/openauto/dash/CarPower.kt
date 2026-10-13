@@ -189,6 +189,7 @@ object CarPower {
         }
         EmbeddedApp.carStarted(context)
         MediaResume.carStarted(context)
+        WazeWake.carWoke(context)
         VehicleMonitor.connectSaved()
         if (briefOnIgnition(offAt, System.currentTimeMillis())) StartupBriefing.carStarted(context)
     }

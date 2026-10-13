@@ -355,4 +355,10 @@
     <string name="settings_log_save_detail">В папке Download, Dashwheel, чтобы скопировать на флешку</string>
     <string name="settings_log_saved">Сохранено в Download, Dashwheel: %1$s</string>
     <string name="settings_log_save_failed">Не удалось сохранить журнал</string>
+    <string name="settings_waze_wake">Перезапускать Waze после пробуждения</string>
+    <string name="settings_waze_wake_detail">Когда вернутся геолокация и мобильные данные, чтобы он не остался офлайн</string>
+    <string name="settings_waze_wake_delay">Ждать после пробуждения</string>
+    <string name="settings_waze_wake_delay_detail">Затем ещё до минуты на геолокацию и данные</string>
+    <string name="settings_waze_wake_seconds">%1$d с</string>
+    <string name="settings_waze_wake_locked">Чтобы закрыть Waze, нужен root или ADB магнитолы</string>
 </resources>

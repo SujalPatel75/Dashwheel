@@ -346,4 +346,10 @@
     <string name="settings_log_save_detail">In de map Download, Dashwheel, om naar een USB-stick te kopiëren</string>
     <string name="settings_log_saved">Bewaard in Download, Dashwheel: %1$s</string>
     <string name="settings_log_save_failed">Logboek kon niet worden bewaard</string>
+    <string name="settings_waze_wake">Waze herstarten na het ontwaken</string>
+    <string name="settings_waze_wake_detail">Zodra locatie en mobiele data terug zijn, zodat het niet offline blijft</string>
+    <string name="settings_waze_wake_delay">Wachten na het ontwaken</string>
+    <string name="settings_waze_wake_delay_detail">Daarna tot een minuut extra voor locatie en data</string>
+    <string name="settings_waze_wake_seconds">%1$d s</string>
+    <string name="settings_waze_wake_locked">Root of de ADB van het toestel is nodig om Waze te sluiten</string>
 </resources>

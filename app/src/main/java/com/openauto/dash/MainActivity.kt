@@ -181,6 +181,8 @@ class MainActivity : ComponentActivity() {
                     // The ignition as the unit announces it, and the car's own data from the CAN box
                     // with the radar / climate alerts built on it.
                     { CarPower.start(this) },
+                    // Waze opened afresh once the unit is awake, when the driver asked for it.
+                    { WazeWake.start(this) },
                     // The unit's own keys (wheel and panel), straight from its key service, and
                     // what else it tells: headlights, the phone, CarPlay / Android Auto.
                     { HeadUnitKeys.start(this) },

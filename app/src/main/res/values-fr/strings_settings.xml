@@ -350,4 +350,10 @@
     <string name="settings_log_save_detail">Dans le dossier Download, Dashwheel, à copier sur une clé USB</string>
     <string name="settings_log_saved">Enregistré dans Download, Dashwheel : %1$s</string>
     <string name="settings_log_save_failed">Impossible d\'enregistrer le journal sur l\'autoradio</string>
+    <string name="settings_waze_wake">Relancer Waze au réveil</string>
+    <string name="settings_waze_wake_detail">Une fois la localisation et les données mobiles revenues, pour qu\'il ne reste pas hors ligne</string>
+    <string name="settings_waze_wake_delay">Attente après le réveil</string>
+    <string name="settings_waze_wake_delay_detail">Puis jusqu\'à une minute de plus pour la localisation et les données</string>
+    <string name="settings_waze_wake_seconds">%1$d s</string>
+    <string name="settings_waze_wake_locked">Il faut le root ou l\'ADB de l\'autoradio pour fermer Waze</string>
 </resources>

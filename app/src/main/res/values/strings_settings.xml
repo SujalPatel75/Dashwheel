@@ -349,4 +349,10 @@
     <string name="settings_log_save_detail">In the Download, Dashwheel folder, to copy to a USB stick</string>
     <string name="settings_log_saved">Saved in Download, Dashwheel: %1$s</string>
     <string name="settings_log_save_failed">Could not save the log on the unit</string>
+    <string name="settings_waze_wake">Restart Waze after waking</string>
+    <string name="settings_waze_wake_detail">Once location and mobile data are back, so it doesn\'t stay offline</string>
+    <string name="settings_waze_wake_delay">Wait after waking</string>
+    <string name="settings_waze_wake_delay_detail">Then up to a minute more for location and data</string>
+    <string name="settings_waze_wake_seconds">%1$d s</string>
+    <string name="settings_waze_wake_locked">Needs root or the unit\'s ADB to close Waze</string>
 </resources>

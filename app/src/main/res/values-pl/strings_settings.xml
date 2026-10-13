@@ -354,4 +354,10 @@
     <string name="settings_log_save_detail">W folderze Download, Dashwheel, do skopiowania na pendrive</string>
     <string name="settings_log_saved">Zapisano w Download, Dashwheel: %1$s</string>
     <string name="settings_log_save_failed">Nie udało się zapisać dziennika</string>
+    <string name="settings_waze_wake">Uruchom ponownie Waze po wybudzeniu</string>
+    <string name="settings_waze_wake_detail">Gdy wrócą lokalizacja i dane mobilne, żeby nie został w trybie offline</string>
+    <string name="settings_waze_wake_delay">Czekaj po wybudzeniu</string>
+    <string name="settings_waze_wake_delay_detail">Potem do minuty dłużej na lokalizację i dane</string>
+    <string name="settings_waze_wake_seconds">%1$d s</string>
+    <string name="settings_waze_wake_locked">Do zamknięcia Waze potrzebny jest root lub ADB radia</string>
 </resources>

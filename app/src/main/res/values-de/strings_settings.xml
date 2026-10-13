@@ -346,4 +346,10 @@
     <string name="settings_log_save_detail">Im Ordner Download, Dashwheel, zum Kopieren auf einen USB-Stick</string>
     <string name="settings_log_saved">Gespeichert in Download, Dashwheel: %1$s</string>
     <string name="settings_log_save_failed">Protokoll konnte nicht gespeichert werden</string>
+    <string name="settings_waze_wake">Waze nach dem Aufwachen neu starten</string>
+    <string name="settings_waze_wake_detail">Sobald Standort und mobile Daten zurück sind, damit es nicht offline bleibt</string>
+    <string name="settings_waze_wake_delay">Warten nach dem Aufwachen</string>
+    <string name="settings_waze_wake_delay_detail">Dann bis zu einer Minute mehr für Standort und Daten</string>
+    <string name="settings_waze_wake_seconds">%1$d s</string>
+    <string name="settings_waze_wake_locked">Zum Schließen von Waze braucht es Root oder das ADB des Geräts</string>
 </resources>

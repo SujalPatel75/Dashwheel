@@ -258,6 +258,10 @@ internal object EmbeddedApp {
     /** The page of [packageName]'s tile while it runs inside one; null otherwise. */
     fun pageOf(packageName: String): Int? = tilePages[packageName]?.takeIf { holds(packageName) }
 
+    /** Closes [packageName] and opens it afresh on its tile when it runs in one ([Host.restart]); false otherwise. */
+    fun restartInTile(packageName: String): Boolean =
+        holds(packageName) && hosts[packageName]?.restart() == true
+
     /** Opens [intent] in [packageName]'s tile when it runs in one ([Host.open]); false otherwise. */
     fun openInside(packageName: String, intent: Intent): Boolean =
         holds(packageName) && hosts[packageName]?.open(intent) == true
@@ -1474,6 +1478,18 @@ internal object EmbeddedApp {
             if (display !== vd) return
             vd.resize(shownWidth, shownHeight, shownDpi)
             feed(vd, surface, shownWidth, shownHeight)
+        }
+
+        /** [reopen] now, asked from outside ([WazeWake]); false while there is no display to open it on. */
+        fun restart(): Boolean {
+            val vd = display ?: return false
+            if (_status.value == Status.MISSING || _status.value == Status.BLOCKED) return false
+            settling?.cancel()
+            settling = scope.launch {
+                reopen(vd)
+                watch(vd)
+            }
+            return true
         }
 
         /** Closes the app and opens it afresh on the tile, the way it gets there when the dashboard starts. */

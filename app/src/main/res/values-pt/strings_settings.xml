@@ -350,4 +350,10 @@
     <string name="settings_log_save_detail">Na pasta Download, Dashwheel, para copiar para uma pen USB</string>
     <string name="settings_log_saved">Guardado em Download, Dashwheel: %1$s</string>
     <string name="settings_log_save_failed">Não foi possível guardar o registo na unidade</string>
+    <string name="settings_waze_wake">Reiniciar o Waze ao acordar</string>
+    <string name="settings_waze_wake_detail">Quando a localização e os dados móveis voltarem, para não ficar offline</string>
+    <string name="settings_waze_wake_delay">Espera após acordar</string>
+    <string name="settings_waze_wake_delay_detail">Depois até mais um minuto pela localização e pelos dados</string>
+    <string name="settings_waze_wake_seconds">%1$d s</string>
+    <string name="settings_waze_wake_locked">É preciso root ou o ADB da unidade para fechar o Waze</string>
 </resources>
