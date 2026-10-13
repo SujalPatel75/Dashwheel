@@ -26,8 +26,8 @@ class BrightnessButtonsTest {
         val buttons = BrightnessButtons(up = 17, down = 27, pins = bench, clock = bench)
         buttons.apply(30)
         assertEquals(listOf(27 to BrightnessButtons.HOLD_TO_MIN_MS), bench.holds)
-        // From 1, the first + is swallowed: thirty presses land on 30.
-        assertEquals(List(30) { 17 }, bench.taps)
+        // From 0, the first + is swallowed: thirty-one presses land on 30.
+        assertEquals(List(31) { 17 }, bench.taps)
         assertEquals(30, buttons.level)
     }
 

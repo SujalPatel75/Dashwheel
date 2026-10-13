@@ -90,6 +90,8 @@ object DisplayLink {
     private const val KEY_DISPLAYS = "displays"
     private const val KEY_LAST_ADDRESS = "last_address"
     private const val CONNECT_TIMEOUT_MS = 2_000
+    /** The Pi's own address on a cable straight to it: its eth0 hands out 10.47.0.x (tools/pi/install.sh). */
+    private const val WIRED_DISPLAY = "10.47.0.1"
     private const val PROBE_TIMEOUT_MS = 350
     private const val PROBE_PARALLEL = 32
     /**
@@ -306,19 +308,23 @@ object DisplayLink {
     }
 
     /**
-     * Where its beacon was last heard from (certainly current), then the address it last
-     * answered on, then those it announced: a stale address costs a whole connect timeout.
+     * The Pi on the cable when this unit has an address from it, then where its beacon was
+     * last heard from (certainly current), then the address it last answered on, then those
+     * it announced: a stale address costs a whole connect timeout.
      */
     private fun quickAddresses(context: Context): List<String> =
-        listOfNotNull(heardAt, context.getSharedPreferences(PREFS, Context.MODE_PRIVATE).getString(KEY_LAST_ADDRESS, null)) +
-            announced.toList()
+        listOfNotNull(
+            WIRED_DISPLAY.takeIf { networkFor(context, InetAddress.getByName(it)) != null },
+            heardAt,
+            context.getSharedPreferences(PREFS, Context.MODE_PRIVATE).getString(KEY_LAST_ADDRESS, null)
+        ) + announced.toList()
 
     /** Tries each paired display at [address]; true once one linked (and that link has ended). */
     private fun dialAt(context: Context, address: String, displays: List<PairedDisplay>): Boolean {
         for (display in displays) {
             val what = "$address:$DISPLAY_PORT ${display.name}"
             val link = try {
-                connect(address, display)
+                connect(context, address, display)
             } catch (e: UnknownPairingException) {
                 // Another display, or this one paired afresh: try the next pairing.
                 note("$what: display does not know this pairing")
@@ -339,10 +345,11 @@ object DisplayLink {
         return false
     }
 
-    private fun connect(address: String, display: PairedDisplay): LinkSession {
-        val socket = Socket()
+    private fun connect(context: Context, address: String, display: PairedDisplay): LinkSession {
+        val target = InetAddress.getByName(address)
+        val socket = socketFor(context, target)
         try {
-            socket.connect(InetSocketAddress(address, DISPLAY_PORT), CONNECT_TIMEOUT_MS)
+            socket.connect(InetSocketAddress(target, DISPLAY_PORT), CONNECT_TIMEOUT_MS)
             socket.soTimeout = HANDSHAKE_TIMEOUT_MS
             socket.tcpNoDelay = true
             // Room for a key frame in flight, not for seconds of video waiting (see [videoQueued]).
@@ -455,7 +462,7 @@ object DisplayLink {
                 async {
                     gate.withPermit {
                         val address = toAddress(host)
-                        if (portOpen(address)) address.hostAddress else null
+                        if (portOpen(context, address)) address.hostAddress else null
                     }
                 }
             }.awaitAll().filterNotNull()
@@ -472,11 +479,38 @@ object DisplayLink {
 
     private val HOTSPOT_INTERFACE = Regex("(swlan|ap|softap|wlan)\\d+")
 
-    private fun portOpen(address: InetAddress): Boolean = try {
-        Socket().use { it.connect(InetSocketAddress(address, DISPLAY_PORT), PROBE_TIMEOUT_MS) }
+    private fun portOpen(context: Context, address: InetAddress): Boolean = try {
+        socketFor(context, address).use { it.connect(InetSocketAddress(address, DISPLAY_PORT), PROBE_TIMEOUT_MS) }
         true
     } catch (e: IOException) {
         false
+    }
+
+    /**
+     * A socket bound to the network [address] sits on. Android sends an unbound socket
+     * out of the default network (Wi-Fi), so a Pi on the Ethernet cable was never reached.
+     */
+    private fun socketFor(context: Context, address: InetAddress): Socket = Socket().also { socket ->
+        networkFor(context, address)?.let { runCatching { it.bindSocket(socket) } }
+    }
+
+    /** The network with an IPv4 address on the same subnet as [address], if any. */
+    private fun networkFor(context: Context, address: InetAddress): Network? {
+        if (address !is Inet4Address) return null
+        val cm = context.getSystemService(ConnectivityManager::class.java) ?: return null
+        val target = toInt(address)
+        @Suppress("DEPRECATION")
+        return cm.allNetworks.firstOrNull { network ->
+            cm.getLinkProperties(network)?.linkAddresses.orEmpty().any {
+                val own = it.address
+                own is Inet4Address && it.prefixLength in 1..32 && sameSubnet(toInt(own), target, it.prefixLength)
+            }
+        }
+    }
+
+    private fun sameSubnet(a: Int, b: Int, prefix: Int): Boolean {
+        val mask = -1 shl (32 - prefix)
+        return a and mask == b and mask
     }
 
     private fun toInt(address: InetAddress): Int = ByteBuffer.wrap(address.address).int

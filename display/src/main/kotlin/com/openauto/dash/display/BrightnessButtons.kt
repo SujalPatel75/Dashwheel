@@ -17,7 +17,7 @@ import com.openauto.dash.link.DisplayBrightness
  * - presses of [PRESS_MS] down and [GAP_MS] up all count (60 ms lost one in twenty).
  *
  * The level isn't readable, so the first change after a start goes the long
- * way (to 1, then up); later ones are counted from the level last set. The
+ * way (to 0, then up); later ones are counted from the level last set. The
  * latest wish wins: one asked while the buttons are busy follows once they're done.
  */
 class BrightnessButtons(
@@ -90,8 +90,9 @@ class BrightnessButtons(
         if (from == null) {
             hold(down, HOLD_TO_MIN_MS)
             clock.sleep(AFTER_HOLD_MS)
-            // The first + after the hold is swallowed, so from 1 it takes [target] presses.
-            repeat(target) { tap(up) }
+            // Held down, the level stops at 0 (the backlight off), and the first + after the
+            // hold is swallowed: [target] + 1 presses (the car, 2026-10-13: 61 asked, 60 shown).
+            repeat(target + 1) { tap(up) }
         } else {
             val since = clock.now() - lastPress
             // Near its closing, the bar may or may not still be open: wait until it surely isn't.
