@@ -171,9 +171,6 @@
     <string name="dash_bar_swipe_up_hint">Desliza hacia arriba para la barra</string>
     <string name="dash_bar_show">Mostrar la barra</string>
     <string name="dash_drive_lock_notice">Aparca para hacer cambios</string>
-    <string name="dash_theme_group_recommended">Recomendados</string>
-    <string name="dash_theme_group_colours">Temas</string>
-    <string name="dash_theme_group_skins">Skins</string>
     <string name="dash_theme_night">Noche</string>
     <string name="dash_theme_day">Día</string>
     <string name="dash_theme_mistral">Mistral</string>
@@ -202,8 +199,6 @@
     <string name="dash_dashboard_options">Opciones del panel</string>
     <string name="dash_remove_dashboard_title">¿Quitar %1$s?</string>
     <string name="dash_remove_dashboard_body">Vaciarlo, o quitarlo de los deslizamientos con sus fichas. Deshacer las recupera.</string>
-    <string name="dash_theme_show_all">Ver los %1$d temas</string>
-    <string name="dash_theme_show_fewer">Ver menos</string>
     <string name="dash_tile_move">Mover a otro panel</string>
     <string name="dash_tile_remove">Quitar</string>
     <string name="dash_apps">Apps</string>

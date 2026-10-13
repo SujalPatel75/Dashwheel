@@ -80,7 +80,9 @@ internal enum class LookFamily(@StringRes val titleRes: Int) {
 internal val LookFamilies: Map<LookFamily, List<DashThemeMode>> = linkedMapOf(
     LookFamily.NEW to listOf(
         DashThemeMode.LIQUID, DashThemeMode.EXPRESSIVE, DashThemeMode.KINETIC,
-        DashThemeMode.GLYPH, DashThemeMode.WINDSHIELD, DashThemeMode.TERRAIN
+        DashThemeMode.GLYPH, DashThemeMode.WINDSHIELD, DashThemeMode.TERRAIN,
+        DashThemeMode.AMBIENT, DashThemeMode.BRUTAL, DashThemeMode.CLAY,
+        DashThemeMode.CHROME, DashThemeMode.SPATIAL, DashThemeMode.PAPER
     ),
     LookFamily.SCENES to listOf(
         DashThemeMode.MODERN, DashThemeMode.FUTURISTIC, DashThemeMode.RACING,
@@ -145,6 +147,8 @@ internal fun LookPicker(theme: ThemeState) {
             ) {
                 arrange = it
                 DashThemeStore.saveLookLayout(context, it)
+                // Switched on: the look in use arranges Home now, with Undo.
+                if (it) theme.onArrangeHome()
             }
             if (theme.mode == DashThemeMode.CANVAS) {
                 Spacer(Modifier.height(16.dp))

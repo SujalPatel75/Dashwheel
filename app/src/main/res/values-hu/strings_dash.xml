@@ -124,9 +124,6 @@
 
     <!-- Moving: edits wait until the car has stopped -->
     <string name="dash_drive_lock_notice">A módosításhoz álljon meg</string>
-    <string name="dash_theme_group_recommended">Ajánlott</string>
-    <string name="dash_theme_group_colours">Témák</string>
-    <string name="dash_theme_group_skins">Skinek</string>
     <string name="dash_theme_night">Éjszaka</string>
     <string name="dash_theme_day">Nappal</string>
 
@@ -206,8 +203,6 @@
     <string name="dash_dashboard_options">Műszerfal beállításai</string>
     <string name="dash_remove_dashboard_title">%1$s eltávolítása?</string>
     <string name="dash_remove_dashboard_body">Kiürítheti, vagy a csempéivel együtt kiveheti a lapozásból. A Visszavonás visszahozza őket.</string>
-    <string name="dash_theme_show_all">Mind a %1$d téma</string>
-    <string name="dash_theme_show_fewer">Kevesebb</string>
     <string name="dash_tile_move">Áthelyezés másik műszerfalra</string>
     <string name="dash_tile_remove">Eltávolítás</string>
     <!-- The bar's Apps button, labelled -->

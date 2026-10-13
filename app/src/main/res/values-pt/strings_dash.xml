@@ -171,9 +171,6 @@
     <string name="dash_bar_swipe_up_hint">Deslize para cima para a barra</string>
     <string name="dash_bar_show">Mostrar a barra</string>
     <string name="dash_drive_lock_notice">Estacione para fazer alterações</string>
-    <string name="dash_theme_group_recommended">Recomendados</string>
-    <string name="dash_theme_group_colours">Temas</string>
-    <string name="dash_theme_group_skins">Skins</string>
     <string name="dash_theme_night">Noite</string>
     <string name="dash_theme_day">Dia</string>
     <string name="dash_theme_mistral">Mistral</string>
@@ -202,8 +199,6 @@
     <string name="dash_dashboard_options">Opções do painel</string>
     <string name="dash_remove_dashboard_title">Remover %1$s?</string>
     <string name="dash_remove_dashboard_body">Esvaziar, ou tirar dos deslizes com os seus mosaicos. Anular repõe-nos.</string>
-    <string name="dash_theme_show_all">Ver os %1$d temas</string>
-    <string name="dash_theme_show_fewer">Ver menos</string>
     <string name="dash_tile_move">Mover para outro painel</string>
     <string name="dash_tile_remove">Remover</string>
     <string name="dash_apps">Apps</string>

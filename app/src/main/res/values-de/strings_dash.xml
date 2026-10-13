@@ -171,9 +171,6 @@
     <string name="dash_bar_swipe_up_hint">Nach oben wischen für die Leiste</string>
     <string name="dash_bar_show">Leiste einblenden</string>
     <string name="dash_drive_lock_notice">Zum Ändern anhalten</string>
-    <string name="dash_theme_group_recommended">Empfohlen</string>
-    <string name="dash_theme_group_colours">Designs</string>
-    <string name="dash_theme_group_skins">Skins</string>
     <string name="dash_theme_night">Nacht</string>
     <string name="dash_theme_day">Tag</string>
     <string name="dash_theme_mistral">Mistral</string>
@@ -202,8 +199,6 @@
     <string name="dash_dashboard_options">Dashboard-Optionen</string>
     <string name="dash_remove_dashboard_title">%1$s entfernen?</string>
     <string name="dash_remove_dashboard_body">Leeren, oder mit seinen Kacheln aus dem Wischen nehmen. Rückgängig holt sie zurück.</string>
-    <string name="dash_theme_show_all">Alle %1$d Designs zeigen</string>
-    <string name="dash_theme_show_fewer">Weniger zeigen</string>
     <string name="dash_tile_move">Auf ein anderes Dashboard</string>
     <string name="dash_tile_remove">Entfernen</string>
     <string name="dash_apps">Apps</string>

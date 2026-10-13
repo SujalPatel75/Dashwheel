@@ -189,9 +189,6 @@
     <string name="dash_theme_nordic_desc">Graphite et bleu glacier, traits fins, rien de criard</string>
     <string name="dash_theme_canvas">Canvas</string>
     <string name="dash_theme_canvas_desc">La carte remplit l\'écran, votre trajet sur une ligne. Barre latérale par défaut ; à changer dans Affichage.</string>
-    <string name="dash_theme_group_recommended">Recommandés</string>
-    <string name="dash_theme_group_colours">Thèmes</string>
-    <string name="dash_theme_group_skins">Skins</string>
     <string name="dash_theme_night">Nuit</string>
     <string name="dash_theme_day">Jour</string>
     <!-- Updates without a strip (⋮ dot, Settings row, ready prompt); edit-mode confirms; tile options; theme gallery -->
@@ -206,8 +203,6 @@
     <string name="dash_dashboard_options">Options du tableau de bord</string>
     <string name="dash_remove_dashboard_title">Supprimer %1$s ?</string>
     <string name="dash_remove_dashboard_body">Le vider, ou le retirer des balayages avec ses tuiles. Annuler les ramène.</string>
-    <string name="dash_theme_show_all">Voir les %1$d thèmes</string>
-    <string name="dash_theme_show_fewer">Voir moins</string>
     <string name="dash_tile_move">Vers un autre tableau de bord</string>
     <string name="dash_tile_remove">Retirer</string>
     <string name="dash_apps">Applis</string>

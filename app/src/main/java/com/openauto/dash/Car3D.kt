@@ -306,6 +306,7 @@ private data class CamPose(val tx: Float, val ty: Float, val tz: Float, val yaw:
  * (null: the whole car), opens what hides it, lights it, and pins its number
  * there. [interactive]: a finger turns it (parked only). Drawn only while
  * something moves; [onPick] when a number chip is tapped (null: whole car).
+ * [chips]: false leaves the chips out (a look showing the car as scenery).
  */
 @Composable
 internal fun Car3DProblems(
@@ -314,7 +315,9 @@ internal fun Car3DProblems(
     selected: Problem3D?,
     interactive: Boolean,
     onPick: (Int?) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    /** The problem chips and Whole car down the side; off where a look shows the car as scenery. */
+    chips: Boolean = true
 ) {
     val context = LocalContext.current
     val lifecycle = LocalLifecycleOwner.current
@@ -417,7 +420,7 @@ internal fun Car3DProblems(
             }
         }
         // One chip per problem, and the whole car.
-        Column(Modifier.align(Alignment.TopStart).padding(8.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
+        if (chips) Column(Modifier.align(Alignment.TopStart).padding(8.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
             for (p in problems) {
                 Chip3D(stringResource(R.string.car3d_problem, p.number), selected?.number == p.number) { pick(p.number) }
             }

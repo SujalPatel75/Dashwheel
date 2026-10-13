@@ -189,9 +189,6 @@
     <string name="dash_theme_nordic_desc">Grafite e blu ghiaccio, linee sottili, niente di chiassoso</string>
     <string name="dash_theme_canvas">Canvas</string>
     <string name="dash_theme_canvas_desc">La mappa riempie lo schermo, il viaggio su una riga. Barra laterale di default; si cambia in Schermo.</string>
-    <string name="dash_theme_group_recommended">Consigliati</string>
-    <string name="dash_theme_group_colours">Temi</string>
-    <string name="dash_theme_group_skins">Skin</string>
     <string name="dash_theme_night">Notte</string>
     <string name="dash_theme_day">Giorno</string>
     <!-- Updates without a strip (⋮ dot, Settings row, ready prompt); edit-mode confirms; tile options; theme gallery -->
@@ -206,8 +203,6 @@
     <string name="dash_dashboard_options">Opzioni del cruscotto</string>
     <string name="dash_remove_dashboard_title">Rimuovere %1$s?</string>
     <string name="dash_remove_dashboard_body">Svuotalo, o toglilo dagli scorrimenti con i suoi riquadri. Annulla li riporta.</string>
-    <string name="dash_theme_show_all">Mostra tutti i %1$d temi</string>
-    <string name="dash_theme_show_fewer">Mostra meno</string>
     <string name="dash_tile_move">Sposta in un altro cruscotto</string>
     <string name="dash_tile_remove">Rimuovi</string>
     <string name="dash_apps">App</string>

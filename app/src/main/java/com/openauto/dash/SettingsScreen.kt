@@ -201,7 +201,9 @@ internal data class ThemeState(
     val rail: Boolean = false,
     val tabs: Boolean = false,
     val onRail: (Boolean) -> Unit = {},
-    val onTabs: (Boolean) -> Unit = {}
+    val onTabs: (Boolean) -> Unit = {},
+    /** Puts the Home of the look in use on the dashboard (SkinLayouts.kt), with Undo. */
+    val onArrangeHome: () -> Unit = {}
 )
 
 @Composable

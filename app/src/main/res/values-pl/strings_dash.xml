@@ -171,9 +171,6 @@
     <string name="dash_bar_swipe_up_hint">Przesuń w górę, aby pokazać pasek</string>
     <string name="dash_bar_show">Pokaż pasek</string>
     <string name="dash_drive_lock_notice">Zatrzymaj się, aby wprowadzić zmiany</string>
-    <string name="dash_theme_group_recommended">Polecane</string>
-    <string name="dash_theme_group_colours">Motywy</string>
-    <string name="dash_theme_group_skins">Skiny</string>
     <string name="dash_theme_night">Noc</string>
     <string name="dash_theme_day">Dzień</string>
     <string name="dash_theme_mistral">Mistral</string>
@@ -202,8 +199,6 @@
     <string name="dash_dashboard_options">Opcje pulpitu</string>
     <string name="dash_remove_dashboard_title">Usunąć %1$s?</string>
     <string name="dash_remove_dashboard_body">Opróżnij go lub usuń z przesuwania razem z kafelkami. Cofnij je przywraca.</string>
-    <string name="dash_theme_show_all">Pokaż wszystkie motywy: %1$d</string>
-    <string name="dash_theme_show_fewer">Pokaż mniej</string>
     <string name="dash_tile_move">Przenieś na inny pulpit</string>
     <string name="dash_tile_remove">Usuń</string>
     <string name="dash_apps">Aplikacje</string>

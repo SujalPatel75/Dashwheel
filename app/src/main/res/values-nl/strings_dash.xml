@@ -171,9 +171,6 @@
     <string name="dash_bar_swipe_up_hint">Veeg omhoog voor de balk</string>
     <string name="dash_bar_show">Balk tonen</string>
     <string name="dash_drive_lock_notice">Parkeer om wijzigingen te maken</string>
-    <string name="dash_theme_group_recommended">Aanbevolen</string>
-    <string name="dash_theme_group_colours">Thema\'s</string>
-    <string name="dash_theme_group_skins">Skins</string>
     <string name="dash_theme_night">Nacht</string>
     <string name="dash_theme_day">Dag</string>
     <string name="dash_theme_mistral">Mistral</string>
@@ -202,8 +199,6 @@
     <string name="dash_dashboard_options">Dashboardopties</string>
     <string name="dash_remove_dashboard_title">%1$s verwijderen?</string>
     <string name="dash_remove_dashboard_body">Leegmaken, of uit het vegen halen met de tegels. Ongedaan maken brengt ze terug.</string>
-    <string name="dash_theme_show_all">Alle %1$d thema\'s tonen</string>
-    <string name="dash_theme_show_fewer">Minder tonen</string>
     <string name="dash_tile_move">Naar een ander dashboard</string>
     <string name="dash_tile_remove">Verwijderen</string>
     <string name="dash_apps">Apps</string>
