@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Ambient skin -->
+    <string name="ambient_turn_left">À esquerda em %1$s</string>
+    <string name="ambient_turn_right">À direita em %1$s</string>
+    <string name="ambient_turn_in">Em %1$s</string>
+    <string name="ambient_talk">Falar</string>
+    <string name="ambient_talk_cd">Falar com o assistente</string>
+    <string name="ambient_listening">A ouvir</string>
+    <string name="ambient_speed_limit_cd">Limite de velocidade %1$d</string>
+    <string name="ambient_rpm">rpm</string>
+    <string name="ambient_coolant">Refrigerante %1$s</string>
+    <string name="ambient_battery">Bateria %1$s</string>
+    <string name="ambient_load">Carga %1$s</string>
+    <string name="ambient_fuel">Combustível %1$d %%</string>
+    <string name="ambient_launch_bar_empty">Ainda sem apps. Toque no lápis para adicionar.</string>
+</resources>
