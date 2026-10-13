@@ -152,9 +152,14 @@ fun AutomotiveDashboard(inSplitMode: Boolean = false) {
     val railOn = DashThemeStore.railOn(railChoice, themeMode)
     val barState = rememberBarAutoHideState()
     val barRevealTap = rememberTapFeedback()
+    // A look just chosen in Settings whose own Home goes on (SkinLayouts.kt), taken up below.
+    var lookLayoutAsk by remember { mutableStateOf<DashThemeMode?>(null) }
     val themeState = ThemeState(
         mode = themeMode, appearance = appearance, effects = effects,
-        onMode = { themeMode = it; DashThemeStore.save(context, it) },
+        onMode = {
+            if (it != themeMode && DashThemeStore.loadLookLayout(context) && skinLayout(it) != null) lookLayoutAsk = it
+            themeMode = it; DashThemeStore.save(context, it)
+        },
         onAppearance = { appearance = it; DashThemeStore.saveAppearance(context, it) },
         onEffects = { effects = it; DashThemeStore.saveEffects(context, it) },
         barAutoHide = barAutoHide, barHideSeconds = barHideSeconds,
@@ -492,7 +497,7 @@ fun AutomotiveDashboard(inSplitMode: Boolean = false) {
     var confirmBringBack by ui::confirmBringBack
     // A tile just sent to another dashboard: its chip, with the way there, for a moment.
     var movedTo by remember { mutableStateOf<Int?>(null) }
-    // A template just put on, by name: the dashboard offers Undo for a while.
+    // A template, a shared dashboard or a look's Home just put on, said in words: the dashboard offers Undo for a while.
     var templateUndo by remember { mutableStateOf<String?>(null) }
     // Share (DashShare.kt): open from the edit bar, or by itself when the phone sends a code.
     var shareOpen by remember { mutableStateOf(false) }
@@ -938,6 +943,29 @@ fun AutomotiveDashboard(inSplitMode: Boolean = false) {
         CanvasTabs.saveTabs(CanvasTabs.keyFor(variant()), named)
         releaseMapsAnchorIfGone()
         return true
+    }
+
+    /**
+     * Puts the Home [mode] was drawn around on Home (SkinLayouts.kt), as one
+     * Undo step. Home holding an app (Maps or Waze in a tile) keeps it: the
+     * driver arranged it around that app. False when nothing changed.
+     */
+    fun applyLookLayout(mode: DashThemeMode): Boolean {
+        val look = skinLayout(mode) ?: return false
+        val center = DashboardStore.CENTER
+        val old = pages.getOrNull(center).orEmpty()
+        if (old.any { it.holdsAnApp() }) return false
+        val built = skinHome(look, templateScreen(layout != DashLayout.GRID))
+        if (built.isEmpty() || built == old) return false
+        old.filterIsInstance<DashboardItem.SystemWidget>().forEach { WidgetHostHolder.retire(context, it.appWidgetId) }
+        mutateAll(pages.mapIndexed { p, items -> if (p == center) built else items })
+        releaseMapsAnchorIfGone()
+        return true
+    }
+    LaunchedEffect(lookLayoutAsk) {
+        val mode = lookLayoutAsk ?: return@LaunchedEffect
+        lookLayoutAsk = null
+        if (applyLookLayout(mode)) templateUndo = context.getString(R.string.look_layout_applied, context.getString(mode.titleRes))
     }
 
     // System app-widget picker; adds the bound widget to the page that requested it.
@@ -1931,7 +1959,7 @@ fun AutomotiveDashboard(inSplitMode: Boolean = false) {
                 showTemplates = false
                 fillPage = null
                 if (applyTemplate(choice)) {
-                    templateUndo = context.getString(choice.template.titleRes)
+                    templateUndo = context.getString(R.string.templates_applied, context.getString(choice.template.titleRes))
                     // One empty page's own fill stays on screen.
                     if (only == null) showHome()
                 }
@@ -1971,7 +1999,7 @@ fun AutomotiveDashboard(inSplitMode: Boolean = false) {
                 }
                 shareOpen = false
                 DashShare.taken()
-                templateUndo = shareName
+                templateUndo = context.getString(R.string.templates_applied, shareName)
             },
             onDismiss = { shareOpen = false; DashShare.taken() }
         )
@@ -1998,7 +2026,7 @@ fun AutomotiveDashboard(inSplitMode: Boolean = false) {
     // A template just put on: Undo, for a while.
     templateUndo?.let { name ->
         UndoBar(
-            text = stringResource(R.string.templates_applied, name),
+            text = name,
             modifier = Modifier.align(Alignment.BottomStart).padding(start = 24.dp, bottom = 96.dp)
         ) {
             templateUndo = null
