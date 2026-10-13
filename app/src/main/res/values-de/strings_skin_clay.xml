@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Clay skin -->
+    <string name="clay_talk">Sprechen</string>
+    <string name="clay_talk_cd">Mit dem Assistenten sprechen</string>
+    <string name="clay_map">Karte</string>
+    <string name="clay_music">Musik</string>
+    <string name="clay_phone">Telefon</string>
+    <string name="clay_arrival">Ankunft %1$s</string>
+    <string name="clay_rpm">U/min</string>
+    <string name="clay_gear">Gang %1$s</string>
+    <string name="clay_coolant">Kühlmittel</string>
+    <string name="clay_battery">Batterie</string>
+    <string name="clay_load">Last</string>
+    <string name="clay_fuel">Kraftstoff</string>
+    <string name="clay_speed_limit_cd">Tempolimit %1$d</string>
+    <string name="clay_launch_bar_empty">Noch keine Apps. Tippe auf den Stift, um welche hinzuzufügen.</string>
+</resources>
