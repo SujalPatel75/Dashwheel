@@ -269,7 +269,7 @@ object CarModelKit {
         )
         val backLights = lamps(model, TAIL_NAME, -1f)?.map { backCam.at(it) }.orEmpty()
         val frontLights = lamps(model, HEAD_NAME, 1f)?.map { frontCam.at(it) }.orEmpty()
-        val live = if (withLive && model.triangles <= MAX_LIVE_TRIANGLES) model.glbForLive().takeIf { it.size <= MAX_LIVE_BYTES } else null
+        val live = if (withLive) liveCopy(model, wheels) else null
         val result = CarModelResult(
             name, side, top, hero, back, front, topView, sideWheels,
             sideCam.at(floatArrayOf(l / 2, 0f, midZ)), sideCam.at(floatArrayOf(-l / 2, 0f, midZ)),
@@ -279,11 +279,27 @@ object CarModelKit {
     }
 
     /**
-     * Whether the nose seems to point the other way: the side picture's outline
-     * (the bonnet is low, the tail high) says the car faces left. The caller
+     * The car for the launcher's live 3D view: a model already made for it
+     * (its parts named Lamp_..., Hinge_... as tools/mycar/bake_car.py
+     * documents, so its doors open too) goes as it is, turned nose to +x; any
+     * other is redrawn light with its lamps and wheels found and named
+     * ([CarLiveModel]). Null when even that is too big to send.
+     */
+    private fun liveCopy(model: CarModel, wheels: List<FloatArray>): ByteArray? {
+        val rigged = model.parts.any { it.startsWith("Lamp_") || it.startsWith("Hinge_") }
+        if (rigged && model.triangles <= MAX_LIVE_TRIANGLES) model.glbForLive().takeIf { it.size <= MAX_LIVE_BYTES }?.let { return it }
+        return runCatching { CarLiveModel.build(model, wheels) }.getOrNull()
+    }
+
+    /**
+     * Whether the nose seems to point the other way: the red lamps are at the
+     * nose's end, or (no telling red lamps) the side picture's outline (the
+     * bonnet is low, the tail high) says the car faces left. The caller
      * reads the model again with turned = true then.
      */
     fun noseLooksBackwards(model: CarModel): Boolean {
+        // Red lamps say where the back is better than the outline does.
+        CarLiveModel.redLampsAtNose(model)?.let { return it }
         val cam = Ortho.side(max(model.length, model.height * 2) * 1.08f, 700, 350, model.height / 2)
         val pic = render(model, Shader(model), cam)
         return runCatching { CarPhotoKit.side(pic, CarFacing.AUTO).facedLeft }.getOrDefault(false)
