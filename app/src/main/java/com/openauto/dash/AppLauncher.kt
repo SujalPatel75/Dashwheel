@@ -12,7 +12,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import org.json.JSONObject
-import org.lsposed.hiddenapibypass.HiddenApiBypass
 
 /**
  * A launchable app installed on the device.
@@ -121,7 +120,7 @@ object AppLauncher {
             ?.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             ?: return false
         val options = ActivityOptions.makeBasic()
-        runCatching { HiddenApiBypass.invoke(ActivityOptions::class.java, options, "setLaunchWindowingMode", WINDOWING_MODE_FULLSCREEN) }
+        runCatching { HiddenApi.invoke(ActivityOptions::class.java, options, "setLaunchWindowingMode", WINDOWING_MODE_FULLSCREEN) }
         val launched = runCatching { context.startActivity(launchIntent, options.toBundle()); true }
             .recoverCatching { context.startActivity(launchIntent); true }.getOrDefault(false)
         if (launched) AppUsage.opened(context, packageName)

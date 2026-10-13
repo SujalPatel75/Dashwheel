@@ -32,6 +32,8 @@
     <string name="setup_access_obd_detail">Motorwerte, Kraftstoff und Fehlercodes über Bluetooth</string>
     <string name="setup_access_phone">Telefon</string>
     <string name="setup_access_phone_detail">Nachrichten, Anrufe und dein Kalender vom Telefon</string>
+    <string name="setup_access_a11y">Geteilter Bildschirm und Tasten</string>
+    <string name="setup_access_a11y_detail">Zwei Apps nebeneinander, Lenkradtasten, Tippen vom Telefon</string>
     <string name="setup_allow">Erlauben</string>
     <string name="setup_choose">Wählen</string>
     <string name="setup_allowed">Erlaubt</string>

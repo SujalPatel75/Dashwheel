@@ -60,7 +60,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import org.lsposed.hiddenapibypass.HiddenApiBypass
 
 /*
  * The Wi-Fi networks and Bluetooth devices tiles: the networks around (saved
@@ -107,7 +106,7 @@ internal fun wifiJoinOrLeave(context: Context, entry: WifiEntry): Boolean {
         else if (entry.netId >= 0) {
             // The system's own join (connect by id), else the older enable-and-reconnect.
             runCatching {
-                HiddenApiBypass.invoke(WifiManager::class.java, wm, "connect", entry.netId, null)
+                HiddenApi.invoke(WifiManager::class.java, wm, "connect", entry.netId, null)
                 true
             }.getOrElse { wm.enableNetwork(entry.netId, true) && wm.reconnect() }
         } else false
@@ -122,7 +121,7 @@ internal fun btEntries(context: Context): List<BtEntry> {
     val adapter = context.getSystemService(BluetoothManager::class.java)?.adapter ?: return emptyList()
     return runCatching {
         adapter.bondedDevices.orEmpty().map { d ->
-            val connected = runCatching { HiddenApiBypass.invoke(BluetoothDevice::class.java, d, "isConnected") as Boolean }.getOrDefault(false)
+            val connected = runCatching { HiddenApi.invoke(BluetoothDevice::class.java, d, "isConnected") as Boolean }.getOrDefault(false)
             val cls = runCatching { d.bluetoothClass?.majorDeviceClass }.getOrNull()
             val audio = cls == android.bluetooth.BluetoothClass.Device.Major.AUDIO_VIDEO || cls == android.bluetooth.BluetoothClass.Device.Major.PHONE
             BtEntry(d, d.name ?: d.address, connected, audio)
@@ -142,7 +141,7 @@ internal suspend fun btConnectOrDisconnect(context: Context, entry: BtEntry): Bo
     for (profile in listOf(BluetoothProfile.A2DP, BluetoothProfile.HEADSET)) {
         val proxy = withContext(Dispatchers.Main) { proxyOf(context, adapter, profile) } ?: continue
         val cls = if (profile == BluetoothProfile.A2DP) BluetoothA2dp::class.java else BluetoothHeadset::class.java
-        val ok = runCatching { HiddenApiBypass.invoke(cls, proxy, if (entry.connected) "disconnect" else "connect", entry.device) as Boolean }
+        val ok = runCatching { HiddenApi.invoke(cls, proxy, if (entry.connected) "disconnect" else "connect", entry.device) as Boolean }
             .onFailure { Log.w(TAG, "bt ${entry.name} profile $profile: ${it.message}") }.getOrDefault(false)
         done = done || ok
         runCatching { adapter.closeProfileProxy(profile, proxy) }

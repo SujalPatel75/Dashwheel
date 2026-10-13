@@ -35,7 +35,7 @@ import kotlinx.coroutines.launch
 object AccessDisclosure {
     enum class Kind { ACCESSIBILITY, NOTIFICATIONS }
 
-    /** Shows the disclosure for [kind]; only its "Open settings" opens the system page. */
+    /** Shows the disclosure for [kind]; only its "Agree" opens the system page. */
     fun show(context: Context, kind: Kind) {
         context.startActivity(
             Intent(context, AccessDisclosureActivity::class.java)
@@ -150,7 +150,7 @@ class AccessDisclosureActivity : ComponentActivity() {
                         TextButton(onClick = {
                             AccessDisclosure.openSystemPage(this, kind)
                             finish()
-                        }) { Text(getString(R.string.access_open_settings), color = DashColors.TextPrimary) }
+                        }) { Text(getString(R.string.access_agree), color = DashColors.TextPrimary) }
                     },
                     dismissButton = {
                         TextButton(onClick = { finish() }) { Text(getString(R.string.access_not_now), color = DashColors.Muted) }

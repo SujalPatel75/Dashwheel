@@ -195,8 +195,9 @@ dependencies {
     // over the head unit's root wireless-ADB socket (no Magisk/su needed).
     // GitHub edition only: the Play edition never opens the unit's ADB.
     "githubImplementation"("dev.mobile:dadb:1.2.10")
-    // Reaches the @hide input calls that pass the tile's touches to Google Maps inside it (EmbeddedApp.kt).
-    implementation("org.lsposed.hiddenapibypass:hiddenapibypass:6.1")
+    // Reaches the @hide input calls that pass the tile's touches to Google Maps inside it (EmbeddedApp.kt),
+    // through HiddenApi. GitHub edition only: Google Play refuses API-bypass SDKs.
+    "githubImplementation"("org.lsposed.hiddenapibypass:hiddenapibypass:6.1")
     // MapLibre GL — free/open-source map (OpenFreeMap style, no token/API key).
     // Exclude its bundled GeoJSON/Turf so the navigation SDK's newer 7.x ones
     // provide those classes (otherwise duplicate-class build failure).

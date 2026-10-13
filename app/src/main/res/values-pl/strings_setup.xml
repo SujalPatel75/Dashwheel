@@ -32,6 +32,8 @@
     <string name="setup_access_obd_detail">Odczyty silnika, paliwo i kody usterek przez Bluetooth</string>
     <string name="setup_access_phone">Telefon</string>
     <string name="setup_access_phone_detail">Wiadomości, połączenia i kalendarz z telefonu</string>
+    <string name="setup_access_a11y">Podzielony ekran i przyciski</string>
+    <string name="setup_access_a11y_detail">Dwie aplikacje obok siebie, przyciski kierownicy, pisanie z telefonu</string>
     <string name="setup_allow">Zezwól</string>
     <string name="setup_choose">Wybierz</string>
     <string name="setup_allowed">Zezwolono</string>

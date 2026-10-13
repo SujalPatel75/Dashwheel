@@ -32,6 +32,8 @@
     <string name="setup_access_obd_detail">Leituras do motor, combustível e códigos de avaria por Bluetooth</string>
     <string name="setup_access_phone">Telemóvel</string>
     <string name="setup_access_phone_detail">Mensagens, chamadas e a sua agenda do telemóvel</string>
+    <string name="setup_access_a11y">Ecrã dividido e botões</string>
+    <string name="setup_access_a11y_detail">Duas apps lado a lado, botões do volante, escrever a partir do telemóvel</string>
     <string name="setup_allow">Permitir</string>
     <string name="setup_choose">Escolher</string>
     <string name="setup_allowed">Permitido</string>

@@ -34,6 +34,7 @@ import androidx.compose.material.icons.filled.Event
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.PhoneAndroid
+import androidx.compose.material.icons.filled.Splitscreen
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
@@ -451,6 +452,18 @@ internal fun AccessRows(onPickObd: () -> Unit, onChanged: () -> Unit = {}) {
         onAction = { pairing = true }
     )
     if (pairing) PhonePairingDialog(onDismiss = { pairing = false; onChanged() })
+    // The accessibility service: split screen, wheel buttons, typing from the phone. Its
+    // own disclosure comes first in the Play edition, so it is met in the setup, not only
+    // behind the Layout menu.
+    val a11y by SplitAccessibilityService.connected.collectAsState()
+    AccessRow(
+        icon = Icons.Filled.Splitscreen,
+        title = stringResource(R.string.setup_access_a11y),
+        detail = stringResource(R.string.setup_access_a11y_detail),
+        granted = a11y,
+        actionRes = R.string.setup_allow,
+        onAction = { SplitLauncher.openAccessibilitySettings(context) }
+    )
 }
 
 /**

@@ -59,7 +59,6 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import org.lsposed.hiddenapibypass.HiddenApiBypass
 import java.lang.ref.WeakReference
 import java.lang.reflect.InvocationTargetException
 import java.lang.reflect.Method
@@ -289,12 +288,12 @@ internal object EmbeddedApp {
     // Both @hide, looked up once: looking them up on every touch took long
     // enough to make taps late and drags stutter.
     private val setDisplayId: Method? by lazy {
-        runCatching { HiddenApiBypass.getDeclaredMethod(InputEvent::class.java, "setDisplayId", Int::class.javaPrimitiveType) }
+        runCatching { HiddenApi.getDeclaredMethod(InputEvent::class.java, "setDisplayId", Int::class.javaPrimitiveType) }
             .onFailure { Log.w(TAG, "no InputEvent.setDisplayId", it) }.getOrNull()
     }
 
     private val injectInputEvent: Method? by lazy {
-        runCatching { HiddenApiBypass.getDeclaredMethod(InputManager::class.java, "injectInputEvent", InputEvent::class.java, Int::class.javaPrimitiveType) }
+        runCatching { HiddenApi.getDeclaredMethod(InputManager::class.java, "injectInputEvent", InputEvent::class.java, Int::class.javaPrimitiveType) }
             .onFailure { Log.w(TAG, "no InputManager.injectInputEvent", it) }.getOrNull()
     }
 
@@ -778,7 +777,7 @@ internal object EmbeddedApp {
     private fun keyboardUp(context: Context): Boolean = Edition.full && runCatching {
         // @hide, public on Android 10 and 11.
         val imm = context.getSystemService(InputMethodManager::class.java)
-        (HiddenApiBypass.invoke(InputMethodManager::class.java, imm, "getInputMethodWindowVisibleHeight") as Int) > 0
+        (HiddenApi.invoke(InputMethodManager::class.java, imm, "getInputMethodWindowVisibleHeight") as Int) > 0
     }.getOrDefault(false)
 
     /**
@@ -1233,7 +1232,7 @@ internal object EmbeddedApp {
             if (_status.value != Status.SHOWN) return false
             intent.setPackage(packageName).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             val options = ActivityOptions.makeBasic().setLaunchDisplayId(vd.displayId)
-            runCatching { HiddenApiBypass.invoke(ActivityOptions::class.java, options, "setLaunchWindowingMode", WINDOWING_MODE_FULLSCREEN) }
+            runCatching { HiddenApi.invoke(ActivityOptions::class.java, options, "setLaunchWindowingMode", WINDOWING_MODE_FULLSCREEN) }
             val ok = runCatching { context.startActivity(intent, options.toBundle()) }
                 .onFailure { Log.w(TAG, "$packageName refused the intent on display ${vd.displayId}", it) }
                 .isSuccess
@@ -1635,7 +1634,7 @@ internal object EmbeddedApp {
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             val options = ActivityOptions.makeBasic().setLaunchDisplayId(vd.displayId)
             // Full size on the tile's display, not the floating window it may have had before.
-            runCatching { HiddenApiBypass.invoke(ActivityOptions::class.java, options, "setLaunchWindowingMode", WINDOWING_MODE_FULLSCREEN) }
+            runCatching { HiddenApi.invoke(ActivityOptions::class.java, options, "setLaunchWindowingMode", WINDOWING_MODE_FULLSCREEN) }
                 .onFailure { Log.w(TAG, "no windowing mode for $packageName", it) }
             _status.value = runCatching { context.startActivity(intent, options.toBundle()) }
                 .onFailure { Log.w(TAG, "$packageName refused on display ${vd.displayId}", it) }

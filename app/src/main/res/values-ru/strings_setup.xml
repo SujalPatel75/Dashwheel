@@ -32,6 +32,8 @@
     <string name="setup_access_obd_detail">Показания двигателя, топливо и коды ошибок по Bluetooth</string>
     <string name="setup_access_phone">Телефон</string>
     <string name="setup_access_phone_detail">Сообщения, звонки и расписание с вашего телефона</string>
+    <string name="setup_access_a11y">Разделённый экран и кнопки</string>
+    <string name="setup_access_a11y_detail">Два приложения рядом, кнопки руля, ввод с телефона</string>
     <string name="setup_allow">Разрешить</string>
     <string name="setup_choose">Выбрать</string>
     <string name="setup_allowed">Разрешено</string>
