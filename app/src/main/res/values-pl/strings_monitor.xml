@@ -38,4 +38,9 @@
         <item quantity="many">%1$d rdzeni</item>
         <item quantity="other">%1$d rdzenia</item>
     </plurals>
+    <string name="monitor_board_title">Drugi ekran</string>
+    <string name="monitor_board_clock">Taktowanie</string>
+    <string name="monitor_board_under_powered">Za słabe zasilanie: zwalnia</string>
+    <string name="monitor_board_hot">Za gorąco: zwalnia</string>
+    <string name="monitor_board_throttled">Spowalniany przez firmware</string>
 </resources>

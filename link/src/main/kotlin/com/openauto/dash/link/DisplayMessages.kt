@@ -246,7 +246,14 @@ data class DisplayStats(
      */
     val throttled: Int = 0,
     /** The board's temperature, °C; null when not read. */
-    val tempC: Int? = null
+    val tempC: Int? = null,
+    /** How busy its processor was over the period, all cores, percent; null when not read (an older display). */
+    val cpuPct: Int? = null,
+    /** Memory in use and in all, MB (in use: what isn't available to programs). */
+    val ramUsedMb: Int? = null,
+    val ramTotalMb: Int? = null,
+    /** The processor's clock now, MHz: low while the firmware holds it back. */
+    val cpuMhz: Int? = null
 ) : LinkMessage {
     companion object {
         const val THROTTLE_UNDER_VOLTAGE = 0x1

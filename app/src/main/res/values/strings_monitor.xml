@@ -34,4 +34,9 @@
         <item quantity="one">%1$d core</item>
         <item quantity="other">%1$d cores</item>
     </plurals>
+    <string name="monitor_board_title">Second screen</string>
+    <string name="monitor_board_clock">Clock</string>
+    <string name="monitor_board_under_powered">Under-powered: it slows down</string>
+    <string name="monitor_board_hot">Too hot: it slows down</string>
+    <string name="monitor_board_throttled">Held back by its firmware</string>
 </resources>

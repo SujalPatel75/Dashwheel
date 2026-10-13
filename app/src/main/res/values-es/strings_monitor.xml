@@ -36,4 +36,9 @@
         <item quantity="many">%1$d núcleos</item>
         <item quantity="other">%1$d núcleos</item>
     </plurals>
+    <string name="monitor_board_title">Segunda pantalla</string>
+    <string name="monitor_board_clock">Frecuencia</string>
+    <string name="monitor_board_under_powered">Alimentación insuficiente: se ralentiza</string>
+    <string name="monitor_board_hot">Demasiado caliente: se ralentiza</string>
+    <string name="monitor_board_throttled">Frenado por su firmware</string>
 </resources>

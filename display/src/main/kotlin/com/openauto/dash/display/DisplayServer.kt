@@ -149,7 +149,8 @@ class DisplayServer(
         session.sendOrClose(
             DisplayStats(
                 counts.shown, counts.dropped, (counts.bytes * 8 / STATS_MS).toInt(), STATS_MS,
-                droppedLate = counts.droppedLate, throttled = board.throttled, tempC = board.tempC
+                droppedLate = counts.droppedLate, throttled = board.throttled, tempC = board.tempC,
+                cpuPct = board.cpuPct, ramUsedMb = board.ramUsedMb, ramTotalMb = board.ramTotalMb, cpuMhz = board.cpuMhz
             )
         )
     }

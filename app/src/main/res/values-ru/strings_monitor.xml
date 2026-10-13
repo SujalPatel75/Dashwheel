@@ -38,4 +38,9 @@
         <item quantity="many">%1$d ядер</item>
         <item quantity="other">%1$d ядра</item>
     </plurals>
+    <string name="monitor_board_title">Второй экран</string>
+    <string name="monitor_board_clock">Частота</string>
+    <string name="monitor_board_under_powered">Слабое питание: замедляется</string>
+    <string name="monitor_board_hot">Перегрев: замедляется</string>
+    <string name="monitor_board_throttled">Ограничен прошивкой</string>
 </resources>

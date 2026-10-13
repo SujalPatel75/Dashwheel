@@ -34,4 +34,9 @@
         <item quantity="one">%1$d kern</item>
         <item quantity="other">%1$d kernen</item>
     </plurals>
+    <string name="monitor_board_title">Tweede scherm</string>
+    <string name="monitor_board_clock">Klok</string>
+    <string name="monitor_board_under_powered">Te zwakke voeding: hij vertraagt</string>
+    <string name="monitor_board_hot">Te heet: hij vertraagt</string>
+    <string name="monitor_board_throttled">Afgeremd door zijn firmware</string>
 </resources>

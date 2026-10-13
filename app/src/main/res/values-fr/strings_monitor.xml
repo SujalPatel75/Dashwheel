@@ -36,4 +36,9 @@
         <item quantity="many">%1$d cœurs</item>
         <item quantity="other">%1$d cœurs</item>
     </plurals>
+    <string name="monitor_board_title">Second écran</string>
+    <string name="monitor_board_clock">Fréquence</string>
+    <string name="monitor_board_under_powered">Alimentation trop faible : il ralentit</string>
+    <string name="monitor_board_hot">Trop chaud : il ralentit</string>
+    <string name="monitor_board_throttled">Bridé par son firmware</string>
 </resources>

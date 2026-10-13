@@ -75,6 +75,63 @@ private fun rememberHeadUnitStats(): HeadUnitStats? {
     return HeadUnitMonitor.stats.collectAsState().value
 }
 
+/** The second screen's name and its board's last report, while it is linked and the report is one with its load. */
+private data class SecondBoard(val name: String, val stats: com.openauto.dash.link.DisplayStats)
+
+@Composable
+private fun rememberSecondScreenBoard(): SecondBoard? {
+    val link by DisplayLink.state.collectAsState()
+    val stats by DisplayLink.stats.collectAsState()
+    val display = (link as? DisplayLinkState.Connected)?.display ?: return null
+    val s = stats?.takeIf { it.ramTotalMb != null || it.cpuPct != null || it.tempC != null } ?: return null
+    return SecondBoard(display.name, s)
+}
+
+/**
+ * The second screen's board (the Pi): its name and health, then its
+ * processor, memory, temperature and clock; on a medium tile, one line.
+ */
+@Composable
+private fun BoardMonitor(b: SecondBoard, full: Boolean) {
+    val s = b.stats
+    val u = LocalUnits.current
+    val health = SecondScreenRules.health(s)
+    val healthText = when (health) {
+        DisplayHealth.UNDER_POWERED -> stringResource(R.string.monitor_board_under_powered)
+        DisplayHealth.HOT -> stringResource(R.string.monitor_board_hot)
+        DisplayHealth.THROTTLED -> stringResource(R.string.monitor_board_throttled)
+        else -> null
+    }
+    val ramPct = if (s.ramUsedMb != null && s.ramTotalMb != null && s.ramTotalMb!! > 0) s.ramUsedMb!! * 100 / s.ramTotalMb!! else null
+    Column(modifier = Modifier.fillMaxWidth()) {
+        Text(
+            (stringResource(R.string.monitor_board_title) + " · " + b.name).uppercase(Locale.getDefault()),
+            color = DashColors.Muted, fontWeight = FontWeight.Bold, style = MaterialTheme.typography.labelMedium,
+            maxLines = 1, overflow = TextOverflow.Ellipsis
+        )
+        if (healthText != null) {
+            Text(healthText, color = DashColors.Warning, style = MaterialTheme.typography.bodyMedium, maxLines = 2)
+        }
+        if (!full) {
+            Text(
+                listOfNotNull(
+                    s.cpuPct?.let { stringResource(R.string.monitor_cpu) + " $it %" },
+                    ramPct?.let { stringResource(R.string.monitor_ram) + " $it %" },
+                    s.tempC?.let { u.tempText(it) }
+                ).joinToString(" · "),
+                color = DashColors.TextPrimary, style = MaterialTheme.typography.bodyMedium, maxLines = 1
+            )
+            return
+        }
+        Row(horizontalArrangement = Arrangement.spacedBy(24.dp), modifier = Modifier.padding(top = 4.dp)) {
+            BigReading(stringResource(R.string.monitor_cpu), s.cpuPct?.toString() ?: "--", "%", loadColor(s.cpuPct), 30)
+            BigReading(stringResource(R.string.monitor_chip), s.tempC?.let { u.temp(it).toString() } ?: "--", u.tempUnit, tempColor(s.tempC), 30)
+            if (s.cpuMhz != null) BigReading(stringResource(R.string.monitor_board_clock), s.cpuMhz.toString(), "MHz", DashColors.TextPrimary, 30)
+        }
+        if (ramPct != null) Meter(stringResource(R.string.monitor_ram), "${s.ramUsedMb} / ${s.ramTotalMb} MB", ramPct)
+    }
+}
+
 /** Amber from 70 %, red from 90 % (the chip: 70 and 80 °C). */
 private fun loadColor(pct: Int?): Color = when {
     pct == null -> DashColors.Muted
@@ -118,11 +175,17 @@ internal fun HeadUnitCard(modifier: Modifier = Modifier) {
                     }
                 }
                 Spacer(Modifier.height(10.dp))
+                val board = rememberSecondScreenBoard()
                 when {
                     stats == null -> Text(stringResource(R.string.monitor_reading), color = DashColors.TextSecondary)
                     large -> LargeMonitor(stats, openApps)
                     medium -> MediumMonitor(stats, openApps, if (tight) 32 else 44)
                     else -> SmallMonitor(stats, openApps)
+                }
+                // The second screen's own board (a Raspberry Pi), when one is linked and reporting.
+                if (board != null && (large || medium)) {
+                    Spacer(Modifier.height(12.dp))
+                    BoardMonitor(board, full = large)
                 }
             }
         }

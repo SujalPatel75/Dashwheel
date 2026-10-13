@@ -34,4 +34,9 @@
         <item quantity="one">%1$d Kern</item>
         <item quantity="other">%1$d Kerne</item>
     </plurals>
+    <string name="monitor_board_title">Zweiter Bildschirm</string>
+    <string name="monitor_board_clock">Takt</string>
+    <string name="monitor_board_under_powered">Zu schwach versorgt: er wird langsamer</string>
+    <string name="monitor_board_hot">Zu heiß: er wird langsamer</string>
+    <string name="monitor_board_throttled">Von seiner Firmware gebremst</string>
 </resources>
