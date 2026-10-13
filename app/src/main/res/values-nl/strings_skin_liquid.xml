@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Liquid skin -->
+    <string name="liquid_talk_cd">Praat met de assistent</string>
+    <string name="liquid_show_dashboard">%1$s tonen</string>
+    <string name="liquid_speed_limit_cd">Limiet %1$d</string>
+    <string name="liquid_arrival">Aankomst %1$s</string>
+    <string name="liquid_revs">Toerental</string>
+    <string name="liquid_rpm">tpm</string>
+    <string name="liquid_battery">Accu</string>
+    <string name="liquid_load">Belasting</string>
+    <string name="liquid_coolant">Koelvloeistof</string>
+    <string name="liquid_engine">Motor</string>
+    <string name="liquid_range">Bereik</string>
+    <string name="liquid_launch_bar_empty">Nog geen apps. Tik op het potlood om ze toe te voegen.</string>
+    <string name="liquid_car_cd">Je auto</string>
+    <string name="liquid_car_open_cd">Je auto, er staat een deur open</string>
+    <string name="liquid_doors">Deuren</string>
+    <string name="liquid_doors_open">open</string>
+</resources>
