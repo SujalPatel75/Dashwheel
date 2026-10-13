@@ -8,12 +8,14 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
@@ -151,14 +153,29 @@ internal fun ClusterPageBody(
         }
     }
     val big = 1.55f
+    // A copied app as the big widget takes its own shape (within reason), so its
+    // picture fills the slot instead of sitting between black bars.
+    val shapes by EmbeddedApp.shapes.collectAsState()
+    val bigShape = slots.firstOrNull()?.takeIf { it.kind == BuiltinKind.MAPS_INSIDE }
+        ?.let { shapes[it.app ?: ClusterLayouts.DEFAULT_APP] }
+    @Composable
+    fun BigBeside(rest: @Composable RowScope.() -> Unit) = BoxWithConstraints(modifier.fillMaxSize()) {
+        val room = maxWidth - gap
+        val bigWidth = bigShape?.let { room * ((maxHeight * it).value / room.value).coerceIn(0.4f, 0.7f) }
+        Row(Modifier.fillMaxSize(), horizontalArrangement = Arrangement.spacedBy(gap)) {
+            if (bigWidth != null) Slot(0, Modifier.width(bigWidth).fillMaxHeight())
+            else Slot(0, Modifier.weight(big).fillMaxHeight())
+            rest()
+        }
+    }
     when (layout.arrangement) {
         ClusterArrangement.ONE -> Slot(0, modifier.fillMaxSize())
-        ClusterArrangement.BIG_SIDE, ClusterArrangement.HALVES -> Row(modifier.fillMaxSize(), horizontalArrangement = Arrangement.spacedBy(gap)) {
-            Slot(0, Modifier.weight(if (layout.arrangement == ClusterArrangement.BIG_SIDE) big else 1f).fillMaxHeight())
+        ClusterArrangement.BIG_SIDE -> BigBeside { Slot(1, Modifier.weight(1f).fillMaxHeight()) }
+        ClusterArrangement.HALVES -> Row(modifier.fillMaxSize(), horizontalArrangement = Arrangement.spacedBy(gap)) {
+            Slot(0, Modifier.weight(1f).fillMaxHeight())
             Slot(1, Modifier.weight(1f).fillMaxHeight())
         }
-        ClusterArrangement.BIG_STACK -> Row(modifier.fillMaxSize(), horizontalArrangement = Arrangement.spacedBy(gap)) {
-            Slot(0, Modifier.weight(big).fillMaxHeight())
+        ClusterArrangement.BIG_STACK -> BigBeside {
             Column(Modifier.weight(1f).fillMaxHeight(), verticalArrangement = Arrangement.spacedBy(gap)) {
                 Slot(1, Modifier.weight(1f).fillMaxWidth())
                 Slot(2, Modifier.weight(1f).fillMaxWidth())

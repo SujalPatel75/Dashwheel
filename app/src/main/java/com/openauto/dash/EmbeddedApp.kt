@@ -168,6 +168,19 @@ internal object EmbeddedApp {
     /** The apps inside a dashboard tile right now: those the second screen can show a copy of. */
     val hosted: StateFlow<Set<String>> = _hosted.asStateFlow()
 
+    private val _shapes = MutableStateFlow<Map<String, Float>>(emptyMap())
+    /**
+     * Width over height of each app's picture in its tile: the second screen gives
+     * a copy a slot of that shape, not one it is shrunk into with black bars.
+     */
+    val shapes: StateFlow<Map<String, Float>> = _shapes.asStateFlow()
+
+    private fun noteShape(packageName: String, width: Int, height: Int) {
+        if (width <= 0 || height <= 0) return
+        val shape = width.toFloat() / height
+        if (_shapes.value[packageName] != shape) _shapes.value = _shapes.value + (packageName to shape)
+    }
+
     /** Copies of each app's picture asked for (the second screen's cluster), kept while its tile comes and goes. Main thread. */
     private val copies = HashMap<String, MutableList<Surface>>()
 
@@ -1141,6 +1154,7 @@ internal object EmbeddedApp {
             shownWidth = t.width
             shownHeight = t.height
             shownDpi = t.dpi
+            noteShape(packageName, t.width, t.height)
             show(surface, t.width, t.height, t.dpi)
         }
 
