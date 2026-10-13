@@ -52,7 +52,8 @@ class LocalClockTest {
         assertEquals("fine now (0x50000: trouble since the start)", BoardHealth.describe(0x50000))
         val throttled = tmp.newFile("t").apply { writeText("0x80008") }
         val temp = tmp.newFile("temp").apply { writeText("71234") }
-        assertEquals(BoardHealth.Reading(0x80008, 71), BoardHealth.read(throttled, temp))
-        assertEquals(BoardHealth.Reading(0, null), BoardHealth.read(File(tmp.root, "none"), File(tmp.root, "none")))
+        // Only the flags and the temperature: the load and memory come from the machine's own /proc (on Linux).
+        BoardHealth.read(throttled, temp).let { assertEquals(0x80008, it.throttled); assertEquals(71, it.tempC) }
+        BoardHealth.read(File(tmp.root, "none"), File(tmp.root, "none")).let { assertEquals(0, it.throttled); assertEquals(null, it.tempC) }
     }
 }
