@@ -52,8 +52,6 @@ internal val LQ_HERO_MIN_H: Dp = 250.dp
 /** The chips' row under the car: their height and the gap above them. */
 private val CHIP_ROW = 86.dp
 
-/** How much taller than the stage the 3D view is drawn, its overflow clipped: keeps the 3D card's own picker chips out of sight. */
-private val OVERDRAW_3D = 120.dp
 
 /**
  * The stage filling [modifier]'s box: the car (3D, picture or drawn) on its
@@ -82,7 +80,7 @@ internal fun LqHero(env: SkinTileEnv, fuel: FuelInfo?, modifier: Modifier) {
             if (live3d && model != null) {
                 FloorShadow3D(Modifier.fillMaxSize())
                 Box(Modifier.fillMaxSize().clipToBounds(), contentAlignment = Alignment.Center) {
-                    Car3DProblems(model, emptyList(), null, false, {}, Modifier.fillMaxWidth().requiredHeight(stageH + OVERDRAW_3D))
+                    Car3DProblems(model, emptyList(), null, false, {}, Modifier.fillMaxSize(), chips = false)
                 }
             } else {
                 LqCarPicture(view, open, Modifier.fillMaxSize())

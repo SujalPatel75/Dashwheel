@@ -43,8 +43,6 @@ import kotlin.math.min
 /** The badge's one turn while parked, in ms: a slow drift, not a spin. */
 private const val BADGE_TURN_MS = 60_000
 
-/** How far the 3D stage reaches past the tile on each side, so its own chips stay out of sight. */
-private val STAGE_BLEED = 64.dp
 
 /**
  * Fuel and range. With the room, the hero of the design: the car in its
@@ -88,10 +86,9 @@ private fun ExCarBadge(env: SkinTileEnv, fuel: FuelInfo?, w: Dp, h: Dp) {
             ExBadge(Modifier.fillMaxSize())
             val model = rememberCar3DModel()
             if (model != null) {
-                // The stage reaches past the tile so the 3D view's own picker stays hidden; the car stays centred.
                 Box(Modifier.fillMaxSize().clipToBounds(), contentAlignment = Alignment.Center) {
                     ExGroundShadow(Modifier.requiredSize(w, stageH))
-                    Car3DProblems(model, emptyList(), null, false, {}, Modifier.requiredSize(w + STAGE_BLEED * 2, stageH + STAGE_BLEED * 2))
+                    Car3DProblems(model, emptyList(), null, false, {}, Modifier.requiredSize(w, stageH), chips = false)
                 }
             } else {
                 ExCarPicture(open, Modifier.fillMaxSize())
