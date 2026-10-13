@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Kinetic skin -->
+    <string name="kinetic_menu">Menu</string>
+    <string name="kinetic_talk">Mów</string>
+    <string name="kinetic_talk_cd">Porozmawiaj z asystentem</string>
+    <string name="kinetic_arrival">Przyjazd %1$s</string>
+    <string name="kinetic_ticker_coolant">Płyn chłodzący %1$s</string>
+    <string name="kinetic_ticker_range">Zasięg %1$s</string>
+    <string name="kinetic_sunset">Zachód słońca %1$s</string>
+    <string name="kinetic_sunrise">Wschód słońca %1$s</string>
+    <string name="kinetic_metres">metrów</string>
+    <string name="kinetic_kilometres">kilometrów</string>
+    <string name="kinetic_miles">mil</string>
+    <string name="kinetic_feet">stóp</string>
+    <string name="kinetic_yards">jardów</string>
+    <string name="kinetic_next">Dalej</string>
+    <string name="kinetic_usual_drive">Wyjeżdżając teraz, zwykła trasa</string>
+    <string name="kinetic_home_at">Dom %1$s</string>
+    <string name="kinetic_where_to">Dokąd jedziemy?</string>
+    <string name="kinetic_limit">Limit %1$d</string>
+    <string name="kinetic_rpm">obr/min</string>
+    <string name="kinetic_gear">Bieg %1$s</string>
+    <string name="kinetic_coolant">Płyn chłodzący</string>
+    <string name="kinetic_battery">Akumulator</string>
+    <string name="kinetic_load">Obciążenie</string>
+    <string name="kinetic_now_playing">Teraz gra</string>
+    <string name="kinetic_paused">Wstrzymano</string>
+    <string name="kinetic_range">Zasięg</string>
+    <string name="kinetic_fuel_left">Paliwo %1$d %%</string>
+    <string name="kinetic_launch_bar_empty">Brak aplikacji. Dotknij ołówka, aby je dodać.</string>
+    <string name="kinetic_car_cd">Twój samochód i jego zasięg</string>
+</resources>
