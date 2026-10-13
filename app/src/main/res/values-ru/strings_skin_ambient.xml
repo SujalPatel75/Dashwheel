@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Ambient skin -->
+    <string name="ambient_turn_left">Налево через %1$s</string>
+    <string name="ambient_turn_right">Направо через %1$s</string>
+    <string name="ambient_turn_in">Через %1$s</string>
+    <string name="ambient_talk">Говорить</string>
+    <string name="ambient_talk_cd">Поговорить с ассистентом</string>
+    <string name="ambient_listening">Слушаю</string>
+    <string name="ambient_speed_limit_cd">Ограничение скорости %1$d</string>
+    <string name="ambient_rpm">об/мин</string>
+    <string name="ambient_coolant">Антифриз %1$s</string>
+    <string name="ambient_battery">АКБ %1$s</string>
+    <string name="ambient_load">Нагрузка %1$s</string>
+    <string name="ambient_fuel">Топливо %1$d %%</string>
+    <string name="ambient_launch_bar_empty">Приложений пока нет. Нажмите на карандаш, чтобы добавить.</string>
+</resources>
