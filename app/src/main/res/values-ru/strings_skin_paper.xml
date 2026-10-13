@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Paper skin -->
+    <string name="paper_map">Карта</string>
+    <string name="paper_map_cd">Открыть карту</string>
+    <string name="paper_music">Музыка</string>
+    <string name="paper_music_cd">Открыть плеер</string>
+    <string name="paper_phone">Телефон</string>
+    <string name="paper_phone_cd">Открыть телефон</string>
+    <string name="paper_talk">Говорить</string>
+    <string name="paper_talk_cd">Поговорить с ассистентом</string>
+    <string name="paper_refreshed">Обновлено %1$s</string>
+    <string name="paper_arrival">Прибытие</string>
+    <string name="paper_speed">Скорость</string>
+    <string name="paper_limit">лимит %1$d</string>
+    <string name="paper_limit_label">Лимит</string>
+    <string name="paper_rain_next">Дождь, ближайшие %1$d ч</string>
+    <string name="paper_dry_next">Сухо, ближайшие %1$d ч</string>
+    <string name="paper_rain_from">с %1$s</string>
+    <string name="paper_rain_until">до %1$s</string>
+    <string name="paper_coolant">Антифриз</string>
+    <string name="paper_battery">АКБ</string>
+    <string name="paper_revs">Обороты</string>
+    <string name="paper_rpm">об/мин</string>
+    <string name="paper_load">Нагрузка</string>
+    <string name="paper_intake">Воздух на впуске</string>
+    <string name="paper_range">Запас хода</string>
+    <string name="paper_fuel">Топливо</string>
+    <string name="paper_litres">Литры</string>
+    <string name="paper_prev">Назад</string>
+    <string name="paper_play">Играть</string>
+    <string name="paper_pause">Пауза</string>
+    <string name="paper_next">Далее</string>
+    <string name="paper_no_route">Нет маршрута</string>
+    <string name="paper_edit">Изменить</string>
+    <string name="paper_connect">Подключить</string>
+    <string name="paper_launch_bar_empty">Добавьте приложения через Изменить</string>
+</resources>
