@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Kinetic skin -->
+    <string name="kinetic_menu">Menü</string>
+    <string name="kinetic_talk">Sprechen</string>
+    <string name="kinetic_talk_cd">Mit dem Assistenten sprechen</string>
+    <string name="kinetic_arrival">Ankunft %1$s</string>
+    <string name="kinetic_ticker_coolant">Kühlmittel %1$s</string>
+    <string name="kinetic_ticker_range">Reichweite %1$s</string>
+    <string name="kinetic_sunset">Sonnenuntergang %1$s</string>
+    <string name="kinetic_sunrise">Sonnenaufgang %1$s</string>
+    <string name="kinetic_metres">Meter</string>
+    <string name="kinetic_kilometres">Kilometer</string>
+    <string name="kinetic_miles">Meilen</string>
+    <string name="kinetic_feet">Fuß</string>
+    <string name="kinetic_yards">Yards</string>
+    <string name="kinetic_next">Als Nächstes</string>
+    <string name="kinetic_usual_drive">Jetzt los, übliche Fahrt</string>
+    <string name="kinetic_home_at">Zuhause %1$s</string>
+    <string name="kinetic_where_to">Wohin?</string>
+    <string name="kinetic_limit">Limit %1$d</string>
+    <string name="kinetic_rpm">U/min</string>
+    <string name="kinetic_gear">Gang %1$s</string>
+    <string name="kinetic_coolant">Kühlmittel</string>
+    <string name="kinetic_battery">Batterie</string>
+    <string name="kinetic_load">Last</string>
+    <string name="kinetic_now_playing">Läuft gerade</string>
+    <string name="kinetic_paused">Pausiert</string>
+    <string name="kinetic_range">Reichweite</string>
+    <string name="kinetic_fuel_left">Tank %1$d %%</string>
+    <string name="kinetic_launch_bar_empty">Noch keine Apps. Tippe auf den Stift, um welche hinzuzufügen.</string>
+    <string name="kinetic_car_cd">Dein Auto und seine Reichweite</string>
+</resources>

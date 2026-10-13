@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Kinetic skin -->
+    <string name="kinetic_menu">Menu</string>
+    <string name="kinetic_talk">Praten</string>
+    <string name="kinetic_talk_cd">Praat met de assistent</string>
+    <string name="kinetic_arrival">Aankomst %1$s</string>
+    <string name="kinetic_ticker_coolant">Koelvloeistof %1$s</string>
+    <string name="kinetic_ticker_range">Bereik %1$s</string>
+    <string name="kinetic_sunset">Zonsondergang %1$s</string>
+    <string name="kinetic_sunrise">Zonsopgang %1$s</string>
+    <string name="kinetic_metres">meter</string>
+    <string name="kinetic_kilometres">kilometer</string>
+    <string name="kinetic_miles">mijl</string>
+    <string name="kinetic_feet">voet</string>
+    <string name="kinetic_yards">yard</string>
+    <string name="kinetic_next">Hierna</string>
+    <string name="kinetic_usual_drive">Nu vertrekken, gewone rit</string>
+    <string name="kinetic_home_at">Thuis %1$s</string>
+    <string name="kinetic_where_to">Waarheen?</string>
+    <string name="kinetic_limit">Limiet %1$d</string>
+    <string name="kinetic_rpm">tpm</string>
+    <string name="kinetic_gear">Versnelling %1$s</string>
+    <string name="kinetic_coolant">Koelvloeistof</string>
+    <string name="kinetic_battery">Accu</string>
+    <string name="kinetic_load">Belasting</string>
+    <string name="kinetic_now_playing">Nu speelt</string>
+    <string name="kinetic_paused">Gepauzeerd</string>
+    <string name="kinetic_range">Bereik</string>
+    <string name="kinetic_fuel_left">Brandstof %1$d %%</string>
+    <string name="kinetic_launch_bar_empty">Nog geen apps. Tik op het potlood om ze toe te voegen.</string>
+    <string name="kinetic_car_cd">Je auto en zijn bereik</string>
+</resources>

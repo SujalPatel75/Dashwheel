@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Kinetic skin -->
+    <string name="kinetic_menu">Menü</string>
+    <string name="kinetic_talk">Beszéd</string>
+    <string name="kinetic_talk_cd">Beszélj az asszisztenssel</string>
+    <string name="kinetic_arrival">Érkezés %1$s</string>
+    <string name="kinetic_ticker_coolant">Hűtőfolyadék %1$s</string>
+    <string name="kinetic_ticker_range">Hatótáv %1$s</string>
+    <string name="kinetic_sunset">Napnyugta %1$s</string>
+    <string name="kinetic_sunrise">Napkelte %1$s</string>
+    <string name="kinetic_metres">méter</string>
+    <string name="kinetic_kilometres">kilométer</string>
+    <string name="kinetic_miles">mérföld</string>
+    <string name="kinetic_feet">láb</string>
+    <string name="kinetic_yards">yard</string>
+    <string name="kinetic_next">Következik</string>
+    <string name="kinetic_usual_drive">Ha most indulsz, a szokásos út</string>
+    <string name="kinetic_home_at">Otthon %1$s</string>
+    <string name="kinetic_where_to">Hová megyünk?</string>
+    <string name="kinetic_limit">Korlát %1$d</string>
+    <string name="kinetic_rpm">f/perc</string>
+    <string name="kinetic_gear">Fokozat %1$s</string>
+    <string name="kinetic_coolant">Hűtőfolyadék</string>
+    <string name="kinetic_battery">Akkumulátor</string>
+    <string name="kinetic_load">Terhelés</string>
+    <string name="kinetic_now_playing">Most szól</string>
+    <string name="kinetic_paused">Szünetel</string>
+    <string name="kinetic_range">Hatótáv</string>
+    <string name="kinetic_fuel_left">Üzemanyag %1$d %%</string>
+    <string name="kinetic_launch_bar_empty">Még nincs app. Koppints a ceruzára a hozzáadáshoz.</string>
+    <string name="kinetic_car_cd">Az autód és a hatótávja</string>
+</resources>

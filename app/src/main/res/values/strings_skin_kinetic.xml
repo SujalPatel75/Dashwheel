@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Kinetic skin -->
+    <string name="kinetic_menu">Menu</string>
+    <string name="kinetic_talk">Talk</string>
+    <string name="kinetic_talk_cd">Talk to the assistant</string>
+    <string name="kinetic_arrival">Arrival %1$s</string>
+    <string name="kinetic_ticker_coolant">Coolant %1$s</string>
+    <string name="kinetic_ticker_range">Range %1$s</string>
+    <string name="kinetic_sunset">Sunset %1$s</string>
+    <string name="kinetic_sunrise">Sunrise %1$s</string>
+    <string name="kinetic_metres">metres</string>
+    <string name="kinetic_kilometres">kilometres</string>
+    <string name="kinetic_miles">miles</string>
+    <string name="kinetic_feet">feet</string>
+    <string name="kinetic_yards">yards</string>
+    <string name="kinetic_next">Next</string>
+    <string name="kinetic_usual_drive">Leaving now, your usual drive</string>
+    <string name="kinetic_home_at">Home %1$s</string>
+    <string name="kinetic_where_to">Where to?</string>
+    <string name="kinetic_limit">Limit %1$d</string>
+    <string name="kinetic_rpm">r/min</string>
+    <string name="kinetic_gear">Gear %1$s</string>
+    <string name="kinetic_coolant">Coolant</string>
+    <string name="kinetic_battery">Battery</string>
+    <string name="kinetic_load">Load</string>
+    <string name="kinetic_now_playing">Now playing</string>
+    <string name="kinetic_paused">Paused</string>
+    <string name="kinetic_range">Range</string>
+    <string name="kinetic_fuel_left">Fuel %1$d %%</string>
+    <string name="kinetic_launch_bar_empty">No apps yet. Tap the pencil to add some.</string>
+    <string name="kinetic_car_cd">Your car and its range</string>
+</resources>

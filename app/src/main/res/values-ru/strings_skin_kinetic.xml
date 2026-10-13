@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Kinetic skin -->
+    <string name="kinetic_menu">Меню</string>
+    <string name="kinetic_talk">Сказать</string>
+    <string name="kinetic_talk_cd">Поговорить с ассистентом</string>
+    <string name="kinetic_arrival">Прибытие %1$s</string>
+    <string name="kinetic_ticker_coolant">ОЖ %1$s</string>
+    <string name="kinetic_ticker_range">Запас хода %1$s</string>
+    <string name="kinetic_sunset">Закат %1$s</string>
+    <string name="kinetic_sunrise">Рассвет %1$s</string>
+    <string name="kinetic_metres">метров</string>
+    <string name="kinetic_kilometres">километров</string>
+    <string name="kinetic_miles">миль</string>
+    <string name="kinetic_feet">футов</string>
+    <string name="kinetic_yards">ярдов</string>
+    <string name="kinetic_next">Далее</string>
+    <string name="kinetic_usual_drive">Если выехать сейчас, обычная поездка</string>
+    <string name="kinetic_home_at">Дома %1$s</string>
+    <string name="kinetic_where_to">Куда едем?</string>
+    <string name="kinetic_limit">Лимит %1$d</string>
+    <string name="kinetic_rpm">об/мин</string>
+    <string name="kinetic_gear">Передача %1$s</string>
+    <string name="kinetic_coolant">ОЖ</string>
+    <string name="kinetic_battery">АКБ</string>
+    <string name="kinetic_load">Нагрузка</string>
+    <string name="kinetic_now_playing">Сейчас играет</string>
+    <string name="kinetic_paused">Пауза</string>
+    <string name="kinetic_range">Запас хода</string>
+    <string name="kinetic_fuel_left">Топливо %1$d %%</string>
+    <string name="kinetic_launch_bar_empty">Приложений пока нет. Нажмите на карандаш, чтобы добавить.</string>
+    <string name="kinetic_car_cd">Ваш автомобиль и запас хода</string>
+</resources>
