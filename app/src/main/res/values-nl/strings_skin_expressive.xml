@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Expressive skin -->
+    <string name="expressive_talk">Praten</string>
+    <string name="expressive_talk_cd">Praten met de assistent</string>
+    <string name="expressive_arrive">Aankomst %1$s</string>
+    <string name="expressive_rain_from">Regen %1$s</string>
+    <string name="expressive_rain_until">Regen tot %1$s</string>
+    <string name="expressive_speed_limit_cd">Snelheidslimiet %1$d</string>
+    <string name="expressive_rpm">t/min</string>
+    <string name="expressive_coolant">Koelvloeistof</string>
+    <string name="expressive_battery">Accu</string>
+    <string name="expressive_load">Belasting</string>
+    <string name="expressive_fuel">Brandstof</string>
+    <string name="expressive_car_cd">Je auto</string>
+    <string name="expressive_launch_bar_empty">Nog geen apps. Tik op het potlood om er toe te voegen.</string>
+</resources>
