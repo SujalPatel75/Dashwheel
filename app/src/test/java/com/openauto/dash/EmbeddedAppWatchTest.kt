@@ -59,10 +59,10 @@ class EmbeddedAppWatchTest {
               taskId=81: com.waze/.MainActivity bounds=[0,0][1280,720] userId=0 visible=true
         """.trimIndent()
         assertEquals(
-            listOf(WindowListing.AppStack(12, 7, "fullscreen", visible = false)),
+            listOf(WindowListing.AppStack(12, 7, "fullscreen", visible = false, taskId = 80)),
             WindowListing.appStacks(listing, "com.google.android.apps.youtube.music")
         )
-        assertEquals(listOf(WindowListing.AppStack(20, 0, "fullscreen")), WindowListing.appStacks(listing, "com.waze"))
+        assertEquals(listOf(WindowListing.AppStack(20, 0, "fullscreen", taskId = 81)), WindowListing.appStacks(listing, "com.waze"))
     }
 
     @Test

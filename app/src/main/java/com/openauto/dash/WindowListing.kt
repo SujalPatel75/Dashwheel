@@ -200,9 +200,9 @@ object WindowListing {
     /**
      * One stack holding an app's task, wherever it is (tile displays included).
      * [visible] is false when the listing says the task is hidden, behind
-     * another one on its display.
+     * another one on its display. [taskId] is the app's task in it.
      */
-    data class AppStack(val stackId: Int, val displayId: Int, val mode: String?, val visible: Boolean = true)
+    data class AppStack(val stackId: Int, val displayId: Int, val mode: String?, val visible: Boolean = true, val taskId: Int? = null)
 
     /** Every stack with a task of [packageName], on every display, the tiles' own ones too. */
     internal fun appStacks(output: String, packageName: String): List<AppStack> =
@@ -210,7 +210,7 @@ object WindowListing {
             val task = TASK.findAll(block).firstOrNull { it.groupValues[2] == packageName } ?: return@mapNotNull null
             val id = block.takeWhile { it.isDigit() }.toIntOrNull() ?: return@mapNotNull null
             val taskLine = block.substring(task.range.first).lineSequence().first()
-            AppStack(id, displayId(block) ?: DEFAULT_DISPLAY, windowingMode(block), !taskLine.contains("visible=false"))
+            AppStack(id, displayId(block) ?: DEFAULT_DISPLAY, windowingMode(block), !taskLine.contains("visible=false"), task.groupValues[1].toIntOrNull())
         }
 
     /**

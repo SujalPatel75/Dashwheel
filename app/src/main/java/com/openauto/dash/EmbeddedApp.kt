@@ -1567,6 +1567,7 @@ internal object EmbeddedApp {
                         if (found.isEmpty() || found.any { it.displayId != id }) return@repeat
                     }
                     _status.value = Status.SHOWN
+                    tileTask = found.firstOrNull { it.displayId == id }?.taskId
                     Log.i(TAG, "$packageName is on the tile")
                     _placed.value = SystemClock.elapsedRealtime()
                     FreeformBar.insideFloats(context, packageName, found.any { floating(it) })
@@ -1710,6 +1711,8 @@ internal object EmbeddedApp {
                         refuseTouches(null)
                         return@post
                     }
+                    val action = copy.actionMasked
+                    if (action == MotionEvent.ACTION_DOWN || action == MotionEvent.ACTION_UP) focusTile()
                     setId.invoke(copy, id)
                     inject.invoke(context.getSystemService(InputManager::class.java), copy, INJECT_ASYNC)
                 } catch (t: InvocationTargetException) {
@@ -1722,6 +1725,32 @@ internal object EmbeddedApp {
                 } finally {
                     copy.recycle()
                 }
+            }
+        }
+
+        /** The app's task on the tile's display, as last found there; null until it is. */
+        @Volatile private var tileTask: Int? = null
+
+        /**
+         * Puts the tile's display in front, with the keys, before a touch reaches the
+         * app. The finger lands on the dashboard's window first, which takes the keys
+         * to the main screen; the touch sent on to the app then usually took them to
+         * the tile's display, but on a busy unit the main screen sometimes won: a tap
+         * on Waze's "Where to?" field then did nothing (a text field needs the keys
+         * for its keyboard; buttons worked). Raising the app's task moves the keys
+         * to its display, and it stays on the tile. Done on the down and again before
+         * the lift, by when the dashboard's own move has long been made. On
+         * [touchHandler].
+         */
+        private fun focusTile() {
+            val task = tileTask ?: return
+            if (_status.value != Status.SHOWN) return
+            runCatching {
+                context.getSystemService(ActivityManager::class.java).moveTaskToFront(task, 0)
+            }.onFailure {
+                // The task is gone (the app reopened): found again when it is placed.
+                tileTask = null
+                Log.w(TAG, "can't give the keys to $packageName on its tile", it)
             }
         }
 

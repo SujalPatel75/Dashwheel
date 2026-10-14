@@ -131,7 +131,7 @@ class PipAnchorTest {
             // Seen even while display 7 is a tile's, which the window listings leave out.
             WindowListing.embeddedDisplays = setOf(7)
             assertEquals(
-                listOf(WindowListing.AppStack(7, 0, "freeform"), WindowListing.AppStack(12, 7, "fullscreen")),
+                listOf(WindowListing.AppStack(7, 0, "freeform", taskId = 63), WindowListing.AppStack(12, 7, "fullscreen", taskId = 80)),
                 WindowListing.appStacks(listing, "com.google.android.apps.maps")
             )
             assertTrue(WindowListing.appStacks(listing, "com.waze").isEmpty())
