@@ -497,8 +497,12 @@ object CarModelKit {
 
     /**
      * The 3x4 matrix (row by row) from the model's space to car space. glTF has
-     * y up; the car's length is the longer of x and z; its nose at the far end
-     * of that axis unless [turned].
+     * y up and the car's length along the longer of x and z, its nose at the far
+     * end of that axis unless [turned]. A model saved another way round (z up,
+     * the nose along y, as Blender has it unless told otherwise) is found from
+     * its shape: the length is far the longest side, the width is the side the
+     * car mirrors across, and up is where it is smaller (the roof, not the
+     * bumpers).
      */
     private fun carFrame(raw: RawTris, turned: Boolean): FloatArray {
         val lo = FloatArray(3) { Float.MAX_VALUE }
@@ -506,16 +510,85 @@ object CarModelKit {
         for (v in 0 until raw.count * 3) if (raw.keep[v / 3]) for (k in 0..2) {
             lo[k] = min(lo[k], raw.pos[v * 3 + k]); hi[k] = max(hi[k], raw.pos[v * 3 + k])
         }
-        val alongZ = hi[2] - lo[2] >= hi[0] - lo[0]
-        val s = if (turned) -1f else 1f
-        // Rows: car x (nose), car y (left), car z (up), with x' = M x.
-        return if (alongZ) {
-            // Nose +z, up +y: the car's left is +x.
-            floatArrayOf(0f, 0f, s, 0f, s, 0f, 0f, 0f, 0f, 1f, 0f, 0f)
-        } else {
-            // Nose +x, up +y: the car's left is -z.
-            floatArrayOf(s, 0f, 0f, 0f, 0f, 0f, -s, 0f, 0f, 1f, 0f, 0f)
+        val ext = FloatArray(3) { hi[it] - lo[it] }
+        val along = when {
+            ext[1] > 1.5f * max(ext[0], ext[2]) -> 1
+            ext[2] >= ext[0] -> 2
+            else -> 0
         }
+        val (a, b) = (0..2).filter { it != along }
+        // Up: y as glTF has it, unless y is the length, or the car mirrors across y (its width) much more than across the other.
+        val up = when {
+            along == 1 -> if (mirrorShare(raw, lo, hi, a) < mirrorShare(raw, lo, hi, b)) a else b
+            else -> {
+                val other = if (a == 1) b else a
+                if (mirrorShare(raw, lo, hi, 1) > mirrorShare(raw, lo, hi, other) + 0.15f) other else 1
+            }
+        }
+        val upSign = if (up == 1 || roofAtTop(raw, lo, hi, up, along)) 1f else -1f
+        val nose = FloatArray(3).also { it[along] = if (turned) -1f else 1f }
+        val top = FloatArray(3).also { it[up] = upSign }
+        // The car's left: up x nose, so the frame stays right-handed (a model is never mirrored).
+        val left = floatArrayOf(top[1] * nose[2] - top[2] * nose[1], top[2] * nose[0] - top[0] * nose[2], top[0] * nose[1] - top[1] * nose[0])
+        // Rows: car x (nose), car y (left), car z (up), with x' = M x.
+        return floatArrayOf(nose[0], nose[1], nose[2], 0f, left[0], left[1], left[2], 0f, top[0], top[1], top[2], 0f)
+    }
+
+    /** The corners of the kept triangles, at most about [MAX_SAMPLES] of them, each to [f] (x, y, z). */
+    private inline fun sampled(raw: RawTris, f: (Float, Float, Float) -> Unit) {
+        val step = max(1, raw.count * 3 / MAX_SAMPLES)
+        var v = 0
+        while (v < raw.count * 3) {
+            if (raw.keep[v / 3]) f(raw.pos[v * 3], raw.pos[v * 3 + 1], raw.pos[v * 3 + 2])
+            v += step
+        }
+    }
+
+    private const val MAX_SAMPLES = 300_000
+
+    /**
+     * How much the model mirrors across the middle of [axis]: the share of the
+     * cells (a 48 a side grid over its box) holding part of it whose mirror
+     * image holds part of it too. A car mirrors across its width (near 1), not
+     * across its height.
+     */
+    private fun mirrorShare(raw: RawTris, lo: FloatArray, hi: FloatArray, axis: Int): Float {
+        val n = 48
+        val cells = HashSet<Int>()
+        fun q(v: Float, k: Int) = (((v - lo[k]) / max(hi[k] - lo[k], 1e-6f)) * n).toInt().coerceIn(0, n - 1)
+        val (o1, o2) = (0..2).filter { it != axis }
+        val p = FloatArray(3)
+        sampled(raw) { x, y, z ->
+            p[0] = x; p[1] = y; p[2] = z
+            cells += (q(p[o1], o1) * n + q(p[o2], o2)) * n + q(p[axis], axis)
+        }
+        if (cells.isEmpty()) return 0f
+        val mirrored = cells.count { c -> val m = c % n; (c - m + (n - 1 - m)) in cells }
+        return mirrored.toFloat() / cells.size
+    }
+
+    /**
+     * Whether the roof is at the top of [up]: the car's quarter at that end
+     * spans less along [along] and across than the quarter at the other end
+     * (the roof is shorter and narrower than the bumpers and the sills).
+     */
+    private fun roofAtTop(raw: RawTris, lo: FloatArray, hi: FloatArray, up: Int, along: Int): Boolean {
+        val across = 3 - up - along
+        val quarter = (hi[up] - lo[up]) / 4
+        val topL = ArrayList<Float>(); val topW = ArrayList<Float>(); val lowL = ArrayList<Float>(); val lowW = ArrayList<Float>()
+        val p = FloatArray(3)
+        sampled(raw) { x, y, z ->
+            p[0] = x; p[1] = y; p[2] = z
+            if (p[up] >= hi[up] - quarter) { topL += p[along]; topW += p[across] }
+            else if (p[up] <= lo[up] + quarter) { lowL += p[along]; lowW += p[across] }
+        }
+        // Each span between its 3rd and 97th hundredth: an aerial or a mirror doesn't count.
+        fun span(v: ArrayList<Float>): Float {
+            if (v.size < 2) return 0f
+            v.sort()
+            return v[(v.size * 0.97f).toInt().coerceAtMost(v.size - 1)] - v[(v.size * 0.03f).toInt()]
+        }
+        return span(topL) * span(topW) <= span(lowL) * span(lowW)
     }
 
     /** glTF for the live view: nose +x, y up, the car's left at -z, from car space. */
@@ -1219,15 +1292,17 @@ internal object Glb {
         }
         roots.forEach { walk(it, identity, 0, -1) }
 
-        // A ground plane, a backdrop: a part flat in height and as wide as everything else together.
+        // A ground plane, a backdrop: a part flat one way (in height, whichever way up the model
+        // is) and as wide as everything else together.
         val count = matOf.size
         val lo = FloatArray(3) { Float.MAX_VALUE }; val hi = FloatArray(3) { -Float.MAX_VALUE }
         for (b in partBoxes) for (d in 0..2) { lo[d] = min(lo[d], b[d]); hi[d] = max(hi[d], b[d + 3]) }
+        val all = max(hi[0] - lo[0], max(hi[1] - lo[1], hi[2] - lo[2]))
         val flat = partBoxes.map { b ->
-            val tall = b[4] - b[1]
-            val across = max(b[3] - b[0], b[5] - b[2])
-            val all = max(hi[0] - lo[0], hi[2] - lo[2])
-            tall < across * 0.01f && across > all * 0.9f && partBoxes.size > 1
+            val sizes = floatArrayOf(b[3] - b[0], b[4] - b[1], b[5] - b[2])
+            val thin = sizes.min()
+            val across = sizes.max()
+            thin < across * 0.01f && across > all * 0.9f && partBoxes.size > 1
         }
         val keep = BooleanArray(count) { !flat[partOf[it]] }
         return RawTris(count, pos.toArray(), nrm.toArray(), uv.toArray(), matOf.toArray(), partOf.toArray(), keep, mats, parts, hingeOf.toArray(), hinges)

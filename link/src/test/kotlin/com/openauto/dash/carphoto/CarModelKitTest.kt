@@ -36,9 +36,10 @@ class CarModelKitTest {
     /**
      * Boxes as a .glb, car space (x nose, y left, z up) written glTF style: x = left, y = up, z = nose.
      * [rigged]: as tools/mycar/bake_car.py rigs a car instead (x = nose, y = up, z = right), with a
-     * bonnet hanging from a Hinge_bonnet node at its back edge.
+     * bonnet hanging from a Hinge_bonnet node at its back edge. [zUp]: as Blender saves it
+     * unless told otherwise: x = right, y = nose, z = up.
      */
-    private fun boxCar(rigged: Boolean = false): ByteArray {
+    private fun boxCar(rigged: Boolean = false, zUp: Boolean = false): ByteArray {
         class Box(val name: String, val lo: FloatArray, val hi: FloatArray, val mat: Int)
         val boxes = listOf(
             Box("Body", floatArrayOf(-2.2f, -0.9f, 0.3f), floatArrayOf(2.2f, 0.9f, 1.0f), 0),
@@ -63,7 +64,11 @@ class CarModelKitTest {
                 val x = if (c and 4 != 0) b.hi[0] else b.lo[0]
                 val y = if (c and 2 != 0) b.hi[1] else b.lo[1]
                 val z = if (c and 1 != 0) b.hi[2] else b.lo[2]
-                if (rigged) bin.putFloat(x).putFloat(z).putFloat(-y) else bin.putFloat(y).putFloat(z).putFloat(x)
+                when {
+                    rigged -> bin.putFloat(x).putFloat(z).putFloat(-y)
+                    zUp -> bin.putFloat(-y).putFloat(x).putFloat(z)
+                    else -> bin.putFloat(y).putFloat(z).putFloat(x)
+                }
             }
             val idxStart = bin.position()
             for (f in faces) bin.putShort(f.toShort())
@@ -137,6 +142,24 @@ class CarModelKitTest {
         val r = CarModelKit.bake(CarModelKit.read(boxCar(), ::decode, turned = true), withLive = false)
         // The model's +z end is now the tail: the lamps named tail lights sit at the front, none at the back.
         assertTrue(r.backLights.isEmpty())
+    }
+
+    @Test
+    fun aModelSavedZUpStandsOnItsWheels() {
+        val model = CarModelKit.read(boxCar(zUp = true), ::decode)
+        assertEquals(4.45f, model.length, 0.01f)
+        assertEquals(1.8f, model.width, 0.01f)
+        assertEquals(1.6f, model.height, 0.01f)
+        val r = CarModelKit.bake(model, "Z up", withLive = false)
+        save(r.top, "zup_top.png"); save(r.side, "zup_side.png")
+        // Wheels low on the side picture, the cabin up: the same car as saved y up.
+        assertTrue(r.sideWheels.all { it.y > 0.5f })
+        assertTrue("nose up", r.topView.nose.y < r.topView.tail.y)
+        val (fl, fr, rl, _) = r.topView.wheels
+        assertTrue(fl.x < fr.x)
+        assertTrue(fl.y < rl.y)
+        assertEquals(2, r.backLights.size)
+        assertTrue(r.backLights[0].x < r.backLights[1].x)
     }
 
     @Test
