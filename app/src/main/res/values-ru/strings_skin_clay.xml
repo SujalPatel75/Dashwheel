@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Clay skin -->
+    <string name="clay_talk">Говорить</string>
+    <string name="clay_talk_cd">Поговорить с ассистентом</string>
+    <string name="clay_map">Карта</string>
+    <string name="clay_music">Музыка</string>
+    <string name="clay_phone">Телефон</string>
+    <string name="clay_arrival">Прибытие %1$s</string>
+    <string name="clay_rpm">об/мин</string>
+    <string name="clay_gear">Передача %1$s</string>
+    <string name="clay_coolant">Охлаждающая жидкость</string>
+    <string name="clay_battery">Аккумулятор</string>
+    <string name="clay_load">Нагрузка</string>
+    <string name="clay_fuel">Топливо</string>
+    <string name="clay_speed_limit_cd">Ограничение скорости %1$d</string>
+    <string name="clay_launch_bar_empty">Приложений пока нет. Нажмите на карандаш, чтобы добавить.</string>
+</resources>

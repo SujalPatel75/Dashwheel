@@ -171,9 +171,6 @@
     <string name="dash_bar_swipe_up_hint">Deslize para cima para a barra</string>
     <string name="dash_bar_show">Mostrar a barra</string>
     <string name="dash_drive_lock_notice">Estacione para fazer alterações</string>
-    <string name="dash_theme_group_recommended">Recomendados</string>
-    <string name="dash_theme_group_colours">Temas</string>
-    <string name="dash_theme_group_skins">Skins</string>
     <string name="dash_theme_night">Noite</string>
     <string name="dash_theme_day">Dia</string>
     <string name="dash_theme_mistral">Mistral</string>
@@ -202,8 +199,6 @@
     <string name="dash_dashboard_options">Opções do painel</string>
     <string name="dash_remove_dashboard_title">Remover %1$s?</string>
     <string name="dash_remove_dashboard_body">Esvaziar, ou tirar dos deslizes com os seus mosaicos. Anular repõe-nos.</string>
-    <string name="dash_theme_show_all">Ver os %1$d temas</string>
-    <string name="dash_theme_show_fewer">Ver menos</string>
     <string name="dash_tile_move">Mover para outro painel</string>
     <string name="dash_tile_remove">Remover</string>
     <string name="dash_apps">Apps</string>
@@ -256,7 +251,7 @@
     <string name="dash_theme_windshield">Para-brisa</string>
     <string name="dash_theme_windshield_desc">Uma faixa no topo com tudo o que olha de relance, sobre uma estrada desenhada à noite.</string>
     <string name="dash_theme_terrain">Terreno</string>
-    <string name="dash_theme_terrain_desc">O seu carro no mapa de curvas de nível do local, um problema marcado na própria peça.</string>
+    <string name="dash_theme_terrain_desc">O seu carro numa paisagem de curvas de nível, um problema marcado na própria peça.</string>
     <string name="dash_theme_ambient">Ambiente</string>
     <string name="dash_theme_ambient_desc">Um campo de luz com poucas palavras: um brilho quente sobe do lado da próxima viragem.</string>
     <string name="dash_theme_brutal">Brutal</string>
@@ -266,7 +261,7 @@
     <string name="dash_theme_chrome">Cromado</string>
     <string name="dash_theme_chrome_desc">Letras em cromado líquido, fichas holográficas e uma gota de metal que mexe com a música.</string>
     <string name="dash_theme_spatial">Espacial</string>
-    <string name="dash_theme_spatial_desc">Janelas de vidro a flutuar a diferentes profundidades sobre uma cidade 3D, o seu percurso a brilhar através.</string>
+    <string name="dash_theme_spatial_desc">Janelas de vidro a flutuar a diferentes profundidades sobre uma cidade 3D à noite.</string>
     <string name="dash_theme_paper">Papel</string>
     <string name="dash_theme_paper_desc">Tinta sobre cinzento como o papel eletrónico: um mapa de pontos, factos simples e nada que se mexa.</string>
     <string name="look_layout_applied">Início disposto como %1$s</string>

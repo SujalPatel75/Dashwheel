@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Settings, Look: the look in use, its Home, the looks by family (LookPage.kt) -->
+    <string name="look_family_new">New</string>
+    <string name="look_family_scenes">Scenes</string>
+    <string name="look_family_dials">Dials</string>
+    <string name="look_family_calm">Calm</string>
+    <string name="look_family_colours">Colours only</string>
+    <string name="look_arrange_home">Arrange Home like the look</string>
+    <string name="look_arrange_home_detail">A look with its own Home puts its widgets on Home, with Undo</string>
+    <string name="look_home_own">Comes with its own Home</string>
+    <string name="look_home_own_off">Has its own Home. Arrange Home is off.</string>
+    <string name="look_home_keeps">Home stays as it is</string>
+</resources>

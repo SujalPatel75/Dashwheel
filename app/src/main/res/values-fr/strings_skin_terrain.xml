@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Terrain skin -->
+    <string name="terrain_talk_cd">Parler à l\'assistant</string>
+    <string name="terrain_car_cd">Votre voiture</string>
+    <string name="terrain_range">Autonomie</string>
+    <string name="terrain_next_turn">Prochaine direction</string>
+    <string name="terrain_weather_next">Météo · %1$d prochaines h</string>
+    <string name="terrain_rain_from">Pluie dès %1$s</string>
+    <string name="terrain_rain_until">Pluie jusqu\'à %1$s</string>
+    <string name="terrain_rain_for">Pendant %1$d h</string>
+    <string name="terrain_dry">Pas de pluie avant %1$d h</string>
+    <string name="terrain_rain_hours_cd">Pluie sur %1$d des 6 prochaines heures</string>
+    <string name="terrain_music">Musique</string>
+    <string name="terrain_playing">En lecture</string>
+    <string name="terrain_paused">En pause</string>
+    <string name="terrain_engine">Moteur</string>
+    <string name="terrain_speed">Vitesse</string>
+    <string name="terrain_launch_bar_empty">Aucune appli. Touchez le crayon pour en ajouter.</string>
+    <string name="terrain_compass">N,NE,E,SE,S,SO,O,NO</string>
+    <string name="terrain_altitude">Alt</string>
+    <string name="terrain_heading">Cap</string>
+    <plurals name="terrain_more_problems">
+        <item quantity="one">%d autre problème</item>
+        <item quantity="other">%d autres problèmes</item>
+    </plurals>
+</resources>

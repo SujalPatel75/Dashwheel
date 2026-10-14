@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Expressive skin -->
+    <string name="expressive_talk">Parla</string>
+    <string name="expressive_talk_cd">Parla con l\'assistente</string>
+    <string name="expressive_arrive">Arrivo %1$s</string>
+    <string name="expressive_rain_from">Pioggia %1$s</string>
+    <string name="expressive_rain_until">Pioggia fino alle %1$s</string>
+    <string name="expressive_speed_limit_cd">Limite di velocità %1$d</string>
+    <string name="expressive_rpm">giri/min</string>
+    <string name="expressive_coolant">Acqua</string>
+    <string name="expressive_battery">Batteria</string>
+    <string name="expressive_load">Carico</string>
+    <string name="expressive_fuel">Carburante</string>
+    <string name="expressive_car_cd">La tua auto</string>
+    <string name="expressive_launch_bar_empty">Nessuna app. Tocca la matita per aggiungerne.</string>
+</resources>

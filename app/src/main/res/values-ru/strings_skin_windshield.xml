@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Windshield skin -->
+    <string name="windshield_talk_cd">Поговорить с ассистентом</string>
+    <string name="windshield_arrival">Прибытие</string>
+    <string name="windshield_rain">Дождь</string>
+    <string name="windshield_rain_from">с %1$s</string>
+    <string name="windshield_rain_until">до %1$s</string>
+    <string name="windshield_range_cd">Запас хода %1$s</string>
+    <string name="windshield_engine">Двигатель</string>
+    <string name="windshield_rpm">об/мин</string>
+    <string name="windshield_coolant">Антифриз</string>
+    <string name="windshield_battery">АКБ</string>
+    <string name="windshield_load">Нагрузка</string>
+    <string name="windshield_speed_limit_cd">Ограничение %1$d</string>
+</resources>

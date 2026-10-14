@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Expressive skin -->
+    <string name="expressive_talk">Beszéd</string>
+    <string name="expressive_talk_cd">Beszélgetés az asszisztenssel</string>
+    <string name="expressive_arrive">Érkezés %1$s</string>
+    <string name="expressive_rain_from">Eső %1$s</string>
+    <string name="expressive_rain_until">Eső eddig: %1$s</string>
+    <string name="expressive_speed_limit_cd">Sebességkorlát: %1$d</string>
+    <string name="expressive_rpm">f/perc</string>
+    <string name="expressive_coolant">Hűtőfolyadék</string>
+    <string name="expressive_battery">Akkumulátor</string>
+    <string name="expressive_load">Terhelés</string>
+    <string name="expressive_fuel">Üzemanyag</string>
+    <string name="expressive_car_cd">Az Ön autója</string>
+    <string name="expressive_launch_bar_empty">Még nincs alkalmazás. Koppintson a ceruzára a hozzáadáshoz.</string>
+</resources>

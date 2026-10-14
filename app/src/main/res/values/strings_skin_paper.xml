@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Paper skin -->
+    <string name="paper_map">Map</string>
+    <string name="paper_map_cd">Open the map</string>
+    <string name="paper_music">Music</string>
+    <string name="paper_music_cd">Open the music player</string>
+    <string name="paper_phone">Phone</string>
+    <string name="paper_phone_cd">Open the phone</string>
+    <string name="paper_talk">Talk</string>
+    <string name="paper_talk_cd">Talk to the assistant</string>
+    <string name="paper_refreshed">Refreshed %1$s</string>
+    <string name="paper_arrival">Arrival</string>
+    <string name="paper_speed">Speed</string>
+    <string name="paper_limit">limit %1$d</string>
+    <string name="paper_limit_label">Limit</string>
+    <string name="paper_rain_next">Rain, next %1$d h</string>
+    <string name="paper_dry_next">Dry, next %1$d h</string>
+    <string name="paper_rain_from">from %1$s</string>
+    <string name="paper_rain_until">until %1$s</string>
+    <string name="paper_coolant">Coolant</string>
+    <string name="paper_battery">Battery</string>
+    <string name="paper_revs">Revs</string>
+    <string name="paper_rpm">r/min</string>
+    <string name="paper_load">Load</string>
+    <string name="paper_intake">Intake air</string>
+    <string name="paper_range">Range</string>
+    <string name="paper_fuel">Fuel</string>
+    <string name="paper_litres">Litres</string>
+    <string name="paper_prev">Prev</string>
+    <string name="paper_play">Play</string>
+    <string name="paper_pause">Pause</string>
+    <string name="paper_next">Next</string>
+    <string name="paper_no_route">No route</string>
+    <string name="paper_edit">Edit</string>
+    <string name="paper_connect">Connect</string>
+    <string name="paper_launch_bar_empty">Add apps with Edit</string>
+</resources>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Windshield skin -->
+    <string name="windshield_talk_cd">Mit dem Assistenten sprechen</string>
+    <string name="windshield_arrival">Ankunft</string>
+    <string name="windshield_rain">Regen</string>
+    <string name="windshield_rain_from">ab %1$s</string>
+    <string name="windshield_rain_until">bis %1$s</string>
+    <string name="windshield_range_cd">Reichweite %1$s</string>
+    <string name="windshield_engine">Motor</string>
+    <string name="windshield_rpm">U/min</string>
+    <string name="windshield_coolant">Kühlmittel</string>
+    <string name="windshield_battery">Batterie</string>
+    <string name="windshield_load">Last</string>
+    <string name="windshield_speed_limit_cd">Tempolimit %1$d</string>
+</resources>

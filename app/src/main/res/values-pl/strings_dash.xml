@@ -171,9 +171,6 @@
     <string name="dash_bar_swipe_up_hint">Przesuń w górę, aby pokazać pasek</string>
     <string name="dash_bar_show">Pokaż pasek</string>
     <string name="dash_drive_lock_notice">Zatrzymaj się, aby wprowadzić zmiany</string>
-    <string name="dash_theme_group_recommended">Polecane</string>
-    <string name="dash_theme_group_colours">Motywy</string>
-    <string name="dash_theme_group_skins">Skiny</string>
     <string name="dash_theme_night">Noc</string>
     <string name="dash_theme_day">Dzień</string>
     <string name="dash_theme_mistral">Mistral</string>
@@ -202,8 +199,6 @@
     <string name="dash_dashboard_options">Opcje pulpitu</string>
     <string name="dash_remove_dashboard_title">Usunąć %1$s?</string>
     <string name="dash_remove_dashboard_body">Opróżnij go lub usuń z przesuwania razem z kafelkami. Cofnij je przywraca.</string>
-    <string name="dash_theme_show_all">Pokaż wszystkie motywy: %1$d</string>
-    <string name="dash_theme_show_fewer">Pokaż mniej</string>
     <string name="dash_tile_move">Przenieś na inny pulpit</string>
     <string name="dash_tile_remove">Usuń</string>
     <string name="dash_apps">Aplikacje</string>
@@ -257,7 +252,7 @@
     <string name="dash_theme_windshield">Przednia szyba</string>
     <string name="dash_theme_windshield_desc">Jeden pas u góry ze wszystkim, na co zerkasz, nad rysowaną drogą nocą.</string>
     <string name="dash_theme_terrain">Teren</string>
-    <string name="dash_theme_terrain_desc">Twój samochód na mapie poziomic miejsca, w którym jesteś, usterka zaznaczona na samej części.</string>
+    <string name="dash_theme_terrain_desc">Twój samochód na krajobrazie z poziomic, usterka zaznaczona na samej części.</string>
     <string name="dash_theme_ambient">Nastrój</string>
     <string name="dash_theme_ambient_desc">Pole światła i mało słów: ciepła poświata wznosi się po stronie następnego skrętu.</string>
     <string name="dash_theme_brutal">Brutalny</string>
@@ -267,7 +262,7 @@
     <string name="dash_theme_chrome">Chrom</string>
     <string name="dash_theme_chrome_desc">Litery z płynnego chromu, holograficzne plakietki i metalowa kropla, która porusza się z muzyką.</string>
     <string name="dash_theme_spatial">Przestrzenny</string>
-    <string name="dash_theme_spatial_desc">Szklane okna unoszące się na różnych głębokościach nad miastem 3D, Twoja trasa świeci przez nie.</string>
+    <string name="dash_theme_spatial_desc">Szklane okna unoszące się na różnych głębokościach nad nocnym miastem 3D.</string>
     <string name="dash_theme_paper">Papier</string>
     <string name="dash_theme_paper_desc">Tusz na szarym jak e-papier: mapa z kropek, proste fakty i nic, co się rusza.</string>
     <string name="look_layout_applied">Start ułożony jak %1$s</string>

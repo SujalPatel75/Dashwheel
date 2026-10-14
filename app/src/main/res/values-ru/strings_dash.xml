@@ -124,9 +124,6 @@
 
     <!-- Moving: edits wait until the car has stopped -->
     <string name="dash_drive_lock_notice">Остановитесь, чтобы изменить</string>
-    <string name="dash_theme_group_recommended">Рекомендуемые</string>
-    <string name="dash_theme_group_colours">Темы</string>
-    <string name="dash_theme_group_skins">Оформления</string>
     <string name="dash_theme_night">Ночь</string>
     <string name="dash_theme_day">День</string>
 
@@ -206,8 +203,6 @@
     <string name="dash_dashboard_options">Настройки панели</string>
     <string name="dash_remove_dashboard_title">Удалить «%1$s»?</string>
     <string name="dash_remove_dashboard_body">Очистите её или уберите из пролистывания вместе с плитками. «Отменить» вернёт их.</string>
-    <string name="dash_theme_show_all">Показать все темы: %1$d</string>
-    <string name="dash_theme_show_fewer">Показать меньше</string>
     <string name="dash_tile_move">На другую панель</string>
     <string name="dash_tile_remove">Удалить</string>
     <!-- The bar's Apps button, labelled -->
@@ -263,7 +258,7 @@
     <string name="dash_theme_windshield">Лобовое стекло</string>
     <string name="dash_theme_windshield_desc">Одна полоса сверху со всем, на что вы бросаете взгляд, над нарисованной ночной дорогой.</string>
     <string name="dash_theme_terrain">Рельеф</string>
-    <string name="dash_theme_terrain_desc">Ваш автомобиль на карте с горизонталями местности, неисправность отмечена прямо на детали.</string>
+    <string name="dash_theme_terrain_desc">Ваш автомобиль на пейзаже из горизонталей, неисправность отмечена прямо на детали.</string>
     <string name="dash_theme_ambient">Свет</string>
     <string name="dash_theme_ambient_desc">Поле света и мало слов: тёплое свечение поднимается со стороны следующего поворота.</string>
     <string name="dash_theme_brutal">Брутальный</string>
@@ -273,7 +268,7 @@
     <string name="dash_theme_chrome">Хром</string>
     <string name="dash_theme_chrome_desc">Буквы из жидкого хрома, голографические плашки и металлическая капля, движущаяся под музыку.</string>
     <string name="dash_theme_spatial">Пространство</string>
-    <string name="dash_theme_spatial_desc">Стеклянные окна парят на разной глубине над 3D-городом, ваш маршрут светится сквозь них.</string>
+    <string name="dash_theme_spatial_desc">Стеклянные окна парят на разной глубине над ночным 3D-городом.</string>
     <string name="dash_theme_paper">Бумага</string>
     <string name="dash_theme_paper_desc">Чернила на сером, как электронная бумага: точечная карта, простые факты и ничего движущегося.</string>
     <string name="look_layout_applied">Главный экран как в «%1$s»</string>

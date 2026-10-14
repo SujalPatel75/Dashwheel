@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="look_family_new">Neu</string>
+    <string name="look_family_scenes">Szenen</string>
+    <string name="look_family_dials">Instrumente</string>
+    <string name="look_family_calm">Ruhig</string>
+    <string name="look_family_colours">Nur Farben</string>
+    <string name="look_arrange_home">Start wie das Design anordnen</string>
+    <string name="look_arrange_home_detail">Ein Design mit eigenem Start setzt seine Widgets auf Start, mit Rückgängig</string>
+    <string name="look_home_own">Bringt einen eigenen Start mit</string>
+    <string name="look_home_own_off">Hat einen eigenen Start. Anordnen ist aus.</string>
+    <string name="look_home_keeps">Start bleibt, wie er ist</string>
+</resources>

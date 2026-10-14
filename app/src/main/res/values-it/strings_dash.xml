@@ -189,9 +189,6 @@
     <string name="dash_theme_nordic_desc">Grafite e blu ghiaccio, linee sottili, niente di chiassoso</string>
     <string name="dash_theme_canvas">Canvas</string>
     <string name="dash_theme_canvas_desc">La mappa riempie lo schermo, il viaggio su una riga. Barra laterale di default; si cambia in Schermo.</string>
-    <string name="dash_theme_group_recommended">Consigliati</string>
-    <string name="dash_theme_group_colours">Temi</string>
-    <string name="dash_theme_group_skins">Skin</string>
     <string name="dash_theme_night">Notte</string>
     <string name="dash_theme_day">Giorno</string>
     <!-- Updates without a strip (⋮ dot, Settings row, ready prompt); edit-mode confirms; tile options; theme gallery -->
@@ -206,8 +203,6 @@
     <string name="dash_dashboard_options">Opzioni del cruscotto</string>
     <string name="dash_remove_dashboard_title">Rimuovere %1$s?</string>
     <string name="dash_remove_dashboard_body">Svuotalo, o toglilo dagli scorrimenti con i suoi riquadri. Annulla li riporta.</string>
-    <string name="dash_theme_show_all">Mostra tutti i %1$d temi</string>
-    <string name="dash_theme_show_fewer">Mostra meno</string>
     <string name="dash_tile_move">Sposta in un altro cruscotto</string>
     <string name="dash_tile_remove">Rimuovi</string>
     <string name="dash_apps">App</string>
@@ -260,7 +255,7 @@
     <string name="dash_theme_windshield">Parabrezza</string>
     <string name="dash_theme_windshield_desc">Una fascia in alto con tutto ciò che guardi di sfuggita, su una strada disegnata di notte.</string>
     <string name="dash_theme_terrain">Terreno</string>
-    <string name="dash_theme_terrain_desc">La tua auto sulla mappa a curve di livello del luogo, un problema segnato sul pezzo stesso.</string>
+    <string name="dash_theme_terrain_desc">La tua auto su un paesaggio a curve di livello, un problema segnato sul pezzo stesso.</string>
     <string name="dash_theme_ambient">Ambiente</string>
     <string name="dash_theme_ambient_desc">Un campo di luce con poche parole: un bagliore caldo sale dal lato della prossima svolta.</string>
     <string name="dash_theme_brutal">Brutale</string>
@@ -270,7 +265,7 @@
     <string name="dash_theme_chrome">Cromo</string>
     <string name="dash_theme_chrome_desc">Scritte in cromo liquido, chip olografici e una goccia di metallo che si muove con la musica.</string>
     <string name="dash_theme_spatial">Spaziale</string>
-    <string name="dash_theme_spatial_desc">Finestre di vetro sospese a diverse profondità su una città 3D, il tuo percorso che brilla attraverso.</string>
+    <string name="dash_theme_spatial_desc">Finestre di vetro sospese a diverse profondità su una città 3D di notte.</string>
     <string name="dash_theme_paper">Carta</string>
     <string name="dash_theme_paper_desc">Inchiostro su grigio come la carta elettronica: una mappa a punti, dati semplici e niente che si muove.</string>
     <string name="look_layout_applied">Home disposta come %1$s</string>

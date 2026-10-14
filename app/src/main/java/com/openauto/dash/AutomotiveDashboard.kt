@@ -160,6 +160,7 @@ fun AutomotiveDashboard(inSplitMode: Boolean = false) {
             if (it != themeMode && DashThemeStore.loadLookLayout(context) && skinLayout(it) != null) lookLayoutAsk = it
             themeMode = it; DashThemeStore.save(context, it)
         },
+        onArrangeHome = { if (skinLayout(themeMode) != null) lookLayoutAsk = themeMode },
         onAppearance = { appearance = it; DashThemeStore.saveAppearance(context, it) },
         onEffects = { effects = it; DashThemeStore.saveEffects(context, it) },
         barAutoHide = barAutoHide, barHideSeconds = barHideSeconds,

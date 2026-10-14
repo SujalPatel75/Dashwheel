@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Paper skin -->
+    <string name="paper_map">Mapa</string>
+    <string name="paper_map_cd">Abrir el mapa</string>
+    <string name="paper_music">Música</string>
+    <string name="paper_music_cd">Abrir el reproductor</string>
+    <string name="paper_phone">Teléfono</string>
+    <string name="paper_phone_cd">Abrir el teléfono</string>
+    <string name="paper_talk">Hablar</string>
+    <string name="paper_talk_cd">Hablar con el asistente</string>
+    <string name="paper_refreshed">Actualizado %1$s</string>
+    <string name="paper_arrival">Llegada</string>
+    <string name="paper_speed">Velocidad</string>
+    <string name="paper_limit">límite %1$d</string>
+    <string name="paper_limit_label">Límite</string>
+    <string name="paper_rain_next">Lluvia, próximas %1$d h</string>
+    <string name="paper_dry_next">Seco, próximas %1$d h</string>
+    <string name="paper_rain_from">desde %1$s</string>
+    <string name="paper_rain_until">hasta %1$s</string>
+    <string name="paper_coolant">Refrigerante</string>
+    <string name="paper_battery">Batería</string>
+    <string name="paper_revs">Régimen</string>
+    <string name="paper_rpm">rpm</string>
+    <string name="paper_load">Carga</string>
+    <string name="paper_intake">Aire de admisión</string>
+    <string name="paper_range">Autonomía</string>
+    <string name="paper_fuel">Combustible</string>
+    <string name="paper_litres">Litros</string>
+    <string name="paper_prev">Ant.</string>
+    <string name="paper_play">Reproducir</string>
+    <string name="paper_pause">Pausa</string>
+    <string name="paper_next">Sig.</string>
+    <string name="paper_no_route">Sin ruta</string>
+    <string name="paper_edit">Editar</string>
+    <string name="paper_connect">Conectar</string>
+    <string name="paper_launch_bar_empty">Añade apps con Editar</string>
+</resources>

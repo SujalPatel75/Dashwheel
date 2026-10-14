@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="look_family_new">Nouveaux</string>
+    <string name="look_family_scenes">Décors</string>
+    <string name="look_family_dials">Cadrans</string>
+    <string name="look_family_calm">Épurés</string>
+    <string name="look_family_colours">Couleurs seules</string>
+    <string name="look_arrange_home">Disposer l\'Accueil comme le thème</string>
+    <string name="look_arrange_home_detail">Un thème qui a son propre Accueil y place ses widgets, avec Annuler</string>
+    <string name="look_home_own">Arrive avec son propre Accueil</string>
+    <string name="look_home_own_off">A son propre Accueil. Disposer est désactivé.</string>
+    <string name="look_home_keeps">L\'Accueil reste tel quel</string>
+</resources>

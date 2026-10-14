@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Terrain skin -->
+    <string name="terrain_talk_cd">Porozmawiaj z asystentem</string>
+    <string name="terrain_car_cd">Twój samochód</string>
+    <string name="terrain_range">Zasięg</string>
+    <string name="terrain_next_turn">Następny skręt</string>
+    <string name="terrain_weather_next">Pogoda · najbliższe %1$d h</string>
+    <string name="terrain_rain_from">Deszcz od %1$s</string>
+    <string name="terrain_rain_until">Deszcz do %1$s</string>
+    <string name="terrain_rain_for">Przez %1$d h</string>
+    <string name="terrain_dry">Bez deszczu przez %1$d h</string>
+    <string name="terrain_rain_hours_cd">Deszcz w %1$d z najbliższych 6 godzin</string>
+    <string name="terrain_music">Muzyka</string>
+    <string name="terrain_playing">Gra</string>
+    <string name="terrain_paused">Wstrzymane</string>
+    <string name="terrain_engine">Silnik</string>
+    <string name="terrain_speed">Prędkość</string>
+    <string name="terrain_launch_bar_empty">Brak aplikacji. Dotknij ołówka, aby dodać.</string>
+    <string name="terrain_compass">N,NE,E,SE,S,SW,W,NW</string>
+    <string name="terrain_altitude">Wys</string>
+    <string name="terrain_heading">Kurs</string>
+    <plurals name="terrain_more_problems">
+        <item quantity="one">Jeszcze %d problem</item>
+        <item quantity="few">Jeszcze %d problemy</item>
+        <item quantity="many">Jeszcze %d problemów</item>
+        <item quantity="other">Jeszcze %d problemu</item>
+    </plurals>
+</resources>

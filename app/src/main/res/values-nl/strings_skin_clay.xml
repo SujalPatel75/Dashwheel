@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Clay skin -->
+    <string name="clay_talk">Praten</string>
+    <string name="clay_talk_cd">Praat met de assistent</string>
+    <string name="clay_map">Kaart</string>
+    <string name="clay_music">Muziek</string>
+    <string name="clay_phone">Telefoon</string>
+    <string name="clay_arrival">Aankomst %1$s</string>
+    <string name="clay_rpm">tpm</string>
+    <string name="clay_gear">Versnelling %1$s</string>
+    <string name="clay_coolant">Koelvloeistof</string>
+    <string name="clay_battery">Accu</string>
+    <string name="clay_load">Belasting</string>
+    <string name="clay_fuel">Brandstof</string>
+    <string name="clay_speed_limit_cd">Snelheidslimiet %1$d</string>
+    <string name="clay_launch_bar_empty">Nog geen apps. Tik op het potlood om er toe te voegen.</string>
+</resources>

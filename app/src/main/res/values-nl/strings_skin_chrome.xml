@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Chrome skin -->
+    <string name="chrome_talk_cd">Praat met de assistent</string>
+    <string name="chrome_navigation">Navigatie</string>
+    <string name="chrome_left_in">Links over</string>
+    <string name="chrome_right_in">Rechts over</string>
+    <string name="chrome_next_in">Volgende afslag over</string>
+    <string name="chrome_arrival">Aankomst</string>
+    <string name="chrome_to_go">Nog</string>
+    <string name="chrome_limit">Limiet %1$d</string>
+    <string name="chrome_range">Bereik</string>
+    <string name="chrome_fuel">Brandstof</string>
+    <string name="chrome_revs">Toerental</string>
+    <string name="chrome_coolant">Koelvloeistof</string>
+    <string name="chrome_battery">Accu</string>
+    <string name="chrome_load">Belasting</string>
+    <string name="chrome_engine">Motor</string>
+    <string name="chrome_weather">Weer</string>
+    <string name="chrome_launch_bar_empty">Nog geen apps. Tik op het potlood om er toe te voegen.</string>
+</resources>

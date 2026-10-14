@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Brutal skin -->
+    <string name="brutal_talk">Говорить</string>
+    <string name="brutal_talk_cd">Поговорить с ассистентом</string>
+    <string name="brutal_next_turn">Следующий поворот</string>
+    <string name="brutal_speed">Скорость %1$s</string>
+    <string name="brutal_limit">Лимит</string>
+    <string name="brutal_weather">Погода</string>
+    <string name="brutal_rain">Дождь</string>
+    <string name="brutal_rain_from">С %1$s</string>
+    <string name="brutal_rain_until">До %1$s</string>
+    <string name="brutal_feels">Ощущается %1$s</string>
+    <string name="brutal_now_playing">Сейчас играет</string>
+    <string name="brutal_range">Запас хода</string>
+    <string name="brutal_coolant">Антифриз</string>
+    <string name="brutal_fuel">Топливо</string>
+    <string name="brutal_outside">Снаружи</string>
+    <string name="brutal_battery">Аккумулятор</string>
+    <string name="brutal_all_good">Всё в порядке</string>
+    <string name="brutal_check_car">Проверьте авто</string>
+</resources>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Brutal skin -->
+    <string name="brutal_talk">Talk</string>
+    <string name="brutal_talk_cd">Talk to the assistant</string>
+    <string name="brutal_next_turn">Next turn</string>
+    <string name="brutal_speed">Speed %1$s</string>
+    <string name="brutal_limit">Limit</string>
+    <string name="brutal_weather">Weather</string>
+    <string name="brutal_rain">Rain</string>
+    <string name="brutal_rain_from">From %1$s</string>
+    <string name="brutal_rain_until">Until %1$s</string>
+    <string name="brutal_feels">Feels %1$s</string>
+    <string name="brutal_now_playing">Now playing</string>
+    <string name="brutal_range">Range</string>
+    <string name="brutal_coolant">Coolant</string>
+    <string name="brutal_fuel">Fuel</string>
+    <string name="brutal_outside">Outside</string>
+    <string name="brutal_battery">Battery</string>
+    <string name="brutal_all_good">All good</string>
+    <string name="brutal_check_car">Check car</string>
+</resources>

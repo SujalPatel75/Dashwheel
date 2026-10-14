@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="look_family_new">Nieuw</string>
+    <string name="look_family_scenes">Scènes</string>
+    <string name="look_family_dials">Meters</string>
+    <string name="look_family_calm">Rustig</string>
+    <string name="look_family_colours">Alleen kleuren</string>
+    <string name="look_arrange_home">Start indelen zoals het thema</string>
+    <string name="look_arrange_home_detail">Een thema met een eigen Start zet zijn widgets op Start, met Ongedaan maken</string>
+    <string name="look_home_own">Heeft een eigen Start</string>
+    <string name="look_home_own_off">Heeft een eigen Start. Indelen staat uit.</string>
+    <string name="look_home_keeps">Start blijft zoals hij is</string>
+</resources>

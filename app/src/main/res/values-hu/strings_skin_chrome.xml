@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Chrome skin -->
+    <string name="chrome_talk_cd">Beszélgetés az asszisztenssel</string>
+    <string name="chrome_navigation">Navigáció</string>
+    <string name="chrome_left_in">Balra</string>
+    <string name="chrome_right_in">Jobbra</string>
+    <string name="chrome_next_in">Következő kanyar</string>
+    <string name="chrome_arrival">Érkezés</string>
+    <string name="chrome_to_go">Hátra</string>
+    <string name="chrome_limit">Korlát %1$d</string>
+    <string name="chrome_range">Hatótáv</string>
+    <string name="chrome_fuel">Üzemanyag</string>
+    <string name="chrome_revs">Fordulat</string>
+    <string name="chrome_coolant">Hűtőfolyadék</string>
+    <string name="chrome_battery">Akkumulátor</string>
+    <string name="chrome_load">Terhelés</string>
+    <string name="chrome_engine">Motor</string>
+    <string name="chrome_weather">Időjárás</string>
+    <string name="chrome_launch_bar_empty">Még nincsenek appok. Koppints a ceruzára a hozzáadáshoz.</string>
+</resources>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Expressive skin -->
+    <string name="expressive_talk">Говорить</string>
+    <string name="expressive_talk_cd">Поговорить с ассистентом</string>
+    <string name="expressive_arrive">Прибытие %1$s</string>
+    <string name="expressive_rain_from">Дождь %1$s</string>
+    <string name="expressive_rain_until">Дождь до %1$s</string>
+    <string name="expressive_speed_limit_cd">Ограничение скорости %1$d</string>
+    <string name="expressive_rpm">об/мин</string>
+    <string name="expressive_coolant">Охлаждение</string>
+    <string name="expressive_battery">Аккумулятор</string>
+    <string name="expressive_load">Нагрузка</string>
+    <string name="expressive_fuel">Топливо</string>
+    <string name="expressive_car_cd">Ваш автомобиль</string>
+    <string name="expressive_launch_bar_empty">Пока нет приложений. Нажмите карандаш, чтобы добавить.</string>
+</resources>

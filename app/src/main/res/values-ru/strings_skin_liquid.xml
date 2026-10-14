@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Liquid skin -->
+    <string name="liquid_talk_cd">Поговорить с ассистентом</string>
+    <string name="liquid_show_dashboard">Показать %1$s</string>
+    <string name="liquid_speed_limit_cd">Ограничение %1$d</string>
+    <string name="liquid_arrival">Прибытие %1$s</string>
+    <string name="liquid_revs">Обороты</string>
+    <string name="liquid_rpm">об/мин</string>
+    <string name="liquid_battery">Аккумулятор</string>
+    <string name="liquid_load">Нагрузка</string>
+    <string name="liquid_coolant">Охлаждение</string>
+    <string name="liquid_engine">Двигатель</string>
+    <string name="liquid_range">Запас хода</string>
+    <string name="liquid_launch_bar_empty">Приложений пока нет. Нажмите карандаш, чтобы добавить.</string>
+    <string name="liquid_car_cd">Ваша машина</string>
+    <string name="liquid_car_open_cd">Ваша машина, открыта дверь</string>
+    <string name="liquid_doors">Двери</string>
+    <string name="liquid_doors_open">открыты</string>
+</resources>

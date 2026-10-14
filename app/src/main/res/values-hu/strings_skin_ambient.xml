@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Ambient skin -->
+    <string name="ambient_turn_left">Balra %1$s múlva</string>
+    <string name="ambient_turn_right">Jobbra %1$s múlva</string>
+    <string name="ambient_turn_in">%1$s múlva</string>
+    <string name="ambient_talk">Beszéd</string>
+    <string name="ambient_talk_cd">Beszélj az asszisztenssel</string>
+    <string name="ambient_listening">Figyelek</string>
+    <string name="ambient_speed_limit_cd">Sebességkorlát %1$d</string>
+    <string name="ambient_rpm">f/perc</string>
+    <string name="ambient_coolant">Hűtőfolyadék %1$s</string>
+    <string name="ambient_battery">Akku %1$s</string>
+    <string name="ambient_load">Terhelés %1$s</string>
+    <string name="ambient_fuel">Üzemanyag %1$d %%</string>
+    <string name="ambient_launch_bar_empty">Még nincs alkalmazás. Koppints a ceruzára a hozzáadáshoz.</string>
+</resources>

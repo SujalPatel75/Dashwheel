@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Spatial skin -->
+    <string name="spatial_talk_cd">Beszélj az asszisztenssel</string>
+    <string name="spatial_rain_from">eső ekkortól: %1$s</string>
+    <string name="spatial_rain_until">eső eddig: %1$s</string>
+    <string name="spatial_arrival">Érkezés %1$s</string>
+    <string name="spatial_tab_turn">Kanyar</string>
+    <string name="spatial_tab_arrival">Érkezés</string>
+    <string name="spatial_tab_fuel">Üzemanyag</string>
+    <string name="spatial_range">Hatótáv</string>
+    <string name="spatial_fuel_enough">Az üzemanyag elég az odaéréshez</string>
+    <string name="spatial_fuel_short">Tankolj az érkezés előtt</string>
+    <string name="spatial_speed_limit_cd">Sebességkorlát %1$d</string>
+    <string name="spatial_rpm">f/perc</string>
+    <string name="spatial_coolant">Hűtőfolyadék</string>
+    <string name="spatial_battery">Akkumulátor</string>
+    <string name="spatial_load">Terhelés</string>
+    <string name="spatial_launch_bar_empty">Még nincs alkalmazás. Koppints a ceruzára a hozzáadáshoz.</string>
+</resources>

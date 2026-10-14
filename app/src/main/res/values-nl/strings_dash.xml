@@ -171,9 +171,6 @@
     <string name="dash_bar_swipe_up_hint">Veeg omhoog voor de balk</string>
     <string name="dash_bar_show">Balk tonen</string>
     <string name="dash_drive_lock_notice">Parkeer om wijzigingen te maken</string>
-    <string name="dash_theme_group_recommended">Aanbevolen</string>
-    <string name="dash_theme_group_colours">Thema\'s</string>
-    <string name="dash_theme_group_skins">Skins</string>
     <string name="dash_theme_night">Nacht</string>
     <string name="dash_theme_day">Dag</string>
     <string name="dash_theme_mistral">Mistral</string>
@@ -202,8 +199,6 @@
     <string name="dash_dashboard_options">Dashboardopties</string>
     <string name="dash_remove_dashboard_title">%1$s verwijderen?</string>
     <string name="dash_remove_dashboard_body">Leegmaken, of uit het vegen halen met de tegels. Ongedaan maken brengt ze terug.</string>
-    <string name="dash_theme_show_all">Alle %1$d thema\'s tonen</string>
-    <string name="dash_theme_show_fewer">Minder tonen</string>
     <string name="dash_tile_move">Naar een ander dashboard</string>
     <string name="dash_tile_remove">Verwijderen</string>
     <string name="dash_apps">Apps</string>
@@ -255,7 +250,7 @@
     <string name="dash_theme_windshield">Voorruit</string>
     <string name="dash_theme_windshield_desc">Eén band bovenaan met alles waar je even naar kijkt, boven een getekende weg bij nacht.</string>
     <string name="dash_theme_terrain">Terrein</string>
-    <string name="dash_theme_terrain_desc">Je auto op de hoogtelijnenkaart van waar je bent, een probleem vastgepind op het onderdeel zelf.</string>
+    <string name="dash_theme_terrain_desc">Je auto op een landschap van hoogtelijnen, een probleem vastgepind op het onderdeel zelf.</string>
     <string name="dash_theme_ambient">Sfeer</string>
     <string name="dash_theme_ambient_desc">Een veld van licht met weinig woorden: een warme gloed komt op aan de kant van de volgende afslag.</string>
     <string name="dash_theme_brutal">Brutaal</string>
@@ -265,7 +260,7 @@
     <string name="dash_theme_chrome">Chroom</string>
     <string name="dash_theme_chrome_desc">Letters van vloeibaar chroom, holografische chips en een metalen druppel die met de muziek beweegt.</string>
     <string name="dash_theme_spatial">Ruimtelijk</string>
-    <string name="dash_theme_spatial_desc">Glazen vensters zweven op verschillende diepten boven een 3D-stad, je route gloeit erdoorheen.</string>
+    <string name="dash_theme_spatial_desc">Glazen vensters zweven op verschillende diepten boven een 3D-stad bij nacht.</string>
     <string name="dash_theme_paper">Papier</string>
     <string name="dash_theme_paper_desc">Inkt op grijs zoals e-papier: een kaart van puntjes, gewone feiten en niets dat beweegt.</string>
     <string name="look_layout_applied">Start ingedeeld als %1$s</string>

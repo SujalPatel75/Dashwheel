@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Terrain skin -->
+    <string name="terrain_talk_cd">Поговорить с ассистентом</string>
+    <string name="terrain_car_cd">Ваш автомобиль</string>
+    <string name="terrain_range">Запас хода</string>
+    <string name="terrain_next_turn">Следующий поворот</string>
+    <string name="terrain_weather_next">Погода · ближайшие %1$d ч</string>
+    <string name="terrain_rain_from">Дождь с %1$s</string>
+    <string name="terrain_rain_until">Дождь до %1$s</string>
+    <string name="terrain_rain_for">%1$d ч</string>
+    <string name="terrain_dry">Без дождя %1$d ч</string>
+    <string name="terrain_rain_hours_cd">Дождь в %1$d из ближайших 6 часов</string>
+    <string name="terrain_music">Музыка</string>
+    <string name="terrain_playing">Играет</string>
+    <string name="terrain_paused">Пауза</string>
+    <string name="terrain_engine">Двигатель</string>
+    <string name="terrain_speed">Скорость</string>
+    <string name="terrain_launch_bar_empty">Приложений пока нет. Нажмите карандаш, чтобы добавить.</string>
+    <string name="terrain_compass">С,СВ,В,ЮВ,Ю,ЮЗ,З,СЗ</string>
+    <string name="terrain_altitude">Выс</string>
+    <string name="terrain_heading">Курс</string>
+    <plurals name="terrain_more_problems">
+        <item quantity="one">Ещё %d проблема</item>
+        <item quantity="few">Ещё %d проблемы</item>
+        <item quantity="many">Ещё %d проблем</item>
+        <item quantity="other">Ещё %d проблемы</item>
+    </plurals>
+</resources>
