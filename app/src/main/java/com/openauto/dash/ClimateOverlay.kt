@@ -27,6 +27,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -134,9 +135,16 @@ private fun ClimateTemp.text(): String = when (this) {
     is ClimateTemp.Degrees -> if (value % 1f == 0f) "${value.toInt()}°" else "%.1f°".format(value)
 }
 
+/**
+ * A temperature on a fixed footing, as wide as "88.5°" whatever it reads, so the
+ * card keeps its size when a half degree comes and goes instead of jumping about.
+ */
 @Composable
 private fun Temp(t: ClimateTemp, size: Int) {
-    Text(t.text(), color = DashColors.TextPrimary, fontWeight = FontWeight.Bold, fontSize = size.sp)
+    Box(contentAlignment = Alignment.Center) {
+        Text("88.5°", color = Color.Transparent, fontWeight = FontWeight.Bold, fontSize = size.sp, maxLines = 1)
+        Text(t.text(), color = DashColors.TextPrimary, fontWeight = FontWeight.Bold, fontSize = size.sp, maxLines = 1)
+    }
 }
 
 /** The fan as bars, as many lit as its speed (seven shown unless the car goes higher). */
