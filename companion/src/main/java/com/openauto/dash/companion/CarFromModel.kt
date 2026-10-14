@@ -464,11 +464,13 @@ private fun onWhite(a: Argb): Argb {
     return out
 }
 
-/** The car pack the head unit imports: car.json, the pictures as PNG and the model. */
+/** The car pack the head unit imports: car.json, the pictures as PNG, the parts opening as WebP and the model. */
 private fun packOf(result: CarModelResult): ByteArray {
     val files = LinkedHashMap<String, ByteArray>()
     files["car.json"] = result.toCarJson().toByteArray()
     for ((name, picture) in result.packEntries()) files[name] = picture.toPng()
+    // The doors, the tailgate and the bonnet opening, from above: many small frames, light as WebP.
+    for ((name, picture) in result.openingEntries()) files[name] = picture.toWebp()
     result.model?.let { files["model.glb"] = it }
     return CarPhotoKit.zip(files)
 }

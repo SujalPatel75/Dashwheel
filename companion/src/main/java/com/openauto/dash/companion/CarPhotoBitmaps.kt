@@ -15,6 +15,14 @@ fun Bitmap.toArgb(): Argb {
 
 fun Argb.toBitmap(): Bitmap = Bitmap.createBitmap(px, w, h, Bitmap.Config.ARGB_8888)
 
+/** As a WebP file (lossy, see-through kept), for a car pack's many small pictures. */
+fun Argb.toWebp(quality: Int = 85): ByteArray {
+    val bitmap = toBitmap()
+    val format = if (android.os.Build.VERSION.SDK_INT >= 30) Bitmap.CompressFormat.WEBP_LOSSY else @Suppress("DEPRECATION") Bitmap.CompressFormat.WEBP
+    return ByteArrayOutputStream().also { bitmap.compress(format, quality, it) }.toByteArray()
+        .also { bitmap.recycle() }
+}
+
 /** As a PNG file, for a car pack. */
 fun Argb.toPng(): ByteArray {
     val bitmap = toBitmap()

@@ -25,7 +25,9 @@ Options after "--":
                         Lamp_tail_r, Lamp_head_l, Lamp_head_r, Wheel_fl/fr/rl/rr,
                         Door_fl/fr/rl/rr, Tailgate, and the empties they turn on:
                         Hinge_door_fl/fr/rl/rr (about the vertical), Hinge_tailgate and
-                        Hinge_bonnet (about the car's width)
+                        Hinge_bonnet (about the car's width). This script doesn't draw
+                        those parts opening; open the pack in the phone app's "From a
+                        3D model" to have it drawn (the door alert plays it)
 
 The pack is a zip: car.json, side.png (nose to the right), top.png (nose up),
 hero.png (three-quarter front), back.png and front.png (seen from each end, for

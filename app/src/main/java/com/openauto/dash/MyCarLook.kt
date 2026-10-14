@@ -61,6 +61,13 @@ internal enum class CarLookStyle(@StringRes val titleRes: Int, @StringRes val hi
 internal class CarLayer(val photo: ImageBitmap, val outline: ImageBitmap, val box: Rect)
 
 /**
+ * A part opening, drawn on the phone from the car's 3D model: [under] the
+ * car without it (what it uncovers), [frames] the part alone from a little
+ * open to open. Played as the part opens and shuts ([drawCarView]).
+ */
+internal class CarOpeningFrames(val under: CarLayer, val frames: List<CarLayer>)
+
+/**
  * One view of the car: the picture, its outline (white, the edges in its
  * alpha) and where things are on it, as fractions of its width and height.
  * [wheels]: from above front left, front right, rear left, rear right; from
@@ -75,14 +82,19 @@ internal class CarView(
     val tail: Offset? = null,
     val parts: Map<CarPart, CarLayer> = emptyMap(),
     /** From an end, the car's own left and right lamp (fractions); empty for the other views. */
-    val lights: List<Offset> = emptyList()
+    val lights: List<Offset> = emptyList(),
+    /** The parts opening, from the 3D model: played rather than [parts]' still pictures. */
+    val openings: Map<CarPart, CarOpeningFrames> = emptyMap()
 ) {
     val aspect: Float get() = photo.width.toFloat() / photo.height
 
     /** Everything that may be drawn, open parts included, as fractions of the picture. */
-    val reach: Rect = parts.values.fold(Rect(0f, 0f, 1f, 1f)) { r, p ->
-        Rect(min(r.left, p.box.left), min(r.top, p.box.top), max(r.right, p.box.right), max(r.bottom, p.box.bottom))
+    val reach: Rect = (parts.values.map { it.box } + openings.values.map { it.under.box }).fold(Rect(0f, 0f, 1f, 1f)) { r, b ->
+        Rect(min(r.left, b.left), min(r.top, b.top), max(r.right, b.right), max(r.bottom, b.bottom))
     }
+
+    /** Whether [part] has something of its own to show open: its frames or its picture. */
+    fun shows(part: CarPart): Boolean = part in openings || part in parts
 }
 
 internal class CarLook(
@@ -234,11 +246,31 @@ internal object MyCarLook {
                 photo.recycle()
                 outline.recycle()
             }
+            // The parts opening (drawn from a 3D model): each picture kept with its outline, placed on the trimmed picture.
+            val openings = JSONObject()
+            fun keep(part: RawPart, file: String): JSONArray? {
+                val photo = decodeSized(part.bytes) ?: return null
+                val outline = outlineOf(photo)
+                File(next, "$file.png").outputStream().use { photo.compress(Bitmap.CompressFormat.PNG, 100, it) }
+                File(next, "${file}_line.png").outputStream().use { outline.compress(Bitmap.CompressFormat.PNG, 100, it) }
+                photo.recycle()
+                outline.recycle()
+                val a = prepared.move(part.box.topLeft)
+                val b = prepared.move(part.box.bottomRight)
+                return JSONArray().put(a.x.toDouble()).put(a.y.toDouble()).put(b.x.toDouble()).put(b.y.toDouble())
+            }
+            for ((key, opening) in raw.openings) {
+                val under = keep(opening.under, "${view}_open_${key}_under") ?: continue
+                val frames = opening.frames.mapIndexed { i, f -> keep(f, "${view}_open_${key}_$i") }
+                if (frames.isEmpty() || frames.any { it == null }) continue
+                openings.put(key, JSONObject().put("under", under).put("frames", JSONArray(frames)))
+            }
             manifest.put(view, JSONObject().apply {
                 put("wheels", JSONArray().apply { prepared.wheels.forEach { put(point(it)) } })
                 prepared.nose?.let { put("nose", point(it)) }
                 prepared.tail?.let { put("tail", point(it)) }
                 if (parts.length() > 0) put("parts", parts)
+                if (openings.length() > 0) put("openings", openings)
                 // The pack's own lamps (a 3D bake knows them), else found on the picture.
                 (raw.lights.takeIf { it.size == 2 }?.map(prepared.move) ?: lampsOf(view, prepared.photo))
                     ?.let { put("lights", JSONArray().apply { it.forEach { o -> put(point(o)) } }) }
@@ -273,6 +305,9 @@ internal object MyCarLook {
 
     private class RawPart(val bytes: ByteArray, val box: Rect)
 
+    /** A part opening as the pack brings it: what it uncovers and its frames. */
+    private class RawOpening(val under: RawPart, val frames: List<RawPart>)
+
     /** What a pack holds: the car's name, its views and its 3D model (glTF binary), if any. */
     private class Pack(val name: String, val views: Map<String, RawView>, val model: ByteArray?)
 
@@ -282,7 +317,8 @@ internal object MyCarLook {
         val nose: Offset? = null,
         val tail: Offset? = null,
         val parts: Map<String, RawPart> = emptyMap(),
-        val lights: List<Offset> = emptyList()
+        val lights: List<Offset> = emptyList(),
+        val openings: Map<String, RawOpening> = emptyMap()
     )
 
     /** [move]: a point of the picture as it came (fractions) to the same point of [photo]. */
@@ -293,9 +329,10 @@ internal object MyCarLook {
 
     /**
      * A car pack: car.json names each view's picture and its anchor points
-     * (fractions of that picture), and under "parts" the pictures of its open
-     * parts with their place on it. Only the files car.json names are read,
-     * each at most [MAX_FILE] bytes.
+     * (fractions of that picture), under "parts" the pictures of its open
+     * parts with their place on it, and under "openings" those parts opening
+     * (drawn from a 3D model): what each uncovers and its frames. Only the
+     * files car.json names are read, each at most [MAX_FILE] bytes.
      */
     private fun readPack(bytes: ByteArray): Pack {
         val files = HashMap<String, ByteArray>()
@@ -324,6 +361,12 @@ internal object MyCarLook {
         val views = json.optJSONObject("views") ?: JSONObject()
         val anchors = json.optJSONObject("anchors") ?: JSONObject()
         val allParts = json.optJSONObject("parts") ?: JSONObject()
+        val allOpenings = json.optJSONObject("openings") ?: JSONObject()
+        fun layer(entry: JSONObject?): RawPart? {
+            val e = entry ?: return null
+            val bytes = files[e.optString("file").substringAfterLast('/')] ?: return null
+            return RawPart(bytes, rect(e.optJSONArray("box")) ?: return null)
+        }
         val out = LinkedHashMap<String, RawView>()
         for (view in VIEWS) {
             val file = views.optString(view).takeIf { it.isNotBlank() } ?: continue
@@ -340,7 +383,18 @@ internal object MyCarLook {
                     parts[part.key] = RawPart(bytes, box)
                 }
             }
-            out[view] = RawView(data, wheels, offset(a?.optJSONArray("nose")), offset(a?.optJSONArray("tail")), parts, lights)
+            val openings = LinkedHashMap<String, RawOpening>()
+            allOpenings.optJSONObject(view)?.let { o ->
+                for (part in CarPart.entries) {
+                    val entry = o.optJSONObject(part.key) ?: continue
+                    val under = layer(entry.optJSONObject("under")) ?: continue
+                    val arr = entry.optJSONArray("frames") ?: continue
+                    val frames = (0 until arr.length()).map { layer(arr.optJSONObject(it)) }
+                    if (frames.isEmpty() || frames.any { it == null }) continue
+                    openings[part.key] = RawOpening(under, frames.filterNotNull())
+                }
+            }
+            out[view] = RawView(data, wheels, offset(a?.optJSONArray("nose")), offset(a?.optJSONArray("tail")), parts, lights, openings)
         }
         val name = json.optString("name").ifBlank { CarProfileStore.current.name }
         // The 3D model, only when it really is a glTF binary ("glTF" first).
@@ -510,7 +564,24 @@ internal object MyCarLook {
                     parts[part] = CarLayer(partPhoto.asImageBitmap(), partLine.asImageBitmap(), box)
                 }
             }
-            return CarView(photo.asImageBitmap(), outline.asImageBitmap(), wheels, offset(a.optJSONArray("nose")), offset(a.optJSONArray("tail")), parts, lights)
+            fun layer(file: String, box: Rect?): CarLayer? {
+                if (box == null) return null
+                val layerPhoto = BitmapFactory.decodeFile(File(root, "$file.png").path) ?: return null
+                val layerLine = BitmapFactory.decodeFile(File(root, "${file}_line.png").path) ?: return null
+                return CarLayer(layerPhoto.asImageBitmap(), layerLine.asImageBitmap(), box)
+            }
+            val openings = HashMap<CarPart, CarOpeningFrames>()
+            a.optJSONObject("openings")?.let { o ->
+                for (part in CarPart.entries) {
+                    val entry = o.optJSONObject(part.key) ?: continue
+                    val under = layer("${name}_open_${part.key}_under", rect(entry.optJSONArray("under"))) ?: continue
+                    val arr = entry.optJSONArray("frames") ?: continue
+                    val frames = (0 until arr.length()).map { layer("${name}_open_${part.key}_$it", rect(arr.optJSONArray(it))) }
+                    if (frames.isEmpty() || frames.any { it == null }) continue
+                    openings[part] = CarOpeningFrames(under, frames.filterNotNull())
+                }
+            }
+            return CarView(photo.asImageBitmap(), outline.asImageBitmap(), wheels, offset(a.optJSONArray("nose")), offset(a.optJSONArray("tail")), parts, lights, openings)
         }
         val model = File(root, MODEL).takeIf { manifest.has("model") && it.isFile }
         CarLook(manifest.optString("name"), view("side"), view("top"), view("hero"), view("back"), view("front"), model)
@@ -626,22 +697,35 @@ internal fun Rect.at(fraction: Offset): Offset = Offset(left + width * fraction.
  * The car in [style] in [dst]: [ink] is the line or tint colour (the look's
  * accent), [alert] turns it to [warn]: the outline over the photo, the tint
  * or the lines themselves. [open]: how far each part is open (0 shut, 1
- * open); an open part the view has a picture of is drawn open over the car
- * in [warn], one it hasn't turns the whole car to [warn].
+ * open); an open part the view has frames of plays them as it opens (what it
+ * uncovers, then the part as far open as it is, in [warn]); one it has a
+ * picture of is drawn open over the car in [warn]; an open bonnet without
+ * either lifts out of the car's picture; any other turns the whole car to [warn].
  */
 internal fun DrawScope.drawCarView(
     view: CarView, style: CarLookStyle, dst: Rect, ink: Color, warn: Color, alert: Boolean = false,
     open: Map<CarPart, Float> = emptyMap()
 ) {
     val shown = open.filterValues { it > 0.01f }
-    // An open bonnet the pack has no picture of lifts out of the car's own picture instead.
-    val lift = shown[CarPart.BONNET]?.takeIf { CarPart.BONNET !in view.parts }
-    val warned = alert || shown.keys.any { it !in view.parts && it != CarPart.BONNET }
-    drawPicture(view.photo, view.outline, style, dst, if (warned) warn else ink, warned, warn)
+    // An open bonnet the pack has nothing of lifts out of the car's own picture instead.
+    val lift = shown[CarPart.BONNET]?.takeIf { !view.shows(CarPart.BONNET) }
+    val warned = alert || shown.keys.any { !view.shows(it) && it != CarPart.BONNET }
+    val tone = if (warned) warn else ink
+    fun on(box: Rect) = Rect(dst.at(box.topLeft), dst.at(box.bottomRight))
+    drawPicture(view.photo, view.outline, style, dst, tone, warned, warn)
     if (lift != null) drawBonnetLifting(view, style, dst, warn, lift)
+    // The parts opening: first what each uncovers (the car as it is drawn), then each part as far open as it is.
+    for (part in shown.keys) view.openings[part]?.let { drawPicture(it.under.photo, it.under.outline, style, on(it.under.box), tone, warned, warn) }
     for ((part, amount) in shown) {
+        val opening = view.openings[part]
+        if (opening != null) {
+            val n = opening.frames.size
+            val frame = opening.frames[((amount.coerceAtMost(1f) * n).roundToInt() - 1).coerceIn(0, n - 1)]
+            drawPicture(frame.photo, frame.outline, style, on(frame.box), warn, true, warn)
+            continue
+        }
         val layer = view.parts[part] ?: continue
-        drawPicture(layer.photo, layer.outline, style, Rect(dst.at(layer.box.topLeft), dst.at(layer.box.bottomRight)), warn, true, warn, amount.coerceAtMost(1f))
+        drawPicture(layer.photo, layer.outline, style, on(layer.box), warn, true, warn, amount.coerceAtMost(1f))
     }
 }
 

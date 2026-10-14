@@ -1,5 +1,7 @@
 package com.openauto.dash
 
+import com.openauto.dash.carphoto.CarHinges
+
 /*
  * Where each part of the car ([CarSpot]) is on the driver's 3D car (Car3D.kt)
  * and how the camera looks at it. The model is a glTF with the nose to +x, up
@@ -132,13 +134,8 @@ internal object Car3DSpots {
     /**
      * The opening angle (degrees) of hinge [name] about its own axis, by the
      * rig's convention: doors swing out about the vertical, the tailgate up,
-     * the bonnet up. Null for anything else.
+     * the bonnet up. Null for anything else. The phone draws the parts
+     * opening from above the same way ([CarHinges]).
      */
-    fun hingeAngle(name: String): Float? = when {
-        name == "Hinge_door_fl" || name == "Hinge_door_rl" -> -62f
-        name == "Hinge_door_fr" || name == "Hinge_door_rr" -> 62f
-        name == TAILGATE -> 80f
-        name == BONNET -> -48f
-        else -> null
-    }
+    fun hingeAngle(name: String): Float? = CarHinges.angle(name)
 }

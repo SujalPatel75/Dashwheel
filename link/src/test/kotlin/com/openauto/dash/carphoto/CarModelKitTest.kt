@@ -33,8 +33,12 @@ class CarModelKitTest {
         ImageIO.write(img, "png", File(out, name))
     }
 
-    /** Boxes as a .glb, car space (x nose, y left, z up) written glTF style: x = left, y = up, z = nose. */
-    private fun boxCar(): ByteArray {
+    /**
+     * Boxes as a .glb, car space (x nose, y left, z up) written glTF style: x = left, y = up, z = nose.
+     * [rigged]: as tools/mycar/bake_car.py rigs a car instead (x = nose, y = up, z = right), with a
+     * bonnet hanging from a Hinge_bonnet node at its back edge.
+     */
+    private fun boxCar(rigged: Boolean = false): ByteArray {
         class Box(val name: String, val lo: FloatArray, val hi: FloatArray, val mat: Int)
         val boxes = listOf(
             Box("Body", floatArrayOf(-2.2f, -0.9f, 0.3f), floatArrayOf(2.2f, 0.9f, 1.0f), 0),
@@ -46,7 +50,9 @@ class CarModelKitTest {
             Box("Tail_light_L", floatArrayOf(-2.25f, 0.5f, 0.8f), floatArrayOf(-2.2f, 0.8f, 0.95f), 2),
             Box("Tail_light_R", floatArrayOf(-2.25f, -0.8f, 0.8f), floatArrayOf(-2.2f, -0.5f, 0.95f), 2),
             Box("Ground", floatArrayOf(-6f, -6f, 0f), floatArrayOf(6f, 6f, 0f), 3)
-        )
+        ) + if (rigged) listOf(Box("Bonnet", floatArrayOf(1.0f, -0.85f, 1.0f), floatArrayOf(2.2f, 0.85f, 1.06f), 0)) else emptyList()
+        // The bonnet's hinge: the middle of its back edge (glTF: x = nose, y = up, z = right).
+        val hinge = floatArrayOf(1.0f, 1.06f, 0f)
         val bin = ByteBuffer.allocate(boxes.size * (8 * 12 + 36 * 2)).order(ByteOrder.LITTLE_ENDIAN)
         val faces = intArrayOf(0, 1, 3, 0, 3, 2, 4, 6, 7, 4, 7, 5, 0, 4, 5, 0, 5, 1, 2, 3, 7, 2, 7, 6, 0, 2, 6, 0, 6, 4, 1, 5, 7, 1, 7, 3)
         val json = StringBuilder()
@@ -57,7 +63,7 @@ class CarModelKitTest {
                 val x = if (c and 4 != 0) b.hi[0] else b.lo[0]
                 val y = if (c and 2 != 0) b.hi[1] else b.lo[1]
                 val z = if (c and 1 != 0) b.hi[2] else b.lo[2]
-                bin.putFloat(y).putFloat(z).putFloat(x)
+                if (rigged) bin.putFloat(x).putFloat(z).putFloat(-y) else bin.putFloat(y).putFloat(z).putFloat(x)
             }
             val idxStart = bin.position()
             for (f in faces) bin.putShort(f.toShort())
@@ -66,9 +72,16 @@ class CarModelKitTest {
             accessors += """{"bufferView":${i * 2},"componentType":5126,"count":8,"type":"VEC3"}"""
             accessors += """{"bufferView":${i * 2 + 1},"componentType":5123,"count":36,"type":"SCALAR"}"""
             meshes += """{"name":"${b.name}","primitives":[{"attributes":{"POSITION":${i * 2}},"indices":${i * 2 + 1},"material":${b.mat}}]}"""
-            nodes += """{"name":"${b.name}","mesh":$i}"""
+            // The bonnet's own node sits back where it was under its hinge.
+            nodes += if (rigged && b.name == "Bonnet") """{"name":"${b.name}","mesh":$i,"translation":[${-hinge[0]},${-hinge[1]},${-hinge[2]}]}"""
+            else """{"name":"${b.name}","mesh":$i}"""
         }
-        json.append("""{"asset":{"version":"2.0"},"scene":0,"scenes":[{"nodes":[${boxes.indices.joinToString()}]}],""")
+        val roots = boxes.indices.filter { !(rigged && boxes[it].name == "Bonnet") }.toMutableList()
+        if (rigged) {
+            nodes += """{"name":"Hinge_bonnet","translation":[${hinge[0]},${hinge[1]},${hinge[2]}],"children":[${boxes.indexOfFirst { it.name == "Bonnet" }}]}"""
+            roots += nodes.size - 1
+        }
+        json.append("""{"asset":{"version":"2.0"},"scene":0,"scenes":[{"nodes":[${roots.joinToString()}]}],""")
         json.append(""""nodes":[${nodes.joinToString()}],"meshes":[${meshes.joinToString()}],"accessors":[${accessors.joinToString()}],""")
         json.append(""""bufferViews":[${views.joinToString()}],"buffers":[{"byteLength":${bin.position()}}],""")
         json.append(""""materials":[{"name":"paint","pbrMetallicRoughness":{"baseColorFactor":[0.5,0.05,0.04,1],"metallicFactor":0.6,"roughnessFactor":0.3}},""")
@@ -124,6 +137,56 @@ class CarModelKitTest {
         val r = CarModelKit.bake(CarModelKit.read(boxCar(), ::decode, turned = true), withLive = false)
         // The model's +z end is now the tail: the lamps named tail lights sit at the front, none at the back.
         assertTrue(r.backLights.isEmpty())
+    }
+
+    @Test
+    fun aRiggedBonnetOpensFromAbove() {
+        val model = CarModelKit.read(boxCar(rigged = true), ::decode)
+        // Nose +x as rigged: the same car, its bonnet on its hinge.
+        assertEquals(4.45f, model.length, 0.01f)
+        assertEquals(listOf("Hinge_bonnet"), model.hinges.map { it.name })
+        assertEquals(CarPart.BONNET, model.hinges[0].part)
+        val before = model.tris.pos.copyOf()
+        val r = CarModelKit.bake(model, "Rigged", withLive = false)
+        // Put back as it was read.
+        assertTrue(same(before, model.tris.pos))
+        val bonnet = r.openings.single()
+        assertEquals(CarPart.BONNET, bonnet.part)
+        assertEquals(CarModelKit.OPEN_FRAMES, bonnet.frames.size)
+        bonnet.frames.forEachIndexed { i, f -> save(f.image, "rigged_bonnet_$i.png") }
+        save(bonnet.under.image, "rigged_bonnet_under.png")
+        // From above, the bonnet rising on its back edge gets shorter, toward the windscreen.
+        val first = bonnet.frames.first().box
+        val last = bonnet.frames.last().box
+        assertTrue("shorter open: $first $last", last[3] - last[1] < (first[3] - first[1]) * 0.85f)
+        assertEquals(first[3], last[3], 0.02f)
+        // Near the nose: the upper part of the picture.
+        assertTrue(last[3] < 0.5f)
+        // What it uncovers spans everywhere it goes, and something is drawn in each frame.
+        assertTrue(bonnet.under.box[1] <= first[1] && bonnet.under.box[3] >= first[3])
+        assertTrue(bonnet.frames.all { f -> f.image.px.any { (it ushr 24) > 200 } })
+        // In car.json, with its files.
+        val json = r.toCarJson()
+        assertTrue(json.contains("\"openings\""))
+        assertEquals(1 + CarModelKit.OPEN_FRAMES, r.openingEntries().size)
+        assertTrue(r.openingEntries().keys.all { json.contains(it) })
+    }
+
+    @Test
+    fun aModelWithoutHingesOpensNothing() {
+        val r = CarModelKit.bake(CarModelKit.read(boxCar(), ::decode), withLive = false)
+        assertTrue(r.openings.isEmpty())
+        assertTrue(!r.toCarJson().contains("openings"))
+    }
+
+    @Test
+    fun aTurnedRigKeepsItsHingeOnTheCar() {
+        val model = CarModelKit.read(boxCar(rigged = true), ::decode)
+        val turned = model.turnedAround()
+        val a = model.hinges[0]; val b = turned.hinges[0]
+        assertEquals(-a.pivot[0], b.pivot[0], 1e-5f)
+        assertEquals(-a.axis[1], b.axis[1], 1e-5f)
+        assertEquals(a.pivot[2], b.pivot[2], 1e-5f)
     }
 
     @Test

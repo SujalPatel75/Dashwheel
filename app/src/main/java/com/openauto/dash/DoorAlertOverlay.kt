@@ -57,6 +57,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import java.io.File
 import kotlin.math.PI
 import kotlin.math.cos
 import kotlin.math.min
@@ -66,8 +67,9 @@ import kotlin.math.sin
  * Dashwheel's door alert, in place of the head unit's own ([RomPopups]), in
  * the design the driver chose ([AlertStyle]): the doors that are open, over
  * whatever app fills the screen, gone once they are all shut. The side panel
- * and the full screen draw the car with those doors swung open: the driver's
- * own in 3D when its pack brought a model, else from above. A
+ * and the full screen draw the car with those doors swung open: from above,
+ * playing them opening when the phone drew that from the car's 3D model,
+ * else the driver's own car in 3D when its pack brought a model. A
  * tap hides it until another door opens. On the move those two shrink to the
  * pill after a few seconds ([ShrinkOnTheMove]); a tap on that pill brings
  * them back. Without "display over other apps"
@@ -286,7 +288,7 @@ private fun DoorFullScreen(doors: McuReader.DoorState) {
     FullScreenModal(onTap = { tap(); DoorAlertOverlay.dismiss() }, tone = DashColors.Warning) {
         Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(horizontal = 40.dp, vertical = 28.dp)) {
             // The car in 3D, seen from a corner, needs more width than the car from above.
-            val in3D = rememberCar3DModel() != null
+            val in3D = opensIn3D(doors) != null
             OpeningCar(doors, Modifier.fillMaxHeight().width(if (in3D) 380.dp else 240.dp))
             Spacer(Modifier.width(40.dp))
             Column(Modifier.widthIn(max = 460.dp)) {
@@ -304,15 +306,34 @@ private fun DoorFullScreen(doors: McuReader.DoorState) {
 }
 
 /**
- * The large designs' car: the driver's own in 3D when its pack brought a
- * model, what is open swinging open on its hinges ([Car3DOpen]); else, and
- * for a model without those hinges, the car from above.
+ * The large designs' car: from above, playing the parts opening the phone
+ * drew from the car's 3D model; for a part open without them, the driver's
+ * own car in 3D, what is open swinging open on its hinges ([Car3DOpen]);
+ * else, and for a model without those hinges, the car from above.
  */
 @Composable
 private fun OpeningCar(doors: McuReader.DoorState, modifier: Modifier) {
-    val model = rememberCar3DModel()
+    val model = opensIn3D(doors)
     if (model == null) CarFromAbove(doors, modifier)
     else Car3DOpen(model, doors.openNames(), modifier) { CarFromAbove(doors, Modifier.fillMaxSize()) }
+}
+
+/** The car's 3D model when the large designs show it live: there is one, and a part open has no frames of its own to play. */
+@Composable
+private fun opensIn3D(doors: McuReader.DoorState): File? {
+    val mine by MyCarLook.shown.collectAsState()
+    val model = rememberCar3DModel()
+    val frames = mine?.top?.openings.orEmpty()
+    return model?.takeIf { doors.openParts().any { it !in frames } }
+}
+
+private fun McuReader.DoorState.openParts(): Set<CarPart> = buildSet {
+    if (frontLeft) add(CarPart.FRONT_LEFT)
+    if (frontRight) add(CarPart.FRONT_RIGHT)
+    if (rearLeft) add(CarPart.REAR_LEFT)
+    if (rearRight) add(CarPart.REAR_RIGHT)
+    if (tailgate) add(CarPart.TAILGATE)
+    if (bonnet) add(CarPart.BONNET)
 }
 
 /**

@@ -49,7 +49,9 @@ class CarModel internal constructor(
     private val toCar: FloatArray,
     val length: Float,
     val width: Float,
-    val height: Float
+    val height: Float,
+    /** The parts that open (a rigged model's Hinge_ nodes), by [Tris.hinge]. */
+    val hinges: List<CarHinge> = emptyList()
 ) {
     val triangles: Int get() = tris.count
 
@@ -65,7 +67,7 @@ class CarModel internal constructor(
      * the upright, so only the corners and normals are new, the rest is shared.
      */
     fun turnedAround(): CarModel {
-        val t = Tris(tris.count, FloatArray(tris.pos.size), FloatArray(tris.nrm.size), tris.uv, tris.mat, tris.part)
+        val t = Tris(tris.count, FloatArray(tris.pos.size), FloatArray(tris.nrm.size), tris.uv, tris.mat, tris.part, tris.hinge)
         for (i in tris.pos.indices) {
             val up = i % 3 == 2
             t.pos[i] = if (up) tris.pos[i] else -tris.pos[i]
@@ -74,7 +76,52 @@ class CarModel internal constructor(
         // Car x and y the other way: the matrix's first two rows, their shift included.
         val m = toCar.copyOf()
         for (c in 0 until 8) m[c] = -m[c]
-        return CarModel(t, mats, parts, glb, m, length, width, height)
+        val turned = hinges.map { h ->
+            CarHinge(h.name, h.part, floatArrayOf(-h.pivot[0], -h.pivot[1], h.pivot[2]), floatArrayOf(-h.axis[0], -h.axis[1], h.axis[2]), h.deg)
+        }
+        return CarModel(t, mats, parts, glb, m, length, width, height, turned)
+    }
+}
+
+/**
+ * A part of the car that opens, in car space: [deg] about [axis] (unit)
+ * through [pivot] when fully open, the way the launcher's live 3D view swings it.
+ */
+class CarHinge internal constructor(
+    val name: String,
+    val part: CarPart,
+    internal val pivot: FloatArray,
+    internal val axis: FloatArray,
+    val deg: Float
+)
+
+/**
+ * The parts that open on a rigged model, named as tools/mycar/bake_car.py
+ * documents: each hinge's part of the car and how it opens about its own
+ * axis. The launcher's live 3D view (Car3D.kt) opens them the same way.
+ */
+object CarHinges {
+    /** The opening angle (degrees) of hinge [name] about its [axis]; null for anything else. */
+    fun angle(name: String): Float? = when (name) {
+        "Hinge_door_fl", "Hinge_door_rl" -> -62f
+        "Hinge_door_fr", "Hinge_door_rr" -> 62f
+        "Hinge_tailgate" -> 80f
+        "Hinge_bonnet" -> -48f
+        else -> null
+    }
+
+    /** The axis it turns about, in the hinge's own space (glTF: y up): doors about the vertical, the tailgate and the bonnet about the car's width. */
+    fun axis(name: String): FloatArray = if (name.startsWith("Hinge_door")) floatArrayOf(0f, 1f, 0f) else floatArrayOf(0f, 0f, -1f)
+
+    /** The part of the car hinge [name] opens; null for anything else. */
+    fun part(name: String): CarPart? = when (name) {
+        "Hinge_door_fl" -> CarPart.FRONT_LEFT
+        "Hinge_door_fr" -> CarPart.FRONT_RIGHT
+        "Hinge_door_rl" -> CarPart.REAR_LEFT
+        "Hinge_door_rr" -> CarPart.REAR_RIGHT
+        "Hinge_tailgate" -> CarPart.TAILGATE
+        "Hinge_bonnet" -> CarPart.BONNET
+        else -> null
     }
 }
 
@@ -97,11 +144,28 @@ class CarModelResult(
     val wheelsNamed: Boolean,
     val open: List<CarOpenPart> = emptyList(),
     /** The model for the live 3D view, when it is light enough to send. */
-    val model: ByteArray? = null
+    val model: ByteArray? = null,
+    /** The parts a rigged model opens, seen from above as they open ([CarModelKit.bake]). */
+    val openings: List<CarOpening> = emptyList()
 ) {
     fun withOpen(parts: List<CarOpenPart>) = CarModelResult(
-        name, side, top, hero, back, front, topView, sideWheels, sideNose, sideTail, backLights, frontLights, wheelsNamed, parts, model
+        name, side, top, hero, back, front, topView, sideWheels, sideNose, sideTail, backLights, frontLights, wheelsNamed, parts, model, openings
     )
+
+    /**
+     * The pictures of the parts opening by file name, for the caller to
+     * encode as WebP (light: there are many): for each part what it uncovers,
+     * then its frames.
+     */
+    fun openingEntries(): Map<String, Argb> = LinkedHashMap<String, Argb>().apply {
+        for (o in openings) {
+            put(underFile(o.part), o.under.image)
+            o.frames.forEachIndexed { i, f -> put(frameFile(o.part, i), f.image) }
+        }
+    }
+
+    private fun underFile(part: CarPart) = "open_${part.key}_under.webp"
+    private fun frameFile(part: CarPart, i: Int) = "open_${part.key}_$i.webp"
 
     /** The pictures of the pack by file name, for the caller to encode as PNG. */
     fun packEntries(): Map<String, Argb> = LinkedHashMap<String, Argb>().apply {
@@ -146,6 +210,22 @@ class CarModelResult(
                 }
             }
         }
+        if (openings.isNotEmpty()) putJsonObject("openings") {
+            putJsonObject("top") {
+                for (o in openings) putJsonObject(o.part.key) {
+                    putJsonObject("under") {
+                        put("file", underFile(o.part))
+                        put("box", JsonArray(o.under.box.map { JsonPrimitive(round4(it)) }))
+                    }
+                    put("frames", JsonArray(o.frames.mapIndexed { i, f ->
+                        buildJsonObject {
+                            put("file", frameFile(o.part, i))
+                            put("box", JsonArray(f.box.map { JsonPrimitive(round4(it)) }))
+                        }
+                    }))
+                }
+            }
+        }
         if (model != null) put("model", "model.glb")
     }.toString()
 
@@ -154,6 +234,14 @@ class CarModelResult(
     private fun round4(v: Float): Double = (v * 10000.0).roundToInt() / 10000.0
 }
 
+/**
+ * A part of the car opening, seen from above, drawn from a rigged model:
+ * [under] the car without it there (what it uncovers), and [frames] the part
+ * alone from a little open to open, each placed on the view from above as
+ * [CarOpenPart.box] says.
+ */
+class CarOpening(val part: CarPart, val under: CarOpenPart, val frames: List<CarOpenPart>)
+
 /** Triangles as flat arrays: 9 floats a triangle for corners and normals, 6 for texture places. */
 internal class Tris(
     val count: Int,
@@ -161,7 +249,9 @@ internal class Tris(
     val nrm: FloatArray = FloatArray(count * 9),
     val uv: FloatArray = FloatArray(count * 6),
     val mat: IntArray = IntArray(count),
-    val part: IntArray = IntArray(count)
+    val part: IntArray = IntArray(count),
+    /** The hinge each triangle turns with ([CarModel.hinges]), -1 for none. */
+    val hinge: IntArray = IntArray(count) { -1 }
 )
 
 /** A material as the renderer uses it; colours linear, the texture as given (sRGB). */
@@ -187,6 +277,9 @@ object CarModelKit {
     /** Textures are kept this long a side at most: plenty for pictures this size. */
     const val MAX_TEXTURE = 1024
 
+    /** How many pictures a part opening takes, from a little open to open. */
+    const val OPEN_FRAMES = 8
+
     /** Pictures are drawn this many times bigger each way, then shrunk: smooth edges. */
     private const val SUPER = 2
 
@@ -208,7 +301,7 @@ object CarModelKit {
         require(raw.count > 0) { "no triangles in the model" }
         val toCar = carFrame(raw, turned)
         // Brought to car space in the arrays just read: a big model doesn't fit twice in a phone's memory.
-        val tris = Tris(raw.count, raw.pos, raw.nrm, raw.uv, raw.mat, raw.part)
+        val tris = Tris(raw.count, raw.pos, raw.nrm, raw.uv, raw.mat, raw.part, raw.hinge)
         val lo = floatArrayOf(Float.MAX_VALUE, Float.MAX_VALUE, Float.MAX_VALUE)
         val hi = floatArrayOf(-Float.MAX_VALUE, -Float.MAX_VALUE, -Float.MAX_VALUE)
         for (v in 0 until raw.count * 3) {
@@ -237,11 +330,20 @@ object CarModelKit {
                 tris.pos.copyInto(o.pos, j * 9, t * 9, t * 9 + 9)
                 tris.nrm.copyInto(o.nrm, j * 9, t * 9, t * 9 + 9)
                 tris.uv.copyInto(o.uv, j * 6, t * 6, t * 6 + 6)
-                o.mat[j] = tris.mat[t]; o.part[j] = tris.part[t]
+                o.mat[j] = tris.mat[t]; o.part[j] = tris.part[t]; o.hinge[j] = tris.hinge[t]
                 j++
             }
         }
-        return CarModel(out, raw.mats, raw.parts, glb, toCar, hi[0] - lo[0], hi[1] - lo[1], hi[2] - lo[2])
+        // The hinges in car space too: the pivot moved like a corner, the axis turned like a normal.
+        val hinges = raw.hinges.map { h ->
+            CarHinge(
+                h.name, CarHinges.part(h.name)!!,
+                FloatArray(3) { k -> toCar[k * 4] * h.pivot[0] + toCar[k * 4 + 1] * h.pivot[1] + toCar[k * 4 + 2] * h.pivot[2] + toCar[k * 4 + 3] },
+                FloatArray(3) { k -> toCar[k * 4] * h.axis[0] + toCar[k * 4 + 1] * h.axis[1] + toCar[k * 4 + 2] * h.axis[2] },
+                CarHinges.angle(h.name)!!
+            )
+        }
+        return CarModel(out, raw.mats, raw.parts, glb, toCar, hi[0] - lo[0], hi[1] - lo[1], hi[2] - lo[2], hinges)
     }
 
     /**
@@ -250,7 +352,7 @@ object CarModelKit {
      * side picture. [opened]: the car from above with its doors open, whose
      * open parts are laid on the view from above ([CarPhotoKit.openParts]).
      */
-    fun bake(model: CarModel, name: String = "", opened: Argb? = null, withLive: Boolean = true): CarModelResult {
+    fun bake(model: CarModel, name: String = "", opened: Argb? = null, withLive: Boolean = true, withOpenings: Boolean = true): CarModelResult {
         val l = model.length; val w = model.width; val h = model.height
         val midZ = h / 2
         val shader = Shader(model)
@@ -291,9 +393,77 @@ object CarModelKit {
         val result = CarModelResult(
             name, side, top, hero, back, front, topView, sideWheels,
             sideCam.at(floatArrayOf(l / 2, 0f, midZ)), sideCam.at(floatArrayOf(-l / 2, 0f, midZ)),
-            backLights, frontLights, named != null, model = live
+            backLights, frontLights, named != null, model = live,
+            openings = if (withOpenings) openings(model, shader, topCam) else emptyList()
         )
         return if (opened != null) result.withOpen(CarPhotoKit.openParts(opened, topView)) else result
+    }
+
+    /**
+     * Each part [model]'s hinges open, from above through [cam] (the view
+     * from above's camera, so the pictures lie on it): the car without the
+     * part, over everywhere the part goes, and the part alone at
+     * [OPEN_FRAMES] steps to open, hidden where the car is in front of it.
+     */
+    private fun openings(model: CarModel, shader: Shader, cam: Ortho): List<CarOpening> {
+        val t = model.tris
+        return model.hinges.mapIndexedNotNull { index, hinge ->
+            val mine = BooleanArray(t.count) { t.hinge[it] == index }
+            val list = (0 until t.count).filter { mine[it] }
+            if (list.isEmpty()) return@mapIndexedNotNull null
+            // Turned in place for each step, and put back as read after.
+            val pos0 = FloatArray(list.size * 9)
+            val nrm0 = FloatArray(list.size * 9)
+            list.forEachIndexed { j, i -> t.pos.copyInto(pos0, j * 9, i * 9, i * 9 + 9); t.nrm.copyInto(nrm0, j * 9, i * 9, i * 9 + 9) }
+            fun pose(k: Float) {
+                val rad = Math.toRadians((hinge.deg * k).toDouble())
+                val c = kotlin.math.cos(rad).toFloat(); val sn = kotlin.math.sin(rad).toFloat()
+                val a = hinge.axis; val o = hinge.pivot
+                // Rodrigues: v cos + (a x v) sin + a (a . v)(1 - cos).
+                fun turn(src: FloatArray, from: Int, dst: FloatArray, to: Int, about: FloatArray?) {
+                    val vx = src[from] - (about?.get(0) ?: 0f); val vy = src[from + 1] - (about?.get(1) ?: 0f); val vz = src[from + 2] - (about?.get(2) ?: 0f)
+                    val d = a[0] * vx + a[1] * vy + a[2] * vz
+                    dst[to] = vx * c + (a[1] * vz - a[2] * vy) * sn + a[0] * d * (1 - c) + (about?.get(0) ?: 0f)
+                    dst[to + 1] = vy * c + (a[2] * vx - a[0] * vz) * sn + a[1] * d * (1 - c) + (about?.get(1) ?: 0f)
+                    dst[to + 2] = vz * c + (a[0] * vy - a[1] * vx) * sn + a[2] * d * (1 - c) + (about?.get(2) ?: 0f)
+                }
+                list.forEachIndexed { j, i ->
+                    for (v in 0..2) {
+                        turn(pos0, j * 9 + v * 3, t.pos, i * 9 + v * 3, o)
+                        turn(nrm0, j * 9 + v * 3, t.nrm, i * 9 + v * 3, null)
+                    }
+                }
+            }
+            // Where the part is on the picture at [k] open, pixels: left, top, right, bottom.
+            val p = FloatArray(3)
+            fun bounds(): IntArray {
+                var x0 = Float.MAX_VALUE; var y0 = Float.MAX_VALUE; var x1 = -Float.MAX_VALUE; var y1 = -Float.MAX_VALUE
+                for (i in list) for (v in 0..2) {
+                    cam.project(t.pos[i * 9 + v * 3], t.pos[i * 9 + v * 3 + 1], t.pos[i * 9 + v * 3 + 2], p)
+                    x0 = min(x0, p[0]); y0 = min(y0, p[1]); x1 = max(x1, p[0]); y1 = max(y1, p[1])
+                }
+                return intArrayOf(floor(x0).toInt() - 2, floor(y0).toInt() - 2, ceil(x1).toInt() + 2, ceil(y1).toInt() + 2)
+            }
+            fun box(b: IntArray) = listOf(b[0].toFloat() / cam.w, b[1].toFloat() / cam.h, b[2].toFloat() / cam.w, b[3].toFloat() / cam.h)
+            try {
+                val frames = (1..OPEN_FRAMES).map { f ->
+                    pose(f.toFloat() / OPEN_FRAMES)
+                    val b = bounds()
+                    CarOpenPart(hinge.part, render(model, shader, cam.crop(b[0], b[1], b[2], b[3]), only = mine), box(b))
+                }
+                // What it uncovers: everywhere it goes, shut to open.
+                pose(0f)
+                val all = bounds()
+                for (f in frames) {
+                    all[0] = min(all[0], (f.box[0] * cam.w).roundToInt()); all[1] = min(all[1], (f.box[1] * cam.h).roundToInt())
+                    all[2] = max(all[2], (f.box[2] * cam.w).roundToInt()); all[3] = max(all[3], (f.box[3] * cam.h).roundToInt())
+                }
+                val under = CarOpenPart(hinge.part, render(model, shader, cam.crop(all[0], all[1], all[2], all[3]), hide = mine), box(all))
+                CarOpening(hinge.part, under, frames)
+            } finally {
+                list.forEachIndexed { j, i -> pos0.copyInto(t.pos, i * 9, j * 9, j * 9 + 9); nrm0.copyInto(t.nrm, i * 9, j * 9, j * 9 + 9) }
+            }
+        }
     }
 
     /**
@@ -547,6 +717,12 @@ object CarModelKit {
         }
         override fun toEye(x: Float, y: Float, z: Float, out: FloatArray) { eye.copyInto(out) }
 
+        /** The same view cut to pixels [x0]..[x1], [y0]..[y1] of this one (beyond its edges if need be), at the same scale. */
+        fun crop(x0: Int, y0: Int, x1: Int, y1: Int) = Ortho(
+            x1 - x0, y1 - y0, scale, ax, ay, ad,
+            cx + ((x0 + x1) / 2f - w / 2f) / scale, cy + (h / 2f - (y0 + y1) / 2f) / scale, eye
+        )
+
         companion object {
             // Picture right, picture up, depth (along the look) and the way to the eye, in car space.
             fun side(span: Float, w: Int, h: Int, midZ: Float) = Ortho(w, h, w / span, floatArrayOf(1f, 0f, 0f), floatArrayOf(0f, 0f, 1f), floatArrayOf(0f, 1f, 0f), 0f, midZ, floatArrayOf(0f, -1f, 0f))
@@ -645,8 +821,12 @@ object CarModelKit {
         }
     }
 
-    /** [model] through [cam]: opaque parts first, then the glass over them back to front. */
-    internal fun render(model: CarModel, shader: Shader, cam: Cam): Argb {
+    /**
+     * [model] through [cam]: opaque parts first, then the glass over them back
+     * to front. [hide]: triangles left out. [only]: the triangles shown, the
+     * others still hiding what they are in front of.
+     */
+    internal fun render(model: CarModel, shader: Shader, cam: Cam, hide: BooleanArray? = null, only: BooleanArray? = null): Argb {
         val w = cam.w * SUPER; val h = cam.h * SUPER
         val depth = FloatArray(w * h) { Float.MAX_VALUE }
         val col = FloatArray(w * h * 3)
@@ -690,6 +870,8 @@ object CarModelKit {
                     val z = b0 * sz[0] + b1 * sz[1] + b2 * sz[2]
                     val p = py * w + px
                     if (z >= depth[p]) continue
+                    // Not shown, only in front: its depth alone, no shading.
+                    if (!blend && only != null && !only[i]) { depth[p] = z; alpha[p] = 0f; continue }
                     for (k in 0..2) n[k] = b0 * t.nrm[i * 9 + k] + b1 * t.nrm[i * 9 + 3 + k] + b2 * t.nrm[i * 9 + 6 + k]
                     val nl = sqrt(n[0] * n[0] + n[1] * n[1] + n[2] * n[2]).coerceAtLeast(1e-6f)
                     n[0] /= nl; n[1] /= nl; n[2] /= nl
@@ -719,7 +901,10 @@ object CarModelKit {
         }
 
         for (i in 0 until t.count) {
-            if (model.mats.getOrNull(t.mat[i])?.alphaMode == 2) blended += i else draw(i, false)
+            if (hide != null && hide[i]) continue
+            if (model.mats.getOrNull(t.mat[i])?.alphaMode == 2) {
+                if (only == null || only[i]) blended += i
+            } else draw(i, false)
         }
         if (blended.isNotEmpty()) {
             // Far first: the nearest glass ends up in front.
@@ -779,8 +964,14 @@ internal class RawTris(
     val count: Int, val pos: FloatArray, val nrm: FloatArray, val uv: FloatArray, val mat: IntArray, val part: IntArray,
     /** Counted in the car's size (a ground plane is not). */
     val keep: BooleanArray,
-    val mats: List<ModelMat>, val parts: List<String>
+    val mats: List<ModelMat>, val parts: List<String>,
+    /** The hinge each triangle hangs from (the nearest Hinge_ node above it), -1 for none. */
+    val hinge: IntArray = IntArray(count) { -1 },
+    val hinges: List<RawHinge> = emptyList()
 )
+
+/** A Hinge_ node in the model's own space: where it is and the axis it turns about (unit). */
+internal class RawHinge(val name: String, val pivot: FloatArray, val axis: FloatArray)
 
 /** The glTF binary container: its JSON and its one binary buffer. */
 internal object Glb {
@@ -899,8 +1090,9 @@ internal object Glb {
 
         // Walk the scene, gathering triangles in world space.
         val pos = FloatList(); val nrm = FloatList(); val uv = FloatList()
-        val matOf = IntList(); val partOf = IntList()
+        val matOf = IntList(); val partOf = IntList(); val hingeOf = IntList()
         val parts = ArrayList<String>()
+        val hinges = ArrayList<RawHinge>()
         val partBoxes = ArrayList<FloatArray>()
 
         fun local(n: JsonObject): FloatArray {
@@ -923,7 +1115,7 @@ internal object Glb {
             a[r * 4] * b[c] + a[r * 4 + 1] * b[4 + c] + a[r * 4 + 2] * b[8 + c] + a[r * 4 + 3] * b[12 + c]
         }
 
-        fun addMesh(meshIndex: Int, m: FloatArray, nodeName: String) {
+        fun addMesh(meshIndex: Int, m: FloatArray, nodeName: String, hinge: Int) {
             val mesh = meshes.getOrNull(meshIndex)?.jsonObject ?: return
             // The normals' matrix: the cofactors of the upper 3x3 (the inverse transpose, up to scale).
             val c = floatArrayOf(
@@ -993,19 +1185,28 @@ internal object Glb {
                         val tv = t?.get(tri[k + q])
                         uv.add(tv?.get(0) ?: 0f); uv.add(tv?.get(1) ?: 0f)
                     }
-                    matOf.add(mat); partOf.add(part)
+                    matOf.add(mat); partOf.add(part); hingeOf.add(hinge)
                     k += 3
                 }
                 partBoxes += box
             }
         }
 
-        fun walk(index: Int, parent: FloatArray, depth: Int) {
+        fun walk(index: Int, parent: FloatArray, depth: Int, hinge: Int) {
             if (depth > 64) return
             val n = nodes.getOrNull(index)?.jsonObject ?: return
             val m = mul(parent, local(n))
-            n.int("mesh")?.let { addMesh(it, m, n.str("name").orEmpty()) }
-            n["children"]?.jsonArray?.forEach { walk(it.jsonPrimitive.int, m, depth + 1) }
+            val name = n.str("name").orEmpty()
+            // A Hinge_ node (a rigged model's opening part): what hangs from it turns with it.
+            val h = if (CarHinges.part(name) != null && hinges.none { it.name == name }) {
+                val a = CarHinges.axis(name)
+                val ax = floatArrayOf(m[0] * a[0] + m[1] * a[1] + m[2] * a[2], m[4] * a[0] + m[5] * a[1] + m[6] * a[2], m[8] * a[0] + m[9] * a[1] + m[10] * a[2])
+                val l = sqrt(ax[0] * ax[0] + ax[1] * ax[1] + ax[2] * ax[2]).coerceAtLeast(1e-9f)
+                hinges += RawHinge(name, floatArrayOf(m[3], m[7], m[11]), floatArrayOf(ax[0] / l, ax[1] / l, ax[2] / l))
+                hinges.size - 1
+            } else hinge
+            n.int("mesh")?.let { addMesh(it, m, name, h) }
+            n["children"]?.jsonArray?.forEach { walk(it.jsonPrimitive.int, m, depth + 1, h) }
         }
 
         val identity = floatArrayOf(1f, 0f, 0f, 0f, 0f, 1f, 0f, 0f, 0f, 0f, 1f, 0f, 0f, 0f, 0f, 1f)
@@ -1016,7 +1217,7 @@ internal object Glb {
             val children = nodes.flatMap { n -> n.jsonObject["children"]?.jsonArray?.map { it.jsonPrimitive.int }.orEmpty() }.toSet()
             nodes.indices.filter { it !in children }
         }
-        roots.forEach { walk(it, identity, 0) }
+        roots.forEach { walk(it, identity, 0, -1) }
 
         // A ground plane, a backdrop: a part flat in height and as wide as everything else together.
         val count = matOf.size
@@ -1029,7 +1230,7 @@ internal object Glb {
             tall < across * 0.01f && across > all * 0.9f && partBoxes.size > 1
         }
         val keep = BooleanArray(count) { !flat[partOf[it]] }
-        return RawTris(count, pos.toArray(), nrm.toArray(), uv.toArray(), matOf.toArray(), partOf.toArray(), keep, mats, parts)
+        return RawTris(count, pos.toArray(), nrm.toArray(), uv.toArray(), matOf.toArray(), partOf.toArray(), keep, mats, parts, hingeOf.toArray(), hinges)
     }
 
     private val JsonPrimitive.int: Int get() = content.toDouble().toInt()
