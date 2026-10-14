@@ -50,7 +50,11 @@ internal class ClusterPresentation(
                 WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
         )
         val height = display.mode.physicalHeight.coerceAtLeast(240)
-        val view = ComposeView(context).apply {
+        // In Dashwheel's language, one picked inside it included. Presentation builds its context
+        // with createDisplayContext, which on Android 10 drops a language set on the context it
+        // was given: the Pi showed the board in the unit's language (English) while Dashwheel
+        // and the Pi's own lines were in French. Applied again here, on the display's context.
+        val view = ComposeView(AppLanguage.wrap(context)).apply {
             setViewTreeLifecycleOwner(owner)
             setViewTreeSavedStateRegistryOwner(owner)
             setContent {

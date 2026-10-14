@@ -330,8 +330,8 @@ internal object SecondScreenController {
         val s = stream ?: return
         if (presentation != null) return
         presentation = runCatching {
-            // In Dashwheel's language, one picked inside it included (the app's own context keeps the unit's).
-            ClusterPresentation(AppLanguage.wrap(appContext), s.androidDisplay, _page, _pages, overscanPct, MainActivity.started).also { it.show() }
+            // Its language is applied inside: the display context Presentation makes would drop it.
+            ClusterPresentation(appContext, s.androidDisplay, _page, _pages, overscanPct, MainActivity.started).also { it.show() }
         }.onFailure { Log.w(TAG, "cluster presentation refused", it) }.getOrNull()
     }
 
