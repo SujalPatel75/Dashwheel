@@ -696,13 +696,39 @@ internal object EmbeddedApp {
         tileUsedAt = SystemClock.elapsedRealtime()
         routeDx = down.x - downX
         routeDy = down.y - downY
+        routedDown = RoutedDown(down.downTime, down.eventTime, down.rawX, down.rawY)
         return true
     }
+
+    /** The press [takeTouch] took: when it began and where on the screen. */
+    internal class RoutedDown(val downTime: Long, val eventTime: Long, val x: Float, val y: Float)
+
+    private var routedDown: RoutedDown? = null
+
+    /** A second press this soon after the routed one, this close to it, is that same press told again. */
+    private const val SAME_PRESS_MS = 150L
+    private const val SAME_PRESS_PX = 24f
+
+    /**
+     * Whether a press at ([x], [y]) is [routed] told again rather than a new
+     * touch. On the K706 a finger's press reached the dashboard twice, a
+     * millisecond apart with no lift between (adb's taps came once): taken for
+     * a new touch, the first was cancelled in the app and the press started
+     * again, and Waze ignored a tap begun that way. Its "Where to?" bar did
+     * nothing under the finger, while every adb tap opened it.
+     */
+    internal fun samePress(routed: RoutedDown, downTime: Long, eventTime: Long, x: Float, y: Float): Boolean =
+        downTime == routed.downTime ||
+            (eventTime - routed.eventTime in 0..SAME_PRESS_MS && kotlin.math.hypot(x - routed.x, y - routed.y) <= SAME_PRESS_PX)
 
     /** The rest of a touch taken by [takeTouch], moved onto the tile; false when none is. */
     fun routeTouch(ev: MotionEvent): Boolean {
         val host = routeTo ?: return false
         if (ev.actionMasked == MotionEvent.ACTION_DOWN) {
+            // The press the app already has, told twice: kept from the dashboard, which would
+            // cancel it in the app and start it over.
+            val routed = routedDown
+            if (routed != null && samePress(routed, ev.downTime, ev.eventTime, ev.rawX, ev.rawY)) return true
             // A new touch without the end of the last one: that one is over.
             routeTo = null
             return false

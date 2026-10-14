@@ -10,6 +10,18 @@ import org.junit.Test
 class EmbeddedAppTest {
 
     @Test
+    fun aPressToldTwiceIsOnePress() {
+        val routed = EmbeddedApp.RoutedDown(downTime = 1_000, eventTime = 1_000, x = 150f, y = 568f)
+        // The K706 told a finger's press again a millisecond later, same start.
+        assertTrue(EmbeddedApp.samePress(routed, downTime = 1_000, eventTime = 1_001, x = 150f, y = 568f))
+        // Told again with a fresh start time, but at once and on the same spot.
+        assertTrue(EmbeddedApp.samePress(routed, downTime = 1_002, eventTime = 1_002, x = 152f, y = 569f))
+        // A second finger elsewhere, or a new tap later, is a new touch.
+        assertFalse(EmbeddedApp.samePress(routed, downTime = 1_040, eventTime = 1_040, x = 400f, y = 300f))
+        assertFalse(EmbeddedApp.samePress(routed, downTime = 1_400, eventTime = 1_400, x = 150f, y = 568f))
+    }
+
+    @Test
     fun theTileOnScreenGetsThePicture() {
         // Page A's tile had it; the swipe put page B's on screen.
         assertEquals("b", EmbeddedApp.pickTile("a", listOf("a", "b"), setOf("b")))
