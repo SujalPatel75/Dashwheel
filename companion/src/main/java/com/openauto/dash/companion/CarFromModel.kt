@@ -68,6 +68,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.File
+import java.io.InputStream
+import java.util.zip.ZipFile
 import kotlin.math.max
 import kotlin.math.min
 import kotlin.math.roundToInt
@@ -354,29 +356,50 @@ internal suspend fun keepIfModel(context: Context, uri: Uri): Boolean? = withCon
     if (!glb) null else runCatching { keepModel(context, uri) }.getOrDefault(false)
 }
 
-/** The model at [uri] kept for this screen; false when it is too big or no glTF binary. */
+/**
+ * The model at [uri] kept for this screen: a .glb, or the one inside a car pack (.dwcar,
+ * a zip, as tools/mycar/bake_car.py makes them). False when it is too big or there is none.
+ */
 private fun keepModel(context: Context, uri: Uri): Boolean {
+    val picked = File(folder(context), "incoming")
     val incoming = File(folder(context), "incoming.glb")
     try {
-        context.contentResolver.openInputStream(uri)!!.use { input ->
-            incoming.outputStream().use { out ->
-                val buf = ByteArray(64 * 1024)
-                var total = 0L
-                while (true) {
-                    val n = input.read(buf)
-                    if (n < 0) break
-                    total += n
-                    if (total > MAX_MODEL_BYTES) return false
-                    out.write(buf, 0, n)
-                }
+        if (!context.contentResolver.openInputStream(uri)!!.use { copyAtMost(it, picked) }) return false
+        if (head(picked, 2) == "PK") {
+            // A car pack: its model ("model.glb" in car.json), else any .glb in it.
+            ZipFile(picked).use { zip ->
+                val models = zip.entries().asSequence().filter { !it.isDirectory && it.name.endsWith(".glb", ignoreCase = true) }.toList()
+                val entry = models.firstOrNull { it.name.substringAfterLast('/') == "model.glb" } ?: models.firstOrNull() ?: return false
+                if (!zip.getInputStream(entry).use { copyAtMost(it, incoming) }) return false
             }
-        }
-        val head = incoming.inputStream().use { s -> ByteArray(4).also { s.read(it) } }
-        if (String(head, Charsets.US_ASCII) != "glTF") return false
+        } else if (!picked.renameTo(incoming)) return false
+        if (head(incoming, 4) != "glTF") return false
         return incoming.renameTo(modelFile(context).also { it.delete() })
     } finally {
+        picked.delete()
         incoming.delete()
     }
+}
+
+/** [input] copied to [file]; false once it is bigger than [MAX_MODEL_BYTES]. */
+private fun copyAtMost(input: InputStream, file: File): Boolean {
+    file.outputStream().use { out ->
+        val buf = ByteArray(64 * 1024)
+        var total = 0L
+        while (true) {
+            val n = input.read(buf)
+            if (n < 0) return true
+            total += n
+            if (total > MAX_MODEL_BYTES) return false
+            out.write(buf, 0, n)
+        }
+    }
+}
+
+/** The first [n] bytes of [file] as text. */
+private fun head(file: File, n: Int): String = file.inputStream().use { s ->
+    val b = ByteArray(n)
+    String(b, 0, max(0, s.read(b)), Charsets.US_ASCII)
 }
 
 /** The doors picture at [uri] kept for this screen, decoded. */
