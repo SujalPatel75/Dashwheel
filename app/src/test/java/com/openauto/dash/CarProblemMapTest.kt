@@ -115,4 +115,19 @@ class CarProblemMapTest {
         // Nothing read yet.
         assertEquals(CarVerdict.UNREAD, carVerdict(emptyList(), null, null, lampOn = false))
     }
+
+    @Test
+    fun theBonnetEndsBehindTheFrontWheels() {
+        // A C4 Picasso's view from above: nose at 3.7 %, front wheels at 23 %.
+        val c4 = bonnetSpan(Offset(0.5f, 0.037f), listOf(Offset(0.22f, 0.23f), Offset(0.79f, 0.23f), Offset(0.22f, 0.82f), Offset(0.79f, 0.82f)))
+        assertEquals(0.037f, c4.start, 0.001f)
+        assertTrue("hinge ${c4.endInclusive}", c4.endInclusive in 0.3f..0.38f)
+        // Nothing known: near the top, about a third down.
+        val plain = bonnetSpan(null, emptyList())
+        assertTrue(plain.endInclusive in 0.25f..0.4f)
+        // A nose oddly low never gives a bonnet ending before it starts.
+        val odd = bonnetSpan(Offset(0.5f, 0.6f), emptyList())
+        assertTrue(odd.endInclusive > odd.start)
+    }
 }
+

@@ -66,7 +66,8 @@ import kotlin.math.sin
  * Dashwheel's door alert, in place of the head unit's own ([RomPopups]), in
  * the design the driver chose ([AlertStyle]): the doors that are open, over
  * whatever app fills the screen, gone once they are all shut. The side panel
- * and the full screen draw the car from above with those doors swung open. A
+ * and the full screen draw the car with those doors swung open: the driver's
+ * own in 3D when its pack brought a model, else from above. A
  * tap hides it until another door opens. On the move those two shrink to the
  * pill after a few seconds ([ShrinkOnTheMove]); a tap on that pill brings
  * them back. Without "display over other apps"
@@ -267,7 +268,7 @@ private fun DoorPanel(doors: McuReader.DoorState) {
                 stringResource(R.string.vehicle_door_any_open).uppercase(), color = DashColors.Warning, letterSpacing = 1.5.sp,
                 fontWeight = FontWeight.SemiBold, style = MaterialTheme.typography.labelLarge
             )
-            CarFromAbove(doors, Modifier.weight(1f).fillMaxWidth().padding(vertical = 16.dp))
+            OpeningCar(doors, Modifier.weight(1f).fillMaxWidth().padding(vertical = 16.dp))
             Text(
                 openDoorNames(doors), color = DashColors.TextPrimary, fontWeight = FontWeight.Bold, textAlign = TextAlign.Center,
                 style = MaterialTheme.typography.headlineSmall
@@ -284,7 +285,9 @@ private fun DoorFullScreen(doors: McuReader.DoorState) {
     val tap = rememberTapFeedback()
     FullScreenModal(onTap = { tap(); DoorAlertOverlay.dismiss() }, tone = DashColors.Warning) {
         Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(horizontal = 40.dp, vertical = 28.dp)) {
-            CarFromAbove(doors, Modifier.fillMaxHeight().width(240.dp))
+            // The car in 3D, seen from a corner, needs more width than the car from above.
+            val in3D = rememberCar3DModel() != null
+            OpeningCar(doors, Modifier.fillMaxHeight().width(if (in3D) 380.dp else 240.dp))
             Spacer(Modifier.width(40.dp))
             Column(Modifier.widthIn(max = 460.dp)) {
                 Text(
@@ -301,11 +304,24 @@ private fun DoorFullScreen(doors: McuReader.DoorState) {
 }
 
 /**
+ * The large designs' car: the driver's own in 3D when its pack brought a
+ * model, what is open swinging open on its hinges ([Car3DOpen]); else, and
+ * for a model without those hinges, the car from above.
+ */
+@Composable
+private fun OpeningCar(doors: McuReader.DoorState, modifier: Modifier) {
+    val model = rememberCar3DModel()
+    if (model == null) CarFromAbove(doors, modifier)
+    else Car3DOpen(model, doors.openNames(), modifier) { CarFromAbove(doors, Modifier.fillMaxSize()) }
+}
+
+/**
  * The car seen from above, nose up, fitted into the space it's given: the
  * open doors swing out on their hinges (animated as they open and shut) and
  * glow in the warning colour, the tailgate and the bonnet lift away from the
  * body. The driver's own car when it has a view from above (MyCarLook.kt),
- * its open parts fading in over it.
+ * its open parts fading in over it, or its bonnet lifting out of the picture
+ * when the pack has no picture of it open.
  */
 @Composable
 internal fun CarFromAbove(doors: McuReader.DoorState, modifier: Modifier = Modifier) {

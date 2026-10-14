@@ -30,9 +30,11 @@ import java.io.File
 import java.io.RandomAccessFile
 import java.util.Base64
 import java.util.zip.ZipInputStream
+import kotlin.math.cos
 import kotlin.math.max
 import kotlin.math.min
 import kotlin.math.roundToInt
+import kotlin.math.sin
 import kotlin.math.sqrt
 
 /*
@@ -632,28 +634,83 @@ internal fun DrawScope.drawCarView(
     open: Map<CarPart, Float> = emptyMap()
 ) {
     val shown = open.filterValues { it > 0.01f }
-    val warned = alert || shown.keys.any { it !in view.parts }
+    // An open bonnet the pack has no picture of lifts out of the car's own picture instead.
+    val lift = shown[CarPart.BONNET]?.takeIf { CarPart.BONNET !in view.parts }
+    val warned = alert || shown.keys.any { it !in view.parts && it != CarPart.BONNET }
     drawPicture(view.photo, view.outline, style, dst, if (warned) warn else ink, warned, warn)
+    if (lift != null) drawBonnetLifting(view, style, dst, warn, lift)
     for ((part, amount) in shown) {
         val layer = view.parts[part] ?: continue
         drawPicture(layer.photo, layer.outline, style, Rect(dst.at(layer.box.topLeft), dst.at(layer.box.bottomRight)), warn, true, warn, amount.coerceAtMost(1f))
     }
 }
 
-/** One picture in [style]: [alert] puts the outline in [warn] over the photo. */
+/**
+ * One picture in [style]: [alert] puts the outline in [warn] over the photo.
+ * [srcTop] and [srcBottom]: the band of the picture drawn (fractions of its height), into all of [dst].
+ */
 private fun DrawScope.drawPicture(
-    photo: ImageBitmap, outline: ImageBitmap, style: CarLookStyle, dst: Rect, tone: Color, alert: Boolean, warn: Color, alpha: Float = 1f
+    photo: ImageBitmap, outline: ImageBitmap, style: CarLookStyle, dst: Rect, tone: Color, alert: Boolean, warn: Color, alpha: Float = 1f,
+    srcTop: Float = 0f, srcBottom: Float = 1f
 ) {
     val offset = IntOffset(dst.left.roundToInt(), dst.top.roundToInt())
     val size = IntSize(dst.width.roundToInt().coerceAtLeast(1), dst.height.roundToInt().coerceAtLeast(1))
+    fun band(image: ImageBitmap, filter: ColorFilter?) {
+        val from = (image.height * srcTop).roundToInt().coerceIn(0, image.height - 1)
+        val to = (image.height * srcBottom).roundToInt().coerceIn(from + 1, image.height)
+        drawImage(image, IntOffset(0, from), IntSize(image.width, to - from), offset, size, alpha = alpha, colorFilter = filter)
+    }
     when (style) {
         CarLookStyle.PHOTO -> {
-            drawImage(photo, dstOffset = offset, dstSize = size, alpha = alpha)
-            if (alert) drawImage(outline, dstOffset = offset, dstSize = size, alpha = alpha, colorFilter = ColorFilter.tint(warn, BlendMode.SrcIn))
+            band(photo, null)
+            if (alert) band(outline, ColorFilter.tint(warn, BlendMode.SrcIn))
         }
-        CarLookStyle.TINTED -> drawImage(photo, dstOffset = offset, dstSize = size, alpha = alpha, colorFilter = tintRamp(tone))
-        CarLookStyle.OUTLINE -> drawImage(outline, dstOffset = offset, dstSize = size, alpha = alpha, colorFilter = ColorFilter.tint(tone, BlendMode.SrcIn))
+        CarLookStyle.TINTED -> band(photo, tintRamp(tone))
+        CarLookStyle.OUTLINE -> band(outline, ColorFilter.tint(tone, BlendMode.SrcIn))
     }
+}
+
+/** How far a bonnet seen from above opens, degrees. */
+private const val BONNET_OPEN_DEG = 65f
+
+/**
+ * The bonnet lifting on its hinge at the bottom of the windscreen, seen from
+ * above ([view] nose up, in [dst]): as it rises it gets shorter toward the
+ * hinge (and a little wider, nearer the eye), uncovering a dark engine bay,
+ * and shows in [warn]. [k]: how far open (0 shut, 1 open; a little past while
+ * it springs).
+ */
+private fun DrawScope.drawBonnetLifting(view: CarView, style: CarLookStyle, dst: Rect, warn: Color, k: Float) {
+    val hinge = bonnetSpan(view.nose, view.wheels).endInclusive
+    val bay = Rect(dst.left, dst.top, dst.right, dst.top + dst.height * hinge)
+    // The engine bay: the bonnet's own shape, dark, darker as it opens.
+    val shade = k.coerceIn(0f, 1f)
+    val rows = (view.photo.height * hinge).roundToInt().coerceIn(1, view.photo.height)
+    drawImage(
+        view.photo, IntOffset.Zero, IntSize(view.photo.width, rows),
+        IntOffset(bay.left.roundToInt(), bay.top.roundToInt()), IntSize(bay.width.roundToInt().coerceAtLeast(1), bay.height.roundToInt().coerceAtLeast(1)),
+        alpha = 0.92f * shade, colorFilter = ColorFilter.tint(Color(0xFF0D1014), BlendMode.SrcIn)
+    )
+    // The bonnet itself, foreshortened about its hinge.
+    val angle = Math.toRadians((BONNET_OPEN_DEG * k).toDouble())
+    val h = bay.height * cos(angle).toFloat().coerceAtLeast(0.05f)
+    val w = bay.width * (1f + 0.08f * sin(angle).toFloat())
+    val lid = Rect(bay.center.x - w / 2f, bay.bottom - h, bay.center.x + w / 2f, bay.bottom)
+    drawPicture(view.photo, view.outline, style, lid, warn, true, warn, srcTop = 0f, srcBottom = hinge)
+}
+
+/**
+ * Where the bonnet is on a view from above (nose up), as fractions of its
+ * height: from the nose ([nose], else near the top) to its hinge at the
+ * bottom of the windscreen, a little over half the nose-to-axle distance
+ * behind the front wheels ([wheels], front left and right first). Pure, so it
+ * is unit-tested.
+ */
+internal fun bonnetSpan(nose: Offset?, wheels: List<Offset>): ClosedFloatingPointRange<Float> {
+    val front = nose?.y ?: 0.03f
+    val axle = if (wheels.size >= 2) (wheels[0].y + wheels[1].y) / 2f else front + 0.2f
+    val hinge = max(front + 0.1f, min(0.45f, axle + (axle - front) * 0.55f))
+    return front..hinge
 }
 
 /** The picture's brightness laid on a ramp from near black to [light]: one colour, its shading kept. */

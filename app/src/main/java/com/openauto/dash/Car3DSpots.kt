@@ -91,6 +91,39 @@ internal object Car3DSpots {
         }
     }
 
+    /**
+     * The car with what a door alert says is open ([open]: fl, fr, rl, rr,
+     * tailgate, bonnet) swung open on its hinges. One part: the camera turns
+     * to it (the bonnet from above the front, into the engine bay); several:
+     * the whole car, from the corner most of them are on.
+     */
+    fun opened(open: Set<String>): Spot3D {
+        when (open.singleOrNull()) {
+            "fl" -> return of(CarSpot.DOOR_FL)
+            "fr" -> return of(CarSpot.DOOR_FR)
+            "rl" -> return of(CarSpot.DOOR_RL)
+            "rr" -> return of(CarSpot.DOOR_RR)
+            "tailgate" -> return of(CarSpot.BOOT)
+            "bonnet" -> return spot(0.15f, 0f, 0.7f, 30f, 30f, 0.95f, listOf("Bonnet"), listOf(BONNET), 0.25f)
+        }
+        val doors = listOf("fl", "fr", "rl", "rr").filter { it in open }
+        val left = "fl" in open || "rl" in open
+        val right = "fr" in open || "rr" in open
+        val rear = "tailgate" in open && "bonnet" !in open
+        val yaw = when {
+            rear && left && !right -> 215f
+            rear -> 145f
+            left && !right -> 325f
+            else -> 35f
+        }
+        return spot(
+            0.5f, 0f, 0.5f, yaw, 24f, 1.35f,
+            glow = doors.map { "Door_$it" } + listOfNotNull("Tailgate".takeIf { "tailgate" in open }, "Bonnet".takeIf { "bonnet" in open }),
+            open = doors.map { "Hinge_door_$it" } + listOfNotNull(TAILGATE.takeIf { "tailgate" in open }, BONNET.takeIf { "bonnet" in open }),
+            strength = 0.25f
+        )
+    }
+
     /** Whether node [name] is one of [glow]'s: a whole name, or a beginning ending in "_" (Wheel_, Door_). */
     fun matches(name: String, glow: List<String>): Boolean = glow.any { g ->
         if (g.endsWith("_")) name.startsWith(g) else name == g || name.startsWith("$g.")

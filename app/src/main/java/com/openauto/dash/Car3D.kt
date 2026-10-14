@@ -319,47 +319,12 @@ internal fun Car3DProblems(
     /** The problem chips and Whole car down the side; off where a look shows the car as scenery. */
     chips: Boolean = true
 ) {
-    val context = LocalContext.current
-    val lifecycle = LocalLifecycleOwner.current
-    var ready by remember(model) { mutableStateOf(false) }
-    var failed by remember(model) { mutableStateOf(false) }
-    val stage = remember { Stage(context) }
+    val staged = rememberStage(model)
+    val stage = staged.stage
+    val ready = staged.ready
+    val failed = staged.failed
     var pin by remember { mutableStateOf<Offset?>(null) }
     stage.onPin = { pin = it }
-
-    LaunchedEffect(model) {
-        if (stage.holding) { stage.holding = false; Car3D.done() }
-        val key = model.path + ":" + model.lastModified()
-        val glb = if (Car3D.loadedKey() == key) null else withContext(Dispatchers.IO) {
-            runCatching {
-                val bytes = model.readBytes()
-                ByteBuffer.allocateDirect(bytes.size).order(ByteOrder.nativeOrder()).put(bytes).also { it.rewind() }
-            }.getOrNull()
-        }
-        if (Car3D.use(model, glb)) {
-            stage.holding = true
-            ready = true
-            stage.start()
-        } else {
-            Car3D.done()
-            failed = true
-        }
-    }
-    DisposableEffect(lifecycle, stage) {
-        val obs = LifecycleEventObserver { _, ev ->
-            when (ev) {
-                Lifecycle.Event.ON_RESUME -> stage.resume()
-                Lifecycle.Event.ON_PAUSE -> stage.pause()
-                else -> Unit
-            }
-        }
-        lifecycle.lifecycle.addObserver(obs)
-        onDispose {
-            lifecycle.lifecycle.removeObserver(obs)
-            stage.dispose()
-            if (stage.holding) Car3D.done()
-        }
-    }
     LaunchedEffect(selected, ready) { if (ready) stage.show(selected) }
 
     val tone = when (selected?.serious) { 2 -> DashColors.Critical; 1 -> DashColors.Warning; else -> DashColors.Accent }
@@ -433,6 +398,75 @@ internal fun Car3DProblems(
                 style = MaterialTheme.typography.labelSmall,
                 modifier = Modifier.align(Alignment.BottomEnd).padding(8.dp)
             )
+        }
+    }
+}
+
+/** A [Stage] with [model] in it, and whether the model is in yet ([ready]) or could not be ([failed]). */
+private class Staged(val stage: Stage, val ready: Boolean, val failed: Boolean)
+
+/** A view of the shared 3D car: the model read in, the stage paused, resumed and let go with the card. */
+@Composable
+private fun rememberStage(model: File): Staged {
+    val context = LocalContext.current
+    val lifecycle = LocalLifecycleOwner.current
+    var ready by remember(model) { mutableStateOf(false) }
+    var failed by remember(model) { mutableStateOf(false) }
+    val stage = remember { Stage(context) }
+
+    LaunchedEffect(model) {
+        if (stage.holding) { stage.holding = false; Car3D.done() }
+        val key = model.path + ":" + model.lastModified()
+        val glb = if (Car3D.loadedKey() == key) null else withContext(Dispatchers.IO) {
+            runCatching {
+                val bytes = model.readBytes()
+                ByteBuffer.allocateDirect(bytes.size).order(ByteOrder.nativeOrder()).put(bytes).also { it.rewind() }
+            }.getOrNull()
+        }
+        if (Car3D.use(model, glb)) {
+            stage.holding = true
+            ready = true
+            stage.start()
+        } else {
+            Car3D.done()
+            failed = true
+        }
+    }
+    DisposableEffect(lifecycle, stage) {
+        val obs = LifecycleEventObserver { _, ev ->
+            when (ev) {
+                Lifecycle.Event.ON_RESUME -> stage.resume()
+                Lifecycle.Event.ON_PAUSE -> stage.pause()
+                else -> Unit
+            }
+        }
+        lifecycle.lifecycle.addObserver(obs)
+        onDispose {
+            lifecycle.lifecycle.removeObserver(obs)
+            stage.dispose()
+            if (stage.holding) Car3D.done()
+        }
+    }
+    return Staged(stage, ready, failed)
+}
+
+/**
+ * The driver's car in 3D with what [open] says is open (fl, fr, rl, rr,
+ * tailgate, bonnet) swinging open on its hinges, the camera turning to it
+ * ([Car3DSpots.opened]): the door alert's large designs. [fallback] until the
+ * model is in, and instead when it can't be shown or hasn't the hinges of
+ * what is open (a model drawn on the phone has none).
+ */
+@Composable
+internal fun Car3DOpen(model: File, open: Set<String>, modifier: Modifier = Modifier, fallback: @Composable () -> Unit) {
+    val staged = rememberStage(model)
+    val spot = remember(open) { Car3DSpots.opened(open) }
+    val hinged = staged.ready && spot.open.all { it in Car3D.hinges }
+    LaunchedEffect(spot, hinged) { if (hinged) staged.stage.show(Problem3D(0, spot, "", serious = 1)) }
+    Box(modifier) {
+        if (!hinged) fallback()
+        if (!staged.failed && (hinged || !staged.ready)) {
+            AndroidView(factory = { TextureView(it).also(staged.stage::attach) }, modifier = Modifier.fillMaxSize())
         }
     }
 }

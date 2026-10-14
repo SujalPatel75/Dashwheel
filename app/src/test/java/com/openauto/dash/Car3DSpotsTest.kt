@@ -66,4 +66,27 @@ class Car3DSpotsTest {
         assertEquals(-48f, Car3DSpots.hingeAngle("Hinge_bonnet"))
         assertNull(Car3DSpots.hingeAngle("Hinge_spoiler"))
     }
+
+    @Test
+    fun aDoorAlertOpensWhatIsOpen() {
+        // The bonnet alone: from the front, into the engine bay, the bonnet open.
+        val bonnet = Car3DSpots.opened(setOf("bonnet"))
+        assertEquals(listOf("Hinge_bonnet"), bonnet.open)
+        assertTrue(bonnet.camera.yaw < 90f || bonnet.camera.yaw > 270f)
+        assertTrue(bonnet.at.first < 0.3f)
+        // One door: the same as that door's place on the car.
+        assertEquals(Car3DSpots.of(CarSpot.DOOR_RL), Car3DSpots.opened(setOf("rl")))
+        // Both doors on the left: the whole car from the front left, both open.
+        val left = Car3DSpots.opened(setOf("fl", "rl"))
+        assertEquals(listOf("Hinge_door_fl", "Hinge_door_rl"), left.open)
+        assertTrue(left.camera.yaw > 270f)
+        // The tailgate and a right door: from behind on the right.
+        val back = Car3DSpots.opened(setOf("tailgate", "rr"))
+        assertEquals(setOf("Hinge_door_rr", "Hinge_tailgate"), back.open.toSet())
+        assertTrue(back.camera.yaw > 90f && back.camera.yaw < 180f)
+        // Every hinge named is one the rig opens.
+        val all = Car3DSpots.opened(setOf("fl", "fr", "rl", "rr", "tailgate", "bonnet"))
+        assertEquals(6, all.open.size)
+        for (h in all.open) assertTrue(h, Car3DSpots.hingeAngle(h) != null)
+    }
 }
