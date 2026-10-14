@@ -268,6 +268,15 @@
     <string name="settings_show_fewer_detail">Alleen de gewone hier houden</string>
     <string name="settings_lab">Lab</string>
     <string name="settings_lab_detail">Hulpmiddelen in test en het logboek van het toestel</string>
+    <string name="dead_strip_title">Dode aanraakstrook</string>
+    <string name="dead_strip_detail">Voor een scherm dat in één verticale strook geen aanraking voelt: Instellingen opent rechts ervan</string>
+    <string name="dead_strip_found">Geen aanraking van %1$d tot %2$d px: Instellingen opent rechts ervan</string>
+    <string name="dead_strip_measure">Strook meten</string>
+    <string name="dead_strip_measure_detail">Schuif een vinger over de hele breedte van het scherm</string>
+    <string name="dead_strip_hint">Schuif een vinger langzaam van de linkerrand naar de rechterrand, twee of drie keer.</string>
+    <string name="dead_strip_result">Geen aanraking van %1$d tot %2$d px</string>
+    <string name="dead_strip_nothing">Nog geen dode strook gevonden</string>
+    <string name="dead_strip_save">Opslaan</string>
     <string name="settings_unit_tools">Toestelhulpmiddelen</string>
     <string name="settings_unit_tools_detail">Opstartlogo, Google Maps in een tegel, systeemapp</string>
     <string name="settings_root_how">Hoe</string>

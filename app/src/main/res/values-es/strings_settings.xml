@@ -268,6 +268,15 @@
     <string name="settings_show_fewer_detail">Dejar aquí solo los habituales</string>
     <string name="settings_lab">Laboratorio</string>
     <string name="settings_lab_detail">Herramientas en pruebas y el registro de la unidad</string>
+    <string name="dead_strip_title">Franja táctil muerta</string>
+    <string name="dead_strip_detail">Para una pantalla que no detecta toques en una franja vertical: los Ajustes se abren a su derecha</string>
+    <string name="dead_strip_found">Sin toques de %1$d a %2$d px: los Ajustes se abren a su derecha</string>
+    <string name="dead_strip_measure">Medir la franja</string>
+    <string name="dead_strip_measure_detail">Desliza un dedo por todo el ancho de la pantalla</string>
+    <string name="dead_strip_hint">Desliza un dedo despacio del borde izquierdo al derecho, dos o tres veces.</string>
+    <string name="dead_strip_result">Sin toques de %1$d a %2$d px</string>
+    <string name="dead_strip_nothing">Aún no se ha encontrado ninguna franja muerta</string>
+    <string name="dead_strip_save">Guardar</string>
     <string name="settings_unit_tools">Herramientas de la unidad</string>
     <string name="settings_unit_tools_detail">Logo de arranque, Google Maps en un mosaico, app de sistema</string>
     <string name="settings_root_how">Cómo</string>

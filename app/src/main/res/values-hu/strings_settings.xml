@@ -269,6 +269,15 @@
     <string name="settings_show_fewer_detail">Csak a szokásosak maradjanak itt</string>
     <string name="settings_lab">Labor</string>
     <string name="settings_lab_detail">Még tesztelés alatt álló eszközök és a fejegység naplója</string>
+    <string name="dead_strip_title">Halott érintősáv</string>
+    <string name="dead_strip_detail">Olyan képernyőhöz, amely egy függőleges sávban nem érzékeli az érintést: a Beállítások tőle jobbra nyílnak meg</string>
+    <string name="dead_strip_found">Nincs érintés %1$d és %2$d px között: a Beállítások tőle jobbra nyílnak meg</string>
+    <string name="dead_strip_measure">Sáv mérése</string>
+    <string name="dead_strip_measure_detail">Húzza végig egy ujját a képernyő teljes szélességén</string>
+    <string name="dead_strip_hint">Húzza lassan egy ujját a bal szélétől a jobb széléig, kétszer-háromszor.</string>
+    <string name="dead_strip_result">Nincs érintés %1$d és %2$d px között</string>
+    <string name="dead_strip_nothing">Még nem található halott sáv</string>
+    <string name="dead_strip_save">Mentés</string>
     <string name="settings_unit_tools">Fejegység eszközei</string>
     <string name="settings_unit_tools_detail">Rendszerindító logó, Google Maps csempében, rendszeralkalmazás</string>
     <string name="settings_root_how">Hogyan</string>

@@ -268,6 +268,15 @@
     <string name="settings_show_fewer_detail">Zostaw tu tylko te zwykłe</string>
     <string name="settings_lab">Laboratorium</string>
     <string name="settings_lab_detail">Narzędzia w testach i dziennik urządzenia</string>
+    <string name="dead_strip_title">Martwy pas dotyku</string>
+    <string name="dead_strip_detail">Dla ekranu, który nie wyczuwa dotyku w jednym pionowym pasie: Ustawienia otwierają się na prawo od niego</string>
+    <string name="dead_strip_found">Brak dotyku od %1$d do %2$d px: Ustawienia otwierają się na prawo od niego</string>
+    <string name="dead_strip_measure">Zmierz pas</string>
+    <string name="dead_strip_measure_detail">Przesuń palcem przez całą szerokość ekranu</string>
+    <string name="dead_strip_hint">Przesuń palcem powoli od lewej do prawej krawędzi, dwa lub trzy razy.</string>
+    <string name="dead_strip_result">Brak dotyku od %1$d do %2$d px</string>
+    <string name="dead_strip_nothing">Nie znaleziono jeszcze martwego pasa</string>
+    <string name="dead_strip_save">Zapisz</string>
     <string name="settings_unit_tools">Narzędzia urządzenia</string>
     <string name="settings_unit_tools_detail">Logo startowe, Mapy Google w kafelku, aplikacja systemowa</string>
     <string name="settings_root_how">Jak</string>

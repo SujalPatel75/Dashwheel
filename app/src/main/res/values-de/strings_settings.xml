@@ -268,6 +268,15 @@
     <string name="settings_show_fewer_detail">Nur die üblichen hier zeigen</string>
     <string name="settings_lab">Labor</string>
     <string name="settings_lab_detail">Werkzeuge im Test und das Protokoll des Geräts</string>
+    <string name="dead_strip_title">Toter Touch-Streifen</string>
+    <string name="dead_strip_detail">Für einen Bildschirm, der in einem senkrechten Streifen keine Berührung erkennt: Die Einstellungen öffnen sich rechts davon</string>
+    <string name="dead_strip_found">Keine Berührung von %1$d bis %2$d px: Die Einstellungen öffnen sich rechts davon</string>
+    <string name="dead_strip_measure">Streifen messen</string>
+    <string name="dead_strip_measure_detail">Einen Finger über die ganze Breite des Bildschirms ziehen</string>
+    <string name="dead_strip_hint">Einen Finger langsam vom linken bis zum rechten Rand ziehen, zwei- oder dreimal.</string>
+    <string name="dead_strip_result">Keine Berührung von %1$d bis %2$d px</string>
+    <string name="dead_strip_nothing">Noch kein toter Streifen gefunden</string>
+    <string name="dead_strip_save">Speichern</string>
     <string name="settings_unit_tools">Geräte-Werkzeuge</string>
     <string name="settings_unit_tools_detail">Startlogo, Google Maps in einer Kachel, System-App</string>
     <string name="settings_root_how">Wie</string>

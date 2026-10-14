@@ -511,6 +511,7 @@ private val SETTINGS_INDEX: List<SettingsEntry> by lazy {
         SettingsEntry(R.string.settings_lab, SettingsTab.SYSTEM, listOf(Deep.LAB)),
         SettingsEntry(R.string.explore_title, SettingsTab.SYSTEM, listOf(Deep.LAB, Deep.EXPLORER), detail = R.string.explore_settings_detail),
         SettingsEntry(R.string.signals_title, SettingsTab.SYSTEM, listOf(Deep.LAB, Deep.SIGNALS), detail = R.string.signals_settings_detail),
+        SettingsEntry(R.string.dead_strip_title, SettingsTab.SYSTEM, listOf(Deep.LAB), detail = R.string.dead_strip_detail),
         SettingsEntry(R.string.settings_sleep_title, SettingsTab.SYSTEM, listOf(Deep.LAB), offered = { CarPower.available }),
         SettingsEntry(R.string.settings_log_title, SettingsTab.SYSTEM, listOf(Deep.LAB))
     )

@@ -11,6 +11,11 @@ import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.tween
 import androidx.compose.runtime.withFrameNanos
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalView
+import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.layout.positionInWindow
+import androidx.compose.material.icons.filled.Swipe
+import androidx.compose.material.icons.filled.TouchApp
 import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.res.painterResource
 import androidx.compose.foundation.Image
@@ -355,13 +360,38 @@ internal fun SettingsHeader(onClose: () -> Unit) {
     }
 }
 
+private val RAIL_WIDTH = 260.dp
+
+/** How far into the pane a dead strip still pushes the side bar: past that it only crosses rows, not their start. */
+private val RAIL_STRIP_REACH = 240.dp
+
+/** The widest the side bar grows for a dead strip, leaving the pane room. */
+private val RAIL_MAX_WIDTH = 520.dp
+
 /** Wide screens: close, the title and the categories down the left. */
 @Composable
 private fun SettingsRail(tab: SettingsTab, onChoose: (SettingsTab) -> Unit, onClose: () -> Unit) {
     val tap = rememberTapFeedback()
+    // A screen dead in one upright strip (Lab): the side bar grows past it, so the
+    // pane's back arrow and rows start where touches are felt.
+    val strip = DeadTouchStrip.active()
+    val view = LocalView.current
+    val density = LocalDensity.current
+    var left by remember { mutableStateOf<Float?>(null) }
+    val width = with(density) {
+        val at = left
+        if (strip == null || at == null) RAIL_WIDTH
+        else DeadTouchStrip.sideBarWidth(
+            strip, at, RAIL_WIDTH.toPx(), reachPx = RAIL_STRIP_REACH.toPx(), gapPx = 12.dp.toPx(), maxPx = RAIL_MAX_WIDTH.toPx()
+        ).toDp()
+    }
     Column(
         modifier = Modifier
-            .width(260.dp)
+            .onGloballyPositioned { coords ->
+                val onScreen = IntArray(2).also { view.getLocationOnScreen(it) }
+                left = coords.positionInWindow().x + onScreen[0]
+            }
+            .width(width)
             .fillMaxHeight()
             .background(DashColors.CardHi.copy(alpha = DashColors.CardHi.alpha * 0.4f))
             .verticalScroll(rememberScrollState())
@@ -1276,6 +1306,7 @@ private fun LabSheet(open: (Deep) -> Unit, onDismiss: () -> Unit) {
         Column {
             SettingsRow(Icons.Filled.Science, stringResource(R.string.explore_title), stringResource(R.string.explore_settings_detail)) { open(Deep.EXPLORER) }
             SettingsRow(Icons.Filled.SettingsInputAntenna, stringResource(R.string.signals_title), stringResource(R.string.signals_settings_detail)) { open(Deep.SIGNALS) }
+            DeadStripRows()
             Spacer(Modifier.height(20.dp))
             SettingsSection(stringResource(R.string.settings_section_diagnostics))
             if (CarPower.available) {
@@ -1293,6 +1324,27 @@ private fun LabSheet(open: (Deep) -> Unit, onDismiss: () -> Unit) {
             SaveLogRow()
         }
     }
+}
+
+/**
+ * A touchscreen dead in one upright strip ([DeadTouchStrip]): the switch, and
+ * measuring the strip, which switching on asks for the first time.
+ */
+@Composable
+private fun DeadStripRows() {
+    val context = LocalContext.current
+    DeadTouchStrip.load(context)
+    val on by DeadTouchStrip.on.collectAsState()
+    val strip by DeadTouchStrip.measured.collectAsState()
+    var measuring by remember { mutableStateOf(false) }
+    SettingsToggle(
+        Icons.Filled.TouchApp,
+        stringResource(R.string.dead_strip_title),
+        strip?.let { stringResource(R.string.dead_strip_found, it.startPx, it.endPx) } ?: stringResource(R.string.dead_strip_detail),
+        on
+    ) { value -> if (value && strip == null) measuring = true else DeadTouchStrip.setOn(context, value) }
+    if (on) SettingsRow(Icons.Filled.Swipe, stringResource(R.string.dead_strip_measure), stringResource(R.string.dead_strip_measure_detail)) { measuring = true }
+    if (measuring) DeadStripMeasure(onDismiss = { measuring = false })
 }
 
 /**

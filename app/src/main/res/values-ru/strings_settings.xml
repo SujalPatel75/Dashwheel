@@ -269,6 +269,15 @@
     <string name="settings_show_fewer_detail">Оставить здесь только обычные</string>
     <string name="settings_lab">Лаборатория</string>
     <string name="settings_lab_detail">Инструменты в испытании и журнал устройства</string>
+    <string name="dead_strip_title">Мёртвая полоса касаний</string>
+    <string name="dead_strip_detail">Для экрана, который не чувствует касаний в одной вертикальной полосе: Настройки открываются справа от неё</string>
+    <string name="dead_strip_found">Нет касаний от %1$d до %2$d пикс.: Настройки открываются справа от неё</string>
+    <string name="dead_strip_measure">Измерить полосу</string>
+    <string name="dead_strip_measure_detail">Проведите пальцем по всей ширине экрана</string>
+    <string name="dead_strip_hint">Медленно проведите пальцем от левого края до правого, два-три раза.</string>
+    <string name="dead_strip_result">Нет касаний от %1$d до %2$d пикс.</string>
+    <string name="dead_strip_nothing">Мёртвая полоса пока не найдена</string>
+    <string name="dead_strip_save">Сохранить</string>
     <string name="settings_unit_tools">Инструменты устройства</string>
     <string name="settings_unit_tools_detail">Логотип загрузки, Google Карты в плитке, системное приложение</string>
     <string name="settings_root_how">Как</string>

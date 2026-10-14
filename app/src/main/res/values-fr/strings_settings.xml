@@ -268,6 +268,15 @@
     <string name="settings_show_fewer_detail">Ne garder ici que les plus courants</string>
     <string name="settings_lab">Labo</string>
     <string name="settings_lab_detail">Outils encore à l\'essai, et le journal de l\'unité</string>
+    <string name="dead_strip_title">Bande tactile morte</string>
+    <string name="dead_strip_detail">Pour un écran qui ne sent pas les touches dans une bande verticale : les Réglages s\'ouvrent à sa droite</string>
+    <string name="dead_strip_found">Aucun toucher de %1$d à %2$d px : les Réglages s\'ouvrent à sa droite</string>
+    <string name="dead_strip_measure">Mesurer la bande</string>
+    <string name="dead_strip_measure_detail">Faites glisser un doigt sur toute la largeur de l\'écran</string>
+    <string name="dead_strip_hint">Faites glisser un doigt lentement du bord gauche au bord droit, deux ou trois fois.</string>
+    <string name="dead_strip_result">Aucun toucher de %1$d à %2$d px</string>
+    <string name="dead_strip_nothing">Aucune bande morte trouvée pour l\'instant</string>
+    <string name="dead_strip_save">Enregistrer</string>
     <string name="settings_unit_tools">Outils de l\'unité</string>
     <string name="settings_unit_tools_detail">Logo de démarrage, Google Maps dans une tuile, app système</string>
     <string name="settings_root_how">Comment</string>

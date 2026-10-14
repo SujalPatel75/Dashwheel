@@ -268,6 +268,15 @@
     <string name="settings_show_fewer_detail">Deixar aqui só as habituais</string>
     <string name="settings_lab">Laboratório</string>
     <string name="settings_lab_detail">Ferramentas em teste e o registo da unidade</string>
+    <string name="dead_strip_title">Faixa de toque morta</string>
+    <string name="dead_strip_detail">Para um ecrã que não sente toques numa faixa vertical: as Definições abrem à direita dela</string>
+    <string name="dead_strip_found">Sem toque de %1$d a %2$d px: as Definições abrem à direita dela</string>
+    <string name="dead_strip_measure">Medir a faixa</string>
+    <string name="dead_strip_measure_detail">Deslize um dedo por toda a largura do ecrã</string>
+    <string name="dead_strip_hint">Deslize um dedo devagar da margem esquerda até à direita, duas ou três vezes.</string>
+    <string name="dead_strip_result">Sem toque de %1$d a %2$d px</string>
+    <string name="dead_strip_nothing">Ainda não foi encontrada nenhuma faixa morta</string>
+    <string name="dead_strip_save">Guardar</string>
     <string name="settings_unit_tools">Ferramentas da unidade</string>
     <string name="settings_unit_tools_detail">Logótipo de arranque, Google Maps num mosaico, app de sistema</string>
     <string name="settings_root_how">Como</string>

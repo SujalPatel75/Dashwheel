@@ -271,6 +271,16 @@
     <string name="settings_show_fewer_detail">Keep only the usual ones here</string>
     <string name="settings_lab">Lab</string>
     <string name="settings_lab_detail">Tools still being tried, and the unit\'s log</string>
+    <!-- Lab: a touchscreen that misses touches in one upright strip (DeadTouchStrip.kt) -->
+    <string name="dead_strip_title">Dead touch strip</string>
+    <string name="dead_strip_detail">For a screen that misses touches in one upright strip: Settings opens to the right of it</string>
+    <string name="dead_strip_found">No touch from %1$d to %2$d px: Settings opens to the right of it</string>
+    <string name="dead_strip_measure">Measure the strip</string>
+    <string name="dead_strip_measure_detail">Slide a finger across the whole screen</string>
+    <string name="dead_strip_hint">Slide one finger slowly from the left edge to the right edge, two or three times.</string>
+    <string name="dead_strip_result">No touch from %1$d to %2$d px</string>
+    <string name="dead_strip_nothing">No dead strip found yet</string>
+    <string name="dead_strip_save">Save</string>
     <string name="settings_unit_tools">Unit tools</string>
     <string name="settings_unit_tools_detail">Boot logo, Google Maps inside a tile, system app</string>
     <string name="settings_root_how">How</string>
