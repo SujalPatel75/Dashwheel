@@ -125,6 +125,22 @@ class UpkeepRulesTest {
         val odo = Odometer(km = 150_000, readAt = now, drivenSince = 12.6)
         assertEquals(150_013, odo.nowKm)
     }
+
+    @Test
+    fun gpsAdvancesTheMileageOnlyWithoutObd() {
+        val trip = TripState(startedAt = now, distanceM = 1_000.0)
+        val on = trip.copy(distanceM = 1_400.0)
+        assertEquals(0.4, UpkeepRules.gpsStepKm(trip, on, obdLastAt = null, now = now), 1e-9)
+        // The OBD drive is counting: no second count.
+        assertEquals(0.0, UpkeepRules.gpsStepKm(trip, on, obdLastAt = now - 2_000, now = now), 1e-9)
+        // OBD dropped out: the GPS takes over.
+        assertEquals(0.4, UpkeepRules.gpsStepKm(trip, on, obdLastAt = now - 60_000, now = now), 1e-9)
+        // A new trip counts from its start.
+        assertEquals(0.05, UpkeepRules.gpsStepKm(trip, TripState(startedAt = now + 1, distanceM = 50.0), null, now), 1e-9)
+        // The first reading, a restored trip's jump: not driven now.
+        assertEquals(0.0, UpkeepRules.gpsStepKm(null, on, null, now), 1e-9)
+        assertEquals(0.0, UpkeepRules.gpsStepKm(trip, trip.copy(distanceM = 40_000.0), null, now), 1e-9)
+    }
 }
 
 /** Reading Gemini's service-plan answer. */

@@ -19,7 +19,8 @@ import kotlin.math.roundToInt
 /*
  * Servicing planner: what the car needs done every N km or N months, when
  * each was last done, and the mileage, which the driver types once and the
- * drive monitor then advances from the OBD speed. The rules are pure; the AI
+ * drive monitor then advances from the OBD speed, or the GPS without OBD
+ * (or the car's own odometer, read off its CAN box). The rules are pure; the AI
  * only fills in the maker's intervals, once per car, so the reminders work
  * offline and in every language.
  */
@@ -177,6 +178,21 @@ object UpkeepRules {
         UpkeepStage.UNKNOWN -> 3
     }
 
+    /** A GPS step bigger than this is a restored or demo trip, not driving. */
+    const val MAX_GPS_STEP_KM = 1.0
+    /** An OBD drive heard from within this long is the one counting the kilometres. */
+    const val OBD_FRESH_MS = 15_000L
+
+    /**
+     * The kilometres the GPS trip moved from [before] to [after], or 0 while the
+     * OBD drive is counting them ([obdLastAt] fresh) or the step is no real driving.
+     */
+    fun gpsStepKm(before: TripState?, after: TripState, obdLastAt: Long?, now: Long): Double {
+        if (before == null || (obdLastAt != null && now - obdLastAt < OBD_FRESH_MS)) return 0.0
+        val m = if (after.startedAt == before.startedAt) after.distanceM - before.distanceM else after.distanceM
+        return (m / 1000).takeIf { it > 0 && it <= MAX_GPS_STEP_KM } ?: 0.0
+    }
+
     /** A rough "how soon" for sorting: days, with 50 km counting as a day. */
     private fun soonest(d: UpkeepDue): Int = listOfNotNull(d.daysLeft, d.kmLeft?.let { it / 50 }).minOrNull() ?: Int.MAX_VALUE
 
@@ -306,6 +322,17 @@ object Maintenance {
         appContext = context.applicationContext
         load()
         scope.launch { CarProfileStore.profile.collect { onCar(it) } }
+        scope.launch { followGps() }
+    }
+
+    /** Without OBD, the GPS trip's kilometres advance the mileage instead. */
+    private suspend fun followGps() {
+        var before: TripState? = null
+        LocationFeed.trip.collect { trip ->
+            val now = System.currentTimeMillis()
+            drove(UpkeepRules.gpsStepKm(before, trip, CarCare.state.value.drive?.lastAt, now))
+            before = trip
+        }
     }
 
     /** The plan follows the car: a new car gets the defaults and, given a key, the maker's intervals. */
