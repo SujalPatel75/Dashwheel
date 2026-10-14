@@ -9,6 +9,16 @@ object Pipelines {
 
     const val LAUNCH = "gst-launch-1.0"
 
+    /**
+     * Between the decoder and the screen: one decoded picture waits at most, an older
+     * one is thrown away for the newer. Every frame is still decoded (a frame dropped
+     * before the decoder breaks the pictures after it), but the screen shows only the
+     * latest. kmssink on the Pi 3 shows about 30 a second while the head unit sends up
+     * to 55: without this the frames backed up into the decoder and the pipe, the
+     * picture ran 3 to 4 seconds late and the overflow froze it until a key frame.
+     */
+    private const val LATEST_ONLY = "queue max-size-buffers=1 max-size-bytes=0 max-size-time=0 leaky=downstream ! "
+
     /** DRM's plane rotation for a half turn (DRM_MODE_ROTATE_180). */
     private const val ROTATE_180 = 4
 
@@ -27,8 +37,8 @@ object Pipelines {
         // The pixel shape kmssink takes the monitor to have, given to the picture too: they cancel out ([PixelShape]).
         val shape = if (pixelShape == (1 to 1)) "" else "capssetter caps=video/x-raw,pixel-aspect-ratio=(fraction)${pixelShape.first}/${pixelShape.second} ! "
         val chain = when (config.sink) {
-            DisplayConfig.Sink.KMS -> "v4l2h264dec ! $shape${config.sink.element}$planeTurn"
-            DisplayConfig.Sink.AUTO -> "avdec_h264 ! videoconvert ! $turn${config.sink.element}"
+            DisplayConfig.Sink.KMS -> "v4l2h264dec ! $LATEST_ONLY$shape${config.sink.element}$planeTurn"
+            DisplayConfig.Sink.AUTO -> "avdec_h264 ! $LATEST_ONLY" + "videoconvert ! $turn${config.sink.element}"
         }
         // The caps go after h264parse: fdsrc gives none, and GStreamer 1.26 (Trixie)
         // refuses a filter there whose caps it can't fix.

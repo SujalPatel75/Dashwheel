@@ -54,6 +54,10 @@ class DisplayConfigTest {
         val video = Pipelines.video(DisplayConfig())
         assertEquals(listOf("gst-launch-1.0", "-q", "fdsrc", "fd=0"), video.take(4))
         assert("v4l2h264dec" in video && "kmssink" in video)
+        // Decoded pictures the screen has no time for are dropped, not queued up.
+        val decoder = video.indexOf("v4l2h264dec")
+        assertEquals(listOf("!", "queue", "max-size-buffers=1"), video.subList(decoder + 1, decoder + 4))
+        assert("leaky=downstream" in video)
         val desktop = Pipelines.video(DisplayConfig(sink = DisplayConfig.Sink.AUTO))
         assert("avdec_h264" in desktop && "autovideosink" in desktop)
         val frames = Pipelines.frames(DisplayConfig(), 1024, 600)
