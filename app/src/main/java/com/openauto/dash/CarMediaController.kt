@@ -186,6 +186,8 @@ class CarMediaController(private val context: Context) {
         val playback = controller.playbackState
         // What to play again at the next start, if the car is switched off now (MediaResume).
         MediaResume.note(controller.packageName, playback?.state == PlaybackState.STATE_PLAYING)
+        // A new song by an app in a tile: its player comes up there.
+        TilePlayer.noted(controller)
         val title = metadata?.getString(MediaMetadata.METADATA_KEY_TITLE).orEmpty()
         val artist = metadata?.getString(MediaMetadata.METADATA_KEY_ARTIST).orEmpty()
         val track = listOf(controller.packageName, title, artist, metadata?.getString(MediaMetadata.METADATA_KEY_ALBUM))

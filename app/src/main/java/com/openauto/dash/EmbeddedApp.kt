@@ -5,11 +5,13 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.ActivityManager
 import android.app.ActivityOptions
+import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.SurfaceTexture
 import android.hardware.input.InputManager
+import android.os.Build
 import android.os.Handler
 import android.os.HandlerThread
 import android.os.Process
@@ -277,6 +279,14 @@ internal object EmbeddedApp {
     /** Opens [intent] in [packageName]'s tile when it runs in one ([Host.open]); false otherwise. */
     fun openInside(packageName: String, intent: Intent): Boolean =
         holds(packageName) && hosts[packageName]?.open(intent) == true
+
+    /** Opens the app's own [screen] (a media session's player) in [packageName]'s tile when it runs in one; false otherwise. */
+    fun openInside(packageName: String, screen: PendingIntent): Boolean =
+        holds(packageName) && hosts[packageName]?.open(screen) == true
+
+    /** Whether [packageName]'s tile was touched within [ms]: the driver is using it. */
+    fun touchedWithin(packageName: String, ms: Long): Boolean =
+        tileInUse?.packageName == packageName && SystemClock.elapsedRealtime() - tileUsedAt <= ms
 
     // --- Touches ------------------------------------------------------------
 
@@ -1265,6 +1275,26 @@ internal object EmbeddedApp {
             if (ok) {
                 launchedOnTile()
                 // Placed again even while a placing runs: the intent may have opened a new task elsewhere.
+                settling?.cancel()
+                launch(vd)
+            }
+            return ok
+        }
+
+        /** [screen], one of the app's own (its player), sent onto the tile's display as [open] does an intent. */
+        fun open(screen: PendingIntent): Boolean {
+            val vd = display ?: return false
+            if (_status.value != Status.SHOWN) return false
+            val options = ActivityOptions.makeBasic().setLaunchDisplayId(vd.displayId)
+            runCatching { HiddenApi.invoke(ActivityOptions::class.java, options, "setLaunchWindowingMode", WINDOWING_MODE_FULLSCREEN) }
+            // Android 14 and later start another app's screen for us only when asked to.
+            @Suppress("DEPRECATION")
+            if (Build.VERSION.SDK_INT >= 34) options.setPendingIntentBackgroundActivityStartMode(ActivityOptions.MODE_BACKGROUND_ACTIVITY_START_ALLOWED)
+            val ok = runCatching { screen.send(context, 0, null, null, null, null, options.toBundle()) }
+                .onFailure { Log.w(TAG, "$packageName refused its screen on display ${vd.displayId}", it) }
+                .isSuccess
+            if (ok) {
+                launchedOnTile()
                 settling?.cancel()
                 launch(vd)
             }
