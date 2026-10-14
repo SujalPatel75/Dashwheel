@@ -8,12 +8,13 @@ import com.openauto.dash.link.DisplayBrightness
  * pulled low to press, let float to release. Measured on a JRP7002 board
  * (CUQI 7"), whose firmware answers neither DDC/CI nor CEC:
  *
- * - with its bar closed, the first press of `+` only opens the bar, and the first two of `−`;
- *   each further press is one step;
+ * - with its bar closed, the first press of `+` only opens the bar; `−` took two presses one
+ *   day and one another, so a closed bar is always opened with `+` ([openBar]);
  * - while the bar is open, every press is a step, the other way too;
  * - the bar closes [BAR_OPEN_MS] after the last press;
  * - held, a button repeats ~20 steps a second, so [HOLD_TO_MIN_MS] reaches 1 from anywhere;
- * - after that hold, the first `+` press is swallowed;
+ * - right after that hold, the first `+` is sometimes swallowed and sometimes counted, so the
+ *   bar is left to close first;
  * - presses of [PRESS_MS] down and [GAP_MS] up all count (60 ms lost one in twenty).
  *
  * The level isn't readable, so the first change after a start goes the long
@@ -89,26 +90,35 @@ class BrightnessButtons(
         if (from == target) return
         if (from == null) {
             hold(down, HOLD_TO_MIN_MS)
-            clock.sleep(AFTER_HOLD_MS)
-            // Held down, the level stops at 0 (the backlight off), and the first + after the
-            // hold is swallowed: [target] + 1 presses (the car, 2026-10-13: 61 asked, 60 shown).
-            repeat(target + 1) { tap(up) }
+            // Held down, the level stops at 0 (the backlight off). Right after the hold the first +
+            // was swallowed once (2026-10-13: 61 asked, 60 shown) and counted another time
+            // (2026-10-14: 75 asked, 76 shown, every later level one too high). Once the bar has
+            // closed, the first + only opens it, as for any change: [target] + 1 presses, exact.
+            clock.sleep(BAR_OPEN_MS + MARGIN_MS)
+            openBar()
+            repeat(target) { tap(up) }
         } else {
             val since = clock.now() - lastPress
             // Near its closing, the bar may or may not still be open: wait until it surely isn't.
             if (since in BAR_SURELY_OPEN_MS until BAR_OPEN_MS + MARGIN_MS) clock.sleep(BAR_OPEN_MS + MARGIN_MS - since)
-            val open = since < BAR_SURELY_OPEN_MS
+            // While the bar is open every press is a step, either way.
+            if (since >= BAR_SURELY_OPEN_MS) openBar()
             val button = if (target > from) up else down
-            // While the bar is open every press is a step, either way; closed, the first presses only open it.
-            val opening = when {
-                open -> 0
-                button == up -> OPEN_PRESSES_UP
-                else -> OPEN_PRESSES_DOWN
-            }
-            repeat(opening + kotlin.math.abs(target - from)) { tap(button) }
+            repeat(kotlin.math.abs(target - from)) { tap(button) }
         }
         level = target
         log("brightness $target")
+    }
+
+    /**
+     * Opens the closed bar with one `+`, which only opens it, every time it was tried.
+     * `−` opened it with two presses on the bench (2026-10-13: 45 → 36 for eleven) but
+     * with one in the car (2026-10-14: three presses, 32 → 30), and a set made down from
+     * a closed bar ended a step off. Once the bar is open, every press is a step.
+     */
+    private fun openBar() {
+        tap(up)
+        clock.sleep(OPEN_SETTLE_MS)
     }
 
     private fun tap(gpio: Int) {
@@ -130,12 +140,10 @@ class BrightnessButtons(
         const val PRESS_MS = 100L
         const val GAP_MS = 100L
         const val HOLD_TO_MIN_MS = 7_000L
-        const val AFTER_HOLD_MS = 300L
         const val BAR_OPEN_MS = 11_000L
         const val MARGIN_MS = 1_500L
-        /** Presses that only open the closed bar: one for `+`, two for `−` (measured, 45 → 36 for eleven). */
-        const val OPEN_PRESSES_UP = 1
-        const val OPEN_PRESSES_DOWN = 2
+        /** After the press that opens the bar, before the presses that step: the bar is surely up. */
+        const val OPEN_SETTLE_MS = 500L
         /** Since the last press: the bar is open for sure, with room for the presses themselves. */
         const val BAR_SURELY_OPEN_MS = 8_000L
     }

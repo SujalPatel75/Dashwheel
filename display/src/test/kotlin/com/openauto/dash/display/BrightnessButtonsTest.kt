@@ -9,12 +9,21 @@ class BrightnessButtonsTest {
         var t = 0L
         val taps = mutableListOf<Int>()
         val holds = mutableListOf<Pair<Int, Long>>()
+        /** When each tap began, and when the last hold ended. */
+        val tapStarts = mutableListOf<Long>()
+        var holdEnd = 0L
         private val down = mutableMapOf<Int, Long>()
 
         override fun press(gpio: Int) { down[gpio] = t }
         override fun release(gpio: Int) {
             val since = down.remove(gpio) ?: return
-            if (t - since > 1_000) holds += gpio to t - since else taps += gpio
+            if (t - since > 1_000) {
+                holds += gpio to t - since
+                holdEnd = t
+            } else {
+                taps += gpio
+                tapStarts += since
+            }
         }
         override fun now() = t
         override fun sleep(ms: Long) { t += ms }
@@ -26,8 +35,9 @@ class BrightnessButtonsTest {
         val buttons = BrightnessButtons(up = 17, down = 27, pins = bench, clock = bench)
         buttons.apply(30)
         assertEquals(listOf(27 to BrightnessButtons.HOLD_TO_MIN_MS), bench.holds)
-        // From 0, the first + is swallowed: thirty-one presses land on 30.
+        // From 0, with the bar left to close, the first + only opens it: thirty-one presses land on 30.
         assertEquals(List(31) { 17 }, bench.taps)
+        assert(bench.tapStarts.first() - bench.holdEnd >= BrightnessButtons.BAR_OPEN_MS + BrightnessButtons.MARGIN_MS)
         assertEquals(30, buttons.level)
     }
 
@@ -54,9 +64,10 @@ class BrightnessButtonsTest {
         buttons.apply(30)
         bench.taps.clear()
         bench.t += 60_000
-        // Down, the closed bar swallows two presses (45 → 36 for eleven, on the bench).
+        // Down: the closed bar is opened with +, which only opens it, then each − is a step
+        // (− opened it with two presses one day, one the next).
         buttons.apply(20)
-        assertEquals(List(12) { 27 }, bench.taps)
+        assertEquals(listOf(17) + List(10) { 27 }, bench.taps)
         bench.taps.clear()
         bench.t += 60_000
         // Up, just the one that opens it (55 → 65 for eleven).
