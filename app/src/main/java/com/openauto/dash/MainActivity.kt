@@ -368,6 +368,7 @@ class MainActivity : ComponentActivity() {
 
     override fun onWindowFocusChanged(hasFocus: Boolean) {
         super.onWindowFocusChanged(hasFocus)
+        EmbeddedApp.dashboardFocused = hasFocus
         // Re-hide the system bars whenever focus changes: they can reappear
         // after a transient swipe or returning from another app, and a pop-up
         // window taking the focus makes Android drop this window's hide flags

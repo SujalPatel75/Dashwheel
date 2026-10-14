@@ -64,7 +64,7 @@ object MediaVolume {
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
 
     /** QF firmware, whose sound follows only the unit's own volume. */
-    private val qfUnit: Boolean by lazy {
+    internal val qfUnit: Boolean by lazy {
         (Build.BRAND.equals("ROCO", ignoreCase = true) && Build.DEVICE.equals("K706", ignoreCase = true)) ||
             sysProp(UNIT_TYPE_PROP).isNotEmpty() || hasService(MCU_SERVICE)
     }

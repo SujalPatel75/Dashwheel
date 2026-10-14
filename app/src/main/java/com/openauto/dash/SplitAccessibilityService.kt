@@ -196,7 +196,8 @@ class SplitAccessibilityService : AccessibilityService() {
     override fun onKeyEvent(event: KeyEvent): Boolean =
         SecondScreenController.onWheelKey(event) ||
             SteeringWheelStore.onKeyEvent(this, event) ||
-            EmbeddedApp.keyWhileAway(this, event)
+            EmbeddedApp.keyWhileAway(this, event) ||
+            EmbeddedApp.firmwareKey(this, event)
 
     /**
      * The on-screen bounds of the two split panes, ordered left-to-right, or null

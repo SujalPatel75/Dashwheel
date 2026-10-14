@@ -343,9 +343,37 @@ internal object EmbeddedApp {
     /** The dashboard's activity while it shows, for a picture of it ([GeminiLive]'s curtain). */
     fun dashboardActivity(): Activity? = dashboard?.get()
 
+    /** Whether the dashboard's window has the keys ([MainActivity.onWindowFocusChanged]). */
+    @Volatile var dashboardFocused = false
+
+    /** The dashboard's task while it shows. */
+    @Volatile private var dashboardTask: Int? = null
+
+    /** How long after giving the keys back they are checked, and taken once more if still away. */
+    private const val KEYS_BACK_CHECK_MS = 400L
+
+    /**
+     * Raises [task] so that the keys surely follow. Android 10 keeps two ideas of
+     * what is in front: the activities' (moveTaskToFront) and the windows', which a
+     * touch on a display moves on its own. After a touch in a tile the windows had
+     * the tile's display in front while the activities still had the dashboard, and
+     * raising the dashboard was then nothing to do for Android: the keys stayed on
+     * the tile, Home went there and did nothing (the K706, 2026-10-14). [first]
+     * (another display's task) is raised before, so raising [task] always moves.
+     */
+    private fun raiseFirmly(context: Context, task: Int, first: Int?, flags: Int) {
+        val am = context.getSystemService(ActivityManager::class.java)
+        if (first != null && first != task) runCatching { am.moveTaskToFront(first, flags) }
+        am.moveTaskToFront(task, flags)
+    }
+
+    /** A tile's app task, on its own display: what [raiseFirmly] raises first when the keys come back. */
+    private fun anyTileTask(): Int? = hosts.values.firstNotNullOfOrNull { it.keysTask }
+
     /** [activity] shows (onStart), or null once it no longer does (onStop). */
     fun dashboardShown(activity: Activity?) {
         dashboard = activity?.let { WeakReference(it) }
+        dashboardTask = activity?.taskId
         if (activity == null) {
             // Something else came in front of the dashboard, on the main screen: it has the keys.
             keysAway = false
@@ -625,8 +653,8 @@ internal object EmbeddedApp {
      * it), so nothing moves on screen. Only while the dashboard shows. Main
      * thread; null when there was nothing to do.
      */
-    fun giveKeysBack(): Job? {
-        if (!keysAway) return null
+    fun giveKeysBack(force: Boolean = false): Job? {
+        if (!keysAway && !force) return null
         val activity = dashboard?.get() ?: return null
         keysAway = false
         givingBack?.cancel()
@@ -639,12 +667,17 @@ internal object EmbeddedApp {
             }.getOrNull()
             ensureActive()
             val taskId = front ?: activity.taskId
-            runCatching {
-                activity.getSystemService(ActivityManager::class.java)
-                    .moveTaskToFront(taskId, ActivityManager.MOVE_TASK_NO_USER_ACTION)
-            }.onSuccess { Log.i(TAG, "keys back to the main screen (task $taskId raised)") }
+            val tile = anyTileTask()
+            runCatching { raiseFirmly(activity, taskId, tile, ActivityManager.MOVE_TASK_NO_USER_ACTION) }
+                .onSuccess { Log.i(TAG, "keys back to the main screen (task $taskId raised)") }
                 .onFailure { Log.w(TAG, "can't give the keys back to the main screen", it) }
             DockShell.forgetListing()
+            // Checked: still away (another raise came between), taken once more.
+            delay(KEYS_BACK_CHECK_MS)
+            if (!dashboardFocused && dashboard?.get() === activity && !keysAway) {
+                runCatching { raiseFirmly(activity, taskId, tile, ActivityManager.MOVE_TASK_NO_USER_ACTION) }
+                    .onSuccess { Log.i(TAG, "keys still away: main screen raised again") }
+            }
         }.also { raising = it }
     }
 
@@ -850,6 +883,35 @@ internal object EmbeddedApp {
             }
         }
         return true
+    }
+
+    /** The K706's panel key for the screen off, handled by the firmware itself (QFBacklight). */
+    private const val SCREEN_OFF_KEY = 315
+
+    /**
+     * A key no one here wanted, seen while the accessibility service filters the
+     * unit's keys. On the QF firmware every key reaches the firmware once before the
+     * service sees it, and a key the service hands back reaches it a second time: a
+     * press came out as a press and a long press (the K706, 2026-10-14: the screen-off
+     * key switched off then back on, Home did a long press). Kept here instead: the
+     * screen-off key (the firmware switched off on its first look), and Home, done
+     * here once the keys are surely on the main screen. True when kept.
+     */
+    fun firmwareKey(service: AccessibilityService, event: KeyEvent): Boolean {
+        if (!MediaVolume.qfUnit) return false
+        return when (event.keyCode) {
+            SCREEN_OFF_KEY -> true
+            KeyEvent.KEYCODE_HOME -> {
+                if (event.action == KeyEvent.ACTION_UP) mainScope.launch {
+                    // The keys may be on a tile's display though no tile was touched lately.
+                    giveKeysBack(force = !dashboardFocused)?.join()
+                    delay(KEY_AGAIN_MS)
+                    service.performGlobalAction(AccessibilityService.GLOBAL_ACTION_HOME)
+                }
+                true
+            }
+            else -> false
+        }
     }
 
     /** A launch or a move just put a tile's display in front: the keys come back at once. */
@@ -1757,6 +1819,9 @@ internal object EmbeddedApp {
         /** The app's task on the tile's display, as last found there; null until it is. */
         @Volatile private var tileTask: Int? = null
 
+        /** [tileTask] while the app shows on its tile. */
+        val keysTask: Int? get() = tileTask.takeIf { _status.value == Status.SHOWN }
+
         /**
          * Puts the tile's display in front, with the keys, before a touch reaches the
          * app. The finger lands on the dashboard's window first, which takes the keys
@@ -1771,9 +1836,10 @@ internal object EmbeddedApp {
         private fun focusTile() {
             val task = tileTask ?: return
             if (_status.value != Status.SHOWN) return
-            runCatching {
-                context.getSystemService(ActivityManager::class.java).moveTaskToFront(task, 0)
-            }.onFailure {
+            // Only while the dashboard has the keys: when the app already has them (its keyboard
+            // up), they stay where they are.
+            if (!dashboardFocused) return
+            runCatching { raiseFirmly(context, task, dashboardTask, 0) }.onFailure {
                 // The task is gone (the app reopened): found again when it is placed.
                 tileTask = null
                 Log.w(TAG, "can't give the keys to $packageName on its tile", it)
