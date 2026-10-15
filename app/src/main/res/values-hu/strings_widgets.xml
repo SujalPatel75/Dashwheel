@@ -30,6 +30,7 @@
     <string name="widgets_light_night">Éjjel: %1$d %%</string>
     <string name="widgets_light_manual">%1$d %%</string>
     <string name="widgets_cam_none">Nincs előttünk</string>
+    <string name="widgets_osm_down">A térképadat-szerver nem válaszol</string>
     <string name="widgets_cam_speak">Hangos jelzés</string>
     <string name="widgets_cam_speaking">Hangos jelzés be</string>
     <string name="widgets_cam_silent">Egyes országokban tilos, például Franciaországban</string>

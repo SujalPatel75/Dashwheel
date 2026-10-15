@@ -29,6 +29,7 @@
     <string name="widgets_light_night">Nacht: %1$d %%</string>
     <string name="widgets_light_manual">%1$d %%</string>
     <string name="widgets_cam_none">Geen in zicht</string>
+    <string name="widgets_osm_down">Kaartgegevensserver antwoordt niet</string>
     <string name="widgets_cam_speak">Gesproken meldingen</string>
     <string name="widgets_cam_speaking">Gesproken meldingen aan</string>
     <string name="widgets_cam_silent">In sommige landen verboden, waaronder Frankrijk</string>

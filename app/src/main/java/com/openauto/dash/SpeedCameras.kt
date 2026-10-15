@@ -36,9 +36,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import okhttp3.FormBody
-import okhttp3.Request
-import org.json.JSONObject
 import kotlin.math.abs
 import kotlin.math.roundToInt
 
@@ -57,7 +54,6 @@ internal data class CameraAhead(val camera: SpeedCamera, val distanceM: Int)
  */
 internal object SpeedCameras {
     private const val TAG = "SpeedCameras"
-    private const val OVERPASS = "https://overpass-api.de/api/interpreter"
     private const val RADIUS_M = 15_000
     private const val REFETCH_M = 8_000f
     /** After a failed read, the wait before the next: the server is busy, and every GPS fix asked it again. */
@@ -126,17 +122,11 @@ internal object SpeedCameras {
 
     private fun fetch(lat: Double, lng: Double): List<SpeedCamera> {
         val query = "[out:json][timeout:20];node(around:$RADIUS_M,$lat,$lng)[highway=speed_camera];out;"
-        val request = Request.Builder().url(OVERPASS)
-            .header("User-Agent", OVERPASS_AGENT)
-            .post(FormBody.Builder().add("data", query).build()).build()
-        Http.client.newCall(request).execute().use { resp ->
-            if (!resp.isSuccessful) error("HTTP ${resp.code}")
-            val elements = JSONObject(resp.body?.string() ?: "{}").optJSONArray("elements") ?: return emptyList()
-            return (0 until elements.length()).mapNotNull { i ->
-                val e = elements.optJSONObject(i) ?: return@mapNotNull null
-                val limit = e.optJSONObject("tags")?.optString("maxspeed")?.takeWhile { it.isDigit() }?.toIntOrNull()
-                SpeedCamera(e.optDouble("lat"), e.optDouble("lon"), limit)
-            }
+        val elements = Overpass.query(query).optJSONArray("elements") ?: return emptyList()
+        return (0 until elements.length()).mapNotNull { i ->
+            val e = elements.optJSONObject(i) ?: return@mapNotNull null
+            val limit = e.optJSONObject("tags")?.optString("maxspeed")?.takeWhile { it.isDigit() }?.toIntOrNull()
+            SpeedCamera(e.optDouble("lat"), e.optDouble("lon"), limit)
         }
     }
 
@@ -158,6 +148,7 @@ internal fun SpeedCamerasCard(modifier: Modifier = Modifier) {
     val context = LocalContext.current
     DisposableEffect(Unit) { SpeedCameras.start(context); onDispose { SpeedCameras.stop() } }
     val ahead by SpeedCameras.ahead.collectAsState()
+    val down by Overpass.down.collectAsState()
     LaunchedEffect(Unit) { SpokenEvents.load(context) }
     val spoken by SpokenEvents.on.collectAsState()
     val speak = SpokenEvent.SPEED_CAMERAS in spoken
@@ -175,7 +166,7 @@ internal fun SpeedCamerasCard(modifier: Modifier = Modifier) {
             }
             val a = ahead
             if (a == null) {
-                Text(stringResource(R.string.widgets_cam_none), color = DashColors.TextSecondary, style = MaterialTheme.typography.bodyMedium)
+                Text(stringResource(if (down) R.string.widgets_osm_down else R.string.widgets_cam_none), color = DashColors.TextSecondary, style = MaterialTheme.typography.bodyMedium)
             } else {
                 Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.fillMaxWidth()) {
                     Icon(Icons.Filled.CameraAlt, contentDescription = null, tint = if (a.distanceM <= SpeedCameras.WARN_M) DashColors.Warning else DashColors.Accent)
@@ -202,13 +193,14 @@ internal fun speedCamerasFace(): WidgetFace {
     val context = LocalContext.current
     DisposableEffect(Unit) { SpeedCameras.start(context); onDispose { SpeedCameras.stop() } }
     val ahead by SpeedCameras.ahead.collectAsState()
+    val down by Overpass.down.collectAsState()
     val units by Units.current.collectAsState()
     val a = ahead
     return WidgetFace(
         icon = Icons.Filled.CameraAlt,
         title = BuiltinKind.SPEED_CAMERAS.label,
         value = a?.let { units.shortDistance(it.distanceM.toDouble()) } ?: "",
-        caption = a?.camera?.limitKmh?.let { "${units.speed(it)} ${units.speedUnit}" } ?: stringResource(R.string.widgets_cam_none),
+        caption = a?.camera?.limitKmh?.let { "${units.speed(it)} ${units.speedUnit}" } ?: stringResource(if (down) R.string.widgets_osm_down else R.string.widgets_cam_none),
         textValue = true,
         alert = a != null && a.distanceM <= SpeedCameras.WARN_M
     )

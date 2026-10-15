@@ -44,9 +44,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import okhttp3.FormBody
-import okhttp3.Request
-import org.json.JSONObject
 import kotlin.math.abs
 import kotlin.math.cos
 import kotlin.math.sqrt
@@ -162,9 +159,10 @@ internal class LimitNag(
  */
 internal object SpeedLimit {
     private const val TAG = "SpeedLimit"
-    private const val OVERPASS = "https://overpass-api.de/api/interpreter"
     private const val RADIUS_M = 1_500
     private const val REFETCH_M = 1_000f
+    /** After a failed read, the wait before the next: the servers are down, and every GPS fix asked again. */
+    private const val RETRY_AFTER_MS = 60_000L
     const val MAX_M = 30.0
     /** Over by more than this counts as over, on the tile and out loud. */
     const val TOLERANCE_KMH = 5
@@ -175,6 +173,7 @@ internal object SpeedLimit {
     @Volatile private var roads: List<LimitedRoad> = emptyList()
     @Volatile private var fetchedAt: Location? = null
     @Volatile private var fetching = false
+    @Volatile private var failedAt = 0L
     private val nag = LimitNag(tolerance = TOLERANCE_KMH)
 
     private val _limit = MutableStateFlow<Int?>(null)
@@ -203,11 +202,15 @@ internal object SpeedLimit {
 
     private suspend fun onLocation(context: Context, loc: Location, kmh: Int) {
         val last = fetchedAt
-        if (!fetching && (last == null || last.distanceTo(loc) > REFETCH_M)) {
+        val resting = failedAt != 0L && android.os.SystemClock.elapsedRealtime() - failedAt < RETRY_AFTER_MS
+        if (!fetching && !resting && (last == null || last.distanceTo(loc) > REFETCH_M)) {
             fetching = true
             val got = withContext(Dispatchers.IO) { runCatching { fetch(loc.latitude, loc.longitude) } }
             fetching = false
-            got.onSuccess { roads = it; fetchedAt = loc }.onFailure { Log.w(TAG, "limits unread: ${it.message}") }
+            got.onSuccess { roads = it; fetchedAt = loc; failedAt = 0L }.onFailure {
+                failedAt = android.os.SystemClock.elapsedRealtime()
+                Log.w(TAG, "limits unread: ${it.message}")
+            }
         }
         val road = roadAt(loc.latitude, loc.longitude, if (loc.hasBearing() && loc.speed > 2f) loc.bearing else null, roads)
         _limit.value = road?.limitKmh
@@ -219,31 +222,23 @@ internal object SpeedLimit {
 
     private fun fetch(lat: Double, lng: Double): List<LimitedRoad> {
         val query = "[out:json][timeout:25];way(around:$RADIUS_M,$lat,$lng)[highway][maxspeed];out tags geom;"
-        val request = Request.Builder().url(OVERPASS)
-            .header("User-Agent", OVERPASS_AGENT)
-            .post(FormBody.Builder().add("data", query).build()).build()
-        Http.client.newCall(request).execute().use { resp ->
-            if (!resp.isSuccessful) error("HTTP ${resp.code}")
-            val elements = JSONObject(resp.body?.string() ?: "{}").optJSONArray("elements") ?: return emptyList()
-            return (0 until elements.length()).mapNotNull { i ->
-                val e = elements.optJSONObject(i) ?: return@mapNotNull null
-                val limit = parseMaxspeed(e.optJSONObject("tags")?.optString("maxspeed")) ?: return@mapNotNull null
-                val geom = e.optJSONArray("geometry") ?: return@mapNotNull null
-                val pts = (0 until geom.length()).mapNotNull { j -> geom.optJSONObject(j)?.let { it.optDouble("lat") to it.optDouble("lon") } }
-                if (pts.size < 2) null else LimitedRoad(limit, pts)
-            }
+        val elements = Overpass.query(query).optJSONArray("elements") ?: return emptyList()
+        return (0 until elements.length()).mapNotNull { i ->
+            val e = elements.optJSONObject(i) ?: return@mapNotNull null
+            val limit = parseMaxspeed(e.optJSONObject("tags")?.optString("maxspeed")) ?: return@mapNotNull null
+            val geom = e.optJSONArray("geometry") ?: return@mapNotNull null
+            val pts = (0 until geom.length()).mapNotNull { j -> geom.optJSONObject(j)?.let { it.optDouble("lat") to it.optDouble("lon") } }
+            if (pts.size < 2) null else LimitedRoad(limit, pts)
         }
     }
 }
-
-/** How Dashwheel names itself to OpenStreetMap's Overpass servers, as their usage policy asks. */
-internal const val OVERPASS_AGENT = "Dashwheel/1.0 (https://github.com/deviloufr-ai/Dashwheel)"
 
 @Composable
 internal fun SpeedLimitCard(modifier: Modifier = Modifier) {
     val context = LocalContext.current
     DisposableEffect(Unit) { SpeedLimit.start(context); onDispose { SpeedLimit.stop() } }
     val limit by SpeedLimit.limit.collectAsState()
+    val down by Overpass.down.collectAsState()
     LaunchedEffect(Unit) { SpokenEvents.load(context) }
     val spoken by SpokenEvents.on.collectAsState()
     val speak = SpokenEvent.SPEED_LIMIT in spoken
@@ -266,7 +261,14 @@ internal fun SpeedLimitCard(modifier: Modifier = Modifier) {
             }
             Column(modifier = Modifier.weight(1f)) {
                 Text(
-                    stringResource(if (limit == null) R.string.widgets_limit_unknown else if (over) R.string.widgets_limit_over else R.string.widgets_limit_ok),
+                    stringResource(
+                        when {
+                            limit == null && down -> R.string.widgets_osm_down
+                            limit == null -> R.string.widgets_limit_unknown
+                            over -> R.string.widgets_limit_over
+                            else -> R.string.widgets_limit_ok
+                        }
+                    ),
                     color = if (over) DashColors.Critical else DashColors.TextSecondary, fontWeight = if (over) FontWeight.Bold else FontWeight.Normal,
                     style = MaterialTheme.typography.bodyMedium
                 )
@@ -283,12 +285,13 @@ internal fun speedLimitFace(): WidgetFace {
     val context = LocalContext.current
     DisposableEffect(Unit) { SpeedLimit.start(context); onDispose { SpeedLimit.stop() } }
     val limit by SpeedLimit.limit.collectAsState()
+    val down by Overpass.down.collectAsState()
     val units by Units.current.collectAsState()
     return WidgetFace(
         icon = Icons.Filled.Speed,
         title = BuiltinKind.SPEED_LIMIT.label,
         value = limit?.let { units.speed(it).toString() } ?: "--",
         unit = units.speedUnit,
-        caption = stringResource(if (limit == null) R.string.widgets_limit_unknown else R.string.widgets_limit_ok)
+        caption = stringResource(if (limit != null) R.string.widgets_limit_ok else if (down) R.string.widgets_osm_down else R.string.widgets_limit_unknown)
     )
 }

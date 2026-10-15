@@ -6,7 +6,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.withContext
-import okhttp3.FormBody
 import okhttp3.Request
 import org.json.JSONObject
 import java.util.Locale
@@ -253,12 +252,8 @@ object FuelPriceRepo {
         val unknown = stations.filter { !names.containsKey(it.id) }
         if (unknown.isNotEmpty()) {
             runCatching {
-                val body = FormBody.Builder().add("data", FuelStationNames.query(unknown)).build()
-                val request = Request.Builder().url(FuelStationNames.URL).header("User-Agent", "Dashwheel car launcher").post(body).build()
-                client.newCall(request).execute().use { resp ->
-                    if (!resp.isSuccessful) error("HTTP ${resp.code}")
-                    FuelStationNames.parse(resp.body?.string().orEmpty())
-                }
+                // Through the Overpass servers in turn (Overpass.kt): the main one is often down.
+                FuelStationNames.parse(Overpass.query(FuelStationNames.query(unknown)).toString())
             }.onSuccess { osm ->
                 names.putAll(FuelStationNames.match(unknown, osm))
             }.onFailure {
