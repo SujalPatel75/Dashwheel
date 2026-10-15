@@ -1,5 +1,6 @@
 package com.openauto.dash
 
+import android.content.Context
 import androidx.annotation.StringRes
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
@@ -9,6 +10,11 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.withContext
 import okhttp3.Request
 import org.json.JSONObject
+import java.io.IOException
+import java.io.InterruptedIOException
+import java.net.ConnectException
+import java.net.NoRouteToHostException
+import java.net.UnknownHostException
 import java.util.Locale
 import java.util.concurrent.TimeUnit
 import kotlin.math.abs
@@ -62,6 +68,30 @@ object WeatherRepo {
 
     private val _error = MutableStateFlow<String?>(null)
     val error: StateFlow<String?> = _error
+
+    @Volatile private var appContext: Context? = null
+
+    /** For the reason a fetch failed in the driver's language; without it the exception's own words show. */
+    fun setContext(context: Context) {
+        appContext = context.applicationContext
+    }
+
+    /**
+     * Why a fetch failed, as the tile says it after "Weather unavailable": no
+     * internet, or no answer, in plain words. A tester read "Unable to resolve
+     * host api.open-meteo.com: No address associated with hostname" on their
+     * tile and took it for a feature that needs root.
+     */
+    internal fun reason(error: Throwable): String {
+        val context = appContext
+        val res = when (error) {
+            is UnknownHostException, is ConnectException, is NoRouteToHostException -> R.string.info_weather_no_internet
+            is InterruptedIOException -> R.string.info_weather_no_answer
+            is IOException -> R.string.info_weather_no_answer
+            else -> null
+        }
+        return if (res != null && context != null) context.getString(res) else error.message.orEmpty()
+    }
 
     private val client by lazy {
         Http.client.newBuilder()
@@ -154,8 +184,8 @@ object WeatherRepo {
             }.onSuccess {
                 publish(it, null)
             }.onFailure {
-                // Technical detail only; the UI adds the localized "Weather unavailable".
-                publish(realWeather, it.message.orEmpty())
+                // The reason only; the UI adds the localized "Weather unavailable".
+                publish(realWeather, reason(it))
                 // Allow a retry before the normal interval.
                 lastFetch = now - REFRESH_MS + 60_000L
             }

@@ -17,6 +17,8 @@
     <string name="info_weather_loading">Cargando el tiempo…</string>
     <string name="info_weather_unavailable">Tiempo no disponible</string>
     <string name="info_weather_unavailable_detail">Tiempo no disponible (%1$s)</string>
+    <string name="info_weather_no_internet">sin conexión a internet: revisa el Wi-Fi o el punto de acceso de la radio</string>
+    <string name="info_weather_no_answer">el servicio meteorológico no respondió</string>
     <string name="info_as_of">Actualizado: %1$s</string>
 
     <!-- Weather conditions (WMO codes), also used by the skins -->

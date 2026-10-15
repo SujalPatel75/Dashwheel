@@ -17,6 +17,8 @@
     <string name="info_weather_loading">A carregar meteorologia…</string>
     <string name="info_weather_unavailable">Meteorologia indisponível</string>
     <string name="info_weather_unavailable_detail">Meteorologia indisponível (%1$s)</string>
+    <string name="info_weather_no_internet">sem ligação à internet: verifique o Wi-Fi ou o hotspot do rádio</string>
+    <string name="info_weather_no_answer">o serviço meteorológico não respondeu</string>
     <string name="info_as_of">Atualizado: %1$s</string>
 
     <!-- Weather conditions (WMO codes), also used by the skins -->

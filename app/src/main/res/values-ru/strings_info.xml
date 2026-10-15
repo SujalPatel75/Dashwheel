@@ -17,6 +17,8 @@
     <string name="info_weather_loading">Загрузка погоды…</string>
     <string name="info_weather_unavailable">Погода недоступна</string>
     <string name="info_weather_unavailable_detail">Погода недоступна (%1$s)</string>
+    <string name="info_weather_no_internet">нет подключения к интернету: проверьте Wi-Fi или точку доступа магнитолы</string>
+    <string name="info_weather_no_answer">погодный сервис не ответил</string>
     <string name="info_as_of">Данные на %1$s</string>
 
     <!-- Weather conditions (WMO codes), also used by the skins -->

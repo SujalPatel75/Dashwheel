@@ -17,6 +17,8 @@
     <string name="info_weather_loading">Caricamento meteo…</string>
     <string name="info_weather_unavailable">Meteo non disponibile</string>
     <string name="info_weather_unavailable_detail">Meteo non disponibile (%1$s)</string>
+    <string name="info_weather_no_internet">nessuna connessione a internet: controlla il Wi-Fi o l\'hotspot dell\'autoradio</string>
+    <string name="info_weather_no_answer">il servizio meteo non ha risposto</string>
     <string name="info_as_of">Aggiornato: %1$s</string>
 
     <!-- Weather conditions (WMO codes), also used by the skins -->

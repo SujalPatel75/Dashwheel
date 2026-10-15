@@ -17,6 +17,8 @@
     <string name="info_weather_loading">Időjárás betöltése…</string>
     <string name="info_weather_unavailable">Nincs időjárásadat</string>
     <string name="info_weather_unavailable_detail">Nincs időjárásadat (%1$s)</string>
+    <string name="info_weather_no_internet">nincs internetkapcsolat: ellenőrizze a fejegység Wi-Fi-jét vagy hotspotját</string>
+    <string name="info_weather_no_answer">az időjárás-szolgáltatás nem válaszolt</string>
     <string name="info_as_of">Frissítve: %1$s</string>
 
     <!-- Weather conditions (WMO codes), also used by the skins -->
