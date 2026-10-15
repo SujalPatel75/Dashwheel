@@ -506,6 +506,7 @@ private val SETTINGS_INDEX: List<SettingsEntry> by lazy {
         SettingsEntry(R.string.boot_menu, SettingsTab.SYSTEM, listOf(Deep.UNIT_TOOLS), offered = full),
         SettingsEntry(R.string.settings_system_perms, SettingsTab.SYSTEM, listOf(Deep.UNIT_TOOLS), offered = full),
         SettingsEntry(R.string.dash_system_app_title, SettingsTab.SYSTEM, listOf(Deep.UNIT_TOOLS), offered = full),
+        SettingsEntry(R.string.shizuku_title, SettingsTab.SYSTEM, detail = R.string.shizuku_search_detail, offered = { shizukuOffered(PrivilegedShell.access.value, ShizukuShell.state.value) }),
         SettingsEntry(R.string.map_servers_title, SettingsTab.SYSTEM, listOf(Deep.MAP_SERVERS), extra = true),
         SettingsEntry(R.string.automation_title, SettingsTab.SYSTEM, extra = true, detail = R.string.automation_detail),
         SettingsEntry(R.string.settings_lab, SettingsTab.SYSTEM, listOf(Deep.LAB)),

@@ -41,11 +41,11 @@ Dashwheel is free, with no ads. If it makes your drives nicer, a coffee on Ko-fi
 - **Share and automate**: share a dashboard and its look as a QR code or a short code; Tasker and similar apps can drive Dashwheel and react to the car ([automation](docs/automation.md))
 - **Second screen** (experimental): a Raspberry Pi drives a second monitor in the car
 - **10 languages**, day and night themes, updates from GitHub Releases on a stable or a beta channel
-- **Root is optional**: extra features appear only when the unit allows them ([what needs what](https://github.com/deviloufr-ai/Dashwheel/wiki/Root-and-PMPatch3))
+- **Root is optional**: extra features appear only when the unit allows them ([what needs what](https://github.com/deviloufr-ai/Dashwheel/wiki/Root-and-PMPatch3)); without root, [Shizuku](https://shizuku.rikka.app/) brings the shell features (app windows, the car app's switches, the volume keys)
 
 ## Two editions
 
-- **GitHub edition** (`Dashwheel-<version>.apk` from [Releases](https://github.com/deviloufr-ai/Dashwheel/releases/latest)): the full app. Root, internal ADB and PMPatch3 features appear when the unit allows them, and it updates itself from GitHub Releases.
+- **GitHub edition** (`Dashwheel-<version>.apk` from [Releases](https://github.com/deviloufr-ai/Dashwheel/releases/latest)): the full app. Root, Shizuku, internal ADB and PMPatch3 features appear when the unit allows them, and it updates itself from GitHub Releases.
 - **Google Play edition**: the same app without the features that need root, the unit's internal ADB or PMPatch3. It never installs anything itself: updates come from Google Play, and the Companion comes from Play too. Store texts and the privacy policy are in `fastlane/metadata-play/` and `docs/play/`.
 
 | | GitHub | Google Play |

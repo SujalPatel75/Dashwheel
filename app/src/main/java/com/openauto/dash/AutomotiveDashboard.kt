@@ -1002,6 +1002,8 @@ fun AutomotiveDashboard(inSplitMode: Boolean = false) {
         ObdBluetoothManager.setContext(context)
         McuReader.setContext(context)
         PrivilegedShell.setContext(context)
+        // Shizuku's binder arrives on its own once it runs; the probe is told when it does.
+        ShizukuShell.start(context)
         PrivilegedShell.probe()
         PmPatch.finishSetup(context)
         CarProfileStore.setContext(context)

@@ -10,8 +10,9 @@ import kotlinx.coroutines.withContext
 
 /**
  * The privileged shell the docking system talks to the window manager with:
- * Magisk root when granted, else the head unit's internal ADB socket. One
- * command at a time, bounded so a stuck prompt or a hung adbd cannot freeze the
+ * Magisk root when granted, else Shizuku once the driver allowed Dashwheel in
+ * it ([ShizukuShell]), else the head unit's internal ADB socket. One command
+ * at a time, bounded so a stuck prompt or a hung adbd cannot freeze the
  * dashboard. Also the two window-manager commands built on it (resize, swipe).
  * The Play edition has neither ([Edition.play]): every command fails at once,
  * without a process or a socket.
@@ -131,8 +132,8 @@ object DockShell {
         if (looksLikeError(e.output)) e.output else "Error (exit ${e.exit}): ${e.output}"
     }
 
-    /** How shell commands reach the system: root via Magisk, or the ADB socket. */
-    private enum class Backend { SU, ADB }
+    /** How shell commands reach the system: root via Magisk, Shizuku's service, or the ADB socket. */
+    private enum class Backend { SU, SHIZUKU, ADB }
 
     private var backend: Backend? = null
 
@@ -174,14 +175,22 @@ object DockShell {
         if (Edition.play) throw IllegalStateException("no shell in the Play edition")
         // su can run out of time while the unit boots: ADB was taken then, for the
         // life of the process, on a unit whose ADB may be off. Root found since is used.
-        if (backend == Backend.ADB && PrivilegedShell.access.value.root) {
+        if (backend != null && backend != Backend.SU && PrivilegedShell.access.value.root) {
             backend = Backend.SU
             Log.i(TAG, "shell backend: SU (root answered after all)")
         }
-        val chosen = backend ?: (if (SystemInstaller.isRootAvailable()) Backend.SU else Backend.ADB)
-            .also { backend = it; Log.i(TAG, "shell backend: $it") }
+        // Shizuku allowed since ADB was taken, or stopped since it was taken: choose again.
+        if (backend == Backend.ADB && ShizukuShell.ready || backend == Backend.SHIZUKU && !ShizukuShell.ready) {
+            backend = null
+        }
+        val chosen = backend ?: when {
+            SystemInstaller.isRootAvailable() -> Backend.SU
+            ShizukuShell.ready -> Backend.SHIZUKU
+            else -> Backend.ADB
+        }.also { backend = it; Log.i(TAG, "shell backend: $it") }
         return when (chosen) {
             Backend.SU -> suShell(cmd)
+            Backend.SHIZUKU -> shizukuShell(cmd)
             Backend.ADB -> adbShell(context, cmd)
         }
     }
@@ -211,6 +220,20 @@ object DockShell {
     }
 
     private const val SU_TIMEOUT_S = 8L
+
+    /**
+     * [cmd] through Shizuku's shell service ([ShizukuShell.run]), which starts
+     * on the first command. Read like the root shell: an error code is a
+     * refusal, whatever it printed. Only from inside [io]'s lock.
+     */
+    private fun shizukuShell(cmd: String): String {
+        val res = ShizukuShell.run(cmd, SU_TIMEOUT_S)
+        if (res.exit != 0) {
+            val why = res.all.trim().lines().firstOrNull().orEmpty()
+            throw Refused(res.exit, res.all, why)
+        }
+        return res.all
+    }
 
     private fun adbShell(context: Context, cmd: String): String {
         val conn = adb ?: AdbInstaller.openShell(context, AdbInstaller.announcedPort(), ADB_TIMEOUT_MS).also { adb = it }

@@ -1059,7 +1059,7 @@ private fun DrivingPane(m: TopBarModel, open: (Deep) -> Unit) {
     val keys = remember { Edition.full && KeyTargets.available() }
     val keysLocked = keys && !shellAccess().shell
     if (!SteeringWheelStore.AVAILABLE && (!keys || keysLocked)) {
-        if (keysLocked) RootLockCard(listOf(stringResource(R.string.keys_section)))
+        if (keysLocked) RootLockCard(listOf(stringResource(R.string.keys_section)), shellEnough = true)
         return
     }
     Spacer(Modifier.height(20.dp))
@@ -1075,7 +1075,7 @@ private fun DrivingPane(m: TopBarModel, open: (Deep) -> Unit) {
         }
     ) { open(Deep.WHEEL) }
     KeyTargetRows()
-    if (keysLocked) RootLockCard(listOf(stringResource(R.string.keys_section)))
+    if (keysLocked) RootLockCard(listOf(stringResource(R.string.keys_section)), shellEnough = true)
 }
 
 /**
@@ -1242,15 +1242,18 @@ private fun SystemPane(m: TopBarModel, open: (Deep) -> Unit, all: Boolean, onSho
     if (Edition.play) {
         MoreWithGithubRow()
     } else {
-        val shell = shellAccess().shell
+        // Shizuku's shell user cannot write /system: these three want root or the unit's ADB.
+        val system = shellAccess().system
         val embed = remember { EmbeddedApp.allowed(context) }
-        if (shell || embed) {
+        if (system || embed) {
             SettingsRow(Icons.Filled.Build, stringResource(R.string.settings_unit_tools), stringResource(R.string.settings_unit_tools_detail)) { open(Deep.UNIT_TOOLS) }
         } else {
             if (BootLogoSupport.available) locked += stringResource(R.string.boot_menu)
             locked += stringResource(R.string.settings_system_perms)
             locked += stringResource(R.string.dash_system_app_title)
         }
+        // The shell without root: where it stands, and the one step that brings it (ShizukuSettings.kt).
+        ShizukuRow()
     }
     SettingsRow(Icons.Filled.Science, stringResource(R.string.settings_lab), stringResource(R.string.settings_lab_detail)) { open(Deep.LAB) }
     if (locked.isNotEmpty()) RootLockCard(locked)
@@ -1274,7 +1277,8 @@ private fun SystemPane(m: TopBarModel, open: (Deep) -> Unit, all: Boolean, onSho
 @Composable
 private fun UnitToolsSheet(m: TopBarModel, onBootLogo: () -> Unit, onDismiss: () -> Unit) {
     val context = LocalContext.current
-    val shell = shellAccess().shell
+    // Root or the unit's root ADB: Shizuku's shell user cannot write /system or the logo partition.
+    val shell = shellAccess().system
     val needsRoot = stringResource(R.string.settings_rom_needs_root)
     SettingsSheet(title = stringResource(R.string.settings_unit_tools), onDismiss = onDismiss, help = WikiPage.ROOT_PMPATCH, actions = {}) {
         Column {
@@ -1366,11 +1370,13 @@ private fun ShowAllRow(all: Boolean, hidden: List<String>, onChange: (Boolean) -
 
 /**
  * What this unit could have with root, said once per group instead of a
- * greyed row each: how many, which, and a way to the wiki page on root.
- * Never in the Play edition, which can never have root.
+ * greyed row each: how many, which, and a way to the wiki page on root. With
+ * [shellEnough], any shell does (Shizuku included), and How opens Shizuku's
+ * own card instead ([ShizukuDialog]). Never in the Play edition, which can
+ * have neither.
  */
 @Composable
-internal fun RootLockCard(features: List<String>) {
+internal fun RootLockCard(features: List<String>, shellEnough: Boolean = false) {
     if (Edition.play || features.isEmpty()) return
     var help by remember { mutableStateOf(false) }
     val shape = DashShape.Medium
@@ -1387,7 +1393,7 @@ internal fun RootLockCard(features: List<String>) {
         Spacer(Modifier.width(14.dp))
         Column(Modifier.weight(1f)) {
             Text(
-                pluralStringResource(R.plurals.settings_root_more, features.size, features.size),
+                pluralStringResource(if (shellEnough) R.plurals.settings_shell_more else R.plurals.settings_root_more, features.size, features.size),
                 color = DashColors.TextPrimary, style = MaterialTheme.typography.bodyLarge
             )
             Text(features.joinToString(" · "), color = DashColors.TextSecondary, maxLines = 2, overflow = TextOverflow.Ellipsis, style = MaterialTheme.typography.bodySmall)
@@ -1397,7 +1403,9 @@ internal fun RootLockCard(features: List<String>) {
             SheetButton(stringResource(R.string.settings_root_how), primary = false) { help = true }
         }
     }
-    if (help) WikiHelpDialog(WikiPage.ROOT_PMPATCH) { help = false }
+    if (help) {
+        if (shellEnough) ShizukuDialog { help = false } else WikiHelpDialog(WikiPage.ROOT_PMPATCH) { help = false }
+    }
 }
 
 /**

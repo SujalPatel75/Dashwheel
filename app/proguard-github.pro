@@ -4,3 +4,10 @@
 # dadb (pure-Kotlin ADB client used by the priv-app self-install).
 -keep class dev.mobile.dadb.** { *; }
 -dontwarn dev.mobile.dadb.**
+
+# Shizuku (ShizukuShell.kt): its binder API, and the shell service Shizuku starts by
+# name in a process of its own, with the AIDL stub it answers through.
+-keep class rikka.shizuku.** { *; }
+-dontwarn rikka.shizuku.**
+-keep class com.openauto.dash.ShizukuShellService { *; }
+-keep class com.openauto.dash.IShizukuShell** { *; }

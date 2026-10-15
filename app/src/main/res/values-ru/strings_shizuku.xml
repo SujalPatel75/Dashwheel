@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Shizuku: the shell without root (ShizukuSettings.kt, ShizukuShell.kt), Settings → System → More tools -->
+    <string name="shizuku_search_detail">Команды shell без root</string>
+    <string name="shizuku_detail_none">Не установлен. Даёт Dashwheel shell без root</string>
+    <string name="shizuku_detail_off">Установлен, не запущен. Откройте Shizuku, чтобы запустить</string>
+    <string name="shizuku_detail_old">Слишком старый. Обновите Shizuku</string>
+    <string name="shizuku_detail_ask">Работает. Разрешите Dashwheel в Shizuku</string>
+    <string name="shizuku_detail_on">Используется: команды shell идут через него</string>
+    <string name="shizuku_body">Shizuku выполняет команды shell, которые выполнил бы root: перемещение окон приложений, переключатели приложения автомобиля, клавиши громкости. Магнитола с root запускает его при загрузке; другая запускает его из приложения Shizuku после каждой загрузки.</string>
+    <string name="shizuku_get">Получить Shizuku</string>
+    <string name="shizuku_open">Открыть Shizuku</string>
+    <string name="shizuku_allow">Разрешить</string>
+    <plurals name="settings_shell_more">
+        <item quantity="one">Ещё %d требует root или Shizuku на этом устройстве</item>
+        <item quantity="few">Ещё %d требуют root или Shizuku на этом устройстве</item>
+        <item quantity="many">Ещё %d требуют root или Shizuku на этом устройстве</item>
+        <item quantity="other">Ещё %d требуют root или Shizuku на этом устройстве</item>
+    </plurals>
+</resources>

@@ -35,6 +35,33 @@ object AdbInstaller {
     private const val NOT_HERE = "no ADB shell in the Play edition"
 }
 
+/** Shizuku: not in this edition, which has no shell of any kind. Its row is never shown. */
+object ShizukuShell {
+    const val PACKAGE = "moe.shizuku.privileged.api"
+    const val DOWNLOAD_URL = "https://shizuku.rikka.app/download/"
+
+    val state: StateFlow<ShizukuState> = MutableStateFlow(ShizukuState.NOT_INSTALLED)
+
+    /** Never ready: no probe is made. */
+    val ready: Boolean get() = false
+
+    val uid: Int? get() = null
+
+    fun start(context: Context) = Unit
+
+    fun refresh() = Unit
+
+    fun requestPermission(context: Context) = Unit
+
+    fun openApp(context: Context) = Unit
+
+    fun openDownload(context: Context) = Unit
+
+    internal fun run(cmd: String, timeoutS: Long): RootShell.Output = throw IllegalStateException(NOT_HERE)
+
+    private const val NOT_HERE = "no Shizuku in the Play edition"
+}
+
 /** The privileged system-app install: never offered, and refused if ever asked. */
 object PrivApp {
     /** What the root probe would run; never run here ([SystemInstaller.isRootAvailable] answers first). */

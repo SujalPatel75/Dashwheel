@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Shizuku: the shell without root (ShizukuSettings.kt, ShizukuShell.kt), Settings → System → More tools -->
+    <string name="shizuku_search_detail">Comandi shell senza root</string>
+    <string name="shizuku_detail_none">Non installato. Dà a Dashwheel la shell senza root</string>
+    <string name="shizuku_detail_off">Installato, non avviato. Apri Shizuku per avviarlo</string>
+    <string name="shizuku_detail_old">Troppo vecchio. Aggiorna Shizuku</string>
+    <string name="shizuku_detail_ask">In esecuzione. Consenti Dashwheel in Shizuku</string>
+    <string name="shizuku_detail_on">In uso: i comandi shell passano da lì</string>
+    <string name="shizuku_body">Shizuku esegue i comandi shell che farebbe il root: spostare le finestre delle app, le impostazioni dell\'app auto, i tasti del volume. Un\'autoradio con root lo avvia all\'accensione; un\'altra lo avvia dall\'app Shizuku dopo ogni avvio.</string>
+    <string name="shizuku_get">Ottieni Shizuku</string>
+    <string name="shizuku_open">Apri Shizuku</string>
+    <string name="shizuku_allow">Consenti</string>
+    <plurals name="settings_shell_more">
+        <item quantity="one">%d in più richiede il root o Shizuku su questa unità</item>
+        <item quantity="many">%d in più richiedono il root o Shizuku su questa unità</item>
+        <item quantity="other">%d in più richiedono il root o Shizuku su questa unità</item>
+    </plurals>
+</resources>

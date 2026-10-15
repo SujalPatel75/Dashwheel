@@ -16,10 +16,12 @@ import kotlin.concurrent.thread
 
 /**
  * Whether the app has a privileged shell to work with: root through `su`
- * (Magisk), or the head unit's internal ADB socket ([AdbInstaller]). Found
- * out once at start ([probe]) and again when the launcher comes back to the
- * front while nothing was found ([refresh]), so root granted in Magisk
- * meanwhile is picked up.
+ * (Magisk), the Shizuku app once the driver allowed Dashwheel in it
+ * ([ShizukuShell]), or the head unit's internal ADB socket ([AdbInstaller]).
+ * Found out once at start ([probe]) and again when the launcher comes back to
+ * the front while nothing was found ([refresh]), so root granted in Magisk
+ * meanwhile is picked up; Shizuku coming or going asks for a new look itself
+ * ([recheck]).
  *
  * The features built on one of them (the system-app install, the boot logo,
  * app windows and the Maps window, the volume keys, the CANbox stream) stay
@@ -38,15 +40,25 @@ object PrivilegedShell {
     enum class Access {
         /** Not probed yet. */
         UNKNOWN,
-        /** Neither `su` nor a listening ADB socket. */
+        /** Neither `su`, nor Shizuku, nor a listening ADB socket. */
         NONE,
+        /** Shizuku runs and Dashwheel is allowed in it: the shell user, or root where Shizuku was started by root. */
+        SHIZUKU,
         /** The internal ADB socket answers (the shell user; `adb root` raises it on these units). */
         ADB,
         /** `su` is granted. */
         ROOT;
 
-        /** A shell of some kind, root or ADB: what [DockShell], the installers and the boot logo run through. */
-        val shell: Boolean get() = this == ROOT || this == ADB
+        /** A shell of some kind, root, Shizuku or ADB: what [DockShell] runs its window and settings commands through. */
+        val shell: Boolean get() = this == ROOT || this == SHIZUKU || this == ADB
+
+        /**
+         * A shell that writes the unit itself (/system, the logo partition):
+         * root, or the unit's internal ADB, which these units run as root. The
+         * installers and the boot logo run through one of those two; Shizuku's
+         * shell user cannot write there.
+         */
+        val system: Boolean get() = this == ROOT || this == ADB
 
         /** `su` itself: the CANbox stream ([McuReader]) and the wheel sniffers ([WheelMonitor]) only run through it. */
         val root: Boolean get() = this == ROOT
@@ -108,8 +120,19 @@ object PrivilegedShell {
      */
     fun refresh() {
         if (!probedOnce) return probe()
+        ShizukuShell.refresh()
         if (_access.value.shell) return
         if (SystemClock.elapsedRealtime() - probedAt < REFRESH_MIN_MS) return
+        run()
+    }
+
+    /**
+     * Probes again whatever was found: Shizuku's binder came or went, or the
+     * driver allowed Dashwheel in it ([ShizukuShell]). The answer may go down
+     * as well as up (Shizuku stopped, nothing else there).
+     */
+    fun recheck() {
+        if (!probedOnce) return probe()
         run()
     }
 
@@ -128,20 +151,40 @@ object PrivilegedShell {
     }
 
     /**
-     * Root first (it is what the most features need), else the ADB socket. Only
-     * a listening socket is looked for, not a connection: the connection's
-     * authorisation prompt is left to the first feature that uses it. An
-     * emulator counts as having the socket, so what needs a shell can be tried
-     * there without root (`adb tcpip 5555` makes it answer). The Play edition
-     * is answered first, before anything is run.
+     * Root first (it is what the most features need), then Shizuku (already
+     * allowed by the driver, no prompt), else the ADB socket. Only a listening
+     * socket is looked for, not a connection: the connection's authorisation
+     * prompt is left to the first feature that uses it. An emulator counts as
+     * having the socket, so what needs a shell can be tried there without root
+     * (`adb tcpip 5555` makes it answer). The Play edition is answered first,
+     * before anything is run.
      */
     internal fun find(): Access = when {
         editionPlay -> Access.NONE
         SystemInstaller.isRootAvailable() -> Access.ROOT
+        ShizukuShell.ready -> Access.SHIZUKU
         AdbInstaller.listeningPort() != null -> Access.ADB
         isEmulator -> Access.ADB
         else -> Access.NONE
     }
+}
+
+/**
+ * Where Shizuku stands on this unit, for its settings row ([ShizukuShell.state]).
+ * Shared by both editions so the row's code compiles in each; the Play edition
+ * never leaves [NOT_INSTALLED] and never shows the row.
+ */
+enum class ShizukuState {
+    /** The Shizuku app is not on the unit. */
+    NOT_INSTALLED,
+    /** Installed, but its service is not running (not started since boot). */
+    NOT_RUNNING,
+    /** Running, but older than the API Dashwheel speaks (v11). */
+    OLD_VERSION,
+    /** Running; the driver has not allowed Dashwheel in it yet. */
+    NOT_ALLOWED,
+    /** Running and allowed: the shell runs through it. */
+    READY
 }
 
 /** The shell as the composition sees it; recomposes when the probe answers. */

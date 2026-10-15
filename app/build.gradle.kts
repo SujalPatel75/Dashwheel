@@ -117,6 +117,8 @@ android {
     buildFeatures {
         compose = true
         buildConfig = true
+        // The Shizuku shell service's interface (app/src/github/aidl, ShizukuShell.kt).
+        aidl = true
     }
 
     androidResources {
@@ -198,6 +200,10 @@ dependencies {
     // Reaches the @hide input calls that pass the tile's touches to Google Maps inside it (EmbeddedApp.kt),
     // through HiddenApi. GitHub edition only: Google Play refuses API-bypass SDKs.
     "githubImplementation"("org.lsposed.hiddenapibypass:hiddenapibypass:6.1")
+    // Shizuku (ShizukuShell.kt): the shell without root, through the Shizuku app the driver
+    // starts over wireless debugging or root. GitHub edition only, like the other shells.
+    "githubImplementation"("dev.rikka.shizuku:api:13.1.5")
+    "githubImplementation"("dev.rikka.shizuku:provider:13.1.5")
     // MapLibre GL — free/open-source map (OpenFreeMap style, no token/API key).
     // Exclude its bundled GeoJSON/Turf so the navigation SDK's newer 7.x ones
     // provide those classes (otherwise duplicate-class build failure).
