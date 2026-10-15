@@ -25,7 +25,7 @@ object Words {
     /** The words around the cluster's figures, when the head unit sent them here (an older one sends them with each reading). */
     val labels: ClusterState.Labels? get() = current.labels
 
-    private val LABEL_KEYS = listOf("open", "nothingPlaying", "noRoute", "arrive", "rpm", "coolant", "fuel", "range", "measuresNone", "noPosition", "noTiles")
+    private val LABEL_KEYS = listOf("open", "nothingPlaying", "noRoute", "arrive", "rpm", "coolant", "fuel", "range", "measuresNone", "noPosition", "noTiles", "navRunning", "doorsUnknown")
 
     fun load(dir: File) {
         val file = File(dir, FILE)
@@ -54,7 +54,7 @@ object Words {
         words.connected?.let { p.setProperty("connected", it) }
         words.scanApp?.let { p.setProperty("scanApp", it) }
         words.labels?.let { l ->
-            listOf(l.open, l.nothingPlaying, l.noRoute, l.arrive, l.rpm, l.coolant, l.fuel, l.range, l.measuresNone, l.noPosition, l.noTiles)
+            listOf(l.open, l.nothingPlaying, l.noRoute, l.arrive, l.rpm, l.coolant, l.fuel, l.range, l.measuresNone, l.noPosition, l.noTiles, l.navRunning, l.doorsUnknown)
                 .forEachIndexed { i, v -> v?.let { p.setProperty("label." + LABEL_KEYS[i], it) } }
         }
         ReadOnlyCard.write(dir) {
@@ -69,7 +69,7 @@ object Words {
         return ClusterState.Labels(
             open = v("open"), nothingPlaying = v("nothingPlaying"), noRoute = v("noRoute"), arrive = v("arrive"),
             rpm = v("rpm"), coolant = v("coolant"), fuel = v("fuel"), range = v("range"), measuresNone = v("measuresNone"),
-            noPosition = v("noPosition"), noTiles = v("noTiles")
+            noPosition = v("noPosition"), noTiles = v("noTiles"), navRunning = v("navRunning"), doorsUnknown = v("doorsUnknown")
         )
     }
 }

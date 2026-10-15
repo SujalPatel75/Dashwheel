@@ -20,7 +20,7 @@ class RenderPreview {
         System.setProperty("java.awt.headless", "true")
         val base = ClusterState(
             clock = 1_700_000_000_000, speedKmh = 87, rpm = 2100, coolantC = 90, fuelPct = 40, rangeKm = 310,
-            obdConnected = true, night = true,
+            obdConnected = true, night = true, date = "Jeudi 15 octobre",
             media = ClusterState.Media("Midnight City", "M83", "Spotify", true, 95_000, 243_000, artKey = "preview"),
             nav = ClusterState.Nav("Turn right onto Avenue Jean Jaurès", "300 m", "Avenue Jean Jaurès", "18:42")
         )
@@ -55,6 +55,9 @@ class RenderPreview {
             "board_map" to base.copy(page = "NAV", maneuver = "RIGHT", position = ClusterState.Position(48.8530, 2.3499, 10), layout = ClusterState.Layout("BIG_STACK", listOf("MAP", "SPEED", "CLOCK"))),
             "board_map_day" to base.copy(page = "NAV", night = false, maneuver = "ROUNDABOUT", position = ClusterState.Position(48.8530, 2.3499, 10), open = listOf("Tailgate"), layout = ClusterState.Layout("ONE", listOf("MAP"))),
             "board_map_nofix" to base.copy(page = "NAV", layout = ClusterState.Layout("BIG_STACK", listOf("MAP", "SPEED", "CLOCK"))),
+            // Waze running with nothing to say, the doors not reported yet, two dials for the engine.
+            "board_nav_running" to base.copy(page = "NAV", nav = null, navApp = "Waze", layout = ClusterState.Layout("BIG_STACK", listOf("NAV", "CLOCK", "DOORS")), doorsKnown = false, labels = ClusterState.Labels(navRunning = "%s est lancé", doorsUnknown = "En attente des données du boîtier : root requis")),
+            "board_telemetry" to base.copy(page = "OBD", layout = ClusterState.Layout("BIG_SIDE", listOf("TELEMETRY", "CLOCK"))),
             // As in a driver's photo: the tilted map heading east-north-east, no route, the coolant beside it.
             "board_map_noroute" to base.copy(page = "NAV", nav = null, position = ClusterState.Position(48.8530, 2.3499, 60), layout = ClusterState.Layout("BIG_STACK", listOf("MAP", "NAV", "COOLANT"))),
             "board_map_noroute_day" to base.copy(page = "NAV", nav = null, night = false, position = ClusterState.Position(48.8530, 2.3499, 200), layout = ClusterState.Layout("BIG_STACK", listOf("MAP", "NAV", "COOLANT"))),

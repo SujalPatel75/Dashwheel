@@ -324,9 +324,24 @@ class Painter(val width: Int, val height: Int, private val overscanPct: Int, pri
             ClusterFace.SPEED -> speedFace(g, inner, s, text, p, design)
             ClusterFace.CLOCK -> {
                 card(g, box, p)
+                val date = s.date
                 g.color = p.fg
-                g.font = fitFont(g, min(30f, inner.height / unit * 0.6f), clock, inner.width)
-                drawCentered(g, clock, inner.centerX.roundToInt(), (inner.centerY + g.fontMetrics.ascent * 0.36f).roundToInt())
+                if (date == null) {
+                    g.font = fitFont(g, min(30f, inner.height / unit * 0.6f), clock, inner.width)
+                    drawCentered(g, clock, inner.centerX.roundToInt(), (inner.centerY + g.fontMetrics.ascent * 0.36f).roundToInt())
+                } else {
+                    // The time a little higher, the date under it in the muted tone, as the clock widget shows it.
+                    g.font = fitFont(g, min(28f, inner.height / unit * 0.5f), clock, inner.width)
+                    val timeAscent = g.fontMetrics.ascent
+                    val dateFont = fitFont(g, min(6f, inner.height / unit * 0.12f), date, inner.width)
+                    val gap = (2 * unit).roundToInt()
+                    val total = timeAscent + gap + g.getFontMetrics(dateFont).ascent
+                    val top = inner.centerY.roundToInt() - total / 2
+                    drawCentered(g, clock, inner.centerX.roundToInt(), top + timeAscent)
+                    g.color = p.muted
+                    g.font = dateFont
+                    drawCentered(g, date, inner.centerX.roundToInt(), top + timeAscent + gap + g.fontMetrics.ascent)
+                }
             }
             ClusterFace.FUEL -> readingCard(g, text.card(ClusterText.Kind.FUEL), box, s, p)
             ClusterFace.RANGE -> readingCard(g, text.card(ClusterText.Kind.RANGE), box, s, p)
@@ -386,46 +401,28 @@ class Painter(val width: Int, val height: Int, private val overscanPct: Int, pri
         }
     }
 
-    /** The engine's gauges: the revs on a dial, the coolant beside it (both "--" without an adapter). */
+    /**
+     * Two dials, the speed then the revs with its red zone, as the head
+     * unit's Twin dials face draws them; side by side in a wide slot, one
+     * over the other in a tall one. "--" without an adapter.
+     */
     private fun telemetryFace(g: Graphics2D, box: Rectangle, inner: Rectangle, s: ClusterState, text: ClusterText, p: Palette) {
         card(g, box, p)
-        val coolant = text.card(ClusterText.Kind.COOLANT)
-        val beside = inner.width > inner.height * 1.4f
-        // The dial takes the left of a wide slot, the top of a tall one; the coolant the rest.
-        val dialW = if (beside) (inner.width * 0.6f).roundToInt() else inner.width
-        val rowH = if (beside) 0 else (9 * unit).roundToInt()
-        val r = min(dialW, inner.height - rowH) / 2f
-        val cx = inner.x + dialW / 2f
-        val cy = inner.y + (inner.height - rowH) / 2f + r * 0.04f
-        dial(g, cx, cy, r, s.rpm?.let { it / 1000f }, 7f, 1f, 0.5f, 5f, p)
-        dialReadout(g, cx, cy, r, s.rpm?.toString() ?: "--", text.rpmLabel, s.rpm != null, p)
-        val small = font(Font.BOLD, 4.2f)
-        val tone = toneOf(coolant, s, p) ?: p.fg
-        if (beside) {
-            val x = inner.x + dialW + (2 * unit).roundToInt()
-            val room = inner.x + inner.width - x
-            g.color = p.muted
-            g.font = small
-            drawClipped(g, coolant.label.uppercase(), x, inner.centerY.roundToInt() - (2 * unit).roundToInt(), room)
-            g.color = tone
-            g.font = fitFont(g, 11f, coolant.value, room)
-            g.drawString(coolant.value, x, inner.centerY.roundToInt() + g.fontMetrics.ascent)
+        val beside = inner.width > inner.height * 1.2f
+        val gap = (2 * unit).roundToInt()
+        val r = if (beside) min((inner.width - gap) / 4f, inner.height / 2f) else min(inner.width / 2f, (inner.height - gap) / 4f)
+        val (cx1, cy1, cx2, cy2) = if (beside) {
+            val cy = inner.centerY.toFloat() + r * 0.04f
+            listOf(inner.x + inner.width / 4f, cy, inner.x + inner.width * 3 / 4f, cy)
         } else {
-            // One line along the bottom: the caption, then the figure, as the Dials page does.
-            val y = inner.y + inner.height - rowH / 2
-            val big = font(Font.BOLD, 7f)
-            val label = coolant.label.uppercase()
-            val space = (2 * unit).roundToInt()
-            val total = g.getFontMetrics(small).stringWidth(label) + space + g.getFontMetrics(big).stringWidth(coolant.value)
-            var x = inner.x + (inner.width - total) / 2
-            g.color = p.muted
-            g.font = small
-            g.drawString(label, x, y + g.fontMetrics.ascent * 2 / 5)
-            x += g.fontMetrics.stringWidth(label) + space
-            g.color = tone
-            g.font = big
-            g.drawString(coolant.value, x, y + g.fontMetrics.ascent * 2 / 5)
+            val cx = inner.centerX.toFloat()
+            listOf(cx, inner.y + inner.height / 4f + r * 0.04f, cx, inner.y + inner.height * 3 / 4f + r * 0.04f)
         }
+        val speedMax = if (s.imperial) 140f else 220f
+        dial(g, cx1, cy1, r, text.speedShown?.toFloat(), speedMax, if (s.imperial) 20f else 20f, 10f, null, p)
+        dialReadout(g, cx1, cy1, r, text.speed, text.speedUnit, text.speedShown != null, p)
+        dial(g, cx2, cy2, r, s.rpm?.let { it / 1000f }, 7f, 1f, 0.5f, 5f, p)
+        dialReadout(g, cx2, cy2, r, s.rpm?.toString() ?: "--", text.rpmLabel, s.rpm != null, p)
     }
 
     /** How much smaller than the page's own body [box] is, for the type drawn in it: never under a bit more than half. */
@@ -739,6 +736,19 @@ class Painter(val width: Int, val height: Int, private val overscanPct: Int, pri
     /** The doors: what is open, in the warning colour, else a tick. */
     private fun doorsFace(g: Graphics2D, box: Rectangle, inner: Rectangle, text: ClusterText, p: Palette) {
         card(g, box, p)
+        val unknown = text.doorsUnknown
+        if (unknown != null) {
+            // No car box data yet: said, not shown as "all closed".
+            g.color = p.muted
+            g.font = font(Font.PLAIN, 5f)
+            val lines = wrap(g, unknown, inner.width, max(1, inner.height / g.fontMetrics.height))
+            var y = inner.centerY.roundToInt() - (lines.size - 1) * g.fontMetrics.height / 2 + g.fontMetrics.ascent * 2 / 5
+            for (line in lines) {
+                drawCentered(g, line, inner.centerX.roundToInt(), y)
+                y += g.fontMetrics.height
+            }
+            return
+        }
         val open = text.open
         if (open == null) {
             val r = min(inner.width, inner.height) * 0.22f
@@ -1114,7 +1124,9 @@ class Painter(val width: Int, val height: Int, private val overscanPct: Int, pri
     private fun paintNav(g: Graphics2D, s: ClusterState, text: ClusterText, body: Rectangle, p: Palette) {
         val nav = s.nav
         if (nav == null) {
-            emptyState(g, body, text.noRoute, p) { cx, cy, size -> routeSign(g, cx, cy, size, p.muted) }
+            // A navigation app running with nothing to say is said as such, as the head unit's tile does.
+            val line = s.navApp?.let { text.navRunning(it) } ?: text.noRoute
+            emptyState(g, body, line, p) { cx, cy, size -> routeSign(g, cx, cy, size, p.muted) }
             return
         }
         // Bottom strip: when we get there, and how fast we're going.
@@ -1734,6 +1746,12 @@ internal class ClusterText(private val s: ClusterState, words: ClusterState.Labe
     /** The doors' warning, or null with none open. */
     val open: String?
         get() = s.open.takeIf { it.isNotEmpty() }?.let { fill(labels?.open, "Open: %s", it.joinToString(", ")) }
+
+    /** The doors face before the car box reported anything; null once it has (or from an older head unit). */
+    val doorsUnknown: String? get() = if (s.doorsKnown) null else labels?.doorsUnknown ?: "Waiting for car box data"
+
+    /** The directions face while [app] runs with nothing to say. */
+    fun navRunning(app: String): String = fill(labels?.navRunning, "%s is running", app)
 
     /** The speed in the driver's unit, or null when the head unit has none. */
     val speedShown: Int? get() = s.speedKmh?.let { distance(it) }

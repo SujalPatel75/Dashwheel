@@ -5,9 +5,12 @@ import android.graphics.Bitmap
 import android.util.Base64
 import androidx.compose.ui.graphics.toArgb
 import com.openauto.dash.link.ClusterArt
+import com.openauto.dash.link.ClusterFace
 import com.openauto.dash.link.ClusterState
 import java.io.ByteArrayOutputStream
 import java.security.MessageDigest
+import java.text.SimpleDateFormat
+import java.util.Date
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.StateFlow
@@ -127,6 +130,10 @@ internal object ClusterFeed {
         // The navigation app's own turn; else the one on the shadow route (ShadowRoute), when there is one.
         val nav = NavDirections.state.value.takeIf { it.active && it.instruction.isNotBlank() } ?: ShadowRoute.turn.value ?: NavState()
         val units = Units.current.value
+        // The page as laid out on the board, so the display draws the same widgets in the same places.
+        val layout = SecondScreenRules.layoutMessage(config.layoutFor(page, simple = true))
+        // The second screen's own colours (ClusterLook), as the board's preview draws them: not the dashboard's accent.
+        val background = SecondScreenRules.background(config, day = DashColors.Light)
         return ClusterState(
             clock = System.currentTimeMillis(),
             page = page.name,
@@ -138,6 +145,11 @@ internal object ClusterFeed {
             fuelPct = fuel?.percent,
             rangeKm = fuel?.rangeKm ?: McuReader.rangeKm.value,
             open = open,
+            doorsKnown = doors != null,
+            // The date under the clock, as the clock widget writes it, in Dashwheel's language.
+            date = dateLine(context),
+            // A navigation app running with nothing to say: the directions face says so instead of "no route".
+            navApp = if (nav.active) null else runningNavAppName(),
             obdConnected = obdLive,
             imperial = units.imperial,
             alert = SecondScreenAlerts.dataAlert(context),
@@ -145,8 +157,8 @@ internal object ClusterFeed {
             fahrenheit = units.fahrenheit,
             clock12 = !units.clock24,
             // The display draws in its own colours: the second screen's background, not the dashboard's look.
-            night = SecondScreenRules.background(SecondScreenStore.config.value, day = DashColors.Light) != ClusterBackground.LIGHT,
-            accent = DashColors.Accent.toArgb().toLong() and 0xFFFFFFFFL,
+            night = background != ClusterBackground.LIGHT,
+            accent = clusterPalette(background).Accent.toArgb().toLong() and 0xFFFFFFFFL,
             media = media.takeIf { it.hasMedia && it.title.isNotBlank() }?.let {
                 ClusterState.Media(
                     title = it.title,
@@ -162,13 +174,13 @@ internal object ClusterFeed {
             },
             labels = if (wordsOnce) null else SecondScreenWords.labels(context, units),
             design = config.design.name,
-            // Only for the page that shows them: five times a second, the rest of the time, for nothing.
-            measures = if (page == ClusterPage.OBD && obdLive) measures(context, obd, units) else emptyList(),
+            // Only for a page that shows them (the Measures page, or a board slot with the face): five
+            // times a second, the rest of the time, for nothing.
+            measures = if (obdLive && (page == ClusterPage.OBD || layout?.faces?.contains(ClusterFace.MEASURES) == true)) measures(context, obd, units) else emptyList(),
             // The turn as the navigation knows it (in-app), so the display needn't read the words.
             maneuver = nav.maneuver,
-            // The page as laid out on the board, so the display draws the same widgets in the same places.
             // Readings only go to a screen that draws its own pages: the simple display's.
-            layout = SecondScreenRules.layoutMessage(config.layoutFor(page, simple = true)),
+            layout = layout,
             // Where the car is, for the display's own map: rounded so a parked car sends nothing new.
             position = LocationFeed.location.value?.let { l ->
                 ClusterState.Position(
@@ -180,6 +192,19 @@ internal object ClusterFeed {
             // How the display's own map is seen.
             mapView = ClusterState.MapView(config.mapTilted, config.mapTilt.name, config.mapDistance.name, config.mapBuildings)
         )
+    }
+
+    /** The date as the clock widget writes it ("Jeudi 15 octobre"), in [context]'s language. */
+    private fun dateLine(context: Context): String {
+        val locale = context.resources.configuration.locales[0]
+        val pattern = android.text.format.DateFormat.getBestDateTimePattern(locale, "EEEEdMMMM")
+        return SimpleDateFormat(pattern, locale).format(Date()).replaceFirstChar { it.uppercase() }
+    }
+
+    /** The navigation app running now, by the name the directions tile gives it; null with none. */
+    private fun runningNavAppName(): String? {
+        val pkg = NavDirections.running.value ?: NavDirections.PACKAGES.firstOrNull { it in EmbeddedApp.hosted.value } ?: return null
+        return navAppName(pkg)
     }
 
     /** The Measures page's readings: those of the dashboard's "All readings" tile, in its words and units. */

@@ -43,7 +43,9 @@ internal object SecondScreenWords {
         range = context.getString(R.string.second_screen_label_range, units.distanceUnit),
         measuresNone = context.getString(R.string.car_waiting_obd),
         noPosition = context.getString(R.string.second_screen_label_no_position),
-        noTiles = context.getString(R.string.second_screen_label_no_tiles)
+        noTiles = context.getString(R.string.second_screen_label_no_tiles),
+        navRunning = context.getString(R.string.info_directions_running_title, "%s"),
+        doorsUnknown = context.getString(R.string.vehicle_waiting_canbox)
     )
 
     /** The lines in the language Dashwheel writes in, a language picked inside Dashwheel included. */

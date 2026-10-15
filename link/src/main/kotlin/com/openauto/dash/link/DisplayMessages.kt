@@ -292,6 +292,12 @@ data class ClusterState(
     val rangeKm: Int? = null,
     /** Doors / boot / bonnet open, by name as the head unit shows them. */
     val open: List<String> = emptyList(),
+    /** False while the car box has not reported the doors at all: [open] empty then means unknown, not closed. */
+    val doorsKnown: Boolean = true,
+    /** The date under the clock, as the head unit writes it ("Jeudi 15 octobre"); null from an older head unit. */
+    val date: String? = null,
+    /** The navigation app running with no instruction to show ("Waze"), for the directions face's idle line. */
+    val navApp: String? = null,
     val obdConnected: Boolean = false,
     /** Show miles and mph. */
     val imperial: Boolean = false,
@@ -420,7 +426,11 @@ data class ClusterState(
         /** The map without a fix yet, e.g. "Waiting for the GPS…". */
         val noPosition: String? = null,
         /** The map without tiles to draw, e.g. "No map tiles: set tile_url on the card". */
-        val noTiles: String? = null
+        val noTiles: String? = null,
+        /** The directions face while a navigation app runs with nothing to say, %s for its name, e.g. "%s is running". */
+        val navRunning: String? = null,
+        /** The doors face before the car box reported them, e.g. "Waiting for car box data". */
+        val doorsUnknown: String? = null
     )
 
     @Serializable
