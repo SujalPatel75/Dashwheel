@@ -8,6 +8,7 @@ import android.hardware.display.DisplayManager
 import android.hardware.display.VirtualDisplay
 import android.media.ImageReader
 import android.os.Binder
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.IBinder
@@ -29,7 +30,9 @@ import kotlin.system.exitProcess
  * itself (Waze's trip overview, its search results, its voice prompt) was
  * refused the display and thrown full screen onto the main screen, task and
  * all. A display owned by the system user keeps every screen of the apps on
- * it.
+ * it. From Android 12 the display must be a trusted one instead, a flag only
+ * the system user (or ADD_TRUSTED_DISPLAY) may set: added here on 11 and
+ * later ([systemFlags]; 11 sets it by itself for the system user).
  *
  * Started as root, drops to the system user, makes and sizes the displays
  * Dashwheel asks for over Binder, and hands its Binder to Dashwheel in a
@@ -53,6 +56,14 @@ object SystemDisplayHelper {
     const val PING = 6
 
     private const val SYSTEM_UID = 1000
+    private const val BROADCAST = "broadcastIntent"
+    private const val BROADCAST_WITH_FEATURE = "broadcastIntentWithFeature"
+
+    /** DisplayManager.VIRTUAL_DISPLAY_FLAG_TRUSTED (@hide, Android 11+): apps may open their screens on it. */
+    private const val FLAG_TRUSTED = 1 shl 10
+
+    /** Display.FLAG_TRUSTED (@hide): what the display reports once made. */
+    private const val DISPLAY_FLAG_TRUSTED = 1 shl 7
 
     @JvmStatic
     fun main(args: Array<String>) {
@@ -96,19 +107,63 @@ object SystemDisplayHelper {
     /** [intent] to Dashwheel, straight through the activity manager (there is no app context to send it from). */
     private fun broadcast(intent: Intent) {
         val am = Class.forName("android.app.ActivityManager").getMethod("getService").invoke(null)!!
-        val method = am.javaClass.methods.first { it.name == "broadcastIntent" && it.parameterTypes.size == 13 }
-        // caller, intent, resolvedType, resultTo, resultCode, resultData, map, requiredPermissions, appOp, options, serialized, sticky, userId
-        method.invoke(am, null, intent, null, null, -1, null, null, null, -1, null, true, false, 0)
+        val method = broadcastMethod(am.javaClass.methods.map { it.name }).let { name ->
+            am.javaClass.methods.filter { it.name == name }.maxByOrNull { it.parameterTypes.size }
+        } ?: error("no broadcast call on IActivityManager")
+        val args = broadcastArguments(method.parameterTypes.toList(), intent, userId = 0)
+        Log.i(TAG, "${method.name} with ${args.size} arguments")
+        method.invoke(am, *args)
     }
+
+    /**
+     * IActivityManager's broadcast call on this release, by name: Android 11
+     * added `broadcastIntentWithFeature` (a calling feature id after the
+     * caller) and kept `broadcastIntent` only for older callers. Pure, for the tests.
+     */
+    internal fun broadcastMethod(methodNames: Collection<String>): String =
+        if (BROADCAST_WITH_FEATURE in methodNames) BROADCAST_WITH_FEATURE else BROADCAST
+
+    /**
+     * The arguments of a broadcast call with [parameterTypes], filled by type
+     * rather than by position, since the list grew with every release (13 on
+     * Android 10, 14 on 11, 15 on 12, 16 from 13: feature id, excluded
+     * permissions, excluded packages). The [intent] goes where an Intent is
+     * taken; the ints are -1 (no result code, no app op) but the last, the
+     * [userId]; the first boolean (serialized: in order) is true, the second
+     * (sticky) false; everything else (caller, feature id, resolved type,
+     * receiver, result data, bundles, permission lists) null. Pure, for the tests.
+     */
+    internal fun broadcastArguments(parameterTypes: List<Class<*>>, intent: Any, userId: Int): Array<Any?> {
+        val lastInt = parameterTypes.indexOfLast { it == Int::class.javaPrimitiveType }
+        var booleans = 0
+        return parameterTypes.mapIndexed { i, type ->
+            when {
+                type == Intent::class.java -> intent
+                type == Int::class.javaPrimitiveType -> if (i == lastInt) userId else -1
+                type == Boolean::class.javaPrimitiveType -> booleans++ == 0
+                else -> null
+            }
+        }.toTypedArray()
+    }
+
+    /**
+     * [flags] for a display made as the system user on Android [sdk]: from
+     * 11 on, trusted as well, which Android 12 and later ask of a display for
+     * an app to open its own screens on it (the system user may set it; 11
+     * sets it by itself). Pure, for the tests.
+     */
+    internal fun systemFlags(sdk: Int, flags: Int): Int =
+        if (sdk >= Build.VERSION_CODES.R) flags or FLAG_TRUSTED else flags
 
     /** A display drawn into a reader nobody looks at, its id printed: to try the launches on it from a shell. */
     @SuppressLint("WrongConstant") // DESTROY_CONTENT_ON_REMOVAL is a real flag, only @hide.
     private fun selfTest(dm: DisplayManager) {
         val reader = ImageReader.newInstance(522, 638, PixelFormat.RGBA_8888, 2)
         reader.setOnImageAvailableListener({ it.acquireLatestImage()?.close() }, Handler(Looper.getMainLooper()))
-        val vd = dm.createVirtualDisplay("Dashwheel:test", 522, 638, 160, reader.surface, SystemDisplays.FLAGS)
+        val vd = dm.createVirtualDisplay("Dashwheel:test", 522, 638, 160, reader.surface, systemFlags(Build.VERSION.SDK_INT, SystemDisplays.FLAGS))
             ?: error("no display")
-        println("display ${vd.display.displayId} as uid ${Os.getuid()}")
+        val trusted = vd.display.flags and DISPLAY_FLAG_TRUSTED != 0
+        println("display ${vd.display.displayId} as uid ${Os.getuid()} on Android ${Build.VERSION.SDK_INT}${if (trusted) ", trusted" else ""}")
         System.out.flush()
     }
 
@@ -136,7 +191,7 @@ object SystemDisplayHelper {
                         val width = data.readInt()
                         val height = data.readInt()
                         val dpi = data.readInt()
-                        val displayFlags = data.readInt()
+                        val displayFlags = systemFlags(Build.VERSION.SDK_INT, data.readInt())
                         val surface = readSurface(data)
                         val vd = dm.createVirtualDisplay(name, width, height, dpi, surface, displayFlags) ?: error("no display for $name")
                         val id = vd.display.displayId
