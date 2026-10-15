@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.window.Dialog
@@ -126,17 +127,26 @@ private fun inline(text: String, codeBackground: Color): AnnotatedString = build
  * its Update button starts the install. Parked only, like the install itself.
  * The GitHub edition shows the Ko-fi ask beside the notes, with its QR code
  * for the phone ([SupportPanel]); Google Play allows no such link.
+ *
+ * Never taller than the screen: the notes and the ask scroll, the buttons
+ * stay in sight. On a 600 px unit the dialog used to run past the bottom
+ * edge with its Update button, and a tester saw no way to install.
  */
 @Composable
 internal fun ReleaseNotesDialog(info: UpdateInfo, onUpdate: () -> Unit, onDismiss: () -> Unit) {
     val blocks = remember(info.notes) { ReleaseNotes.body(info.notes) }
     val support = Edition.full
+    val screenHeight = LocalConfiguration.current.screenHeightDp.dp
     // Material's AlertDialog stops at 560 dp: too narrow for the notes and the ask side by side.
     Dialog(onDismissRequest = onDismiss, properties = DialogProperties(usePlatformDefaultWidth = false)) {
         Surface(
             shape = DashShape.Large,
             color = DashColors.Card.copy(alpha = 1f),
-            modifier = Modifier.widthIn(max = if (support) 900.dp else 560.dp).fillMaxWidth(0.94f).keepClearOfWindows()
+            modifier = Modifier
+                .widthIn(max = if (support) 900.dp else 560.dp)
+                .fillMaxWidth(0.94f)
+                .heightIn(max = screenHeight - 32.dp)
+                .keepClearOfWindows()
         ) {
             Column(modifier = Modifier.padding(start = 24.dp, end = 24.dp, top = 24.dp, bottom = 16.dp)) {
                 Text(
@@ -144,7 +154,8 @@ internal fun ReleaseNotesDialog(info: UpdateInfo, onUpdate: () -> Unit, onDismis
                     color = DashColors.TextPrimary, style = MaterialTheme.typography.headlineSmall
                 )
                 Spacer(Modifier.height(16.dp))
-                BoxWithConstraints {
+                // What is left between the title and the buttons, and no more.
+                BoxWithConstraints(Modifier.weight(1f, fill = false)) {
                     // Wide enough: the ask stands beside the notes, seen without scrolling. Upright: under them.
                     val beside = support && maxWidth >= 600.dp
                     Row(horizontalArrangement = Arrangement.spacedBy(20.dp)) {
@@ -158,7 +169,7 @@ internal fun ReleaseNotesDialog(info: UpdateInfo, onUpdate: () -> Unit, onDismis
                                 SupportPanel(Modifier.fillMaxWidth())
                             }
                         }
-                        if (beside) SupportPanel(Modifier.width(250.dp))
+                        if (beside) SupportPanel(Modifier.width(250.dp).verticalScroll(rememberScrollState()))
                     }
                 }
                 Spacer(Modifier.height(16.dp))
