@@ -1,5 +1,6 @@
 package com.openauto.dash.display
 
+import com.openauto.dash.link.ClusterArt
 import com.openauto.dash.link.ClusterRoute
 import com.openauto.dash.link.ClusterState
 import com.openauto.dash.link.DisplayBrightness
@@ -120,6 +121,7 @@ class DisplayServer(
             is VideoConfig -> screen.configureVideo(message)
             is ClusterState -> screen.data(message)
             is ClusterRoute -> screen.route(message.points)
+            is ClusterArt -> screen.art(message)
             is DisplayBrightness -> buttons?.set(message.level)
             is DisplayTime -> if (LocalClock.set(pairing.dir, message)) screen.wordsChanged()
             is DisplayWords -> if (Words.set(pairing.dir, message)) {

@@ -1,5 +1,6 @@
 package com.openauto.dash.display
 
+import com.openauto.dash.link.ClusterArt
 import com.openauto.dash.link.ClusterState
 import com.openauto.dash.link.VideoConfig
 import com.openauto.dash.link.VideoPacket
@@ -137,6 +138,16 @@ class Screen(
     @Synchronized
     fun route(points: List<Double>) {
         painter.route = points
+        if (showing == Showing.DATA) redraw()
+    }
+
+    /** The cover of the track playing ([ClusterArt]): kept by its key for the media page. */
+    fun art(message: ClusterArt) {
+        val image = runCatching {
+            javax.imageio.ImageIO.read(java.io.ByteArrayInputStream(java.util.Base64.getDecoder().decode(message.jpegBase64)))
+        }.getOrNull()
+        if (image == null) { log("cover ${message.key}: unreadable"); return }
+        painter.coverArt = message.key to image
         if (showing == Showing.DATA) redraw()
     }
 

@@ -51,6 +51,9 @@ class Painter(val width: Int, val height: Int, private val overscanPct: Int, pri
     /** The route the navigation follows, lat, lon pairs flattened (ClusterRoute); empty without one. */
     @Volatile var route: List<Double> = emptyList()
 
+    /** The cover of the track playing, by the key the readings name ([ClusterState.Media.artKey]). */
+    @Volatile var coverArt: Pair<String, BufferedImage>? = null
+
     /** The buildings' shapes for the tilted map (null: none, the tiles' flat ones only). */
     @Volatile var buildings: BuildingSource? = null
 
@@ -142,7 +145,7 @@ class Painter(val width: Int, val height: Int, private val overscanPct: Int, pri
      * same and the map at rest is then left as it is ([unchanged]).
      */
     fun paintCluster(state: ClusterState, now: Long, mayReuse: Boolean = false): BufferedImage {
-        val whole = state.copy(clock = 0) to ClusterText(state).clock(now, zone)
+        val whole = Triple(state.copy(clock = 0), ClusterText(state).clock(now, zone), coverArt?.first)
         unchanged = mayReuse && whole == lastWhole && !chaseMoving
         lastWhole = whole
         return if (unchanged) image else paintClusterNow(state, now)
@@ -1044,13 +1047,27 @@ class Painter(val width: Int, val height: Int, private val overscanPct: Int, pri
         }
         // In a board slot narrower than the page, the type shrinks with it.
         val k = scaleFor(body)
-        // The cover: no picture comes with the readings, so a tile in the accent with a note.
+        // The cover: the track's own picture when the head unit sent it (ClusterArt), cropped to
+        // the square; else a tile in the accent with a note, as before.
         val side = min(body.height - (4 * unit).roundToInt(), (body.width * 0.4).roundToInt())
         val cover = Rectangle(body.x, body.y + (body.height - side) / 2, side, side)
         val radius = (8 * unit).roundToInt()
-        g.paint = GradientPaint(cover.x.toFloat(), cover.y.toFloat(), p.accent, (cover.x + side).toFloat(), (cover.y + side).toFloat(), mix(p.accent, Color.BLACK, 0.6f))
-        g.fillRoundRect(cover.x, cover.y, side, side, radius, radius)
-        musicNote(g, cover.centerX.toFloat(), cover.centerY.toFloat(), side * 0.42f, Color(255, 255, 255, 235))
+        val art = coverArt?.takeIf { it.first == media.artKey }?.second
+        if (art != null) {
+            val oldClip = g.clip
+            g.clip(RoundRectangle2D.Float(cover.x.toFloat(), cover.y.toFloat(), side.toFloat(), side.toFloat(), radius.toFloat(), radius.toFloat()))
+            // Fill the square, the overflow cropped evenly on both sides.
+            val scale = side.toDouble() / min(art.width, art.height)
+            val w = (art.width * scale).roundToInt()
+            val h = (art.height * scale).roundToInt()
+            g.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR)
+            g.drawImage(art, cover.x - (w - side) / 2, cover.y - (h - side) / 2, w, h, null)
+            g.clip = oldClip
+        } else {
+            g.paint = GradientPaint(cover.x.toFloat(), cover.y.toFloat(), p.accent, (cover.x + side).toFloat(), (cover.y + side).toFloat(), mix(p.accent, Color.BLACK, 0.6f))
+            g.fillRoundRect(cover.x, cover.y, side, side, radius, radius)
+            musicNote(g, cover.centerX.toFloat(), cover.centerY.toFloat(), side * 0.42f, Color(255, 255, 255, 235))
+        }
 
         val x = cover.x + side + (7 * unit * k).roundToInt()
         val room = body.x + body.width - x

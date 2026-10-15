@@ -21,7 +21,7 @@ class RenderPreview {
         val base = ClusterState(
             clock = 1_700_000_000_000, speedKmh = 87, rpm = 2100, coolantC = 90, fuelPct = 40, rangeKm = 310,
             obdConnected = true, night = true,
-            media = ClusterState.Media("Midnight City", "M83", "Spotify", true, 95_000, 243_000),
+            media = ClusterState.Media("Midnight City", "M83", "Spotify", true, 95_000, 243_000, artKey = "preview"),
             nav = ClusterState.Nav("Turn right onto Avenue Jean Jaurès", "300 m", "Avenue Jean Jaurès", "18:42")
         )
         val states = mapOf(
@@ -78,6 +78,14 @@ class RenderPreview {
             override fun prefetch(keys: Collection<TileKey>) = Unit
         }
         painter.route = listOf(48.8500, 2.3499, 48.8530, 2.3499, 48.8560, 2.3499, 48.8560, 2.3600, 48.8560, 2.3800)
+        // A cover for the media page, as the head unit sends one (ClusterArt): a photo-like gradient.
+        painter.coverArt = "preview" to java.awt.image.BufferedImage(240, 240, java.awt.image.BufferedImage.TYPE_INT_RGB).also { img ->
+            val g = img.createGraphics()
+            g.paint = java.awt.GradientPaint(0f, 0f, java.awt.Color(0x8E2DE2), 240f, 240f, java.awt.Color(0xFF6A00))
+            g.fillRect(0, 0, 240, 240)
+            g.color = java.awt.Color(0, 0, 0, 90); g.fillOval(40, 40, 160, 160)
+            g.dispose()
+        }
         for ((name, s) in states) {
             ImageIO.write(painter.paintCluster(s, s.clock), "png", File(dir, "$name.png"))
         }

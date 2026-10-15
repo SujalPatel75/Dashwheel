@@ -1,8 +1,13 @@
 package com.openauto.dash
 
 import android.content.Context
+import android.graphics.Bitmap
+import android.util.Base64
 import androidx.compose.ui.graphics.toArgb
+import com.openauto.dash.link.ClusterArt
 import com.openauto.dash.link.ClusterState
+import java.io.ByteArrayOutputStream
+import java.security.MessageDigest
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.StateFlow
@@ -31,6 +36,7 @@ internal object ClusterFeed {
                 words = AppLanguage.wrap(context)
                 wordsAt = System.currentTimeMillis()
             }
+            sendArtIfNew(context)
             val state = snapshot(words, page.value)
             // The clock, the playing position and the fix's age move on their own: they don't make a change.
             val key = state.copy(clock = 0, media = state.media?.copy(positionMs = 0), position = state.position?.copy(ageMs = null))
@@ -55,6 +61,45 @@ internal object ClusterFeed {
         val ms = (nowElapsedNs - fixElapsedNs) / 1_000_000L
         return ms.takeIf { it in 0L..MAX_FIX_AGE_MS }?.toInt()
     }
+
+    /** The cover last sent: the bitmap it was made from, its key, and the display it went to. */
+    @Volatile private var artKey: String? = null
+    private var artBitmap: Bitmap? = null
+    private var artDisplay: Any? = null
+
+    /**
+     * The cover of the track playing, sent once per cover ([ClusterArt]):
+     * when the player hands a new bitmap, and again when another display
+     * links. Cheap when nothing changed: a reference check per sample.
+     */
+    private fun sendArtIfNew(context: Context) {
+        val display = (DisplayLink.state.value as? DisplayLinkState.Connected)?.display ?: run { artDisplay = null; return }
+        val media = if (DemoMode.isOn) DemoMode.media.value else CarMediaController.shared(context).mediaState.value
+        val bitmap = media.artwork?.takeIf { !it.isRecycled }
+        if (bitmap === artBitmap && display === artDisplay) return
+        artBitmap = bitmap
+        artDisplay = display
+        if (bitmap == null) { artKey = null; return }
+        val jpeg = encodeArt(bitmap) ?: run { artKey = null; return }
+        val key = jpeg.second
+        artKey = key
+        DisplayLink.send(ClusterArt(key, Base64.encodeToString(jpeg.first, Base64.NO_WRAP)))
+    }
+
+    /** [bitmap] shrunk to [ClusterArt.SIDE_PX] and JPEG-encoded, with a key from its bytes; null when too big or unreadable. */
+    internal fun encodeArt(bitmap: Bitmap): Pair<ByteArray, String>? = runCatching {
+        val scale = ClusterArt.SIDE_PX.toFloat() / maxOf(bitmap.width, bitmap.height)
+        val small = if (scale < 1f) Bitmap.createScaledBitmap(bitmap, (bitmap.width * scale).toInt().coerceAtLeast(1), (bitmap.height * scale).toInt().coerceAtLeast(1), true) else bitmap
+        val out = ByteArrayOutputStream()
+        if (!small.compress(Bitmap.CompressFormat.JPEG, 80, out)) return null
+        val bytes = out.toByteArray()
+        if (bytes.size > ClusterArt.MAX_BYTES) return null
+        bytes to artKey(bytes)
+    }.getOrNull()
+
+    /** A short key from the picture's bytes: the same cover gets the same key on every unit. */
+    internal fun artKey(bytes: ByteArray): String =
+        MessageDigest.getInstance("SHA-1").digest(bytes).take(8).joinToString("") { "%02x".format(it) }
 
     private fun snapshot(context: Context, page: ClusterPage): ClusterState {
         val display = (DisplayLink.state.value as? DisplayLinkState.Connected)?.display
@@ -108,7 +153,8 @@ internal object ClusterFeed {
                     artist = it.artist,
                     playing = it.isPlaying,
                     positionMs = controller.positionMs(),
-                    durationMs = it.durationMs
+                    durationMs = it.durationMs,
+                    artKey = artKey
                 )
             },
             nav = nav.takeIf { it.active && it.instruction.isNotBlank() }?.let {

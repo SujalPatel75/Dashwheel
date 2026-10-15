@@ -430,7 +430,9 @@ data class ClusterState(
         val app: String = "",
         val playing: Boolean = false,
         val positionMs: Long = 0,
-        val durationMs: Long = 0
+        val durationMs: Long = 0,
+        /** The cover's key ([ClusterArt.key]), null while the track has none; an older head unit sends none. */
+        val artKey: String? = null
     )
 
     @Serializable
@@ -462,6 +464,23 @@ data class ClusterRoute(val points: List<Double> = emptyList()) : LinkMessage {
     companion object {
         /** At most this many points go over the link: a long route is thinned to it first. */
         const val MAX_POINTS = 2_000
+    }
+}
+
+/**
+ * Head unit → Pi: the cover of the track playing, a small JPEG, sent once
+ * per cover (and again when a display links) for the media page the display
+ * draws itself; [ClusterState.Media.artKey] says which cover a reading
+ * goes with. An older display ignores the message and keeps its note icon.
+ */
+@Serializable
+@SerialName("cluster_art")
+data class ClusterArt(val key: String, val jpegBase64: String) : LinkMessage {
+    companion object {
+        /** The picture's longer side in pixels: the display's cover tile is about this big at 1024x600. */
+        const val SIDE_PX = 240
+        /** A cover bigger than this (encoded) is not sent: the link is for readings, not pictures. */
+        const val MAX_BYTES = 96 * 1024
     }
 }
 
