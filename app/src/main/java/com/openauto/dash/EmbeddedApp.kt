@@ -155,6 +155,35 @@ internal object EmbeddedApp {
 
     private val hosts = java.util.concurrent.ConcurrentHashMap<String, Host>()
 
+    /**
+     * This unit opens a screen asked for on a tile's display on the main
+     * screen first, and the placing moves it onto the tile: it flashes over
+     * the dashboard every time (the K706's firmware). Learned once, from the
+     * first move after a start, and kept: the openings that would only flash
+     * are then not made ([TilePlayer]), while the tile's own launch keeps
+     * flashing once, which it must.
+     */
+    @Volatile var opensOnMainScreen: Boolean = false
+        private set
+    @Volatile private var quirksLoaded = false
+    private const val QUIRKS_PREFS = "embedded_app"
+    private const val KEY_OPENS_ON_MAIN = "opens_on_main_screen"
+    /** A move off the main screen this soon after a start is the start's own screen landing there. */
+    private const val LEARN_MS = 6_000L
+
+    private fun loadQuirks(context: Context) {
+        if (quirksLoaded) return
+        quirksLoaded = true
+        opensOnMainScreen = context.getSharedPreferences(QUIRKS_PREFS, Context.MODE_PRIVATE).getBoolean(KEY_OPENS_ON_MAIN, false)
+    }
+
+    private fun learnOpensOnMainScreen(context: Context) {
+        if (opensOnMainScreen) return
+        opensOnMainScreen = true
+        Log.i(TAG, "this unit opens a tile's screens on the main screen first: the players stay put")
+        context.getSharedPreferences(QUIRKS_PREFS, Context.MODE_PRIVATE).edit().putBoolean(KEY_OPENS_ON_MAIN, true).apply()
+    }
+
     private val scope = CoroutineScope(Dispatchers.IO + SupervisorJob())
 
     fun host(context: Context, packageName: String): Host =
@@ -1055,6 +1084,13 @@ internal object EmbeddedApp {
      * below, all live on the main thread.
      */
     class Host(private val context: Context, val packageName: String) {
+        init {
+            loadQuirks(context)
+        }
+
+        /** When a screen was last asked for on the tile's display (elapsedRealtime): a start, an intent, a player. */
+        @Volatile private var openedAt = 0L
+
         /**
          * The app whose windows show this one: [packageName] itself, or the
          * app its icon hands off to ([WindowListing.handedTo]).
@@ -1331,6 +1367,7 @@ internal object EmbeddedApp {
             intent.setPackage(packageName).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             val options = ActivityOptions.makeBasic().setLaunchDisplayId(vd.displayId)
             runCatching { HiddenApi.invoke(ActivityOptions::class.java, options, "setLaunchWindowingMode", WINDOWING_MODE_FULLSCREEN) }
+            openedAt = SystemClock.elapsedRealtime()
             val ok = runCatching { context.startActivity(intent, options.toBundle()) }
                 .onFailure { Log.w(TAG, "$packageName refused the intent on display ${vd.displayId}", it) }
                 .isSuccess
@@ -1352,6 +1389,7 @@ internal object EmbeddedApp {
             // Android 14 and later start another app's screen for us only when asked to.
             @Suppress("DEPRECATION")
             if (Build.VERSION.SDK_INT >= 34) options.setPendingIntentBackgroundActivityStartMode(ActivityOptions.MODE_BACKGROUND_ACTIVITY_START_ALLOWED)
+            openedAt = SystemClock.elapsedRealtime()
             val ok = runCatching { screen.send(context, 0, null, null, null, null, options.toBundle()) }
                 .onFailure { Log.w(TAG, "$packageName refused its screen on display ${vd.displayId}", it) }
                 .isSuccess
@@ -1698,6 +1736,8 @@ internal object EmbeddedApp {
                         continue
                     }
                     if (stack.displayId != id) {
+                        // Its screen landed on the main screen right after being asked for on the tile: this unit's way.
+                        if (stack.displayId == 0 && SystemClock.elapsedRealtime() - openedAt < LEARN_MS) learnOpensOnMainScreen(context)
                         shell("am display move-stack ${stack.stackId} $id", "$packageName stack ${stack.stackId} (${stack.mode}) from display ${stack.displayId} to $id")
                         launchedOnTile()
                     }
@@ -1733,6 +1773,7 @@ internal object EmbeddedApp {
         }
 
         private suspend fun start(vd: TileDisplay) {
+            openedAt = SystemClock.elapsedRealtime()
             startCommand?.let { cmd ->
                 startCommand = null
                 val ok = runCatching { DockShell.shell(context, "$cmd --display ${vd.displayId}") }

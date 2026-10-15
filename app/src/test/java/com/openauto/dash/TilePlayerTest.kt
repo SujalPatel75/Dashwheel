@@ -28,6 +28,15 @@ class TilePlayerTest {
     }
 
     @Test
+    fun aUnitThatOpensScreensOnTheMainScreenLeavesAnInsideTilesPlayerAlone() {
+        // The K706 opens every screen on the main screen first: the player flashed over the dashboard at every song.
+        assertFalse(TilePlayer.worthOpening(inside = true, openOnMainScreen = true))
+        assertTrue(TilePlayer.worthOpening(inside = true, openOnMainScreen = false))
+        // A window tile's player opens in the app's own window, whatever the unit does with displays.
+        assertTrue(TilePlayer.worthOpening(inside = false, openOnMainScreen = true))
+    }
+
+    @Test
     fun aSongWithoutTitleNorArtistDoesNot() {
         assertFalse(TilePlayer.opens(song, listOf(ytm, null, ""), playing = true, inTile = true, touched = false))
     }

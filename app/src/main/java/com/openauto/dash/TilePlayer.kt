@@ -14,7 +14,10 @@ import android.util.Log
  * playing). YouTube Music in Video mode then shows the song's clip in the
  * tile. Not while the driver uses the tile: a song that starts within
  * [HANDS_OFF_MS] of a touch in it leaves the app where it is (a library
- * being browsed, a search).
+ * being browsed, a search). Nor on a unit that opens every screen asked
+ * for on a tile's display on the main screen first
+ * ([EmbeddedApp.opensOnMainScreen]): there the player flashed over the
+ * dashboard at every song, which is worse than no player.
  */
 internal object TilePlayer {
     private const val TAG = "TilePlayer"
@@ -36,6 +39,10 @@ internal object TilePlayer {
         val open = opens(lastSong, song, playing, EmbeddedApp.holds(pkg) || docked, EmbeddedApp.touchedWithin(pkg, HANDS_OFF_MS))
         if (playing) lastSong = song
         if (!open) return
+        if (!worthOpening(EmbeddedApp.holds(pkg), EmbeddedApp.opensOnMainScreen)) {
+            Log.i(TAG, "$pkg: player left where it is, this unit would open it on the main screen first")
+            return
+        }
         val screen = controller.sessionActivity ?: return
         val sent = if (EmbeddedApp.holds(pkg)) EmbeddedApp.openInside(pkg, screen) else runCatching {
             // A window tile: the screen opens in the app's own window, where it already is.
@@ -54,4 +61,11 @@ internal object TilePlayer {
      */
     fun opens(last: List<String?>?, song: List<String?>, playing: Boolean, inTile: Boolean, touched: Boolean): Boolean =
         playing && inTile && !touched && song != last && song.drop(1).any { !it.isNullOrBlank() }
+
+    /**
+     * Whether opening the player is worth it: not for an app [inside] a tile
+     * on a unit whose screens [openOnMainScreen] first, where it would only
+     * flash over the dashboard. A window tile's player opens in its own window.
+     */
+    fun worthOpening(inside: Boolean, openOnMainScreen: Boolean): Boolean = !(inside && openOnMainScreen)
 }
