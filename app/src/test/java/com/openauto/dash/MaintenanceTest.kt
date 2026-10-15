@@ -15,6 +15,18 @@ class UpkeepRulesTest {
     private fun monthsAgo(n: Int) = Calendar.getInstance().apply { timeInMillis = now; add(Calendar.MONTH, -n) }.timeInMillis
 
     @Test
+    fun theSheetKeepsTheOrderItOpenedWith_newItemsLast() {
+        // Typing a mileage moves an item between stages; the sheet's order must not follow.
+        fun due(kind: UpkeepKind, stage: UpkeepStage) = UpkeepDue(kind, null, null, stage)
+        val opened = listOf(UpkeepKind.OIL, UpkeepKind.AIR_FILTER, UpkeepKind.BRAKE_FLUID)
+        val resorted = listOf(due(UpkeepKind.AIR_FILTER, UpkeepStage.DUE), due(UpkeepKind.BRAKE_FLUID, UpkeepStage.SOON), due(UpkeepKind.OIL, UpkeepStage.OK))
+        assertEquals(opened, UpkeepRules.inOrder(resorted, opened).map { it.kind })
+        // An item the plan gained since (a fetched plan) goes after the ones already shown.
+        val grown = resorted + due(UpkeepKind.TIMING_BELT, UpkeepStage.DUE)
+        assertEquals(opened + UpkeepKind.TIMING_BELT, UpkeepRules.inOrder(grown, opened).map { it.kind })
+    }
+
+    @Test
     fun theDefaultPlanFollowsTheCar() {
         val diesel = UpkeepRules.defaultPlan(CarProfile.PRESET.copy(serviceKm = 20_000, serviceMonths = 24))
         val oil = diesel.first { it.kind == UpkeepKind.OIL }

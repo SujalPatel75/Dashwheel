@@ -178,6 +178,15 @@ object UpkeepRules {
         UpkeepStage.UNKNOWN -> 3
     }
 
+    /**
+     * [dues] in the order of [kinds], the kinds not listed last in their own
+     * order. The planner's sheet keeps the order it opened with: every digit
+     * typed into a mileage changes an item's stage, and a list re-sorted under
+     * the finger moved the field being typed in onto another item.
+     */
+    fun inOrder(dues: List<UpkeepDue>, kinds: List<UpkeepKind>): List<UpkeepDue> =
+        dues.sortedBy { kinds.indexOf(it.kind).let { i -> if (i < 0) kinds.size else i } }
+
     /** A GPS step bigger than this is a restored or demo trip, not driving. */
     const val MAX_GPS_STEP_KM = 1.0
     /** An OBD drive heard from within this long is the one counting the kilometres. */

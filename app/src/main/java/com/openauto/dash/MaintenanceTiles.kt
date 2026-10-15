@@ -24,14 +24,17 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.pluralStringResource
@@ -152,7 +155,11 @@ internal fun UpkeepDialog(onDismiss: () -> Unit) {
     var odoText by remember { mutableStateOf(state.odometer?.nowKm?.let { u.distance(it) }?.toString().orEmpty()) }
     var fetchResult by remember { mutableStateOf<Pair<Boolean, String>?>(null) }
     val now = System.currentTimeMillis()
-    val dues = remember(state) { state.statuses(now) }
+    // The items keep the order the sheet opened with: each digit typed changes an
+    // item's stage, and a list re-sorted under the finger moved the field being
+    // typed in onto another item (the air filter's mileage ended up in the oil's).
+    val order = remember { state.statuses(now).map { it.kind } }
+    val dues = remember(state) { UpkeepRules.inOrder(state.statuses(now), order) }
     val monthFmt = remember { SimpleDateFormat("yyyy-MM", Locale.US) }
     val toKm = { shown: Int? -> shown?.let { u.km(it.toDouble()).roundToInt() } }
 
@@ -215,7 +222,8 @@ internal fun UpkeepDialog(onDismiss: () -> Unit) {
         }
 
         Label(stringResource(R.string.upkeep_section_items))
-        dues.forEach { d ->
+        // Keyed by item: its fields' text and focus stay with it, whatever its place in the list.
+        dues.forEach { d -> key(d.kind) {
             val interval = state.plan.first { it.kind == d.kind }
             val done = state.done[d.kind]
             HorizontalDivider(color = DashColors.Line)
@@ -251,14 +259,22 @@ internal fun UpkeepDialog(onDismiss: () -> Unit) {
                     Maintenance.setDone(d.kind, UpkeepDone(km = Maintenance.state.value.odometer?.nowKm, at = Calendar.getInstance().timeInMillis))
                 }) { Text(stringResource(R.string.upkeep_done_today), color = DashColors.AccentInk, maxLines = 2) }
             }
-        }
+        } }
     }
 }
 
-/** A whole-number field that reports on every valid change; blank = not known. */
+/**
+ * A whole-number field that reports on every valid change; blank = not known.
+ * What is typed stays as typed while the field has the focus: the value it
+ * reports comes back changed (rounded through the driver's unit, or by "Done
+ * today" on another item) and rewriting the text under the finger lost digits.
+ * Once the focus leaves, the field shows what is kept.
+ */
 @Composable
 private fun NumField(label: String, value: Int?, modifier: Modifier = Modifier, onChange: (Int?) -> Unit) {
-    var text by remember(value) { mutableStateOf(value?.toString().orEmpty()) }
+    var text by remember { mutableStateOf(value?.toString().orEmpty()) }
+    var focused by remember { mutableStateOf(false) }
+    LaunchedEffect(value, focused) { if (!focused) text = value?.toString().orEmpty() }
     OutlinedTextField(
         value = text,
         onValueChange = { typed ->
@@ -269,14 +285,17 @@ private fun NumField(label: String, value: Int?, modifier: Modifier = Modifier, 
         label = { Text(label, maxLines = 1) },
         singleLine = true,
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-        modifier = modifier,
+        modifier = modifier.onFocusChanged { focused = it.isFocused },
         colors = fieldColors()
     )
 }
 
+/** A year-month field; like [NumField], what is typed stays while it has the focus. */
 @Composable
 private fun MonthField(label: String, value: String, modifier: Modifier = Modifier, onChange: (String) -> Unit) {
-    var text by remember(value) { mutableStateOf(value) }
+    var text by remember { mutableStateOf(value) }
+    var focused by remember { mutableStateOf(false) }
+    LaunchedEffect(value, focused) { if (!focused) text = value }
     OutlinedTextField(
         value = text,
         onValueChange = { typed ->
@@ -285,7 +304,7 @@ private fun MonthField(label: String, value: String, modifier: Modifier = Modifi
         },
         label = { Text(label, maxLines = 1) },
         singleLine = true,
-        modifier = modifier,
+        modifier = modifier.onFocusChanged { focused = it.isFocused },
         colors = fieldColors()
     )
 }
