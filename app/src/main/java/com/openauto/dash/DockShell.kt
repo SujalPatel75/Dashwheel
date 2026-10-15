@@ -52,8 +52,12 @@ object DockShell {
         // value fails with NumberFormatException, confirmed on the head unit).
         val bounds = "${rect.left} ${rect.top} ${rect.right} ${rect.bottom}"
         val attempts = if (win.mode == "pinned") {
-            // Android 10/11 accept both; the animated form is nicer when present.
-            listOf("am stack resize-animated ${win.stackId} $bounds", "am stack resize ${win.stackId} $bounds")
+            // Android 10/11 accept both; the animated form is nicer when present. Android 12 and
+            // later have neither: the task's own resize is the one left to try there.
+            listOfNotNull(
+                "am stack resize-animated ${win.stackId} $bounds", "am stack resize ${win.stackId} $bounds",
+                win.taskId?.let { "am task resize $it $bounds" }
+            )
         } else {
             listOfNotNull(
                 win.taskId?.let { "am task resize $it $bounds" },

@@ -204,9 +204,18 @@ object WindowListing {
      */
     data class AppStack(val stackId: Int, val displayId: Int, val mode: String?, val visible: Boolean = true, val taskId: Int? = null)
 
+    /**
+     * Where one stack's block starts in the listing: "Stack id=" up to
+     * Android 11, "RootTask id=" from Android 12 on. Read on the old word
+     * alone, a newer unit's listing held no stack at all: every tile then
+     * took its app for not running, started it again and fought it (a Joying
+     * on Android 13: Google Maps lagging, two tiles squashed).
+     */
+    private val BLOCK_START = Regex("(?m)^\\s*(?:Stack|RootTask) id=")
+
     /** Every stack with a task of [packageName], on every display, the tiles' own ones too. */
     internal fun appStacks(output: String, packageName: String): List<AppStack> =
-        output.split(Regex("(?m)^\\s*Stack id=")).drop(1).mapNotNull { block ->
+        output.split(BLOCK_START).drop(1).mapNotNull { block ->
             val task = TASK.findAll(block).firstOrNull { it.groupValues[2] == packageName } ?: return@mapNotNull null
             val id = block.takeWhile { it.isDigit() }.toIntOrNull() ?: return@mapNotNull null
             val taskLine = block.substring(task.range.first).lineSequence().first()
@@ -304,7 +313,7 @@ object WindowListing {
     private val MODE_NUMBER = Regex("indowingMode=(\\d)")
 
     private fun stackBlocks(output: String): List<String> {
-        val blocks = output.split(Regex("(?m)^\\s*Stack id=")).drop(1)
+        val blocks = output.split(BLOCK_START).drop(1)
         val embedded = embeddedDisplays
         return if (embedded.isEmpty()) blocks else blocks.filter { displayId(it) !in embedded }
     }

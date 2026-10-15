@@ -1745,7 +1745,10 @@ internal object EmbeddedApp {
                         // Even started afresh it floats (this ROM's choice): stretched to fill the tile.
                         // Floating, the firmware's switch for the status bar would draw it lower down.
                         FreeformBar.insideFloats(context, packageName, true)
-                        shell("am stack resize ${stack.stackId} 0 0 $shownWidth $shownHeight", "$packageName ${stack.mode} stack ${stack.stackId} fills the tile")
+                        // Android 12 took `am stack resize` away: the task is resized there instead.
+                        val resize = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S && stack.taskId != null) "am task resize ${stack.taskId} 0 0 $shownWidth $shownHeight"
+                            else "am stack resize ${stack.stackId} 0 0 $shownWidth $shownHeight"
+                        shell(resize, "$packageName ${stack.mode} stack ${stack.stackId} fills the tile")
                         filled += stack.stackId
                     }
                 }
