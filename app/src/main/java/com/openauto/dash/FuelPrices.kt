@@ -19,10 +19,27 @@ import kotlin.math.sqrt
 /*
  * Fuel prices at the stations around the car, from the French government's
  * open data (prix-carburants.gouv.fr, free, no key), which every station in
- * France must feed. Elsewhere the list is simply empty. That data has no
- * station names: those come from OpenStreetMap (Overpass API, free, no key),
- * where French stations carry the government's id.
+ * France must feed; and in Germany from Tankerkönig ([Tankerkoenig]) once
+ * the driver has pasted a key of their own. Elsewhere the list is simply
+ * empty. The French data has no station names: those come from
+ * OpenStreetMap (Overpass API, free, no key), where French stations carry
+ * the government's id. Tankerkönig names its stations itself.
  */
+
+/** Where the stations shown came from, for the tile's credit line. */
+enum class FuelSource { FRANCE, TANKERKOENIG }
+
+/** What to ask for the stations around the car, by the country it is in. */
+enum class FuelPlan {
+    /** The French government's feed. */
+    FRANCE,
+    /** Tankerkönig, with the driver's key. */
+    TANKERKOENIG,
+    /** Tankerkönig when it knows a station there, else the French feed: for a country not known, or none. */
+    TANKERKOENIG_THEN_FRANCE,
+    /** In Germany without a Tankerkönig key: nothing to ask, the tile says what is missing. */
+    NEEDS_TANKERKOENIG_KEY
+}
 
 /** The grades the data knows; [field] is the dataset's column prefix. */
 enum class FuelGrade(val field: String, val label: String) {
@@ -69,6 +86,18 @@ object FuelPrices {
     const val RADIUS_KM = 15
     private const val LIMIT = 40
     private const val BASE = "https://data.economie.gouv.fr/api/explore/v2.1/catalog/datasets/prix-des-carburants-en-france-flux-instantane-v2/records"
+
+    /**
+     * Which feed to ask in [country] (ISO code, lower case, null when not
+     * known): the French one in France, Tankerkönig in Germany, and both
+     * where the country is unknown so a border or a failed lookup still
+     * shows something.
+     */
+    fun plan(country: String?, hasTankerkoenigKey: Boolean): FuelPlan = when (country) {
+        "fr" -> FuelPlan.FRANCE
+        "de" -> if (hasTankerkoenigKey) FuelPlan.TANKERKOENIG else FuelPlan.NEEDS_TANKERKOENIG_KEY
+        else -> if (hasTankerkoenigKey) FuelPlan.TANKERKOENIG_THEN_FRANCE else FuelPlan.FRANCE
+    }
 
     /** The grades this car can take, best first: a petrol car shows E10 unless only SP95/98 is around. */
     fun gradesFor(car: CarProfile): List<FuelGrade> = when (car.fuel) {
@@ -197,6 +226,14 @@ object FuelPriceRepo {
     /** When the list shown was fetched: a failed refresh keeps the old list and its time. 0 before the first answer. */
     val fetchedAt: StateFlow<Long> = _fetchedAt.asStateFlow()
 
+    private val _source = MutableStateFlow(FuelSource.FRANCE)
+    /** Which feed the list shown came from. */
+    val source: StateFlow<FuelSource> = _source.asStateFlow()
+
+    private val _needsKey = MutableStateFlow<ApiService?>(null)
+    /** The key the car's country needs and the driver has not set ([FuelPlan.NEEDS_TANKERKOENIG_KEY]); null otherwise. */
+    internal val needsKey: StateFlow<ApiService?> = _needsKey.asStateFlow()
+
     private val client by lazy {
         Http.client.newBuilder()
             .dns(Ipv4First)
@@ -247,9 +284,14 @@ object FuelPriceRepo {
     /** Station names by the government's id, blank for one OpenStreetMap doesn't name; kept for the run. */
     private val names = java.util.concurrent.ConcurrentHashMap<Long, String>()
 
-    /** [stations] with their names, asking OpenStreetMap only about the ones not looked up before. */
+    /** The next [refresh] fetches whatever the list's age: the key changed. */
+    fun forget() {
+        lastFetch = 0L
+    }
+
+    /** [stations] with their names, asking OpenStreetMap only about the unnamed ones not looked up before. */
     private fun withNames(stations: List<FuelStation>): List<FuelStation> {
-        val unknown = stations.filter { !names.containsKey(it.id) }
+        val unknown = stations.filter { it.name.isBlank() && !names.containsKey(it.id) }
         if (unknown.isNotEmpty()) {
             runCatching {
                 // Through the Overpass servers in turn (Overpass.kt): the main one is often down.
@@ -289,9 +331,16 @@ object FuelPriceRepo {
         lastGrade = grade
         withContext(Dispatchers.IO) {
             runCatching {
-                client.newCall(Request.Builder().url(FuelPrices.url(lat, lng, grade)).build()).execute().use { resp ->
-                    if (!resp.isSuccessful) error("HTTP ${resp.code}")
-                    FuelPrices.parse(resp.body?.string().orEmpty())
+                // The feed of the country the car is in (FuelPrices.plan): France's, or
+                // Tankerkönig's with the driver's key. A refused key is an error the tile shows.
+                val key = ApiKeys.current(ApiService.TANKERKOENIG)
+                val plan = FuelPrices.plan(CountryLookup.code(lat, lng), key.isNotBlank())
+                _needsKey.value = if (plan == FuelPlan.NEEDS_TANKERKOENIG_KEY) ApiService.TANKERKOENIG else null
+                when (plan) {
+                    FuelPlan.FRANCE -> france(lat, lng, grade)
+                    FuelPlan.TANKERKOENIG -> germany(lat, lng, key)
+                    FuelPlan.TANKERKOENIG_THEN_FRANCE -> germany(lat, lng, key).ifEmpty { france(lat, lng, grade) }
+                    FuelPlan.NEEDS_TANKERKOENIG_KEY -> emptyList()
                 }
             }.onSuccess {
                 publish(it, null, fetchedAt = now)
@@ -305,4 +354,21 @@ object FuelPriceRepo {
             }
         }
     }
+
+    private fun france(lat: Double, lng: Double, grade: FuelGrade): List<FuelStation> {
+        _source.value = FuelSource.FRANCE
+        return read(FuelPrices.url(lat, lng, grade), FuelPrices::parse)
+    }
+
+    private fun germany(lat: Double, lng: Double, key: String): List<FuelStation> {
+        _source.value = FuelSource.TANKERKOENIG
+        return read(Tankerkoenig.url(lat, lng, key), Tankerkoenig::parse)
+    }
+
+    /** One feed's answer at [url], read by [parse]; throws on an HTTP error or a refusal. */
+    private fun read(url: String, parse: (String) -> List<FuelStation>): List<FuelStation> =
+        client.newCall(Request.Builder().url(url).build()).execute().use { resp ->
+            if (!resp.isSuccessful) error("HTTP ${resp.code}")
+            parse(resp.body?.string().orEmpty())
+        }
 }

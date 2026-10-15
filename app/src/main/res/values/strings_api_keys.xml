@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Your API keys (ApiKeys.kt), Settings → System; and the Overpass server on the map servers page -->
+    <string name="api_keys_title">Your API keys</string>
+    <string name="api_keys_search_detail">Keys for the services Dashwheel asks for you, Gemini first</string>
+    <string name="api_keys_none">No key set</string>
+    <string name="api_keys_explanation">Some features ask a service that needs a key of your own. Paste it here: it stays on this unit and goes only to that service.</string>
+    <string name="api_keys_paste">Paste the key</string>
+    <string name="api_keys_show">Show the key</string>
+    <string name="api_keys_hide">Hide the key</string>
+    <string name="api_keys_set">Set</string>
+    <string name="api_keys_not_set">Not set</string>
+    <string name="api_keys_get">Get a key</string>
+    <string name="api_keys_gemini_uses">AI mechanic, spoken answers and the assistant</string>
+    <string name="api_keys_tankerkoenig">Tankerkönig key</string>
+    <string name="api_keys_tankerkoenig_uses">Fuel prices in Germany</string>
+    <string name="fuel_needs_tankerkoenig">Prices in Germany need a Tankerkönig key: Settings, System, Your API keys</string>
+    <string name="fuel_source_tankerkoenig" translatable="false">Tankerkönig</string>
+    <string name="map_servers_overpass">Overpass server</string>
+    <string name="map_servers_overpass_detail">For speed limits, speed cameras and station names. Leave empty for the public servers.</string>
+    <plurals name="api_keys_set_count">
+        <item quantity="one">%d key set</item>
+        <item quantity="other">%d keys set</item>
+    </plurals>
+</resources>

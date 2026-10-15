@@ -21,17 +21,22 @@ import kotlinx.coroutines.flow.StateFlow
  * services: OpenFreeMap's styles (free, no key, no usage cap) and the public
  * Valhalla router of FOSSGIS (a community server meant for light use). Heavy
  * users and resellers point these at their own servers here: any MapLibre
- * style URL, and any Valhalla /route endpoint.
+ * style URL, any Valhalla /route endpoint, and an Overpass server of their
+ * own for the road data (speed limits, cameras, station names), asked
+ * before the public ones ([Overpass]).
  */
 object MapServers {
     const val DEFAULT_STYLE_DARK = "https://tiles.openfreemap.org/styles/dark"
     const val DEFAULT_STYLE_LIGHT = "https://tiles.openfreemap.org/styles/positron"
     const val DEFAULT_ROUTING = "https://valhalla1.openstreetmap.de/route"
+    /** The public Overpass servers ([Overpass.SERVERS]): nothing of the driver's own. */
+    const val DEFAULT_OVERPASS = ""
 
     data class Servers(
         val styleDark: String = DEFAULT_STYLE_DARK,
         val styleLight: String = DEFAULT_STYLE_LIGHT,
-        val routing: String = DEFAULT_ROUTING
+        val routing: String = DEFAULT_ROUTING,
+        val overpass: String = DEFAULT_OVERPASS
     ) {
         val isDefault: Boolean get() = this == Servers()
     }
@@ -40,6 +45,7 @@ object MapServers {
     private const val KEY_DARK = "style_dark"
     private const val KEY_LIGHT = "style_light"
     private const val KEY_ROUTING = "routing"
+    private const val KEY_OVERPASS = "overpass"
 
     private val _current = MutableStateFlow(Servers())
     val current: StateFlow<Servers> = _current
@@ -53,7 +59,8 @@ object MapServers {
         _current.value = Servers(
             styleDark = p.getString(KEY_DARK, null)?.takeIf(::usable) ?: DEFAULT_STYLE_DARK,
             styleLight = p.getString(KEY_LIGHT, null)?.takeIf(::usable) ?: DEFAULT_STYLE_LIGHT,
-            routing = p.getString(KEY_ROUTING, null)?.takeIf(::usable) ?: DEFAULT_ROUTING
+            routing = p.getString(KEY_ROUTING, null)?.takeIf(::usable) ?: DEFAULT_ROUTING,
+            overpass = p.getString(KEY_OVERPASS, null)?.takeIf(::usable) ?: DEFAULT_OVERPASS
         )
     }
 
@@ -62,11 +69,13 @@ object MapServers {
         val s = Servers(
             styleDark = servers.styleDark.trim().takeIf(::usable) ?: DEFAULT_STYLE_DARK,
             styleLight = servers.styleLight.trim().takeIf(::usable) ?: DEFAULT_STYLE_LIGHT,
-            routing = servers.routing.trim().takeIf(::usable) ?: DEFAULT_ROUTING
+            routing = servers.routing.trim().takeIf(::usable) ?: DEFAULT_ROUTING,
+            overpass = servers.overpass.trim().takeIf(::usable) ?: DEFAULT_OVERPASS
         )
         _current.value = s
         context.applicationContext.getSharedPreferences(PREFS, Context.MODE_PRIVATE).edit()
             .putString(KEY_DARK, s.styleDark).putString(KEY_LIGHT, s.styleLight).putString(KEY_ROUTING, s.routing)
+            .putString(KEY_OVERPASS, s.overpass)
             .apply()
     }
 
@@ -77,7 +86,7 @@ object MapServers {
     }
 }
 
-/** Settings → System → Map and route servers: the three addresses, and the free defaults back. */
+/** Settings → System → Map and route servers: the four addresses, and the free defaults back. */
 @Composable
 internal fun MapServersSheet(onDismiss: () -> Unit) {
     val context = LocalContext.current
@@ -85,8 +94,9 @@ internal fun MapServersSheet(onDismiss: () -> Unit) {
     var dark by remember { mutableStateOf(MapServers.current.value.styleDark) }
     var light by remember { mutableStateOf(MapServers.current.value.styleLight) }
     var routing by remember { mutableStateOf(MapServers.current.value.routing) }
+    var overpass by remember { mutableStateOf(MapServers.current.value.overpass) }
     fun close() {
-        MapServers.save(context, MapServers.Servers(dark, light, routing))
+        MapServers.save(context, MapServers.Servers(dark, light, routing, overpass))
         onDismiss()
     }
     SettingsSheet(
@@ -95,7 +105,7 @@ internal fun MapServersSheet(onDismiss: () -> Unit) {
         actions = {
             SheetButton(stringResource(R.string.map_servers_reset), primary = false) {
                 val d = MapServers.Servers()
-                dark = d.styleDark; light = d.styleLight; routing = d.routing
+                dark = d.styleDark; light = d.styleLight; routing = d.routing; overpass = d.overpass
             }
             SheetButton(stringResource(R.string.ai_done), onClick = ::close)
         }
@@ -107,6 +117,9 @@ internal fun MapServersSheet(onDismiss: () -> Unit) {
         UrlField(light) { light = it }
         Label(stringResource(R.string.map_servers_routing))
         UrlField(routing) { routing = it }
+        Label(stringResource(R.string.map_servers_overpass))
+        Text(stringResource(R.string.map_servers_overpass_detail), color = DashColors.TextSecondary, style = MaterialTheme.typography.bodySmall)
+        UrlField(overpass) { overpass = it }
     }
 }
 

@@ -1003,6 +1003,7 @@ fun AutomotiveDashboard(inSplitMode: Boolean = false) {
         McuReader.setContext(context)
         PrivilegedShell.setContext(context)
         WeatherRepo.setContext(context)
+        ApiKeys.setContext(context)
         // Shizuku's binder arrives on its own once it runs; the probe is told when it does.
         ShizukuShell.start(context)
         PrivilegedShell.probe()

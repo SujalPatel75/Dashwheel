@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Your API keys (ApiKeys.kt), Settings → System; and the Overpass server on the map servers page -->
+    <string name="api_keys_title">Ваши API-ключи</string>
+    <string name="api_keys_search_detail">Ключи сервисов, которые Dashwheel запрашивает за вас, сначала Gemini</string>
+    <string name="api_keys_none">Ключ не задан</string>
+    <string name="api_keys_explanation">Некоторые функции обращаются к сервису, которому нужен ваш ключ. Вставьте его здесь: он остаётся на этом устройстве и уходит только в этот сервис.</string>
+    <string name="api_keys_paste">Вставьте ключ</string>
+    <string name="api_keys_show">Показать ключ</string>
+    <string name="api_keys_hide">Скрыть ключ</string>
+    <string name="api_keys_set">Задан</string>
+    <string name="api_keys_not_set">Не задан</string>
+    <string name="api_keys_get">Получить ключ</string>
+    <string name="api_keys_gemini_uses">ИИ-механик, голосовые ответы и ассистент</string>
+    <string name="api_keys_tankerkoenig">Ключ Tankerkönig</string>
+    <string name="api_keys_tankerkoenig_uses">Цены на топливо в Германии</string>
+    <string name="fuel_needs_tankerkoenig">Для цен в Германии нужен ключ Tankerkönig: Настройки, Система, Ваши API-ключи</string>
+    <string name="map_servers_overpass">Сервер Overpass</string>
+    <string name="map_servers_overpass_detail">Для ограничений скорости, камер и названий заправок. Оставьте пустым для публичных серверов.</string>
+    <plurals name="api_keys_set_count">
+        <item quantity="one">%d ключ задан</item>
+        <item quantity="few">%d ключа задано</item>
+        <item quantity="many">%d ключей задано</item>
+        <item quantity="other">%d ключей задано</item>
+    </plurals>
+</resources>

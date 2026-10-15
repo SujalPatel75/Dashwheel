@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Your API keys (ApiKeys.kt), Settings → System; and the Overpass server on the map servers page -->
+    <string name="api_keys_title">Le tue chiavi API</string>
+    <string name="api_keys_search_detail">Chiavi dei servizi che Dashwheel interroga per te, Gemini per primo</string>
+    <string name="api_keys_none">Nessuna chiave</string>
+    <string name="api_keys_explanation">Alcune funzioni interrogano un servizio che richiede una tua chiave. Incollala qui: resta su questa unità e va solo a quel servizio.</string>
+    <string name="api_keys_paste">Incolla la chiave</string>
+    <string name="api_keys_show">Mostra la chiave</string>
+    <string name="api_keys_hide">Nascondi la chiave</string>
+    <string name="api_keys_set">Impostata</string>
+    <string name="api_keys_not_set">Non impostata</string>
+    <string name="api_keys_get">Ottieni una chiave</string>
+    <string name="api_keys_gemini_uses">Meccanico IA, risposte vocali e assistente</string>
+    <string name="api_keys_tankerkoenig">Chiave Tankerkönig</string>
+    <string name="api_keys_tankerkoenig_uses">Prezzi del carburante in Germania</string>
+    <string name="fuel_needs_tankerkoenig">I prezzi in Germania richiedono una chiave Tankerkönig: Impostazioni, Sistema, Le tue chiavi API</string>
+    <string name="map_servers_overpass">Server Overpass</string>
+    <string name="map_servers_overpass_detail">Per limiti, autovelox e nomi delle stazioni. Lascia vuoto per i server pubblici.</string>
+    <plurals name="api_keys_set_count">
+        <item quantity="one">%d chiave impostata</item>
+        <item quantity="many">%d chiavi impostate</item>
+        <item quantity="other">%d chiavi impostate</item>
+    </plurals>
+</resources>

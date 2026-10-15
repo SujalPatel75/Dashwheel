@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Your API keys (ApiKeys.kt), Settings → System; and the Overpass server on the map servers page -->
+    <string name="api_keys_title">API-kulcsaid</string>
+    <string name="api_keys_search_detail">A Dashwheel által helyetted lekérdezett szolgáltatások kulcsai, először a Gemini</string>
+    <string name="api_keys_none">Nincs kulcs</string>
+    <string name="api_keys_explanation">Egyes funkciók olyan szolgáltatást kérdeznek, amelyhez saját kulcs kell. Illeszd be ide: ezen az egységen marad, és csak ahhoz a szolgáltatáshoz jut el.</string>
+    <string name="api_keys_paste">Illeszd be a kulcsot</string>
+    <string name="api_keys_show">Kulcs megjelenítése</string>
+    <string name="api_keys_hide">Kulcs elrejtése</string>
+    <string name="api_keys_set">Beállítva</string>
+    <string name="api_keys_not_set">Nincs beállítva</string>
+    <string name="api_keys_get">Kulcs beszerzése</string>
+    <string name="api_keys_gemini_uses">AI-szerelő, kimondott válaszok és az asszisztens</string>
+    <string name="api_keys_tankerkoenig">Tankerkönig-kulcs</string>
+    <string name="api_keys_tankerkoenig_uses">Üzemanyagárak Németországban</string>
+    <string name="fuel_needs_tankerkoenig">A németországi árakhoz Tankerkönig-kulcs kell: Beállítások, Rendszer, API-kulcsaid</string>
+    <string name="map_servers_overpass">Overpass-szerver</string>
+    <string name="map_servers_overpass_detail">Sebességkorlátokhoz, traffipaxokhoz és töltőállomás-nevekhez. Hagyd üresen a nyilvános szerverekhez.</string>
+    <plurals name="api_keys_set_count">
+        <item quantity="one">%d kulcs beállítva</item>
+        <item quantity="other">%d kulcs beállítva</item>
+    </plurals>
+</resources>

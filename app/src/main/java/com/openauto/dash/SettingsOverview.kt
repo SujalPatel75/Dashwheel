@@ -508,6 +508,7 @@ private val SETTINGS_INDEX: List<SettingsEntry> by lazy {
         SettingsEntry(R.string.dash_system_app_title, SettingsTab.SYSTEM, listOf(Deep.UNIT_TOOLS), offered = full),
         SettingsEntry(R.string.shizuku_title, SettingsTab.SYSTEM, detail = R.string.shizuku_search_detail, offered = { shizukuOffered(PrivilegedShell.access.value, ShizukuShell.state.value) }),
         SettingsEntry(R.string.map_servers_title, SettingsTab.SYSTEM, listOf(Deep.MAP_SERVERS), extra = true),
+        SettingsEntry(R.string.api_keys_title, SettingsTab.SYSTEM, listOf(Deep.API_KEYS), detail = R.string.api_keys_search_detail),
         SettingsEntry(R.string.automation_title, SettingsTab.SYSTEM, extra = true, detail = R.string.automation_detail),
         SettingsEntry(R.string.settings_lab, SettingsTab.SYSTEM, listOf(Deep.LAB)),
         SettingsEntry(R.string.explore_title, SettingsTab.SYSTEM, listOf(Deep.LAB, Deep.EXPLORER), detail = R.string.explore_settings_detail),
@@ -541,6 +542,7 @@ private fun Deep.titleRes(): Int = when (this) {
     Deep.LAB -> R.string.settings_lab
     Deep.UNIT_TOOLS -> R.string.settings_unit_tools
     Deep.MAP_SERVERS -> R.string.map_servers_title
+    Deep.API_KEYS -> R.string.api_keys_title
 }
 
 /** Lower case without accents, so "eco" finds "Éco" and "volumen" finds "Volumen". */

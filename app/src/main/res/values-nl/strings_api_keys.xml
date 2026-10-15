@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Your API keys (ApiKeys.kt), Settings → System; and the Overpass server on the map servers page -->
+    <string name="api_keys_title">Je API-sleutels</string>
+    <string name="api_keys_search_detail">Sleutels voor de diensten die Dashwheel voor je raadpleegt, Gemini eerst</string>
+    <string name="api_keys_none">Geen sleutel</string>
+    <string name="api_keys_explanation">Sommige functies raadplegen een dienst die een eigen sleutel vraagt. Plak hem hier: hij blijft op dit toestel en gaat alleen naar die dienst.</string>
+    <string name="api_keys_paste">Plak de sleutel</string>
+    <string name="api_keys_show">Sleutel tonen</string>
+    <string name="api_keys_hide">Sleutel verbergen</string>
+    <string name="api_keys_set">Ingesteld</string>
+    <string name="api_keys_not_set">Niet ingesteld</string>
+    <string name="api_keys_get">Sleutel ophalen</string>
+    <string name="api_keys_gemini_uses">AI-monteur, gesproken antwoorden en assistent</string>
+    <string name="api_keys_tankerkoenig">Tankerkönig-sleutel</string>
+    <string name="api_keys_tankerkoenig_uses">Brandstofprijzen in Duitsland</string>
+    <string name="fuel_needs_tankerkoenig">Prijzen in Duitsland vragen een Tankerkönig-sleutel: Instellingen, Systeem, Je API-sleutels</string>
+    <string name="map_servers_overpass">Overpass-server</string>
+    <string name="map_servers_overpass_detail">Voor snelheidslimieten, flitsers en namen van tankstations. Leeg laten voor de publieke servers.</string>
+    <plurals name="api_keys_set_count">
+        <item quantity="one">%d sleutel ingesteld</item>
+        <item quantity="other">%d sleutels ingesteld</item>
+    </plurals>
+</resources>

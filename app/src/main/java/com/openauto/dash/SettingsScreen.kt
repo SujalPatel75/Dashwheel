@@ -63,6 +63,7 @@ import androidx.compose.material.icons.filled.Extension
 import androidx.compose.material.icons.filled.Call
 import androidx.compose.material.icons.filled.Checklist
 import androidx.compose.material.icons.filled.Dns
+import androidx.compose.material.icons.filled.Key
 import androidx.compose.material.icons.filled.ChevronRight
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.ConnectedTv
@@ -183,7 +184,7 @@ internal enum class SettingsTab(@StringRes val titleRes: Int, val icon: ImageVec
 /** The settings that open further into the pane; Lab's open over Lab. */
 internal enum class Deep {
     CAR, CAR_LOOK, REVERSE, SIGNALS, AI, UPKEEP, EXPLORER, WHEEL, PLACES, LANGUAGE, SECOND_SCREEN, LPG, MY_READINGS,
-    OBD, UNITS, ACCESS, ABOUT, LAB, UNIT_TOOLS, MAP_SERVERS
+    OBD, UNITS, ACCESS, ABOUT, LAB, UNIT_TOOLS, MAP_SERVERS, API_KEYS
 }
 
 /** Under this width the categories go along the top: a rail would leave the settings half a screen. */
@@ -276,6 +277,7 @@ internal fun SettingsScreen(
                         Deep.LAB -> LabSheet(open = open, onDismiss = back)
                         Deep.UNIT_TOOLS -> UnitToolsSheet(m, onBootLogo = { bootLogo = true }, onDismiss = back)
                         Deep.MAP_SERVERS -> MapServersSheet(onDismiss = back)
+                        Deep.API_KEYS -> ApiKeysSheet(onDismiss = back)
                     }
                 }
             }
@@ -1211,6 +1213,13 @@ private fun SystemPane(m: TopBarModel, open: (Deep) -> Unit, all: Boolean, onSho
         Icons.Filled.PlayCircle, stringResource(R.string.demo_menu_start),
         stringResource(R.string.demo_settings_detail), m.demo
     ) { m.onDemo() }
+    // The keys the driver brings for the services asked on their behalf (ApiKeys.kt).
+    val keysVersion by ApiKeys.version.collectAsState()
+    val keysSet = remember(keysVersion) { ApiKeys.countSet(context) }
+    SettingsRow(
+        Icons.Filled.Key, stringResource(R.string.api_keys_title),
+        if (keysSet == 0) stringResource(R.string.api_keys_none) else pluralStringResource(R.plurals.api_keys_set_count, keysSet, keysSet)
+    ) { open(Deep.API_KEYS) }
     if (all) {
         SettingsRow(Icons.Filled.Checklist, stringResource(R.string.setup_again), stringResource(R.string.setup_again_detail)) { m.onSetup(true) }
         val automation by Automation.on.collectAsState()

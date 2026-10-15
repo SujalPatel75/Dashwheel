@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Your API keys (ApiKeys.kt), Settings → System; and the Overpass server on the map servers page -->
+    <string name="api_keys_title">Tus claves API</string>
+    <string name="api_keys_search_detail">Claves de los servicios que Dashwheel consulta por ti, Gemini primero</string>
+    <string name="api_keys_none">Sin clave</string>
+    <string name="api_keys_explanation">Algunas funciones consultan un servicio que necesita una clave tuya. Pégala aquí: se queda en esta unidad y solo va a ese servicio.</string>
+    <string name="api_keys_paste">Pega la clave</string>
+    <string name="api_keys_show">Mostrar la clave</string>
+    <string name="api_keys_hide">Ocultar la clave</string>
+    <string name="api_keys_set">Puesta</string>
+    <string name="api_keys_not_set">Sin poner</string>
+    <string name="api_keys_get">Obtener una clave</string>
+    <string name="api_keys_gemini_uses">Mecánico IA, respuestas habladas y asistente</string>
+    <string name="api_keys_tankerkoenig">Clave de Tankerkönig</string>
+    <string name="api_keys_tankerkoenig_uses">Precios del combustible en Alemania</string>
+    <string name="fuel_needs_tankerkoenig">Los precios en Alemania necesitan una clave de Tankerkönig: Ajustes, Sistema, Tus claves API</string>
+    <string name="map_servers_overpass">Servidor Overpass</string>
+    <string name="map_servers_overpass_detail">Para límites, radares y nombres de gasolineras. Déjalo vacío para los servidores públicos.</string>
+    <plurals name="api_keys_set_count">
+        <item quantity="one">%d clave puesta</item>
+        <item quantity="many">%d claves puestas</item>
+        <item quantity="other">%d claves puestas</item>
+    </plurals>
+</resources>

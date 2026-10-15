@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Your API keys (ApiKeys.kt), Settings → System; and the Overpass server on the map servers page -->
+    <string name="api_keys_title">Twoje klucze API</string>
+    <string name="api_keys_search_detail">Klucze usług, o które Dashwheel pyta za Ciebie, najpierw Gemini</string>
+    <string name="api_keys_none">Brak klucza</string>
+    <string name="api_keys_explanation">Niektóre funkcje pytają usługę, która wymaga Twojego klucza. Wklej go tutaj: zostaje na tym urządzeniu i trafia tylko do tej usługi.</string>
+    <string name="api_keys_paste">Wklej klucz</string>
+    <string name="api_keys_show">Pokaż klucz</string>
+    <string name="api_keys_hide">Ukryj klucz</string>
+    <string name="api_keys_set">Ustawiony</string>
+    <string name="api_keys_not_set">Nieustawiony</string>
+    <string name="api_keys_get">Uzyskaj klucz</string>
+    <string name="api_keys_gemini_uses">Mechanik AI, odpowiedzi głosowe i asystent</string>
+    <string name="api_keys_tankerkoenig">Klucz Tankerkönig</string>
+    <string name="api_keys_tankerkoenig_uses">Ceny paliw w Niemczech</string>
+    <string name="fuel_needs_tankerkoenig">Ceny w Niemczech wymagają klucza Tankerkönig: Ustawienia, System, Twoje klucze API</string>
+    <string name="map_servers_overpass">Serwer Overpass</string>
+    <string name="map_servers_overpass_detail">Do ograniczeń prędkości, fotoradarów i nazw stacji. Zostaw puste dla serwerów publicznych.</string>
+    <plurals name="api_keys_set_count">
+        <item quantity="one">%d klucz ustawiony</item>
+        <item quantity="few">%d klucze ustawione</item>
+        <item quantity="many">%d kluczy ustawionych</item>
+        <item quantity="other">%d kluczy ustawionych</item>
+    </plurals>
+</resources>

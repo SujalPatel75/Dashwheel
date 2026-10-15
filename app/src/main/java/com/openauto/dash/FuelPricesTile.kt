@@ -88,6 +88,8 @@ internal fun FuelPricesCard(modifier: Modifier = Modifier) {
     val perm = rememberPermission(Manifest.permission.ACCESS_FINE_LOCATION)
     val error by FuelPriceRepo.error.collectAsState()
     val fetchedAt by FuelPriceRepo.fetchedAt.collectAsState()
+    val source by FuelPriceRepo.source.collectAsState()
+    val needsKey by FuelPriceRepo.needsKey.collectAsState()
     val hasFix by LocationFeed.hasFix.collectAsState()
     val now = rememberNow(60_000L)
     val pending = rememberPendingAction()
@@ -103,11 +105,17 @@ internal fun FuelPricesCard(modifier: Modifier = Modifier) {
         Box(modifier = Modifier.fillMaxSize()) {
             Column(modifier = Modifier.fillMaxSize().padding(DashSpace.Lg), verticalArrangement = Arrangement.spacedBy(6.dp)) {
                 TileHeader(stringResource(R.string.fuel_title)) {
-                    nearby?.let { Text(it.grade.label, color = DashColors.Muted, style = MaterialTheme.typography.labelSmall) }
+                    // The grade, and the source's name when its licence asks for it (Tankerkönig, CC BY).
+                    nearby?.let {
+                        val credit = if (source == FuelSource.TANKERKOENIG) " · " + stringResource(R.string.fuel_source_tankerkoenig) else ""
+                        Text(it.grade.label + credit, color = DashColors.Muted, style = MaterialTheme.typography.labelSmall)
+                    }
                 }
                 when {
                     nearby == null && error != null -> Hint(stringResource(R.string.fuel_error))
                     nearby == null -> Hint(stringResource(if (!hasFix) R.string.info_waiting_gps else R.string.fuel_loading))
+                    // In Germany without a Tankerkönig key: where to paste one, not "no station".
+                    nearby.ranked.isEmpty() && needsKey != null -> Hint(stringResource(R.string.fuel_needs_tankerkoenig))
                     nearby.ranked.isEmpty() -> Hint(fuelNoneText())
                     else -> {
                         val u = LocalUnits.current
