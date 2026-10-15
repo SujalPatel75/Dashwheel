@@ -99,9 +99,19 @@ object LocationFeed {
     private val _trip = MutableStateFlow(TripState())
     val trip: StateFlow<TripState> = _trip
 
-    /** Last heading we trust (from GPS while moving); kept while stopped. */
+    /**
+     * Where the car points, from its GPS fixes ([HeadingTracker]): kept while
+     * stopped, and across a restart of the app, so a parked car's map still
+     * faces the right way at the next start.
+     */
     private val _headingDeg = MutableStateFlow<Float?>(null)
     val headingDeg: StateFlow<Float?> = _headingDeg
+
+    private val heading = HeadingTracker()
+    @Volatile private var prefs: android.content.SharedPreferences? = null
+    /** Where the heading restored at start was saved; checked against the first GPS fix. */
+    private var restoredAt: HeadingTracker.Fix? = null
+    private var headingSavedAt = 0L
 
     /**
      * Speed in km/h from a fix under [FRESH_MS] old, else null. Unlike
@@ -142,6 +152,7 @@ object LocationFeed {
             ?: return false
         if (refs++ > 0) return true
         manager = lm
+        restoreHeading(context)
         runCatching {
             lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000L, 0f, listener, Looper.getMainLooper())
         }
@@ -172,6 +183,41 @@ object LocationFeed {
     internal fun restoreTrip(trip: TripState) {
         _trip.value = trip
     }
+
+    /** The heading after the GPS fix [l] ([HeadingTracker]), saved now and then for the next start. */
+    private fun trackHeading(l: Location, speedKmh: Float) {
+        val fix = HeadingTracker.Fix(l.latitude, l.longitude, l.bearing.takeIf { l.hasBearing() }, speedKmh, if (l.hasAccuracy()) l.accuracy else Float.MAX_VALUE)
+        // The heading saved at the last switch-off holds only where the car was then.
+        restoredAt?.let { at ->
+            restoredAt = null
+            if (HeadingTracker.distanceM(at, fix) > RESTORE_WITHIN_M) _headingDeg.value = null
+        }
+        val next = heading.next(_headingDeg.value, fix, CarBox.reversing.value)
+        if (next == _headingDeg.value) return
+        _headingDeg.value = next
+        val now = SystemClock.elapsedRealtime()
+        if (next != null && now - headingSavedAt >= SAVE_HEADING_MS) {
+            headingSavedAt = now
+            prefs?.edit()?.putFloat(KEY_HEADING, next)?.putString(KEY_HEADING_AT, "${l.latitude},${l.longitude}")?.apply()
+        }
+    }
+
+    /** The heading saved before, while none is known yet: the car may not have moved since. */
+    private fun restoreHeading(context: Context) {
+        val p = prefs ?: context.applicationContext.getSharedPreferences(PREFS, Context.MODE_PRIVATE).also { prefs = it }
+        if (_headingDeg.value != null || !p.contains(KEY_HEADING)) return
+        val at = p.getString(KEY_HEADING_AT, null)?.split(',')?.mapNotNull { it.toDoubleOrNull() }?.takeIf { it.size == 2 } ?: return
+        _headingDeg.value = p.getFloat(KEY_HEADING, 0f)
+        restoredAt = HeadingTracker.Fix(at[0], at[1], null, 0f, 0f)
+    }
+
+    private const val PREFS = "location_feed"
+    private const val KEY_HEADING = "heading"
+    private const val KEY_HEADING_AT = "heading_at"
+    /** A heading is saved at most this often: it changes every second on the road. */
+    private const val SAVE_HEADING_MS = 5_000L
+    /** The first fix farther than this from where the saved heading was taken drops it: the car was moved. */
+    private const val RESTORE_WITHIN_M = 50.0
 
     /** [DemoMode]'s position and trip (and, when it ends, the real ones back). */
     internal fun demoWrite(location: Location?, trip: TripState, heading: Float?) {
@@ -240,8 +286,8 @@ object LocationFeed {
         setLocation(l)
         publishSpeed(l)
         val speedKmh = l.speed * 3.6f
-        if (l.hasBearing() && speedKmh > 3f) _headingDeg.value = l.bearing
         if (!gps) return
+        trackHeading(l, speedKmh)
 
         // Only consecutive GPS fixes of decent accuracy count towards the trip.
         if (prev != null && l.accuracy <= 30f) {

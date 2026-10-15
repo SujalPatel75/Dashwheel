@@ -112,6 +112,8 @@ class Screen(
         if (state != null) {
             cluster = state
             clusterAt = uptimeMs()
+            // When it came in, for the map to date the GPS fix it carries (ChaseMap).
+            painter.readingsArrived(System.nanoTime())
             // An older head unit sends its clock only here (LocalClock takes DisplayTime first).
             LocalClock.sync(state.clock)
             clock12 = state.clock12

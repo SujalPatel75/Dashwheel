@@ -41,8 +41,17 @@ import kotlin.math.sqrt
  * screen draws more often than the fixes come ([moving]). While it follows
  * the route it is held on it ([RouteSnap]): on the route's line, with the
  * road's heading, and on along the line between fixes, round the bends.
+ *
+ * A fix is dated from when the GPS took it: its age as the head unit sent it
+ * ([ClusterState.Position.ageMs]) before the readings came in ([receivedNs]).
+ * Dated by the picture that first showed it, a fix that left a little late
+ * put the car back a few metres and one a little early pushed it on, once a
+ * second: the map surged and stalled with every fix.
  */
 internal class ChaseMap {
+    /** When the readings drawn next came in (System.nanoTime), 0 while unknown. */
+    @Volatile var receivedNs = 0L
+
     /** The car moves or the camera is still catching up: another picture soon would show it. */
     var moving = false
         private set
@@ -68,6 +77,8 @@ internal class ChaseMap {
     private var placeLat = 0.0
     /** Metres the car went on from the fix since it came. */
     private var fixAhead = 0.0
+    /** Up to when [fixAhead] is counted (System.nanoTime). */
+    private var aheadToNs = 0L
     private var goHeading = 0.0
 
     // What was drawn last: the car's place (world pixels at [Z0]) and the camera's and car's headings.
@@ -219,9 +230,11 @@ internal class ChaseMap {
         val y = WebMercator.y(pos.lat, Z0)
         val mpp = WebMercator.metersPerPixel(pos.lat, Z0)
         if (pos.lat != fixLat || pos.lon != fixLon || pos.headingDeg != fixHeadingDeg) {
-            // A new fix: its speed is the car's when the head unit sends one, else what the last two fixes say.
-            val seconds = (nowNs - fixAtNs) / 1e9
-            if (!fixLat.isNaN() && seconds < 10) { fixes++; fixGapsNs += nowNs - fixAtNs }
+            // A new fix, dated from when the GPS took it; its speed is the car's when the head
+            // unit sends one, else what the last two fixes say.
+            val at = fixTime(nowNs, receivedNs, pos.ageMs)
+            val seconds = (at - fixAtNs) / 1e9
+            if (!fixLat.isNaN() && seconds < 10) { fixes++; fixGapsNs += at - fixAtNs }
             val moved = if (fixLat.isNaN()) 0.0 else hypot(x - rawX, y - rawY) * mpp
             fixSpeed = speedKmh?.let { it / 3.6 } ?: if (seconds in 0.2..5.0) moved / seconds else 0.0
             fixLat = pos.lat
@@ -229,9 +242,13 @@ internal class ChaseMap {
             fixHeadingDeg = pos.headingDeg
             // A stopped car's GPS wanders a metre or two: the car stays put (and the Pi idle).
             val wander = speedKmh == 0 && moved < WANDER_M && !shownX.isNaN()
+            // But a new heading for it counts: the head unit saw the last metres into the
+            // space, or the car is reversing; off the route, which sets its own heading.
+            if (wander && fixSpot == null) pos.headingDeg?.let { goHeading = Math.toRadians(it.toDouble()) }
             if (!wander) {
                 placeLat = pos.lat
-                fixAtNs = nowNs
+                fixAtNs = at
+                aheadToNs = at
                 rawX = x
                 rawY = y
                 fixAhead = 0.0
@@ -252,11 +269,14 @@ internal class ChaseMap {
             fixSpeed = speedKmh / 3.6
         }
         val speed = if (fixSpeed < 0.5) 0.0 else fixSpeed
-        // Where the car should be now: on from the fix at its speed, for a second and a half at most;
+        // Where the car should be now: on from the fix at its speed, for [MAX_AHEAD_S] at most;
         // added up as it goes, so a car that slows down before the next fix stays where it got to.
-        val since = ((nowNs - fixAtNs) / 1e9).coerceIn(0.0, MAX_AHEAD_S)
-        val sinceLast = if (paintedAtNs == 0L) since else ((paintedAtNs - fixAtNs) / 1e9).coerceIn(0.0, MAX_AHEAD_S)
-        fixAhead += speed * max(0.0, since - sinceLast)
+        // Counted from the fix's own time: the while between the GPS taking it and its arrival included.
+        val until = min(nowNs, fixAtNs + (MAX_AHEAD_S * 1e9).toLong())
+        if (until > aheadToNs) {
+            fixAhead += speed * (until - aheadToNs) / 1e9
+            aheadToNs = until
+        }
         val ahead = fixAhead / mpp
         val spot = fixSpot
         val targetX: Double
@@ -883,8 +903,20 @@ internal class ChaseMap {
         private const val SNAP_M = 250.0
         /** How far a stopped car's position may wander and still be the same place. */
         private const val WANDER_M = 4.0
-        /** The car goes on from a fix this long at most: a lost GPS doesn't drive it away. */
-        private const val MAX_AHEAD_S = 1.5
+        /** A fix's age past this is not believed: the link stalled, and the fix is dated by its arrival. */
+        private const val MAX_FIX_AGE_MS = 2_000
+
+        /**
+         * When a fix seen at [nowNs] was taken: [ageMs] before the readings
+         * carrying it came in at [receivedNs]; [nowNs] when either is missing.
+         */
+        internal fun fixTime(nowNs: Long, receivedNs: Long, ageMs: Int?): Long {
+            if (ageMs == null || receivedNs <= 0L || receivedNs > nowNs) return nowNs
+            return receivedNs - ageMs.coerceIn(0, MAX_FIX_AGE_MS) * 1_000_000L
+        }
+
+        /** The car goes on from a fix this long at most: a lost GPS doesn't drive it away, a late one doesn't stop it. */
+        private const val MAX_AHEAD_S = 2.5
         /** Nearer than this to where it should be (metres, radians), the car is there. */
         private const val SETTLED_M = 0.05
         private const val SETTLED_RAD = 0.002

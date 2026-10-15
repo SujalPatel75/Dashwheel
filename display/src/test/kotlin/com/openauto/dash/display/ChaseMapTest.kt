@@ -193,6 +193,56 @@ class ChaseMapTest {
     }
 
     @Test
+    fun aFixIsDatedFromWhenTheGpsTookIt() {
+        val s = 1_000_000_000L
+        // Sent 400 ms after the GPS took it, in at 10 s, first drawn at 10.1 s: taken at 9.6 s.
+        assertEquals(9_600_000_000L, ChaseMap.fixTime(10_100_000_000L, 10 * s, 400))
+        // No age (an older head unit), or no arrival time: dated by the picture, as before.
+        assertEquals(10_100_000_000L, ChaseMap.fixTime(10_100_000_000L, 10 * s, null))
+        assertEquals(10_100_000_000L, ChaseMap.fixTime(10_100_000_000L, 0L, 400))
+        // A stalled link's age is not believed past two seconds.
+        assertEquals(8 * s, ChaseMap.fixTime(10_100_000_000L, 10 * s, 9_000))
+    }
+
+    @Test
+    fun aLateFixPutsTheCarAsFarOnAsItReallyIs() {
+        val box = Rectangle(0, 0, 200, 150)
+        val canvas = BufferedImage(200, 150, BufferedImage.TYPE_INT_RGB)
+        // A route north that turns east 60 m on: where the bend shows tells how far on the car is.
+        val route = listOf(notreDame.lat - 0.001, notreDame.lon, notreDame.lat + 0.00054, notreDame.lon, notreDame.lat + 0.00054, notreDame.lon + 0.002)
+        val north = notreDame.copy(headingDeg = 0)
+        // The same fix, sent fresh to one map and half a second old to the other: the older one is further on.
+        fun picture(ageMs: Int?): List<Int> {
+            val chase = ChaseMap()
+            val pos = north.copy(ageMs = ageMs)
+            chase.receivedNs = 1_000_000_000L
+            val g = canvas.createGraphics()
+            chase.paint(g, box, state(pos).copy(speedKmh = 90), pos, ClusterState.MapView(), route, null, false, null, java.awt.Color.CYAN, true, 12, 17, 1_000_000_000L)
+            chase.paint(g, box, state(pos).copy(speedKmh = 90), pos, ClusterState.MapView(), route, null, false, null, java.awt.Color.CYAN, true, 12, 17, 2_000_000_000L)
+            g.dispose()
+            return canvas.getRGB(0, 0, 200, 150, null, 0, 200).toList()
+        }
+        assertNotEquals(picture(null), picture(500))
+    }
+
+    @Test
+    fun aParkedCarTurnsWhenItsHeadingChanges() {
+        val chase = ChaseMap()
+        val box = Rectangle(0, 0, 200, 150)
+        val canvas = BufferedImage(200, 150, BufferedImage.TYPE_INT_RGB)
+        fun paint(t: Double, pos: ClusterState.Position) = canvas.createGraphics().let { g ->
+            chase.paint(g, box, state(pos).copy(speedKmh = 0), pos, ClusterState.MapView(), emptyList(), null, false, null, java.awt.Color.CYAN, true, 12, 17, (t * 1e9).toLong())
+            g.dispose()
+        }
+        paint(0.0, notreDame.copy(headingDeg = 90))
+        paint(5.0, notreDame.copy(headingDeg = 90))
+        assertEquals(90.0, chase.headingDeg, 1.0)
+        // The head unit now says the car points north (it saw the last metres into the space): the map turns, the car stays.
+        for (i in 0..40) paint(6.0 + i * 0.1, notreDame.copy(lat = notreDame.lat + 0.00001, headingDeg = 0))
+        assertEquals(0.0, ((chase.headingDeg % 360) + 360) % 360, 1.0)
+    }
+
+    @Test
     fun aParkedCarStaysPutWhileItsGpsWanders() {
         val chase = ChaseMap()
         val box = Rectangle(0, 0, 200, 150)
@@ -205,8 +255,9 @@ class ChaseMapTest {
         paint(0.0, notreDame)
         val still = paint(2.0, notreDame)
         // A metre or two off each second, as a parked GPS goes: the same picture, nothing to draw again.
+        // (Its heading stays: the head unit keeps a stopped car's, and a new one is a real turn, see below.)
         val a = paint(3.0, notreDame.copy(lat = notreDame.lat + 0.00001))
-        val b = paint(4.0, notreDame.copy(lon = notreDame.lon - 0.00002, headingDeg = 95))
+        val b = paint(4.0, notreDame.copy(lon = notreDame.lon - 0.00002))
         assertEquals(still, a)
         assertEquals(still, b)
         assertFalse(chase.moving)

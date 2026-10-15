@@ -68,6 +68,11 @@ class Painter(val width: Int, val height: Int, private val overscanPct: Int, pri
     /** What the tilted map's pictures cost since the last call, by part; null when none was drawn (ChaseMap.takeStats). */
     fun takeMapStats(): String? = chase.takeStats()
 
+    /** The readings drawn next came in at [ns] (System.nanoTime): the map dates their GPS fix from it. */
+    fun readingsArrived(ns: Long) {
+        chase.receivedNs = ns
+    }
+
 
     /** TYPE_INT_RGB is 0x00RRGGBB per pixel: little-endian, the bytes are B,G,R,x (GStreamer's "bgrx"). */
     val image = BufferedImage(width, height, BufferedImage.TYPE_INT_RGB)
@@ -464,21 +469,7 @@ class Painter(val width: Int, val height: Int, private val overscanPct: Int, pri
 
             val pad = (2.5f * unit).roundToInt()
             // North, top right, turning with the map when it turns with the car.
-            val nr = (2.4f * unit).roundToInt()
-            val nx = box.x + box.width - pad - nr
-            val ny = box.y + pad + nr
-            g.color = p.card
-            g.fill(Ellipse2D.Float((nx - nr).toFloat(), (ny - nr).toFloat(), 2f * nr, 2f * nr))
-            g.color = p.fg
-            val needle = Path2D.Float().apply { moveTo(nx.toFloat(), ny - nr * 0.7f); lineTo(nx + nr * 0.4f, ny + nr * 0.4f); lineTo(nx.toFloat(), ny + nr * 0.1f); lineTo(nx - nr * 0.4f, ny + nr * 0.4f); closePath() }
-            if (look.tilted) {
-                val saved = g.transform
-                g.rotate(-Math.toRadians(chase.headingDeg), nx.toDouble(), ny.toDouble())
-                g.fill(needle)
-                g.transform = saved
-            } else {
-                g.fill(needle)
-            }
+            compass(g, box, pad, if (look.tilted) chase.headingDeg else 0.0, p)
             // A scale bar, bottom right, on the flat map only: in perspective a metre has no one length.
             val metres = 100
             val barW = (metres / WebMercator.metersPerPixel(pos.lat, zoom)).roundToInt().coerceIn(20, box.width / 3)
@@ -1106,7 +1097,7 @@ class Painter(val width: Int, val height: Int, private val overscanPct: Int, pri
     private fun paintNav(g: Graphics2D, s: ClusterState, text: ClusterText, body: Rectangle, p: Palette) {
         val nav = s.nav
         if (nav == null) {
-            emptyState(g, body, text.noRoute, p) { cx, cy, size -> navArrow(g, cx, cy, size, p.muted) }
+            emptyState(g, body, text.noRoute, p) { cx, cy, size -> routeSign(g, cx, cy, size, p.muted) }
             return
         }
         // Bottom strip: when we get there, and how fast we're going.
@@ -1341,6 +1332,88 @@ class Painter(val width: Int, val height: Int, private val overscanPct: Int, pri
         })
     }
 
+    /**
+     * The compass over the map, top right: a round card with a rim, so it
+     * stands out from a dark sky as from a light street, and a needle whose
+     * north half is red and carries an upright N. Turned by [headingDeg], the
+     * way the camera looks. It was a small dark disc with a white chevron:
+     * on the night sky only the chevron showed, a stray triangle, and it read
+     * as pointing south as much as north.
+     */
+    private fun compass(g: Graphics2D, box: Rectangle, pad: Int, headingDeg: Double, p: Palette) {
+        val r = 5.5f * unit
+        val cx = box.x + box.width - pad - r
+        val cy = box.y + pad + r
+        g.color = p.card
+        g.fill(Ellipse2D.Float(cx - r, cy - r, 2 * r, 2 * r))
+        val saved = g.stroke
+        g.stroke = BasicStroke(max(1.5f, unit * 0.35f))
+        g.color = p.muted
+        g.draw(Ellipse2D.Float(cx - r, cy - r, 2 * r, 2 * r))
+        g.stroke = saved
+        val a = Math.toRadians(-headingDeg)
+        // Where north is on the screen, from the centre: up turned by the heading.
+        val nx = sin(a).toFloat()
+        val ny = -cos(a).toFloat()
+        // Across the needle, for its width.
+        val wx = -ny
+        val wy = nx
+        val tip = r * 0.46f
+        val half = r * 0.17f
+        fun half(sign: Float, color: Color) {
+            g.color = color
+            g.fill(Path2D.Float().apply {
+                moveTo(cx + nx * tip * sign, cy + ny * tip * sign)
+                lineTo(cx + wx * half, cy + wy * half)
+                lineTo(cx - wx * half, cy - wy * half)
+                closePath()
+            })
+        }
+        half(-1f, p.muted)
+        half(1f, COMPASS_NORTH)
+        // The N stays upright, past the north tip, inside the rim.
+        g.font = font(Font.BOLD, 2.6f)
+        val fm = g.fontMetrics
+        val lx = cx + nx * r * 0.74f
+        val ly = cy + ny * r * 0.74f
+        val n = "N"
+        g.color = COMPASS_NORTH
+        g.drawString(n, lx - fm.stringWidth(n) / 2f, ly + fm.ascent * 0.36f)
+    }
+
+    /**
+     * Where a route will show, while there is none: a start dot and a pin
+     * joined by a winding dashed road. An upward arrow there passed for a
+     * compass that never turned.
+     */
+    private fun routeSign(g: Graphics2D, cx: Float, cy: Float, size: Float, color: Color) {
+        val h = size / 2
+        g.color = color
+        val saved = g.stroke
+        g.stroke = BasicStroke(max(2f, h * 0.12f), BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 10f, floatArrayOf(h * 0.2f, h * 0.18f), 0f)
+        val sx = cx - h * 0.55f
+        val sy = cy + h * 0.6f
+        val ex = cx + h * 0.5f
+        val ey = cy - h * 0.35f
+        g.draw(Path2D.Float().apply {
+            moveTo(sx, sy)
+            curveTo(cx + h * 0.6f, cy + h * 0.55f, cx - h * 0.6f, cy - h * 0.05f, ex, ey)
+        })
+        g.stroke = saved
+        val dot = h * 0.16f
+        g.fill(Ellipse2D.Float(sx - dot, sy - dot, 2 * dot, 2 * dot))
+        // The pin: a round head over a point, a hole in the head.
+        val pr = h * 0.24f
+        val top = ey - pr * 2.1f
+        g.fill(Path2D.Float().apply {
+            moveTo(ex, ey)
+            lineTo(ex - pr * 0.8f, top + pr * 1.3f)
+            lineTo(ex + pr * 0.8f, top + pr * 1.3f)
+            closePath()
+        })
+        g.fill(Ellipse2D.Float(ex - pr, top, 2 * pr, 2 * pr))
+    }
+
     /** The navigation chevron, for a turn the words don't tell. */
     private fun navArrow(g: Graphics2D, cx: Float, cy: Float, size: Float, color: Color) {
         val h = size / 2
@@ -1538,6 +1611,8 @@ class Painter(val width: Int, val height: Int, private val overscanPct: Int, pri
     }
 
     private companion object {
+        /** The compass's north half and its N: a compass red, the same in every look. */
+        val COMPASS_NORTH = Color(0xE5, 0x39, 0x35)
         val BG_NIGHT = Color(0x000000)
         val TEXT = Color(0xF2F5F8)
         val MUTED = Color(0x8A96A3)

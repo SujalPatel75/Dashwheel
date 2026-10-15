@@ -359,9 +359,15 @@ data class ClusterState(
         }
     }
 
-    /** A GPS fix: degrees to five decimals (about a metre), the heading in degrees from north when the car moves. */
+    /**
+     * A GPS fix: degrees to five decimals (about a metre), the heading in
+     * degrees from north when the car moves, and how old the fix was when the
+     * head unit sent it ([ageMs]), so the display dates it from when the GPS
+     * took it rather than from when it arrived. An older head unit sends no
+     * age, an older display ignores it.
+     */
     @Serializable
-    data class Position(val lat: Double, val lon: Double, val headingDeg: Int? = null)
+    data class Position(val lat: Double, val lon: Double, val headingDeg: Int? = null, val ageMs: Int? = null)
 
     /**
      * A page's arrangement ([ClusterArrangement] names: ONE, BIG_SIDE, BIG_STACK,

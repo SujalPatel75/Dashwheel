@@ -5,10 +5,11 @@ import androidx.compose.ui.graphics.toArgb
 import com.openauto.dash.link.ClusterState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withTimeoutOrNull
 
 /**
  * The second screen's readings, for when it draws the cluster itself
@@ -31,11 +32,28 @@ internal object ClusterFeed {
                 wordsAt = System.currentTimeMillis()
             }
             val state = snapshot(words, page.value)
-            // The clock and the playing position move on their own: they don't make a change.
-            val key = state.copy(clock = 0, media = state.media?.copy(positionMs = 0))
+            // The clock, the playing position and the fix's age move on their own: they don't make a change.
+            val key = state.copy(clock = 0, media = state.media?.copy(positionMs = 0), position = state.position?.copy(ageMs = null))
             if (throttle.shouldSend(key, System.currentTimeMillis())) DisplayLink.send(state)
-            delay(SAMPLE_MS)
+            // A new GPS fix goes out at once rather than at the next sample: the display's
+            // map carries the car on from it, and every millisecond it waits shows as a jolt.
+            val fix = LocationFeed.location.value
+            withTimeoutOrNull(SAMPLE_MS) { LocationFeed.location.first { it !== fix } }
         }
+    }
+
+    /** A fix older than this is sent without its age: something stalled, and the display is better off not trusting it. */
+    private const val MAX_FIX_AGE_MS = 5_000L
+
+    /**
+     * How old a fix taken at [fixElapsedNs] is at [nowElapsedNs], both on the
+     * elapsed-realtime clock; null when the fix carries no time of its own
+     * (0) or the age makes no sense.
+     */
+    internal fun fixAgeMs(fixElapsedNs: Long, nowElapsedNs: Long): Int? {
+        if (fixElapsedNs <= 0L) return null
+        val ms = (nowElapsedNs - fixElapsedNs) / 1_000_000L
+        return ms.takeIf { it in 0L..MAX_FIX_AGE_MS }?.toInt()
     }
 
     private fun snapshot(context: Context, page: ClusterPage): ClusterState {
@@ -109,7 +127,8 @@ internal object ClusterFeed {
             position = LocationFeed.location.value?.let { l ->
                 ClusterState.Position(
                     Math.round(l.latitude * 1e5) / 1e5, Math.round(l.longitude * 1e5) / 1e5,
-                    LocationFeed.headingDeg.value?.let { Math.round(it) }
+                    LocationFeed.headingDeg.value?.let { Math.round(it) },
+                    fixAgeMs(l.elapsedRealtimeNanos, android.os.SystemClock.elapsedRealtimeNanos())
                 )
             },
             // How the display's own map is seen.

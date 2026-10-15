@@ -55,6 +55,9 @@ class RenderPreview {
             "board_map" to base.copy(page = "NAV", maneuver = "RIGHT", position = ClusterState.Position(48.8530, 2.3499, 10), layout = ClusterState.Layout("BIG_STACK", listOf("MAP", "SPEED", "CLOCK"))),
             "board_map_day" to base.copy(page = "NAV", night = false, maneuver = "ROUNDABOUT", position = ClusterState.Position(48.8530, 2.3499, 10), open = listOf("Tailgate"), layout = ClusterState.Layout("ONE", listOf("MAP"))),
             "board_map_nofix" to base.copy(page = "NAV", layout = ClusterState.Layout("BIG_STACK", listOf("MAP", "SPEED", "CLOCK"))),
+            // As in a driver's photo: the tilted map heading east-north-east, no route, the coolant beside it.
+            "board_map_noroute" to base.copy(page = "NAV", nav = null, position = ClusterState.Position(48.8530, 2.3499, 60), layout = ClusterState.Layout("BIG_STACK", listOf("MAP", "NAV", "COOLANT"))),
+            "board_map_noroute_day" to base.copy(page = "NAV", nav = null, night = false, position = ClusterState.Position(48.8530, 2.3499, 200), layout = ClusterState.Layout("BIG_STACK", listOf("MAP", "NAV", "COOLANT"))),
         )
         File(dir).mkdirs()
         val painter = Painter(1024, 600, overscanPct = 0)
