@@ -246,8 +246,17 @@ class SplitAccessibilityService : AccessibilityService() {
 
     /** Show the floating swap button while split, hide it otherwise. */
     private fun updateOverlayForSplit() {
-        if (isInSplitMode()) showSwapOverlay() else hideSwapOverlay()
+        if (isInSplitMode() && !mapsDocked()) showSwapOverlay() else hideSwapOverlay()
     }
+
+    /**
+     * The dashboard's own Maps dock (Disposition: maps left or right) puts the
+     * Maps window beside the dashboard, which reads as two panes; opening the ⋯
+     * menu then moved Maps aside and brought the swap button up. Not a split.
+     */
+    private fun mapsDocked(): Boolean =
+        PipAnchor.dockActive.value || DashLayoutStore.load(this) != DashLayout.GRID &&
+            splitPanePackages()?.toList()?.contains(PipAnchor.MAPS_PACKAGE) == true
 
     /**
      * zlink says when CarPlay / Android Auto comes on screen but not always when
