@@ -1354,9 +1354,15 @@ fun AutomotiveDashboard(inSplitMode: Boolean = false) {
     // stands in for the bar where it is asked for (Display, Navigation; on by
     // default with Canvas).
     val canvas = DashColors.Skin == DashSkin.CANVAS
-    val railOnRight = CarProfileStore.current.driverOnRight
     // Tabs in the rail: nothing is swiped, and an app under the dashboards is the wallpaper beside the rail.
     val tabsShown = tabsMode
+    // The Maps dock is a real app window, drawn over the dashboard: on the
+    // rail's side it covered the rail and, with it, the ⋯ menu. The rail
+    // then moves to the other side, next to the pages.
+    val driverOnRight = CarProfileStore.current.driverOnRight
+    val dockOnRailSide = !inSplitMode && !tabsShown && !ScreenShape.vertical &&
+        (layout == DashLayout.MAPS_LEFT && !driverOnRight || layout == DashLayout.MAPS_RIGHT && driverOnRight)
+    val railOnRight = if (dockOnRailSide) !driverOnRight else driverOnRight
     SideEffect { CanvasTabs.railShown = tabsShown }
     val barModel = DashBarModel(
         tabs = barTabs,
@@ -1777,7 +1783,10 @@ fun AutomotiveDashboard(inSplitMode: Boolean = false) {
 
             // needs the accessibility service; if it isn't on, tapping prompts to
             // enable it instead of silently doing nothing.
-            if (inSplitMode) {
+            // Maps docked beside the dashboard is not a split of two apps: a popup
+            // (the ⋯ menu) taking focus there must not bring the swap button up.
+            val mapsDocked by PipAnchor.dockActive.collectAsState()
+            if (inSplitMode && layout == DashLayout.GRID && !mapsDocked) {
                 FloatingActionButton(
                     onClick = {
                         if (SplitLauncher.isSystemSplitAvailable()) SplitLauncher.swapSplit()

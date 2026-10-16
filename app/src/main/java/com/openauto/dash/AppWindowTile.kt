@@ -240,7 +240,10 @@ internal fun PipAnchorCard(
             // Diagnostics, docked or not (the tile is only readable when its window is
             // missing): where the window is vs. where it should be, what the system
             // says of it, how long ago that was, and what the last command said.
-            if (pkg != null) {
+            // Only in debug builds or when something went wrong: otherwise they showed
+            // through whenever the window stepped aside for a menu.
+            val diagnostics = BuildConfig.DEBUG || err != null
+            if (pkg != null && diagnostics) {
                 Spacer(Modifier.height(4.dp))
                 val flags = listOfNotNull(
                     status.visible?.let { if (it) "visible" else "hidden" },
@@ -254,7 +257,7 @@ internal fun PipAnchorCard(
                     Text(stringResource(R.string.apps_window_diag_last, it), color = DashColors.Muted, textAlign = TextAlign.Center, style = MaterialTheme.typography.labelSmall)
                 }
             }
-            status.seen?.let { seen ->
+            status.seen?.takeIf { diagnostics }?.let { seen ->
                 Spacer(Modifier.height(6.dp))
                 Text(stringResource(R.string.apps_window_diag_seen, seen), color = DashColors.Muted, textAlign = TextAlign.Center, style = MaterialTheme.typography.labelSmall)
             }

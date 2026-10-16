@@ -19,6 +19,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalView
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.composed
 import android.view.View
@@ -442,6 +443,13 @@ private class WheelKeyWindowCallback(
 
 internal fun Modifier.immersiveWindow(): Modifier = composed {
     val view = LocalView.current
+    // A dialog tells Gemini Live's alert, which would otherwise cover it.
+    DisposableEffect(view) {
+        val inDialog = generateSequence(view as View?) { it.parent as? View }
+            .any { it is androidx.compose.ui.window.DialogWindowProvider }
+        if (inDialog) GeminiLive.dialogShown(view.context, true)
+        onDispose { if (inDialog) GeminiLive.dialogShown(view.context, false) }
+    }
     SideEffect {
         var flags = View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY or
             View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or

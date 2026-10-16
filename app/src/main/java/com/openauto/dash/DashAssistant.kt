@@ -10,6 +10,9 @@ import android.media.AudioManager
 import android.media.AudioRecord
 import android.media.AudioTrack
 import android.media.MediaRecorder
+import android.media.audiofx.AcousticEchoCanceler
+import android.media.audiofx.AudioEffect
+import android.media.audiofx.NoiseSuppressor
 import android.os.SystemClock
 import android.util.Base64
 import android.util.Log
@@ -64,6 +67,7 @@ internal object DashAssistant {
     private const val CHUNK_MS = 100
     /** After Gemini's last word, the car's echo dies down before the microphone is sent again. */
     private const val ECHO_TAIL_MS = 400L
+    private const val GUIDANCE_CHECK_MS = 250L
     private const val SETUP_WAIT_MS = 10_000L
 
     enum class Phase { CONNECTING, LISTENING, THINKING, SPEAKING, FAILED, CLOSED }
@@ -88,6 +92,12 @@ internal object DashAssistant {
     private var track: AudioTrack? = null
     private val playback = Channel<ByteArray>(Channel.UNLIMITED)
     private var focus: AudioFocusRequest? = null
+    private val focusLock = Any()
+    private var audioManager: AudioManager? = null
+    private var voice: AudioAttributes? = null
+    /** When a navigation app was last seen talking, and when that was checked. */
+    @Volatile private var guidanceSeenAt = 0L
+    @Volatile private var guidanceCheckedAt = 0L
 
     private val client: OkHttpClient = Http.client.newBuilder()
         .dns(Ipv4First)
@@ -219,6 +229,15 @@ internal object DashAssistant {
                 .put("generationConfig", JSONObject().put("responseModalities", JSONArray().put("AUDIO")))
                 .put("systemInstruction", JSONObject().put("parts", JSONArray().put(JSONObject().put("text", instruction))))
                 .put("tools", AssistantTools.declarations())
+                // Music and the navigation's voice reach the microphone too: only a
+                // clear start of speech opens the driver's turn.
+                .put(
+                    "realtimeInputConfig",
+                    JSONObject().put(
+                        "automaticActivityDetection",
+                        JSONObject().put("startOfSpeechSensitivity", "START_SENSITIVITY_LOW")
+                    )
+                )
                 .put("inputAudioTranscription", JSONObject())
                 .put("outputAudioTranscription", JSONObject())
         )
@@ -269,22 +288,25 @@ internal object DashAssistant {
         lineOpen = true
     }
 
-    /** Sends the microphone up, except while Gemini speaks and just after. */
+    /**
+     * Sends the microphone up, except while Gemini speaks and just after, and
+     * while a navigation app gives a turn. The source is the one for calls, so
+     * the unit cancels its own sound (music, guidance) out of what Gemini hears.
+     */
     private suspend fun listen(ws: WebSocket) {
         val bytes = IN_RATE * 2 * CHUNK_MS / 1000
         val min = AudioRecord.getMinBufferSize(IN_RATE, AudioFormat.CHANNEL_IN_MONO, AudioFormat.ENCODING_PCM_16BIT)
-        @Suppress("MissingPermission")
-        val record = runCatching {
-            AudioRecord(MediaRecorder.AudioSource.VOICE_RECOGNITION, IN_RATE, AudioFormat.CHANNEL_IN_MONO, AudioFormat.ENCODING_PCM_16BIT, maxOf(min, bytes * 4))
-        }.getOrNull() ?: return
-        try {
-            // The microphone taken by another app, or a source this unit's audio
-            // doesn't have: no conversation, rather than a launcher that stops.
-            if (record.state != AudioRecord.STATE_INITIALIZED) {
+        val record = openRecord(MediaRecorder.AudioSource.VOICE_COMMUNICATION, maxOf(min, bytes * 4))
+            ?: openRecord(MediaRecorder.AudioSource.VOICE_RECOGNITION, maxOf(min, bytes * 4))
+            ?: run {
+                // The microphone taken by another app, or a source this unit's audio
+                // doesn't have: no conversation, rather than a launcher that stops.
                 Log.w(TAG, "the microphone could not be opened")
                 ws.cancel()
                 return
             }
+        val effects = cleaners(record.audioSessionId)
+        try {
             record.startRecording()
             val buffer = ByteArray(bytes)
             while (scope.isActive && session?.isActive == true) {
@@ -301,6 +323,9 @@ internal object DashAssistant {
                 }
                 val now = SystemClock.elapsedRealtime()
                 if (now < speakingUntil + ECHO_TAIL_MS) continue
+                // Gemini is done talking: the music comes back up.
+                releaseFocus()
+                if (navigationTalking(now)) continue
                 if (_phase.value == Phase.SPEAKING) _phase.value = Phase.LISTENING
                 val audio = JSONObject()
                     .put("data", Base64.encodeToString(buffer, 0, n, Base64.NO_WRAP))
@@ -313,9 +338,63 @@ internal object DashAssistant {
             Log.w(TAG, "the microphone could not record", e)
             ws.cancel()
         } finally {
+            effects.forEach { runCatching { it.release() } }
             runCatching { record.stop() }
             record.release()
         }
+    }
+
+    /** A recorder on [source], or null when this unit's audio can't give one. */
+    @Suppress("MissingPermission")
+    private fun openRecord(source: Int, size: Int): AudioRecord? {
+        val record = runCatching {
+            AudioRecord(source, IN_RATE, AudioFormat.CHANNEL_IN_MONO, AudioFormat.ENCODING_PCM_16BIT, size)
+        }.getOrNull() ?: return null
+        if (record.state == AudioRecord.STATE_INITIALIZED) return record
+        record.release()
+        Log.w(TAG, "no microphone from source $source")
+        return null
+    }
+
+    /** Echo cancelling and noise suppression on the microphone, where the unit has them. */
+    private fun cleaners(session: Int): List<AudioEffect> = buildList {
+        runCatching {
+            if (AcousticEchoCanceler.isAvailable()) AcousticEchoCanceler.create(session)?.let { it.enabled = true; add(it) }
+        }
+        runCatching {
+            if (NoiseSuppressor.isAvailable()) NoiseSuppressor.create(session)?.let { it.enabled = true; add(it) }
+        }
+    }
+
+    /** A navigation app is saying a turn, or did a moment ago. Checked a few times a second. */
+    private fun navigationTalking(now: Long): Boolean {
+        if (now - guidanceCheckedAt >= GUIDANCE_CHECK_MS) {
+            guidanceCheckedAt = now
+            val talking = runCatching {
+                audioManager?.activePlaybackConfigurations?.any {
+                    it.audioAttributes.usage == AudioAttributes.USAGE_ASSISTANCE_NAVIGATION_GUIDANCE
+                } == true
+            }.getOrDefault(false)
+            if (talking) guidanceSeenAt = now
+        }
+        return now < guidanceSeenAt + ECHO_TAIL_MS
+    }
+
+    /** Gemini speaks: the other sounds go down for it, and nothing pauses. */
+    private fun takeFocus() = synchronized(focusLock) {
+        if (focus != null) return@synchronized
+        val am = audioManager ?: return@synchronized
+        val attributes = voice ?: return@synchronized
+        val request = AudioFocusRequest.Builder(AudioManager.AUDIOFOCUS_GAIN_TRANSIENT_MAY_DUCK)
+            .setAudioAttributes(attributes)
+            .build()
+        if (runCatching { am.requestAudioFocus(request) }.getOrNull() == AudioManager.AUDIOFOCUS_REQUEST_GRANTED) focus = request
+    }
+
+    private fun releaseFocus() = synchronized(focusLock) {
+        val request = focus ?: return@synchronized
+        runCatching { audioManager?.abandonAudioFocusRequest(request) }
+        focus = null
     }
 
     /** Queues Gemini's voice; the microphone waits until it has been played. */
@@ -323,6 +402,7 @@ internal object DashAssistant {
         val ms = pcm.size * 1000L / (OUT_RATE * 2)
         val now = SystemClock.elapsedRealtime()
         speakingUntil = maxOf(speakingUntil, now) + ms
+        takeFocus()
         _phase.value = Phase.SPEAKING
         playback.trySend(pcm)
     }
@@ -351,10 +431,10 @@ internal object DashAssistant {
             .setUsage(AudioAttributes.USAGE_ASSISTANT)
             .setContentType(AudioAttributes.CONTENT_TYPE_SPEECH)
             .build()
-        // The music pauses while the driver talks with Gemini, and comes back after.
-        val am = context.getSystemService(AudioManager::class.java)
-        val request = AudioFocusRequest.Builder(AudioManager.AUDIOFOCUS_GAIN_TRANSIENT).setAudioAttributes(attributes).build()
-        if (am?.requestAudioFocus(request) == AudioManager.AUDIOFOCUS_REQUEST_GRANTED) focus = request
+        // No focus while the driver talks: the music and the guidance carry on.
+        // Gemini only ducks them while it speaks (takeFocus).
+        audioManager = context.getSystemService(AudioManager::class.java)
+        voice = attributes
         val min = AudioTrack.getMinBufferSize(OUT_RATE, AudioFormat.CHANNEL_OUT_MONO, AudioFormat.ENCODING_PCM_16BIT)
         track = AudioTrack.Builder()
             .setAudioAttributes(attributes)
@@ -372,9 +452,9 @@ internal object DashAssistant {
         while (playback.tryReceive().isSuccess) Unit
         track?.let { runCatching { it.stop() }; it.release() }
         track = null
-        focus?.let { context.getSystemService(AudioManager::class.java)?.abandonAudioFocusRequest(it) }
-        focus = null
+        releaseFocus()
         speakingUntil = 0L
+        guidanceSeenAt = 0L
     }
 
     /** Ends the conversation once Gemini has finished saying goodbye. */
