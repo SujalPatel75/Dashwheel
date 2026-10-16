@@ -108,8 +108,9 @@ internal fun SkinTopBar(m: TopBarModel) {
         DashSkin.COCKPIT -> CockpitTopBar(m)
         DashSkin.HORIZON -> HorizonTopBar(m)
         DashSkin.TAPE_DECK -> TapeDeckTopBar(m)
-        // Canvas has no bar: its rail stands at the side (AutomotiveDashboard).
-        DashSkin.CANVAS -> Unit
+        // Canvas's own place for the buttons is the side rail (AutomotiveDashboard), which never
+        // asks for a bar; with the rail turned off it gets the standard one, else Apps and ⋮ are gone.
+        DashSkin.CANVAS -> StandardTopBar(m)
         DashSkin.FUTURISTIC -> FuturisticTopBar(m)
         DashSkin.SIMPLE -> SimpleTopBar(m)
         DashSkin.MODERN -> ModernTopBar(m)
