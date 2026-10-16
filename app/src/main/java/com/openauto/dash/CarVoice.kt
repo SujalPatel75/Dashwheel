@@ -168,7 +168,8 @@ object CarVoice {
         }
         main.post {
             if (text.isBlank()) return@post
-            if (reversing || (onCall || inLive) && !urgent) {
+            // A turn goes through a conversation with Gemini, which leaves it out of what it hears.
+            if (reversing || onCall && !urgent || inLive && !urgent && !guidance) {
                 held.add(HeldLine(text, locale, SystemClock.elapsedRealtime(), urgent, guidance))
                 return@post
             }
