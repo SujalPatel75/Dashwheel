@@ -68,6 +68,10 @@ interface VehicleBusSource {
     fun start(context: Context, sink: CarSink)
     fun stop()
     val listening: StateFlow<Boolean>
+    /** The Signal Finder's learned keys ([LearnedSignals]): a bus that has to ask for each value follows these for good. */
+    fun watch(keys: Set<String>) = Unit
+    /** The finder's sniffer opened ([on]) or closed: a bus that has to ask for each value asks for everything meanwhile. */
+    fun sniff(on: Boolean) = Unit
 }
 
 /** One press of a unit key: the firmware's own code, down or up, with Android's event when the firmware passes one. */

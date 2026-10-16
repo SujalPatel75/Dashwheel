@@ -97,6 +97,20 @@
         <package android:name="com.android.fmradio.ext" />
         <package android:name="com.syt.tmps" />
         <package android:name="com.zjinnova.zlink" />
+        <!-- The FYT firmware's own apps (Joying, Atoto, Mekede...): its main server, whose toolkit service
+             Dashwheel binds for the car's data, the keys and the phone (unit/fyt/FytToolkit), its CAN app,
+             its CarPlay app and its launcher. -->
+        <package android:name="com.syu.ms" />
+        <package android:name="com.syu.canbus" />
+        <package android:name="com.syu.carlink" />
+        <package android:name="com.syu.bt" />
+        <package android:name="com.syu.radio" />
+        <package android:name="com.syu.air" />
+        <package android:name="com.android.launcher4" />
+        <package android:name="com.android.launcher6" />
+        <intent>
+            <action android:name="com.syu.ms.toolkit" />
+        </intent>
         <!-- Deep OBD, which can report the car's readings in place of an adapter (DeepObdSource). -->
         <package android:name="de.holeschak.bmw_deep_obd" />
         <intent>

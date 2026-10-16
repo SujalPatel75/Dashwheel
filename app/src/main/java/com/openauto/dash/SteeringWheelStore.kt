@@ -26,17 +26,22 @@ import java.util.UUID
  *   "KEY_NEXTSONG@event2", read with root `getevent` by [WheelMonitor]);
  * - a CAN frame from the car ([canKey], a [McuReader] key) taking the value
  *   [canHex] while the button is held. On MCU head units (the ROCO K706)
- *   some wheel buttons only show up here.
+ *   some wheel buttons only show up here;
+ * - another firmware's own key code ([vendor] names the firmware, "fyt",
+ *   [vendorCode] its number), from its [KeySource]: no Android key at all.
  */
 internal data class WheelKey(
     val keyCode: Int,
     val scanCode: Int,
     val canKey: String? = null,
     val canHex: String? = null,
-    val input: String? = null
+    val input: String? = null,
+    val vendor: String? = null,
+    val vendorCode: Int = 0
 ) {
     val id: String
         get() = when {
+            vendor != null -> "v:$vendor:$vendorCode"
             canKey != null -> "c:$canKey=$canHex"
             input != null -> "i:$input"
             keyCode != KeyEvent.KEYCODE_UNKNOWN -> "k$keyCode"
@@ -46,6 +51,7 @@ internal data class WheelKey(
     /** A readable name: "Media Next", "Volume Up"... The map words the raw and CAN ones in the chosen language. */
     val label: String
         get() {
+            if (vendor != null) return "${vendor.uppercase()} key $vendorCode"
             if (canKey != null) return "CAN $canKey: $canHex"
             if (input != null) return input
             if (keyCode == KeyEvent.KEYCODE_UNKNOWN) return "Button #$scanCode"
@@ -74,6 +80,7 @@ internal data class WheelKey(
     companion object {
         fun can(key: String, hex: String) = WheelKey(KeyEvent.KEYCODE_UNKNOWN, 0, canKey = key, canHex = hex)
         fun input(name: String) = WheelKey(KeyEvent.KEYCODE_UNKNOWN, 0, input = name)
+        fun vendor(vendor: String, code: Int) = WheelKey(KeyEvent.KEYCODE_UNKNOWN, 0, vendor = vendor, vendorCode = code)
     }
 }
 
@@ -421,6 +428,22 @@ internal object SteeringWheelStore {
         run(context, key, bound(key) ?: return)
     }
 
+    /**
+     * A key from another firmware's key source ([KeySource]): its own code,
+     * no Android key. Counted on the map, else runs what it's bound to.
+     */
+    fun onUnitKey(context: Context, press: UnitKeyPress, source: KeySource) {
+        if (!press.down) return
+        // A firmware that hands Android's own codes out (the QF key service) is wired straight to [onUnitKey] above.
+        val key = WheelKey.vendor(source.vendor, press.code)
+        if (_mapping.value) {
+            WheelMonitor.add(WheelMonitor.Source.KEY, "${key.label} (${press.code})", key)
+            mapPress(key)
+            return
+        }
+        run(context, key, bound(key) ?: return)
+    }
+
     /** A key only the input system saw ([WheelMonitor.inputPresses]). */
     private fun onInputPress(name: String) {
         val key = WheelKey.input(name)
@@ -493,6 +516,7 @@ private fun WheelButton.toJson(): JSONObject {
         obj.put("keyCode", k.keyCode).put("scanCode", k.scanCode)
         if (k.canKey != null) obj.put("canKey", k.canKey).put("canHex", k.canHex)
         if (k.input != null) obj.put("input", k.input)
+        if (k.vendor != null) obj.put("vendor", k.vendor).put("vendorCode", k.vendorCode)
     }
     when (val a = assignment) {
         is WheelAssignment.Preset -> obj.put("t", "preset").put("a", a.action.name)
@@ -506,6 +530,7 @@ private fun JSONObject.toButton(): WheelButton {
     val canKey = if (has("canKey")) optString("canKey") else null
     val canHex = if (has("canHex")) optString("canHex") else null
     val key = when {
+        has("vendor") -> WheelKey.vendor(optString("vendor"), optInt("vendorCode", 0))
         canKey != null && canHex != null -> WheelKey.can(canKey, canHex)
         has("input") -> WheelKey.input(optString("input"))
         has("keyCode") -> WheelKey(optInt("keyCode", KeyEvent.KEYCODE_UNKNOWN), optInt("scanCode", 0))

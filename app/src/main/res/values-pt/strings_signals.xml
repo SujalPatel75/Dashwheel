@@ -70,11 +70,13 @@
     <string name="signals_source_flags">Sinalizadores do rádio</string>
     <string name="signals_source_settings">Definições do rádio</string>
     <string name="signals_source_messages">Mensagens do rádio</string>
+    <string name="signals_source_fyt">Dados FYT</string>
     <string name="signals_tab_can">Caixa CAN</string>
     <string name="signals_tab_shared">App</string>
     <string name="signals_tab_flags">Sinaliz.</string>
     <string name="signals_tab_settings">Definições</string>
     <string name="signals_tab_messages">Mensagens</string>
+    <string name="signals_tab_fyt">FYT</string>
     <string name="signals_front_left">Porta da frente esquerda</string>
     <string name="signals_front_right">Porta da frente direita</string>
     <string name="signals_rear_left">Porta de trás esquerda</string>

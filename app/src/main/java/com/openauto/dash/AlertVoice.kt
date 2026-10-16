@@ -44,7 +44,7 @@ object AlertVoice {
         scope.launch { CarBox.reversing.collect { CarVoice.hold(it) } }
         // Quiet during a call, through the companion or the unit's own Bluetooth, whoever shows it.
         scope.launch {
-            combine(PhoneLink.call, HeadUnitPhone.call) { link, unit -> talking(link) || talking(unit) }
+            combine(PhoneLink.call, UnitPhone.call) { link, unit -> talking(link) || talking(unit) }
                 .distinctUntilChanged()
                 .collect { CarVoice.holdForCall(it) }
         }

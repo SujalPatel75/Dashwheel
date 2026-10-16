@@ -186,7 +186,7 @@ class MainActivity : ComponentActivity() {
                     { WazeWake.start(this) },
                     // The unit's own keys (wheel and panel), straight from its firmware's key service, and
                     // what else it tells: headlights, the phone, CarPlay / Android Auto.
-                    { UnitPlatform.adapter.keys?.start(this) { } },
+                    { UnitPlatform.adapter.keys?.let { src -> src.start(this) { press -> SteeringWheelStore.onUnitKey(this, press, src) } } },
                     { UnitSignals.start(this) },
                     // Everything the car's bus says through the firmware (the CAN box stream, the car
                     // app's shared data, RDS, voltage), into the dashboard's flows.

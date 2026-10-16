@@ -70,11 +70,13 @@
     <string name="signals_source_flags">Flag dell\'autoradio</string>
     <string name="signals_source_settings">Impostazioni dell\'autoradio</string>
     <string name="signals_source_messages">Messaggi dell\'autoradio</string>
+    <string name="signals_source_fyt">Dati FYT</string>
     <string name="signals_tab_can">Box CAN</string>
     <string name="signals_tab_shared">App auto</string>
     <string name="signals_tab_flags">Flag</string>
     <string name="signals_tab_settings">Impost.</string>
     <string name="signals_tab_messages">Messaggi</string>
+    <string name="signals_tab_fyt">FYT</string>
     <string name="signals_front_left">Porta anteriore sinistra</string>
     <string name="signals_front_right">Porta anteriore destra</string>
     <string name="signals_rear_left">Porta posteriore sinistra</string>

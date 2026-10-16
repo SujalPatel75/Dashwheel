@@ -71,11 +71,13 @@
     <string name="signals_source_flags">Fejegység-jelzők</string>
     <string name="signals_source_settings">Fejegység-beállítások</string>
     <string name="signals_source_messages">Fejegység-üzenetek</string>
+    <string name="signals_source_fyt">FYT-autóadatok</string>
     <string name="signals_tab_can">CAN-box</string>
     <string name="signals_tab_shared">Autós app</string>
     <string name="signals_tab_flags">Jelzők</string>
     <string name="signals_tab_settings">Beállítások</string>
     <string name="signals_tab_messages">Üzenetek</string>
+    <string name="signals_tab_fyt">FYT</string>
     <string name="signals_front_left">Bal első ajtó</string>
     <string name="signals_front_right">Jobb első ajtó</string>
     <string name="signals_rear_left">Bal hátsó ajtó</string>

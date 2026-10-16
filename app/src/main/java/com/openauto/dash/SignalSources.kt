@@ -113,7 +113,7 @@ object SignalSources {
             SignalSource.BROADCAST -> broadcasts[key]
             SignalSource.FLAG -> systemProperty(name)?.takeIf { it.isNotEmpty() }
             SignalSource.SETTING -> runCatching { Settings.Global.getString(context.contentResolver, name) }.getOrNull()
-            null -> bus[key]
+            SignalSource.FYT, null -> bus[key]
         }
     }
 
@@ -123,6 +123,8 @@ object SignalSources {
         val app = context.applicationContext
         listen(app)
         if (users++ > 0) return
+        // A bus that has to ask for each value (FYT) asks for everything while the finder is open.
+        UnitPlatform.adapter.bus?.sniff(true)
         job = scope.launch {
             val root = SystemInstaller.isRootAvailable()
             _canReadable.value = root
@@ -145,6 +147,7 @@ object SignalSources {
     @Synchronized
     fun stop() {
         if (users == 0 || --users > 0) return
+        UnitPlatform.adapter.bus?.sniff(false)
         job?.cancel()
         job = null
         if (holdsCan) { McuReader.stop(); holdsCan = false }

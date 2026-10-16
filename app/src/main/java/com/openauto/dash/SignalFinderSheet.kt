@@ -54,6 +54,7 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import com.openauto.unitproto.UnitFamily
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -126,9 +127,8 @@ private fun SignalList(onDismiss: () -> Unit, onFind: (CarSignal) -> Unit, onSni
         Text(stringResource(R.string.signals_intro), color = DashColors.TextSecondary, style = MaterialTheme.typography.bodyMedium)
 
         SettingsSection(stringResource(R.string.signals_sources))
-        // The CAN box stream is read through root: the Play edition does not list it.
-        for (source in SignalSource.entries) {
-            if (source == SignalSource.CAN && Edition.play) continue
+        // The CAN box stream is read through root (the Play edition does not list it); the FYT module is FYT units' alone.
+        for (source in sourcesHere()) {
             val count = values.keys.count { it.startsWith(source.prefix + ":") }
             val detail = when {
                 source == SignalSource.CAN && !canReadable -> stringResource(R.string.signals_needs_root)
@@ -444,7 +444,7 @@ private fun SignalSniffer(onBack: () -> Unit, onDismiss: () -> Unit) {
         }
     ) {
         SegmentedSwitch(
-            options = SignalSource.entries,
+            options = sourcesHere(),
             chosen = source,
             icon = ::sourceIcon,
             title = { stringResource(sourceShort(it)) },
@@ -506,7 +506,8 @@ internal fun describe(context: Context, probe: SignalProbe): String {
     }
     val where = when (SignalSource.of(probe.key)) {
         SignalSource.CAN -> context.getString(R.string.signals_probe_can, name)
-        SignalSource.SHARED -> context.getString(R.string.signals_probe_shared, name)
+        // The FYT module's values are the car app's data too, under the module's own numbering.
+        SignalSource.SHARED, SignalSource.FYT -> context.getString(R.string.signals_probe_shared, name)
         SignalSource.FLAG -> context.getString(R.string.signals_probe_flag, name)
         SignalSource.SETTING -> context.getString(R.string.signals_probe_setting, name)
         SignalSource.BROADCAST, null -> context.getString(R.string.signals_probe_message, name)
@@ -524,6 +525,16 @@ private fun sourceTitle(s: SignalSource): Int = when (s) {
     SignalSource.FLAG -> R.string.signals_source_flags
     SignalSource.SETTING -> R.string.signals_source_settings
     SignalSource.BROADCAST -> R.string.signals_source_messages
+    SignalSource.FYT -> R.string.signals_source_fyt
+}
+
+/** The sources this unit's firmware can have at all: the FYT module only on FYT units, the car box's log never on Play. */
+private fun sourcesHere(): List<SignalSource> = SignalSource.entries.filter {
+    when (it) {
+        SignalSource.FYT -> UnitPlatform.adapter.family == UnitFamily.FYT
+        SignalSource.CAN -> !Edition.play
+        else -> true
+    }
 }
 
 private fun sourceShort(s: SignalSource): Int = when (s) {
@@ -532,6 +543,7 @@ private fun sourceShort(s: SignalSource): Int = when (s) {
     SignalSource.FLAG -> R.string.signals_tab_flags
     SignalSource.SETTING -> R.string.signals_tab_settings
     SignalSource.BROADCAST -> R.string.signals_tab_messages
+    SignalSource.FYT -> R.string.signals_tab_fyt
 }
 
 private fun sourceIcon(s: SignalSource): ImageVector = when (s) {
@@ -540,6 +552,7 @@ private fun sourceIcon(s: SignalSource): ImageVector = when (s) {
     SignalSource.FLAG -> Icons.Filled.Flag
     SignalSource.SETTING -> Icons.Filled.Tune
     SignalSource.BROADCAST -> Icons.Filled.Campaign
+    SignalSource.FYT -> Icons.Filled.DirectionsCar
 }
 
 private fun signalIcon(s: CarSignal): ImageVector = when (s) {

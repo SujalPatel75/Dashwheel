@@ -6,6 +6,7 @@ import android.content.pm.PackageManager
 import android.util.Log
 import com.openauto.dash.unit.GenericAdapter
 import com.openauto.dash.unit.QfAdapter
+import com.openauto.dash.unit.fyt.FytAdapter
 import com.openauto.unitproto.Detection
 import com.openauto.unitproto.UnitDetector
 import com.openauto.unitproto.UnitFamily
@@ -70,6 +71,7 @@ object UnitPlatform {
         _family.value = family
         _adapter = when (family) {
             UnitFamily.QF -> QfAdapter(app)
+            UnitFamily.FYT -> FytAdapter(app)
             // The other families' adapters come one by one; until then they run as plain Android.
             else -> GenericAdapter(family)
         }

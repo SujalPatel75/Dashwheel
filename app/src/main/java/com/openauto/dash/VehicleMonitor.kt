@@ -191,7 +191,7 @@ internal object VehicleMonitor {
      */
     private suspend fun redialAfterCalls() {
         var calling = false
-        combine(HeadUnitPhone.call, PhoneLink.call) { _, _ -> ObdBluetoothManager.inCall() }
+        combine(UnitPhone.call, PhoneLink.call) { _, _ -> ObdBluetoothManager.inCall() }
             .distinctUntilChanged()
             .collect { now ->
                 val ended = calling && !now

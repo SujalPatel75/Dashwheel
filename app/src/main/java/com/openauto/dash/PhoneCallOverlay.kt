@@ -85,7 +85,7 @@ object PhoneCallOverlay {
      * ([RomPopups]). The head unit answers when the companion may not.
      */
     val call: StateFlow<PhoneCall?> =
-        combine(PhoneLink.call, HeadUnitPhone.call, RomPopups.replaced, AlertPreview.call, UnitSignals.projectionOnScreen) { link, unit, replaced, preview, projected ->
+        combine(PhoneLink.call, UnitPhone.call, RomPopups.replaced, AlertPreview.call, UnitSignals.projectionOnScreen) { link, unit, replaced, preview, projected ->
             val own = unit?.takeIf { RomPopups.Kind.CALL in replaced }
             preview ?: when {
                 // CarPlay / Android Auto on screen shows the call itself: no second card over it.
@@ -115,7 +115,7 @@ object PhoneCallOverlay {
      * wheel button): the one shown, else the head unit's own, which the ROM's
      * pop-up shows when the driver kept it.
      */
-    private fun callToControl(): PhoneCall? = call.value ?: HeadUnitPhone.call.value
+    private fun callToControl(): PhoneCall? = call.value ?: UnitPhone.call.value
 
     /** Answers the call that rings, the way its card's button does. */
     fun answerCall() {
@@ -217,7 +217,7 @@ private val PhoneCall.title: String?
 private fun answer(call: PhoneCall) {
     when {
         call.preview -> AlertPreview.stop()
-        call.viaHeadUnit -> HeadUnitPhone.accept()
+        call.viaHeadUnit -> UnitPhone.accept()
         else -> PhoneLink.callCommand(CallCommand.Action.ANSWER)
     }
 }
@@ -225,7 +225,7 @@ private fun answer(call: PhoneCall) {
 private fun decline(call: PhoneCall) {
     when {
         call.preview -> AlertPreview.stop()
-        call.viaHeadUnit -> HeadUnitPhone.decline()
+        call.viaHeadUnit -> UnitPhone.decline()
         else -> PhoneLink.callCommand(CallCommand.Action.DECLINE)
     }
 }
@@ -233,7 +233,7 @@ private fun decline(call: PhoneCall) {
 private fun hangUp(call: PhoneCall) {
     when {
         call.preview -> AlertPreview.stop()
-        call.viaHeadUnit -> HeadUnitPhone.hangUp()
+        call.viaHeadUnit -> UnitPhone.hangUp()
         else -> PhoneLink.callCommand(CallCommand.Action.HANG_UP)
     }
 }

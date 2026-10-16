@@ -71,11 +71,13 @@
     <string name="signals_source_flags">Magnetolos vėliavėlės</string>
     <string name="signals_source_settings">Magnetolos nustatymai</string>
     <string name="signals_source_messages">Magnetolos pranešimai</string>
+    <string name="signals_source_fyt">FYT automobilio duomenys</string>
     <string name="signals_tab_can">CAN-box</string>
     <string name="signals_tab_shared">Aut. programa</string>
     <string name="signals_tab_flags">Vėliavėlės</string>
     <string name="signals_tab_settings">Nustatymai</string>
     <string name="signals_tab_messages">Pranešimai</string>
+    <string name="signals_tab_fyt">FYT</string>
     <string name="signals_front_left">Priekinės kairės durys</string>
     <string name="signals_front_right">Priekinės dešinės durys</string>
     <string name="signals_rear_left">Galinės kairės durys</string>

@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- The head unit firmware family and what it lets Dashwheel do (UnitPlatform, Settings, System, Head unit). -->
+<resources>
+    <string name="unit_fyt_keys_note">Нужна оболочка; приложения магнитолы на это время теряют кнопки руля</string>
+</resources>

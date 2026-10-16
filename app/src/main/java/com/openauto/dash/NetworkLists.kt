@@ -251,7 +251,7 @@ internal fun BluetoothDevicesCard(modifier: Modifier = Modifier) {
     val scope = androidx.compose.runtime.rememberCoroutineScope()
     // The phone is on the unit's own Bluetooth chip, run by its Bluetooth app: shown from what
     // that app tells (UnitSignals), and connected or changed in that app, the only one that can.
-    val carBluetooth = remember { HeadUnitPhone.available(context) }
+    val carBluetooth = remember { UnitPhone.available(context) }
     val phone by UnitSignals.phone.collectAsState()
     // Picking a device is an entry task: parked only (the lock shows its notice while moving).
     val lock = LocalDriveLock.current

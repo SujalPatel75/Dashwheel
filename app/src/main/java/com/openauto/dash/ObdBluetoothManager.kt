@@ -552,7 +552,7 @@ object ObdBluetoothManager {
     }
 
     /** A call ringing or going on, through the unit's Bluetooth or the companion. */
-    internal fun inCall(): Boolean = HeadUnitPhone.call.value != null || talking(PhoneLink.call.value)
+    internal fun inCall(): Boolean = UnitPhone.call.value != null || talking(PhoneLink.call.value)
 
     private val _autoConnect = MutableStateFlow(true)
     /**

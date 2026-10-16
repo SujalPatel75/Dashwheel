@@ -115,6 +115,8 @@ object LearnedSignals {
         if (wantsCan && !holdsCan) { McuReader.start(); holdsCan = true }
         if (!wantsCan && holdsCan) { McuReader.stop(); holdsCan = false }
         if (probes.values.any { SignalSource.of(it.key) == SignalSource.BROADCAST }) SignalSources.listen(app)
+        // A bus that has to ask for each value (FYT) is told which ones the learned signals need.
+        UnitPlatform.adapter.bus?.watch(probes.values.map { it.key }.toSet())
         if (probes.isEmpty()) {
             job?.cancel()
             job = null
