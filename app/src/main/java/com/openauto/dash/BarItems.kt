@@ -60,7 +60,12 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.foundation.Canvas
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
@@ -377,22 +382,49 @@ private fun LookIcon(icon: ImageVector) {
     Icon(icon, contentDescription = null, tint = DashColors.TextSecondary, modifier = Modifier.padding(end = 4.dp).size(16.dp))
 }
 
-/** A radio as its icon, lit when on, with four small strength bars when known. */
+/**
+ * A radio as its icon, lit when on. The Wi-Fi's strength, when known
+ * ([strength], 0..4), is the icon itself: its dot and three arcs light up
+ * with it ([WifiStrength]), rather than bars beside it.
+ */
 @Composable
 private fun RadioReadout(icon: ImageVector, label: String, on: Boolean, strength: Int?, active: Boolean = on) {
     // Only the labelled look names a radio: its icon says what it is.
     val labelled = LocalBarLook.current == BarLook.LABELS
+    val size = if (labelled) 18.dp else 22.dp
     Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.semantics(mergeDescendants = true) { contentDescription = label }) {
-        Row(verticalAlignment = Alignment.Bottom, horizontalArrangement = Arrangement.spacedBy(2.dp)) {
-            Icon(icon, contentDescription = null, tint = if (active) DashColors.Accent else DashColors.Muted, modifier = Modifier.size(if (labelled) 18.dp else 22.dp).alpha(if (on) 1f else 0.6f))
-            if (strength != null) {
-                Spacer(Modifier.width(2.dp))
-                repeat(4) { i ->
-                    Box(Modifier.size(width = 3.dp, height = (5 + i * 3).dp).clip(RoundedCornerShape(1.dp)).background(if (i < strength) DashColors.Accent else DashColors.CardHi))
-                }
-            }
+        if (strength != null) {
+            WifiStrength(wifiLit(strength), DashColors.Accent, Modifier.size(size))
+        } else {
+            Icon(icon, contentDescription = null, tint = if (active) DashColors.Accent else DashColors.Muted, modifier = Modifier.size(size).alpha(if (on) 1f else 0.6f))
         }
         if (labelled) Caption(label)
+    }
+}
+
+/** How many of the Wi-Fi symbol's four parts light up for [bars] of 4: the dot at least, while connected. */
+internal fun wifiLit(bars: Int): Int = bars.coerceIn(1, 4)
+
+/**
+ * The Wi-Fi symbol with its dot and three arcs lit in [color] up to [lit] of
+ * them, from the dot out; the rest stays dim, so the shape still reads.
+ */
+@Composable
+private fun WifiStrength(lit: Int, color: Color, modifier: Modifier = Modifier) {
+    val dim = DashColors.CardHi
+    Canvas(modifier) {
+        val s = size.minDimension
+        // The arcs' common centre, low in the box: the dot sits on it.
+        val centre = Offset(size.width / 2f, size.height * 0.84f)
+        drawCircle(if (lit >= 1) color else dim, s * 0.08f, centre)
+        for (i in 0..2) {
+            val r = s * (0.24f + 0.18f * i)
+            drawArc(
+                if (lit >= i + 2) color else dim, 225f, 90f, useCenter = false,
+                topLeft = Offset(centre.x - r, centre.y - r), size = Size(2 * r, 2 * r),
+                style = Stroke(width = s * 0.11f, cap = StrokeCap.Round)
+            )
+        }
     }
 }
 
