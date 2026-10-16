@@ -184,7 +184,7 @@ internal enum class SettingsTab(@StringRes val titleRes: Int, val icon: ImageVec
 /** The settings that open further into the pane; Lab's open over Lab. */
 internal enum class Deep {
     CAR, CAR_LOOK, REVERSE, SIGNALS, AI, UPKEEP, EXPLORER, WHEEL, PLACES, LANGUAGE, SECOND_SCREEN, LPG, MY_READINGS,
-    OBD, UNITS, ACCESS, ABOUT, LAB, UNIT_TOOLS, MAP_SERVERS, API_KEYS
+    OBD, UNITS, ACCESS, ABOUT, LAB, UNIT_TOOLS, MAP_SERVERS, API_KEYS, HEAD_UNIT
 }
 
 /** Under this width the categories go along the top: a rail would leave the settings half a screen. */
@@ -278,6 +278,7 @@ internal fun SettingsScreen(
                         Deep.UNIT_TOOLS -> UnitToolsSheet(m, onBootLogo = { bootLogo = true }, onDismiss = back)
                         Deep.MAP_SERVERS -> MapServersSheet(onDismiss = back)
                         Deep.API_KEYS -> ApiKeysSheet(onDismiss = back)
+                        Deep.HEAD_UNIT -> HeadUnitSheet(onDismiss = back)
                     }
                 }
             }
@@ -1206,6 +1207,8 @@ private fun SystemPane(m: TopBarModel, open: (Deep) -> Unit, all: Boolean, onSho
     SettingsRow(Icons.Filled.Straighten, stringResource(R.string.units_title), unitsSummary(units)) { open(Deep.UNITS) }
     Spacer(Modifier.height(20.dp))
     ScreenOrientationSetting()
+    // Which head unit firmware this is, and what it lets Dashwheel do (HeadUnitCard.kt).
+    HeadUnitRow { open(Deep.HEAD_UNIT) }
     Spacer(Modifier.height(20.dp))
     SetupBackupRows()
     // The demo stays here once turned on: the dashboard's badge stops it, and so does this switch.
@@ -1292,7 +1295,7 @@ private fun UnitToolsSheet(m: TopBarModel, onBootLogo: () -> Unit, onDismiss: ()
     SettingsSheet(title = stringResource(R.string.settings_unit_tools), onDismiss = onDismiss, help = WikiPage.ROOT_PMPATCH, actions = {}) {
         Column {
             when {
-                !BootLogoSupport.available -> GatedRow(Icons.Filled.PowerSettingsNew, stringResource(R.string.boot_menu), stringResource(R.string.settings_needs_qf))
+                !BootLogoSupport.available -> GatedRow(Icons.Filled.PowerSettingsNew, stringResource(R.string.boot_menu), stringResource(R.string.unit_needs_firmware, "QF"))
                 !shell -> GatedRow(Icons.Filled.PowerSettingsNew, stringResource(R.string.boot_menu), needsRoot)
                 else -> SettingsRow(Icons.Filled.PowerSettingsNew, stringResource(R.string.boot_menu), null, onBootLogo)
             }

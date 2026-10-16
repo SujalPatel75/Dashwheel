@@ -42,7 +42,6 @@
     <string name="settings_rom_needs_root">Precisa de root ou do ADB do rádio</string>
     <string name="settings_more_github">Mais com a edição GitHub</string>
     <string name="settings_more_github_detail">Google Maps dentro de um mosaico, os pop-ups do próprio rádio, o logótipo de arranque e mais precisam de root no rádio. A edição gratuita do GitHub tem-nos.</string>
-    <string name="settings_needs_qf">Precisa do firmware QF</string>
     <string name="alert_section">Alertas</string>
     <string name="alert_kind_call">Chamadas</string>
     <string name="alert_kind_doors">Portas</string>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Settings, System, Head unit: the firmware family and what it offers (HeadUnitCard.kt). -->
+<resources>
+    <string name="unit_card_title">Fejegység</string>
+    <string name="unit_detected">%1$s, felismerve</string>
+    <string name="unit_chosen">%1$s, az Ön választása</string>
+    <string name="unit_choose_title">A fejegységem</string>
+    <string name="unit_auto">Automatikus</string>
+    <string name="unit_restart">Dashwheel újraindítása</string>
+    <string name="unit_restart_hint">A választás a Dashwheel következő indításakor lép életbe.</string>
+    <string name="unit_caps_section">Amit ez a firmware kínál</string>
+    <string name="unit_state_live">Működik</string>
+    <string name="unit_state_ready">Kész</string>
+    <string name="unit_needs_settings">Beállítás-engedély vagy shell kell hozzá</string>
+    <string name="unit_needs_shell">Root, Shizuku vagy a fejegység ADB-je kell hozzá</string>
+    <string name="unit_needs_root">Root kell hozzá</string>
+    <string name="unit_survival_section">Ébren maradni alvás alatt</string>
+    <string name="unit_apply">Alkalmaz</string>
+    <string name="unit_applied">Kész</string>
+    <string name="unit_open_whitelist">Engedélylista-alkalmazás megnyitása</string>
+    <string name="unit_fyt_keys_title">Kormánygombok átvétele</string>
+    <string name="unit_fyt_keys_detail">Újraindítás után a firmware a kormány- és panelgombokat a Dashwheelnek adja. Saját alkalmazásai addig elveszítik őket.</string>
+    <string name="unit_needs_firmware">%1$s firmware szükséges</string>
+    <string name="unit_family_qf">QF (Hizpo, ROCO K706)</string>
+    <string name="unit_family_fyt">FYT (Joying, Atoto, Mekede)</string>
+    <string name="unit_family_mtc">Microntek (Dasaita, Xtrons, Eonon)</string>
+    <string name="unit_family_topway">Topway TS</string>
+    <string name="unit_family_reglink">Reglink (MediaTek)</string>
+    <string name="unit_family_allwinner">Allwinner</string>
+    <string name="unit_family_nwd">Nowadays</string>
+    <string name="unit_family_generic">Sima Android</string>
+    <string name="unit_cap_ignition">Gyújtás</string>
+    <string name="unit_cap_bus">Az autó adatbusza</string>
+    <string name="unit_cap_doors">Ajtók</string>
+    <string name="unit_cap_steering">Kormányszög</string>
+    <string name="unit_cap_climate">Klíma</string>
+    <string name="unit_cap_body">Fedélzeti számítógép</string>
+    <string name="unit_cap_speed">Sebesség és fordulat</string>
+    <string name="unit_cap_volts">Akkufeszültség</string>
+    <string name="unit_cap_temp">Külső hőmérséklet</string>
+    <string name="unit_cap_phone">Hívások a fejegységen</string>
+    <string name="unit_cap_media">A fejegység lejátszói</string>
+    <string name="unit_cap_volume">A fejegység hangereje</string>
+    <string name="unit_cap_launcher">A firmware indítóválasztása</string>
+    <string name="unit_cap_popups">Firmware-felugrók lecserélve</string>
+    <string name="unit_cap_camera">Tolatókamera</string>
+    <string name="unit_cap_tyres">Gumik</string>
+</resources>

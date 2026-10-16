@@ -43,7 +43,6 @@
     <string name="settings_rom_needs_root">Needs root or the head unit\'s ADB</string>
     <string name="settings_more_github">More with the GitHub edition</string>
     <string name="settings_more_github_detail">Google Maps inside a tile, the unit\'s own pop-ups, boot logo and more need the unit\'s root. The free GitHub edition has them.</string>
-    <string name="settings_needs_qf">Needs the QF firmware</string>
     <string name="alert_section">Alerts</string>
     <string name="alert_kind_call">Calls</string>
     <string name="alert_kind_doors">Doors</string>

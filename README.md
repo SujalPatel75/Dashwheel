@@ -46,6 +46,7 @@ Dashwheel is free, with no ads. If it makes your drives nicer, a coffee on Ko-fi
 ## Two editions
 
 - **GitHub edition** (`Dashwheel-<version>.apk` from [Releases](https://github.com/deviloufr-ai/Dashwheel/releases/latest)): the full app. Root, Shizuku, internal ADB and PMPatch3 features appear when the unit allows them, and it updates itself from GitHub Releases.
+- **Other head units**: Dashwheel works out which firmware family the unit runs (QF, FYT, Microntek, Topway, Reglink, Allwinner, Nowadays) and speaks to it accordingly; what each family offers and how to test one on the emulator is in [head unit firmware families](docs/unit-platforms.md)
 - **Google Play edition**: the same app without the features that need root, the unit's internal ADB or PMPatch3. It never installs anything itself: updates come from Google Play, and the Companion comes from Play too. Store texts and the privacy policy are in `fastlane/metadata-play/` and `docs/play/`.
 
 | | GitHub | Google Play |

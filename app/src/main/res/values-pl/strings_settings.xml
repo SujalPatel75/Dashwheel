@@ -42,7 +42,6 @@
     <string name="settings_rom_needs_root">Wymaga roota lub ADB radia</string>
     <string name="settings_more_github">Więcej w edycji GitHub</string>
     <string name="settings_more_github_detail">Google Maps w kafelku, własne okienka radia, logo startowe i więcej wymagają roota na radiu. Darmowa edycja GitHub je ma.</string>
-    <string name="settings_needs_qf">Wymaga firmware QF</string>
     <string name="alert_section">Alerty</string>
     <string name="alert_kind_call">Połączenia</string>
     <string name="alert_kind_doors">Drzwi</string>

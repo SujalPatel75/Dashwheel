@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Settings, System, Head unit: the firmware family and what it offers (HeadUnitCard.kt). -->
+<resources>
+    <string name="unit_card_title">Radio</string>
+    <string name="unit_detected">%1$s, wykryte</string>
+    <string name="unit_chosen">%1$s, Twój wybór</string>
+    <string name="unit_choose_title">Moje radio to</string>
+    <string name="unit_auto">Automatycznie</string>
+    <string name="unit_restart">Uruchom Dashwheel ponownie</string>
+    <string name="unit_restart_hint">Wybór zadziała po ponownym uruchomieniu Dashwheel.</string>
+    <string name="unit_caps_section">Co oferuje ten firmware</string>
+    <string name="unit_state_live">Działa</string>
+    <string name="unit_state_ready">Gotowe</string>
+    <string name="unit_needs_settings">Wymaga uprawnienia do ustawień lub powłoki</string>
+    <string name="unit_needs_shell">Wymaga roota, Shizuku lub ADB radia</string>
+    <string name="unit_needs_root">Wymaga roota</string>
+    <string name="unit_survival_section">Czuwanie podczas uśpienia</string>
+    <string name="unit_apply">Zastosuj</string>
+    <string name="unit_applied">Gotowe</string>
+    <string name="unit_open_whitelist">Otwórz aplikację białej listy</string>
+    <string name="unit_fyt_keys_title">Przejmij przyciski kierownicy</string>
+    <string name="unit_fyt_keys_detail">Po ponownym uruchomieniu firmware przekazuje przyciski kierownicy i panelu do Dashwheel. Jego własne aplikacje tracą je w tym czasie.</string>
+    <string name="unit_needs_firmware">Wymaga firmware %1$s</string>
+    <string name="unit_family_qf">QF (Hizpo, ROCO K706)</string>
+    <string name="unit_family_fyt">FYT (Joying, Atoto, Mekede)</string>
+    <string name="unit_family_mtc">Microntek (Dasaita, Xtrons, Eonon)</string>
+    <string name="unit_family_topway">Topway TS</string>
+    <string name="unit_family_reglink">Reglink (MediaTek)</string>
+    <string name="unit_family_allwinner">Allwinner</string>
+    <string name="unit_family_nwd">Nowadays</string>
+    <string name="unit_family_generic">Zwykły Android</string>
+    <string name="unit_cap_ignition">Zapłon</string>
+    <string name="unit_cap_bus">Magistrala danych auta</string>
+    <string name="unit_cap_doors">Drzwi</string>
+    <string name="unit_cap_steering">Kąt skrętu</string>
+    <string name="unit_cap_climate">Klimatyzacja</string>
+    <string name="unit_cap_body">Komputer pokładowy</string>
+    <string name="unit_cap_speed">Prędkość i obroty</string>
+    <string name="unit_cap_volts">Napięcie akumulatora</string>
+    <string name="unit_cap_temp">Temperatura zewnętrzna</string>
+    <string name="unit_cap_phone">Połączenia na radiu</string>
+    <string name="unit_cap_media">Odtwarzacze radia</string>
+    <string name="unit_cap_volume">Głośność radia</string>
+    <string name="unit_cap_launcher">Wybór launchera przez firmware</string>
+    <string name="unit_cap_popups">Zastąpione okienka firmware</string>
+    <string name="unit_cap_camera">Kamera cofania</string>
+    <string name="unit_cap_tyres">Opony</string>
+</resources>

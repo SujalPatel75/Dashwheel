@@ -42,7 +42,6 @@
     <string name="settings_rom_needs_root">Richiede root o l\'ADB dell\'autoradio</string>
     <string name="settings_more_github">Di più con l\'edizione GitHub</string>
     <string name="settings_more_github_detail">Google Maps in un riquadro, i pop-up dell\'autoradio, il logo di avvio e altro richiedono root sull\'autoradio. L\'edizione gratuita su GitHub li ha.</string>
-    <string name="settings_needs_qf">Richiede il firmware QF</string>
     <string name="alert_section">Avvisi</string>
     <string name="alert_kind_call">Chiamate</string>
     <string name="alert_kind_doors">Porte</string>

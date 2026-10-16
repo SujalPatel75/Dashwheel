@@ -493,6 +493,7 @@ private val SETTINGS_INDEX: List<SettingsEntry> by lazy {
         SettingsEntry(R.string.language_title, SettingsTab.SYSTEM, listOf(Deep.LANGUAGE)),
         SettingsEntry(R.string.units_title, SettingsTab.SYSTEM, listOf(Deep.UNITS)),
         SettingsEntry(R.string.settings_screen_title, SettingsTab.SYSTEM),
+        SettingsEntry(R.string.unit_card_title, SettingsTab.SYSTEM, listOf(Deep.HEAD_UNIT), detail = R.string.unit_caps_section),
         SettingsEntry(R.string.settings_backup_section, SettingsTab.SYSTEM),
         SettingsEntry(R.string.demo_menu_start, SettingsTab.SYSTEM),
         SettingsEntry(R.string.setup_again, SettingsTab.SYSTEM, extra = true),
@@ -543,6 +544,7 @@ private fun Deep.titleRes(): Int = when (this) {
     Deep.UNIT_TOOLS -> R.string.settings_unit_tools
     Deep.MAP_SERVERS -> R.string.map_servers_title
     Deep.API_KEYS -> R.string.api_keys_title
+    Deep.HEAD_UNIT -> R.string.unit_card_title
 }
 
 /** Lower case without accents, so "eco" finds "Éco" and "volumen" finds "Volumen". */

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Settings, System, Head unit: the firmware family and what it offers (HeadUnitCard.kt). -->
+<resources>
+    <string name="unit_card_title">Head unit</string>
+    <string name="unit_detected">%1$s, detected</string>
+    <string name="unit_chosen">%1$s, chosen by you</string>
+    <string name="unit_choose_title">My unit is</string>
+    <string name="unit_auto">Automatic</string>
+    <string name="unit_restart">Restart Dashwheel</string>
+    <string name="unit_restart_hint">The choice takes effect when Dashwheel starts again.</string>
+    <string name="unit_caps_section">What this firmware offers</string>
+    <string name="unit_state_live">Working</string>
+    <string name="unit_state_ready">Ready</string>
+    <string name="unit_needs_settings">Needs the settings permission or a shell</string>
+    <string name="unit_needs_shell">Needs root, Shizuku or the ADB of the unit</string>
+    <string name="unit_needs_root">Needs root</string>
+    <string name="unit_survival_section">Staying awake through the sleep</string>
+    <string name="unit_apply">Apply</string>
+    <string name="unit_applied">Done</string>
+    <string name="unit_open_whitelist">Open the whitelist app</string>
+    <string name="unit_fyt_keys_title">Take the wheel keys</string>
+    <string name="unit_fyt_keys_detail">After a restart the firmware hands its wheel and panel keys to Dashwheel. Its own apps lose them meanwhile.</string>
+    <string name="unit_needs_firmware">Needs the %1$s firmware</string>
+    <string name="unit_family_qf">QF (Hizpo, ROCO K706)</string>
+    <string name="unit_family_fyt">FYT (Joying, Atoto, Mekede)</string>
+    <string name="unit_family_mtc">Microntek (Dasaita, Xtrons, Eonon)</string>
+    <string name="unit_family_topway">Topway TS</string>
+    <string name="unit_family_reglink">Reglink (MediaTek)</string>
+    <string name="unit_family_allwinner">Allwinner</string>
+    <string name="unit_family_nwd">Nowadays</string>
+    <string name="unit_family_generic">Plain Android</string>
+    <string name="unit_cap_ignition">Ignition</string>
+    <string name="unit_cap_bus">Car data bus</string>
+    <string name="unit_cap_doors">Doors</string>
+    <string name="unit_cap_steering">Steering angle</string>
+    <string name="unit_cap_climate">Climate control</string>
+    <string name="unit_cap_body">Trip computer</string>
+    <string name="unit_cap_speed">Speed and revs</string>
+    <string name="unit_cap_volts">Battery voltage</string>
+    <string name="unit_cap_temp">Outside temperature</string>
+    <string name="unit_cap_phone">Calls on the unit</string>
+    <string name="unit_cap_media">Players of the unit</string>
+    <string name="unit_cap_volume">Volume of the unit</string>
+    <string name="unit_cap_launcher">Launcher choice of the firmware</string>
+    <string name="unit_cap_popups">Firmware pop-ups replaced</string>
+    <string name="unit_cap_camera">Reversing camera</string>
+    <string name="unit_cap_tyres">Tyres</string>
+</resources>
