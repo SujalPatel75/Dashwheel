@@ -1083,7 +1083,7 @@ internal object EmbeddedApp {
     /** Closes the displays of the apps not in [keep]; each app closes with its display. */
     fun releaseUnless(keep: Set<String>) {
         val gone = hosts.keys - keep
-        gone.forEach { hosts.remove(it)?.release() }
+        gone.forEach { pkg -> hosts.remove(pkg)?.let { it.retired = true; it.release() } }
         if (gone.isNotEmpty()) _hosted.value = hosts.keys.toSet()
     }
 
@@ -1229,8 +1229,16 @@ internal object EmbeddedApp {
             return spare ?: Surface(texture).also { spare = it }
         }
 
+        /**
+         * Out of [hosts] for good ([releaseUnless]): a card still holding it
+         * (its picture listener, Gemini's alert) would otherwise make it a new
+         * display that nothing ever closed, the app running on it until a reboot.
+         */
+        internal var retired = false
+
         /** [tile] shows [surface], [width] x [height] pixels at [dpi]; [picture] reads what it shows. */
         fun attach(tile: Any, surface: Surface, width: Int, height: Int, dpi: Int, picture: () -> IntArray? = { null }) {
+            if (retired) return
             val t = tiles.getOrPut(tile) { Tile() }
             t.picture = picture
             t.surface = surface
@@ -1242,6 +1250,7 @@ internal object EmbeddedApp {
 
         /** [tile] came on screen, or went off it (a page swipe). */
         fun onScreen(tile: Any, on: Boolean) {
+            if (retired) return
             val t = tiles.getOrPut(tile) { Tile() }
             if (t.onScreen == on) return
             t.onScreen = on

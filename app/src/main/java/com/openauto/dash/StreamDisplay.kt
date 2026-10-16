@@ -34,6 +34,8 @@ internal class StreamDisplay private constructor(
     val fps: Int
 ) {
     private lateinit var display: VirtualDisplay
+    /** The encoder's input, released with it: left to the finalizer, one stayed per reconnect for a while. */
+    private var input: android.view.Surface? = null
     val displayId: Int get() = display.display.displayId
     val androidDisplay: android.view.Display get() = display.display
 
@@ -59,6 +61,8 @@ internal class StreamDisplay private constructor(
         if (::display.isInitialized) runCatching { display.release() }
         runCatching { codec.stop() }
         runCatching { codec.release() }
+        runCatching { input?.release() }
+        input = null
         thread.quitSafely()
     }
 
@@ -113,6 +117,7 @@ internal class StreamDisplay private constructor(
                 ) ?: error("virtual display refused")
                 madeDisplay = virtual
                 stream.display = virtual
+                stream.input = surface
                 codec.start()
                 Log.i(TAG, "streaming display ${virtual.display.displayId}: ${width}x$height @ $dpi dpi, $fps fps, $bitrateKbps kbit/s")
                 return stream

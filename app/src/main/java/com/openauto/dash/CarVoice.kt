@@ -170,7 +170,11 @@ object CarVoice {
             if (text.isBlank()) return@post
             // A turn goes through a conversation with Gemini, which leaves it out of what it hears.
             if (reversing || onCall && !urgent || inLive && !urgent && !guidance) {
-                held.add(HeldLine(text, locale, SystemClock.elapsedRealtime(), urgent, guidance))
+                val at = SystemClock.elapsedRealtime()
+                // Stale lines would be dropped at release anyway: a hold stuck on (a call
+                // state that never cleared) no longer piles them up for days.
+                held.removeAll { at - it.at > HELD_MAX_MS }
+                held.add(HeldLine(text, locale, at, urgent, guidance))
                 return@post
             }
             speakNow(text, locale, urgent, guidance)
