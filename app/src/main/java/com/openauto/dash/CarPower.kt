@@ -71,6 +71,8 @@ object CarPower {
 
     fun start(context: Context) {
         if (started) return
+        // What Dashwheel holds, noted over the process's life: also on a unit without ignition signals.
+        ResourceWatch.start(context)
         val app = context.applicationContext
         val src = UnitPlatform.adapter.ignition
         val acc = src?.read()
@@ -174,6 +176,7 @@ object CarPower {
         prefs.edit().putLong(KEY_ON_AT, System.currentTimeMillis()).apply()
         Log.i(TAG, "ignition on")
         DebugLog.note(context, "ignition on, off since ${offAt?.let { (System.currentTimeMillis() - it) / 60_000 }} min")
+        ResourceWatch.noteNow(context, "ignition on")
         // Quiet was asked for the drive that ended.
         CarVoice.quiet = false
         // So was the guidance, if the car was parked short of its destination:
@@ -197,6 +200,7 @@ object CarPower {
         context.getSharedPreferences(PREFS, Context.MODE_PRIVATE).edit().putLong(KEY_OFF_AT, now).apply()
         Log.i(TAG, "ignition off")
         DebugLog.note(context, "ignition off")
+        ResourceWatch.noteNow(context, "ignition off")
         DebugLog.snapshot(context, "ignition off")
         EmbeddedApp.carStopped(context)
         MediaResume.carStopped(context)
