@@ -111,6 +111,17 @@
         <intent>
             <action android:name="com.syu.ms.toolkit" />
         </intent>
+        <!-- The Microntek (MTCD / MTCE / MTCH) firmware's sleep whitelist app, offered from the Head unit card. -->
+        <package android:name="com.microntek.bootcontrol" />
+        <!-- Topway TS and Reglink units' own apps, which name their family to UnitPlatform. -->
+        <package android:name="com.tw.car" />
+        <package android:name="com.tw.carchoose" />
+        <package android:name="com.tw.carapps" />
+        <package android:name="com.tw.ac2" />
+        <package android:name="com.tv.carinfoservice" />
+        <package android:name="com.reglink.services" />
+        <package android:name="com.reglink.launcher4" />
+        <package android:name="com.baony.avm360" />
         <!-- Deep OBD, which can report the car's readings in place of an adapter (DeepObdSource). -->
         <package android:name="de.holeschak.bmw_deep_obd" />
         <intent>
@@ -219,6 +230,10 @@
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <action android:name="android.intent.action.QUICKBOOT_POWERON" />
                 <action android:name="com.htc.intent.action.QUICKBOOT_POWERON" />
+                <!-- MediaTek (Reglink) and Autochips units wake with these instead of a boot (AccBroadcasts.BOOT_LIKE). -->
+                <action android:name="com.mediatek.intent.action.QUICKBOOT_POWERON" />
+                <action android:name="com.mediatek.intent.action.BOOT_IPO" />
+                <action android:name="autochips.intent.action.QB_POWERON" />
             </intent-filter>
         </receiver>
     </application>

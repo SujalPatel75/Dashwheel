@@ -7,6 +7,7 @@ import android.content.IntentFilter
 import android.os.Bundle
 import android.provider.Settings
 import androidx.core.content.ContextCompat
+import com.openauto.dash.unit.PlainAdapters
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -47,6 +48,8 @@ object SignalSources {
     }
     @Volatile private var props: Map<String, String> = emptyMap()
     @Volatile private var globals: Map<String, String> = emptyMap()
+    @Volatile private var systems: Map<String, String> = emptyMap()
+    @Volatile private var secures: Map<String, String> = emptyMap()
 
     private val _values = MutableStateFlow<Map<String, String>>(emptyMap())
     /** Every value, while [start]ed: refreshed four times a second. */
@@ -57,6 +60,8 @@ object SignalSources {
     val canReadable: StateFlow<Boolean> = _canReadable
 
     private var receiving = false
+    private var sniffingAll = false
+    private var appContext: Context? = null
     private var users = 0
     private var job: Job? = null
     private var holdsCan = false
@@ -72,6 +77,7 @@ object SignalSources {
     fun listen(context: Context) {
         if (receiving) return
         receiving = true
+        appContext = context.applicationContext
         val wanted = actions
         if (wanted.isEmpty()) return
         val filter = IntentFilter().apply { wanted.forEach(::addAction) }
@@ -79,16 +85,23 @@ object SignalSources {
     }
 
     private val receiver = object : BroadcastReceiver() {
-        override fun onReceive(context: Context, intent: Intent) {
-            val action = intent.action ?: return
-            val extras = runCatching { intent.extras }.getOrNull()
-            if (extras == null || extras.isEmpty) {
-                // A message with nothing in it: when it came is all it says.
-                broadcasts[SignalSource.BROADCAST.key(action)] = System.currentTimeMillis().toString()
-                return
-            }
-            for ((name, text) in flattenExtras(extras)) broadcasts[SignalSource.BROADCAST.key("$action#$name")] = text
+        override fun onReceive(context: Context, intent: Intent) = heard(intent)
+    }
+
+    /** The other families' broadcasts, only while the finder is open (a receiver of its own, so it can be let go alone). */
+    private val sniffReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context, intent: Intent) = heard(intent)
+    }
+
+    private fun heard(intent: Intent) {
+        val action = intent.action ?: return
+        val extras = runCatching { intent.extras }.getOrNull()
+        if (extras == null || extras.isEmpty) {
+            // A message with nothing in it: when it came is all it says.
+            broadcasts[SignalSource.BROADCAST.key(action)] = System.currentTimeMillis().toString()
+            return
         }
+        for ((name, text) in flattenExtras(extras)) broadcasts[SignalSource.BROADCAST.key("$action#$name")] = text
     }
 
     private fun flattenExtras(extras: Bundle): List<Pair<String, String>> = runCatching {
@@ -113,6 +126,8 @@ object SignalSources {
             SignalSource.BROADCAST -> broadcasts[key]
             SignalSource.FLAG -> systemProperty(name)?.takeIf { it.isNotEmpty() }
             SignalSource.SETTING -> runCatching { Settings.Global.getString(context.contentResolver, name) }.getOrNull()
+            SignalSource.SYSTEM -> runCatching { Settings.System.getString(context.contentResolver, name) }.getOrNull()
+            SignalSource.SECURE -> runCatching { Settings.Secure.getString(context.contentResolver, name) }.getOrNull()
             SignalSource.FYT, null -> bus[key]
         }
     }
@@ -125,6 +140,12 @@ object SignalSources {
         if (users++ > 0) return
         // A bus that has to ask for each value (FYT) asks for everything while the finder is open.
         UnitPlatform.adapter.bus?.sniff(true)
+        // And every family's broadcasts are heard meanwhile: a unit taken for the wrong family still shows its own.
+        val others = PlainAdapters.ALL_BROADCASTS - actions
+        if (others.isNotEmpty()) {
+            val filter = IntentFilter().apply { others.forEach(::addAction) }
+            runCatching { ContextCompat.registerReceiver(app, sniffReceiver, filter, ContextCompat.RECEIVER_EXPORTED); sniffingAll = true }
+        }
         job = scope.launch {
             val root = SystemInstaller.isRootAvailable()
             _canReadable.value = root
@@ -137,6 +158,9 @@ object SignalSources {
                 if (tick++ % 4 == 0) {
                     props = readProps()
                     globals = readGlobals(app)
+                    val catalogue = UnitPlatform.adapter.catalogue
+                    systems = if (catalogue.settingsSystem) readTable(app, Settings.System.CONTENT_URI, systems) else emptyMap()
+                    secures = if (catalogue.settingsSecure) readTable(app, Settings.Secure.CONTENT_URI, secures) else emptyMap()
                 }
                 _values.value = snapshot()
                 delay(TICK_MS)
@@ -148,6 +172,10 @@ object SignalSources {
     fun stop() {
         if (users == 0 || --users > 0) return
         UnitPlatform.adapter.bus?.sniff(false)
+        if (sniffingAll) {
+            runCatching { appContext?.unregisterReceiver(sniffReceiver) }
+            sniffingAll = false
+        }
         job?.cancel()
         job = null
         if (holdsCan) { McuReader.stop(); holdsCan = false }
@@ -162,6 +190,8 @@ object SignalSources {
         out.putAll(bus)
         for ((k, v) in props) out[SignalSource.FLAG.key(k)] = v
         for ((k, v) in globals) out[SignalSource.SETTING.key(k)] = v
+        for ((k, v) in systems) out[SignalSource.SYSTEM.key(k)] = v
+        for ((k, v) in secures) out[SignalSource.SECURE.key(k)] = v
         return out
     }
 
@@ -185,16 +215,19 @@ object SignalSources {
 
     private val PROP_LINE = Regex("""^\[([^\]]+)]: \[(.*)]$""")
 
-    private fun readGlobals(context: Context): Map<String, String> = runCatching {
+    private fun readGlobals(context: Context): Map<String, String> = readTable(context, Settings.Global.CONTENT_URI, globals)
+
+    /** Every row of a settings table, or [fallback] when it can't be read. */
+    private fun readTable(context: Context, uri: android.net.Uri, fallback: Map<String, String>): Map<String, String> = runCatching {
         val out = HashMap<String, String>()
-        context.contentResolver.query(Settings.Global.CONTENT_URI, arrayOf("name", "value"), null, null, null)?.use { c ->
+        context.contentResolver.query(uri, arrayOf("name", "value"), null, null, null)?.use { c ->
             while (c.moveToNext()) {
                 val name = c.getString(0) ?: continue
                 out[name] = c.getString(1) ?: ""
             }
         }
         out
-    }.getOrDefault(globals)
+    }.getOrDefault(fallback)
 
     private const val TICK_MS = 250L
 

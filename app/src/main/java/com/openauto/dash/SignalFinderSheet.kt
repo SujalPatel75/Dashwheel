@@ -509,7 +509,7 @@ internal fun describe(context: Context, probe: SignalProbe): String {
         // The FYT module's values are the car app's data too, under the module's own numbering.
         SignalSource.SHARED, SignalSource.FYT -> context.getString(R.string.signals_probe_shared, name)
         SignalSource.FLAG -> context.getString(R.string.signals_probe_flag, name)
-        SignalSource.SETTING -> context.getString(R.string.signals_probe_setting, name)
+        SignalSource.SETTING, SignalSource.SYSTEM, SignalSource.SECURE -> context.getString(R.string.signals_probe_setting, name)
         SignalSource.BROADCAST, null -> context.getString(R.string.signals_probe_message, name)
     }
     return when {
@@ -526,12 +526,21 @@ private fun sourceTitle(s: SignalSource): Int = when (s) {
     SignalSource.SETTING -> R.string.signals_source_settings
     SignalSource.BROADCAST -> R.string.signals_source_messages
     SignalSource.FYT -> R.string.signals_source_fyt
+    SignalSource.SYSTEM -> R.string.signals_source_system
+    SignalSource.SECURE -> R.string.signals_source_secure
 }
 
-/** The sources this unit's firmware can have at all: the FYT module only on FYT units, the car box's log never on Play. */
+/**
+ * The sources this unit's firmware can have at all: the FYT module only on
+ * FYT units, the settings tables only where the family keeps car state in
+ * them, the car box's log never on Play.
+ */
 private fun sourcesHere(): List<SignalSource> = SignalSource.entries.filter {
+    val catalogue = UnitPlatform.adapter.catalogue
     when (it) {
         SignalSource.FYT -> UnitPlatform.adapter.family == UnitFamily.FYT
+        SignalSource.SYSTEM -> catalogue.settingsSystem
+        SignalSource.SECURE -> catalogue.settingsSecure
         SignalSource.CAN -> !Edition.play
         else -> true
     }
@@ -544,6 +553,8 @@ private fun sourceShort(s: SignalSource): Int = when (s) {
     SignalSource.SETTING -> R.string.signals_tab_settings
     SignalSource.BROADCAST -> R.string.signals_tab_messages
     SignalSource.FYT -> R.string.signals_tab_fyt
+    SignalSource.SYSTEM -> R.string.signals_tab_system
+    SignalSource.SECURE -> R.string.signals_tab_secure
 }
 
 private fun sourceIcon(s: SignalSource): ImageVector = when (s) {
@@ -553,6 +564,7 @@ private fun sourceIcon(s: SignalSource): ImageVector = when (s) {
     SignalSource.SETTING -> Icons.Filled.Tune
     SignalSource.BROADCAST -> Icons.Filled.Campaign
     SignalSource.FYT -> Icons.Filled.DirectionsCar
+    SignalSource.SYSTEM, SignalSource.SECURE -> Icons.Filled.Tune
 }
 
 private fun signalIcon(s: CarSignal): ImageVector = when (s) {

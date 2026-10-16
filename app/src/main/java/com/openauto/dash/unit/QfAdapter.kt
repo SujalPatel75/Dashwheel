@@ -105,15 +105,7 @@ internal class QfAdapter(context: Context) : UnitAdapter {
     )
 
     /** The firmware's broadcasts worth listening to: its car, power and camera news. */
-    override val catalogue = SignalCatalogue(
-        broadcasts = setOf(
-            "com.qf.action.BACKCAR_START", "com.qf.action.BACKCAR_STOP",
-            "com.qf.action.headlight_state", "com.qf.action.ACC_ON", "com.qf.action.ACC_OFF",
-            "com.qf.action.READY_GO_SLEEP_PRE", "com.qf.action.VOLUME_CHANGED",
-            "com.qf.vehicle.action.swa", "com.qf.vehicle.action.popup_enable",
-            "com.qf.action.BT.MUSIC.INFO", "TPMS_APP_STATE_SEND", "com.zjinnova.zlink"
-        )
-    )
+    override val catalogue = SignalCatalogue(broadcasts = BROADCASTS)
 
     override val vendorPackages: Set<String> = setOf(
         VEHICLE_PACKAGE, BT_PACKAGE, "com.qf.backcar", "com.qf.framework", RADIO_PACKAGE, Tyres.TPMS_PACKAGE, "com.zjinnova.zlink"
@@ -127,6 +119,15 @@ internal class QfAdapter(context: Context) : UnitAdapter {
         const val VEHICLE_PACKAGE = "com.qf.vehicle"
         const val BT_PACKAGE = "com.qf.bluetooth"
         const val RADIO_PACKAGE = "com.android.fmradio.ext"
+
+        /** The QF firmware's broadcasts worth hearing in the Signal Finder. */
+        val BROADCASTS = setOf(
+            "com.qf.action.BACKCAR_START", "com.qf.action.BACKCAR_STOP",
+            "com.qf.action.headlight_state", "com.qf.action.ACC_ON", "com.qf.action.ACC_OFF",
+            "com.qf.action.READY_GO_SLEEP_PRE", "com.qf.action.VOLUME_CHANGED",
+            "com.qf.vehicle.action.swa", "com.qf.vehicle.action.popup_enable",
+            "com.qf.action.BT.MUSIC.INFO", "TPMS_APP_STATE_SEND", "com.zjinnova.zlink"
+        )
     }
 }
 

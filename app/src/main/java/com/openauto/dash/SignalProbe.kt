@@ -25,7 +25,11 @@ enum class SignalSource(val prefix: String) {
     /** A head unit broadcast's extra. */
     BROADCAST("bc"),
     /** One value of the FYT firmware's CAN module ("fyt:7:1031#0"), on FYT units. */
-    FYT("fyt");
+    FYT("fyt"),
+    /** A system setting (Settings.System): MTC's Vehicle app keeps the doors there. */
+    SYSTEM("sys"),
+    /** A secure setting (Settings.Secure). */
+    SECURE("sec");
 
     fun key(name: String) = "$prefix:$name"
 
@@ -204,7 +208,7 @@ object SignalMatch {
         SignalSource.SHARED, SignalSource.FYT -> 0
         SignalSource.FLAG -> 1
         SignalSource.BROADCAST -> 2
-        SignalSource.SETTING -> 3
+        SignalSource.SETTING, SignalSource.SYSTEM, SignalSource.SECURE -> 3
         SignalSource.CAN -> 4
         null -> 5
     }

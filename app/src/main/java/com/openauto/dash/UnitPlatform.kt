@@ -5,8 +5,10 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.util.Log
 import com.openauto.dash.unit.GenericAdapter
+import com.openauto.dash.unit.PlainAdapters
 import com.openauto.dash.unit.QfAdapter
 import com.openauto.dash.unit.fyt.FytAdapter
+import com.openauto.dash.unit.mtc.MtcAdapter
 import com.openauto.unitproto.Detection
 import com.openauto.unitproto.UnitDetector
 import com.openauto.unitproto.UnitFamily
@@ -72,8 +74,9 @@ object UnitPlatform {
         _adapter = when (family) {
             UnitFamily.QF -> QfAdapter(app)
             UnitFamily.FYT -> FytAdapter(app)
-            // The other families' adapters come one by one; until then they run as plain Android.
-            else -> GenericAdapter(family)
+            UnitFamily.MTC -> MtcAdapter(app)
+            // Topway, Reglink, Allwinner, NWD and the unrecognised: plain Android plus their few hooks.
+            else -> PlainAdapters.forFamily(app, family)
         }
         Log.i(
             TAG,
@@ -120,6 +123,14 @@ object UnitPlatform {
             d.evidence.takeIf { it.isNotEmpty() }?.let { "Evidence" to it.take(5).joinToString(", ") },
             d.runnersUp.takeIf { it.isNotEmpty() }?.let { "Also like" to it.entries.joinToString(", ") { "${it.key} ${it.value}" } },
             "Caps used" to _used.value.sorted().joinToString(", ").ifEmpty { "none" },
+            run {
+                val access = PrivilegedShell.access.value
+                val granted = PrivilegedShell.settingsGranted
+                val rest = adapter.caps.claimed - _used.value
+                val locked = rest.filter { adapter.caps.state(it, access, granted, _used.value) == CapState.LOCKED }
+                "Caps waiting" to (rest - locked.toSet()).sorted().joinToString(", ").ifEmpty { "none" } +
+                    (if (locked.isNotEmpty()) "; locked: ${locked.sorted().joinToString(", ") { "$it (${adapter.caps.need(it)})" }}" else "")
+            },
             adapter.vendorPackages.takeIf { it.isNotEmpty() }?.let { pkgs ->
                 val app = appContext
                 "Vendor apps" to if (app == null) pkgs.joinToString(", ")
