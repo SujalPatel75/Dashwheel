@@ -1,6 +1,5 @@
 package com.openauto.dash
 
-import android.annotation.SuppressLint
 import android.content.BroadcastReceiver
 import android.content.ComponentName
 import android.content.Context
@@ -196,10 +195,7 @@ internal object RadioPresets {
         }
     }
 
-    @SuppressLint("PrivateApi")
-    private fun systemProperty(name: String): String? = runCatching {
-        Class.forName("android.os.SystemProperties").getMethod("get", String::class.java).invoke(null, name) as String
-    }.getOrNull()
+    private fun systemProperty(name: String): String? = SysProps.get(name)
 }
 
 @Composable

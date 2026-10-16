@@ -1,6 +1,5 @@
 package com.openauto.dash
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Binder
 import android.os.Handler
@@ -113,6 +112,7 @@ object McuFeed {
     /** One message from the MCU, on the feed's own thread. */
     private fun onMessage(m: ByteArray) {
         val cmd = m[0].toInt() and 0xFF
+        UnitPlatform.markUsed(Cap.VEHICLE_BUS)
         McuReader.feed(m)
         when (cmd) {
             CMD_CAN -> PsaTripComputer.feed(m, 1)
@@ -171,9 +171,6 @@ object McuFeed {
         String(bytes, Charsets.ISO_8859_1).map { if (it < ' ') ' ' else it }.joinToString("")
             .replace(Regex(" {2,}"), " ").trim().takeIf { it.length >= 2 }
 
-    /** The MCU service's binder, from the ServiceManager (a system class apps may reach by reflection). */
-    @SuppressLint("PrivateApi", "DiscouragedPrivateApi")
-    private fun serviceBinder(): IBinder? = runCatching {
-        Class.forName("android.os.ServiceManager").getMethod("getService", String::class.java).invoke(null, SERVICE) as IBinder?
-    }.onFailure { Log.w(TAG, "no MCU service", it) }.getOrNull()
+    /** The MCU service's binder, from the ServiceManager ([SysProps]). */
+    private fun serviceBinder(): IBinder? = SysProps.service(SERVICE).also { if (it == null) Log.w(TAG, "no MCU service") }
 }

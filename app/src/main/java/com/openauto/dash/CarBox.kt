@@ -1,6 +1,5 @@
 package com.openauto.dash
 
-import android.annotation.SuppressLint
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -127,7 +126,7 @@ object CarBox {
     fun start(context: Context) {
         if (started) return
         val app = context.applicationContext
-        if (!isPackageInstalled(app, RomPopups.VEHICLE_PACKAGE)) return
+        if (!UnitPlatform.hasPackage(app, RomPopups.VEHICLE_PACKAGE)) return
         started = true
         flagSeenOn = systemProperty(REVERSE_FLAG) == "true"
         _reversing.value = flagSeenOn
@@ -216,7 +215,7 @@ object CarBox {
     private val receiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
             when (intent.action) {
-                ACTION_SHARE -> runCatching { onShare(intent.getByteArrayExtra(EXTRA_SHARE)) }
+                ACTION_SHARE -> runCatching { UnitPlatform.markUsed(Cap.VEHICLE_BUS); onShare(intent.getByteArrayExtra(EXTRA_SHARE)) }
                     .onFailure { Log.w(TAG, "unreadable shared data", it) }
                 ACTION_RADAR -> runCatching {
                     @Suppress("DEPRECATION")
@@ -293,10 +292,7 @@ object CarBox {
         seatHeatLeft = 0, seatHeatRight = 0
     )
 
-    @SuppressLint("PrivateApi")
-    private fun systemProperty(name: String): String? = runCatching {
-        Class.forName("android.os.SystemProperties").getMethod("get", String::class.java).invoke(null, name) as String
-    }.getOrNull()
+    private fun systemProperty(name: String): String? = SysProps.get(name)
 }
 
 /**

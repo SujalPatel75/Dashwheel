@@ -1,6 +1,5 @@
 package com.openauto.dash
 
-import android.annotation.SuppressLint
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -31,20 +30,21 @@ import java.util.concurrent.ConcurrentHashMap
  */
 object SignalSources {
 
-    /** The head unit's broadcasts worth listening to: the QF firmware's car, power and camera news. */
-    private val ACTIONS = listOf(
-        "com.qf.action.BACKCAR_START", "com.qf.action.BACKCAR_STOP",
-        "com.qf.action.headlight_state", "com.qf.action.ACC_ON", "com.qf.action.ACC_OFF",
-        "com.qf.action.READY_GO_SLEEP_PRE", "com.qf.action.VOLUME_CHANGED",
-        "com.qf.vehicle.action.swa", "com.qf.vehicle.action.popup_enable",
-        "com.qf.action.BT.MUSIC.INFO", "TPMS_APP_STATE_SEND", "com.zjinnova.zlink"
-    )
+    /** The head unit's broadcasts worth listening to: its firmware's car, power and camera news ([SignalCatalogue]). */
+    private val actions: Set<String> get() = UnitPlatform.adapter.catalogue.broadcasts
 
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
 
     // Last heard, kept from the moment the receiver is up: they come only when they change.
     private val shared = ConcurrentHashMap<String, String>()
     private val broadcasts = ConcurrentHashMap<String, String>()
+    /** Values another family's bus pushed ([CarSink.raw]), under their own source keys. */
+    private val bus = ConcurrentHashMap<String, String>()
+
+    /** A raw value from a vehicle bus, for the finder: "fyt:7:1031#0" = "57". */
+    internal fun busValue(key: String, value: String) {
+        bus[key] = value
+    }
     @Volatile private var props: Map<String, String> = emptyMap()
     @Volatile private var globals: Map<String, String> = emptyMap()
 
@@ -72,7 +72,9 @@ object SignalSources {
     fun listen(context: Context) {
         if (receiving) return
         receiving = true
-        val filter = IntentFilter().apply { ACTIONS.forEach(::addAction) }
+        val wanted = actions
+        if (wanted.isEmpty()) return
+        val filter = IntentFilter().apply { wanted.forEach(::addAction) }
         ContextCompat.registerReceiver(context.applicationContext, receiver, filter, ContextCompat.RECEIVER_EXPORTED)
     }
 
@@ -111,7 +113,7 @@ object SignalSources {
             SignalSource.BROADCAST -> broadcasts[key]
             SignalSource.FLAG -> systemProperty(name)?.takeIf { it.isNotEmpty() }
             SignalSource.SETTING -> runCatching { Settings.Global.getString(context.contentResolver, name) }.getOrNull()
-            null -> null
+            null -> bus[key]
         }
     }
 
@@ -154,20 +156,23 @@ object SignalSources {
         for (e in McuReader.entries.value) out[SignalSource.CAN.key(e.key)] = e.hex
         out.putAll(shared)
         out.putAll(broadcasts)
+        out.putAll(bus)
         for ((k, v) in props) out[SignalSource.FLAG.key(k)] = v
         for ((k, v) in globals) out[SignalSource.SETTING.key(k)] = v
         return out
     }
 
-    /** The system properties, but the read-only ones: they never change. */
+    /** The system properties, but the read-only ones (they never change), apart from the prefixes this firmware's catalogue keeps. */
     private fun readProps(): Map<String, String> = runCatching {
+        val keep = UnitPlatform.adapter.catalogue.propPrefixes
         val p = Runtime.getRuntime().exec(arrayOf("getprop"))
         val out = HashMap<String, String>()
         p.inputStream.bufferedReader().useLines { lines ->
             for (line in lines) {
                 val m = PROP_LINE.find(line) ?: continue
                 val name = m.groupValues[1]
-                if (name.startsWith("ro.") || name.startsWith("init.svc.") || name.startsWith("ro_")) continue
+                val readOnly = name.startsWith("ro.") || name.startsWith("init.svc.") || name.startsWith("ro_")
+                if (readOnly && keep.none { name.startsWith(it) }) continue
                 out[name] = m.groupValues[2]
             }
         }
@@ -192,8 +197,5 @@ object SignalSources {
 
     private fun hex(data: ByteArray): String = data.joinToString(" ") { SignalProbe.hex2(it.toInt() and 0xFF) }
 
-    @SuppressLint("PrivateApi")
-    private fun systemProperty(name: String): String? = runCatching {
-        Class.forName("android.os.SystemProperties").getMethod("get", String::class.java).invoke(null, name) as String
-    }.getOrNull()
+    private fun systemProperty(name: String): String? = SysProps.get(name)
 }

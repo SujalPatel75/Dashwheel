@@ -175,7 +175,7 @@ class MainActivity : ComponentActivity() {
                     { TileText.start(this) },
                     // Calls on the head unit's own Bluetooth, the ROM pop-ups the driver
                     // chose to replace, and the door alert that replaces one of them.
-                    { HeadUnitPhone.start(this) },
+                    { UnitPlatform.adapter.phone?.start(this) },
                     { RomPopups.start(this) },
                     { DoorAlertOverlay.start(this) },
                     { AlertVoice.start(this) },
@@ -184,12 +184,13 @@ class MainActivity : ComponentActivity() {
                     { CarPower.start(this) },
                     // Waze opened afresh once the unit is awake, when the driver asked for it.
                     { WazeWake.start(this) },
-                    // The unit's own keys (wheel and panel), straight from its key service, and
+                    // The unit's own keys (wheel and panel), straight from its firmware's key service, and
                     // what else it tells: headlights, the phone, CarPlay / Android Auto.
-                    { HeadUnitKeys.start(this) },
+                    { UnitPlatform.adapter.keys?.start(this) { } },
                     { UnitSignals.start(this) },
-                    // Everything the unit's MCU says (the CAN box stream, RDS, voltage), from its own service.
-                    { McuFeed.start(this) },
+                    // Everything the car's bus says through the firmware (the CAN box stream, the car
+                    // app's shared data, RDS, voltage), into the dashboard's flows.
+                    { UnitPlatform.adapter.bus?.start(this, CarFeed) },
                     // The map and route servers the driver chose, before any route is asked for.
                     { MapServers.load(this) },
                     // A Peugeot / Citroën / DS: the car's warnings asked for at each start, tile or none.
@@ -204,7 +205,6 @@ class MainActivity : ComponentActivity() {
                     { GeminiLive.start(this) },
                     { DockedNavBar.start(this) },
                     { FreeformBar.start(this) },
-                    { CarBox.start(this) },
                     // What the driver taught Dashwheel with the Signal Finder, over the car's own data.
                     { LearnedSignals.start(this) },
                     // The screen light following the headlights, and spoken camera warnings, when the driver turned them on.
@@ -216,7 +216,7 @@ class MainActivity : ComponentActivity() {
                     { SplitAccessibilityService.autoTurnOn(this) },
                     // Dashwheel as the default Home, and the system copy up to date, after an update.
                     { SystemUpkeep.start(this) },
-                    // The QF firmware's own launcher choice, which its Home follows instead of Android's.
+                    // The firmware's own launcher choice (the QF firmware's), which its Home follows instead of Android's.
                     { UnitLauncher.start(this) },
                     { RadarOverlay.start(this) },
                     { ReverseView.start(this) },

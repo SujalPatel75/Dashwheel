@@ -131,6 +131,8 @@ object DebugLog {
             appendLine("Boot reason history:")
             appendLine(sh("getprop persist.sys.boot.reason.history").ifBlank { "-" })
             appendLine("Kept kernel logs: ${sh("ls /sys/fs/pstore /proc/last_kmsg 2>&1").replace('\n', ' ')}")
+            // The firmware family and what pointed at it (UnitPlatform), then the QF ignition property as the unit has it.
+            UnitPlatform.reportLines().forEach { (k, v) -> appendLine("$k: $v") }
             appendLine("Ignition property: ${sh("getprop sys.qf.is.acc.on")}")
             // Android's Home, and the one a QF unit starts by itself ([UnitLauncher]).
             val home = context.packageManager.resolveActivity(

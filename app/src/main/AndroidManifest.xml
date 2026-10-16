@@ -87,9 +87,16 @@
     <!-- Package visibility (Android 11+): lets the app drawer enumerate every
          launchable app and resolve their launch intents. -->
     <queries>
-        <!-- The QF firmware's Bluetooth phone and car apps (ROCO K706): calls and pop-ups, see HeadUnitPhone / RomPopups. -->
+        <!-- The QF firmware's own apps (ROCO K706): its Bluetooth phone and car apps (calls and pop-ups, see
+             HeadUnitPhone / RomPopups), its camera app, its framework (the volume bar), its radio, the TPMS app
+             and the CarPlay app; UnitPlatform checks which are there. -->
         <package android:name="com.qf.bluetooth" />
         <package android:name="com.qf.vehicle" />
+        <package android:name="com.qf.backcar" />
+        <package android:name="com.qf.framework" />
+        <package android:name="com.android.fmradio.ext" />
+        <package android:name="com.syt.tmps" />
+        <package android:name="com.zjinnova.zlink" />
         <!-- Deep OBD, which can report the car's readings in place of an adapter (DeepObdSource). -->
         <package android:name="de.holeschak.bmw_deep_obd" />
         <intent>

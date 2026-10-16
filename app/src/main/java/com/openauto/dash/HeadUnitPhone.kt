@@ -1,6 +1,5 @@
 package com.openauto.dash
 
-import android.annotation.SuppressLint
 import android.content.BroadcastReceiver
 import android.content.ComponentName
 import android.content.Context
@@ -79,7 +78,7 @@ object HeadUnitPhone {
     val call: StateFlow<PhoneCall?> = _call
 
     /** Whether this unit runs the QF Bluetooth app this talks to. */
-    fun available(context: Context): Boolean = isPackageInstalled(context, BT_PACKAGE)
+    fun available(context: Context): Boolean = UnitPlatform.hasPackage(context, BT_PACKAGE)
 
     fun start(context: Context) {
         if (started) return
@@ -240,8 +239,5 @@ object HeadUnitPhone {
         }
     }
 
-    @SuppressLint("PrivateApi")
-    private fun systemProperty(name: String): String? = runCatching {
-        Class.forName("android.os.SystemProperties").getMethod("get", String::class.java).invoke(null, name) as String
-    }.getOrNull()
+    private fun systemProperty(name: String): String? = SysProps.get(name)
 }

@@ -597,10 +597,7 @@ object ObdBluetoothManager {
      */
     private const val PROP_UNIT_OBD = "persist.sys.qf.bt.obd.devices"
 
-    @SuppressLint("PrivateApi")
-    private fun systemProperty(name: String): String? = runCatching {
-        Class.forName("android.os.SystemProperties").getMethod("get", String::class.java).invoke(null, name) as String
-    }.getOrNull()
+    private fun systemProperty(name: String): String? = SysProps.get(name)
 
     @SuppressLint("MissingPermission")
     private fun isBonded(adapter: BluetoothAdapter, address: String): Boolean =

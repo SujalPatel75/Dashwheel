@@ -20,24 +20,20 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 /*
- * The ignition, as the QF firmware (ROCO K706) announces it to every app:
- * ACC on when the key turns, ACC off (then "ready to sleep") when it's
- * switched off. With Dashwheel on the unit's sleep whitelist it lives through
+ * The ignition, as the head unit's firmware announces it to every app
+ * ([UnitPlatform.adapter]'s [IgnitionSource]; on the QF firmware of the ROCO
+ * K706: ACC on when the key turns, ACC off then "ready to sleep" when it's
+ * switched off). With Dashwheel on the unit's sleep whitelist it lives through
  * the off time, so it can act on both ends:
  *  - on: the adapter reconnects at once, and the startup briefing speaks
  *    right then (only after a real stop, see [briefOnIgnition]);
  *  - off: the car's spot is kept as where it's parked (the Parking tile, the
  *    companion's "where's my car"), and the OBD link is closed cleanly and
  *    left closed until the key turns again ([VehicleMonitor]).
- * Other units have no such broadcast; the briefing's heartbeat stands in there.
+ * A unit whose firmware says nothing has no source; the briefing's heartbeat stands in there.
  */
 object CarPower {
     private const val TAG = "CarPower"
-    private const val ACTION_ACC_ON = "com.qf.action.ACC_ON"
-    private const val ACTION_ACC_OFF = "com.qf.action.ACC_OFF"
-    private const val ACTION_SLEEP_SOON = "com.qf.action.READY_GO_SLEEP_PRE"
-    /** "true" / "false", written by the firmware at every turn of the key, before its broadcast. */
-    private const val PROP_ACC = "sys.qf.is.acc.on"
 
     private const val PREFS = "car_power"
     private const val KEY_OFF_AT = "off_at"
@@ -70,28 +66,30 @@ object CarPower {
     /** True once [start] has looked at the ignition (or found a unit that says nothing): [justPoweredUp] means something from then on. */
     val checked: StateFlow<Boolean> = _checked
 
+    /** The firmware's own power signals; null on a unit that announces nothing. */
+    private var source: IgnitionSource? = null
+
     fun start(context: Context) {
         if (started) return
         val app = context.applicationContext
-        val acc = systemProperty(PROP_ACC)
-        // Only on the QF firmware: it sets this property from the MCU at boot.
-        if (acc.isNullOrBlank()) {
+        val src = UnitPlatform.adapter.ignition
+        val acc = src?.read()
+        // A unit without the signals, or a source that can't read the state now and has no broadcasts either.
+        if (src == null || (acc == null && src.actions.isEmpty())) {
             _checked.value = true
             return
         }
         started = true
+        source = src
         appContext = app
-        val on = acc == "true"
-        _ignition.value = on
+        // Broadcasts only (no property to read): unknown until the first one, as on a unit that says nothing.
+        val on = acc == true
+        _ignition.value = acc
         val prefs = app.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
         // Read before [noteBoot] marks the ignition on.
-        val wokeUp = startedBySwitchOn(on, prefs.getLong(KEY_OFF_AT, 0L), prefs.getLong(KEY_ON_AT, 0L))
+        val wokeUp = acc != null && startedBySwitchOn(on, prefs.getLong(KEY_OFF_AT, 0L), prefs.getLong(KEY_ON_AT, 0L))
         noteBoot(app, on)
-        val filter = IntentFilter().apply {
-            addAction(ACTION_ACC_ON)
-            addAction(ACTION_ACC_OFF)
-            addAction(ACTION_SLEEP_SOON)
-        }
+        val filter = IntentFilter().apply { src.actions.forEach(::addAction) }
         ContextCompat.registerReceiver(app, receiver, filter, ContextCompat.RECEIVER_EXPORTED)
         // The unit kills the app while it sleeps (a new process at nearly every
         // wake-up in the logs), and the "on" broadcast goes out before the app
@@ -136,7 +134,7 @@ object CarPower {
         edit.apply()
     }
 
-    /** Whether this unit announces its ignition (the QF firmware), so deep sleep is the unit's to lose. */
+    /** Whether this unit's firmware announces its ignition, so deep sleep is the unit's to lose. */
     val available: Boolean get() = started
 
     /** The recorded lost deep sleeps, newest first ([noteBoot]). */
@@ -146,10 +144,11 @@ object CarPower {
 
     private val receiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
-            when (intent.action) {
-                ACTION_ACC_ON -> if (_ignition.value != true) switchedOn(context.applicationContext)
+            when (source?.decode(intent)) {
+                IgnitionEvent.ON, IgnitionEvent.WAKE -> if (_ignition.value != true) switchedOn(context.applicationContext)
                 // "Ready to sleep" comes after ACC off; either is the car switched off.
-                ACTION_ACC_OFF, ACTION_SLEEP_SOON -> if (_ignition.value != false) switchedOff(context.applicationContext)
+                IgnitionEvent.OFF, IgnitionEvent.SLEEP_SOON -> if (_ignition.value != false) switchedOff(context.applicationContext)
+                null -> Unit
             }
         }
     }
@@ -161,16 +160,13 @@ object CarPower {
      */
     fun refresh() {
         val context = appContext ?: return
-        val on = when (systemProperty(PROP_ACC)) {
-            "true" -> true
-            "false" -> false
-            else -> return
-        }
+        val on = source?.read() ?: return
         if (on == _ignition.value) return
         if (on) switchedOn(context) else switchedOff(context)
     }
 
     private fun switchedOn(context: Context) {
+        UnitPlatform.markUsed(Cap.IGNITION)
         _ignition.value = true
         switchedOnAt = SystemClock.elapsedRealtime()
         val prefs = context.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
@@ -195,6 +191,7 @@ object CarPower {
     }
 
     private fun switchedOff(context: Context) {
+        UnitPlatform.markUsed(Cap.IGNITION)
         _ignition.value = false
         val now = System.currentTimeMillis()
         context.getSharedPreferences(PREFS, Context.MODE_PRIVATE).edit().putLong(KEY_OFF_AT, now).apply()
@@ -224,10 +221,7 @@ object CarPower {
         return runCatching { lm.getLastKnownLocation(LocationManager.GPS_PROVIDER) }.getOrNull()
     }
 
-    @SuppressLint("PrivateApi")
-    private fun systemProperty(name: String): String? = runCatching {
-        Class.forName("android.os.SystemProperties").getMethod("get", String::class.java).invoke(null, name) as String
-    }.getOrNull()
+    private fun systemProperty(name: String): String? = SysProps.get(name)
 }
 
 /**

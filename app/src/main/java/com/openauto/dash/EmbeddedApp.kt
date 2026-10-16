@@ -25,6 +25,7 @@ import android.view.MotionEvent
 import android.view.Surface
 import android.view.TextureView
 import android.view.inputmethod.InputMethodManager
+import com.openauto.unitproto.UnitFamily
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -945,7 +946,7 @@ internal object EmbeddedApp {
      * here once the keys are surely on the main screen. True when kept.
      */
     fun firmwareKey(service: AccessibilityService, event: KeyEvent): Boolean {
-        if (!MediaVolume.qfUnit) return false
+        if (UnitPlatform.adapter.family != UnitFamily.QF) return false
         return when (event.keyCode) {
             SCREEN_OFF_KEY -> true
             KeyEvent.KEYCODE_HOME -> {

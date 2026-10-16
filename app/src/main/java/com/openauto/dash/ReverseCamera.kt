@@ -57,11 +57,11 @@ import kotlinx.coroutines.withContext
  */
 internal object ReverseCamera {
     private const val TAG = "ReverseCamera"
-    private const val ROM_APP = "com.qf.backcar"
-    /** The reversing camera: the ROM app's choice on the K706 (camera 0 is the other input). */
-    /** The car app's reversing camera on the K706; the driver may pick another ([LearnedSignals.cameraId]). */
-    private const val ROM_CAMERA_ID = "1"
-    private val CAMERA_ID: String get() = LearnedSignals.cameraId.value ?: ROM_CAMERA_ID
+    /** The firmware's own camera app and picture ([UnitPlatform.adapter]); the QF firmware's com.qf.backcar. */
+    private val rom: CameraControl? get() = UnitPlatform.adapter.camera
+    private val ROM_APP: String get() = rom?.romApp ?: "com.qf.backcar"
+    /** The car app's reversing camera on the K706 (camera 0 is the other input); the driver may pick another ([LearnedSignals.cameraId]). */
+    private val CAMERA_ID: String get() = LearnedSignals.cameraId.value ?: rom?.defaultCameraId ?: "1"
     /** The ROM app's 1080p stream (AHD_1080P25). */
     private const val WIDTH = 1920
     private const val HEIGHT = 1080
@@ -136,7 +136,8 @@ internal object ReverseCamera {
     }
 
     private fun readRomMirror() {
-        _romMirror.value = romMirror(systemProperty(ROM_MIRROR)?.trim()?.toIntOrNull() ?: 0, systemProperty("ro.qf.platform").orEmpty())
+        val setting = systemProperty(ROM_MIRROR)?.trim()?.toIntOrNull() ?: 0
+        _romMirror.value = rom?.turn(setting) ?: setting.takeIf { it in 0..3 } ?: 0
     }
 
     /** The second screen shows the camera ([ReverseView.secondScreenShown]): [mirror] is kept up to date. */
@@ -282,10 +283,7 @@ internal object ReverseCamera {
         Log.w(TAG, "could not stop the car app's camera", it)
     }.getOrDefault(false)
 
-    @SuppressLint("PrivateApi")
-    private fun systemProperty(name: String): String? = runCatching {
-        Class.forName("android.os.SystemProperties").getMethod("get", String::class.java).invoke(null, name) as String
-    }.getOrNull()
+    private fun systemProperty(name: String): String? = SysProps.get(name)
 
     @SuppressLint("MissingPermission")
     private fun open(context: Context, texture: SurfaceTexture, retry: Boolean) {

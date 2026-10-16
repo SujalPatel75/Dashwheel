@@ -1,6 +1,5 @@
 package com.openauto.dash
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.util.Log
 import kotlinx.coroutines.CancellationException
@@ -57,11 +56,11 @@ object FreeformBar {
     private var started = false
 
     /**
-     * Whether this is the QF firmware, the one with the switch. An emulator
-     * counts too, so the setting and its shell calls can be tried there
-     * without root (ro.qf.platform can only be set as root).
+     * Whether this firmware has the switch (the QF firmware, by its platform
+     * property). An emulator counts too, so the setting and its shell calls
+     * can be tried there without root (ro.qf.platform can only be set as root).
      */
-    val supported: Boolean by lazy { !systemProperty("ro.qf.platform").isNullOrBlank() || isEmulator }
+    val supported: Boolean get() = UnitPlatform.adapter.caps.has(Cap.FREEFORM_BAR)
 
     private data class State(
         /** Top edge (screen px) of each window on the screen, by app. */
@@ -271,10 +270,7 @@ object FreeformBar {
         }
     }
 
-    @SuppressLint("PrivateApi")
-    private fun systemProperty(name: String): String? = runCatching {
-        Class.forName("android.os.SystemProperties").getMethod("get", String::class.java).invoke(null, name) as String
-    }.getOrNull()
+    private fun systemProperty(name: String): String? = SysProps.get(name)
 }
 
 /** The top edge every window on screen shares; null when they differ, or when none is on screen. */

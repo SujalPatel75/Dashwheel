@@ -1,6 +1,5 @@
 package com.openauto.dash
 
-import android.annotation.SuppressLint
 import android.content.BroadcastReceiver
 import android.content.ComponentName
 import android.content.Context
@@ -118,7 +117,7 @@ object HeadUnitMedia {
     fun start(context: Context) {
         if (started) return
         val app = context.applicationContext
-        if (!isPackageInstalled(app, BT_PACKAGE) && !isPackageInstalled(app, RADIO_PACKAGE)) return
+        if (!UnitPlatform.hasPackage(app, BT_PACKAGE) && !UnitPlatform.hasPackage(app, RADIO_PACKAGE)) return
         started = true
         val filter = IntentFilter().apply {
             addAction(ACTION_BT_INFO)
@@ -228,10 +227,7 @@ object HeadUnitMedia {
         ?.takeIf { it.size == 2 && it[1] > 0 }
         ?.let { it[0] to it[1] }
 
-    @SuppressLint("PrivateApi")
-    private fun systemProperty(name: String): String? = runCatching {
-        Class.forName("android.os.SystemProperties").getMethod("get", String::class.java).invoke(null, name) as String
-    }.getOrNull()
+    private fun systemProperty(name: String): String? = SysProps.get(name)
 }
 
 /** "98.5 MHz" / "1008 kHz". */

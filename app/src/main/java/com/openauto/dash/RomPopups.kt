@@ -58,14 +58,13 @@ object RomPopups {
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
     private var started = false
 
-    /** Whether this unit has the ROM app whose pop-up [kind] replaces. */
-    fun available(context: Context, kind: Kind): Boolean = when (kind) {
-        Kind.CALL -> HeadUnitPhone.available(context)
-        Kind.DOORS, Kind.RADAR, Kind.AC -> isPackageInstalled(context, VEHICLE_PACKAGE)
-        Kind.TYRES -> isPackageInstalled(context, Tyres.TPMS_PACKAGE)
-        Kind.BELT -> isPackageInstalled(context, VEHICLE_PACKAGE)
-        Kind.VOLUME -> isPackageInstalled(context, VolumeRomHide.FIRMWARE_PACKAGE)
-    }
+    /**
+     * Whether this unit has the ROM app whose pop-up [kind] replaces (its
+     * firmware's adapter says, [PopupTakeover]), or another family's bus
+     * feeds what the alert is built on ([CarFeed]).
+     */
+    fun available(context: Context, kind: Kind): Boolean =
+        UnitPlatform.adapter.popups?.canHide(kind) == true || CarFeed.provides(kind)
 
     /**
      * Whether [kind] can work with this access ([PrivilegedShell]): the car
@@ -183,5 +182,4 @@ internal fun McuReader.DoorState.openNames(): Set<String> = buildSet {
     if (bonnet) add("bonnet")
 }
 
-internal fun isPackageInstalled(context: Context, pkg: String): Boolean =
-    runCatching { context.packageManager.getApplicationInfo(pkg, 0); true }.getOrDefault(false)
+internal fun isPackageInstalled(context: Context, pkg: String): Boolean = isPackageInstalled(context.packageManager, pkg)

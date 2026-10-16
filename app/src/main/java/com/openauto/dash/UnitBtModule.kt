@@ -1,6 +1,5 @@
 package com.openauto.dash
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.os.SystemClock
 import android.util.Log
@@ -107,8 +106,5 @@ internal object UnitBtModule {
     internal fun serviceName(getprop: String): String =
         Regex("""\[init\.svc\.(gocsdk[A-Za-z0-9_]*)]""").find(getprop)?.groupValues?.get(1) ?: DEFAULT_SERVICE
 
-    @SuppressLint("PrivateApi")
-    private fun systemProperty(name: String): String? = runCatching {
-        Class.forName("android.os.SystemProperties").getMethod("get", String::class.java).invoke(null, name) as String
-    }.getOrNull()
+    private fun systemProperty(name: String): String? = SysProps.get(name)
 }
