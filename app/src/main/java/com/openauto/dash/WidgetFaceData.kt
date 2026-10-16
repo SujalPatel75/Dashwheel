@@ -1110,6 +1110,8 @@ private fun serviceFace(): WidgetFace {
     val state by Maintenance.state.collectAsState()
     var editing by remember { mutableStateOf(false) }
     if (editing) UpkeepDialog(onDismiss = { editing = false })
+    val reveal = rememberEditReveal()
+    val lock = LocalDriveLock.current
     val now = System.currentTimeMillis()
     val dues = remember(state) { state.statuses(now) }
     val first = dues.firstOrNull { it.stage != UpkeepStage.UNKNOWN }
@@ -1138,7 +1140,8 @@ private fun serviceFace(): WidgetFace {
         fraction = fraction,
         alert = first?.stage == UpkeepStage.DUE || first?.stage == UpkeepStage.SOON,
         rows = dues.map { FaceRow(stringResource(it.kind.labelRes), upkeepLeft(it), alert = it.stage == UpkeepStage.DUE) },
-        onClick = { editing = true }
+        onClick = { reveal.shown = !reveal.shown },
+        edit = FaceEdit(reveal) { lock.whenParked { editing = true } }
     )
 }
 

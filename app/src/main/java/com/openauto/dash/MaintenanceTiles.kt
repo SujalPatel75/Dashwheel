@@ -1,9 +1,23 @@
 package com.openauto.dash
 
 import android.text.format.DateUtils
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.scaleOut
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material3.Icon
+import androidx.compose.ui.draw.clip
+import kotlinx.coroutines.delay
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -55,6 +69,10 @@ import kotlin.math.roundToInt
  * typed, and when each item was last done.
  */
 
+/** One servicing row (labelMedium line) and the gap under it, for counting how many fit. */
+private val UPKEEP_ROW_GAP = 5.dp
+private val UPKEEP_ROW_HEIGHT = 20.dp + UPKEEP_ROW_GAP
+
 internal fun formatKm(km: Int): String = String.format(Locale.getDefault(), "%,d", km)
 
 private val UpkeepStage.color: Color
@@ -99,17 +117,58 @@ internal fun upkeepLeft(d: UpkeepDue): String {
     }
 }
 
+/** How long the servicing tile's edit button stays up after a tap. */
+private const val EDIT_SHOWN_MS = 4_000L
+
+/**
+ * The servicing tile's two-step tap: a first tap only puts up an edit
+ * button ([shown]), the button opens the dialog, and a button left alone
+ * goes away after [EDIT_SHOWN_MS]. A brush of the tile no longer throws a
+ * full sheet over the dashboard.
+ */
+internal class EditReveal {
+    var shown by mutableStateOf(false)
+}
+
+@Composable
+internal fun rememberEditReveal(): EditReveal {
+    val reveal = remember { EditReveal() }
+    LaunchedEffect(reveal.shown) {
+        if (reveal.shown) {
+            delay(EDIT_SHOWN_MS)
+            reveal.shown = false
+        }
+    }
+    return reveal
+}
+
+/** The round edit button over a tile's top end corner, while [reveal] is up. */
+@Composable
+internal fun EditCornerButton(reveal: EditReveal, onEdit: () -> Unit, modifier: Modifier = Modifier) {
+    AnimatedVisibility(reveal.shown, modifier = modifier, enter = fadeIn() + scaleIn(), exit = fadeOut() + scaleOut()) {
+        Box(
+            modifier = Modifier.padding(DashSpace.Sm).size(48.dp).clip(CircleShape).background(DashColors.Accent)
+                .clickable { reveal.shown = false; onEdit() },
+            contentAlignment = Alignment.Center
+        ) {
+            Icon(Icons.Filled.Edit, contentDescription = stringResource(R.string.upkeep_dialog_title), tint = Color.White,
+                modifier = Modifier.size(26.dp))
+        }
+    }
+}
+
 @Composable
 internal fun ServiceCard(modifier: Modifier = Modifier) {
     val state by Maintenance.state.collectAsState()
     var editing by remember { mutableStateOf(false) }
+    val reveal = rememberEditReveal()
     val now = System.currentTimeMillis()
     val dues = remember(state) { state.statuses(now) }
     val first = dues.firstOrNull { it.stage != UpkeepStage.UNKNOWN }
     val lock = LocalDriveLock.current
-    Card(modifier = modifier) {
+    Card(modifier = modifier) { Box(Modifier.fillMaxSize()) {
         Column(
-            modifier = Modifier.fillMaxSize().clickable { lock.whenParked { editing = true } }.padding(DashSpace.Lg),
+            modifier = Modifier.fillMaxSize().clickable { reveal.shown = !reveal.shown }.padding(DashSpace.Lg),
             verticalArrangement = Arrangement.spacedBy(5.dp)
         ) {
             TileHeader(stringResource(R.string.upkeep_title))
@@ -129,17 +188,24 @@ internal fun ServiceCard(modifier: Modifier = Modifier) {
             }
             Text(status, color = color, fontWeight = FontWeight.SemiBold, maxLines = 2, overflow = TextOverflow.Ellipsis,
                 style = MaterialTheme.typography.bodyMedium)
-            dues.take(4).forEach { d ->
-                Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                    Text(stringResource(d.kind.labelRes), color = DashColors.TextSecondary, maxLines = 1, overflow = TextOverflow.Ellipsis,
-                        style = MaterialTheme.typography.labelMedium, modifier = Modifier.weight(1f, fill = false))
-                    Spacer(Modifier.width(8.dp))
-                    Text(upkeepLeft(d), color = if (d.stage == UpkeepStage.UNKNOWN) DashColors.Muted else d.stage.color,
-                        fontWeight = FontWeight.Bold, maxLines = 1, style = MaterialTheme.typography.labelMedium)
+            // As many items as the tile has room for, so a tall tile has no empty bottom.
+            BoxWithConstraints(Modifier.weight(1f).fillMaxWidth()) {
+                val fits = (maxHeight / UPKEEP_ROW_HEIGHT).toInt().coerceAtLeast(0)
+                Column(verticalArrangement = Arrangement.spacedBy(UPKEEP_ROW_GAP)) {
+                    dues.take(fits).forEach { d ->
+                        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                            Text(stringResource(d.kind.labelRes), color = DashColors.TextSecondary, maxLines = 1, overflow = TextOverflow.Ellipsis,
+                                style = MaterialTheme.typography.labelMedium, modifier = Modifier.weight(1f, fill = false))
+                            Spacer(Modifier.width(8.dp))
+                            Text(upkeepLeft(d), color = if (d.stage == UpkeepStage.UNKNOWN) DashColors.Muted else d.stage.color,
+                                fontWeight = FontWeight.Bold, maxLines = 1, style = MaterialTheme.typography.labelMedium)
+                        }
+                    }
                 }
             }
         }
-    }
+        EditCornerButton(reveal, onEdit = { lock.whenParked { editing = true } }, Modifier.align(Alignment.TopEnd))
+    } }
     if (editing) UpkeepDialog(onDismiss = { editing = false })
 }
 

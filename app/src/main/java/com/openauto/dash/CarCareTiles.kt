@@ -37,6 +37,8 @@ import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.layout.Layout
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.em
 import java.text.NumberFormat
@@ -156,7 +158,36 @@ private fun CareCard(title: String, modifier: Modifier, content: @Composable () 
     Card(modifier = modifier) {
         Column(modifier = Modifier.fillMaxSize().padding(DashSpace.Lg), verticalArrangement = Arrangement.spacedBy(6.dp)) {
             TileHeader(title)
-            content()
+            FitColumn(6.dp, Modifier.weight(1f).fillMaxWidth(), content)
+        }
+    }
+}
+
+/**
+ * A column that shows its lines from the top while each fits whole and
+ * leaves out the rest: a short tile loses its last lines instead of
+ * cutting one in half.
+ */
+@Composable
+private fun FitColumn(spacing: Dp, modifier: Modifier, content: @Composable () -> Unit) {
+    Layout(content, modifier) { measurables, constraints ->
+        val gap = spacing.roundToPx()
+        val placeables = measurables.map { it.measure(constraints.copy(minWidth = 0, minHeight = 0)) }
+        var bottom = 0
+        var shown = 0
+        for (p in placeables) {
+            val top = if (shown == 0) 0 else bottom + gap
+            if (constraints.hasBoundedHeight && top + p.height > constraints.maxHeight) break
+            bottom = top + p.height
+            shown++
+        }
+        val height = if (constraints.hasBoundedHeight) constraints.maxHeight else bottom
+        layout(constraints.maxWidth, height) {
+            var y = 0
+            placeables.take(shown).forEach { p ->
+                p.placeRelative(0, y)
+                y += p.height + gap
+            }
         }
     }
 }

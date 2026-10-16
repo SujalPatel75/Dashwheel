@@ -761,7 +761,9 @@ internal fun DrawScope.drawCabinDecoration(look: FaceLook) {
 private fun WheelCallout(row: FaceRow?, look: FaceLook, m: FaceMetrics, end: Boolean) {
     val align = if (end) Alignment.End else Alignment.Start
     Column(horizontalAlignment = align) {
-        FaceText((row?.title ?: "").upper(), look, m.sp(max(m.u * 4.4f, 9f)), color = look.dim, weight = look.labelWeight, letterSpacing = 0.08.em)
+        // "Avant gauche" is wider than the side column on most tiles: two lines and a shrink rather than "AVANT G…".
+        FaceText((row?.title ?: "").upper(), look, m.sp(max(m.u * 4.4f, 9f)), color = look.dim, weight = look.labelWeight, letterSpacing = 0.04.em,
+            maxLines = 2, fit = true, align = if (end) TextAlign.End else TextAlign.Start)
         val detail = row?.detail.orEmpty()
         val problem = detail.substringBeforeLast(" · ", "")
         val pressure = detail.substringAfterLast(" · ").ifEmpty { "--" }

@@ -78,6 +78,7 @@ internal fun DesignedTile(item: DashboardItem.BuiltinWidget, env: SkinTileEnv, s
             Box(Modifier.fillMaxSize()) {
                 DesignedFace(face, item.design, Modifier.fillMaxSize())
                 PendingActionStrip(pending, Modifier.align(Alignment.BottomCenter).padding(DashSpace.Sm))
+                face.edit?.let { EditCornerButton(it.reveal, it.onEdit, Modifier.align(Alignment.TopEnd)) }
             }
         }
     }

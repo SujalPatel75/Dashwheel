@@ -212,6 +212,9 @@ internal data class FaceEvent(val startMs: Long, val endMs: Long?, val title: St
 internal enum class SignKind { SPEED, PARKING, DIRECTIONS, FUEL, REST }
 
 @Immutable
+/** A tile's tap-to-show edit button: [reveal] says when it is up, [onEdit] runs when it is pressed. */
+internal class FaceEdit(val reveal: EditReveal, val onEdit: () -> Unit)
+
 internal data class FaceAction(
     val icon: ImageVector,
     val label: String,
@@ -280,7 +283,9 @@ internal data class WidgetFace(
     /** Front left, front right, rear left, rear right: each wheel's row, null where it has no sensor (tyre map). */
     val wheels: List<FaceRow?>? = null,
     /** The gearbox's forward gears (the gear gate). */
-    val gears: Int? = null
+    val gears: Int? = null,
+    /** An edit button the tile puts over its corner after a tap ([EditReveal]); [onClick] then only shows it. */
+    val edit: FaceEdit? = null
 ) {
     /** [severity], or 2 / 0 from [alert]. */
     val level: Int get() = severity ?: if (alert) 2 else 0

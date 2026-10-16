@@ -222,7 +222,9 @@ private fun TyreCell(pos: TyrePos, tyre: Tyre?, problem: TyreProblem?, unit: Pre
             .padding(horizontal = 12.dp, vertical = if (large) 12.dp else 8.dp),
         verticalArrangement = Arrangement.Center
     ) {
-        Text(stringResource(pos.labelRes), color = DashColors.TextSecondary, maxLines = 1, style = MaterialTheme.typography.labelMedium)
+        // Two lines: "Avant gauche" does not fit a narrow cell on one.
+        Text(stringResource(pos.labelRes), color = DashColors.TextSecondary, maxLines = 2, overflow = TextOverflow.Ellipsis,
+            style = MaterialTheme.typography.labelMedium)
         Text(
             tyre?.let { formatPressure(it.kPa, unit) } ?: "--",
             color = if (problem != null) DashColors.Critical else DashColors.TextPrimary,

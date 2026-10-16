@@ -467,6 +467,13 @@ internal class AlertWindow(
     fun canShow(): Boolean =
         aboveCamera() && SplitAccessibilityService.overlayHost() != null || android.provider.Settings.canDrawOverlays(context)
 
+    /** The system status bar's height, from the framework's own dimension; 0 where it has none. */
+    private fun statusBarHeight(): Int {
+        val res = context.resources
+        val id = res.getIdentifier("status_bar_height", "dimen", "android")
+        return if (id != 0) runCatching { res.getDimensionPixelSize(id) }.getOrDefault(0) else 0
+    }
+
     private fun params(style: AlertStyle, type: Int): WindowManager.LayoutParams {
         val dm = context.resources.displayMetrics
         val margin = (24 * dm.density).toInt()
@@ -475,7 +482,9 @@ internal class AlertWindow(
         val panel = (panelWidthDp((dm.widthPixels / dm.density).toInt()).value * dm.density).toInt()
         // The bar's height, its glass margin under it included (TopBar).
         val aboveBar = dm.heightPixels - ((DashSize.Bar.value + 10f) * dm.density).toInt()
-        val tall = if (clearOfBar) aboveBar else match
+        // The side panel and full screen start under the status bar: laid out in screen, their title sat on its icons.
+        val underStatus = statusBarHeight()
+        val tall = (if (clearOfBar) aboveBar else dm.heightPixels) - underStatus
         val (w, h) = when (style) {
             AlertStyle.PILL, AlertStyle.CARD, AlertStyle.BUBBLE, AlertStyle.ICON -> wrap to wrap
             AlertStyle.BANNER -> match to wrap
@@ -505,7 +514,8 @@ internal class AlertWindow(
                         Gravity.BOTTOM -> y = margin * 4
                     }
                 }
-                AlertStyle.PILL -> y = margin / 2
+                AlertStyle.PILL -> y = maxOf(margin / 2, underStatus)
+                AlertStyle.PANEL, AlertStyle.FULL -> y = underStatus
                 else -> Unit
             }
             title = "Dashwheel $name"
