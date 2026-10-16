@@ -35,4 +35,9 @@
     <string name="mycar_photos">3 фото</string>
     <string name="mycar_photos_hint">Или выберите сразу все снимки автомобиля: сбоку, спереди и сзади, а также сверху и сверху с открытыми дверями, если они есть. С именами side, front, back, top и open они никогда не перепутаются.</string>
     <string name="mycar_photos_no_car">На этих фото автомобиль не найден. Используйте снимки всего автомобиля на однотонном фоне.</string>
+    <string name="mycar_doors_title">Открытые двери</string>
+    <string name="mycar_doors_top">Сверху</string>
+    <string name="mycar_doors_3d">3D</string>
+    <string name="mycar_doors_top_hint">Ваша машина сверху, двери открываются на ней</string>
+    <string name="mycar_doors_3d_hint">Ваша машина в 3D поворачивается к открытому и открывает его</string>
 </resources>

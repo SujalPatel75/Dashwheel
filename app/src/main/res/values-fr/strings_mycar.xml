@@ -35,4 +35,9 @@
     <string name="mycar_photos">3 photos</string>
     <string name="mycar_photos_hint">Ou choisissez les photos de la voiture d\'un coup : côté, avant et arrière, plus une vue de dessus et une vue de dessus portes ouvertes si vous en avez. Nommées côté, avant, arrière, dessus et ouvert, elles ne sont jamais confondues.</string>
     <string name="mycar_photos_no_car">Aucune voiture trouvée sur ces photos. Prenez-en avec toute la voiture sur un fond uni.</string>
+    <string name="mycar_doors_title">Portes ouvertes</string>
+    <string name="mycar_doors_top">Vue de dessus</string>
+    <string name="mycar_doors_3d">3D</string>
+    <string name="mycar_doors_top_hint">Votre voiture vue de dessus, les portes s\'ouvrent dessus</string>
+    <string name="mycar_doors_3d_hint">Votre voiture en 3D se tourne vers ce qui est ouvert et l\'ouvre</string>
 </resources>

@@ -35,4 +35,9 @@
     <string name="mycar_photos">3 zdjęcia</string>
     <string name="mycar_photos_hint">Albo wybierz od razu zdjęcia auta: bok, przód i tył, plus widok z góry i widok z góry z otwartymi drzwiami, jeśli je masz. Nazwane bok, przód, tył, góra i otwarte nigdy się nie pomylą.</string>
     <string name="mycar_photos_no_car">Nie znaleziono samochodu na tych zdjęciach. Użyj zdjęć z całym autem na gładkim tle.</string>
+    <string name="mycar_doors_title">Otwarte drzwi</string>
+    <string name="mycar_doors_top">Z góry</string>
+    <string name="mycar_doors_3d">3D</string>
+    <string name="mycar_doors_top_hint">Twój samochód widziany z góry, drzwi otwierają się na nim</string>
+    <string name="mycar_doors_3d_hint">Twój samochód w 3D obraca się do tego, co otwarte, i to otwiera</string>
 </resources>

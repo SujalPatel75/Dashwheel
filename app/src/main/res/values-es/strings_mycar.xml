@@ -35,4 +35,9 @@
     <string name="mycar_photos">3 fotos</string>
     <string name="mycar_photos_hint">O elige las fotos del coche a la vez: lateral, delante y detrás, y una desde arriba y otra desde arriba con las puertas abiertas si las tienes. Si se llaman lateral, delante, detrás, arriba y abierto, nunca se confunden.</string>
     <string name="mycar_photos_no_car">No se encuentra el coche en esas fotos. Usa unas con el coche entero sobre un fondo liso.</string>
+    <string name="mycar_doors_title">Puertas abiertas</string>
+    <string name="mycar_doors_top">Desde arriba</string>
+    <string name="mycar_doors_3d">3D</string>
+    <string name="mycar_doors_top_hint">Tu coche visto desde arriba, con las puertas abriéndose</string>
+    <string name="mycar_doors_3d_hint">Tu coche en 3D gira hacia lo que está abierto y lo abre</string>
 </resources>

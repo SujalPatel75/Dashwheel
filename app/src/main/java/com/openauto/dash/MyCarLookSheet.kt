@@ -18,6 +18,7 @@ import androidx.compose.material.icons.filled.DirectionsCar
 import androidx.compose.material.icons.filled.Gesture
 import androidx.compose.material.icons.filled.Image
 import androidx.compose.material.icons.filled.Palette
+import androidx.compose.material.icons.filled.ViewInAr
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -53,6 +54,7 @@ internal fun MyCarLookSheet(onDismiss: () -> Unit) {
     val look by MyCarLook.imported.collectAsState()
     val on by MyCarLook.on.collectAsState()
     val style by MyCarLook.style.collectAsState()
+    val doorPick by MyCarLook.doorView.collectAsState()
     var busy by remember { mutableStateOf(false) }
     var removing by remember { mutableStateOf(false) }
     val scope = rememberCoroutineScope()
@@ -188,6 +190,20 @@ internal fun MyCarLookSheet(onDismiss: () -> Unit) {
                 onChoose = { MyCarLook.setStyle(context, it) }
             )
             SwitchHint(stringResource(style.hintRes))
+
+            // Only a pack with a 3D model has the choice; a phone picture is always seen from above.
+            if (l.model != null && Car3D.supported) {
+                val view = MyCarLook.doorViewOf(doorPick, l)
+                SettingsSection(stringResource(R.string.mycar_doors_title))
+                SegmentedSwitch(
+                    options = DoorView.entries,
+                    chosen = view,
+                    icon = { if (it == DoorView.THREE_D) Icons.Filled.ViewInAr else Icons.Filled.DirectionsCar },
+                    title = { stringResource(it.titleRes) },
+                    onChoose = { MyCarLook.setDoorView(context, it) }
+                )
+                SwitchHint(stringResource(view.hintRes))
+            }
             Text(stringResource(R.string.mycar_where), color = DashColors.TextSecondary, style = MaterialTheme.typography.bodySmall)
         }
         Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(16.dp)) {

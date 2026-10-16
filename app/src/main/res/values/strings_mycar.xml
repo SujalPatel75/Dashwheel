@@ -35,4 +35,9 @@
     <string name="mycar_photos">3 photos</string>
     <string name="mycar_photos_hint">Or pick the photos of the car at once: side, front and back, plus one from above and one from above with the doors open if you have them. Named side, front, back, top and open, they never get mixed up.</string>
     <string name="mycar_photos_no_car">No car found in those photos. Use ones with the whole car on a plain background.</string>
+    <string name="mycar_doors_title">Open doors</string>
+    <string name="mycar_doors_top">From above</string>
+    <string name="mycar_doors_3d">3D</string>
+    <string name="mycar_doors_top_hint">Your car seen from above, the doors opening on it</string>
+    <string name="mycar_doors_3d_hint">Your 3D car turns to what is open and opens it</string>
 </resources>

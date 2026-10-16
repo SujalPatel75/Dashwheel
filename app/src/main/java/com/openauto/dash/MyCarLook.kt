@@ -57,6 +57,12 @@ internal enum class CarLookStyle(@StringRes val titleRes: Int, @StringRes val hi
     OUTLINE(R.string.mycar_style_outline, R.string.mycar_style_outline_hint)
 }
 
+/** How the door alert shows the car with something open: from above (the frames), or the 3D model turning to it. */
+internal enum class DoorView(@StringRes val titleRes: Int, @StringRes val hintRes: Int) {
+    TOP(R.string.mycar_doors_top, R.string.mycar_doors_top_hint),
+    THREE_D(R.string.mycar_doors_3d, R.string.mycar_doors_3d_hint)
+}
+
 /** A part of the car open ([CarPart]): its picture and outline, and where it goes on its view ([box], fractions, beyond 0..1 where it sticks out). */
 internal class CarLayer(val photo: ImageBitmap, val outline: ImageBitmap, val box: Rect)
 
@@ -112,6 +118,7 @@ internal object MyCarLook {
     private const val PREFS = "my_car_look"
     private const val KEY_ON = "on"
     private const val KEY_STYLE = "style"
+    private const val KEY_DOOR_VIEW = "door_view"
     private const val DIR = "mycar"
     private const val MANIFEST = "look.json"
     private const val MODEL = "model.glb"
@@ -140,6 +147,11 @@ internal object MyCarLook {
     private val _style = MutableStateFlow(CarLookStyle.PHOTO)
     val style: StateFlow<CarLookStyle> = _style.asStateFlow()
 
+    private val _doorView = MutableStateFlow<DoorView?>(null)
+
+    /** The driver's pick for the door alert (3D needs a model in the pack); null until one is made ([doorViewOf]). */
+    val doorView: StateFlow<DoorView?> = _doorView.asStateFlow()
+
     private val _shown = MutableStateFlow<CarLook?>(null)
 
     /** The car the tiles draw: the imported one while it's switched on, else null (the drawn car). */
@@ -155,6 +167,7 @@ internal object MyCarLook {
         val prefs = app.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
         _on.value = prefs.getBoolean(KEY_ON, true)
         _style.value = prefs.getString(KEY_STYLE, null)?.let { s -> CarLookStyle.entries.firstOrNull { it.name == s } } ?: CarLookStyle.PHOTO
+        _doorView.value = prefs.getString(KEY_DOOR_VIEW, null)?.let { s -> DoorView.entries.firstOrNull { it.name == s } } 
         Thread({ publish(load(app)) }, "my-car-load").start()
     }
 
@@ -167,6 +180,15 @@ internal object MyCarLook {
     fun setStyle(context: Context, style: CarLookStyle) {
         _style.value = style
         context.getSharedPreferences(PREFS, Context.MODE_PRIVATE).edit().putString(KEY_STYLE, style.name).apply()
+    }
+
+    /** The view in use: the pick, else from above when the pack has frames of parts opening, else 3D. */
+    fun doorViewOf(pick: DoorView?, look: CarLook?): DoorView =
+        pick ?: if (look?.top?.openings.isNullOrEmpty()) DoorView.THREE_D else DoorView.TOP
+
+    fun setDoorView(context: Context, view: DoorView) {
+        _doorView.value = view
+        context.getSharedPreferences(PREFS, Context.MODE_PRIVATE).edit().putString(KEY_DOOR_VIEW, view.name).apply()
     }
 
     fun remove(context: Context) {

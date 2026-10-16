@@ -35,4 +35,9 @@
     <string name="mycar_photos">3 fotó</string>
     <string name="mycar_photos_hint">Vagy válassza ki egyszerre az autó fotóit: oldalról, elölről és hátulról, valamint egyet felülről és egyet felülről nyitott ajtókkal, ha vannak. Ha a fájlnevük oldal, elöl, hátul, felül és nyitott, sosem keverednek össze.</string>
     <string name="mycar_photos_no_car">Ezeken a fotókon nem található autó. Olyanokat használjon, amelyeken az egész autó egyszínű háttér előtt látszik.</string>
+    <string name="mycar_doors_title">Nyitott ajtók</string>
+    <string name="mycar_doors_top">Felülről</string>
+    <string name="mycar_doors_3d">3D</string>
+    <string name="mycar_doors_top_hint">Az autód felülről, rajta nyílnak az ajtók</string>
+    <string name="mycar_doors_3d_hint">A 3D-s autód a nyitott rész felé fordul és kinyitja</string>
 </resources>

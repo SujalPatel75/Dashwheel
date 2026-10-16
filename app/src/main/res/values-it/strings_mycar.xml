@@ -35,4 +35,9 @@
     <string name="mycar_photos">3 foto</string>
     <string name="mycar_photos_hint">Oppure scegli le foto dell\'auto insieme: lato, davanti e dietro, più una dall\'alto e una dall\'alto con le porte aperte se le hai. Se si chiamano lato, davanti, dietro, sopra e aperto, non si confondono mai.</string>
     <string name="mycar_photos_no_car">Nessuna auto trovata in queste foto. Usane con l\'auto intera su uno sfondo uniforme.</string>
+    <string name="mycar_doors_title">Porte aperte</string>
+    <string name="mycar_doors_top">Dall\'alto</string>
+    <string name="mycar_doors_3d">3D</string>
+    <string name="mycar_doors_top_hint">La tua auto vista dall\'alto, con le porte che si aprono</string>
+    <string name="mycar_doors_3d_hint">La tua auto in 3D si gira verso ciò che è aperto e lo apre</string>
 </resources>

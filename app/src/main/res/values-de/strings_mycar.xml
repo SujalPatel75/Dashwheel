@@ -35,4 +35,9 @@
     <string name="mycar_photos">3 Fotos</string>
     <string name="mycar_photos_hint">Oder wähle die Fotos des Autos auf einmal: Seite, vorne und hinten, dazu eins von oben und eins von oben mit offenen Türen, falls vorhanden. Heißen sie Seite, vorne, hinten, oben und offen, werden sie nie verwechselt.</string>
     <string name="mycar_photos_no_car">Kein Auto auf diesen Fotos gefunden. Nimm welche mit dem ganzen Auto vor einem schlichten Hintergrund.</string>
+    <string name="mycar_doors_title">Offene Türen</string>
+    <string name="mycar_doors_top">Von oben</string>
+    <string name="mycar_doors_3d">3D</string>
+    <string name="mycar_doors_top_hint">Ihr Auto von oben, die Türen öffnen sich darauf</string>
+    <string name="mycar_doors_3d_hint">Ihr Auto in 3D dreht sich zum Offenen und öffnet es</string>
 </resources>

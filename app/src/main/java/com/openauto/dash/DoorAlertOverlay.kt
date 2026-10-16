@@ -318,13 +318,22 @@ private fun OpeningCar(doors: McuReader.DoorState, modifier: Modifier) {
     else Car3DOpen(model, doors.openNames(), modifier) { CarFromAbove(doors, Modifier.fillMaxSize()) }
 }
 
-/** The car's 3D model when the large designs show it live: there is one, and a part open has no frames of its own to play. */
+/**
+ * The car's 3D model when the large designs show it live: there is one and
+ * the driver picked 3D (Settings, car picture). With no pick yet, as before:
+ * only when a part open has no frames of its own to play.
+ */
 @Composable
 private fun opensIn3D(doors: McuReader.DoorState): File? {
     val mine by MyCarLook.shown.collectAsState()
+    val pick by MyCarLook.doorView.collectAsState()
     val model = rememberCar3DModel()
     val frames = mine?.top?.openings.orEmpty()
-    return model?.takeIf { doors.openParts().any { it !in frames } }
+    return when (pick) {
+        DoorView.TOP -> null
+        DoorView.THREE_D -> model
+        null -> model?.takeIf { doors.openParts().any { it !in frames } }
+    }
 }
 
 private fun McuReader.DoorState.openParts(): Set<CarPart> = buildSet {
