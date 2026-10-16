@@ -286,6 +286,7 @@
     <string name="car_warn_bulb_reversing">Rückfahrlicht-Lampe defekt</string>
     <string name="car_warn_bulb_sidelight">Standlicht-Lampe defekt</string>
     <string name="car_warn_tpms">Reifendruck wird nicht überwacht</string>
+    <string name="tpms_box_reset">Die Reifen meldeten nichts mehr: die TPMS-Box wurde neu verbunden</string>
     <string name="car_warn_key_battery">Schlüsselbatterie schwach</string>
     <string name="car_warn_more">und %1$d weitere</string>
     <string name="car_map_back">Hinten</string>

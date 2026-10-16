@@ -286,6 +286,7 @@
     <string name="car_warn_bulb_reversing">Reversing light bulb out</string>
     <string name="car_warn_bulb_sidelight">Sidelight bulb out</string>
     <string name="car_warn_tpms">Tyre pressures not watched</string>
+    <string name="tpms_box_reset">The tyres went quiet: the TPMS box was plugged in again</string>
     <string name="car_warn_key_battery">Key battery low</string>
     <string name="car_warn_more">and %1$d more</string>
     <string name="car_map_back">Rear</string>

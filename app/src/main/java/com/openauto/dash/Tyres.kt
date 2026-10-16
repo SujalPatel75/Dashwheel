@@ -67,12 +67,19 @@ object Tyres {
     /** Whether this unit has the TPMS app that reports the tyres. */
     val available: Boolean get() = started
 
+    /** When a tyre last said anything real (a pressure, its sensor heard), [SystemClock.elapsedRealtime]; 0: not yet. */
+    @Volatile
+    var heardAt = 0L
+        private set
+
     fun start(context: Context) {
         if (started) return
         val app = context.applicationContext
         if (!isPackageInstalled(app, TPMS_PACKAGE)) return
         started = true
         ContextCompat.registerReceiver(app, receiver, IntentFilter(ACTION), ContextCompat.RECEIVER_EXPORTED)
+        // The TPMS box gone quiet while driving: plugged in again by itself ([TpmsReset]).
+        TpmsReset.start(app)
         // Judged again at each reading, when the car's pressures change, and
         // now and then so a sensor that went quiet stops holding a warning up.
         scope.launch { combine(_tyres, CarProfileStore.profile) { _, _ -> }.collect { judge() } }
@@ -103,6 +110,7 @@ object Tyres {
                 at = SystemClock.elapsedRealtime()
             )
             pressureUnit(intent.getStringExtra("presunit"))?.let { _unit.value = it }
+            if (!tyre.noSignal && tyre.kPa > 0) heardAt = tyre.at
             // The demo shows its own tyres; the sensors fill them in again once it's over.
             if (DemoMode.isOn) return
             _tyres.update { it + (pos to tyre) }

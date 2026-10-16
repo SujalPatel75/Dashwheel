@@ -288,6 +288,7 @@
     <string name="car_warn_bulb_reversing">Lampadina della retromarcia bruciata</string>
     <string name="car_warn_bulb_sidelight">Lampadina della luce di posizione bruciata</string>
     <string name="car_warn_tpms">Pressione pneumatici non monitorata</string>
+    <string name="tpms_box_reset">Le gomme non rispondevano più: la scatola TPMS è stata ricollegata</string>
     <string name="car_warn_key_battery">Batteria della chiave scarica</string>
     <string name="car_warn_more">e altri %1$d</string>
     <string name="car_map_back">Dietro</string>

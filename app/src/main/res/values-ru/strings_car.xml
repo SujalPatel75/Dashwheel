@@ -292,6 +292,7 @@
     <string name="car_warn_bulb_reversing">Перегорела лампа заднего хода</string>
     <string name="car_warn_bulb_sidelight">Перегорела лампа габаритов</string>
     <string name="car_warn_tpms">Давление в шинах не контролируется</string>
+    <string name="tpms_box_reset">Шины перестали отвечать: блок TPMS переподключён</string>
     <string name="car_warn_key_battery">Садится батарейка ключа</string>
     <string name="car_warn_more">и ещё %1$d</string>
     <string name="car_map_back">Сзади</string>

@@ -288,6 +288,7 @@
     <string name="car_warn_bulb_reversing">Lâmpada de marcha-atrás fundida</string>
     <string name="car_warn_bulb_sidelight">Lâmpada de presença fundida</string>
     <string name="car_warn_tpms">Pressão dos pneus não monitorizada</string>
+    <string name="tpms_box_reset">Os pneus deixaram de responder: a caixa TPMS foi religada</string>
     <string name="car_warn_key_battery">Pilha da chave fraca</string>
     <string name="car_warn_more">e mais %1$d</string>
     <string name="car_map_back">Traseira</string>
