@@ -130,6 +130,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (!onlyOne()) return
+        MainScreenCover.attach(this)
         // The tile displays' owner (the system user, through root): started first,
         // so the tiles' apps open on displays that keep every screen they open.
         SystemDisplays.start(this)
@@ -332,6 +333,7 @@ class MainActivity : ComponentActivity() {
         super.onResume()
         inMultiWindow.value = isInMultiWindowMode
         FreeformBar.dashboardInFront = true
+        MainScreenCover.onResumed(true)
         // Home pressed over an app that never stopped the dashboard (a window): no onStart then.
         EmbeddedApp.dashboardBack()
         // The unit's 24-hour switch may have changed in its settings meanwhile.
@@ -340,6 +342,7 @@ class MainActivity : ComponentActivity() {
 
     override fun onPause() {
         FreeformBar.dashboardInFront = false
+        MainScreenCover.onResumed(false)
         // A tile's app torn off its tile (Waze opening a screen of its own) pauses the dashboard first.
         EmbeddedApp.dashboardPaused()
         super.onPause()

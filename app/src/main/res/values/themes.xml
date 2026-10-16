@@ -12,7 +12,9 @@
 
         <!-- Dark, low-glare window for driving safety. -->
         <item name="android:colorBackground">@color/background</item>
-        <item name="android:windowBackground">@color/background</item>
+        <!-- Always dark, whatever the system's day or night: the window shows before
+             the dashboard draws, and the day colour flashed white at every start. -->
+        <item name="android:windowBackground">@color/launch_background</item>
         <!-- See-through: the head unit's status bar, forced on while an app window
              is docked, shows the dashboard's own background (the theme's colours). -->
         <item name="android:statusBarColor">@android:color/transparent</item>

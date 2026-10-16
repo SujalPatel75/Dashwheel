@@ -703,22 +703,27 @@ internal object EmbeddedApp {
         // A newer look wins: the older one may have seen the app still on the screen, before its move.
         raising?.cancel()
         return mainScope.launch {
-            val front = runCatching {
-                DockShell.forgetListing()
-                WindowListing.frontTask(DockShell.listStacks(activity))
-            }.getOrNull()
-            ensureActive()
-            val taskId = front ?: activity.taskId
-            val tile = anyTileTask()
-            runCatching { raiseFirmly(activity, taskId, tile, ActivityManager.MOVE_TASK_NO_USER_ACTION) }
-                .onSuccess { Log.i(TAG, "keys back to the main screen (task $taskId raised)") }
-                .onFailure { Log.w(TAG, "can't give the keys back to the main screen", it) }
-            DockShell.forgetListing()
-            // Checked: still away (another raise came between), taken once more.
-            delay(KEYS_BACK_CHECK_MS)
-            if (!dashboardFocused && dashboard?.get() === activity && !keysAway) {
+            MainScreenCover.raising(true)
+            try {
+                val front = runCatching {
+                    DockShell.forgetListing()
+                    WindowListing.frontTask(DockShell.listStacks(activity))
+                }.getOrNull()
+                ensureActive()
+                val taskId = front ?: activity.taskId
+                val tile = anyTileTask()
                 runCatching { raiseFirmly(activity, taskId, tile, ActivityManager.MOVE_TASK_NO_USER_ACTION) }
-                    .onSuccess { Log.i(TAG, "keys still away: main screen raised again") }
+                    .onSuccess { Log.i(TAG, "keys back to the main screen (task $taskId raised)") }
+                    .onFailure { Log.w(TAG, "can't give the keys back to the main screen", it) }
+                DockShell.forgetListing()
+                // Checked: still away (another raise came between), taken once more.
+                delay(KEYS_BACK_CHECK_MS)
+                if (!dashboardFocused && dashboard?.get() === activity && !keysAway) {
+                    runCatching { raiseFirmly(activity, taskId, tile, ActivityManager.MOVE_TASK_NO_USER_ACTION) }
+                        .onSuccess { Log.i(TAG, "keys still away: main screen raised again") }
+                }
+            } finally {
+                MainScreenCover.raising(false)
             }
         }.also { raising = it }
     }
@@ -1674,6 +1679,14 @@ internal object EmbeddedApp {
         }
 
         private suspend fun place(vd: TileDisplay) {
+            try {
+                placeOnTile(vd)
+            } finally {
+                MainScreenCover.uncover(packageName)
+            }
+        }
+
+        private suspend fun placeOnTile(vd: TileDisplay) {
             val id = vd.displayId
             var found: List<WindowListing.AppStack> = listStacks() ?: run {
                 // No shell to look with: the launch alone, which lands on the tile on most ROMs.
@@ -1700,6 +1713,8 @@ internal object EmbeddedApp {
                 if (found.isEmpty()) {
                     if (fresh) return
                     before = rawListing()
+                    // Where it opens on the main screen first, the dashboard's picture hides it meanwhile.
+                    if (opensOnMainScreen) MainScreenCover.cover(packageName)
                     start(vd)
                     fresh = true
                     if (_status.value != Status.SHOWN) return

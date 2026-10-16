@@ -332,8 +332,10 @@ internal fun rememberNowView(pending: PendingActionState): NowView {
     val severity = if (codes.isEmpty()) null else ai.diagnosis?.severity ?: SeverityFloor.of(codes, 0, car.hotC)
     val event = agenda.events.firstOrNull { !it.allDay && it.begin > now }
     // The demo has no servicing plan: an oil change coming up, shown here only.
-    val service = if (demo) DemoMode.upkeepSoon() else remember(upkeep, now / 3_600_000L) { upkeep.statuses(now) }
-        .firstOrNull { it.stage == UpkeepStage.SOON || it.stage == UpkeepStage.DUE }
+    val dues = if (demo) listOf(DemoMode.upkeepSoon()) else remember(upkeep, now / 3_600_000L) { upkeep.statuses(now) }
+    val service = dues.firstOrNull { it.stage == UpkeepStage.SOON || it.stage == UpkeepStage.DUE }
+    // What comes after it, under the headline: the card was a lone line with empty space around it.
+    val serviceNext = dues.firstOrNull { it !== service && it.stage != UpkeepStage.UNKNOWN }
     val warning = warnings.maxByOrNull { it.level }
     var fuelWasLow by remember { mutableStateOf(false) }
     val inputs = NowInputs(
@@ -481,7 +483,7 @@ internal fun rememberNowView(pending: PendingActionState): NowView {
             }
             NowKind.SERVICE -> NowItem(
                 c.kind, c.priority, Icons.Filled.Build, BuiltinKind.SERVICE.label,
-                upkeepLine(service!!), "",
+                upkeepLine(service!!), serviceNext?.let { upkeepLine(it) }.orEmpty(),
                 onTap = { lock.whenParked { if (!showWidgetPage(BuiltinKind.SERVICE)) page(1) } }
             )
             // Nothing pressing: the time, the weather and the range, calmly.

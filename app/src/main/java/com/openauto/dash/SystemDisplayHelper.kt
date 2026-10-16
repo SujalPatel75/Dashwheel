@@ -91,7 +91,9 @@ object SystemDisplayHelper {
             val intent = Intent(ACTION).setPackage(pkg).putExtras(Bundle().apply {
                 putBinder(EXTRA_BINDER, server)
                 putString(EXTRA_TOKEN, token)
-            })
+            // The foreground queue: on the background one it reached Dashwheel 19 s late on the
+            // K706, after the tiles had started on displays of their own and had to start again.
+            }).addFlags(Intent.FLAG_RECEIVER_FOREGROUND)
             broadcast(intent)
             Log.i(TAG, "up as uid ${Os.getuid()}, handed to $pkg")
         }

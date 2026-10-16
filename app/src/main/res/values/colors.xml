@@ -15,6 +15,8 @@
     <!-- Window background (day). Overridden in values-night for the dark scheme.
          Only styles the launch window before Compose takes over. -->
     <color name="background">#F1F3F4</color>
+    <!-- The window before the dashboard draws: dark in day and night alike (themes.xml). -->
+    <color name="launch_background">#0B0D10</color>
     <color name="surface">#FFFFFF</color>
     
     <!-- Telemetry Colors (High Contrast) -->
