@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Kinetic skin -->
+    <string name="kinetic_menu">Meniu</string>
+    <string name="kinetic_talk">Kalbėti</string>
+    <string name="kinetic_talk_cd">Kalbėti su asistentu</string>
+    <string name="kinetic_arrival">Atvykimas %1$s</string>
+    <string name="kinetic_ticker_coolant">Aušinimas %1$s</string>
+    <string name="kinetic_ticker_range">Atstumas %1$s</string>
+    <string name="kinetic_sunset">Saulėlydis %1$s</string>
+    <string name="kinetic_sunrise">Saulėtekis %1$s</string>
+    <string name="kinetic_metres">metrų</string>
+    <string name="kinetic_kilometres">kilometrų</string>
+    <string name="kinetic_miles">mylių</string>
+    <string name="kinetic_feet">pėdų</string>
+    <string name="kinetic_yards">jardų</string>
+    <string name="kinetic_next">Toliau</string>
+    <string name="kinetic_usual_drive">Išvykstate dabar, įprastas maršrutas</string>
+    <string name="kinetic_home_at">Namie %1$s</string>
+    <string name="kinetic_where_to">Kur važiuojame?</string>
+    <string name="kinetic_limit">Riba %1$d</string>
+    <string name="kinetic_rpm">r/min</string>
+    <string name="kinetic_gear">Pavara %1$s</string>
+    <string name="kinetic_coolant">Aušinimas</string>
+    <string name="kinetic_battery">Akumuliatorius</string>
+    <string name="kinetic_load">Apkrova</string>
+    <string name="kinetic_now_playing">Dabar groja</string>
+    <string name="kinetic_paused">Pristabdyta</string>
+    <string name="kinetic_range">Atstumas</string>
+    <string name="kinetic_fuel_left">Degalai %1$d %%</string>
+    <string name="kinetic_launch_bar_empty">Programų dar nėra. Palieskite pieštuką ir pridėkite.</string>
+    <string name="kinetic_car_cd">Jūsų automobilis ir jo atstumas</string>
+</resources>

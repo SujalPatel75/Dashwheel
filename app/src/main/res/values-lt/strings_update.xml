@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Release notes of an available update (ReleaseNotes.kt), from the update strip -->
+    <string name="update_notes_title">Kas naujo %1$s</string>
+    <string name="update_notes_empty">Šiai versijai pakeitimų aprašo nėra.</string>
+    <!-- The Ko-fi ask beside every release's notes, GitHub edition (ReleaseNotes.kt) -->
+    <string name="update_support_title">Sukurta laisvalaikiu</string>
+    <string name="update_support_body">Dashwheel nemokamas ir kuriamas vakarais bei daugybę vėlyvų naktų. Jei jis pagerina jūsų važiavimus, kava padeda išlaikyti tempą iki kitos versijos. Ačiū!</string>
+</resources>

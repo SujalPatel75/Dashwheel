@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Futuristic skin (FuturisticSkin*.kt) -->
+    <string name="skin_futuristic_cd_all_apps">Visos programos</string>
+    <string name="skin_futuristic_cd_screen_layout">Google Maps padėtis: %1$s</string>
+    <string name="skin_futuristic_cd_more">Daugiau</string>
+    <string name="skin_futuristic_link_live">Ryšys veikia</string>
+    <string name="skin_futuristic_link_off">Ryšio nėra</string>
+    <string name="skin_futuristic_link_linking">Jungiamasi</string>
+    <string name="skin_futuristic_link_error">Ryšio klaida</string>
+    <string name="skin_futuristic_connect_obd">Prijungti OBD</string>
+    <string name="skin_futuristic_tap_connect_obd">Palieskite, kad prijungtumėte OBD</string>
+    <string name="skin_futuristic_choose_adapter">Pasirinkti OBD adapterį</string>
+    <string name="skin_futuristic_telemetry">Telemetrija</string>
+    <string name="skin_futuristic_live">Tiesiogiai</string>
+    <string name="skin_futuristic_engine">Variklis</string>
+    <string name="skin_futuristic_tyres">Padangos</string>
+    <string name="skin_futuristic_doors">Durys</string>
+    <string name="skin_futuristic_doors_closed">Uždarytos</string>
+    <string name="skin_futuristic_door_open">Atidarytos</string>
+    <string name="skin_futuristic_rpm">RPM</string>
+    <string name="skin_futuristic_gear">Pavara</string>
+    <string name="skin_futuristic_load">Apkrova</string>
+    <string name="skin_futuristic_next_manoeuvre">Kitas manevras</string>
+    <string name="skin_futuristic_start_navigation">Palieskite, kad pradėtumėte navigaciją</string>
+    <string name="skin_futuristic_open_navigation">Atidaryti navigaciją</string>
+    <string name="skin_futuristic_tap_allow_access">Palieskite ir leiskite prieigą prie pranešimų</string>
+    <string name="skin_futuristic_eta">Atvykimas %1$s</string>
+    <string name="skin_futuristic_now_playing">Dabar groja</string>
+    <string name="skin_futuristic_paused">Pristabdyta</string>
+    <string name="skin_futuristic_music">Muzika</string>
+    <string name="skin_futuristic_play_something">Paleiskite ką nors bet kurioje muzikos programoje</string>
+    <string name="skin_futuristic_unknown_artist">Nežinomas atlikėjas</string>
+    <string name="skin_futuristic_cd_previous">Ankstesnis kūrinys</string>
+    <string name="skin_futuristic_cd_play">Groti</string>
+    <string name="skin_futuristic_cd_pause">Pristabdyti</string>
+    <string name="skin_futuristic_cd_next">Kitas kūrinys</string>
+    <string name="skin_futuristic_allow_media">Leisti prieigą prie medijos</string>
+    <string name="skin_futuristic_open_clock">Atidaryti laikrodį</string>
+    <string name="skin_futuristic_loading">Įkeliama</string>
+    <string name="skin_futuristic_weather_at_car">Orai prie automobilio</string>
+    <string name="skin_futuristic_feels">Jutiminė %1$d°</string>
+    <string name="skin_futuristic_wind">Vėjas %1$d %2$s</string>
+    <string name="skin_futuristic_to_empty">Iki tuščio bako</string>
+    <string name="skin_futuristic_recalibrate_fuel">Iš naujo kalibruoti degalus</string>
+    <string name="skin_futuristic_open_app">Atidaryti %1$s</string>
+    <string name="skin_futuristic_launch_bar_empty">Programų dar nėra, palieskite pieštuką ir pridėkite</string>
+    <string name="skin_futuristic_cd_edit_launch_bar">Redaguoti programų juostą</string>
+</resources>

@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Settings dialog (also the menu item) -->
+    <string name="ai_title">DI mechanikas</string>
+    <string name="ai_explanation">Naują gedimo kodą paaiškina Gemini ir perskaito balsu. Į Google siunčiama: kodai, variklio rodmenys, automobilio modelis ir jūsų balsas, kai klausiate garsiai.</string>
+    <string name="ai_key">Gemini API raktas</string>
+    <string name="ai_key_hint">Nemokamai aistudio.google.com → Get API key</string>
+    <string name="ai_language">Atsakymų kalba</string>
+    <string name="ai_language_auto">Kaip programos</string>
+    <string name="ai_language_detail">Rašytiniams Gemini atsakymams</string>
+    <string name="ai_test">Bandyti</string>
+    <string name="ai_done">Baigta</string>
+
+    <!-- Settings dialog: test results -->
+    <string name="ai_test_ok">Gemini veikia: %1$s</string>
+    <string name="ai_test_failed">Nepavyko: %1$s</string>
+    <string name="ai_test_waiting">Jungiamasi prie Google… %1$d s</string>
+    <string name="ai_no_voice">Šioje magnetoloje nėra %1$s balso: pridėkite jį Android nustatymuose → Teksto vertimas kalba.</string>
+
+    <!-- Spoken by the car, in the launcher's language -->
+    <string name="ai_say_ready">DI mechanikas pasiruošęs.</string>
+    <plurals name="ai_say_new_codes">
+        <item quantity="one">%1$d naujas variklio gedimas: %2$s. Sustoję pažiūrėkite gedimų kodų plytelę.</item>
+        <item quantity="few">%1$d nauji variklio gedimai: %2$s. Sustoję pažiūrėkite gedimų kodų plytelę.</item>
+        <item quantity="many">%1$d naujo variklio gedimo: %2$s. Sustoję pažiūrėkite gedimų kodų plytelę.</item>
+        <item quantity="other">%1$d naujų variklio gedimų: %2$s. Sustoję pažiūrėkite gedimų kodų plytelę.</item>
+    </plurals>
+    <plurals name="ai_say_new_codes_untitled">
+        <item quantity="one">%1$d naujas variklio gedimas. Sustoję pažiūrėkite gedimų kodų plytelę.</item>
+        <item quantity="few">%1$d nauji variklio gedimai. Sustoję pažiūrėkite gedimų kodų plytelę.</item>
+        <item quantity="many">%1$d naujo variklio gedimo. Sustoję pažiūrėkite gedimų kodų plytelę.</item>
+        <item quantity="other">%1$d naujų variklio gedimų. Sustoję pažiūrėkite gedimų kodų plytelę.</item>
+    </plurals>
+    <string name="ai_say_overheat">Dėmesio, variklis perkaista: %1$d laipsnių. Kai bus saugu, sustokite ir išjunkite variklį.</string>
+    <string name="ai_say_not_charging">Akumuliatorius nesikrauna: %1$s volto veikiant varikliui. Važiuokite į servisą ir išjunkite tai, ko nereikia.</string>
+    <string name="ai_say_weak_battery">Akumuliatorius silpnas: %1$s volto išjungus variklį. Netrukus jį patikrinkite.</string>
+
+    <!-- Fault codes tile: labels around the AI advice (in the mechanic's language, like the advice) -->
+    <string name="ai_verdict_ok">Skubos ženklų nėra</string>
+    <string name="ai_verdict_soon">Netrukus patikrinkite</string>
+    <string name="ai_verdict_stop">Nebevažiuokite</string>
+    <!-- When the built-in rules rate a fault more serious than the AI did (spoken, and shown in the verdict) -->
+    <string name="ai_rules_stop">Šis gedimas gali sugadinti variklį: kai bus saugu, sustokite ir prieš važiuodami toliau jį patikrinkite.</string>
+    <string name="ai_rules_soon">Su šiuo gedimu per kelias dienas reikia į servisą: iki tol važiuokite atsargiai.</string>
+    <string name="ai_rules_raised">Įmontuotos saugos taisyklės jį įvertino rimčiau nei DI.</string>
+    <string name="ai_disclaimer">DI patarimas (%1$s): jis gali klysti. Prieš bet kokį remontą pasitarkite su servisu.</string>
+    <string name="ai_details_parked">Išsami informacija rodoma sustojus. Klausimą vis tiek galite užduoti garsiai.</string>
+    <string name="ai_check_first">Pirmiausia patikrinkite: %1$s</string>
+    <string name="ai_details">Išsamiau</string>
+    <string name="ai_close">Uždaryti</string>
+    <string name="ai_detail_overview">Apžvalga</string>
+    <string name="ai_detail_meaning">Ką tai reiškia</string>
+    <string name="ai_detail_symptoms">Ką galite pastebėti</string>
+    <string name="ai_detail_causes">Tikėtinos priežastys</string>
+    <string name="ai_detail_check_first">Pirmiausia patikrinkite</string>
+    <string name="ai_detail_checks">Žingsnis po žingsnio</string>
+    <string name="ai_detail_repair">Įprastas remontas</string>
+    <string name="ai_detail_cost">Numatoma kaina</string>
+    <string name="ai_detail_diy">Pataisyti patiems?</string>
+    <string name="ai_detail_driving">Ar galiu važiuoti toliau?</string>
+    <string name="ai_ask">Užduoti klausimą</string>
+    <string name="ai_ask_send">Siųsti</string>
+    <string name="ai_ask_listening">Klausomasi… užduokite klausimą; jis išsiunčiamas, kai nutylate.</string>
+    <string name="ai_ask_thinking">Mechanikas galvoja…</string>
+    <string name="ai_ask_you_asked">Klausėte: %1$s</string>
+    <string name="ai_ask_nothing_heard">Klausimo negirdėjau. Palieskite ir paklauskite dar kartą.</string>
+    <string name="ai_ask_mic_denied">Leiskite mikrofoną, kad galėtumėte klausti balsu.</string>
+    <string name="ai_ask_mic_error">Nepavyko įjungti mikrofono.</string>
+    <string name="ai_ask_failed">Nėra atsakymo: %1$s</string>
+    <string name="ai_ask_replay">Klausyti dar kartą</string>
+
+    <!-- Fault codes tile: status -->
+    <string name="ai_no_codes">Gedimų kodų nėra</string>
+    <string name="ai_cleared">Ištrinta</string>
+    <string name="ai_scan_failed">Nuskaityti nepavyko</string>
+    <string name="ai_clear_failed">Ištrinti nepavyko</string>
+    <string name="ai_thinking">Klausiama DI mechaniko…</string>
+    <string name="ai_retry">Kartoti</string>
+    <string name="ai_note_no_key">Pridėkite nemokamą Gemini raktą: Nustatymai → Automobilis → DI mechanikas, kad gautumėte aiškius patarimus.</string>
+    <string name="ai_note_unavailable">DI nepasiekiamas: %1$s</string>
+
+    <!-- Why asking Gemini failed (follows "AI unavailable: " / "Didn't work: ") -->
+    <string name="ai_error_quota">šiandienos nemokama kvota išnaudota</string>
+    <string name="ai_error_key_refused">raktas atmestas</string>
+    <string name="ai_error_gemini">Gemini klaida %1$d</string>
+    <string name="ai_error_empty">Gemini atsakymas tuščias</string>
+    <string name="ai_error_unreadable">Gemini atsakymas neįskaitomas</string>
+    <string name="ai_error_offline">nėra interneto ryšio</string>
+    <string name="ai_error_no_dns">nėra interneto: Google nerandamas (patikrinkite magnetolos Wi-Fi arba prieigos tašką)</string>
+    <string name="ai_error_no_access">Wi-Fi prijungtas, bet be interneto (gal reikia prisijungti arba telefone nėra duomenų)</string>
+    <string name="ai_error_timeout">Google laiku neatsakė: ryšys per lėtas arba be interneto</string>
+    <string name="ai_error_gemini_busy">Google DI šiuo metu perkrautas; bandykite po kelių minučių</string>
+    <string name="ai_error_tls">saugus ryšys atmestas: patikrinkite magnetolos datą ir laiką</string>
+    <string name="ai_error_connect">nepavyko prisijungti prie Google</string>
+    <string name="ai_error_unknown">nežinoma klaida</string>
+    <string name="ai_say_overcharging">Akumuliatoriaus įtampa per didelė: %1$s volto veikiant varikliui. Gali būti sugedęs įkrovimo reguliatorius: netrukus jį patikrinkite.</string>
+    <!-- Asking the mechanic about the car as it is now (fault codes tile microphone, hands-free) -->
+    <string name="ai_ask_wheel_action">Klausti DI mechaniko</string>
+    <!-- Spoken, in the mechanic's language -->
+    <string name="ai_ask_say_listening">Klausau.</string>
+    <string name="ai_ask_say_nothing_heard">Klausimo negirdėjau.</string>
+    <string name="ai_ask_say_no_key">DI mechanikui reikia Gemini rakto. Pridėkite jį automobilio nustatymuose, skiltyje DI mechanikas.</string>
+    <string name="ai_ask_say_mic">Mikrofonas dar neleidžiamas. Kartą palieskite mikrofoną gedimų kodų plytelėje, kad jį leistumėte.</string>
+    <string name="ai_gemini_live_missing">Šioje magnetoloje Gemini neįdiegta.</string>
+    <string name="ai_gemini_live_end">Baigti</string>
+    <string name="ai_gemini_live_show">Rodyti Gemini Live</string>
+    <string name="ai_live_connecting">Jungiamasi</string>
+    <string name="ai_live_listening">Klausomasi</string>
+    <string name="ai_live_thinking">Galvojama</string>
+    <string name="ai_live_speaking">Kalbama</string>
+    <string name="ai_live_failed">Gemini neatsako. Patikrinkite ryšį.</string>
+    <string name="ai_live_own">Gemini, pažįstantis automobilį</string>
+    <string name="ai_live_own_detail">Naudoja jūsų Gemini raktą: skaito automobilio, kelionės ir skydelio duomenis ir pagal juos veikia. Išjungus: Google Gemini programa</string>
+</resources>

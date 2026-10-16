@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Experimental: the driver's own car in place of the drawn one (MyCarLook.kt, MyCarLookSheet.kt) -->
+    <string name="mycar_title">Automobilio vaizdas</string>
+    <string name="mycar_settings_detail">Eksperimentinė: jūsų automobilis automobilio plytelėse</string>
+    <string name="mycar_experimental">Eksperimentinė: jūsų automobilis vietoj nupiešto. Naudokite iš 3D modelio sukurtą automobilio paketą arba automobilio nuotrauką iš šono.</string>
+    <string name="mycar_empty">Vaizdo dar nėra. Pasirinkite failą arba atsiųskite jį iš telefono programos.</string>
+    <string name="mycar_working">Ruošiama</string>
+    <string name="mycar_ready">Jūsų automobilio vaizdas įkeltas</string>
+    <string name="mycar_failed">Šio vaizdo nepavyko perskaityti. Pabandykite JPG arba PNG.</string>
+    <string name="mycar_model_on_phone">3D modelis paverčiamas jūsų automobiliu telefone: Dashwheel Companion, skirtukas Automobilis, Iš 3D modelio.</string>
+    <string name="mycar_no_picker">Šioje magnetoloje nėra failų parinkiklio. Įdėkite failą čia: %1$s</string>
+    <string name="mycar_pick">Pasirinkti failą</string>
+    <string name="mycar_remove">Pašalinti</string>
+    <string name="mycar_remove_title">Pašalinti automobilio vaizdą?</string>
+    <string name="mycar_remove_body">Plytelėse vėl bus nupieštas automobilis.</string>
+    <string name="mycar_cancel">Atšaukti</string>
+    <string name="mycar_views">Vaizdai: %1$s</string>
+    <string name="mycar_view_side">šonas</string>
+    <string name="mycar_view_top">iš viršaus</string>
+    <string name="mycar_view_hero">trys ketvirčiai</string>
+    <string name="mycar_view_open">atviros durys</string>
+    <string name="mycar_show_title">Rodyti</string>
+    <string name="mycar_show_drawn">Nupieštas</string>
+    <string name="mycar_show_mine">Mano automobilis</string>
+    <string name="mycar_style_title">Stilius</string>
+    <string name="mycar_style_photo">Nuotrauka</string>
+    <string name="mycar_style_photo_hint">Vaizdas toks, koks yra</string>
+    <string name="mycar_style_tinted">Atspalvintas</string>
+    <string name="mycar_style_tinted_hint">Išvaizdos spalva, išlaikant šešėlius</string>
+    <string name="mycar_style_outline">Kontūras</string>
+    <string name="mycar_style_outline_hint">Tik linijos, išvaizdos spalva</string>
+    <string name="mycar_where">Rodoma dizainuose „Padangų žemėlapis“ ir „Automobilio kontūras“ bei plytelėje „Mano automobilis“.</string>
+    <string name="mycar_phone_hint">Iš telefono: Dashwheel Companion programoje Automobilio vaizdas, tada Pasirinkti failą.</string>
+    <string name="mycar_photos">3 nuotraukos</string>
+    <string name="mycar_photos_hint">Arba pasirinkite automobilio nuotraukas iš karto: šonas, priekis ir galas, taip pat viena iš viršaus ir viena iš viršaus su atvertomis durimis, jei turite. Pavadintos side, front, back, top ir open, jos niekada nesusimaišys.</string>
+    <string name="mycar_photos_no_car">Šiose nuotraukose automobilio nerasta. Naudokite nuotraukas su visu automobiliu vienspalviame fone.</string>
+    <string name="mycar_doors_title">Atviros durys</string>
+    <string name="mycar_doors_top">Iš viršaus</string>
+    <string name="mycar_doors_3d">3D</string>
+    <string name="mycar_doors_top_hint">Jūsų automobilis iš viršaus, ant jo atsidaro durys</string>
+    <string name="mycar_doors_3d_hint">Jūsų 3D automobilis pasisuka į tai, kas atidaryta, ir tai atidaro</string>
+</resources>

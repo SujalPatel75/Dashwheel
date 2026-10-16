@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Per-tile zoom while arranging (DashboardGrid.kt) -->
+    <string name="zoom_button">Teksto ir piktogramų dydis</string>
+    <string name="zoom_out">Mažiau</string>
+    <string name="zoom_in">Daugiau</string>
+    <string name="zoom_reset">Atkurti 100 %</string>
+    <string name="zoom_page">Teksto dydis</string>
+    <string name="zoom_percent">%1$d %%</string>
+    <string name="zoom_window_inside">Programa veikia plytelėje bet kokiu dydžiu, išskyrus 100 %.</string>
+</resources>

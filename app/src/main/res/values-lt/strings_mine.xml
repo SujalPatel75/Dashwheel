@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- My readings: the driver's own OBD requests and formulas (MyReadings.kt, MyReadingsTile.kt) -->
+    <string name="mine_title">Mano rodmenys</string>
+    <string name="mine_settings_detail">Jūsų OBD užklausos ir formulės</string>
+    <string name="mine_kind_blurb">Jūsų OBD rodmenys ir formulės, nustatomi Nustatymuose</string>
+    <string name="mine_tile_empty">Pridėkite rodmenų: Nustatymai → Automobilis → Mano rodmenys.</string>
+    <string name="mine_explanation">Gaukite bet kokį rodmenį iš automobilio pagal jo užklausą arba apskaičiuokite savo reikšmes iš kitų.</string>
+    <string name="mine_none">Rodmenų dar nėra.</string>
+    <string name="mine_add">Pridėti rodmenį</string>
+    <string name="mine_examples_detail">Dujų sąnaudos, apskaičiuotos iš oro srauto. Pritaikykite skaičius savo automobiliui.</string>
+    <string name="mine_add_examples">Pridėti pavyzdžius</string>
+    <string name="mine_ex_maf">Oro srautas</string>
+    <string name="mine_ex_lpg_lh">Dujų sąnaudos</string>
+    <string name="mine_ex_lpg_used">Sunaudota dujų</string>
+    <string name="mine_ex_lpg_l100">Dujų 100 km</string>
+    <string name="mine_kind_pid">Iš automobilio</string>
+    <string name="mine_kind_formula">Apskaičiuota</string>
+    <string name="mine_kind_total">Kaupiama suma</string>
+    <string name="mine_new">Naujas rodmuo</string>
+    <string name="mine_delete">Ištrinti</string>
+    <string name="mine_save">Išsaugoti</string>
+    <string name="mine_type">Tipas</string>
+    <string name="mine_name">Pavadinimas</string>
+    <string name="mine_unit">Vienetas</string>
+    <string name="mine_key">Vardas formulėse</string>
+    <string name="mine_request">Užklausa</string>
+    <string name="mine_header">ECU adresas</string>
+    <string name="mine_reply">Atsakymo adresas</string>
+    <string name="mine_session">Sesija</string>
+    <string name="mine_hint_address">Standartinėms OBD užklausoms, pvz., 0110, adresus ir sesiją palikite tuščius.</string>
+    <string name="mine_formula">Formulė</string>
+    <string name="mine_hint_pid">Raidės nuo A iki H yra atsakymo baitai, pvz., (A*256+B)/100 užklausai 0110.</string>
+    <string name="mine_hint_formula">Naudokite toliau esančius vardus su + - * / ir min, max, abs, round, if.</string>
+    <string name="mine_hint_total">Sumuoja reikšmę per valandą: L/h tampa litrais, km/h tampa kilometrais.</string>
+    <string name="mine_names">Vardai: %1$s</string>
+    <string name="mine_decimals">Dešimtainės</string>
+    <string name="mine_on_tile">Plytelėje</string>
+    <string name="mine_on_tile_detail">Rodoma plytelėje „Mano rodmenys“</string>
+    <string name="mine_test">Tikrinti</string>
+    <string name="mine_answer">Atsakymas: %1$s</string>
+    <string name="mine_no_answer">nėra atsakymo</string>
+    <string name="mine_value">Reikšmė: %1$s</string>
+    <string name="mine_err_unknown">Nežinomas vardas: %1$s</string>
+    <string name="mine_err_no_value">Dar nėra reikšmės: %1$s.</string>
+    <string name="mine_err_no_reading">Atsakymas neatitinka šios užklausos.</string>
+    <string name="mine_err_math">Formulė dalija iš nulio.</string>
+    <string name="mine_err_syntax">Formulės nepavyksta perskaityti.</string>
+    <string name="mine_reset">Nunulinti</string>
+    <string name="mine_err_name">Suteikite pavadinimą.</string>
+    <string name="mine_err_key">Vardas formulėse: pirma raidė, po jos raidės, skaitmenys arba _. Pavienės raidės nuo A iki H ir įtaisyti vardai užimti.</string>
+    <string name="mine_err_key_taken">Šį vardą jau naudoja kitas rodmuo.</string>
+    <string name="mine_err_request">Tik skaitymo užklausos šešioliktainiu formatu: režimas 01, 09, 21 arba 22.</string>
+    <string name="mine_err_address">Adresai turi 3 arba 8 šešioliktainius skaitmenis, o atsakymo adresui reikia ECU adreso.</string>
+    <string name="mine_err_session">Sesija: tik 1001, 1003, 1081, 1092 arba 10C0, su ECU adresu.</string>
+    <string name="mine_err_no_bytes">Raidės nuo A iki H turi prasmę tik rodmeniui iš automobilio.</string>
+</resources>

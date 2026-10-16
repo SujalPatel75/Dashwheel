@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Moments: Home follows the drive (Moments.kt, MomentsScreen.kt) -->
+    <string name="moments_title">Akimirkos</string>
+    <string name="moments_hint">Pradžia seka važiavimą. Be lietimų.</string>
+    <string name="moments_apps_note">Pradžios plytelėje veikia programa, todėl Pradžia lieka tokia, kokia yra.</string>
+    <string name="moments_settings_off">Išjungta: Pradžia lieka tokia, kokią sutvarkėte</string>
+    <string name="moments_master">Perjungti savaime</string>
+    <string name="moments_now">Dabar</string>
+    <string name="moments_any_time">Bet kada</string>
+    <string name="moments_starts">Prasideda</string>
+    <string name="moments_ends">Baigiasi</string>
+    <string name="moments_stays">Nesikeičia</string>
+    <string name="moments_stays_body">Niekada neperjungia, kol liečiate ekraną</string>
+    <string name="moments_on">Įjungta</string>
+    <string name="moments_off">Išjungta</string>
+    <string name="moments_change">Keisti, kas rodoma</string>
+    <string name="moments_change_hint">Kopijoje nebus programų languose ir sistemos valdiklių.</string>
+    <string name="moments_custom">Jūsų pasirinkimas</string>
+    <string name="moments_as_it_came">Kaip buvo iš pradžių</string>
+    <string name="moments_copy_of">%1$s kopija</string>
+    <string name="moments_back_home">Atgal į jūsų Pradžią</string>
+    <string name="moment_engine_on">Variklis įjungtas</string>
+    <string name="moment_engine_on_shows">Degalai, orai ir dienos planai</string>
+    <string name="moment_engine_on_starts">Kai užvedamas variklis</string>
+    <string name="moment_engine_on_ends">Kai automobilis pajuda</string>
+    <string name="moment_guiding">Navigacija</string>
+    <string name="moment_guiding_shows">Žemėlapis ir kitas posūkis priekyje</string>
+    <string name="moment_guiding_starts">Kai veda Maps ar Waze</string>
+    <string name="moment_guiding_ends">Kai maršrutas baigiasi</string>
+    <string name="moment_long">Ilgas važiavimas</string>
+    <string name="moment_long_shows">Likęs atstumas, degalinės ir poilsis</string>
+    <string name="moment_long_starts">Po valandos prie vairo</string>
+    <string name="moment_long_ends">Kai pastatote automobilį</string>
+    <string name="moment_parked">Stovi</string>
+    <string name="moment_parked_shows">Automobilio būklė ir žinutės</string>
+    <string name="moment_parked_starts">Po važiavimo, 2 min stovint</string>
+    <string name="moment_parked_ends">Kai automobilis pajuda</string>
+    <string name="moment_fault">Kažkas negerai</string>
+    <string name="moment_fault_shows">Gedimo kodas ir variklio rodmenys</string>
+    <string name="moment_fault_starts">Kai atsiranda gedimo kodas</string>
+    <string name="moment_fault_ends">Po 5 min arba Pradžios mygtuku</string>
+</resources>

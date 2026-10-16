@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- "On my way": the arrival time texted by the phone (OnMyWay.kt). -->
+<resources>
+    <string name="onmyway_button">Jau važiuoju</string>
+    <string name="onmyway_title">Praneškite atvykimo laiką</string>
+    <string name="onmyway_no_contacts">Telefone nėra mėgstamo kontakto su numeriu. Pažymėkite kontaktą žvaigždute telefono kontaktuose.</string>
+    <string name="onmyway_text_to">Važiuoju į %1$s, turėčiau būti apie %2$s.</string>
+    <string name="onmyway_text_eta">Jau važiuoju, turėčiau būti apie %1$s.</string>
+    <string name="onmyway_text_plain">Jau važiuoju.</string>
+    <string name="onmyway_sent">Išsiųsta: %1$s</string>
+    <string name="onmyway_sending">Siunčiama: %1$s</string>
+    <string name="onmyway_failed">Telefonas negalėjo išsiųsti žinutės: %1$s</string>
+    <string name="onmyway_no_answer">Telefonas neatsako</string>
+    <string name="phone_battery_percent">%1$d %%</string>
+    <string name="message_alert_read">Perskaityti</string>
+    <string name="message_alert_reply">Atsakyti</string>
+    <string name="message_alert_try">Išbandyti</string>
+    <string name="message_alert_sample">Vėluoju, pasimatysime 7 val.</string>
+</resources>

@@ -28,6 +28,6 @@ OPCIONÁLIS EXTRÁK
 • Telefonkapcsolat a Dashwheel Companion alkalmazással: értesítések, üzenetek és hívások a nagy képernyőn, QR-kódos párosítással és végpontok közötti titkosítással
 • Osztott képernyő és gépelés a telefonról az Android kisegítő szolgáltatásán keresztül, amelyet Ön kapcsol be, és bármikor kikapcsolhat
 
-10 nyelv: angol, francia, német, spanyol, olasz, portugál, holland, lengyel, orosz, magyar.
+11 nyelv: angol, francia, német, spanyol, olasz, portugál, holland, lengyel, orosz, magyar, litván.
 
 Ingyenes és nyílt forráskódú, GPL v3 licenccel. Nincs reklám, nincs követés, nincs fiók.

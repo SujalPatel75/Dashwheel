@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Fuel prices nearby (FuelPrices.kt, FuelPricesTile.kt) -->
+    <string name="fuel_kind">Degalų kainos</string>
+    <string name="fuel_kind_blurb">Pigiausios degalinės netoliese, palieskite ir važiuokite</string>
+    <string name="fuel_title">DEGALAI NETOLIESE</string>
+    <string name="fuel_loading">Ieškoma degalinių…</string>
+    <string name="fuel_none">Per %1$d km nėra degalinės su šiais degalais. Kainos rodomos Prancūzijoje, o su Tankerkönig raktu ir Vokietijoje.</string>
+    <string name="fuel_error">Kainos šiuo metu nepasiekiamos</string>
+    <string name="fuel_cheapest">Pigiausi: %1$s</string>
+    <string name="fuel_navigate">palieskite ir važiuokite</string>
+    <string name="fuel_allow_location">Leisti vietovę</string>
+    <plurals name="fuel_stations">
+        <item quantity="one">%1$d degalinė per %2$d km</item>
+        <item quantity="few">%1$d degalinės per %2$d km</item>
+        <item quantity="many">%1$d degalinės per %2$d km</item>
+        <item quantity="other">%1$d degalinių per %2$d km</item>
+    </plurals>
+</resources>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Spatial skin -->
+    <string name="spatial_talk_cd">Kalbėti su asistentu</string>
+    <string name="spatial_rain_from">lietus nuo %1$s</string>
+    <string name="spatial_rain_until">lietus iki %1$s</string>
+    <string name="spatial_arrival">Atvykimas %1$s</string>
+    <string name="spatial_tab_turn">Posūkis</string>
+    <string name="spatial_tab_arrival">Atvykimas</string>
+    <string name="spatial_tab_fuel">Degalai</string>
+    <string name="spatial_range">Atstumas</string>
+    <string name="spatial_fuel_enough">Degalų pakaks nuvažiuoti</string>
+    <string name="spatial_fuel_short">Prisipilkite prieš atvykdami</string>
+    <string name="spatial_speed_limit_cd">Greičio riba %1$d</string>
+    <string name="spatial_rpm">r/min</string>
+    <string name="spatial_coolant">Aušinimas</string>
+    <string name="spatial_battery">Akumuliatorius</string>
+    <string name="spatial_load">Apkrova</string>
+    <string name="spatial_launch_bar_empty">Programų dar nėra. Palieskite pieštuką ir pridėkite.</string>
+</resources>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- What the car says by itself: Settings -> Alerts -> What the car says (HandsFreeSettings.kt, SpokenEvents.kt) -->
+    <string name="voice_section">Ką sako automobilis</string>
+    <string name="voice_warnings">Balso įspėjimai ir patarimai</string>
+    <string name="voice_warnings_detail">Variklis, akumuliatorius, kietųjų dalelių filtras, poilsis, degalai, magnetolos kaitimas</string>
+    <string name="voice_messages">Žinutės</string>
+    <string name="voice_messages_detail">Parodo ir pasako, nuo ko žinutė.</string>
+    <string name="voice_faults">Nauji gedimų kodai</string>
+    <string name="voice_faults_detail">Pasakomi pavadinimu, kai patikra juos randa, vieną kartą</string>
+    <string name="voice_limit_detail">Pasako, kai ilgiau viršijate greitį, kartą per ribą</string>
+    <string name="voice_weather">Orų įspėjimai</string>
+    <string name="voice_weather_detail">Oranžiniai ir raudoni įspėjimai ten, kur esate ir kur važiuojate</string>
+    <string name="voice_lpg">Mažai dujų</string>
+    <string name="voice_lpg_detail">Pasako, kai antrajame bake lieka mažai</string>
+    <string name="voice_menu_quiet">Tyla</string>
+    <string name="voice_menu_back">Įjungti balsą</string>
+    <string name="voice_where">Ką automobilis sako savaime, nustatoma: Nustatymai, Garsas ir balsas.</string>
+
+    <!-- Spoken -->
+    <string name="voice_say_message">Žinutė nuo %1$s</string>
+    <string name="voice_no_message">Žinučių nėra.</string>
+    <string name="voice_status_range">Degalų liko maždaug %1$d kilometrams.</string>
+    <string name="voice_status_no_faults">Gedimų kodų nėra.</string>
+    <string name="voice_status_nothing">Nėra ką pranešti.</string>
+    <string name="voice_quiet_on">Tyla iki kito užvedimo. Skubūs įspėjimai vis tiek bus pasakomi.</string>
+    <string name="voice_quiet_off">Balsas vėl įjungtas.</string>
+    <string name="voice_no_position">Padėtis dar nežinoma.</string>
+    <string name="voice_no_fuel_prices">Šioje vietovėje degalų kainų nėra.</string>
+    <plurals name="voice_fuel_station">
+        <item quantity="one">Pigiausia degalinė netoliese yra %1$s, už %2$d kilometro.</item>
+        <item quantity="few">Pigiausia degalinė netoliese yra %1$s, už %2$d kilometrų.</item>
+        <item quantity="many">Pigiausia degalinė netoliese yra %1$s, už %2$d kilometro.</item>
+        <item quantity="other">Pigiausia degalinė netoliese yra %1$s, už %2$d kilometrų.</item>
+    </plurals>
+    <string name="voice_guidance_stopped">Navigacija sustabdyta.</string>
+    <string name="voice_guidance_none">Nėra navigacijos, kurią būtų galima sustabdyti.</string>
+</resources>

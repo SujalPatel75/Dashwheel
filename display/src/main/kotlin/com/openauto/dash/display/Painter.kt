@@ -1709,12 +1709,12 @@ internal enum class Maneuver {
     LEFT, RIGHT, STRAIGHT, UTURN, ROUNDABOUT, ARRIVE;
 
     companion object {
-        private val ROUNDABOUT_WORDS = listOf("roundabout", "rond-point", "rond point", "giratoire", "kreisverkehr", "rotonda", "glorieta", "rotunda", "rotatória", "rotonde", "rondo", "körforgalom", "кольц")
-        private val UTURN_WORDS = listOf("u-turn", "u turn", "demi-tour", "wenden", "cambio de sentido", "inversione", "retorno", "keer om", "omkeren", "zawróć", "zawroc", "forduljon vissza", "fordulj vissza", "разворот")
-        private val ARRIVE_WORDS = listOf("destination", "you have arrived", "arrivée", "vous êtes arrivé", "ziel", "destino", "bestemming", "cel podróży", "úti cél", "megérkezett", "пункт назначения")
-        private val LEFT_WORDS = listOf("left", "gauche", "links", "izquierda", "sinistra", "esquerda", "lewo", "balra", "налево", "левее", "влево")
-        private val RIGHT_WORDS = listOf("right", "droite", "rechts", "derecha", "destra", "direita", "prawo", "jobbra", "направо", "правее", "вправо")
-        private val STRAIGHT_WORDS = listOf("straight", "continue", "tout droit", "continuez", "geradeaus", "recto", "dritto", "em frente", "rechtdoor", "prosto", "egyenesen", "прямо")
+        private val ROUNDABOUT_WORDS = listOf("roundabout", "rond-point", "rond point", "giratoire", "kreisverkehr", "rotonda", "glorieta", "rotunda", "rotatória", "rotonde", "rondo", "körforgalom", "žiedin", "кольц")
+        private val UTURN_WORDS = listOf("u-turn", "u turn", "demi-tour", "wenden", "cambio de sentido", "inversione", "retorno", "keer om", "omkeren", "zawróć", "zawroc", "forduljon vissza", "fordulj vissza", "apsisuk", "разворот")
+        private val ARRIVE_WORDS = listOf("destination", "you have arrived", "arrivée", "vous êtes arrivé", "ziel", "destino", "bestemming", "cel podróży", "úti cél", "megérkezett", "atvykote", "kelionės tikslas", "пункт назначения")
+        private val LEFT_WORDS = listOf("left", "gauche", "links", "izquierda", "sinistra", "esquerda", "lewo", "balra", "kair", "налево", "левее", "влево")
+        private val RIGHT_WORDS = listOf("right", "droite", "rechts", "derecha", "destra", "direita", "prawo", "jobbra", "dešin", "направо", "правее", "вправо")
+        private val STRAIGHT_WORDS = listOf("straight", "continue", "tout droit", "continuez", "geradeaus", "recto", "dritto", "em frente", "rechtdoor", "prosto", "egyenesen", "tiesiai", "прямо")
 
         /** The turn as the head unit names it ([ClusterState.maneuver]); null for a name this display doesn't know. */
         fun named(name: String): Maneuver? = entries.firstOrNull { it.name == name }

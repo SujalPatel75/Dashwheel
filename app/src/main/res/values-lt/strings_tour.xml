@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- First-run tour (TourScreen.kt): six tips over the real dashboard -->
+    <string name="tour_welcome_kicker">Sveiki atvykę į Dashwheel</string>
+    <string name="tour_welcome_title">Trumpa pagrindų apžvalga</string>
+    <string name="tour_welcome_body">Keli trumpi patarimai. Maždaug viena minutė. Galite bet kada sustoti.</string>
+    <string name="tour_topic_swipe">Keisti skydelį</string>
+    <string name="tour_topic_arrange">Perkelti ir keisti dydį</string>
+    <string name="tour_topic_add">Pridėti</string>
+    <string name="tour_topic_look">Keisti išvaizdą</string>
+    <string name="tour_topic_obd">Auto duomenys</string>
+    <string name="tour_topic_hands">Laisvos rankos</string>
+    <string name="tour_show_me">Parodykite</string>
+    <string name="tour_not_now">Ne dabar</string>
+    <string name="tour_tip">Patarimas %1$d iš %2$d</string>
+    <string name="tour_skip">Praleisti</string>
+    <string name="tour_next">Toliau</string>
+    <string name="tour_back">Atgal</string>
+    <string name="tour_finish">Baigti</string>
+    <string name="tour_read_aloud">Skaityti balsu</string>
+    <string name="tour_swipe_title">Braukite, kad pakeistumėte skydelį</string>
+    <string name="tour_swipe_body">Pagrindinis skydelis yra viduryje. Braukite kairėn arba dešinėn į du šalia esančius. Daugiau skydelių gali būti viršuje ir apačioje.</string>
+    <string name="tour_try_swipe">Išbandykite: braukite ekraną</string>
+    <string name="tour_arrange_title">Perkelkite ir keiskite plytelių dydį</string>
+    <string name="tour_arrange_body">Palieskite plytelę, kad pamatytumėte parinktis, palaikykite, kad perkeltumėte, tempkite kampą, kad pakeistumėte dydį. Palaikius patį skydelį taip pat pradedamas tvarkymas.</string>
+    <string name="tour_arrange_hint">Vėliau tai rasite meniu, Redaguoti skydelius.</string>
+    <string name="tour_add_title">Pridėkite valdiklį ar programą</string>
+    <string name="tour_add_body">Palieskite Pridėti ir įdėkite muziką, auto duomenis, orus ar bet kurią programą į šį skydelį.</string>
+    <string name="tour_add_hint">Skubate? Šablonai užpildo visą skydelį iš karto.</string>
+    <string name="tour_look_title">Pritaikykite sau</string>
+    <string name="tour_look_body">Atidarykite meniu, tada Nustatymai, tada Išvaizda. Pasirinkite temą ir dienos ar nakties spalvas.</string>
+    <string name="tour_obd_title">Prijunkite OBD adapterį</string>
+    <string name="tour_obd_body">Jis jungiamas į lizdą po vairu. Vieną kartą susiekite jį Android Bluetooth nustatymuose, o toliau Dashwheel prisijungs pats.</string>
+    <string name="tour_obd_off">Neprijungtas</string>
+    <string name="tour_obd_looking">Ieškoma</string>
+    <string name="tour_obd_connected">Prijungtas</string>
+    <string name="tour_hands_title">Žiūrėkite į kelią</string>
+    <string name="tour_hands_body">Vairo mygtukais galite keisti skydelį, perjungti dainas ar paleisti balso asistentą. Dashwheel pats prabyla, kai kas nors svarbu.</string>
+    <string name="tour_hands_hint">Mygtukus nustatykite: Nustatymai, Vairavimas, Vairo mygtukai.</string>
+    <string name="tour_wheel_dashboard">Kitas skydelis</string>
+    <string name="tour_wheel_music">Muzika</string>
+    <string name="tour_wheel_voice">Balso asistentas</string>
+    <string name="tour_wheel_alerts">Balso įspėjimai</string>
+    <string name="tour_done_title">Viskas paruošta</string>
+    <string name="tour_done_body">Šią apžvalgą bet kada vėl rasite: Nustatymai, Sistema, Apie.</string>
+    <string name="tour_start_driving">Pradėti važiuoti</string>
+    <string name="tour_settings_row">Pagrindų apžvalga</string>
+    <string name="tour_settings_row_detail">Šeši trumpi patarimai apie skydelį</string>
+</resources>

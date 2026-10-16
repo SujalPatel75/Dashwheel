@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Racing skin: words on the HUD (caps, as the game shows them) -->
+    <string name="skin_racing_finish">FINIŠAS</string>
+    <string name="skin_racing_stage">ETAPAS</string>
+    <string name="skin_racing_fuel">DEGALAI</string>
+    <string name="skin_racing_rpm">RPM</string>
+    <string name="skin_racing_temp">TEMP.</string>
+    <string name="skin_racing_batt">AKUM.</string>
+    <string name="skin_racing_load">APKROVA</string>
+    <!-- Racing skin: OBD link state on the stage card -->
+    <string name="skin_racing_live">TIESIOGIAI</string>
+    <string name="skin_racing_linking">JUNGIAMASI</string>
+    <string name="skin_racing_no_obd_tap">NĖRA OBD · PALIESKITE</string>
+    <string name="skin_racing_obd_error_tap">OBD KLAIDA · PALIESKITE</string>
+    <string name="skin_racing_connect_obd">Prijungti OBD adapterį</string>
+    <string name="skin_racing_choose_adapter">Pasirinkti kitą OBD adapterį</string>
+    <!-- Racing skin: turn banner and navigation -->
+    <string name="skin_racing_left">KAIRĖN</string>
+    <string name="skin_racing_right">DEŠINĖN</string>
+    <string name="skin_racing_tap_open_maps">PALIESKITE IR ATIDARYKITE MAPS</string>
+    <string name="skin_racing_tap_to_allow">PALIESKITE IR LEISKITE</string>
+    <string name="skin_racing_open_navigation">Atidaryti navigaciją</string>
+    <string name="skin_racing_allow_access">Leisti prieigą prie pranešimų</string>
+    <!-- Racing skin: music ticker and buttons -->
+    <string name="skin_racing_start_music">PALEISKITE MUZIKOS PROGRAMĄ</string>
+    <string name="skin_racing_unknown_artist">NEŽINOMAS ATLIKĖJAS</string>
+    <string name="skin_racing_cd_previous">Ankstesnis kūrinys</string>
+    <string name="skin_racing_cd_next">Kitas kūrinys</string>
+    <string name="skin_racing_cd_play">Groti</string>
+    <string name="skin_racing_cd_pause">Pristabdyti</string>
+    <!-- Racing skin: clock and weather -->
+    <string name="skin_racing_open_clock">Atidaryti žadintuvus</string>
+    <string name="skin_racing_loading">ĮKELIAMA</string>
+    <string name="skin_racing_feels">JUTIMINĖ %1$d°</string>
+    <string name="skin_racing_wind_kmh">VĖJAS %1$d KM/H</string>
+    <string name="skin_racing_wind_mph">VĖJAS %1$d MPH</string>
+    <!-- Racing skin: apps and launch bars -->
+    <string name="skin_racing_open_app">Atidaryti %1$s</string>
+    <string name="skin_racing_edit_launch_bar">Redaguoti programų juostą</string>
+    <string name="skin_racing_launch_bar_empty">PROGRAMŲ NĖRA · PALIESKITE PIEŠTUKĄ</string>
+    <string name="skin_racing_gear">Pavara %1$s</string>
+</resources>

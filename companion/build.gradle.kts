@@ -88,7 +88,7 @@ android {
     }
 
     androidResources {
-        localeFilters += listOf("en", "fr", "de", "es", "it", "pt", "nl", "pl", "ru", "hu")
+        localeFilters += listOf("en", "fr", "de", "es", "it", "pt", "nl", "pl", "ru", "hu", "lt")
     }
 
     lint {

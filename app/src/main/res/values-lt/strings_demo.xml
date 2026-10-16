@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Demo mode: a made-up drive that shows every tile working (DemoMode.kt) -->
+    <string name="demo_menu_start">Demonstracinis režimas</string>
+    <string name="demo_menu_stop">Stabdyti demonstraciją</string>
+    <!-- Settings → Advanced: what the demo does -->
+    <string name="demo_settings_detail">Išgalvotas važiavimas užpildo kiekvieną plytelę. Niekas neišsaugoma.</string>
+    <string name="demo_badge">Demo · išgalvoti duomenys</string>
+    <string name="demo_stop">Stabdyti</string>
+    <!-- Fake turn-by-turn instructions; %1$s = street name -->
+    <string name="demo_nav_right">Sukite į dešinę į %1$s</string>
+    <string name="demo_nav_left">Sukite į kairę į %1$s</string>
+    <string name="demo_nav_straight">Važiuokite toliau %1$s</string>
+    <!-- Fake notifications -->
+    <string name="demo_notif_message">Jau važiuoju, pasimatysim po 10 minučių</string>
+    <string name="demo_notif_event_title">Vizitas pas odontologą</string>
+    <string name="demo_notif_event_text">Rytoj 9:30</string>
+
+    <!-- The mechanic's canned advice on the demo's fault code (P0401, EGR flow too low) -->
+    <string name="demo_p0401_summary">EGR vožtuvas grąžina per mažai išmetamųjų dujų, greičiausiai dėl suodžių. Važiuoti galima; netrukus išvalykite jį.</string>
+    <string name="demo_p0401_meaning">Per mažas EGR srautas</string>
+    <string name="demo_p0401_explanation">Variklis dalį išmetamųjų dujų grąžina į įsiurbimą, kad sumažintų emisijas. Kompiuteris prašė daugiau, nei gavo, o šiame variklyje tai dažniausiai reiškia suodžiais užsikimšusį vožtuvą.</string>
+    <string name="demo_p0401_cause_1">EGR vožtuvas užsikimšęs suodžiais</string>
+    <string name="demo_p0401_cause_2">EGR vožtuvas užstrigęs arba genda jo pavara</string>
+    <string name="demo_p0401_cause_3">Užsikimšęs EGR aušintuvas ar vamzdis</string>
+    <string name="demo_p0401_check_first">Nuimkite EGR vožtuvą ir patikrinkite, ar nėra suodžių</string>
+    <string name="demo_p0401_repair">Išvalykite vožtuvą arba pakeiskite, jei stringa</string>
+    <string name="demo_p0401_cost">Apie 80–150 € už valymą, 250–400 € už naują vožtuvą</string>
+    <string name="demo_p0401_driving">Taip. Kol nesutaisyta, variklis tuščiąja eiga gali dirbti kiek netolygiai, o degalų sąnaudos būti didesnės.</string>
+</resources>

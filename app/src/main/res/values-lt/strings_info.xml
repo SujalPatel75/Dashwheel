@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Shared -->
+    <string name="info_waiting_gps">Laukiama GPS…</string>
+    <string name="info_no_gps">Nėra GPS</string>
+    <string name="info_open">Atidaryti</string>
+    <string name="info_clear">Išvalyti</string>
+    <string name="info_reset">Atstatyti</string>
+    <string name="info_grant_access">Suteikti prieigą</string>
+    <string name="info_connect">Prijungti</string>
+
+    <!-- Weather tile -->
+    <string name="info_weather_title">ORAI</string>
+    <string name="info_weather_refresh">Atnaujinti orus</string>
+    <string name="info_weather_details">Juntama %1$d° · Vėjas %2$d km/h</string>
+    <string name="info_weather_details_range">Juntama %1$d° · Vėjas %2$d km/h · %3$d° / %4$d°</string>
+    <string name="info_weather_loading">Įkeliami orai…</string>
+    <string name="info_weather_unavailable">Orai nepasiekiami</string>
+    <string name="info_weather_unavailable_detail">Orai nepasiekiami (%1$s)</string>
+    <string name="info_weather_no_internet">nėra interneto ryšio: patikrinkite magnetolos Wi-Fi arba viešosios prieigos tašką</string>
+    <string name="info_weather_no_answer">orų paslauga neatsakė</string>
+    <string name="info_as_of">Duomenys %1$s</string>
+
+    <!-- Weather conditions (WMO codes), also used by the skins -->
+    <string name="info_wx_clear">Giedra</string>
+    <string name="info_wx_mostly_clear">Daugiausia giedra</string>
+    <string name="info_wx_partly_cloudy">Mažai debesuota</string>
+    <string name="info_wx_overcast">Apsiniaukę</string>
+    <string name="info_wx_fog">Rūkas</string>
+    <string name="info_wx_drizzle">Dulksna</string>
+    <string name="info_wx_freezing_drizzle">Lijundra</string>
+    <string name="info_wx_rain">Lietus</string>
+    <string name="info_wx_freezing_rain">Šąlantis lietus</string>
+    <string name="info_wx_snow">Sniegas</string>
+    <string name="info_wx_showers">Liūtys</string>
+    <string name="info_wx_snow_showers">Sniego gūsiai</string>
+    <string name="info_wx_thunderstorm">Perkūnija</string>
+    <string name="info_wx_hail_storm">Kruša</string>
+    <string name="info_wx_unknown">Nežinoma</string>
+
+    <!-- Agenda tile -->
+    <string name="info_agenda_title">DARBOTVARKĖ</string>
+    <string name="info_agenda_needs_access">Rodyti artimiausius įvykius iš kalendoriaus</string>
+    <string name="info_agenda_allow">Leisti kalendorių</string>
+    <string name="info_agenda_empty">Per 36 valandas nieko nėra</string>
+    <string name="info_agenda_no_title">Be pavadinimo</string>
+    <string name="info_agenda_all_day">Visą dieną</string>
+
+    <!-- Quick dial tile -->
+    <string name="info_quickdial_title">GREITAS RINKIMAS</string>
+    <string name="info_quickdial_dialer">Rinkiklis</string>
+    <string name="info_quickdial_needs_access">Rodyti čia žvaigždute pažymėtus kontaktus</string>
+    <string name="info_quickdial_allow">Leisti kontaktus</string>
+    <string name="info_quickdial_empty">Pažymėkite kontaktus žvaigždute programoje Kontaktai, kad jie būtų rodomi čia</string>
+
+    <!-- Notifications tile -->
+    <string name="info_notif_title">PRANEŠIMAI</string>
+    <string name="info_notif_needs_access">Rodyti žinutes ir įspėjimus iš programų</string>
+    <string name="info_notif_empty">Naujų pranešimų nėra</string>
+
+    <!-- Audio tile -->
+    <string name="info_audio_title">GARSAS</string>
+    <string name="info_audio_mute">Nutildyti</string>
+    <string name="info_audio_unmute">Įjungti garsą</string>
+    <string name="info_audio_sound">Garsas</string>
+
+    <!-- Speed HUD tile (the title is also the Original theme's speed gauge label) -->
+    <string name="info_speed_title">GREITIS</string>
+    <string name="info_speed_no_signal">Nėra signalo</string>
+
+    <!-- Compass tile -->
+    <string name="info_compass_title">KOMPASAS</string>
+    <string name="info_compass_no_heading">Pajudėkite, kad būtų nustatyta kryptis</string>
+    <string name="info_compass_altitude">Aukštis</string>
+    <string name="info_compass_gps_speed">GPS greitis</string>
+    <string name="info_compass_accuracy">Tikslumas</string>
+
+    <!-- Compass points (dial letters and heading abbreviations) -->
+    <string name="info_dir_n">Š</string>
+    <string name="info_dir_ne">ŠR</string>
+    <string name="info_dir_e">R</string>
+    <string name="info_dir_se">PR</string>
+    <string name="info_dir_s">P</string>
+    <string name="info_dir_sw">PV</string>
+    <string name="info_dir_w">V</string>
+    <string name="info_dir_nw">ŠV</string>
+
+    <!-- Trip computer tile -->
+    <string name="info_trip_title">KELIONĖ</string>
+    <string name="info_trip_since">nuo %1$s</string>
+    <string name="info_trip_time">Laikas</string>
+    <string name="info_trip_moving">Judant</string>
+    <string name="info_trip_average">Vidurkis</string>
+    <string name="info_trip_top">Maks.</string>
+    <string name="info_trip_this_drive">Šis važiavimas</string>
+    <string name="info_trip_since_fill">Nuo pildymo</string>
+    <string name="info_trip_fuel">Degalai</string>
+    <string name="info_trip_cost">Kaina</string>
+    <string name="info_trip_no_fill">Pildymų dar neužregistruota</string>
+    <string name="info_duration_hm">%1$dh %2$02dm</string>
+    <string name="info_duration_ms">%1$dm %2$02ds</string>
+
+    <!-- G-force tile -->
+    <string name="info_gforce_title">G JĖGA</string>
+    <string name="info_gforce_reset_peaks">Atstatyti piką</string>
+    <string name="info_gforce_lateral">Šoninė</string>
+    <string name="info_gforce_accel_brake">Greitėjimas / stabdymas</string>
+    <string name="info_gforce_peaks">Pikai</string>
+
+    <!-- Parking tile -->
+    <string name="info_parking_title">STOVĖJIMAS</string>
+    <string name="info_parking_prompt">Įsiminti, kur yra automobilis</string>
+    <string name="info_parking_save">Išsaugoti stovėjimo vietą</string>
+    <string name="info_parking_dir_right">Automobilis yra %1$d° į dešinę</string>
+    <string name="info_parking_dir_left">Automobilis yra %1$d° į kairę</string>
+    <string name="info_parking_distance_unknown">Atstumas nežinomas</string>
+    <string name="info_parking_parked">Pastatyta %1$s</string>
+    <string name="info_parking_parked_dir">Pastatyta %1$s · %2$s</string>
+    <string name="info_parking_walk">Eiti ten</string>
+    <string name="info_parking_map_label">Pastatytas automobilis</string>
+    <string name="info_ago_just_now">ką tik</string>
+    <string name="info_ago_minutes">prieš %1$d min</string>
+    <string name="info_ago_hours">prieš %1$d h %2$02d min</string>
+    <string name="info_ago_days">prieš %1$d d.</string>
+
+    <!-- Media tile (both the current and the Original theme) -->
+    <string name="info_now_playing">DABAR GROJA</string>
+    <string name="info_paused">PRISTABDYTA</string>
+    <string name="info_nothing_playing">Niekas negroja</string>
+    <string name="info_media_access_needed">Reikia prieigos prie medijos</string>
+    <string name="info_media_tap_to_enable">Palieskite, kad įjungtumėte</string>
+    <string name="info_media_previous">Ankstesnis</string>
+    <string name="info_media_play_pause">Groti / pristabdyti</string>
+    <string name="info_media_next">Kitas</string>
+    <string name="info_media_grant_access">Suteikti prieigą prie medijos</string>
+
+    <!-- Original theme telemetry tile -->
+    <string name="info_telemetry_title">VARIKLIO PRIETAISAI</string>
+    <string name="info_obd_live">Tiesiogiai</string>
+    <string name="info_gauge_rpm">RPM</string>
+    <string name="info_unit_rpm">rpm</string>
+    <string name="info_chip_coolant">Aušinimo skystis</string>
+    <string name="info_chip_load">Apkrova</string>
+    <string name="info_chip_battery">Akumuliatorius</string>
+
+    <!-- Directions tile -->
+    <string name="info_directions_title">NURODYMAI</string>
+    <string name="info_directions_no_route">Nėra maršruto</string>
+    <string name="info_directions_access_title">Reikia prieigos prie pranešimų</string>
+    <string name="info_directions_access_hint">Nurodymai gaunami iš Google Maps navigacijos pranešimo.</string>
+    <string name="info_directions_idle_title">Nėra aktyvaus maršruto</string>
+    <string name="info_directions_idle_hint">Pradėkite navigaciją Google Maps arba Waze, ir čia bus rodomas kitas posūkis.</string>
+    <string name="info_directions_open_maps">Atidaryti %1$s</string>
+    <string name="info_nav_continue">Tęsti</string>
+
+    <!-- Map navigator (MapLibre panel) -->
+    <string name="info_map_where_to">Kur važiuojame?</string>
+    <string name="info_map_search">Ieškoti</string>
+    <string name="info_map_clear_route">Išvalyti maršrutą</string>
+    <string name="info_map_ready">Paruošta navigacijai</string>
+    <string name="info_map_start">Pradėti</string>
+    <string name="info_map_gps_not_ready">GPS neparuoštas: Pradėti vis tiek atidaro Google Maps</string>
+    <string name="info_map_no_route">Maršrutas nerastas</string>
+    <string name="info_map_routing_failed">Nepavyko sudaryti maršruto</string>
+    <string name="info_map_routing_failed_detail">Nepavyko sudaryti maršruto (%1$s)</string>
+    <string name="info_map_address_not_found">Adresas nerastas</string>
+    <string name="info_map_duration_hm">%1$d h %2$02d min</string>
+    <string name="info_map_duration_min">%1$d min</string>
+    <string name="info_map_stop">Stabdyti</string>
+    <string name="info_map_arrived">Jūs atvykote</string>
+    <string name="info_map_rerouting">Ieškomas naujas maršrutas</string>
+    <string name="info_map_voice_on">Įjungti balsą</string>
+    <string name="info_map_voice_off">Išjungti balsą</string>
+    <string name="info_map_other_app">Naviguoti su Google Maps arba Waze</string>
+    <string name="info_audio_by_keys">Garsumas nustatomas magnetolos garsumo mygtukais</string>
+    <string name="info_audio_unavailable">Garsumo čia pakeisti negalima: naudokite rankenėlę</string>
+    <string name="info_map_stop_title">Stabdyti navigaciją?</string>
+    <string name="info_map_stop_body">Žemėlapis nustos rodyti nurodymus. Pradėkite iš naujo žemėlapyje.</string>
+    <string name="info_directions_running_title">%1$s veikia</string>
+    <string name="info_directions_running_hint">Kito posūkio čia dar negalima nuskaityti.</string>
+</resources>

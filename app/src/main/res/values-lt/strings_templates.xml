@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Dashboard templates: ready-made widget sets for all 7 dashboards -->
+    <string name="templates_button">Šablonai</string>
+    <string name="templates_daily">Kasdienis</string>
+    <string name="templates_daily_blurb">Žemėlapis ir muzika priekyje, automobilis ir jūsų diena vienu braukimu toliau</string>
+    <string name="templates_road_trip">Kelionė</string>
+    <string name="templates_road_trip_blurb">Didelis žemėlapis, atstumas, orai ir sustojimai ilgoms kelionėms</string>
+    <string name="templates_car_health">Auto būklė</string>
+    <string name="templates_car_health_blurb">Automobilio duomenys ir gedimų kodai pagrindiniame skydelyje</string>
+    <string name="templates_no_obd">OBD adapteris dar nepasirinktas, todėl automobilio duomenų valdikliai praleisti.</string>
+    <string name="templates_fill_this">Užpildyti šį skydelį</string>
+    <string name="templates_fill_this_hint">Į jį dedamas tik šablono puslapis, skirtas %1$s.</string>
+    <string name="templates_fill">Užpildyti</string>
+    <string name="templates_all_dashboards">Visi skydeliai…</string>
+    <string name="templates_none_empty">Tarp braukiamų nėra tuščio skydelio</string>
+    <string name="templates_pick_title">Pasirinkite pradžią</string>
+    <string name="templates_pick_hint">Braukite ir išbandykite kiekvieną savo ekrane</string>
+    <string name="templates_reach_home">Pagrindinis</string>
+    <string name="templates_reach_row">Pagrindinis ir šalia esantys</string>
+    <string name="templates_reach_all">Visi septyni</string>
+    <string name="templates_reach_all_note">Pagrindinis ir aplink jį esantys skydeliai</string>
+    <string name="templates_use">Naudoti %1$s</string>
+    <string name="templates_undo_note">Mygtukas Anuliuoti kurį laiką liks ekrane</string>
+    <string name="templates_applied">%1$s jau jūsų skydeliuose</string>
+    <string name="templates_calm">Ramus</string>
+    <string name="templates_calm_blurb">Tik žemėlapis ir jūsų greitis</string>
+    <string name="templates_previous">Ankstesnis šablonas</string>
+    <string name="templates_next">Kitas šablonas</string>
+    <string name="share_button">Bendrinti</string>
+    <string name="share_title">Bendrinti %1$s</string>
+    <string name="share_this">Perduokite šį skydelį</string>
+    <string name="share_with_look">Su jo išvaizda</string>
+    <string name="share_with_look_detail">Tema, diena ir naktis bei juosta</string>
+    <string name="share_scan">Nuskaitykite telefonu arba perduokite kodą tekstu</string>
+    <string name="share_save_file">Įrašyti kaip failą</string>
+    <string name="share_widgets_left_out">Android valdikliai lieka šioje magnetoloje: jie praleidžiami.</string>
+    <string name="share_use">Naudoti bendrintą skydelį</string>
+    <string name="share_paste_hint">DW1: kodas</string>
+    <string name="share_open_file">Atidaryti failą</string>
+    <string name="share_use_hint">Įveskite ar įklijuokite kodą, atidarykite failą arba nuskaitykite QR kodą Dashwheel Companion programa.</string>
+    <string name="share_missing_apps">Šioje magnetoloje trūksta programų: %1$d. Jų plytelės liks, kol jas pakeisite.</string>
+    <string name="share_take_look">Naudoti ir jo išvaizdą</string>
+    <string name="share_replace">Dėti čia</string>
+</resources>
