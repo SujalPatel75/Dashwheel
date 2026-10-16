@@ -128,6 +128,8 @@ internal object GeminiLive {
     private var bigSince = 0L
     private var moving = false
     private var reversing = false
+    /** Dashboard dialogs open now ([dialogShown]): they open under the alert's window. */
+    private var dialogs = 0
 
     /** The alert's pictures of Gemini's screen, as its tiles ([EmbeddedApp.Host.attach]): one per design shown. */
     internal val pictures: MutableSet<Any> = java.util.Collections.newSetFromMap(java.util.IdentityHashMap())
@@ -339,6 +341,7 @@ internal object GeminiLive {
         // Behind every other alert: the pill while one of them needs the room ([AlertArbiter]).
         AlertArbiter.want(AlertKind.GEMINI, wanted)
         val style = wanted?.let { arbitratedStyle(AlertKind.GEMINI, it, AlertArbiter.wanted.value) }
+            ?.let { if (dialogs > 0 && it in COVERING) AlertStyle.PILL else it }
         if (style == shown) return
         shown = style
         val w = window(context)
@@ -352,6 +355,21 @@ internal object GeminiLive {
             if (preview) GeminiAlert(style, host = null, own = talking, onEnd = { AlertPreview.stop() }, onEnlarge = {})
             else GeminiAlert(style, host, own = talking, onEnd = { end(context) }, onEnlarge = { enlarge(context) })
         }
+    }
+
+    /** The designs that would cover a dialog of the dashboard's. */
+    private val COVERING = setOf(AlertStyle.CARD, AlertStyle.BANNER, AlertStyle.PANEL, AlertStyle.FULL)
+
+    /**
+     * A dialog of the dashboard opens ([open] true) or closes. The alert is an
+     * overlay window, always above the dashboard's dialogs: as a panel it hid
+     * the dialog's buttons and took their taps, and the dialog, modal, let
+     * nothing else through. So the alert folds to its pill while one is open.
+     * Main thread.
+     */
+    fun dialogShown(context: Context, open: Boolean) {
+        dialogs = (dialogs + if (open) 1 else -1).coerceAtLeast(0)
+        if (_active.value || AlertPreview.gemini.value) render(context)
     }
 
     private fun window(context: Context): AlertWindow =

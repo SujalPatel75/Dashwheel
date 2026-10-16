@@ -407,7 +407,10 @@ internal object EmbeddedApp {
     }
 
     /** A tile's app task, on its own display: what [raiseFirmly] raises first when the keys come back. */
-    private fun anyTileTask(): Int? = hosts.values.firstNotNullOfOrNull { it.keysTask }
+    private fun anyTileTask(): Int? =
+        // Not Gemini Live's: raising it moved the focus to its display while a
+        // dashboard dialog needed it, and the dialog stopped answering.
+        hosts.entries.firstNotNullOfOrNull { (pkg, host) -> host.keysTask.takeIf { pkg != GeminiLive.GEMINI_PACKAGE } }
 
     /** [activity] shows (onStart), or null once it no longer does (onStop). */
     fun dashboardShown(activity: Activity?) {
