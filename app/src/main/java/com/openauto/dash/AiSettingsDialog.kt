@@ -150,7 +150,7 @@ internal fun AiSettingsDialog(onDismiss: () -> Unit) {
             perRow = 3
         ) { config = config.copy(languageChoice = it) }
 
-        // What the car says by itself is switched under Settings, Alerts (VoiceSettings).
+        // What the car says by itself is switched under Settings, Alerts (AlertsGrid).
         Text(
             stringResource(R.string.voice_where),
             color = DashColors.TextSecondary,

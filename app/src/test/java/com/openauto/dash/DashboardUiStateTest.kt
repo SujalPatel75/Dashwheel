@@ -50,7 +50,7 @@ class DashboardUiStateTest {
 
     @Test
     fun aScreenTurnInSettingsReopensIt() {
-        assertEquals(SettingsTab.SYSTEM, DashboardUiState(settingsTab = SettingsTab.SYSTEM).settingsTab)
+        assertEquals(SettingsTab.HEAD_UNIT, DashboardUiState(settingsTab = SettingsTab.HEAD_UNIT).settingsTab)
     }
 
     @Test

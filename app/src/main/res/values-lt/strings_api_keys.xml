@@ -14,7 +14,7 @@
     <string name="api_keys_gemini_uses">DI mechanikas, balso atsakymai ir asistentas</string>
     <string name="api_keys_tankerkoenig">Tankerkönig raktas</string>
     <string name="api_keys_tankerkoenig_uses">Degalų kainos Vokietijoje</string>
-    <string name="fuel_needs_tankerkoenig">Kainoms Vokietijoje reikia Tankerkönig rakto: Nustatymai, Sistema, Jūsų API raktai</string>
+    <string name="fuel_needs_tankerkoenig">Kainoms Vokietijoje reikia Tankerkönig rakto: Nustatymai, Pažangūs, Jūsų API raktai</string>
     <string name="map_servers_overpass">Overpass serveris</string>
     <string name="map_servers_overpass_detail">Greičio apribojimams, greičio kameroms ir degalinių pavadinimams. Palikite tuščią viešiems serveriams.</string>
     <plurals name="api_keys_set_count">

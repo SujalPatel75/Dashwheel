@@ -255,16 +255,9 @@
     <string name="settings_deepobd_field_ignored">Ignorada</string>
     <!-- Settings rework: groups, overview, search (SettingsScreen.kt, SettingsOverview.kt) -->
     <string name="settings_overview">Resumo</string>
-    <string name="settings_section_connections">Ligações</string>
-    <string name="settings_section_sound_voice">Som e voz</string>
-    <string name="settings_section_popups">Pop-ups</string>
-    <string name="settings_section_system">Sistema</string>
     <string name="settings_section_volume">Volume</string>
     <string name="settings_section_taps_music">Toques e música</string>
     <string name="settings_section_more_tools">Mais ferramentas</string>
-    <string name="settings_show_all">Todas as definições</string>
-    <string name="settings_show_fewer">Menos definições</string>
-    <string name="settings_show_fewer_detail">Deixar aqui só as habituais</string>
     <string name="settings_lab">Laboratório</string>
     <string name="settings_lab_detail">Ferramentas em teste e o registo da unidade</string>
     <string name="dead_strip_title">Faixa de toque morta</string>
@@ -298,7 +291,6 @@
     <string name="settings_ov_not_allowed">Ainda não permitido: %1$s</string>
     <string name="settings_ov_not_allowed_detail">Alguns mosaicos e mensagens faladas esperam por isso</string>
     <string name="settings_ov_allow">Permitir</string>
-    <string name="settings_sum_popups_none">Um estilo para cada alerta</string>
     <plurals name="settings_root_more">
         <item quantity="one">Mais %d precisa de root nesta unidade</item>
         <item quantity="many">Mais %d precisam de root nesta unidade</item>
@@ -364,4 +356,23 @@
     <string name="settings_waze_wake_delay_detail">Depois até mais um minuto pela localização e pelos dados</string>
     <string name="settings_waze_wake_seconds">%1$d s</string>
     <string name="settings_waze_wake_locked">É preciso root ou o ADB da unidade para fechar o Waze</string>
+    <!-- Settings regrouped 2026-10-17: categories, overview tiles and the Alerts grid -->
+    <string name="settings_section_alerts">Avisos</string>
+    <string name="settings_section_dashboard">Painel</string>
+    <string name="settings_section_devices">Telefone e ecrãs</string>
+    <string name="settings_section_general">Geral</string>
+    <string name="settings_section_expert">Especialista</string>
+    <string name="settings_section_upkeep">Manutenção e combustível</string>
+    <string name="settings_section_screens_apps">Ecrãs e apps</string>
+    <string name="settings_section_access">Firmware e acesso</string>
+    <string name="settings_section_region">Idioma e unidades</string>
+    <string name="settings_sum_sound">Volume, toques e música</string>
+    <string name="settings_sum_dashboard">Barra, barra lateral e separadores</string>
+    <string name="settings_sum_expert">Laboratório, chaves API, servidores</string>
+    <string name="alerts_say">Dizer</string>
+    <string name="alerts_show">Mostrar</string>
+    <string name="alerts_intro">Dizer anuncia em voz alta, Mostrar põe a janela do Dashwheel no ecrã. Toque numa janela para o seu estilo.</string>
+    <string name="alerts_group_car">Do carro</string>
+    <string name="alerts_group_road">Na estrada</string>
+    <string name="alerts_group_start">Ao arrancar</string>
 </resources>

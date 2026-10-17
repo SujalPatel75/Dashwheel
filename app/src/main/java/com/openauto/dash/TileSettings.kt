@@ -83,7 +83,7 @@ private fun SpokenEventSheet(event: SpokenEvent, onDismiss: () -> Unit) {
     }
 }
 
-/** The phone's link, paired phones and pairing, as under Settings, Connections. */
+/** The phone's link, paired phones and pairing, as under Settings, Phone and screens. */
 @Composable
 private fun PhoneSheet(onDismiss: () -> Unit) {
     SettingsSheet(

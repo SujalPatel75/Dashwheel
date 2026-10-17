@@ -14,7 +14,7 @@
     <string name="api_keys_gemini_uses">KI-Mechaniker, gesprochene Antworten und Assistent</string>
     <string name="api_keys_tankerkoenig">Tankerkönig-Schlüssel</string>
     <string name="api_keys_tankerkoenig_uses">Spritpreise in Deutschland</string>
-    <string name="fuel_needs_tankerkoenig">Preise in Deutschland brauchen einen Tankerkönig-Schlüssel: Einstellungen, System, Deine API-Schlüssel</string>
+    <string name="fuel_needs_tankerkoenig">Preise in Deutschland brauchen einen Tankerkönig-Schlüssel: Einstellungen, Experte, Deine API-Schlüssel</string>
     <string name="map_servers_overpass">Overpass-Server</string>
     <string name="map_servers_overpass_detail">Für Tempolimits, Blitzer und Tankstellennamen. Leer lassen für die öffentlichen Server.</string>
     <plurals name="api_keys_set_count">

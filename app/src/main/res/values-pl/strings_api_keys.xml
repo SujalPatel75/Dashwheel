@@ -14,7 +14,7 @@
     <string name="api_keys_gemini_uses">Mechanik AI, odpowiedzi głosowe i asystent</string>
     <string name="api_keys_tankerkoenig">Klucz Tankerkönig</string>
     <string name="api_keys_tankerkoenig_uses">Ceny paliw w Niemczech</string>
-    <string name="fuel_needs_tankerkoenig">Ceny w Niemczech wymagają klucza Tankerkönig: Ustawienia, System, Twoje klucze API</string>
+    <string name="fuel_needs_tankerkoenig">Ceny w Niemczech wymagają klucza Tankerkönig: Ustawienia, Zaawansowane, Twoje klucze API</string>
     <string name="map_servers_overpass">Serwer Overpass</string>
     <string name="map_servers_overpass_detail">Do ograniczeń prędkości, fotoradarów i nazw stacji. Zostaw puste dla serwerów publicznych.</string>
     <plurals name="api_keys_set_count">

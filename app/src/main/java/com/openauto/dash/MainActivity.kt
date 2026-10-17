@@ -195,7 +195,7 @@ class MainActivity : ComponentActivity() {
                     { MapServers.load(this) },
                     // A Peugeot / Citroën / DS: the car's warnings asked for at each start, tile or none.
                     { PsaTripComputer.start(this) },
-                    // Tasker and the like, once the driver allowed them (Settings, System).
+                    // Tasker and the like, once the driver allowed them (Settings, Phone and screens).
                     { Automation.start(this) },
                     // The tyres from the TPMS sensors, and their warnings.
                     { Tyres.start(this) },

@@ -126,7 +126,7 @@
     <string name="car_fetch_ok">Adatok kitöltve: ellenőrizze, majd Mentés</string>
     <string name="car_fetch_failed">Az adatok nem kérhetők le: %1$s</string>
     <string name="car_fetch_no_key">előbb adjon meg egy Gemini-kulcsot: Beállítások → Autó → AI-szerelő</string>
-    <string name="car_fetch_needs_key">Az adatok kitöltéséhez adjon meg egy Gemini-kulcsot: Beállítások, Autó, AI-szerelő</string>
+    <string name="car_fetch_needs_key">Az adatok kitöltéséhez adjon meg egy Gemini-kulcsot: Beállítások, Diagnosztika, AI-szerelő</string>
     <string name="car_section_engine">Motor</string>
     <string name="car_section_gearbox">Sebességváltó</string>
     <string name="car_section_upkeep">Karbantartás</string>

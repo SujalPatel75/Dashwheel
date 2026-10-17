@@ -256,16 +256,9 @@
     <string name="settings_deepobd_field_ignored">Figyelmen kívül</string>
     <!-- Settings rework: groups, overview, search (SettingsScreen.kt, SettingsOverview.kt) -->
     <string name="settings_overview">Áttekintés</string>
-    <string name="settings_section_connections">Kapcsolatok</string>
-    <string name="settings_section_sound_voice">Hang és beszéd</string>
-    <string name="settings_section_popups">Felugró ablakok</string>
-    <string name="settings_section_system">Rendszer</string>
     <string name="settings_section_volume">Hangerő</string>
     <string name="settings_section_taps_music">Érintés és zene</string>
     <string name="settings_section_more_tools">További eszközök</string>
-    <string name="settings_show_all">Összes beállítás</string>
-    <string name="settings_show_fewer">Kevesebb beállítás</string>
-    <string name="settings_show_fewer_detail">Csak a szokásosak maradjanak itt</string>
     <string name="settings_lab">Labor</string>
     <string name="settings_lab_detail">Még tesztelés alatt álló eszközök és a fejegység naplója</string>
     <string name="dead_strip_title">Halott érintősáv</string>
@@ -299,7 +292,6 @@
     <string name="settings_ov_not_allowed">Még nincs engedélyezve: %1$s</string>
     <string name="settings_ov_not_allowed_detail">Néhány csempe és hangos üzenet erre vár</string>
     <string name="settings_ov_allow">Engedélyezés</string>
-    <string name="settings_sum_popups_none">Stílus minden riasztáshoz</string>
     <plurals name="settings_root_more">
         <item quantity="one">Még %d funkcióhoz root kell ezen a fejegységen</item>
         <item quantity="other">Még %d funkcióhoz root kell ezen a fejegységen</item>
@@ -361,4 +353,23 @@
     <string name="settings_waze_wake_delay_detail">Utána még legfeljebb egy perc a helyadatokra és a mobiladatra</string>
     <string name="settings_waze_wake_seconds">%1$d mp</string>
     <string name="settings_waze_wake_locked">A Waze bezárásához root vagy a fejegység ADB-je szükséges</string>
+    <!-- Settings regrouped 2026-10-17: categories, overview tiles and the Alerts grid -->
+    <string name="settings_section_alerts">Figyelmeztetések</string>
+    <string name="settings_section_dashboard">Műszerfal</string>
+    <string name="settings_section_devices">Telefon és kijelzők</string>
+    <string name="settings_section_general">Általános</string>
+    <string name="settings_section_expert">Haladó</string>
+    <string name="settings_section_upkeep">Szerviz és üzemanyag</string>
+    <string name="settings_section_screens_apps">Kijelzők és alkalmazások</string>
+    <string name="settings_section_access">Firmware és hozzáférés</string>
+    <string name="settings_section_region">Nyelv és mértékegységek</string>
+    <string name="settings_sum_sound">Hangerő, érintések és zene</string>
+    <string name="settings_sum_dashboard">Sáv, oldalsáv és lapok</string>
+    <string name="settings_sum_expert">Labor, API-kulcsok, szerverek</string>
+    <string name="alerts_say">Mondja</string>
+    <string name="alerts_show">Mutassa</string>
+    <string name="alerts_intro">A Mondja felolvassa, a Mutassa megjeleníti a Dashwheel ablakát. Koppintson egy ablakra a kinézetéért.</string>
+    <string name="alerts_group_car">Az autóból</string>
+    <string name="alerts_group_road">Útközben</string>
+    <string name="alerts_group_start">Induláskor</string>
 </resources>

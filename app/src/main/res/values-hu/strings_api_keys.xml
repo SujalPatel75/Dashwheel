@@ -14,7 +14,7 @@
     <string name="api_keys_gemini_uses">AI-szerelő, kimondott válaszok és az asszisztens</string>
     <string name="api_keys_tankerkoenig">Tankerkönig-kulcs</string>
     <string name="api_keys_tankerkoenig_uses">Üzemanyagárak Németországban</string>
-    <string name="fuel_needs_tankerkoenig">A németországi árakhoz Tankerkönig-kulcs kell: Beállítások, Rendszer, API-kulcsaid</string>
+    <string name="fuel_needs_tankerkoenig">A németországi árakhoz Tankerkönig-kulcs kell: Beállítások, Haladó, API-kulcsaid</string>
     <string name="map_servers_overpass">Overpass-szerver</string>
     <string name="map_servers_overpass_detail">Sebességkorlátokhoz, traffipaxokhoz és töltőállomás-nevekhez. Hagyd üresen a nyilvános szerverekhez.</string>
     <plurals name="api_keys_set_count">

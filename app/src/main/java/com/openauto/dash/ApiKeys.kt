@@ -38,7 +38,7 @@ import kotlinx.coroutines.flow.StateFlow
 
 /*
  * The keys a driver brings for the services Dashwheel asks on their behalf
- * (Settings → System → Your API keys). One place to see which are set and to
+ * (Settings → Expert → Your API keys). One place to see which are set and to
  * paste a new one, with where to get it as a QR code for the phone. A
  * feature's own page may still take its key too (the AI mechanic's does,
  * with its Test button): both read and write the same store.
@@ -119,7 +119,7 @@ internal object ApiKeys {
     private fun prefs(context: Context) = context.applicationContext.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
 }
 
-/** Settings → System → Your API keys: one field per service, saved on leaving. */
+/** Settings → Expert → Your API keys: one field per service, saved on leaving. */
 @Composable
 internal fun ApiKeysSheet(onDismiss: () -> Unit) {
     val context = LocalContext.current

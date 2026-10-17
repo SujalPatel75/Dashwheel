@@ -126,7 +126,7 @@
     <string name="car_fetch_ok">Ficha rellenada: revísala y pulsa Guardar</string>
     <string name="car_fetch_failed">No se pudo obtener la ficha: %1$s</string>
     <string name="car_fetch_no_key">primero añade una clave de Gemini en Ajustes → Coche → Mecánico IA</string>
-    <string name="car_fetch_needs_key">Añade una clave de Gemini en Ajustes, Coche, Mecánico IA para rellenar la ficha</string>
+    <string name="car_fetch_needs_key">Añade una clave de Gemini en Ajustes, Diagnóstico, Mecánico IA para rellenar la ficha</string>
     <string name="car_section_engine">Motor</string>
     <string name="car_section_gearbox">Caja de cambios</string>
     <string name="car_section_upkeep">Mantenimiento</string>

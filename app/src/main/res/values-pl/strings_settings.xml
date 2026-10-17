@@ -255,16 +255,9 @@
     <string name="settings_deepobd_field_ignored">Pominięty</string>
     <!-- Settings rework: groups, overview, search (SettingsScreen.kt, SettingsOverview.kt) -->
     <string name="settings_overview">Przegląd</string>
-    <string name="settings_section_connections">Połączenia</string>
-    <string name="settings_section_sound_voice">Dźwięk i głos</string>
-    <string name="settings_section_popups">Okienka</string>
-    <string name="settings_section_system">System</string>
     <string name="settings_section_volume">Głośność</string>
     <string name="settings_section_taps_music">Dotyk i muzyka</string>
     <string name="settings_section_more_tools">Więcej narzędzi</string>
-    <string name="settings_show_all">Wszystkie ustawienia</string>
-    <string name="settings_show_fewer">Mniej ustawień</string>
-    <string name="settings_show_fewer_detail">Zostaw tu tylko te zwykłe</string>
     <string name="settings_lab">Laboratorium</string>
     <string name="settings_lab_detail">Narzędzia w testach i dziennik urządzenia</string>
     <string name="dead_strip_title">Martwy pas dotyku</string>
@@ -298,7 +291,6 @@
     <string name="settings_ov_not_allowed">Jeszcze niedozwolone: %1$s</string>
     <string name="settings_ov_not_allowed_detail">Czekają na to niektóre kafelki i czytane wiadomości</string>
     <string name="settings_ov_allow">Zezwól</string>
-    <string name="settings_sum_popups_none">Styl dla każdego alertu</string>
     <plurals name="settings_root_more">
         <item quantity="one">Jeszcze %d wymaga roota na tym urządzeniu</item>
         <item quantity="few">Jeszcze %d wymagają roota na tym urządzeniu</item>
@@ -368,4 +360,23 @@
     <string name="settings_waze_wake_delay_detail">Potem do minuty dłużej na lokalizację i dane</string>
     <string name="settings_waze_wake_seconds">%1$d s</string>
     <string name="settings_waze_wake_locked">Do zamknięcia Waze potrzebny jest root lub ADB radia</string>
+    <!-- Settings regrouped 2026-10-17: categories, overview tiles and the Alerts grid -->
+    <string name="settings_section_alerts">Alerty</string>
+    <string name="settings_section_dashboard">Pulpit</string>
+    <string name="settings_section_devices">Telefon i ekrany</string>
+    <string name="settings_section_general">Ogólne</string>
+    <string name="settings_section_expert">Zaawansowane</string>
+    <string name="settings_section_upkeep">Serwis i paliwo</string>
+    <string name="settings_section_screens_apps">Ekrany i aplikacje</string>
+    <string name="settings_section_access">Oprogramowanie i dostęp</string>
+    <string name="settings_section_region">Język i jednostki</string>
+    <string name="settings_sum_sound">Głośność, dotyk i muzyka</string>
+    <string name="settings_sum_dashboard">Pasek, panel boczny i karty</string>
+    <string name="settings_sum_expert">Laboratorium, klucze API, serwery</string>
+    <string name="alerts_say">Mów</string>
+    <string name="alerts_show">Pokaż</string>
+    <string name="alerts_intro">Mów odczytuje to na głos, Pokaż wyświetla okno Dashwheel. Dotknij okna, aby wybrać jego wygląd.</string>
+    <string name="alerts_group_car">Z samochodu</string>
+    <string name="alerts_group_road">Na drodze</string>
+    <string name="alerts_group_start">Na starcie</string>
 </resources>

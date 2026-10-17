@@ -128,7 +128,7 @@
     <string name="car_fetch_ok">Duomenys užpildyti: patikrinkite ir spauskite Išsaugoti</string>
     <string name="car_fetch_failed">Nepavyko gauti duomenų: %1$s</string>
     <string name="car_fetch_no_key">pirmiausia pridėkite Gemini raktą: Nustatymai → Automobilis → DI mechanikas</string>
-    <string name="car_fetch_needs_key">Kad užpildytumėte duomenis, pridėkite Gemini raktą: Nustatymai, Automobilis, DI mechanikas</string>
+    <string name="car_fetch_needs_key">Kad užpildytumėte duomenis, pridėkite Gemini raktą: Nustatymai, Diagnostika, DI mechanikas</string>
     <string name="car_section_engine">Variklis</string>
     <string name="car_section_gearbox">Pavarų dėžė</string>
     <string name="car_section_upkeep">Techninė priežiūra</string>

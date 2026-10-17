@@ -128,7 +128,7 @@
     <string name="car_fetch_ok">Данные заполнены: проверьте и нажмите «Сохранить»</string>
     <string name="car_fetch_failed">Не удалось получить данные: %1$s</string>
     <string name="car_fetch_no_key">сначала добавьте ключ Gemini в Настройки → Автомобиль → ИИ-механик</string>
-    <string name="car_fetch_needs_key">Добавьте ключ Gemini в Настройки, Автомобиль, ИИ-механик, чтобы заполнить данные</string>
+    <string name="car_fetch_needs_key">Добавьте ключ Gemini в Настройки, Диагностика, ИИ-механик, чтобы заполнить данные</string>
     <string name="car_section_engine">Двигатель</string>
     <string name="car_section_gearbox">Коробка передач</string>
     <string name="car_section_upkeep">Обслуживание</string>

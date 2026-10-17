@@ -126,7 +126,7 @@
     <string name="car_fetch_ok">Specs filled in: check them, then Save</string>
     <string name="car_fetch_failed">Couldn\'t fetch the specs: %1$s</string>
     <string name="car_fetch_no_key">add a Gemini key in Settings → Car → AI mechanic first</string>
-    <string name="car_fetch_needs_key">Add a Gemini key in Settings, Car, AI mechanic to fill the specs</string>
+    <string name="car_fetch_needs_key">Add a Gemini key in Settings, Diagnostics, AI mechanic to fill the specs</string>
     <string name="car_section_engine">Engine</string>
     <string name="car_section_gearbox">Gearbox</string>
     <string name="car_section_upkeep">Servicing</string>

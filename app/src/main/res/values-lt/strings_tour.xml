@@ -42,7 +42,7 @@
     <string name="tour_wheel_voice">Balso asistentas</string>
     <string name="tour_wheel_alerts">Balso įspėjimai</string>
     <string name="tour_done_title">Viskas paruošta</string>
-    <string name="tour_done_body">Šią apžvalgą bet kada vėl rasite: Nustatymai, Sistema, Apie.</string>
+    <string name="tour_done_body">Šią apžvalgą bet kada vėl rasite: Nustatymai, Bendra, Apie.</string>
     <string name="tour_start_driving">Pradėti važiuoti</string>
     <string name="tour_settings_row">Pagrindų apžvalga</string>
     <string name="tour_settings_row_detail">Šeši trumpi patarimai apie skydelį</string>

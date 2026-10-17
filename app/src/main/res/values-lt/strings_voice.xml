@@ -15,7 +15,7 @@
     <string name="voice_lpg_detail">Pasako, kai antrajame bake lieka mažai</string>
     <string name="voice_menu_quiet">Tyla</string>
     <string name="voice_menu_back">Įjungti balsą</string>
-    <string name="voice_where">Ką automobilis sako savaime, nustatoma: Nustatymai, Garsas ir balsas.</string>
+    <string name="voice_where">Ką automobilis sako savaime, nustatoma: Nustatymai, Įspėjimai.</string>
 
     <!-- Spoken -->
     <string name="voice_say_message">Žinutė nuo %1$s</string>

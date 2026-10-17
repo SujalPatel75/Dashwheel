@@ -255,16 +255,9 @@
     <string name="settings_deepobd_field_ignored">Ignorée</string>
     <!-- Settings rework: groups, overview, search (SettingsScreen.kt, SettingsOverview.kt) -->
     <string name="settings_overview">Vue d\'ensemble</string>
-    <string name="settings_section_connections">Connexions</string>
-    <string name="settings_section_sound_voice">Son et voix</string>
-    <string name="settings_section_popups">Pop-ups</string>
-    <string name="settings_section_system">Système</string>
     <string name="settings_section_volume">Volume</string>
     <string name="settings_section_taps_music">Touches et musique</string>
     <string name="settings_section_more_tools">Autres outils</string>
-    <string name="settings_show_all">Tous les réglages</string>
-    <string name="settings_show_fewer">Moins de réglages</string>
-    <string name="settings_show_fewer_detail">Ne garder ici que les plus courants</string>
     <string name="settings_lab">Labo</string>
     <string name="settings_lab_detail">Outils encore à l\'essai, et le journal de l\'unité</string>
     <string name="dead_strip_title">Bande tactile morte</string>
@@ -298,7 +291,6 @@
     <string name="settings_ov_not_allowed">Pas encore autorisé : %1$s</string>
     <string name="settings_ov_not_allowed_detail">Des tuiles et des messages lus l\'attendent</string>
     <string name="settings_ov_allow">Autoriser</string>
-    <string name="settings_sum_popups_none">Un style pour chaque alerte</string>
     <plurals name="settings_root_more">
         <item quantity="one">%d de plus avec le root sur cette unité</item>
         <item quantity="many">%d de plus avec le root sur cette unité</item>
@@ -364,4 +356,23 @@
     <string name="settings_waze_wake_delay_detail">Puis jusqu\'à une minute de plus pour la localisation et les données</string>
     <string name="settings_waze_wake_seconds">%1$d s</string>
     <string name="settings_waze_wake_locked">Il faut le root ou l\'ADB de l\'autoradio pour fermer Waze</string>
+    <!-- Settings regrouped 2026-10-17: categories, overview tiles and the Alerts grid -->
+    <string name="settings_section_alerts">Alertes</string>
+    <string name="settings_section_dashboard">Tableau de bord</string>
+    <string name="settings_section_devices">Téléphone et écrans</string>
+    <string name="settings_section_general">Général</string>
+    <string name="settings_section_expert">Expert</string>
+    <string name="settings_section_upkeep">Entretien et carburant</string>
+    <string name="settings_section_screens_apps">Écrans et applis</string>
+    <string name="settings_section_access">Firmware et accès</string>
+    <string name="settings_section_region">Langue et unités</string>
+    <string name="settings_sum_sound">Volume, touches et musique</string>
+    <string name="settings_sum_dashboard">Barre, rail latéral et onglets</string>
+    <string name="settings_sum_expert">Labo, clés API, serveurs</string>
+    <string name="alerts_say">Dire</string>
+    <string name="alerts_show">Afficher</string>
+    <string name="alerts_intro">Dire l\'annonce à voix haute, Afficher montre la fenêtre de Dashwheel. Touchez une fenêtre pour choisir son style.</string>
+    <string name="alerts_group_car">De la voiture</string>
+    <string name="alerts_group_road">Sur la route</string>
+    <string name="alerts_group_start">Au départ</string>
 </resources>

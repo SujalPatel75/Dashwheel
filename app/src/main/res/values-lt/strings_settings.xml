@@ -256,16 +256,9 @@
     <string name="settings_deepobd_field_ignored">Ignoruojama</string>
     <!-- Settings rework: groups, overview, search (SettingsScreen.kt, SettingsOverview.kt) -->
     <string name="settings_overview">Apžvalga</string>
-    <string name="settings_section_connections">Ryšiai</string>
-    <string name="settings_section_sound_voice">Garsas ir balsas</string>
-    <string name="settings_section_popups">Iššokantys langai</string>
-    <string name="settings_section_system">Sistema</string>
     <string name="settings_section_volume">Garsumas</string>
     <string name="settings_section_taps_music">Palietimai ir muzika</string>
     <string name="settings_section_more_tools">Daugiau įrankių</string>
-    <string name="settings_show_all">Rodyti visus nustatymus</string>
-    <string name="settings_show_fewer">Rodyti mažiau nustatymų</string>
-    <string name="settings_show_fewer_detail">Čia palikti tik įprastus</string>
     <string name="settings_lab">Laboratorija</string>
     <string name="settings_lab_detail">Dar bandomi įrankiai ir magnetolos žurnalas</string>
     <!-- Lab: a touchscreen that misses touches in one upright strip (DeadTouchStrip.kt) -->
@@ -300,7 +293,6 @@
     <string name="settings_ov_not_allowed">Dar neleista: %1$s</string>
     <string name="settings_ov_not_allowed_detail">Kai kurios plytelės ir balso pranešimai to laukia</string>
     <string name="settings_ov_allow">Leisti</string>
-    <string name="settings_sum_popups_none">Dizainai kiekvienam įspėjimui</string>
     <plurals name="settings_root_more">
         <item quantity="one">Dar %d šioje magnetoloje reikia root</item>
         <item quantity="few">Dar %d šioje magnetoloje reikia root</item>
@@ -370,4 +362,23 @@
     <string name="settings_waze_wake_delay_detail">Tada dar iki minutės vietovei ir duomenims</string>
     <string name="settings_waze_wake_seconds">%1$d s</string>
     <string name="settings_waze_wake_locked">Norint uždaryti Waze, reikia root arba magnetolos ADB</string>
+    <!-- Settings regrouped 2026-10-17: categories, overview tiles and the Alerts grid -->
+    <string name="settings_section_alerts">Įspėjimai</string>
+    <string name="settings_section_dashboard">Skydelis</string>
+    <string name="settings_section_devices">Telefonas ir ekranai</string>
+    <string name="settings_section_general">Bendra</string>
+    <string name="settings_section_expert">Pažangūs</string>
+    <string name="settings_section_upkeep">Aptarnavimas ir kuras</string>
+    <string name="settings_section_screens_apps">Ekranai ir programos</string>
+    <string name="settings_section_access">Programinė įranga ir prieiga</string>
+    <string name="settings_section_region">Kalba ir vienetai</string>
+    <string name="settings_sum_sound">Garsumas, palietimai ir muzika</string>
+    <string name="settings_sum_dashboard">Juosta, šoninė juosta ir skirtukai</string>
+    <string name="settings_sum_expert">Laboratorija, API raktai, serveriai</string>
+    <string name="alerts_say">Sakyti</string>
+    <string name="alerts_show">Rodyti</string>
+    <string name="alerts_intro">Sakyti perskaito garsiai, Rodyti parodo Dashwheel langą ekrane. Palieskite langą, kad pasirinktumėte jo išvaizdą.</string>
+    <string name="alerts_group_car">Iš automobilio</string>
+    <string name="alerts_group_road">Kelyje</string>
+    <string name="alerts_group_start">Pradedant kelionę</string>
 </resources>

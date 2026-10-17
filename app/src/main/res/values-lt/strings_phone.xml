@@ -56,8 +56,8 @@
     <!-- Text typed on the phone, for the field selected on the car screen (PhoneKeyboard). -->
     <string name="phone_text_copied">Tekstas iš telefono nukopijuotas: palaikykite teksto lauką, kad jį įklijuotumėte</string>
     <!-- Quick dial and Agenda from the phone, and places sent from it (PhoneLink, InfoTiles, NavHandoff). -->
-    <string name="phone_quickdial_empty">Susiekite telefoną skiltyje Nustatymai, Ryšiai, kad matytumėte čia jo mėgstamuosius</string>
-    <string name="phone_agenda_empty">Susiekite telefoną skiltyje Nustatymai, Ryšiai, kad matytumėte čia jo darbotvarkę</string>
+    <string name="phone_quickdial_empty">Susiekite telefoną skiltyje Nustatymai, Telefonas ir ekranai, kad matytumėte čia jo mėgstamuosius</string>
+    <string name="phone_agenda_empty">Susiekite telefoną skiltyje Nustatymai, Telefonas ir ekranai, kad matytumėte čia jo darbotvarkę</string>
     <string name="phone_call_back">Perskambinti: %1$s</string>
     <string name="phone_calling">Skambinama: %1$s</string>
     <string name="phone_dial_not_allowed">Kad galėtumėte skambinti iš čia, Dashwheel Companion leiskite Skambučius.</string>

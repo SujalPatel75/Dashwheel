@@ -35,7 +35,7 @@ import com.openauto.unitproto.UnitFamily
 import kotlinx.coroutines.launch
 
 /*
- * Settings → System → Head unit: which firmware family the unit was found to
+ * Settings → Head unit: which firmware family the unit was found to
  * run ([UnitPlatform]), the driver's say when the detector got it wrong,
  * what that firmware lets Dashwheel do and what each feature still needs,
  * and what keeps Dashwheel alive through the unit's sleep.

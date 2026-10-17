@@ -14,7 +14,7 @@
     <string name="api_keys_gemini_uses">AI-monteur, gesproken antwoorden en assistent</string>
     <string name="api_keys_tankerkoenig">Tankerkönig-sleutel</string>
     <string name="api_keys_tankerkoenig_uses">Brandstofprijzen in Duitsland</string>
-    <string name="fuel_needs_tankerkoenig">Prijzen in Duitsland vragen een Tankerkönig-sleutel: Instellingen, Systeem, Je API-sleutels</string>
+    <string name="fuel_needs_tankerkoenig">Prijzen in Duitsland vragen een Tankerkönig-sleutel: Instellingen, Expert, Je API-sleutels</string>
     <string name="map_servers_overpass">Overpass-server</string>
     <string name="map_servers_overpass_detail">Voor snelheidslimieten, flitsers en namen van tankstations. Leeg laten voor de publieke servers.</string>
     <plurals name="api_keys_set_count">
