@@ -255,4 +255,22 @@
     <string name="reg_offline">Collegati all\'auto per inviarlo</string>
     <string name="reg_again">Scansiona di nuovo</string>
     <string name="dash_share_sent">Dashboard inviata all\'auto: guardala sullo schermo</string>
+    <string name="rescue_title">Soccorso</string>
+    <string name="rescue_detail">Bloccato fuori dallo schermo dell\'auto? Risolvi da qui.</string>
+    <string name="rescue_offline">Collega l\'auto per usarli</string>
+    <string name="rescue_wheel">Cancella tasti al volante</string>
+    <string name="rescue_wheel_body">Ogni tasto al volante torna a fare ciò che l\'unità fa da sola.</string>
+    <string name="rescue_look">Aspetto Standard</string>
+    <string name="rescue_look_body">L\'auto torna all\'aspetto Standard, con la barra in basso.</string>
+    <string name="rescue_split">Esci dallo schermo diviso</string>
+    <string name="rescue_split_body">Lo schermo dell\'auto smette di essere condiviso con un\'altra app.</string>
+    <string name="rescue_home_back">Ridai la Home all\'unità</string>
+    <string name="rescue_home_back_body">Il launcher dell\'unità torna a essere la schermata Home. Dashwheel resta nell\'elenco app.</string>
+    <string name="rescue_home_take">Dashwheel di nuovo Home</string>
+    <string name="rescue_home_take_body">Dashwheel torna a essere la schermata Home dell\'auto.</string>
+    <string name="rescue_send">Esegui</string>
+    <string name="rescue_sending">Invio all\'auto</string>
+    <string name="rescue_done">Fatto sull\'auto</string>
+    <string name="rescue_failed">L\'auto non è riuscita</string>
+    <string name="rescue_no_answer">Nessuna risposta: aggiorna Dashwheel sull\'auto.</string>
 </resources>

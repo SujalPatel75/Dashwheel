@@ -101,8 +101,13 @@ internal object RootShell {
      * opens a new one. Both output streams come back as one ([Output.out]).
      * [shell] is `su`; a test hands it a plain shell. The Play edition never
      * opens `su` (a test's plain shell is still allowed).
+     *
+     * Killing the `su` client alone leaves the root shell and the stuck
+     * command (often `am`, a whole JVM) running: a session that timed out
+     * kills them as well ([killTree]), else each timeout left another behind
+     * and a unit already slow got slower with every one, until a reboot.
      */
-    class Session(shell: String = "su") {
+    class Session(private val shell: String = "su") {
         init {
             check(Edition.full || shell != "su") { SystemInstaller.NO_ROOT_PLAY }
         }
@@ -118,6 +123,9 @@ internal object RootShell {
                 lines.put(GONE)
             }, "su-session").apply { isDaemon = true; start() }
         }
+
+        /** The shell's own pid (`$$` is the root shell's, also in the subshell), for [killTree]. */
+        private val pid: Int? = runCatching { run("echo \$\$", 8).out.trim().toIntOrNull() }.getOrNull()
 
         /** Whether the shell is still there to take a command. */
         val alive: Boolean get() = process.isAlive
@@ -140,6 +148,7 @@ internal object RootShell {
             while (true) {
                 val wait = deadline - System.nanoTime()
                 val line = (if (wait > 0) lines.poll(wait, TimeUnit.NANOSECONDS) else null) ?: run {
+                    killTree()
                     close()
                     throw IllegalStateException("su timed out")
                 }
@@ -160,12 +169,28 @@ internal object RootShell {
             process.destroy()
         }
 
+        /** Kills the shell and everything it started, children first, from a shell of its own. */
+        private fun killTree() {
+            val pid = pid ?: return
+            val script = killTreeScript(pid)
+            thread(name = "su-session-kill", isDaemon = true) {
+                runCatching {
+                    if (shell == "su") su(script, 5)
+                    else Runtime.getRuntime().exec(arrayOf(shell, "-c", script)).waitFor(5, TimeUnit.SECONDS)
+                }.onFailure { Log.w("RootShell", "could not end a stuck shell", it) }
+            }
+        }
+
         private companion object {
             /** Ends each command's output, followed by its exit status. */
             const val MARK = "__DW_END__"
 
             /** Queued once the shell's output ends: it has gone. */
             val GONE = String()
+
+            /** The shell line that kills [pid] and all its descendants, deepest first. Pure, for the tests. */
+            fun killTreeScript(pid: Int): String =
+                "k() { for c in \$(pgrep -P \$1); do k \$c; done; kill -9 \$1; }; k $pid 2>/dev/null"
         }
     }
 }

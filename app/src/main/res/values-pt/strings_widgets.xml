@@ -161,4 +161,13 @@
     <string name="widgets_now_event_at">Às %1$s, daqui a %2$s</string>
 
     <string name="widgets_switch_look">Aspeto</string>
+    <string name="widgets_switch_screen_off">Desligar ecrã</string>
+    <string name="widgets_switch_mobile_data">Dados móveis</string>
+    <string name="widgets_switch_mute_detail">Volume da música a zero e de volta</string>
+    <string name="widgets_switch_look_detail">Aspeto de dia, de noite ou automático</string>
+    <string name="widgets_switch_dnd_detail">Silencia chamadas e notificações</string>
+    <string name="widgets_switch_wifi_detail">Liga ou desliga o Wi-Fi</string>
+    <string name="widgets_switch_bluetooth_detail">Liga ou desliga o Bluetooth</string>
+    <string name="widgets_switch_mobile_data_detail">Liga ou desliga os dados do cartão SIM</string>
+    <string name="widgets_switch_screen_off_detail">Desliga o ecrã como a tecla do aparelho</string>
 </resources>

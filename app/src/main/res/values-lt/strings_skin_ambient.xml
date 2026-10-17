@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Ambient skin -->
+    <string name="ambient_turn_left">Kairėn po %1$s</string>
+    <string name="ambient_turn_right">Dešinėn po %1$s</string>
+    <string name="ambient_turn_in">Po %1$s</string>
+    <string name="ambient_talk">Kalbėti</string>
+    <string name="ambient_talk_cd">Kalbėti su asistentu</string>
+    <string name="ambient_listening">Klausausi</string>
+    <string name="ambient_speed_limit_cd">Greičio riba %1$d</string>
+    <string name="ambient_rpm">rpm</string>
+    <string name="ambient_coolant">Aušinimas %1$s</string>
+    <string name="ambient_battery">Akumuliatorius %1$s</string>
+    <string name="ambient_load">Apkrova %1$s</string>
+    <string name="ambient_fuel">Degalai %1$d %%</string>
+    <string name="ambient_launch_bar_empty">Programų dar nėra. Palieskite pieštuką ir pridėkite.</string>
+</resources>

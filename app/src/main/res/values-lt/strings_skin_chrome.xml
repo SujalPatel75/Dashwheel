@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Chrome skin -->
+    <string name="chrome_talk_cd">Kalbėti su asistentu</string>
+    <string name="chrome_navigation">Navigacija</string>
+    <string name="chrome_left_in">Kairėn po</string>
+    <string name="chrome_right_in">Dešinėn po</string>
+    <string name="chrome_next_in">Kitas posūkis po</string>
+    <string name="chrome_arrival">Atvykimas</string>
+    <string name="chrome_to_go">Liko</string>
+    <string name="chrome_limit">Riba %1$d</string>
+    <string name="chrome_range">Atstumas</string>
+    <string name="chrome_fuel">Degalai</string>
+    <string name="chrome_revs">Apsukos</string>
+    <string name="chrome_coolant">Aušinimas</string>
+    <string name="chrome_battery">Akumuliatorius</string>
+    <string name="chrome_load">Apkrova</string>
+    <string name="chrome_engine">Variklis</string>
+    <string name="chrome_weather">Orai</string>
+    <string name="chrome_launch_bar_empty">Programų dar nėra. Palieskite pieštuką ir pridėkite.</string>
+</resources>

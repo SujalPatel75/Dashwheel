@@ -124,7 +124,7 @@ android {
     androidResources {
         // The languages the app is translated into (see tools/check_translations.py);
         // drops the dozens of others the libraries bring, keeping the APK small.
-        localeFilters += listOf("en", "fr", "de", "es", "it", "pt", "nl", "pl", "ru", "hu")
+        localeFilters += listOf("en", "fr", "de", "es", "it", "pt", "nl", "pl", "ru", "hu", "lt")
     }
 
     // The language can be switched inside the app, so every build carries them all.
@@ -226,6 +226,8 @@ dependencies {
     implementation("com.google.android.gms:play-services-mlkit-text-recognition:19.0.1")
     // Phone link: the protocol shared with the companion app, and the pairing QR code.
     implementation(project(":link"))
+    // Head unit firmware families: detection rules and vendor wire formats (UnitPlatform.kt).
+    implementation(project(":unitproto"))
     implementation("com.google.zxing:core:3.5.3")
     // USB OBD adapters (UsbObd.kt): FTDI, CH34x, PL2303, CP210x and CDC serial chips over Android's USB host API.
     implementation("com.github.mik3y:usb-serial-for-android:3.10.0")

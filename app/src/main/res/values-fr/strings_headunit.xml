@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Settings, System, Head unit: the firmware family and what it offers (HeadUnitCard.kt). -->
+<resources>
+    <string name="unit_card_title">Autoradio</string>
+    <string name="unit_detected">%1$s, détecté</string>
+    <string name="unit_chosen">%1$s, votre choix</string>
+    <string name="unit_choose_title">Mon autoradio est</string>
+    <string name="unit_auto">Automatique</string>
+    <string name="unit_restart">Redémarrer Dashwheel</string>
+    <string name="unit_restart_hint">Le choix prend effet au prochain démarrage de Dashwheel.</string>
+    <string name="unit_caps_section">Ce que ce firmware permet</string>
+    <string name="unit_state_live">Fonctionne</string>
+    <string name="unit_state_ready">Prêt</string>
+    <string name="unit_needs_settings">Demande la permission des réglages ou un shell</string>
+    <string name="unit_needs_shell">Demande root, Shizuku ou l\'ADB de l\'autoradio</string>
+    <string name="unit_needs_root">Demande root</string>
+    <string name="unit_survival_section">Rester éveillé pendant la veille</string>
+    <string name="unit_apply">Appliquer</string>
+    <string name="unit_applied">Fait</string>
+    <string name="unit_open_whitelist">Ouvrir l\'appli de liste blanche</string>
+    <string name="unit_fyt_keys_title">Prendre les touches du volant</string>
+    <string name="unit_fyt_keys_detail">Après un redémarrage, le firmware confie ses touches du volant et de la façade à Dashwheel. Ses propres applis les perdent pendant ce temps.</string>
+    <string name="unit_needs_firmware">Demande le firmware %1$s</string>
+    <string name="unit_family_qf">QF (Hizpo, ROCO K706)</string>
+    <string name="unit_family_fyt">FYT (Joying, Atoto, Mekede)</string>
+    <string name="unit_family_mtc">Microntek (Dasaita, Xtrons, Eonon)</string>
+    <string name="unit_family_topway">Topway TS</string>
+    <string name="unit_family_reglink">Reglink (MediaTek)</string>
+    <string name="unit_family_allwinner">Allwinner</string>
+    <string name="unit_family_nwd">Nowadays</string>
+    <string name="unit_family_generic">Android simple</string>
+    <string name="unit_cap_ignition">Contact</string>
+    <string name="unit_cap_bus">Bus de données de la voiture</string>
+    <string name="unit_cap_doors">Portes</string>
+    <string name="unit_cap_steering">Angle du volant</string>
+    <string name="unit_cap_climate">Climatisation</string>
+    <string name="unit_cap_body">Ordinateur de bord</string>
+    <string name="unit_cap_speed">Vitesse et régime</string>
+    <string name="unit_cap_volts">Tension de la batterie</string>
+    <string name="unit_cap_temp">Température extérieure</string>
+    <string name="unit_cap_phone">Appels sur l\'autoradio</string>
+    <string name="unit_cap_media">Lecteurs de l\'autoradio</string>
+    <string name="unit_cap_volume">Volume de l\'autoradio</string>
+    <string name="unit_cap_launcher">Choix du lanceur par le firmware</string>
+    <string name="unit_cap_popups">Pop-ups du firmware remplacés</string>
+    <string name="unit_cap_camera">Caméra de recul</string>
+    <string name="unit_cap_tyres">Pneus</string>
+</resources>

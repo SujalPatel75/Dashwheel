@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Your API keys (ApiKeys.kt), Settings → System; and the Overpass server on the map servers page -->
+    <string name="api_keys_title">Jūsų API raktai</string>
+    <string name="api_keys_search_detail">Raktai paslaugoms, į kurias Dashwheel kreipiasi už jus, pirmiausia Gemini</string>
+    <string name="api_keys_none">Raktas nenustatytas</string>
+    <string name="api_keys_explanation">Kai kurios funkcijos kreipiasi į paslaugą, kuriai reikia jūsų rakto. Įklijuokite jį čia: jis lieka šioje magnetoloje ir siunčiamas tik tai paslaugai.</string>
+    <string name="api_keys_paste">Įklijuoti raktą</string>
+    <string name="api_keys_show">Rodyti raktą</string>
+    <string name="api_keys_hide">Slėpti raktą</string>
+    <string name="api_keys_set">Nustatytas</string>
+    <string name="api_keys_not_set">Nenustatytas</string>
+    <string name="api_keys_get">Gauti raktą</string>
+    <string name="api_keys_gemini_uses">DI mechanikas, balso atsakymai ir asistentas</string>
+    <string name="api_keys_tankerkoenig">Tankerkönig raktas</string>
+    <string name="api_keys_tankerkoenig_uses">Degalų kainos Vokietijoje</string>
+    <string name="fuel_needs_tankerkoenig">Kainoms Vokietijoje reikia Tankerkönig rakto: Nustatymai, Pažangūs, Jūsų API raktai</string>
+    <string name="map_servers_overpass">Overpass serveris</string>
+    <string name="map_servers_overpass_detail">Greičio apribojimams, greičio kameroms ir degalinių pavadinimams. Palikite tuščią viešiems serveriams.</string>
+    <plurals name="api_keys_set_count">
+        <item quantity="one">Nustatytas %d raktas</item>
+        <item quantity="few">Nustatyti %d raktai</item>
+        <item quantity="many">Nustatyta %d rakto</item>
+        <item quantity="other">Nustatyta %d raktų</item>
+    </plurals>
+</resources>

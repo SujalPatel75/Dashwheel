@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- The driver's places (Places.kt): Settings -> Driving, the map tile, the steering wheel buttons -->
+    <string name="places_title">Mano vietos</string>
+    <string name="places_detail_empty">Namai ir darbas, vienu lietimu ar mygtuku</string>
+    <string name="places_explanation">Nustatykite vieną kartą. Tada jos rodomos žemėlapio plytelėje.</string>
+    <string name="places_home">Namai</string>
+    <string name="places_work">Darbas</string>
+    <string name="places_not_set">Nenustatyta</string>
+    <string name="places_address_hint">Adresas ar vieta</string>
+    <string name="places_find">Rasti</string>
+    <string name="places_here">Automobilis čia</string>
+    <string name="places_forget">Pamiršti</string>
+    <string name="places_recent">Paskutinės kryptys</string>
+    <string name="places_forget_recent">Išvalyti sąrašą</string>
+    <string name="places_offline">Nėra ryšio</string>
+    <string name="places_no_nav_app">Šioje magnetoloje nėra navigacijos programos</string>
+    <!-- Spoken when a steering wheel button asks for a place that isn't set -->
+    <string name="places_no_home">Namai nenustatyti. Nustatykite juos: Nustatymai, Vairavimas, Mano vietos.</string>
+    <string name="places_no_work">Darbas nenustatytas. Nustatykite jį: Nustatymai, Vairavimas, Mano vietos.</string>
+</resources>

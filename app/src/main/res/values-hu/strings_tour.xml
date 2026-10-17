@@ -42,7 +42,7 @@
     <string name="tour_wheel_voice">Hangsegéd</string>
     <string name="tour_wheel_alerts">Hangos figyelmeztetések</string>
     <string name="tour_done_title">Minden kész</string>
-    <string name="tour_done_body">A bemutatót bármikor újra megnézheti a Beállítások, Rendszer, Névjegy alatt.</string>
+    <string name="tour_done_body">A bemutatót bármikor újra megnézheti a Beállítások, Általános, Névjegy alatt.</string>
     <string name="tour_start_driving">Indulás</string>
     <string name="tour_settings_row">Az alapok bemutatója</string>
     <string name="tour_settings_row_detail">Hat rövid tipp a műszerfalról</string>

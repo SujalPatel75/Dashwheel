@@ -205,6 +205,7 @@
     <string name="dash_remove_dashboard_body">Svuotalo, o toglilo dagli scorrimenti con i suoi riquadri. Annulla li riporta.</string>
     <string name="dash_tile_move">Sposta in un altro cruscotto</string>
     <string name="dash_tile_remove">Rimuovi</string>
+    <string name="dash_tile_restart_app">Riavvia l\'app</string>
     <string name="dash_apps">App</string>
     <string name="dash_rootless_title">Serve l\'accesso root</string>
     <plurals name="dash_rootless_body">

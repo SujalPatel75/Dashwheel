@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Settings, Display: units and clock (Units.kt) -->
+    <string name="units_title">Vienetai</string>
+    <string name="units_speed">Greitis ir atstumas</string>
+    <string name="units_temp">Temperatūra</string>
+    <string name="units_economy">Degalų sąnaudos</string>
+    <string name="units_clock">Laikrodis</string>
+    <string name="units_auto">Auto</string>
+    <string name="units_auto_hint">Auto naudoja magnetolos nustatymus: %1$s</string>
+
+    <!-- Miles and mph versions of the lines that say km and km/h -->
+    <string name="units_eco_fuel_mi">Degalų %1$s mi</string>
+    <string name="units_fuel_dest_spare_unit_mi">mi atsarga</string>
+    <string name="units_fuel_dest_detail_mi">atstumas %1$d mi · liko %2$d mi</string>
+    <string name="units_fuel_none_mi">Per %1$d mi nėra degalinės, parduodančios šiuos degalus. Kainos tik Prancūzijoje.</string>
+    <plurals name="units_fuel_stations_mi">
+        <item quantity="one">%1$d degalinė %2$d mi spinduliu</item>
+        <item quantity="few">%1$d degalinės %2$d mi spinduliu</item>
+        <item quantity="many">%1$d degalinės %2$d mi spinduliu</item>
+        <item quantity="other">%1$d degalinių %2$d mi spinduliu</item>
+    </plurals>
+    <string name="units_weather_details_mph">Jutiminė %1$d° · Vėjas %2$d mph</string>
+    <string name="units_weather_details_range_mph">Jutiminė %1$d° · Vėjas %2$d mph · %3$d° / %4$d°</string>
+    <string name="units_speed_fix_now_mph">Dabartinis greitis: %1$d mph. Koreguokite, kol sutaps su spidometru.</string>
+    <string name="units_mi_to_empty">MI IKI TUŠČIO</string>
+    <string name="units_upkeep_next_mi">%1$s po %2$s mi</string>
+    <string name="units_upkeep_overdue_mi">%1$s vėluoja %2$s mi</string>
+    <string name="units_upkeep_row_mi">%1$s mi</string>
+    <string name="units_upkeep_odometer_mi">Rida myliomis</string>
+    <string name="units_upkeep_odometer_as_of_mi">Įvesta %1$s, nuo tada nuvažiuota %2$d mi</string>
+    <string name="units_upkeep_every_mi">Intervalas myliomis</string>
+    <string name="units_upkeep_last_mi">Paskutinį kartą ties mylia</string>
+    <string name="units_cockpit_feels_wind_mph">JUTIMINĖ %1$d° · VĖJAS %2$d MPH</string>
+    <string name="units_orbit_wind_mph">Vėjas %1$d mph</string>
+    <string name="units_orbit_feels_wind_mph">jutiminė %1$d° · %2$d mph</string>
+    <string name="units_horizon_wind_mph">vėjas %1$d mph</string>
+    <string name="units_tape_feels_wind_caps_mph">JUTIMINĖ %1$d° · VĖJAS %2$d MPH</string>
+    <string name="units_canvas_fuel_left_mi">Degalų liko %1$d mi</string>
+    <string name="units_alert_coolant_f">Aušinimo skystis %1$d°F</string>
+    <string name="units_car_filter_needs_drive_mph">Suplanuokite 20 min važiavimą virš 40 mph</string>
+
+    <!-- Said aloud: full words -->
+    <string name="units_briefing_fuel_low_mi">Mažai degalų: liko maždaug %1$d mylių, suplanuokite sustojimą.</string>
+    <string name="units_voice_status_range_mi">Degalų liko maždaug %1$d mylių.</string>
+    <plurals name="units_voice_fuel_station_mi">
+        <item quantity="one">Pigiausia degalinė netoliese yra %1$s, už %2$d mylios.</item>
+        <item quantity="few">Pigiausia degalinė netoliese yra %1$s, už %2$d mylių.</item>
+        <item quantity="many">Pigiausia degalinė netoliese yra %1$s, už %2$d mylios.</item>
+        <item quantity="other">Pigiausia degalinė netoliese yra %1$s, už %2$d mylių.</item>
+    </plurals>
+    <plurals name="units_lpg_voice_low_mi">
+        <item quantity="one">Mažai dujų: liko apie %1$d mylią.</item>
+        <item quantity="few">Mažai dujų: liko apie %1$d mylias.</item>
+        <item quantity="many">Mažai dujų: liko apie %1$d mylios.</item>
+        <item quantity="other">Mažai dujų: liko apie %1$d mylių.</item>
+    </plurals>
+    <string name="units_car_say_fuel_short_mi">Su %1$d mylių atsarga nepasieksite tikslo, iki kurio %2$d mylių. Suplanuokite sustojimą degalams.</string>
+    <string name="units_car_say_filter_mph">Paskutiniai jūsų važiavimai buvo trumpi: %1$d. Kai galėsite, 15–20 minučių važiuokite greičiau nei 40 mylių per valandą, kad kietųjų dalelių filtras išsivalytų.</string>
+    <plurals name="units_upkeep_say_overdue_mi">
+        <item quantity="one">%1$s: vėluojama %2$d mylia.</item>
+        <item quantity="few">%1$s: vėluojama %2$d mylios.</item>
+        <item quantity="many">%1$s: vėluojama %2$d mylios.</item>
+        <item quantity="other">%1$s: vėluojama %2$d mylių.</item>
+    </plurals>
+    <plurals name="units_upkeep_say_soon_mi">
+        <item quantity="one">%1$s reikės po %2$d mylios.</item>
+        <item quantity="few">%1$s reikės po %2$d mylių.</item>
+        <item quantity="many">%1$s reikės po %2$d mylios.</item>
+        <item quantity="other">%1$s reikės po %2$d mylių.</item>
+    </plurals>
+</resources>

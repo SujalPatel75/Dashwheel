@@ -86,7 +86,7 @@ object MapServers {
     }
 }
 
-/** Settings → System → Map and route servers: the four addresses, and the free defaults back. */
+/** Settings → Expert → Map and route servers: the four addresses, and the free defaults back. */
 @Composable
 internal fun MapServersSheet(onDismiss: () -> Unit) {
     val context = LocalContext.current

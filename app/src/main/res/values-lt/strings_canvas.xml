@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- The Canvas theme (CanvasSkin.kt): the journey line and its glass tiles. -->
+    <string name="canvas_rain">Lietus</string>
+    <string name="canvas_rain_stops">Lietus liaujasi</string>
+    <string name="canvas_break">Pertrauka</string>
+    <string name="canvas_sunset">Saulėlydis</string>
+    <string name="canvas_fuel_left">Degalų liko %1$d km</string>
+    <string name="canvas_rain_from">Lietus nuo %1$s</string>
+    <string name="canvas_rain_until">Lietus iki %1$s</string>
+    <string name="canvas_tab_map">Žemėlapis</string>
+    <string name="canvas_tab_media">Medija</string>
+    <string name="canvas_tab_car">Automobilis</string>
+    <string name="canvas_tab_info">Info</string>
+    <string name="canvas_tab_trip">Kelionė</string>
+    <string name="canvas_tab_phone">Telefonas</string>
+    <string name="canvas_tab_weather">Oras</string>
+    <string name="canvas_tab_service">Priežiūra</string>
+    <string name="canvas_when_parked">Stovint</string>
+    <string name="canvas_when_driving">Važiuojant</string>
+    <string name="canvas_when_fault">Variklio gedimas</string>
+    <string name="canvas_when_navigating">Naviguojant</string>
+    <string name="canvas_when_low_fuel">Mažai degalų</string>
+    <string name="canvas_tab_add">Pridėti</string>
+    <string name="canvas_tab_remove">Pašalinti skydelį</string>
+    <string name="canvas_tab_done">Atlikta</string>
+    <string name="canvas_tab_name">Pavadinimas</string>
+    <string name="canvas_tab_when">Pasirodo pats, kai</string>
+    <string name="canvas_tab_when_hint">Stovint reiškia paleidus arba stovint 2 minutes. Palieskite pasirinktą dar kartą, kad išjungtumėte.</string>
+    <string name="canvas_map_title">Po skydeliu</string>
+    <string name="canvas_map_builtin">Integruotas žemėlapis</string>
+    <string name="canvas_map_builtin_hint">Paties Dashwheel žemėlapis su perbraukiamais skydeliais.</string>
+    <string name="canvas_map_app_hint">Programa veikia po plytelėmis ir gauna visus jų nepriimtus palietimus. Skirtukai juostoje pakeičia perbraukimą: laikykite, kad pavadintumėte.</string>
+    <string name="canvas_bar_add_title">Pridėti į juostą</string>
+    <string name="canvas_bar_add_dashboard">Skydelis</string>
+    <string name="canvas_bar_add_dashboard_detail">Naujas valdiklių rinkinys su savo pavadinimu ir vieta.</string>
+    <string name="canvas_bar_add_dashboard_short">Pridėti skydelį</string>
+    <string name="canvas_bar_add_app">Programa</string>
+    <string name="canvas_bar_add_app_detail">Atsidaro vienu palietimu. Jos piktograma yra po skydeliais.</string>
+    <string name="canvas_bar_add_app_short">Pridėti programą</string>
+    <string name="canvas_tab_new">Naujas skydelis</string>
+    <string name="canvas_tab_place">Vieta juostoje</string>
+    <string name="canvas_tab_where">Kur jis bus</string>
+    <string name="canvas_tab_create">Sukurti</string>
+    <string name="canvas_bar_app_remove">Pašalinti iš juostos</string>
+    <string name="canvas_tab_engine">Variklis</string>
+    <string name="canvas_tab_checks">Patikros</string>
+    <string name="canvas_tab_eco">Eco</string>
+    <string name="canvas_when_taken">%1$s: dabar %2$s</string>
+    <string name="canvas_when_take_title">Paimti %1$s iš %2$s?</string>
+    <string name="canvas_when_take_body">Ten jis nebepasirodys pats.</string>
+    <string name="canvas_when_take">Paimti</string>
+</resources>

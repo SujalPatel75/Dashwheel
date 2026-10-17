@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Brutal skin -->
+    <string name="brutal_talk">Kalbėti</string>
+    <string name="brutal_talk_cd">Kalbėti su asistentu</string>
+    <string name="brutal_next_turn">Kitas posūkis</string>
+    <string name="brutal_speed">Greitis %1$s</string>
+    <string name="brutal_limit">Riba</string>
+    <string name="brutal_weather">Orai</string>
+    <string name="brutal_rain">Lietus</string>
+    <string name="brutal_rain_from">Nuo %1$s</string>
+    <string name="brutal_rain_until">Iki %1$s</string>
+    <string name="brutal_feels">Jutiminė %1$s</string>
+    <string name="brutal_now_playing">Dabar groja</string>
+    <string name="brutal_range">Atstumas</string>
+    <string name="brutal_coolant">Aušinimas</string>
+    <string name="brutal_fuel">Degalai</string>
+    <string name="brutal_outside">Lauke</string>
+    <string name="brutal_battery">Akumuliatorius</string>
+    <string name="brutal_all_good">Viskas gerai</string>
+    <string name="brutal_check_car">Patikrinkite auto</string>
+</resources>

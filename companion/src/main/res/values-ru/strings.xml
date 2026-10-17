@@ -258,4 +258,22 @@
     <string name="reg_offline">Подключитесь к автомобилю, чтобы отправить</string>
     <string name="reg_again">Сканировать снова</string>
     <string name="dash_share_sent">Панель отправлена в машину: посмотрите на экране</string>
+    <string name="rescue_title">Спасение</string>
+    <string name="rescue_detail">Нет доступа к экрану машины? Исправьте отсюда.</string>
+    <string name="rescue_offline">Подключитесь к машине, чтобы ими пользоваться</string>
+    <string name="rescue_wheel">Сбросить кнопки руля</string>
+    <string name="rescue_wheel_body">Каждая кнопка руля снова делает то, что магнитола делает сама.</string>
+    <string name="rescue_look">Стандартный вид</string>
+    <string name="rescue_look_body">Машина возвращается к стандартному виду с нижней панелью.</string>
+    <string name="rescue_split">Выйти из разделения экрана</string>
+    <string name="rescue_split_body">Экран машины больше не делится с другим приложением.</string>
+    <string name="rescue_home_back">Вернуть главный экран магнитоле</string>
+    <string name="rescue_home_back_body">Собственный лаунчер магнитолы снова становится главным экраном. Dashwheel остаётся в списке приложений.</string>
+    <string name="rescue_home_take">Снова сделать Dashwheel главным</string>
+    <string name="rescue_home_take_body">Dashwheel снова становится главным экраном машины.</string>
+    <string name="rescue_send">Выполнить</string>
+    <string name="rescue_sending">Отправка в машину</string>
+    <string name="rescue_done">Сделано в машине</string>
+    <string name="rescue_failed">Машина не смогла это сделать</string>
+    <string name="rescue_no_answer">Нет ответа: обновите Dashwheel в машине.</string>
 </resources>

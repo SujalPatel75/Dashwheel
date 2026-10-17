@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Liquid skin -->
+    <string name="liquid_talk_cd">Kalbėti su asistentu</string>
+    <string name="liquid_show_dashboard">Rodyti %1$s</string>
+    <string name="liquid_speed_limit_cd">Greičio riba %1$d</string>
+    <string name="liquid_arrival">Atvykimas %1$s</string>
+    <string name="liquid_revs">Apsukos</string>
+    <string name="liquid_rpm">r/min</string>
+    <string name="liquid_battery">Akumuliatorius</string>
+    <string name="liquid_load">Apkrova</string>
+    <string name="liquid_coolant">Aušinimas</string>
+    <string name="liquid_engine">Variklis</string>
+    <string name="liquid_range">Atstumas</string>
+    <string name="liquid_launch_bar_empty">Programų dar nėra. Palieskite pieštuką ir pridėkite.</string>
+    <string name="liquid_car_cd">Jūsų automobilis</string>
+    <string name="liquid_car_open_cd">Jūsų automobilis, atidarytos durys</string>
+    <string name="liquid_doors">Durys</string>
+    <string name="liquid_doors_open">atidarytos</string>
+</resources>

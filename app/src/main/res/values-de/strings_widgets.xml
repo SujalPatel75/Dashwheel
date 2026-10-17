@@ -161,4 +161,13 @@
     <string name="widgets_now_event_at">Um %1$s, in %2$s</string>
 
     <string name="widgets_switch_look">Aussehen</string>
+    <string name="widgets_switch_screen_off">Bildschirm aus</string>
+    <string name="widgets_switch_mobile_data">Mobile Daten</string>
+    <string name="widgets_switch_mute_detail">Musiklautstärke auf null und zurück</string>
+    <string name="widgets_switch_look_detail">Tag, Nacht oder automatisch</string>
+    <string name="widgets_switch_dnd_detail">Stellt Anrufe und Mitteilungen stumm</string>
+    <string name="widgets_switch_wifi_detail">Schaltet WLAN ein oder aus</string>
+    <string name="widgets_switch_bluetooth_detail">Schaltet Bluetooth ein oder aus</string>
+    <string name="widgets_switch_mobile_data_detail">Schaltet die Daten der SIM-Karte ein oder aus</string>
+    <string name="widgets_switch_screen_off_detail">Schaltet den Bildschirm aus wie die Taste des Geräts</string>
 </resources>

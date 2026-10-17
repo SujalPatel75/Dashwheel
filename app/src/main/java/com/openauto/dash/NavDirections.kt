@@ -72,8 +72,8 @@ data class NavState(
 /** Which way the next turn goes; [sign] is -1 left, 1 right, 0 ahead. */
 internal enum class TurnSide(val sign: Int) { LEFT(-1), RIGHT(1), AHEAD(0) }
 
-private val RIGHT_WORDS = Regex("""\b(right|droite|rechts|derecha|destra|direita|prawo|jobbra)|направо|вправо|правее""", RegexOption.IGNORE_CASE)
-private val LEFT_WORDS = Regex("""\b(left|gauche|links|izquierda|sinistra|esquerda|lewo|balra)|налево|влево|левее""", RegexOption.IGNORE_CASE)
+private val RIGHT_WORDS = Regex("""\b(right|droite|rechts|derecha|destra|direita|prawo|jobbra|dešin)|направо|вправо|правее""", RegexOption.IGNORE_CASE)
+private val LEFT_WORDS = Regex("""\b(left|gauche|links|izquierda|sinistra|esquerda|lewo|balra|kair)|налево|влево|левее""", RegexOption.IGNORE_CASE)
 
 /**
  * The next turn's side, the same in every look: the navigation's own

@@ -384,6 +384,7 @@ private fun CompanionScreen(resumes: Int, offer: PairingOffer?, onScanned: (Stri
                         )
                     }
                     item { RegistrationCard(connected) }
+                    item { RescueCard(connected) }
                     item { SectionTitle(stringResource(R.string.cars_title)) }
                     items(units, key = { it.id }) { unit -> CarRow(unit, onRemove = { removing = unit }) }
                     item {

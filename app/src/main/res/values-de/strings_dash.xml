@@ -201,6 +201,7 @@
     <string name="dash_remove_dashboard_body">Leeren, oder mit seinen Kacheln aus dem Wischen nehmen. Rückgängig holt sie zurück.</string>
     <string name="dash_tile_move">Auf ein anderes Dashboard</string>
     <string name="dash_tile_remove">Entfernen</string>
+    <string name="dash_tile_restart_app">App neu starten</string>
     <string name="dash_apps">Apps</string>
     <string name="dash_rootless_title">Root-Zugriff nötig</string>
     <plurals name="dash_rootless_body">

@@ -75,7 +75,7 @@ object Tyres {
     fun start(context: Context) {
         if (started) return
         val app = context.applicationContext
-        if (!isPackageInstalled(app, TPMS_PACKAGE)) return
+        if (!UnitPlatform.hasPackage(app, TPMS_PACKAGE)) return
         started = true
         ContextCompat.registerReceiver(app, receiver, IntentFilter(ACTION), ContextCompat.RECEIVER_EXPORTED)
         // The TPMS box gone quiet while driving: plugged in again by itself ([TpmsReset]).

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <application
+        android:label="Fake head unit firmware"
+        android:allowBackup="false">
+
+        <!-- The FYT toolkit service, under the class name and action the real com.syu.ms declares. -->
+        <service
+            android:name="app.ToolkitService"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.syu.ms.toolkit" />
+            </intent-filter>
+        </service>
+
+        <!-- adb shell am broadcast -a com.openauto.fakeunit.PUSH ... (tools/fakeunit/README.md). -->
+        <receiver
+            android:name="com.openauto.fakeunit.PushReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.openauto.fakeunit.PUSH" />
+            </intent-filter>
+        </receiver>
+    </application>
+</manifest>

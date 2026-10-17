@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import com.openauto.unitproto.AccBroadcasts
 
 /**
  * The unit started: Dashwheel takes the screen when it is the default Home.
@@ -20,6 +21,10 @@ class BootReceiver : BroadcastReceiver() {
         // Which launcher came up first, and who started it, for a bug report: gone from the log soon after.
         DebugLog.snapshot(context, "at boot")
         DebugLog.snapshotLater(context, "a minute after boot", BOOT_SNAPSHOT_MS)
+        if (HomeHandBack.released(context)) {
+            DebugLog.note(context, "boot: Home handed back to the unit, Dashwheel stays behind")
+            return
+        }
         if (!isDefaultHome(context)) {
             DebugLog.note(context, "boot: Dashwheel is not Android's default Home")
             return
@@ -28,6 +33,8 @@ class BootReceiver : BroadcastReceiver() {
         EmbeddedApp.bootedUp(context.applicationContext)
         // A QF unit then starts Dashwheel itself from the next boot on.
         UnitLauncher.start(context)
+        // What a reboot undid of the firmware's sleep survival (Reglink's DuraSpeed) is put back.
+        runCatching { UnitPlatform.adapter.survival?.atBoot(context.applicationContext) }
     }
 
     private fun isDefaultHome(context: Context): Boolean {
@@ -39,11 +46,7 @@ class BootReceiver : BroadcastReceiver() {
         const val BOOT_SNAPSHOT_MS = 60_000L
 
 
-        /** Android's own, and the "fast boot" some units send when they wake rather than start. */
-        val BOOT_ACTIONS = setOf(
-            Intent.ACTION_BOOT_COMPLETED,
-            "android.intent.action.QUICKBOOT_POWERON",
-            "com.htc.intent.action.QUICKBOOT_POWERON"
-        )
+        /** Android's own, and the "fast boot" some units send when they wake rather than start ([AccBroadcasts.BOOT_LIKE]). */
+        val BOOT_ACTIONS = setOf(Intent.ACTION_BOOT_COMPLETED) + AccBroadcasts.BOOT_LIKE
     }
 }

@@ -71,11 +71,17 @@
     <string name="signals_source_flags">Флаги магнитолы</string>
     <string name="signals_source_settings">Параметры магнитолы</string>
     <string name="signals_source_messages">Сообщения магнитолы</string>
+    <string name="signals_source_fyt">Данные FYT</string>
+    <string name="signals_source_system">Системные настройки магнитолы</string>
+    <string name="signals_source_secure">Защищённые настройки магнитолы</string>
     <string name="signals_tab_can">CAN-блок</string>
     <string name="signals_tab_shared">Приложение</string>
     <string name="signals_tab_flags">Флаги</string>
     <string name="signals_tab_settings">Параметры</string>
     <string name="signals_tab_messages">Сообщения</string>
+    <string name="signals_tab_fyt">FYT</string>
+    <string name="signals_tab_system">Система</string>
+    <string name="signals_tab_secure">Защищённые</string>
     <string name="signals_front_left">Передняя левая дверь</string>
     <string name="signals_front_right">Передняя правая дверь</string>
     <string name="signals_rear_left">Задняя левая дверь</string>

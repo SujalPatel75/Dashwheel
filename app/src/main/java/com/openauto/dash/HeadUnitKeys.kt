@@ -1,6 +1,5 @@
 package com.openauto.dash
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Binder
 import android.os.Handler
@@ -104,6 +103,7 @@ object HeadUnitKeys {
 
     private fun onKey(keyCode: Int, event: KeyEvent?) {
         val context = appContext ?: return
+        UnitPlatform.markUsed(Cap.UNIT_KEYS)
         // The NAVI key may open the navigation app full screen: the user's doing, left so.
         if (keyCode >= FIRST_VENDOR_KEY) EmbeddedApp.userActed()
         // Android's own keys too: the unit keeps some to itself (its volume), and
@@ -111,11 +111,8 @@ object HeadUnitKeys {
         SteeringWheelStore.onUnitKey(context, keyCode, event)
     }
 
-    /** The key service's binder, from the ServiceManager (a system class apps may reach by reflection). */
-    @SuppressLint("PrivateApi", "DiscouragedPrivateApi")
-    private fun serviceBinder(): IBinder? = runCatching {
-        Class.forName("android.os.ServiceManager").getMethod("getService", String::class.java).invoke(null, SERVICE) as IBinder?
-    }.onFailure { Log.w(TAG, "no key service", it) }.getOrNull()
+    /** The key service's binder, from the ServiceManager ([SysProps]). */
+    private fun serviceBinder(): IBinder? = SysProps.service(SERVICE).also { if (it == null) Log.w(TAG, "no key service") }
 
     /** The firmware's own keys by name (QFApi.getKeyCode), for the learning screen. */
     val nameRes: Map<Int, Int> = mapOf(

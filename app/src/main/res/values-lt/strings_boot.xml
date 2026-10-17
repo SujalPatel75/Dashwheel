@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="boot_menu">Įkrovos logotipas</string>
+    <string name="boot_title">Įkrovos logotipas</string>
+    <string name="boot_search">Ieškoti tarp %1$d automobilių markių</string>
+    <string name="boot_no_match">Nėra atitinkančios markės.</string>
+    <string name="boot_downloading">Atsisiunčiamas logotipas…</string>
+    <string name="boot_bg_black">Juodas</string>
+    <string name="boot_bg_white">Baltas</string>
+    <string name="boot_show_name">Rodyti markės pavadinimą</string>
+    <string name="boot_show_name_detail">Užrašomas po logotipu</string>
+    <string name="boot_install">Įdiegti dabar</string>
+    <string name="boot_play">Paleisti dabar</string>
+    <string name="boot_restore">Atkurti originalą</string>
+    <string name="boot_close">Uždaryti</string>
+    <string name="boot_building">Kuriama animacija…</string>
+    <string name="boot_installing">Diegiama…</string>
+    <string name="boot_restoring">Atkuriama…</string>
+    <string name="boot_playing">Rodoma ekrane…</string>
+    <string name="boot_installed">Įdiegta per %1$s. Pamatysite kito paleidimo metu.</string>
+    <string name="boot_install_failed">Nepavyko įdiegti: %1$s</string>
+    <string name="boot_restored">Originali įkrovos animacija grąžinta.</string>
+    <string name="boot_nothing_to_restore">Nėra ką atkurti: įkrovos animacija niekada nebuvo keista.</string>
+    <string name="boot_restore_failed">Nepavyko atkurti: %1$s</string>
+    <string name="boot_restore_confirm_title">Atkurti originalą?</string>
+    <string name="boot_restore_confirm_body">Bus grąžinta magnetolos originali įkrovos animacija ir statinis logotipas.</string>
+    <string name="boot_play_failed">Nepavyko paleisti: %1$s</string>
+    <string name="boot_current">Dabartinis įkrovos logotipas: %1$s</string>
+    <string name="boot_hint">Pakeičia tai, ką magnetola rodo įsijungdama, šios markės logotipu: Android animaciją ir, jei įjungta, statinį logotipą. Naudoja magnetolos vidinį root ADB ir niekada neliečia /system. Originalai išsaugomi atsarginėje kopijoje (taip pat Dashwheel/boot_backup vidinėje atmintyje), o Atkurti juos grąžina. Logotipai paimti iš atviro car-logos-dataset.</string>
+    <string name="boot_usb">Įrašyti į USB</string>
+    <string name="boot_saving_usb">Įrašoma į USB atmintuką…</string>
+    <string name="boot_saved_usb">Įrašyta į %1$s. Ištraukite atmintuką ir vėl jį įkiškite: magnetola importuos animaciją. Statiniam logotipui: Nustatymai → Gamykliniai nustatymai (8888) → Logo set → pasirinkite %2$s → Update logo.</string>
+    <string name="boot_no_usb">USB atmintukas nerastas. Įkiškite jį ir bandykite dar kartą.</string>
+    <string name="boot_still">Pakeisti ir statinį logotipą</string>
+    <string name="boot_still_detail">Pirmas vaizdas, prieš Android. Pagal numatytuosius nustatymus išjungta: įrašoma į logotipo skaidinį, prieš tai padarius atsarginę kopiją ir patikrinus po to.</string>
+    <string name="boot_still_confirm_title">Pakeisti statinį logotipą?</string>
+    <string name="boot_still_confirm_body">Statinis logotipas įrašomas į magnetolos logotipo skaidinį, prieš tai padarius atsarginę kopiją.</string>
+    <string name="boot_still_done">Statinis logotipas taip pat atnaujintas.</string>
+    <string name="boot_still_failed">Statinis logotipas nepakeistas: %1$s</string>
+    <string name="boot_still_unsupported">ši magnetola neturi statinio logotipo įrankio</string>
+    <string name="boot_not_qf">Įdiegti dabar veikia tik su QF001 / K706 programine įranga, kuriai buvo sukurta. Vietoj to naudokite Įrašyti į USB.</string>
+    <string name="boot_no_adb">Magnetolos vidinis ADB neatsako (prievadas %1$d), o Dashwheel neturi root. Įjunkite USB derinimą (Nustatymai → Apie → 7 kartus palieskite Versijos numeris, tada Kūrėjo parinktys → USB derinimas) arba suteikite root ir bandykite dar kartą.</string>
+</resources>

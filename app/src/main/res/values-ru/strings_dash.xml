@@ -205,6 +205,7 @@
     <string name="dash_remove_dashboard_body">Очистите её или уберите из пролистывания вместе с плитками. «Отменить» вернёт их.</string>
     <string name="dash_tile_move">На другую панель</string>
     <string name="dash_tile_remove">Удалить</string>
+    <string name="dash_tile_restart_app">Перезапустить приложение</string>
     <!-- The bar's Apps button, labelled -->
     <string name="dash_apps">Приложения</string>
     <!-- Tiles on the dashboard that live on root or the unit's ADB, where Dashwheel has neither -->

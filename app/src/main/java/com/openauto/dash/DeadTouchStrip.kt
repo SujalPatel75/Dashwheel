@@ -46,7 +46,7 @@ import kotlin.math.abs
 import kotlin.math.roundToInt
 
 /**
- * A touchscreen that feels no touch in one upright strip (Settings → System →
+ * A touchscreen that feels no touch in one upright strip (Settings → Expert →
  * Lab): a worn or damaged panel. One driver's K706 misses every touch from
  * about 265 to 435 px across, full height; Settings' pane began at 270 px, so
  * its back arrow and the left of every row were out of reach. With the strip

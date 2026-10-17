@@ -38,7 +38,8 @@ import kotlin.system.exitProcess
  * Dashwheel asks for over Binder, and hands its Binder to Dashwheel in a
  * broadcast carrying the token it was started with. Exits when Dashwheel's
  * process dies, releasing its displays with it (their apps close, as they do
- * when Dashwheel's own displays go).
+ * when Dashwheel's own displays go), or after [HELLO_TIMEOUT_MS] when
+ * Dashwheel never said hello.
  */
 object SystemDisplayHelper {
     private const val TAG = "SystemDisplayHelper"
@@ -56,6 +57,14 @@ object SystemDisplayHelper {
     const val PING = 6
 
     private const val SYSTEM_UID = 1000
+
+    /**
+     * How long the helper waits for Dashwheel's hello before it leaves. Without
+     * one nothing would ever end it: a launcher killed while it started, or a
+     * broadcast that came too late for it, left a system JVM running until the
+     * next reboot, one more each time the launcher restarted.
+     */
+    private const val HELLO_TIMEOUT_MS = 120_000L
     private const val BROADCAST = "broadcastIntent"
     private const val BROADCAST_WITH_FEATURE = "broadcastIntentWithFeature"
 
@@ -96,6 +105,12 @@ object SystemDisplayHelper {
             }).addFlags(Intent.FLAG_RECEIVER_FOREGROUND)
             broadcast(intent)
             Log.i(TAG, "up as uid ${Os.getuid()}, handed to $pkg")
+            Handler(Looper.getMainLooper()).postDelayed({
+                if (!server.greeted) {
+                    Log.i(TAG, "no hello from $pkg in ${HELLO_TIMEOUT_MS / 1000} s: leaving")
+                    exitProcess(0)
+                }
+            }, HELLO_TIMEOUT_MS)
         }
         Looper.loop()
     }
@@ -173,6 +188,9 @@ object SystemDisplayHelper {
         private val displays = HashMap<Int, VirtualDisplay>()
         private val surfaces = HashMap<Int, Surface?>()
 
+        /** Whether a Dashwheel said hello and is watched: until then the helper leaves after [HELLO_TIMEOUT_MS]. */
+        @Volatile var greeted = false
+
         @SuppressLint("WrongConstant") // DESTROY_CONTENT_ON_REMOVAL is a real flag, only @hide.
         override fun onTransact(code: Int, data: Parcel, reply: Parcel?, flags: Int): Boolean {
             if (code !in HELLO..PING) return super.onTransact(code, data, reply, flags)
@@ -180,12 +198,19 @@ object SystemDisplayHelper {
             try {
                 when (code) {
                     HELLO -> {
-                        val client = data.readStrongBinder()
-                        client?.linkToDeath({
-                            Log.i(TAG, "Dashwheel went: releasing ${displays.size} display(s)")
+                        val client = data.readStrongBinder() ?: throw IllegalStateException("hello without a client")
+                        try {
+                            client.linkToDeath({
+                                Log.i(TAG, "Dashwheel went: releasing ${displays.size} display(s)")
+                                releaseAll()
+                                exitProcess(0)
+                            }, 0)
+                        } catch (e: android.os.RemoteException) {
+                            Log.i(TAG, "Dashwheel went before its hello came")
                             releaseAll()
                             exitProcess(0)
-                        }, 0)
+                        }
+                        greeted = true
                         reply?.writeNoException()
                     }
                     CREATE -> {

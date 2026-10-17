@@ -70,11 +70,17 @@
     <string name="signals_source_flags">Flagi radia</string>
     <string name="signals_source_settings">Ustawienia radia</string>
     <string name="signals_source_messages">Komunikaty radia</string>
+    <string name="signals_source_fyt">Dane FYT</string>
+    <string name="signals_source_system">Ustawienia systemowe radia</string>
+    <string name="signals_source_secure">Ustawienia bezpieczne radia</string>
     <string name="signals_tab_can">Moduł CAN</string>
     <string name="signals_tab_shared">Aplikacja</string>
     <string name="signals_tab_flags">Flagi</string>
     <string name="signals_tab_settings">Ustawienia</string>
     <string name="signals_tab_messages">Komunikaty</string>
+    <string name="signals_tab_fyt">FYT</string>
+    <string name="signals_tab_system">System</string>
+    <string name="signals_tab_secure">Bezpieczne</string>
     <string name="signals_front_left">Lewe przednie drzwi</string>
     <string name="signals_front_right">Prawe przednie drzwi</string>
     <string name="signals_rear_left">Lewe tylne drzwi</string>

@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Cockpit skin: top bar -->
+    <string name="cockpit_apps">PROGRAMOS</string>
+    <string name="cockpit_layout">IŠDĖSTYMAS</string>
+    <string name="cockpit_screen_layout_desc">Google Maps padėtis: %1$s</string>
+    <string name="cockpit_more">Daugiau</string>
+    <string name="cockpit_time_desc">Laikas %1$s</string>
+    <string name="cockpit_out">LAUKE</string>
+    <string name="cockpit_connect_obd">Prijungti OBD</string>
+
+    <!-- Cockpit skin: dial faces (C/H = cold/hot coolant, E/F = empty/full tank) -->
+    <string name="cockpit_dial_rpm_title">×1000 r/min</string>
+    <string name="cockpit_dial_temp">TEMP.</string>
+    <string name="cockpit_dial_fuel">DEGALAI</string>
+    <string name="cockpit_dial_volt">VOLT.</string>
+    <string name="cockpit_dial_load">APKR.</string>
+    <string name="cockpit_dial_cold">Š</string>
+    <string name="cockpit_dial_hot">K</string>
+    <string name="cockpit_dial_empty">0</string>
+    <string name="cockpit_dial_full">1</string>
+    <string name="cockpit_dial_fuel_title">DEGALAI</string>
+    <string name="cockpit_unit_rpm">rpm</string>
+
+    <!-- Cockpit skin: telemetry and speed -->
+    <string name="cockpit_speed_rpm_caption">KM/H · %1$d RPM</string>
+    <string name="cockpit_obd_off">OBD IŠJ.</string>
+    <string name="cockpit_battery">Akumuliatorius</string>
+    <string name="cockpit_coolant">Aušinimo skystis</string>
+    <string name="cockpit_speed_warning">Greičio įspėjimas</string>
+    <string name="cockpit_tap_to_connect">PALIESKITE\nPRIJUNGTI</string>
+
+    <!-- Cockpit skin: media -->
+    <string name="cockpit_tap_to_enable">PALIESKITE ĮJUNGTI</string>
+    <string name="cockpit_grant_media_access">Suteikti prieigą prie medijos</string>
+    <string name="cockpit_previous">Ankstesnis</string>
+    <string name="cockpit_play">Leisti</string>
+    <string name="cockpit_pause">Pristabdyti</string>
+    <string name="cockpit_next">Kitas</string>
+    <string name="cockpit_vu_left">K</string>
+    <string name="cockpit_vu_right">D</string>
+
+    <!-- Cockpit skin: navigation, clock, weather, range -->
+    <string name="cockpit_open_navigation">Atidaryti navigaciją</string>
+    <string name="cockpit_tap_for_maps">PALIESKITE ŽEMĖLAPIUI</string>
+    <string name="cockpit_open_alarms">Atidaryti žadintuvus</string>
+    <string name="cockpit_clock">Laikrodis</string>
+    <string name="cockpit_loading">ĮKELIAMA…</string>
+    <string name="cockpit_feels_wind">JUNTAMA %1$d° · VĖJAS %2$d KM/H</string>
+    <string name="cockpit_fuel_settings">Degalų signalo nustatymai</string>
+    <string name="cockpit_range">RIDA LIKO</string>
+
+    <!-- Cockpit skin: app toggles and launch bar -->
+    <string name="cockpit_open_app">Atidaryti %1$s</string>
+    <string name="cockpit_launch_bar_empty">PALEIDIMO JUOSTA: PALIESKITE PIEŠTUKĄ IR PRIDĖKITE PROGRAMŲ</string>
+    <string name="cockpit_edit_launch_bar">Redaguoti paleidimo juostą</string>
+
+    <!-- Orbit skin: top bar -->
+    <string name="orbit_all_apps">Visos programos</string>
+    <string name="orbit_screen_layout_desc">Google Maps padėtis: %1$s</string>
+    <string name="orbit_more">Daugiau</string>
+
+    <!-- Orbit skin: speed dial and satellite bubbles -->
+    <string name="orbit_sat_coolant">aušinimas</string>
+    <string name="orbit_sat_battery">akumuliatorius</string>
+    <string name="orbit_sat_load">apkrova</string>
+    <string name="orbit_rpm_value">%1$s rpm</string>
+    <string name="orbit_tap_to_connect">Palieskite prijungti</string>
+    <string name="orbit_connecting">Jungiamasi…</string>
+    <string name="orbit_connect_obd">Prijungti OBD</string>
+
+    <!-- Orbit skin: media -->
+    <string name="orbit_tap_to_enable">Palieskite įjungti</string>
+    <string name="orbit_start_music">Paleiskite muziką bet kurioje programoje</string>
+    <string name="orbit_previous_track">Ankstesnis takelis</string>
+    <string name="orbit_play">Leisti</string>
+    <string name="orbit_pause">Pristabdyti</string>
+    <string name="orbit_next_track">Kitas takelis</string>
+    <string name="orbit_grant_access">Suteikti prieigą</string>
+
+    <!-- Orbit skin: navigation -->
+    <string name="orbit_tap_open_maps">Palieskite atidaryti Google Maps</string>
+    <string name="orbit_tap_allow_notifications">Palieskite leisti prieigą prie pranešimų</string>
+
+    <!-- Orbit skin: clock and weather -->
+    <string name="orbit_open_alarms">Atidaryti žadintuvus</string>
+    <string name="orbit_feels">Juntama %1$d°</string>
+    <string name="orbit_wind">Vėjas %1$d km/h</string>
+    <string name="orbit_feels_wind">juntama %1$d° · %2$d km/h</string>
+    <string name="orbit_offline">Neprisijungta</string>
+    <string name="orbit_loading">Įkeliama…</string>
+
+    <!-- Orbit skin: fuel and range -->
+    <string name="orbit_to_empty">iki tuščio</string>
+    <string name="orbit_liters_in_tank">≈ %1$.0f L bake</string>
+    <string name="orbit_via_source">per %1$s</string>
+    <string name="orbit_tap_to_recalibrate">palieskite kalibruoti</string>
+    <string name="orbit_recalibrate_fuel">Kalibruoti degalus</string>
+    <string name="orbit_fuel_percent">degalai %1$d %%</string>
+
+    <!-- Orbit skin: launch bar -->
+    <string name="orbit_launch_bar_empty">Paleidimo juosta: palieskite pieštuką ir pridėkite programų</string>
+    <string name="orbit_edit_launch_bar">Redaguoti paleidimo juostą</string>
+</resources>

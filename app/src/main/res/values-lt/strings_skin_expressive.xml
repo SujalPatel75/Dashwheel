@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Expressive skin -->
+    <string name="expressive_talk">Kalbėti</string>
+    <string name="expressive_talk_cd">Kalbėti su asistentu</string>
+    <string name="expressive_arrive">Atvyksite %1$s</string>
+    <string name="expressive_rain_from">Lietus %1$s</string>
+    <string name="expressive_rain_until">Lietus iki %1$s</string>
+    <string name="expressive_speed_limit_cd">Greičio riba %1$d</string>
+    <string name="expressive_rpm">r/min</string>
+    <string name="expressive_coolant">Aušinimas</string>
+    <string name="expressive_battery">Akumuliatorius</string>
+    <string name="expressive_load">Apkrova</string>
+    <string name="expressive_fuel">Degalai</string>
+    <string name="expressive_car_cd">Jūsų automobilis</string>
+    <string name="expressive_launch_bar_empty">Programų dar nėra. Palieskite pieštuką ir pridėkite.</string>
+</resources>

@@ -71,10 +71,16 @@ internal class PictureRelay {
     init {
         val ready = CountDownLatch(1)
         handler.post {
-            runCatching { setUp() }.onFailure { Log.w(TAG, "no GL for the relay", it); dead = true }
+            runCatching { setUp() }.onFailure {
+                Log.w(TAG, "no GL for the relay", it)
+                // What GL got made before the failure, and the thread, would stay for good.
+                runCatching { tearDown() }
+                dead = true
+            }
             ready.countDown()
         }
         ready.await(2, TimeUnit.SECONDS)
+        if (dead) thread.quitSafely()
     }
 
     /** Whether GL could be set up; when not, the caller does without the relay. */

@@ -126,7 +126,7 @@
     <string name="car_fetch_ok">Fiche remplie : vérifiez-la, puis Enregistrer</string>
     <string name="car_fetch_failed">Impossible d\'obtenir la fiche : %1$s</string>
     <string name="car_fetch_no_key">ajoutez d\'abord une clé Gemini dans Réglages → Voiture → Mécanicien IA</string>
-    <string name="car_fetch_needs_key">Ajoutez une clé Gemini dans Réglages, Voiture, Mécanicien IA pour remplir la fiche</string>
+    <string name="car_fetch_needs_key">Ajoutez une clé Gemini dans Réglages, Diagnostic, Mécanicien IA pour remplir la fiche</string>
     <string name="car_section_engine">Moteur</string>
     <string name="car_section_gearbox">Boîte de vitesses</string>
     <string name="car_section_upkeep">Entretien</string>

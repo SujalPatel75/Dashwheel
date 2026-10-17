@@ -79,38 +79,16 @@ import java.text.Normalizer
  * sits at the top, typed on the screen or from the phone's keyboard.
  */
 
-/** Which groups show every setting rather than the usual ones; remembered per group. */
-internal object SettingsShowAll {
-    private const val PREFS = "settings_view"
-    private val _open = MutableStateFlow<Set<SettingsTab>>(emptySet())
-    val open: StateFlow<Set<SettingsTab>> = _open.asStateFlow()
-    private var loaded = false
-
-    fun load(context: Context) {
-        if (loaded) return
-        loaded = true
-        val prefs = context.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
-        _open.value = SettingsTab.entries.filter { prefs.getBoolean(it.name, false) }.toSet()
-    }
-
-    fun set(context: Context, tab: SettingsTab, on: Boolean) {
-        load(context)
-        _open.value = if (on) _open.value + tab else _open.value - tab
-        context.getSharedPreferences(PREFS, Context.MODE_PRIVATE).edit().putBoolean(tab.name, on).apply()
-    }
-}
-
 /**
  * @param narrow an upright screen: the cards two by two, the tiles in two columns
- * @param onGo opens a group, and the pages [path] in it; extra: the setting is one "Show all" keeps;
- *   the last: the name of the setting searched for, scrolled to there
+ * @param onGo opens a group, and the pages [path] in it; the last: the name of the setting searched for, scrolled to there
  */
 @Composable
 internal fun SettingsOverview(
     m: TopBarModel,
     theme: ThemeState,
     narrow: Boolean,
-    onGo: (SettingsTab, List<Deep>, Boolean, Int?) -> Unit,
+    onGo: (SettingsTab, List<Deep>, Int?) -> Unit,
     onClose: () -> Unit
 ) {
     var query by rememberSaveable { mutableStateOf("") }
@@ -139,22 +117,22 @@ internal fun SettingsOverview(
 }
 
 @Composable
-private fun OverviewBody(m: TopBarModel, theme: ThemeState, narrow: Boolean, onGo: (SettingsTab, List<Deep>, Boolean, Int?) -> Unit) {
+private fun OverviewBody(m: TopBarModel, theme: ThemeState, narrow: Boolean, onGo: (SettingsTab, List<Deep>, Int?) -> Unit) {
     val cards: List<@Composable (Modifier) -> Unit> = listOf(
-        { ObdCard(it) { onGo(SettingsTab.CONNECTIONS, listOf(Deep.OBD), false, null) } },
-        { PhoneCard(it) { onGo(SettingsTab.CONNECTIONS, emptyList(), false, null) } },
+        { ObdCard(it) { onGo(SettingsTab.DIAGNOSTICS, listOf(Deep.OBD), null) } },
+        { PhoneCard(it) { onGo(SettingsTab.DEVICES, emptyList(), null) } },
         { UpdateCard(m, it) },
-        { UpkeepCard(it) { onGo(SettingsTab.CAR, listOf(Deep.UPKEEP), false, null) } }
+        { UpkeepCard(it) { onGo(SettingsTab.CAR, listOf(Deep.UPKEEP), null) } }
     )
     Grid(cards, columns = if (narrow) 2 else 4)
     val missing = missingAccess()
     if (missing.isNotEmpty()) {
         Spacer(Modifier.height(12.dp))
-        NotAllowedStrip(missing.map { stringResource(it.titleRes) }) { onGo(SettingsTab.CONNECTIONS, listOf(Deep.ACCESS), false, null) }
+        NotAllowedStrip(missing.map { stringResource(it.titleRes) }) { onGo(SettingsTab.HEAD_UNIT, listOf(Deep.ACCESS), null) }
     }
     Spacer(Modifier.height(20.dp))
     val tiles: List<@Composable (Modifier) -> Unit> = SettingsTab.groups.map { group ->
-        { modifier -> GroupTile(group, groupSummary(group, m, theme), modifier) { onGo(group, emptyList(), false, null) } }
+        { modifier -> GroupTile(group, groupSummary(group, m, theme), modifier) { onGo(group, emptyList(), null) } }
     }
     Grid(tiles, columns = if (narrow) 2 else 4)
     Spacer(Modifier.height(16.dp))
@@ -380,37 +358,36 @@ private fun groupSummary(group: SettingsTab, m: TopBarModel, theme: ThemeState):
     val context = LocalContext.current
     return when (group) {
         SettingsTab.OVERVIEW -> ""
-        SettingsTab.CAR -> CarProfileStore.profile.collectAsState().value.displayName(context)
-        SettingsTab.CONNECTIONS -> {
-            val phone = when (val s = PhoneLink.state.collectAsState().value) {
-                is PhoneLinkState.Connected -> s.phoneName.ifEmpty { stringResource(R.string.phone_unnamed) }
-                PhoneLinkState.Searching -> stringResource(R.string.settings_ov_phone_away)
-                PhoneLinkState.Unpaired -> stringResource(R.string.phone_status_unpaired)
-            }
-            "${obdValue()}, $phone"
-        }
-        SettingsTab.LOOK -> stringResource(theme.mode.titleRes)
-        SettingsTab.SOUND -> {
-            val on = SpokenEvents.on.collectAsState().value
-            val speed = SpeedVolume.on.collectAsState().value
-            val spoken = pluralStringResource(R.plurals.settings_sum_spoken, on.size, on.size, SpokenEvent.entries.size)
-            if (speed) "$spoken. ${stringResource(R.string.speed_volume_title)}" else spoken
-        }
-        SettingsTab.POPUPS -> {
+        SettingsTab.ALERTS -> {
+            val spoken = SpokenEvents.on.collectAsState().value.size
             val replaced = RomPopups.replaced.collectAsState().value.size
-            if (replaced > 0) pluralStringResource(R.plurals.settings_sum_popups, replaced, replaced)
-            else stringResource(R.string.settings_sum_popups_none)
+            val said = pluralStringResource(R.plurals.settings_sum_spoken, spoken, spoken, SpokenEvent.entries.size)
+            if (replaced > 0) "$said. ${pluralStringResource(R.plurals.settings_sum_popups, replaced, replaced)}" else said
         }
+        SettingsTab.SOUND ->
+            if (SpeedVolume.on.collectAsState().value) stringResource(R.string.speed_volume_title)
+            else stringResource(R.string.settings_sum_sound)
+        SettingsTab.LOOK -> stringResource(theme.mode.titleRes)
+        SettingsTab.DASHBOARD -> stringResource(R.string.settings_sum_dashboard)
+        SettingsTab.CAR -> CarProfileStore.profile.collectAsState().value.displayName(context)
+        SettingsTab.DIAGNOSTICS -> obdValue()
         SettingsTab.DRIVING -> {
             val buttons = SteeringWheelStore.buttons.collectAsState().value
             val assigned = buttons.count { it.assignment != null }
             if (SteeringWheelStore.AVAILABLE && assigned > 0) pluralStringResource(R.plurals.wheel_settings_detail_count, assigned, assigned)
             else stringResource(if (m.lockWhileMoving) R.string.settings_drive_lock else R.string.settings_section_buttons)
         }
-        SettingsTab.SYSTEM -> {
+        SettingsTab.DEVICES -> when (val s = PhoneLink.state.collectAsState().value) {
+            is PhoneLinkState.Connected -> s.phoneName.ifEmpty { stringResource(R.string.phone_unnamed) }
+            PhoneLinkState.Searching -> stringResource(R.string.settings_ov_phone_away)
+            PhoneLinkState.Unpaired -> stringResource(R.string.phone_status_unpaired)
+        }
+        SettingsTab.HEAD_UNIT -> accessSummary()
+        SettingsTab.GENERAL -> {
             val units = Units.current.collectAsState().value
             "${languageName(AppLanguage.current(context))}, ${unitsSummary(units)}"
         }
+        SettingsTab.EXPERT -> stringResource(R.string.settings_sum_expert)
     }
 }
 
@@ -418,13 +395,12 @@ private fun groupSummary(group: SettingsTab, m: TopBarModel, theme: ThemeState):
 
 /**
  * One setting as the search knows it: its name, its group, the pages it is
- * in, whether "Show all" keeps it, and whether this unit has it at all.
+ * in, and whether this unit has it at all.
  */
 private class SettingsEntry(
     @StringRes val title: Int,
     val tab: SettingsTab,
     val path: List<Deep> = emptyList(),
-    val extra: Boolean = false,
     /** Its row's second line, searched too: "camera" finds the reverse view. */
     @StringRes val detail: Int? = null,
     val offered: () -> Boolean = { true }
@@ -434,88 +410,94 @@ private class SettingsEntry(
 private val SETTINGS_INDEX: List<SettingsEntry> by lazy {
     val full = { Edition.full }
     listOf(
-        SettingsEntry(R.string.car_menu, SettingsTab.CAR, listOf(Deep.CAR)),
-        SettingsEntry(R.string.mycar_title, SettingsTab.CAR, listOf(Deep.CAR_LOOK), detail = R.string.mycar_settings_detail),
-        SettingsEntry(R.string.ai_title, SettingsTab.CAR, listOf(Deep.AI), detail = R.string.settings_ai_detail),
-        SettingsEntry(R.string.upkeep_dialog_title, SettingsTab.CAR, listOf(Deep.UPKEEP), detail = R.string.upkeep_settings_detail),
-        SettingsEntry(R.string.lpg_title, SettingsTab.CAR, listOf(Deep.LPG)),
-        SettingsEntry(R.string.mine_title, SettingsTab.CAR, listOf(Deep.MY_READINGS), detail = R.string.mine_settings_detail),
-        SettingsEntry(R.string.vehicle_speed_fix, SettingsTab.CAR, detail = R.string.settings_speed_fix_detail),
-        SettingsEntry(R.string.reverse_title, SettingsTab.CAR, listOf(Deep.REVERSE), detail = R.string.reverse_settings_detail),
+        SettingsEntry(R.string.voice_section, SettingsTab.ALERTS),
+        SettingsEntry(R.string.briefing_setting, SettingsTab.ALERTS),
+        SettingsEntry(R.string.voice_warnings, SettingsTab.ALERTS),
+        SettingsEntry(R.string.voice_faults, SettingsTab.ALERTS),
+        SettingsEntry(R.string.widgets_cam, SettingsTab.ALERTS),
+        SettingsEntry(R.string.widgets_limit, SettingsTab.ALERTS),
+        SettingsEntry(R.string.voice_weather, SettingsTab.ALERTS),
+        SettingsEntry(R.string.voice_messages, SettingsTab.ALERTS),
+        SettingsEntry(R.string.voice_lpg, SettingsTab.ALERTS),
+        SettingsEntry(R.string.alert_style_section, SettingsTab.ALERTS),
+        SettingsEntry(R.string.alert_kind_call, SettingsTab.ALERTS),
+        SettingsEntry(R.string.alert_kind_doors, SettingsTab.ALERTS),
+        SettingsEntry(R.string.alert_kind_radar, SettingsTab.ALERTS),
+        SettingsEntry(R.string.alert_kind_ac, SettingsTab.ALERTS),
+        SettingsEntry(R.string.alert_kind_tyres, SettingsTab.ALERTS),
+        SettingsEntry(R.string.alert_kind_belt, SettingsTab.ALERTS),
+        SettingsEntry(R.string.alert_kind_volume, SettingsTab.ALERTS),
 
-        SettingsEntry(R.string.settings_obd_title, SettingsTab.CONNECTIONS, listOf(Deep.OBD)),
-        SettingsEntry(R.string.settings_section_phone, SettingsTab.CONNECTIONS),
-        SettingsEntry(R.string.phone_pair, SettingsTab.CONNECTIONS),
-        SettingsEntry(R.string.phone_gps, SettingsTab.CONNECTIONS, detail = R.string.phone_gps_detail),
-        SettingsEntry(R.string.settings_section_second_screen, SettingsTab.CONNECTIONS, listOf(Deep.SECOND_SCREEN)),
-        SettingsEntry(R.string.setup_access_title, SettingsTab.CONNECTIONS, listOf(Deep.ACCESS)),
+        SettingsEntry(R.string.speed_volume_title, SettingsTab.SOUND, detail = R.string.speed_volume_detail),
+        SettingsEntry(R.string.volume_way_title, SettingsTab.SOUND, offered = { MediaVolume.choiceOffered }),
+        SettingsEntry(R.string.settings_tap_sound, SettingsTab.SOUND, detail = R.string.settings_tap_sound_detail),
+        SettingsEntry(R.string.settings_resume_music, SettingsTab.SOUND),
 
         SettingsEntry(R.string.dash_theme_picker_title, SettingsTab.LOOK),
         SettingsEntry(R.string.look_arrange_home, SettingsTab.LOOK, detail = R.string.look_arrange_home_detail),
         SettingsEntry(R.string.settings_appearance_title, SettingsTab.LOOK, detail = R.string.settings_appearance_detail),
         SettingsEntry(R.string.dash_effects_title, SettingsTab.LOOK),
-        SettingsEntry(R.string.dash_bar_auto_hide, SettingsTab.LOOK, detail = R.string.dash_bar_auto_hide_detail),
-        SettingsEntry(R.string.dash_bar_size, SettingsTab.LOOK),
-        SettingsEntry(R.string.bar_items_custom, SettingsTab.LOOK, extra = true),
-        SettingsEntry(R.string.settings_side_rail, SettingsTab.LOOK, extra = true, detail = R.string.settings_side_rail_detail),
-        SettingsEntry(R.string.settings_tabs_nav, SettingsTab.LOOK, extra = true),
 
-        SettingsEntry(R.string.voice_section, SettingsTab.SOUND),
-        SettingsEntry(R.string.briefing_setting, SettingsTab.SOUND),
-        SettingsEntry(R.string.voice_warnings, SettingsTab.SOUND),
-        SettingsEntry(R.string.voice_faults, SettingsTab.SOUND),
-        SettingsEntry(R.string.widgets_cam, SettingsTab.SOUND),
-        SettingsEntry(R.string.voice_messages, SettingsTab.SOUND),
-        SettingsEntry(R.string.widgets_limit, SettingsTab.SOUND, extra = true),
-        SettingsEntry(R.string.voice_weather, SettingsTab.SOUND, extra = true),
-        SettingsEntry(R.string.voice_lpg, SettingsTab.SOUND, extra = true),
-        SettingsEntry(R.string.speed_volume_title, SettingsTab.SOUND, detail = R.string.speed_volume_detail),
-        SettingsEntry(R.string.volume_way_title, SettingsTab.SOUND, extra = true, offered = { MediaVolume.choiceOffered }),
-        SettingsEntry(R.string.settings_tap_sound, SettingsTab.SOUND, extra = true, detail = R.string.settings_tap_sound_detail),
-        SettingsEntry(R.string.settings_resume_music, SettingsTab.SOUND, extra = true),
+        SettingsEntry(R.string.dash_bar_auto_hide, SettingsTab.DASHBOARD, detail = R.string.dash_bar_auto_hide_detail),
+        SettingsEntry(R.string.dash_bar_size, SettingsTab.DASHBOARD),
+        SettingsEntry(R.string.bar_items_custom, SettingsTab.DASHBOARD),
+        SettingsEntry(R.string.settings_side_rail, SettingsTab.DASHBOARD, detail = R.string.settings_side_rail_detail),
+        SettingsEntry(R.string.settings_tabs_nav, SettingsTab.DASHBOARD),
+        SettingsEntry(R.string.moments_title, SettingsTab.DASHBOARD, detail = R.string.moments_hint),
 
-        SettingsEntry(R.string.alert_style_section, SettingsTab.POPUPS),
-        SettingsEntry(R.string.alert_kind_call, SettingsTab.POPUPS),
-        SettingsEntry(R.string.alert_kind_doors, SettingsTab.POPUPS),
-        SettingsEntry(R.string.alert_kind_radar, SettingsTab.POPUPS),
-        SettingsEntry(R.string.alert_kind_ac, SettingsTab.POPUPS),
-        SettingsEntry(R.string.alert_kind_tyres, SettingsTab.POPUPS),
-        SettingsEntry(R.string.alert_kind_belt, SettingsTab.POPUPS),
-        SettingsEntry(R.string.alert_kind_volume, SettingsTab.POPUPS),
+        SettingsEntry(R.string.car_menu, SettingsTab.CAR, listOf(Deep.CAR)),
+        SettingsEntry(R.string.mycar_title, SettingsTab.CAR, listOf(Deep.CAR_LOOK), detail = R.string.mycar_settings_detail),
+        SettingsEntry(R.string.vehicle_speed_fix, SettingsTab.CAR, detail = R.string.settings_speed_fix_detail),
+        SettingsEntry(R.string.upkeep_dialog_title, SettingsTab.CAR, listOf(Deep.UPKEEP), detail = R.string.upkeep_settings_detail),
+        SettingsEntry(R.string.lpg_title, SettingsTab.CAR, listOf(Deep.LPG)),
+
+        SettingsEntry(R.string.settings_obd_title, SettingsTab.DIAGNOSTICS, listOf(Deep.OBD)),
+        SettingsEntry(R.string.ai_title, SettingsTab.DIAGNOSTICS, listOf(Deep.AI), detail = R.string.settings_ai_detail),
+        SettingsEntry(R.string.mine_title, SettingsTab.DIAGNOSTICS, listOf(Deep.MY_READINGS), detail = R.string.mine_settings_detail),
+        SettingsEntry(R.string.signals_title, SettingsTab.DIAGNOSTICS, listOf(Deep.SIGNALS), detail = R.string.signals_settings_detail),
 
         SettingsEntry(R.string.settings_drive_lock, SettingsTab.DRIVING, detail = R.string.settings_drive_lock_detail),
+        SettingsEntry(R.string.reverse_title, SettingsTab.DRIVING, listOf(Deep.REVERSE), detail = R.string.reverse_settings_detail),
         SettingsEntry(R.string.places_title, SettingsTab.DRIVING, listOf(Deep.PLACES)),
-        SettingsEntry(R.string.moments_title, SettingsTab.DRIVING, detail = R.string.moments_hint),
         SettingsEntry(R.string.settings_waze_wake, SettingsTab.DRIVING, detail = R.string.settings_waze_wake_detail, offered = { Edition.full && WazeWake.present }),
         SettingsEntry(R.string.wheel_title, SettingsTab.DRIVING, listOf(Deep.WHEEL), offered = { SteeringWheelStore.AVAILABLE }),
         SettingsEntry(R.string.keys_section, SettingsTab.DRIVING, offered = { Edition.full && KeyTargets.available() }),
 
-        SettingsEntry(R.string.language_title, SettingsTab.SYSTEM, listOf(Deep.LANGUAGE)),
-        SettingsEntry(R.string.units_title, SettingsTab.SYSTEM, listOf(Deep.UNITS)),
-        SettingsEntry(R.string.settings_screen_title, SettingsTab.SYSTEM),
-        SettingsEntry(R.string.settings_backup_section, SettingsTab.SYSTEM),
-        SettingsEntry(R.string.demo_menu_start, SettingsTab.SYSTEM),
-        SettingsEntry(R.string.setup_again, SettingsTab.SYSTEM, extra = true),
-        SettingsEntry(R.string.settings_unit_bar_title, SettingsTab.SYSTEM, extra = true, offered = { FreeformBar.supported && Edition.full }),
-        SettingsEntry(R.string.dash_menu_check_updates, SettingsTab.SYSTEM, listOf(Deep.ABOUT), offered = full),
-        SettingsEntry(R.string.about_updates_play, SettingsTab.SYSTEM, listOf(Deep.ABOUT), offered = { Edition.play }),
-        SettingsEntry(R.string.settings_section_about, SettingsTab.SYSTEM, listOf(Deep.ABOUT)),
-        SettingsEntry(R.string.help_title, SettingsTab.SYSTEM, listOf(Deep.ABOUT)),
-        SettingsEntry(R.string.tour_settings_row, SettingsTab.SYSTEM, listOf(Deep.ABOUT)),
-        SettingsEntry(R.string.settings_unit_tools, SettingsTab.SYSTEM, listOf(Deep.UNIT_TOOLS), offered = full),
-        SettingsEntry(R.string.boot_menu, SettingsTab.SYSTEM, listOf(Deep.UNIT_TOOLS), offered = full),
-        SettingsEntry(R.string.settings_system_perms, SettingsTab.SYSTEM, listOf(Deep.UNIT_TOOLS), offered = full),
-        SettingsEntry(R.string.dash_system_app_title, SettingsTab.SYSTEM, listOf(Deep.UNIT_TOOLS), offered = full),
-        SettingsEntry(R.string.shizuku_title, SettingsTab.SYSTEM, detail = R.string.shizuku_search_detail, offered = { shizukuOffered(PrivilegedShell.access.value, ShizukuShell.state.value) }),
-        SettingsEntry(R.string.map_servers_title, SettingsTab.SYSTEM, listOf(Deep.MAP_SERVERS), extra = true),
-        SettingsEntry(R.string.api_keys_title, SettingsTab.SYSTEM, listOf(Deep.API_KEYS), detail = R.string.api_keys_search_detail),
-        SettingsEntry(R.string.automation_title, SettingsTab.SYSTEM, extra = true, detail = R.string.automation_detail),
-        SettingsEntry(R.string.settings_lab, SettingsTab.SYSTEM, listOf(Deep.LAB)),
-        SettingsEntry(R.string.explore_title, SettingsTab.SYSTEM, listOf(Deep.LAB, Deep.EXPLORER), detail = R.string.explore_settings_detail),
-        SettingsEntry(R.string.signals_title, SettingsTab.SYSTEM, listOf(Deep.LAB, Deep.SIGNALS), detail = R.string.signals_settings_detail),
-        SettingsEntry(R.string.dead_strip_title, SettingsTab.SYSTEM, listOf(Deep.LAB), detail = R.string.dead_strip_detail),
-        SettingsEntry(R.string.settings_sleep_title, SettingsTab.SYSTEM, listOf(Deep.LAB), offered = { CarPower.available }),
-        SettingsEntry(R.string.settings_log_title, SettingsTab.SYSTEM, listOf(Deep.LAB))
+        SettingsEntry(R.string.settings_section_phone, SettingsTab.DEVICES),
+        SettingsEntry(R.string.phone_pair, SettingsTab.DEVICES),
+        SettingsEntry(R.string.phone_gps, SettingsTab.DEVICES, detail = R.string.phone_gps_detail),
+        SettingsEntry(R.string.settings_section_second_screen, SettingsTab.DEVICES, listOf(Deep.SECOND_SCREEN)),
+        SettingsEntry(R.string.automation_title, SettingsTab.DEVICES, detail = R.string.automation_detail),
+
+        SettingsEntry(R.string.settings_screen_title, SettingsTab.HEAD_UNIT),
+        SettingsEntry(R.string.settings_unit_bar_title, SettingsTab.HEAD_UNIT, offered = { FreeformBar.supported && Edition.full }),
+        SettingsEntry(R.string.unit_card_title, SettingsTab.HEAD_UNIT, listOf(Deep.HEAD_UNIT), detail = R.string.unit_caps_section),
+        SettingsEntry(R.string.setup_access_title, SettingsTab.HEAD_UNIT, listOf(Deep.ACCESS)),
+        SettingsEntry(R.string.home_hand_back_title, SettingsTab.HEAD_UNIT, detail = R.string.home_hand_back_detail),
+        SettingsEntry(R.string.settings_unit_tools, SettingsTab.HEAD_UNIT, listOf(Deep.UNIT_TOOLS), offered = full),
+        SettingsEntry(R.string.boot_menu, SettingsTab.HEAD_UNIT, listOf(Deep.UNIT_TOOLS), offered = full),
+        SettingsEntry(R.string.settings_system_perms, SettingsTab.HEAD_UNIT, listOf(Deep.UNIT_TOOLS), offered = full),
+        SettingsEntry(R.string.dash_system_app_title, SettingsTab.HEAD_UNIT, listOf(Deep.UNIT_TOOLS), offered = full),
+        SettingsEntry(R.string.shizuku_title, SettingsTab.HEAD_UNIT, detail = R.string.shizuku_search_detail, offered = { shizukuOffered(PrivilegedShell.access.value, ShizukuShell.state.value) }),
+
+        SettingsEntry(R.string.language_title, SettingsTab.GENERAL, listOf(Deep.LANGUAGE)),
+        SettingsEntry(R.string.units_title, SettingsTab.GENERAL, listOf(Deep.UNITS)),
+        SettingsEntry(R.string.settings_backup_section, SettingsTab.GENERAL),
+        SettingsEntry(R.string.setup_again, SettingsTab.GENERAL),
+        SettingsEntry(R.string.demo_menu_start, SettingsTab.GENERAL),
+        SettingsEntry(R.string.dash_menu_check_updates, SettingsTab.GENERAL, listOf(Deep.ABOUT), offered = full),
+        SettingsEntry(R.string.about_updates_play, SettingsTab.GENERAL, listOf(Deep.ABOUT), offered = { Edition.play }),
+        SettingsEntry(R.string.settings_section_about, SettingsTab.GENERAL, listOf(Deep.ABOUT)),
+        SettingsEntry(R.string.help_title, SettingsTab.GENERAL, listOf(Deep.ABOUT)),
+        SettingsEntry(R.string.tour_settings_row, SettingsTab.GENERAL, listOf(Deep.ABOUT)),
+
+        SettingsEntry(R.string.settings_lab, SettingsTab.EXPERT, listOf(Deep.LAB)),
+        SettingsEntry(R.string.api_keys_title, SettingsTab.EXPERT, listOf(Deep.API_KEYS), detail = R.string.api_keys_search_detail),
+        SettingsEntry(R.string.map_servers_title, SettingsTab.EXPERT, listOf(Deep.MAP_SERVERS)),
+        SettingsEntry(R.string.explore_title, SettingsTab.EXPERT, listOf(Deep.LAB, Deep.EXPLORER), detail = R.string.explore_settings_detail),
+        SettingsEntry(R.string.dead_strip_title, SettingsTab.EXPERT, listOf(Deep.LAB), detail = R.string.dead_strip_detail),
+        SettingsEntry(R.string.settings_sleep_title, SettingsTab.EXPERT, listOf(Deep.LAB), offered = { CarPower.available }),
+        SettingsEntry(R.string.settings_log_title, SettingsTab.EXPERT, listOf(Deep.LAB))
     )
 }
 
@@ -543,6 +525,7 @@ private fun Deep.titleRes(): Int = when (this) {
     Deep.UNIT_TOOLS -> R.string.settings_unit_tools
     Deep.MAP_SERVERS -> R.string.map_servers_title
     Deep.API_KEYS -> R.string.api_keys_title
+    Deep.HEAD_UNIT -> R.string.unit_card_title
 }
 
 /** Lower case without accents, so "eco" finds "Éco" and "volumen" finds "Volumen". */
@@ -552,7 +535,7 @@ private fun fold(text: String): String =
 private class Found(val entry: SettingsEntry, val title: String, val path: String, val rank: Int)
 
 @Composable
-private fun SearchResults(query: String, onGo: (SettingsTab, List<Deep>, Boolean, Int?) -> Unit) {
+private fun SearchResults(query: String, onGo: (SettingsTab, List<Deep>, Int?) -> Unit) {
     val context = LocalContext.current
     val words = remember(query) { fold(query).split(' ').filter { it.isNotBlank() } }
     val found = remember(words, context.resources.configuration) {
@@ -589,7 +572,7 @@ private fun SearchResults(query: String, onGo: (SettingsTab, List<Deep>, Boolean
                 .fillMaxWidth()
                 .heightIn(min = DashSize.Bar)
                 .clip(DashShape.Medium)
-                .clickable { tap(); onGo(f.entry.tab, f.entry.path, f.entry.extra, f.entry.title) }
+                .clickable { tap(); onGo(f.entry.tab, f.entry.path, f.entry.title) }
                 .padding(horizontal = 12.dp, vertical = 8.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {

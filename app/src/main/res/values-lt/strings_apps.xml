@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Add-widget catalogue: section headings -->
+    <string name="apps_category_driving">Vairavimas</string>
+    <string name="apps_category_navigation">Navigacija</string>
+    <string name="apps_category_vehicle">Automobilis</string>
+    <string name="apps_category_info">Info ir ryšiai</string>
+    <string name="apps_category_apps">Medija</string>
+
+    <!-- Add-widget catalogue: built-in tiles (name, then one-line description) -->
+    <string name="apps_kind_navmap">Žemėlapis</string>
+    <string name="apps_kind_navmap_blurb">Nemokamas 3D žemėlapis su paieška ir maršrutais</string>
+    <string name="apps_kind_navigation">Nurodymai</string>
+    <string name="apps_kind_navigation_blurb">Kitas posūkis iš Google Maps / Waze</string>
+    <string name="apps_kind_pip_anchor">Maps langas</string>
+    <string name="apps_kind_pip_anchor_blurb">Prisega slankųjį Maps langą čia</string>
+    <string name="apps_kind_media">Muzikos grotuvas</string>
+    <string name="apps_kind_media_blurb">Dabar grojama su valdikliais</string>
+    <string name="apps_kind_telemetry">Variklio prietaisai</string>
+    <string name="apps_kind_telemetry_blurb">Spidometras, apsukos, aušinimo skystis, apkrova, akumuliatorius</string>
+    <string name="apps_kind_obd_dtc">Automobilio gedimai</string>
+    <string name="apps_kind_obd_dtc_blurb">Paties automobilio įspėjimai ir variklio klaidų kodai su paaiškinimais</string>
+    <string name="apps_kind_obd_all">Visi automobilio duomenys</string>
+    <string name="apps_kind_obd_all_blurb">Visos tiesioginės OBD reikšmės</string>
+    <string name="apps_kind_range">Degalai ir rida</string>
+    <string name="apps_kind_range_blurb">Bako lygis ir km iki tuščio bako</string>
+    <string name="apps_kind_doors">Durys</string>
+    <string name="apps_kind_doors_blurb">Durų ir bagažinės būsena iš automobilio</string>
+    <string name="apps_kind_can_mon">CAN monitorius</string>
+    <string name="apps_kind_can_mon_blurb">Neapdoroti CAN kadrai signalams rasti</string>
+    <string name="apps_kind_speed_hud">Greitis</string>
+    <string name="apps_kind_speed_hud_blurb">Didelis skaitmeninis greitis iš OBD arba GPS</string>
+    <string name="apps_kind_compass">Kompasas</string>
+    <string name="apps_kind_compass_blurb">Kryptis, aukštis ir GPS greitis</string>
+    <string name="apps_kind_trip">Kelionės kompiuteris</string>
+    <string name="apps_kind_trip_blurb">Šis važiavimas ir nuo paskutinio pildymo, su degalais ir kaina</string>
+    <string name="apps_kind_gforce">G jėga</string>
+    <string name="apps_kind_gforce_blurb">Posūkių ir stabdymo g</string>
+    <string name="apps_kind_parking">Stovėjimo vieta</string>
+    <string name="apps_kind_parking_blurb">Išsaugokite, kur pastatėte, ir grįžkite pėsčiomis</string>
+    <string name="apps_kind_clock">Laikrodis</string>
+    <string name="apps_kind_clock_blurb">Laikas ir data, dideli</string>
+    <string name="apps_kind_weather">Orai</string>
+    <string name="apps_kind_weather_blurb">Orai prie automobilio, paskyros nereikia</string>
+    <string name="apps_kind_calendar">Darbotvarkė</string>
+    <string name="apps_kind_calendar_blurb">Artimiausi kalendoriaus įvykiai</string>
+    <string name="apps_kind_quick_dial">Greitas rinkimas</string>
+    <string name="apps_kind_quick_dial_blurb">Pažymėti kontaktai, skambutis vienu palietimu</string>
+    <string name="apps_kind_notifications">Pranešimai</string>
+    <string name="apps_kind_notifications_blurb">Žinutės ir įspėjimai iš programų</string>
+    <string name="apps_kind_audio">Garsas</string>
+    <string name="apps_kind_audio_blurb">Garsumas, nutildymas, garso ir Bluetooth nustatymai</string>
+
+    <!-- Add-widget catalogue: dialog -->
+    <string name="apps_pick_launch_bar">Programų juosta</string>
+    <string name="apps_pick_launch_bar_blurb">Mėgstamos programos vienoje eilėje</string>
+    <string name="apps_pick_system_widget">Sistemos valdiklis…</string>
+    <string name="apps_pick_system_widget_blurb">Bet kuris įdiegtos programos valdiklis</string>
+    <string name="apps_cancel">Atšaukti</string>
+    <string name="apps_save">Išsaugoti</string>
+
+    <!-- Launch bar tile and its editor -->
+    <string name="apps_launch_bar_empty">Programų juosta: palieskite pieštuką, kad pridėtumėte programų</string>
+    <string name="apps_launch_bar_edit">Redaguoti programų juostą</string>
+    <string name="apps_launch_bar_editor_title">Programų juostos programos</string>
+    <string name="apps_launch_bar_editor_empty">Programų dar nėra. Pridėkite dažniausiai naudojamas.</string>
+    <string name="apps_move_left">Perkelti kairėn</string>
+    <string name="apps_move_right">Perkelti dešinėn</string>
+    <string name="apps_remove">Pašalinti</string>
+    <string name="apps_add_app">Pridėti programą</string>
+    <plurals name="apps_launch_bar_full">
+        <item quantity="one">Juosta pilna (%1$d programa)</item>
+        <item quantity="few">Juosta pilna (%1$d programos)</item>
+        <item quantity="many">Juosta pilna (%1$d programos)</item>
+        <item quantity="other">Juosta pilna (%1$d programų)</item>
+    </plurals>
+    <string name="apps_launch_bar_add_title">Pridėti į programų juostą</string>
+
+    <!-- App picker and all-apps drawer -->
+    <string name="apps_choose_app">Pasirinkite programą</string>
+    <string name="apps_all_apps">Visos programos</string>
+    <string name="apps_close_drawer">Uždaryti programų sąrašą</string>
+    <string name="apps_no_apps_found">Programų nerasta</string>
+
+    <!-- Docked app window tile (%1$s is the app name; the tile title is ALL CAPS) -->
+    <string name="apps_window_title">%1$s LANGAS</string>
+    <string name="apps_window_maps_docked_beside">Maps prisegtas šalia skydelio.</string>
+    <string name="apps_window_docked">Prisegta: %1$s (%2$s)</string>
+    <string name="apps_window_tap_to_raise">Langas paslėptas? Palieskite čia, kad grąžintumėte jį į priekį.</string>
+    <string name="apps_window_gave_up">Sistema laiko %1$s ten, kur yra</string>
+    <string name="apps_window_moving">%1$s perkeliama čia…</string>
+    <string name="apps_window_opening">%1$s atidaroma čia…</string>
+    <string name="apps_window_maps_hint">Google Maps prisegamas čia.\nAtidarykite jį žemiau arba pradėkite navigaciją ir paspauskite Pradžia.</string>
+    <string name="apps_window_app_hint">%1$s veikia čia, šios plytelės dydžio lange.</string>
+    <string name="apps_window_open">Atidaryti %1$s čia</string>
+    <string name="apps_window_open_full">Atidaryti visą %1$s čia</string>
+    <string name="apps_window_error_gave_up">Nepavyko išlaikyti atidaryto lango</string>
+    <string name="apps_window_error_no_shell">Nėra root (Magisk), o ADB lizdas prievade %1$d neklauso</string>
+
+    <!-- Docked app window tile: diagnostics (%1$s / %2$s are pixel rectangles or system output) -->
+    <string name="apps_window_diag_position">Langas %1$s → tikslas %2$s</string>
+    <string name="apps_window_diag_last">Paskutinis: %1$s</string>
+    <string name="apps_window_diag_seen">Langai: %1$s</string>
+
+    <!-- Floating split-screen swap button (accessibility label) -->
+    <string name="apps_swap_split_panes">Sukeisti padalyto ekrano programas</string>
+    <!-- The add sheet (AddSheet.kt): widgets, apps and windows in one place -->
+    <string name="apps_add_title">Pridėti į %1$s</string>
+    <string name="apps_tab_widgets">Valdikliai</string>
+    <string name="apps_tab_apps">Programos</string>
+    <string name="apps_search">Ieškoti</string>
+    <string name="apps_category_all">Visi</string>
+    <string name="apps_embed_app_starting">Atidaroma %1$s</string>
+    <string name="apps_embed_app_missing">%1$s neįdiegta</string>
+    <string name="apps_embed_app_blocked">%1$s šioje magnetoloje neveikia plytelės viduje. Pridėkite kaip langą.</string>
+    <string name="apps_embed_under_dashboard">Jau po skydeliu</string>
+    <string name="apps_pair_pick_first">Palieskite programą kairei pusei.</string>
+    <string name="apps_pair_pick_second">%1$s kairėje. Dabar palieskite programą dešinei pusei.</string>
+    <string name="apps_pair_change">Keisti</string>
+    <string name="apps_kind_maps_inside">Google Maps viduje</string>
+    <string name="apps_kind_maps_inside_blurb">Tikra Google Maps programa, veikianti šioje plytelėje</string>
+    <string name="apps_kind_dash_bar">Skydelių juosta</string>
+    <string name="apps_kind_dash_bar_blurb">Jūsų skydeliai ir programos, po vieną palietimą, šiame skydelyje</string>
+    <string name="apps_most_used">Dažniausiai naudojamos</string>
+    <string name="apps_kind_screen_light">Pi ekrano ryškumas</string>
+    <string name="apps_kind_screen_light_blurb">Antrojo ekrano apšvietimas dieną ir naktį</string>
+    <string name="apps_kind_radios">Wi-Fi ir Bluetooth</string>
+    <string name="apps_kind_radios_blurb">Įjunkite ir išjunkite magnetolos Wi-Fi ir Bluetooth</string>
+    <string name="apps_radio_wifi">Wi-Fi</string>
+    <string name="apps_radio_bluetooth">Bluetooth</string>
+    <string name="apps_radio_on">Įjungta</string>
+    <string name="apps_radio_off">Išjungta</string>
+    <string name="apps_radio_switching">Perjungiama</string>
+
+    <!-- Add sheet: what a widget is missing right now, and the kinds already placed -->
+    <string name="apps_needs_obd">Reikia OBD adapterio</string>
+    <string name="apps_needs_phone">Reikia telefono</string>
+    <string name="apps_needs_internet">Reikia interneto</string>
+    <string name="apps_needs_root">Reikia root</string>
+    <string name="apps_needs_carbox">Reikia CAN-box</string>
+    <string name="apps_on_dashboard">Skydelyje</string>
+    <string name="apps_as_icon">Piktograma</string>
+    <string name="apps_as_icon_detail">Atidaro programą</string>
+    <string name="apps_in_tile">Plytelėje</string>
+    <string name="apps_in_tile_inside">Veikia plytelės viduje, šiame skydelyje</string>
+    <string name="apps_in_tile_window">Lieka atidaryta plytelės dydžio lange</string>
+    <string name="apps_side_by_side">Greta</string>
+    <string name="apps_side_by_side_detail">Dvi programos vienu metu, padalytame ekrane</string>
+    <string name="apps_icon_size">Piktogramos dydis</string>
+</resources>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- AI mechanic settings: the start-up briefing switch -->
+    <string name="briefing_setting">Apžvalga užvedus</string>
+    <string name="briefing_setting_detail">Užvedus automobilį: mažai degalų, plikledis, variklio gedimai ir kitas susitikimas</string>
+
+    <!-- Spoken when the car starts, in the launcher's language -->
+    <string name="briefing_ice">Atsargiai, kelyje gali būti plikledis.</string>
+    <string name="briefing_fuel_low">Mažai degalų: liko apie %1$d kilometrų, suplanuokite sustojimą.</string>
+    <plurals name="briefing_faults">
+        <item quantity="one">Įrašytas %1$d variklio gedimas: %2$s. Sustoję pažiūrėkite plytelę Gedimų kodai.</item>
+        <item quantity="few">Įrašyti %1$d variklio gedimai: %2$s. Sustoję pažiūrėkite plytelę Gedimų kodai.</item>
+        <item quantity="many">Įrašyta %1$d variklio gedimo: %2$s. Sustoję pažiūrėkite plytelę Gedimų kodai.</item>
+        <item quantity="other">Įrašyta %1$d variklio gedimų: %2$s. Sustoję pažiūrėkite plytelę Gedimų kodai.</item>
+    </plurals>
+    <plurals name="briefing_faults_untitled">
+        <item quantity="one">Įrašytas %1$d variklio gedimas. Sustoję pažiūrėkite plytelę Gedimų kodai.</item>
+        <item quantity="few">Įrašyti %1$d variklio gedimai. Sustoję pažiūrėkite plytelę Gedimų kodai.</item>
+        <item quantity="many">Įrašyta %1$d variklio gedimo. Sustoję pažiūrėkite plytelę Gedimų kodai.</item>
+        <item quantity="other">Įrašyta %1$d variklio gedimų. Sustoję pažiūrėkite plytelę Gedimų kodai.</item>
+    </plurals>
+    <string name="briefing_event">Toliau: %1$s, %2$s.</string>
+    <!-- A sentence the AI mechanic already wrote in the right language -->
+</resources>

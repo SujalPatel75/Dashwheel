@@ -8,7 +8,7 @@ import kotlin.math.min
  * Fuel prices in Germany from Tankerkönig (creativecommons.tankerkoenig.de),
  * which relays the federal MTS-K feed every station must report to. Free,
  * CC BY 4.0, with a key the driver gets for themselves and pastes under
- * Settings → System → Your API keys ([ApiService.TANKERKOENIG]). Asked
+ * Settings → Expert → Your API keys ([ApiService.TANKERKOENIG]). Asked
  * before the French feed when a key is set ([FuelPriceRepo]); outside
  * Germany it knows no station and the French feed takes over. Pure: the
  * address and the reading, unit-tested.

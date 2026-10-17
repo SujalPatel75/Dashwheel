@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- First-run setup (SetupScreen.kt): the car, what the launcher may use, the look -->
+    <string name="setup_title">Dashwheel sąranka</string>
+    <string name="setup_step">%1$d žingsnis iš 3</string>
+    <string name="setup_skip">Praleisti</string>
+    <string name="setup_back">Atgal</string>
+    <string name="setup_next">Tęsti</string>
+    <string name="setup_done">Atlikta</string>
+    <string name="setup_car_title">Jūsų automobilis</string>
+    <string name="setup_car_body">Pakanka markės, modelio ir metų. Visi duomenys laukia skiltyje Nustatymai, Automobilis.</string>
+    <string name="setup_car_make">Markė</string>
+    <string name="setup_car_model">Modelis</string>
+    <string name="setup_car_year">Metai</string>
+    <string name="setup_car_fuel">Degalai</string>
+    <string name="setup_car_gearbox">Pavarų dėžė</string>
+    <string name="setup_later">Vėliau</string>
+    <string name="setup_driver_side">Vairuotojo vieta</string>
+    <string name="setup_driver_left">Kairėje</string>
+    <string name="setup_driver_right">Dešinėje</string>
+    <string name="setup_access_title">Ką Dashwheel gali naudoti</string>
+    <string name="setup_access_body">Visa tai neprivaloma. Leiskite atsidariusiame ekrane ir grįžkite.</string>
+    <string name="setup_access_notifications">Pranešimai</string>
+    <string name="setup_access_notifications_detail">Muzika ir kitas posūkis iš šio įrenginio programų</string>
+    <string name="setup_access_location">Vietovė</string>
+    <string name="setup_access_location_detail">Žemėlapis, orai, kelionė ir stovėjimo vieta</string>
+    <string name="setup_access_contacts">Kontaktai</string>
+    <string name="setup_access_contacts_detail">Pažymėti kontaktai greitajame rinkime</string>
+    <string name="setup_access_calendar">Kalendorius</string>
+    <string name="setup_access_calendar_detail">Šiandienos susitikimai darbotvarkėje</string>
+    <string name="setup_access_obd">OBD adapteris</string>
+    <string name="setup_access_obd_detail">Variklio rodmenys, degalai ir klaidų kodai per Bluetooth</string>
+    <string name="setup_access_phone">Telefonas</string>
+    <string name="setup_access_phone_detail">Žinutės, skambučiai ir darbotvarkė iš jūsų telefono</string>
+    <string name="setup_access_a11y">Padalytas ekranas ir mygtukai</string>
+    <string name="setup_access_a11y_detail">Dvi programos greta, vairo mygtukai, rašymas iš telefono</string>
+    <string name="setup_allow">Leisti</string>
+    <string name="setup_choose">Pasirinkti</string>
+    <string name="setup_allowed">Leista</string>
+    <string name="setup_pair">Susieti</string>
+    <string name="setup_paired">Susieta</string>
+    <string name="setup_obd_none">Neturiu</string>
+    <string name="setup_obd_no_adapter">Be adapterio</string>
+    <string name="setup_no_reminder">Nebepriminti</string>
+    <string name="setup_look_title">Išvaizda</string>
+    <string name="setup_look_body">Trys pradžiai. Visos išvaizdos yra skiltyje Nustatymai, Išvaizda.</string>
+    <string name="setup_pill">Užbaigti sąranką</string>
+    <string name="setup_car_tiles_title">Pridėti automobilio plyteles?</string>
+    <string name="setup_car_tiles_body">Variklio rodikliai, klaidų kodai, akumuliatorius ir įšilimas skydeliuose.</string>
+    <string name="setup_again">Sąranka iš naujo</string>
+    <string name="setup_again_detail">Automobilis, ką Dashwheel gali naudoti ir išvaizda, žingsnis po žingsnio</string>
+</resources>

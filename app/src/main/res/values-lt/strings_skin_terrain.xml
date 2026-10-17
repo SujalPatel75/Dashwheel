@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Terrain skin -->
+    <string name="terrain_talk_cd">Kalbėti su asistentu</string>
+    <string name="terrain_car_cd">Jūsų automobilis</string>
+    <string name="terrain_range">Atstumas</string>
+    <string name="terrain_next_turn">Kitas posūkis</string>
+    <string name="terrain_weather_next">Orai · artimiausios %1$d val.</string>
+    <string name="terrain_rain_from">Lietus nuo %1$s</string>
+    <string name="terrain_rain_until">Lietus iki %1$s</string>
+    <string name="terrain_rain_for">%1$d val.</string>
+    <string name="terrain_dry">Be lietaus %1$d val.</string>
+    <string name="terrain_rain_hours_cd">Lietus %1$d iš artimiausių 6 valandų</string>
+    <string name="terrain_music">Muzika</string>
+    <string name="terrain_playing">Groja</string>
+    <string name="terrain_paused">Pristabdyta</string>
+    <string name="terrain_engine">Variklis</string>
+    <string name="terrain_speed">Greitis</string>
+    <string name="terrain_launch_bar_empty">Programų dar nėra. Palieskite pieštuką ir pridėkite.</string>
+    <string name="terrain_compass">Š,ŠR,R,PR,P,PV,V,ŠV</string>
+    <string name="terrain_altitude">Aukš.</string>
+    <string name="terrain_heading">Kryptis</string>
+    <plurals name="terrain_more_problems">
+        <item quantity="one">Dar %d problema</item>
+        <item quantity="few">Dar %d problemos</item>
+        <item quantity="many">Dar %d problemos</item>
+        <item quantity="other">Dar %d problemų</item>
+    </plurals>
+</resources>

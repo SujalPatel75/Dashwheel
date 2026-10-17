@@ -42,7 +42,6 @@
     <string name="settings_rom_needs_root">Richiede root o l\'ADB dell\'autoradio</string>
     <string name="settings_more_github">Di più con l\'edizione GitHub</string>
     <string name="settings_more_github_detail">Google Maps in un riquadro, i pop-up dell\'autoradio, il logo di avvio e altro richiedono root sull\'autoradio. L\'edizione gratuita su GitHub li ha.</string>
-    <string name="settings_needs_qf">Richiede il firmware QF</string>
     <string name="alert_section">Avvisi</string>
     <string name="alert_kind_call">Chiamate</string>
     <string name="alert_kind_doors">Porte</string>
@@ -256,16 +255,9 @@
     <string name="settings_deepobd_field_ignored">Ignorata</string>
     <!-- Settings rework: groups, overview, search (SettingsScreen.kt, SettingsOverview.kt) -->
     <string name="settings_overview">Panoramica</string>
-    <string name="settings_section_connections">Connessioni</string>
-    <string name="settings_section_sound_voice">Suono e voce</string>
-    <string name="settings_section_popups">Pop-up</string>
-    <string name="settings_section_system">Sistema</string>
     <string name="settings_section_volume">Volume</string>
     <string name="settings_section_taps_music">Tocchi e musica</string>
     <string name="settings_section_more_tools">Altri strumenti</string>
-    <string name="settings_show_all">Tutte le impostazioni</string>
-    <string name="settings_show_fewer">Meno impostazioni</string>
-    <string name="settings_show_fewer_detail">Tieni qui solo le solite</string>
     <string name="settings_lab">Laboratorio</string>
     <string name="settings_lab_detail">Strumenti in prova e il registro dell\'unità</string>
     <string name="dead_strip_title">Striscia touch morta</string>
@@ -279,6 +271,12 @@
     <string name="dead_strip_save">Salva</string>
     <string name="settings_unit_tools">Strumenti dell\'unità</string>
     <string name="settings_unit_tools_detail">Logo di avvio, Google Maps in un riquadro, app di sistema</string>
+    <string name="home_hand_back_title">Dashwheel è la schermata Home</string>
+    <string name="home_hand_back_detail">Spento, lo schermo torna al launcher dell\'autoradio. Le impostazioni restano.</string>
+    <string name="home_hand_back_off_detail">Il launcher dell\'autoradio è la Home. Accendi per riavere Dashwheel.</string>
+    <string name="home_hand_back_confirm_title">Restituire la Home all\'autoradio?</string>
+    <string name="home_hand_back_confirm">Il launcher dell\'autoradio torna subito e a ogni avvio. Dashwheel tiene le impostazioni: aprilo dall\'elenco app e riaccendi questa opzione.</string>
+    <string name="home_hand_back_confirm_ok">Restituisci</string>
     <string name="settings_root_how">Come</string>
     <string name="settings_obd_linked">Collegato: %1$s</string>
     <string name="settings_obd_deepobd">Letture dall\'app Deep OBD</string>
@@ -299,7 +297,6 @@
     <string name="settings_ov_not_allowed">Non ancora consentito: %1$s</string>
     <string name="settings_ov_not_allowed_detail">Alcuni riquadri e messaggi vocali lo aspettano</string>
     <string name="settings_ov_allow">Consenti</string>
-    <string name="settings_sum_popups_none">Uno stile per ogni avviso</string>
     <plurals name="settings_root_more">
         <item quantity="one">%d in più richiede il root su questa unità</item>
         <item quantity="many">%d in più richiedono il root su questa unità</item>
@@ -365,4 +362,23 @@
     <string name="settings_waze_wake_delay_detail">Poi fino a un minuto in più per posizione e dati</string>
     <string name="settings_waze_wake_seconds">%1$d s</string>
     <string name="settings_waze_wake_locked">Serve il root o l\'ADB dell\'unità per chiudere Waze</string>
+    <!-- Settings regrouped 2026-10-17: categories, overview tiles and the Alerts grid -->
+    <string name="settings_section_alerts">Avvisi</string>
+    <string name="settings_section_dashboard">Cruscotto</string>
+    <string name="settings_section_devices">Telefono e schermi</string>
+    <string name="settings_section_general">Generali</string>
+    <string name="settings_section_expert">Esperto</string>
+    <string name="settings_section_upkeep">Manutenzione e carburante</string>
+    <string name="settings_section_screens_apps">Schermi e app</string>
+    <string name="settings_section_access">Firmware e accesso</string>
+    <string name="settings_section_region">Lingua e unità</string>
+    <string name="settings_sum_sound">Volume, tocchi e musica</string>
+    <string name="settings_sum_dashboard">Barra, barra laterale e schede</string>
+    <string name="settings_sum_expert">Laboratorio, chiavi API, server</string>
+    <string name="alerts_say">Dire</string>
+    <string name="alerts_show">Mostra</string>
+    <string name="alerts_intro">Dire lo annuncia a voce, Mostra mette sullo schermo la finestra di Dashwheel. Tocca una finestra per il suo stile.</string>
+    <string name="alerts_group_car">Dall\'auto</string>
+    <string name="alerts_group_road">Sulla strada</string>
+    <string name="alerts_group_start">Alla partenza</string>
 </resources>

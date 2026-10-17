@@ -1,6 +1,5 @@
 package com.openauto.dash
 
-import android.annotation.SuppressLint
 import android.app.Application
 import android.content.Context
 import android.content.Intent
@@ -56,6 +55,8 @@ class DashApp : Application() {
     override fun onCreate() {
         super.onCreate()
         CrashReports.install(this)
+        // Which head unit firmware this is, before anything asks its adapter.
+        UnitPlatform.init(this)
     }
 }
 
@@ -166,14 +167,15 @@ internal object IssueLink {
 /** The unit as a report tells it: model, firmware, Dashwheel's links to it. Nothing personal. */
 internal object UnitFacts {
     fun collect(context: Context): List<Pair<String, String>> {
-        val qf = !prop("sys.qf.is.acc.on").isNullOrBlank()
         val car = CarProfileStore.current
         return listOfNotNull(
             "Dashwheel" to "${BuildConfig.VERSION_NAME} (${if (Edition.play) "Play" else "GitHub"}${if (UpdateManager.beta(context)) ", beta" else ""})",
             "Device" to "${Build.MANUFACTURER} ${Build.MODEL} (${Build.DEVICE}, ${Build.HARDWARE})",
+            // Most of these units claim a newer Android than they run: the API level is the truth.
             "Android" to "${Build.VERSION.RELEASE} (API ${Build.VERSION.SDK_INT})",
             "Build" to (prop("ro.build.display.id") ?: Build.DISPLAY),
-            "Firmware" to if (qf) "QF" else "other",
+            prop("ro.board.platform")?.let { "Platform" to it },
+            *UnitPlatform.reportLines().toTypedArray(),
             prop("persist.sys.qf.mcu.version")?.let { "MCU" to it },
             prop("ro.qf.ota.version")?.let { "OTA" to it },
             "Screen" to context.resources.displayMetrics.let { "${it.widthPixels}x${it.heightPixels} @${it.densityDpi}dpi" },
@@ -188,10 +190,7 @@ internal object UnitFacts {
 
     private fun yes(b: Boolean) = if (b) "yes" else "no"
 
-    @SuppressLint("PrivateApi")
-    private fun prop(name: String): String? = runCatching {
-        Class.forName("android.os.SystemProperties").getMethod("get", String::class.java).invoke(null, name) as String
-    }.getOrNull()?.takeIf { it.isNotBlank() }
+    private fun prop(name: String): String? = SysProps.getOrNull(name)
 }
 
 /** Settings → About → Report how it works: the facts, what works, and the issue to send. */

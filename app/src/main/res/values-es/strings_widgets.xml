@@ -161,4 +161,13 @@
     <string name="widgets_now_event_at">A las %1$s, en %2$s</string>
 
     <string name="widgets_switch_look">Aspecto</string>
+    <string name="widgets_switch_screen_off">Apagar pantalla</string>
+    <string name="widgets_switch_mobile_data">Datos móviles</string>
+    <string name="widgets_switch_mute_detail">Volumen de la música a cero y vuelta</string>
+    <string name="widgets_switch_look_detail">Aspecto de día, de noche o automático</string>
+    <string name="widgets_switch_dnd_detail">Silencia llamadas y notificaciones</string>
+    <string name="widgets_switch_wifi_detail">Activa o desactiva el Wi-Fi</string>
+    <string name="widgets_switch_bluetooth_detail">Activa o desactiva el Bluetooth</string>
+    <string name="widgets_switch_mobile_data_detail">Activa o desactiva los datos de la SIM</string>
+    <string name="widgets_switch_screen_off_detail">Apaga la pantalla como la tecla del equipo</string>
 </resources>

@@ -43,7 +43,6 @@
     <string name="settings_rom_needs_root">Needs root or the head unit\'s ADB</string>
     <string name="settings_more_github">More with the GitHub edition</string>
     <string name="settings_more_github_detail">Google Maps inside a tile, the unit\'s own pop-ups, boot logo and more need the unit\'s root. The free GitHub edition has them.</string>
-    <string name="settings_needs_qf">Needs the QF firmware</string>
     <string name="alert_section">Alerts</string>
     <string name="alert_kind_call">Calls</string>
     <string name="alert_kind_doors">Doors</string>
@@ -259,16 +258,9 @@
     <string name="settings_deepobd_field_ignored">Ignored</string>
     <!-- Settings rework: groups, overview, search (SettingsScreen.kt, SettingsOverview.kt) -->
     <string name="settings_overview">Overview</string>
-    <string name="settings_section_connections">Connections</string>
-    <string name="settings_section_sound_voice">Sound and voice</string>
-    <string name="settings_section_popups">Pop-ups</string>
-    <string name="settings_section_system">System</string>
     <string name="settings_section_volume">Volume</string>
     <string name="settings_section_taps_music">Taps and music</string>
     <string name="settings_section_more_tools">More tools</string>
-    <string name="settings_show_all">Show all settings</string>
-    <string name="settings_show_fewer">Show fewer settings</string>
-    <string name="settings_show_fewer_detail">Keep only the usual ones here</string>
     <string name="settings_lab">Lab</string>
     <string name="settings_lab_detail">Tools still being tried, and the unit\'s log</string>
     <!-- Lab: a touchscreen that misses touches in one upright strip (DeadTouchStrip.kt) -->
@@ -283,6 +275,12 @@
     <string name="dead_strip_save">Save</string>
     <string name="settings_unit_tools">Unit tools</string>
     <string name="settings_unit_tools_detail">Boot logo, Google Maps inside a tile, system app</string>
+    <string name="home_hand_back_title">Dashwheel is the Home screen</string>
+    <string name="home_hand_back_detail">Off gives the screen back to the unit\'s own launcher. Your settings stay.</string>
+    <string name="home_hand_back_off_detail">The unit\'s own launcher is Home. Turn on to make Dashwheel Home again.</string>
+    <string name="home_hand_back_confirm_title">Give Home back to the unit?</string>
+    <string name="home_hand_back_confirm">The unit\'s own launcher comes back now and at every start. Dashwheel keeps your settings: open it from the app list and turn this on again.</string>
+    <string name="home_hand_back_confirm_ok">Give back</string>
     <string name="settings_root_how">How</string>
     <string name="settings_obd_linked">Linked: %1$s</string>
     <string name="settings_obd_deepobd">Readings from the Deep OBD app</string>
@@ -303,7 +301,6 @@
     <string name="settings_ov_not_allowed">Not allowed yet: %1$s</string>
     <string name="settings_ov_not_allowed_detail">Some tiles and spoken messages wait for it</string>
     <string name="settings_ov_allow">Allow</string>
-    <string name="settings_sum_popups_none">Designs for each alert</string>
     <plurals name="settings_root_more">
         <item quantity="one">%d more needs root on this unit</item>
         <item quantity="other">%d more need root on this unit</item>
@@ -365,4 +362,23 @@
     <string name="settings_waze_wake_delay_detail">Then up to a minute more for location and data</string>
     <string name="settings_waze_wake_seconds">%1$d s</string>
     <string name="settings_waze_wake_locked">Needs root or the unit\'s ADB to close Waze</string>
+    <!-- Settings regrouped 2026-10-17: categories, overview tiles and the Alerts grid -->
+    <string name="settings_section_alerts">Alerts</string>
+    <string name="settings_section_dashboard">Dashboard</string>
+    <string name="settings_section_devices">Phone and screens</string>
+    <string name="settings_section_general">General</string>
+    <string name="settings_section_expert">Expert</string>
+    <string name="settings_section_upkeep">Servicing and fuel</string>
+    <string name="settings_section_screens_apps">Screens and apps</string>
+    <string name="settings_section_access">Firmware and access</string>
+    <string name="settings_section_region">Language and units</string>
+    <string name="settings_sum_sound">Volume, taps and music</string>
+    <string name="settings_sum_dashboard">Bar, side rail and tabs</string>
+    <string name="settings_sum_expert">Lab, API keys, servers</string>
+    <string name="alerts_say">Say</string>
+    <string name="alerts_show">Show</string>
+    <string name="alerts_intro">Say speaks it, Show puts Dashwheel\'s pop-up on the screen. Tap a pop-up for its design.</string>
+    <string name="alerts_group_car">From the car</string>
+    <string name="alerts_group_road">On the road</string>
+    <string name="alerts_group_start">Start of a drive</string>
 </resources>

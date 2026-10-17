@@ -56,8 +56,8 @@
     <!-- Text typed on the phone, for the field selected on the car screen (PhoneKeyboard). -->
     <string name="phone_text_copied">A telefonról küldött szöveg vágólapra másolva: tartsa nyomva egy szövegmezőt a beillesztéshez</string>
     <!-- Quick dial and Agenda from the phone, and places sent from it (PhoneLink, InfoTiles, NavHandoff). -->
-    <string name="phone_quickdial_empty">Párosítsa a telefonját a Beállítások, Kapcsolatok részben, hogy itt lássa a kedvenceit</string>
-    <string name="phone_agenda_empty">Párosítsa a telefonját a Beállítások, Kapcsolatok részben, hogy itt lássa a naptárát</string>
+    <string name="phone_quickdial_empty">Párosítsa a telefonját a Beállítások, Telefon és kijelzők részben, hogy itt lássa a kedvenceit</string>
+    <string name="phone_agenda_empty">Párosítsa a telefonját a Beállítások, Telefon és kijelzők részben, hogy itt lássa a naptárát</string>
     <string name="phone_call_back">Visszahívás: %1$s</string>
     <string name="phone_calling">Hívás: %1$s</string>
     <string name="phone_dial_not_allowed">Az innen történő híváshoz engedélyezze a Hívásokat a Dashwheel Companionben.</string>

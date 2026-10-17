@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Settings, System, Head unit: the firmware family and what it offers (HeadUnitCard.kt). -->
+<resources>
+    <string name="unit_card_title">Magnetola</string>
+    <string name="unit_detected">%1$s, aptikta</string>
+    <string name="unit_chosen">%1$s, jūsų pasirinkimas</string>
+    <string name="unit_choose_title">Mano magnetola yra</string>
+    <string name="unit_auto">Automatiškai</string>
+    <string name="unit_restart">Paleisti Dashwheel iš naujo</string>
+    <string name="unit_restart_hint">Pasirinkimas įsigalioja kitą kartą paleidus Dashwheel.</string>
+    <string name="unit_caps_section">Ką siūlo ši programinė įranga</string>
+    <string name="unit_state_live">Veikia</string>
+    <string name="unit_state_ready">Paruošta</string>
+    <string name="unit_needs_settings">Reikia nustatymų leidimo arba apvalkalo</string>
+    <string name="unit_needs_shell">Reikia root, Shizuku arba magnetolos ADB</string>
+    <string name="unit_needs_root">Reikia root</string>
+    <string name="unit_survival_section">Nemiegoti kartu su magnetola</string>
+    <string name="unit_apply">Taikyti</string>
+    <string name="unit_applied">Atlikta</string>
+    <string name="unit_open_whitelist">Atidaryti baltojo sąrašo programą</string>
+    <string name="unit_fyt_keys_title">Perimti vairo mygtukus</string>
+    <string name="unit_fyt_keys_detail">Po paleidimo iš naujo programinė įranga perduoda vairo ir skydelio mygtukus Dashwheel. Jos pačios programos tuo metu juos praranda.</string>
+    <string name="unit_needs_firmware">Reikia %1$s programinės įrangos</string>
+    <string name="unit_family_qf">QF (Hizpo, ROCO K706)</string>
+    <string name="unit_family_fyt">FYT (Joying, Atoto, Mekede)</string>
+    <string name="unit_family_mtc">Microntek (Dasaita, Xtrons, Eonon)</string>
+    <string name="unit_family_topway">Topway TS</string>
+    <string name="unit_family_reglink">Reglink (MediaTek)</string>
+    <string name="unit_family_allwinner">Allwinner</string>
+    <string name="unit_family_nwd">Nowadays</string>
+    <string name="unit_family_generic">Paprastas Android</string>
+    <string name="unit_cap_ignition">Degimas</string>
+    <string name="unit_cap_bus">Automobilio duomenų magistralė</string>
+    <string name="unit_cap_doors">Durys</string>
+    <string name="unit_cap_steering">Vairo kampas</string>
+    <string name="unit_cap_climate">Klimato valdymas</string>
+    <string name="unit_cap_body">Kelionės kompiuteris</string>
+    <string name="unit_cap_speed">Greitis ir apsukos</string>
+    <string name="unit_cap_volts">Akumuliatoriaus įtampa</string>
+    <string name="unit_cap_temp">Lauko temperatūra</string>
+    <string name="unit_cap_phone">Skambučiai magnetoloje</string>
+    <string name="unit_cap_media">Magnetolos grotuvai</string>
+    <string name="unit_cap_volume">Magnetolos garsas</string>
+    <string name="unit_cap_launcher">Programinės įrangos paleidyklės pasirinkimas</string>
+    <string name="unit_cap_popups">Pakeisti programinės įrangos langai</string>
+    <string name="unit_cap_camera">Atbulinės eigos kamera</string>
+    <string name="unit_cap_tyres">Padangos</string>
+</resources>

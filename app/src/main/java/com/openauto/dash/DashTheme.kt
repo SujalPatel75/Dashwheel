@@ -641,6 +641,15 @@ object DashThemeStore {
         context.getSharedPreferences(PREFS, Context.MODE_PRIVATE).edit().putBoolean(KEY_RAIL, on).apply()
     }
 
+    private val _railAsked = kotlinx.coroutines.flow.MutableSharedFlow<Boolean>(extraBufferCapacity = 1)
+    /** The rail turned on or off from outside Settings (the phone's Rescue card): the dashboard takes it up. */
+    val railAsked: kotlinx.coroutines.flow.SharedFlow<Boolean> = _railAsked
+
+    fun askRail(context: Context, on: Boolean) {
+        saveRail(context, on)
+        _railAsked.tryEmit(on)
+    }
+
     /** Whether the rail shows: the choice made, else the theme's own habit. */
     fun railOn(choice: Boolean?, mode: DashThemeMode): Boolean = choice ?: (mode == DashThemeMode.CANVAS || mode == DashThemeMode.TERRAIN)
 

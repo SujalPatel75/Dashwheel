@@ -43,45 +43,12 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 /*
- * The settings of what Dashwheel does without a tap: what it says by itself
- * (Settings, Alerts) and the places a button leads to (Settings, Driving).
+ * The settings of what Dashwheel does without a tap: how what it says by
+ * itself is named in Settings, Alerts, and the places a button leads to
+ * (Settings, Driving).
  */
 
-/**
- * Everything the car says by itself, one row and one switch each
- * ([SpokenEvents]): the briefing, the car's warnings, new fault codes, the
- * speed limit, the cameras, the weather, the phone's messages, LPG. The
- * visual alerts' own voice (calls, doors, tyres, belt) is with each design,
- * below, under "Also spoken".
- */
-@Composable
-internal fun VoiceSettings(essentialOnly: Boolean = false) {
-    val context = LocalContext.current
-    LaunchedEffect(Unit) { SpokenEvents.load(context) }
-    val on by SpokenEvents.on.collectAsState()
-    val lpg by LpgTank.settings.collectAsState()
-    SettingsSection(stringResource(R.string.voice_section))
-    SpokenEvent.entries.forEach { event ->
-        if (event == SpokenEvent.LPG && !lpg.enabled) return@forEach
-        // A rarer one that speaks stays in sight: what the car says is never hidden.
-        if (essentialOnly && event !in ESSENTIAL_SPOKEN && event !in on) return@forEach
-        SettingsToggle(event.icon, stringResource(event.label), stringResource(event.detail), event in on) { wanted ->
-            SpokenEvents.set(context, event, wanted)
-            // Camera warnings follow the drive from now on, tile or no tile.
-            if (event == SpokenEvent.SPEED_CAMERAS && wanted) SpeedCameras.startIfSpeaking(context)
-        }
-        if (event == SpokenEvent.MESSAGES && event in on) {
-            TextButton(onClick = { MessageAlerts.preview(context) }, modifier = Modifier.padding(start = 48.dp)) {
-                Text(stringResource(R.string.message_alert_try), color = DashColors.AccentInk)
-            }
-        }
-    }
-    Spacer(Modifier.height(20.dp))
-}
-
-/** The spoken events Settings lists before "Show all"; the others show there once switched on. */
-internal val ESSENTIAL_SPOKEN = setOf(SpokenEvent.BRIEFING, SpokenEvent.CAR_TIPS, SpokenEvent.FAULT_CODES, SpokenEvent.SPEED_CAMERAS, SpokenEvent.MESSAGES)
-
+/** The spoken events' icon, name and line in the Alerts grid (AlertStyleDialog.kt). */
 internal val SpokenEvent.icon: ImageVector
     get() = when (this) {
         SpokenEvent.BRIEFING -> Icons.Filled.WbSunny

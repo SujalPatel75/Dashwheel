@@ -1,6 +1,15 @@
 package com.openauto.dash
 
 import android.content.ClipData
+import androidx.annotation.StringRes
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.selection.toggleable
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.filled.PlayArrow
+import androidx.compose.material.icons.filled.WebAsset
+import androidx.compose.material3.IconButton
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.draw.alpha
 import android.content.ClipboardManager
 import android.content.Context
 import androidx.compose.foundation.Canvas
@@ -67,22 +76,47 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
 
 /*
- * Settings, Look, Alerts: the design of each of Dashwheel's alerts. One row
- * per alert with its design; the picker shows each design as a small screen
- * with the alert where it would be, and "Try it" puts a made-up one on the
- * real screen.
+ * Settings, Alerts: every event Dashwheel tells the driver about, in one
+ * grid. A row per event with Say (spoken) and Show (Dashwheel's own pop-up
+ * over the firmware's) and Try; a tap on a pop-up's row opens its design
+ * picker, which shows each design as a small screen with the alert where it
+ * would be, and "Try it" puts a made-up one on the real screen.
  */
 
+/** One line of the grid: a pop-up Dashwheel can show, or something it only says. */
+internal sealed interface AlertLine {
+    data class Shown(val kind: AlertKind) : AlertLine
+    data class Said(val event: SpokenEvent) : AlertLine
+}
+
+/** The grid's groups, by where the event comes from; every alert and every spoken event once. */
+internal enum class AlertGroup(@StringRes val title: Int, val lines: List<AlertLine>) {
+    CAR(
+        R.string.alerts_group_car, listOf(
+            AlertLine.Shown(AlertKind.DOORS), AlertLine.Shown(AlertKind.BELT), AlertLine.Shown(AlertKind.TYRES),
+            AlertLine.Said(SpokenEvent.CAR_TIPS), AlertLine.Said(SpokenEvent.FAULT_CODES), AlertLine.Said(SpokenEvent.LPG),
+            AlertLine.Shown(AlertKind.RADAR), AlertLine.Shown(AlertKind.AC)
+        )
+    ),
+    ROAD(
+        R.string.alerts_group_road, listOf(
+            AlertLine.Said(SpokenEvent.SPEED_CAMERAS), AlertLine.Said(SpokenEvent.SPEED_LIMIT), AlertLine.Said(SpokenEvent.WEATHER)
+        )
+    ),
+    PHONE(R.string.settings_section_phone, listOf(AlertLine.Shown(AlertKind.CALL), AlertLine.Said(SpokenEvent.MESSAGES))),
+    START(R.string.alerts_group_start, listOf(AlertLine.Said(SpokenEvent.BRIEFING))),
+    UNIT(R.string.unit_card_title, listOf(AlertLine.Shown(AlertKind.VOLUME), AlertLine.Shown(AlertKind.GEMINI)))
+}
+
 /**
- * Every alert Dashwheel can show, one row each: its switch, and a tap for its
- * design, its voice and "Try it". One list, so a design picked for an alert
- * that is switched off can't go unnoticed. Calls on a unit without the
- * head unit's own Bluetooth app have no switch: the companion's calls always
- * show. Only the alerts this unit can have are listed ([RomPopups.available],
- * [RomPopups.canWork]).
+ * Every alert, one row each: Say, Show and Try side by side, so an alert is
+ * found by what it is, not by whether it is heard or seen. Calls on a unit
+ * without the head unit's own Bluetooth app have no Show: the companion's
+ * calls always show. Only the alerts this unit can have are listed
+ * ([RomPopups.available], [RomPopups.canWork]); LPG only with a tank followed.
  */
 @Composable
-internal fun AlertStyleRows() {
+internal fun AlertsGrid() {
     val context = LocalContext.current
     var picking by remember { mutableStateOf<AlertKind?>(null) }
     val access = shellAccess()
@@ -96,8 +130,29 @@ internal fun AlertStyleRows() {
             kind != AlertKind.CALL && RomPopups.available(context, rom) && !RomPopups.canWork(rom, access)
         }
     }
-    SettingsSection(stringResource(R.string.alert_style_section))
-    kinds.forEach { kind -> AlertRow(kind) { picking = kind } }
+    LaunchedEffect(Unit) { SpokenEvents.load(context) }
+    val lpg by LpgTank.settings.collectAsState()
+    // A made-up alert still up when the page closes goes with it.
+    DisposableEffect(Unit) { onDispose { AlertPreview.stop() } }
+
+    Text(stringResource(R.string.alerts_intro), color = DashColors.TextSecondary, style = MaterialTheme.typography.bodyMedium)
+    AlertGroup.entries.forEach { group ->
+        val lines = group.lines.filter { line ->
+            when (line) {
+                is AlertLine.Shown -> line.kind in kinds
+                is AlertLine.Said -> line.event != SpokenEvent.LPG || lpg.enabled
+            }
+        }
+        if (lines.isEmpty()) return@forEach
+        Spacer(Modifier.height(16.dp))
+        SettingsSection(stringResource(group.title))
+        lines.forEach { line ->
+            when (line) {
+                is AlertLine.Shown -> ShownRow(line.kind) { picking = line.kind }
+                is AlertLine.Said -> SaidRow(line.event)
+            }
+        }
+    }
     if (held && access != PrivilegedShell.Access.UNKNOWN) {
         // The Play edition can never write the car app's settings: one line says which edition can.
         if (Edition.play) Text(
@@ -155,11 +210,11 @@ private fun switchable(kind: AlertKind): Boolean {
 }
 
 /**
- * One alert: its name, what it does now (its design and voice, what it does
- * when off, or why it can't work yet) and its switch, a target of its own.
+ * A pop-up: its name, what it does now (its design, what it does when off, or
+ * why it can't work yet), Say, Show and Try; the row opens its design picker.
  */
 @Composable
-private fun AlertRow(kind: AlertKind, onOpen: () -> Unit) {
+private fun ShownRow(kind: AlertKind, onOpen: () -> Unit) {
     val context = LocalContext.current
     val styles by AlertStyleStore.styles.collectAsState()
     val spoken by AlertStyleStore.spoken.collectAsState()
@@ -169,58 +224,114 @@ private fun AlertRow(kind: AlertKind, onOpen: () -> Unit) {
     val volumeHidden by VolumeRomHide.active.collectAsState()
     val hasSwitch = switchable(kind)
     val on = !hasSwitch || kind.romKind in replaced
-    val style = stringResource(styles.of(kind).title)
     val detail = when {
         on && kind == AlertKind.VOLUME && kind.romKind in failed -> stringResource(R.string.settings_rom_volume_needs_magisk)
         on && kind.romKind in failed -> stringResource(R.string.settings_rom_needs_root)
         on && kind == AlertKind.VOLUME && !volumeHidden -> stringResource(R.string.settings_rom_volume_next_start)
         on && kind == AlertKind.RADAR && !a11y -> stringResource(R.string.settings_rom_radar_needs_access)
-        on && kind.speakable && kind in spoken -> stringResource(R.string.alert_with_voice, style)
-        on -> style
+        on -> stringResource(styles.of(kind).title)
         else -> stringResource(kind.offDetail)
     }
+    GridRow(
+        icon = kind.icon, title = stringResource(kind.label), detail = detail,
+        // Its voice comes with the pop-up: said only while Dashwheel shows it.
+        say = if (kind.speakable) kind in spoken else null, sayEnabled = on,
+        onSay = { AlertStyleStore.setSpoken(context, kind, it) },
+        show = if (hasSwitch) on else null,
+        onShow = { want -> kind.romKind?.let { rom -> RomPopups.setReplaced(context, rom, want) } },
+        onTry = { AlertPreview.show(context, kind) },
+        onOpen = onOpen
+    )
+}
+
+/** Something the car only says: its switch is Say, and messages can be tried. */
+@Composable
+private fun SaidRow(event: SpokenEvent) {
+    val context = LocalContext.current
+    val on by SpokenEvents.on.collectAsState()
+    GridRow(
+        icon = event.icon, title = stringResource(event.label), detail = stringResource(event.detail),
+        say = event in on, sayEnabled = true,
+        onSay = { wanted ->
+            SpokenEvents.set(context, event, wanted)
+            // Camera warnings follow the drive from now on, tile or no tile.
+            if (event == SpokenEvent.SPEED_CAMERAS && wanted) SpeedCameras.startIfSpeaking(context)
+        },
+        show = null, onShow = {},
+        onTry = if (event == SpokenEvent.MESSAGES) ({ MessageAlerts.preview(context) }) else null,
+        onOpen = null
+    )
+}
+
+/** The width of the Say and Show columns, so the pills line up down the grid. */
+private val PILL_COLUMN = 112.dp
+
+/** One row of the grid; a [say] or [show] of null leaves its column empty. */
+@Composable
+private fun GridRow(
+    icon: ImageVector, title: String, detail: String,
+    say: Boolean?, sayEnabled: Boolean, onSay: (Boolean) -> Unit,
+    show: Boolean?, onShow: (Boolean) -> Unit,
+    onTry: (() -> Unit)?, onOpen: (() -> Unit)?
+) {
     val tap = rememberTapFeedback()
     Row(
         modifier = Modifier
-            .searchTarget(stringResource(kind.label))
+            .searchTarget(title)
             .fillMaxWidth()
             .heightIn(min = DashSize.Bar)
             .clip(DashShape.Medium)
-            .clickable { tap(); onOpen() }
-            .padding(horizontal = 12.dp, vertical = 10.dp),
+            .then(if (onOpen != null) Modifier.clickable { tap(); onOpen() } else Modifier)
+            .padding(horizontal = 12.dp, vertical = 8.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Icon(kind.icon, contentDescription = null, tint = DashColors.TextSecondary, modifier = Modifier.size(24.dp))
+        Icon(icon, contentDescription = null, tint = DashColors.TextSecondary, modifier = Modifier.size(24.dp))
         Spacer(Modifier.width(14.dp))
         Column(Modifier.weight(1f)) {
-            Text(stringResource(kind.label), color = DashColors.TextPrimary, style = MaterialTheme.typography.bodyLarge)
+            Text(title, color = DashColors.TextPrimary, style = MaterialTheme.typography.bodyLarge)
             Text(detail, color = DashColors.TextSecondary, maxLines = 2, overflow = TextOverflow.Ellipsis, style = MaterialTheme.typography.bodySmall)
         }
-        Spacer(Modifier.width(12.dp))
-        if (hasSwitch) {
-            AlertSwitch(on) { tap(); kind.romKind?.let { rom -> RomPopups.setReplaced(context, rom, it) } }
-        } else {
-            Icon(Icons.Filled.ChevronRight, contentDescription = null, tint = DashColors.Muted)
+        Spacer(Modifier.width(8.dp))
+        Box(Modifier.width(PILL_COLUMN), contentAlignment = Alignment.Center) {
+            if (say != null) AlertPill(Icons.Filled.RecordVoiceOver, stringResource(R.string.alerts_say), say, sayEnabled, DashColors.Secondary) { tap(); onSay(it) }
+        }
+        Box(Modifier.width(PILL_COLUMN), contentAlignment = Alignment.Center) {
+            if (show != null) AlertPill(Icons.Filled.WebAsset, stringResource(R.string.alerts_show), show, true, DashColors.Accent) { tap(); onShow(it) }
+        }
+        Box(Modifier.size(DashSize.TouchPrimary), contentAlignment = Alignment.Center) {
+            if (onTry != null) IconButton(onClick = { tap(); onTry() }) {
+                Icon(Icons.Filled.PlayArrow, contentDescription = stringResource(R.string.alert_try), tint = DashColors.TextSecondary)
+            }
+        }
+        Box(Modifier.width(24.dp), contentAlignment = Alignment.Center) {
+            if (onOpen != null) Icon(Icons.Filled.ChevronRight, contentDescription = null, tint = DashColors.Muted)
         }
     }
     HorizontalDivider(color = DashColors.Line, modifier = Modifier.padding(horizontal = 12.dp))
 }
 
+/** Say or Show: a pill lit in [tint] while on, a switch to a screen reader. */
 @Composable
-private fun AlertSwitch(on: Boolean, onChange: (Boolean) -> Unit) {
-    Switch(
-        checked = on,
-        onCheckedChange = onChange,
-        // A thumb's width around the switch, so it is hit rather than the row.
-        modifier = Modifier.sizeIn(minWidth = DashSize.TouchPrimary, minHeight = DashSize.TouchPrimary),
-        colors = SwitchDefaults.colors(
-            checkedThumbColor = DashColors.OnAccent,
-            checkedTrackColor = DashColors.Accent,
-            uncheckedThumbColor = DashColors.TextSecondary,
-            uncheckedTrackColor = DashColors.CardHi,
-            uncheckedBorderColor = DashColors.Line
+private fun AlertPill(icon: ImageVector, label: String, on: Boolean, enabled: Boolean, tint: Color, onChange: (Boolean) -> Unit) {
+    val shape = RoundedCornerShape(percent = 50)
+    Row(
+        modifier = Modifier
+            .heightIn(min = 48.dp)
+            .alpha(if (enabled) 1f else 0.4f)
+            .clip(shape)
+            .background(if (on) tint.copy(alpha = 0.18f) else DashColors.CardHi)
+            .border(1.dp, if (on) tint.copy(alpha = 0.55f) else DashColors.Line, shape)
+            .toggleable(value = on, enabled = enabled, role = Role.Switch, onValueChange = onChange)
+            .padding(horizontal = 14.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Icon(icon, contentDescription = null, tint = if (on) tint else DashColors.TextSecondary, modifier = Modifier.size(18.dp))
+        Spacer(Modifier.width(6.dp))
+        Text(
+            label, color = if (on) tint else DashColors.TextSecondary,
+            style = MaterialTheme.typography.labelLarge, fontWeight = FontWeight.SemiBold, maxLines = 1
         )
-    )
+    }
 }
 
 /** What each alert does, said on its row while it is off. */

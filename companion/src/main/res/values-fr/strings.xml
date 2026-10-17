@@ -255,4 +255,22 @@
     <string name="reg_offline">Connectez-vous à la voiture pour l\'envoyer</string>
     <string name="reg_again">Scanner à nouveau</string>
     <string name="dash_share_sent">Tableau de bord envoyé à la voiture : regardez sur l\'écran</string>
+    <string name="rescue_title">Secours</string>
+    <string name="rescue_detail">Bloqué hors de l\'écran de la voiture ? Réparez d\'ici.</string>
+    <string name="rescue_offline">Connectez la voiture pour les utiliser</string>
+    <string name="rescue_wheel">Effacer les boutons du volant</string>
+    <string name="rescue_wheel_body">Chaque bouton du volant refait ce que l\'autoradio fait de lui-même.</string>
+    <string name="rescue_look">Thème Standard</string>
+    <string name="rescue_look_body">La voiture revient au thème Standard, avec la barre du bas.</string>
+    <string name="rescue_split">Quitter l\'écran partagé</string>
+    <string name="rescue_split_body">L\'écran de la voiture n\'est plus partagé avec une autre appli.</string>
+    <string name="rescue_home_back">Rendre l\'accueil à l\'autoradio</string>
+    <string name="rescue_home_back_body">Le lanceur de l\'autoradio redevient l\'écran d\'accueil. Dashwheel reste dans les applis.</string>
+    <string name="rescue_home_take">Remettre Dashwheel en accueil</string>
+    <string name="rescue_home_take_body">Dashwheel redevient l\'écran d\'accueil de la voiture.</string>
+    <string name="rescue_send">Valider</string>
+    <string name="rescue_sending">Envoi à la voiture</string>
+    <string name="rescue_done">Fait dans la voiture</string>
+    <string name="rescue_failed">La voiture n\'a pas pu le faire</string>
+    <string name="rescue_no_answer">Pas de réponse : mettez à jour Dashwheel dans la voiture.</string>
 </resources>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Paper skin -->
+    <string name="paper_map">Žemėlapis</string>
+    <string name="paper_map_cd">Atidaryti žemėlapį</string>
+    <string name="paper_music">Muzika</string>
+    <string name="paper_music_cd">Atidaryti muzikos grotuvą</string>
+    <string name="paper_phone">Telefonas</string>
+    <string name="paper_phone_cd">Atidaryti telefoną</string>
+    <string name="paper_talk">Kalbėti</string>
+    <string name="paper_talk_cd">Kalbėti su asistentu</string>
+    <string name="paper_refreshed">Atnaujinta %1$s</string>
+    <string name="paper_arrival">Atvykimas</string>
+    <string name="paper_speed">Greitis</string>
+    <string name="paper_limit">riba %1$d</string>
+    <string name="paper_limit_label">Riba</string>
+    <string name="paper_rain_next">Lietus, artimiausios %1$d val.</string>
+    <string name="paper_dry_next">Sausa, artimiausios %1$d val.</string>
+    <string name="paper_rain_from">nuo %1$s</string>
+    <string name="paper_rain_until">iki %1$s</string>
+    <string name="paper_coolant">Aušinimas</string>
+    <string name="paper_battery">Akumuliatorius</string>
+    <string name="paper_revs">Apsukos</string>
+    <string name="paper_rpm">r/min</string>
+    <string name="paper_load">Apkrova</string>
+    <string name="paper_intake">Įsiurbiamas oras</string>
+    <string name="paper_range">Atstumas</string>
+    <string name="paper_fuel">Degalai</string>
+    <string name="paper_litres">Litrai</string>
+    <string name="paper_prev">Atgal</string>
+    <string name="paper_play">Groti</string>
+    <string name="paper_pause">Pauzė</string>
+    <string name="paper_next">Kitas</string>
+    <string name="paper_no_route">Nėra maršruto</string>
+    <string name="paper_edit">Redaguoti</string>
+    <string name="paper_connect">Prijungti</string>
+    <string name="paper_launch_bar_empty">Pridėkite programų per Redaguoti</string>
+</resources>

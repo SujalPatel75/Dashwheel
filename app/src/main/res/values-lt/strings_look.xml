@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Settings, Look: the look in use, its Home, the looks by family (LookPage.kt) -->
+    <string name="look_family_new">Naujos</string>
+    <string name="look_family_scenes">Scenos</string>
+    <string name="look_family_dials">Prietaisai</string>
+    <string name="look_family_calm">Ramios</string>
+    <string name="look_family_colours">Tik spalvos</string>
+    <string name="look_arrange_home">Išdėstyti Home pagal išvaizdą</string>
+    <string name="look_arrange_home_detail">Išvaizda su savo Home perkelia savo valdiklius į Home, galima atšaukti</string>
+    <string name="look_home_own">Turi savo Home</string>
+    <string name="look_home_own_off">Turi savo Home. Išdėstymas pagal išvaizdą išjungtas.</string>
+    <string name="look_home_keeps">Home lieka toks, koks yra</string>
+</resources>

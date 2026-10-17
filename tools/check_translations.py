@@ -13,7 +13,7 @@ import sys
 import xml.etree.ElementTree as ET
 from pathlib import Path
 
-LOCALES = ["fr", "de", "es", "it", "pt", "nl", "pl", "ru", "hu"]
+LOCALES = ["fr", "de", "es", "it", "pt", "nl", "pl", "ru", "hu", "lt"]
 PLACEHOLDER = re.compile(r"%(?:(\d+)\$)?[-#+ 0,(]*\d*(?:\.\d+)?([sdfxXc])")
 
 

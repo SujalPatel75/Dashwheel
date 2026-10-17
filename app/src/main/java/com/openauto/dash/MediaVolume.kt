@@ -1,13 +1,11 @@
 package com.openauto.dash
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.media.AudioManager
-import android.os.Build
-import android.os.IBinder
 import android.util.Log
 import android.view.KeyEvent
 import androidx.annotation.StringRes
+import com.openauto.dash.unit.QfVolume
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -48,26 +46,16 @@ object MediaVolume {
     private const val PREFS = "media_volume"
     private const val KEY_WAY = "way"
 
-    /** The QF firmware's volume range. */
-    const val UNIT_MAX = 32
-    /** android.qf.mcu.IMcuManager: RPC_SetVolumeMute(boolean) and RPC_SetVolume(byte). */
-    private const val MCU_SERVICE = "mcu_service"
-    private const val TX_SET_MUTE = 6
-    private const val TX_SET_VOLUME = 13
-    /** Which source the knob currently changes (media_type, radio_type, btcall_type, aux_type). */
-    private const val UNIT_TYPE_PROP = "sys.current.vol.type"
-    private const val UNIT_MUTE_PROP = "sys.mute.state"
-    /** The level a source starts from before it was ever changed. */
-    private const val UNIT_DEFAULT_PROP = "persist.sys.main_volume"
-    private const val UNIT_DEFAULT = 12
+    /** The QF firmware's volume range, the one the demo alert shows too. */
+    const val UNIT_MAX = QfVolume.MAX
 
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
 
-    /** QF firmware, whose sound follows only the unit's own volume. */
-    internal val qfUnit: Boolean by lazy {
-        (Build.BRAND.equals("ROCO", ignoreCase = true) && Build.DEVICE.equals("K706", ignoreCase = true)) ||
-            sysProp(UNIT_TYPE_PROP).isNotEmpty() || hasService(MCU_SERVICE)
-    }
+    /** The unit's own volume control, where its firmware has one ([UnitPlatform.adapter]): the QF firmware's. */
+    private val unit: VolumeControl? get() = UnitPlatform.adapter.volume
+
+    /** A unit whose sound follows only its own volume (the QF firmware). */
+    internal val qfUnit: Boolean get() = unit != null
 
     private val _way = MutableStateFlow(VolumeWay.AUTO)
     val way: StateFlow<VolumeWay> = _way.asStateFlow()
@@ -120,7 +108,9 @@ object MediaVolume {
 
     fun audio(context: Context): AudioManager = context.getSystemService(Context.AUDIO_SERVICE) as AudioManager
 
-    fun max(audio: AudioManager): Int = if (_onUnit.value) UNIT_MAX else audio.getStreamMaxVolume(STREAM).coerceAtLeast(1)
+    fun max(audio: AudioManager): Int = if (_onUnit.value) unitMax() else audio.getStreamMaxVolume(STREAM).coerceAtLeast(1)
+
+    private fun unitMax(): Int = unit?.max ?: UNIT_MAX
 
     /** The level heard: 0 while muted on the unit, as its own volume bar shows it. */
     fun level(audio: AudioManager): Int =
@@ -144,7 +134,7 @@ object MediaVolume {
         VolumeOverlay.ownChange(show)
         if (_onUnit.value) {
             if (level > 0) lastAudible = level
-            setUnit(context, UnitState(level.coerceIn(0, UNIT_MAX), muted = level == 0))
+            setUnit(context, UnitState(level.coerceIn(0, unitMax()), muted = level == 0))
             return
         }
         val audio = audio(context)
@@ -173,7 +163,7 @@ object MediaVolume {
             val now = unitState()
             if (now.muted || now.level == 0) {
                 // Slid down to 0 rather than muted: unmuting alone would leave it silent.
-                val back = if (now.level > 0) now.level else lastAudible.takeIf { it > 0 } ?: (UNIT_MAX / 3)
+                val back = if (now.level > 0) now.level else lastAudible.takeIf { it > 0 } ?: (unitMax() / 3)
                 setUnit(context, UnitState(back, muted = false))
             } else {
                 lastAudible = now.level
@@ -205,7 +195,7 @@ object MediaVolume {
         if (_onUnit.value) {
             // Like the knob: one notch from the saved level, and any change unmutes.
             val now = unitState()
-            val next = (now.level + if (direction == AudioManager.ADJUST_RAISE) 1 else -1).coerceIn(0, UNIT_MAX)
+            val next = (now.level + if (direction == AudioManager.ADJUST_RAISE) 1 else -1).coerceIn(0, unitMax())
             if (next != now.level || now.muted) setUnit(context, UnitState(next, muted = next == 0))
             return
         }
@@ -243,7 +233,7 @@ object MediaVolume {
         }
     }
 
-    // --- The QF unit's own volume ------------------------------------------------------
+    // --- The unit's own volume (QfVolume on the QF firmware) ---------------------------------
 
     private data class UnitState(val level: Int, val muted: Boolean)
 
@@ -252,28 +242,17 @@ object MediaVolume {
     private val unitWrites = Channel<Unit>(Channel.CONFLATED)
     private var unitWriter = false
 
-    private fun unitState(): UnitState = unitWanted.get() ?: UnitState(savedUnitLevel(), sysProp(UNIT_MUTE_PROP) == "true")
+    private fun unitState(): UnitState = unitWanted.get() ?: unit?.read()?.let { UnitState(it.level, it.muted) } ?: UnitState(0, false)
 
     /** The unit's volume as the firmware has it now (or as last asked), for [VolumeOverlay]. */
     internal fun unitNow(): VolumeShown {
         val state = unitState()
-        return VolumeShown(state.level, UNIT_MAX, state.muted, VolumeSource.of(unitSource()))
+        return VolumeShown(state.level, unitMax(), state.muted, VolumeSource.of(unitSource()))
     }
 
     /** The sound source the unit's volume applies to now ("radio_type", "aux_type"...); "" on a unit with one volume for all. */
-    internal fun unitSource(): String = sysProp(UNIT_TYPE_PROP)
+    internal fun unitSource(): String = unit?.source().orEmpty()
     internal const val UNIT_CALL_SOURCE = "btcall_type"
-
-    /** Where the firmware saves the current source's level (android.qf.os.VolumeManager). */
-    private fun unitLevelProp(): String = when (sysProp(UNIT_TYPE_PROP)) {
-        "radio_type" -> "sys.radio.vol"
-        "btcall_type" -> "sys.call.vol"
-        "aux_type" -> "sys.aux.vol"
-        else -> "sys.media.vol"
-    }
-
-    private fun savedUnitLevel(): Int =
-        (sysProp(unitLevelProp()).toIntOrNull() ?: sysProp(UNIT_DEFAULT_PROP).toIntOrNull() ?: UNIT_DEFAULT).coerceIn(0, UNIT_MAX)
 
     private fun setUnit(context: Context, state: UnitState) {
         unitWanted.set(state)
@@ -300,35 +279,10 @@ object MediaVolume {
         }
     }
 
-    /** The two steps of the firmware's own VolumeState: save the level and mute state, then tell the MCU. */
+    /** The firmware's own way of setting its volume ([VolumeControl.write]). */
     private suspend fun writeUnit(app: Context, want: UnitState) {
-        val prop = unitLevelProp()
-        val wasMuted = sysProp(UNIT_MUTE_PROP) == "true"
-        val wasLevel = sysProp(prop).toIntOrNull()
-        val cmds = buildList {
-            if (want.muted != wasMuted) {
-                add("setprop $UNIT_MUTE_PROP ${want.muted}")
-                add("service call $MCU_SERVICE $TX_SET_MUTE i32 ${if (want.muted) 1 else 0}")
-            }
-            if (want.level != wasLevel) {
-                add("setprop $prop ${want.level}")
-                add("service call $MCU_SERVICE $TX_SET_VOLUME i32 ${want.level}")
-            }
-        }
-        if (cmds.isEmpty()) return
-        val out = DockShell.shell(app, cmds.joinToString("; "))
-        // "service call" answers "Result: Parcel(...)"; anything else is an error message.
-        if (!out.contains("Result: Parcel")) throw IllegalStateException(out.trim().lines().firstOrNull().orEmpty())
+        val control = unit ?: throw IllegalStateException("no unit volume")
+        control.write(app, want.level, want.muted)
+        UnitPlatform.markUsed(Cap.VOLUME_UNIT)
     }
-
-    @SuppressLint("PrivateApi")
-    private fun sysProp(name: String): String = runCatching {
-        Class.forName("android.os.SystemProperties").getMethod("get", String::class.java).invoke(null, name) as String
-    }.getOrDefault("")
-
-    /** Whether a system service is registered, without waiting for it like getService does. */
-    @SuppressLint("PrivateApi", "DiscouragedPrivateApi")
-    private fun hasService(name: String): Boolean = runCatching {
-        Class.forName("android.os.ServiceManager").getMethod("checkService", String::class.java).invoke(null, name) as IBinder?
-    }.getOrNull() != null
 }

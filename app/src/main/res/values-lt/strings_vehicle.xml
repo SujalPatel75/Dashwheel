@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- OBD tiles: shared -->
+    <string name="vehicle_obd_not_connected">OBD neprijungtas</string>
+    <string name="vehicle_connect">Prijungti</string>
+    <string name="vehicle_speed">Greitis</string>
+    <string name="vehicle_rpm">Sūkiai</string>
+    <string name="vehicle_coolant">Aušinimo skystis</string>
+    <string name="vehicle_battery">Akumuliatorius</string>
+    <string name="vehicle_fuel">Degalai</string>
+    <string name="vehicle_close">Uždaryti</string>
+    <string name="vehicle_cancel">Atšaukti</string>
+    <string name="vehicle_reset">Nunulinti</string>
+    <string name="vehicle_capture_a">Fiksuoti A</string>
+    <string name="vehicle_capture_b">Fiksuoti B</string>
+
+    <!-- Telemetry tile -->
+    <string name="vehicle_telemetry_title">VARIKLIO RODIKLIAI</string>
+    <string name="vehicle_live">Gyvai</string>
+    <string name="vehicle_speed_caps">GREITIS</string>
+    <string name="vehicle_rpm_caps">SŪKIAI</string>
+    <string name="vehicle_load">Apkrova</string>
+
+    <!-- Fault codes tile -->
+    <string name="vehicle_fault_codes_title">AUTOMOBILIO PROBLEMOS</string>
+    <string name="vehicle_scan">Skenuoti</string>
+    <string name="vehicle_clear">Ištrinti kodus</string>
+
+    <!-- OBD data tile -->
+    <string name="vehicle_obd_data_title">AUTOMOBILIO DUOMENYS</string>
+    <string name="vehicle_intake_air">Įsiurbiamas oras</string>
+    <string name="vehicle_throttle">Droselis</string>
+    <string name="vehicle_engine_load">Variklio apkrova</string>
+    <string name="vehicle_fuel_level">Degalų lygis</string>
+
+    <!-- Fuel & range tile -->
+    <string name="vehicle_fuel_range_title">DEGALAI IR ATSTUMAS</string>
+    <string name="vehicle_via_canbox">per CAN-box</string>
+    <string name="vehicle_via_obd">per OBD</string>
+    <string name="vehicle_fuel_no_obd">Šio automobilio OBD nerodo degalų. Išmokite juos iš CAN-box: reikia root.</string>
+    <string name="vehicle_fuel_none">Degalų lygio dar nėra. Prijunkite OBD adapterį: ne visi automobiliai jį rodo.</string>
+    <string name="vehicle_find_fuel_signal">Rasti degalų signalą</string>
+    <string name="vehicle_try_obd_fuel_pid">Bandyti OBD degalų PID</string>
+    <string name="vehicle_km_to_empty">KM IKI TUŠČIO BAKO</string>
+    <string name="vehicle_range_approx">≈ atstumas</string>
+    <string name="vehicle_in_tank">Bake</string>
+    <string name="vehicle_avg_use">Vid. sąnaudos</string>
+    <string name="vehicle_learn_fuel">Išmokti degalus iš CAN-box</string>
+    <string name="vehicle_recalibrate_fuel">Iš naujo kalibruoti degalus</string>
+    <string name="vehicle_find_range_signal">Skaityti atstumą iš CAN-box</string>
+    <string name="vehicle_learn_range">Atstumas iš CAN-box</string>
+    <string name="vehicle_change_range">Keisti atstumo signalą</string>
+    <string name="vehicle_range_from_car">kelionės kompiuteris</string>
+
+    <!-- Fuel signal finder dialog -->
+    <string name="vehicle_finder_help">Nustatykite lygį, kurį rodo prietaisų skydelio rodyklė, palieskite Fiksuoti A, tada uždarykite ir naudokite automobilį įprastai. Po kelių dienų, kai rodyklė šiek tiek nukris, atidarykite vėl, nustatykite naują reikšmę ir palieskite Fiksuoti B. Fiksuota A išlieka ir po paleidimo iš naujo. Siūlomi tik baitai, kurie keitėsi kartu su degalais.</string>
+    <string name="vehicle_dash_reads">Prietaisai rodo</string>
+    <string name="vehicle_waiting_canbox">Laukiama CAN-box duomenų: reikia root</string>
+    <string name="vehicle_finder_step_a">Nustatykite degalų lygį, kurį rodo prietaisai, tada palieskite Fiksuoti A.</string>
+    <string name="vehicle_finder_step_b">A užfiksuota ties %1$d %%, išsaugota. Galite uždaryti ir važinėti įprastai, sugrįžkite, kai rodyklė nukris keliais %%, nustatykite naują reikšmę ir Fiksuoti B.</string>
+    <string name="vehicle_finder_same">A ir B to paties lygio. Fiksuokite B esant kitam degalų lygiui.</string>
+    <string name="vehicle_finder_none">Joks baitas nesekė pokyčio. Fiksuokite B iš naujo po didesnio kritimo.</string>
+    <string name="vehicle_finder_candidates">Baitai, kurie keitėsi kartu su degalais</string>
+    <string name="vehicle_finder_frame">kadras %1$s · baitas %2$d</string>
+    <string name="vehicle_finder_raw">%1$d → %2$d · pilnas≈%3$d</string>
+    <string name="vehicle_forget_current">Pamiršti dabartinį</string>
+
+    <!-- Range signal finder dialog -->
+    <string name="vehicle_range_finder_help">Atidarykite magnetolos kelionės kompiuterį ir įveskite jo rodomą atstumą (km iki tuščio bako), tada palieskite Ieškoti. Pasirinkite signalą, kurio gyva reikšmė sutampa su kelionės kompiuteriu.</string>
+    <string name="vehicle_range_car_shows">Kelionės kompiuteris rodo</string>
+    <string name="vehicle_range_search">Ieškoti</string>
+    <string name="vehicle_range_none">Jokio signalo su šia reikšme. Patikrinkite skaičių, palikite kelionės kompiuterį atidarytą kelias sekundes ir ieškokite vėl.</string>
+    <string name="vehicle_range_candidates">Signalai su šia reikšme: pasirinkite tą, kuris seka kelionės kompiuterį</string>
+    <string name="vehicle_range_frame">kadras %1$s · baitai %2$d–%3$d</string>
+
+    <!-- OBD adapter picker -->
+    <string name="vehicle_select_adapter">Pasirinkite OBD adapterį</string>
+    <string name="vehicle_no_paired">Nėra susietų Bluetooth įrenginių ir USB adapterio. Susiekite OBD adapterį Bluetooth nustatymuose arba prijunkite USB adapterį.</string>
+    <string name="vehicle_bt_settings">Bluetooth nustatymai</string>
+
+    <!-- OBD adapter status messages -->
+    <string name="vehicle_unknown_device">Nežinomas įrenginys</string>
+    <string name="vehicle_no_response">Adapteris neatsako</string>
+    <string name="vehicle_no_dtc_answer">Variklio kompiuteris neatsakė į gedimų kodų užklausą. Po akimirkos bandykite vėl.</string>
+    <string name="vehicle_lamp_no_codes">Variklio lemputė dega, bet kodų negauta. Bandykite vėl su veikiančiu varikliu.</string>
+    <string name="vehicle_pending">Laukiantys</string>
+    <string name="vehicle_lamp_on">Variklio lemputė dega</string>
+    <string name="vehicle_lamp_off">Variklio lemputė nedega</string>
+    <string name="vehicle_engine_off_hint">Variklis išjungtas: įjungus degimą variklio lemputė užsidega savitikrai ir užgęsta, kai variklis užsiveda. Kai variklis veiks, skenavimas pasikartos savaime.</string>
+    <string name="vehicle_obd_scope">Standartinis OBD mato tik variklio ir išmetimo gedimus; ABS, oro pagalvių ir kėbulo įspėjimams reikia Citroën diagnostikos įrangos.</string>
+    <string name="vehicle_clear_rejected">Adapteris atsakė \"%1$s\". Įjunkite degimą (variklio neužveskite) ir bandykite vėl.</string>
+
+    <!-- Doors tile -->
+    <string name="vehicle_doors_title">DURYS</string>
+    <string name="vehicle_waiting_mcu">Laukiama CAN-box duomenų: reikia root</string>
+    <string name="vehicle_door_front_left">Priekinės kairės</string>
+    <string name="vehicle_door_front_right">Priekinės dešinės</string>
+    <string name="vehicle_door_rear_left">Galinės kairės</string>
+    <string name="vehicle_door_rear_right">Galinės dešinės</string>
+    <string name="vehicle_door_tailgate">Bagažinė</string>
+    <string name="vehicle_door_bonnet">Variklio dangtis</string>
+    <string name="vehicle_door_any_open">Atviros durys</string>
+    <string name="vehicle_doors_all_closed">Visos uždarytos</string>
+    <string name="vehicle_door_open_caps">ATVIROS</string>
+    <string name="vehicle_door_closed">uždarytos</string>
+
+    <!-- CAN monitor (debug tile) -->
+    <string name="vehicle_can_monitor_title">CAN MONITORIUS: rasti signalą</string>
+    <string name="vehicle_can_monitor_help">Durys UŽDARYTOS → Fiksuoti A. Tada ATIDARYKITE duris → Fiksuoti B. Rodomi tik besiskiriantys diskretiniai signalai.</string>
+    <string name="vehicle_can_a_closed">A ✓ uždaryta</string>
+    <string name="vehicle_can_b_open">B ✓ atidaryta</string>
+    <string name="vehicle_can_prompt">Palyginimui fiksuokite A (uždaryta), tada B (atidaryta).</string>
+    <string name="vehicle_can_no_diff">Nėra aiškaus diskretinio skirtumo. Darykite su IŠJUNGTU varikliu, kad jutikliai nesvyruotų, ir per Fiksuoti B laikykite duris atidarytas.</string>
+    <string name="vehicle_can_row_closed">uždaryta: %1$s</string>
+    <string name="vehicle_can_row_open">atidaryta: %1$s</string>
+
+    <!-- Fault code (DTC) descriptions: title + what to check -->
+    <string name="vehicle_dtc_p0300_title">Atsitiktiniai / keli cilindrų uždegimo praleidimai</string>
+    <string name="vehicle_dtc_p0300_fix">Patikrinkite žvakes ir rites (THP: ritės yra žinoma silpnoji vieta), purkštukus ir vakuumo nuotėkius. Žvakes / rites keiskite komplektu.</string>
+    <string name="vehicle_dtc_p0301_title">1 cilindro uždegimo praleidimas</string>
+    <string name="vehicle_dtc_p0301_fix">Sukeiskite 1 cil. ritę / žvakę su kitu cilindru; jei praleidimas persikelia, pakeiskite tą ritę / žvakę. Taip pat patikrinkite 1 purkštuką.</string>
+    <string name="vehicle_dtc_p0302_title">2 cilindro uždegimo praleidimas</string>
+    <string name="vehicle_dtc_p0302_fix">Sukeiskite ritę / žvakę gedimui nustatyti; patikrinkite 2 purkštuką ir kompresiją.</string>
+    <string name="vehicle_dtc_p0303_title">3 cilindro uždegimo praleidimas</string>
+    <string name="vehicle_dtc_p0303_fix">Sukeiskite ritę / žvakę gedimui nustatyti; patikrinkite 3 purkštuką ir kompresiją.</string>
+    <string name="vehicle_dtc_p0304_title">4 cilindro uždegimo praleidimas</string>
+    <string name="vehicle_dtc_p0304_fix">Sukeiskite ritę / žvakę gedimui nustatyti; patikrinkite 4 purkštuką ir kompresiją.</string>
+    <string name="vehicle_dtc_p0016_title">Alkūninio / skirstomojo veleno koreliacija (bank1 jutiklis A)</string>
+    <string name="vehicle_dtc_p0016_fix">Klasikinė 1.6 THP ištempta paskirstymo grandinė. Patikrinkite grandinę, įtempiklį ir velenų jutiklius. Dažnai reikia grandinės komplekto.</string>
+    <string name="vehicle_dtc_p0017_title">Alkūninio / skirstomojo veleno koreliacija (bank1 jutiklis B)</string>
+    <string name="vehicle_dtc_p0017_fix">Tikėtina ištempta paskirstymo grandinė / įtempiklis (1.6 THP). Apžiūrėkite grandinę ir žvaigždutes.</string>
+    <string name="vehicle_dtc_p0011_title">Įsiurbimo skirstomojo veleno fazė per daug paankstinta (bank1)</string>
+    <string name="vehicle_dtc_p0011_fix">VVT / fazių reguliatorius ar alyvos valdymo vožtuvas. Patikrinkite alyvos lygį / kokybę, VVT solenoidą ir grandinės nusidėvėjimą.</string>
+    <string name="vehicle_dtc_p0341_title">Skirstomojo veleno padėties jutiklio diapazonas</string>
+    <string name="vehicle_dtc_p0341_fix">Patikrinkite veleno jutiklį ir jo laidus; įsitikinkite, kad fazės (grandinė) teisingos.</string>
+    <string name="vehicle_dtc_p0340_title">Skirstomojo veleno padėties jutiklio grandinė</string>
+    <string name="vehicle_dtc_p0340_fix">Patikrinkite / pakeiskite veleno jutiklį; apžiūrėkite jungtį ir laidus.</string>
+    <string name="vehicle_dtc_p0299_title">Per mažas turbinos slėgis</string>
+    <string name="vehicle_dtc_p0299_fix">Dažna THP / HDi. Ieškokite slėgio nuotėkių (žarnos / tarpinis aušintuvas), patikrinkite wastegate / turbinos pavarą ir apėjimo vožtuvą.</string>
+    <string name="vehicle_dtc_p0234_title">Per didelis turbinos slėgis</string>
+    <string name="vehicle_dtc_p0234_fix">Patikrinkite, ar nestringa wastegate pavara, slėgio solenoidą ir ar neužstrigęs VNT (HDi).</string>
+    <string name="vehicle_dtc_p0087_title">Per žemas degalų magistralės slėgis</string>
+    <string name="vehicle_dtc_p0087_fix">HDi: patikrinkite degalų filtrą, žemo slėgio tiekimą, aukšto slėgio siurblį ir magistralės slėgio reguliatorių; ieškokite oro / nuotėkių.</string>
+    <string name="vehicle_dtc_p0089_title">Degalų slėgio reguliatoriaus veikimas</string>
+    <string name="vehicle_dtc_p0089_fix">Patikrinkite magistralės slėgio reguliatorių / dozavimo vožtuvą ir siurblį; apžiūrėkite degalų filtrą.</string>
+    <string name="vehicle_dtc_p0093_title">Aptiktas didelis degalų nuotėkis</string>
+    <string name="vehicle_dtc_p0093_fix">HDi: apžiūrėkite purkštukų grįžtamąją liniją, aukšto slėgio vamzdelius ir siurblio sandariklius, ar nėra dyzelino nuotėkių.</string>
+    <string name="vehicle_dtc_p0420_title">Katalizatoriaus efektyvumas žemiau ribos (bank1)</string>
+    <string name="vehicle_dtc_p0420_fix">Dažnai nusidėvėjęs katalizatorius ar lėtas galinis O2 jutiklis. Pirmiausia atmeskite išmetimo nuotėkius ir uždegimo praleidimus.</string>
+    <string name="vehicle_dtc_p0401_title">Nepakankamas EGR srautas</string>
+    <string name="vehicle_dtc_p0401_fix">Išvalykite ar pakeiskite EGR vožtuvą; patikrinkite EGR aušintuvą ir kanalus dėl suodžių (dažna HDi).</string>
+    <string name="vehicle_dtc_p0402_title">Per didelis EGR srautas</string>
+    <string name="vehicle_dtc_p0402_fix">Patikrinkite, ar EGR vožtuvas neužstrigęs atviras, ir jo valdymą; išvalykite suodžius.</string>
+    <string name="vehicle_dtc_p2463_title">Per daug suodžių DPF filtre</string>
+    <string name="vehicle_dtc_p2463_fix">HDi dyzelinas: regeneracijai ilgai pavažiuokite greitkeliu; patikrinkite DPF slėgio jutiklį ir priedo (Eolys) lygį. Gali reikėti priverstinės regeneracijos.</string>
+    <string name="vehicle_dtc_p242f_title">DPF pralaidumas ribotas (pelenų sankaupos)</string>
+    <string name="vehicle_dtc_p242f_fix">DPF baigia tarnauti ar užsikimšęs; gali reikėti priverstinės regeneracijos, DPF valymo ar keitimo.</string>
+    <string name="vehicle_dtc_p0113_title">Aukštas įsiurbiamo oro temperatūros jutiklio signalas</string>
+    <string name="vehicle_dtc_p0113_fix">Patikrinkite IAT jutiklį ir laidus / jungtį; išvalykite ar pakeiskite jutiklį (dažnai MAF / įsiurbime).</string>
+    <string name="vehicle_dtc_p0128_title">Aušinimo skystis žemiau termostato temperatūros</string>
+    <string name="vehicle_dtc_p0128_fix">Dažniausiai atviras užstrigęs termostatas. Pakeiskite termostatą; patikrinkite aušinimo skysčio lygį ir jutiklį.</string>
+    <string name="vehicle_dtc_p0135_title">O2 jutiklio šildytuvas (bank1 jutiklis 1)</string>
+    <string name="vehicle_dtc_p0135_fix">Patikrinkite priekinio O2 jutiklio šildytuvo grandinę ir saugiklį; jei šildytuvas nutrūkęs, pakeiskite jutiklį.</string>
+    <string name="vehicle_dtc_p0130_title">O2 jutiklio grandinė (bank1 jutiklis 1)</string>
+    <string name="vehicle_dtc_p0130_fix">Apžiūrėkite priekinį O2 jutiklį ir laidus; jei lėtas / sugedęs, pakeiskite.</string>
+    <string name="vehicle_dtc_p0171_title">Per liesas mišinys (bank1)</string>
+    <string name="vehicle_dtc_p0171_fix">Ieškokite įsiurbimo / vakuumo nuotėkių (dažna), patikrinkite nešvarų MAF, silpną degalų siurblį / purkštukus.</string>
+    <string name="vehicle_dtc_p0172_title">Per riebus mišinys (bank1)</string>
+    <string name="vehicle_dtc_p0172_fix">Patikrinkite, ar nebėga purkštukai, ar ne per didelis degalų slėgis, nešvarų MAF ar sugedusį O2 jutiklį.</string>
+    <string name="vehicle_dtc_p0505_title">Tuščiosios eigos oro valdymo sistema</string>
+    <string name="vehicle_dtc_p0505_fix">Išvalykite droselį; ieškokite įsiurbimo nuotėkių ir patikrinkite droselio variklio veikimą.</string>
+    <string name="vehicle_dtc_p2100_title">Droselio pavaros variklio grandinė</string>
+    <string name="vehicle_dtc_p2100_fix">Patikrinkite droselio variklį ir laidus; gali tekti keisti droselio korpusą.</string>
+
+    <!-- Fault codes not in the table: described from the code's structure -->
+    <string name="vehicle_dtc_unknown_code">Nežinomas kodas</string>
+    <string name="vehicle_dtc_fallback_title">%1$s %2$s gedimas: %3$s</string>
+    <string name="vehicle_dtc_fallback_fix">Nėra išsaugoto aprašymo. Ieškokite susijusių kodų, patikrinkite paveiktos grandinės jutiklį / laidus ir paieškokite \"%1$s Citroën C4 Picasso\" modelio patarimų.</string>
+    <string name="vehicle_dtc_system_powertrain">Jėgos agregatas</string>
+    <string name="vehicle_dtc_system_chassis">Važiuoklė</string>
+    <string name="vehicle_dtc_system_body">Kėbulas</string>
+    <string name="vehicle_dtc_system_network">Tinklas</string>
+    <string name="vehicle_dtc_system_unknown">Nežinoma</string>
+    <string name="vehicle_dtc_scope_generic">bendrinis</string>
+    <string name="vehicle_dtc_scope_manufacturer">gamintojo</string>
+    <string name="vehicle_dtc_area_fuel_air">degalų ir oro dozavimas</string>
+    <string name="vehicle_dtc_area_ignition">uždegimas / praleidimai</string>
+    <string name="vehicle_dtc_area_emissions">išmetimas / pagalbinės</string>
+    <string name="vehicle_dtc_area_idle">greičio / tuščiosios eigos valdymas</string>
+    <string name="vehicle_dtc_area_computer">kompiuteris / išėjimai</string>
+    <string name="vehicle_dtc_area_transmission">transmisija</string>
+    <string name="vehicle_dtc_area_system">sistema</string>
+
+    <!-- Why the adapter is not connected -->
+    <string name="vehicle_obd_connecting_to">Jungiamasi prie %1$s…</string>
+    <string name="vehicle_obd_pairing_pin">Susiejimas: lange įveskite adapterio PIN</string>
+    <string name="vehicle_obd_switching_bt_on">Įjungiamas magnetolos Bluetooth…</string>
+    <string name="vehicle_obd_adapter">Adapteris: %1$s</string>
+    <string name="vehicle_choose_adapter">Pasirinkti adapterį</string>
+    <string name="vehicle_err_bt_off">Magnetolos Bluetooth išjungtas</string>
+    <string name="vehicle_err_not_paired">%1$s nesusietas su magnetola: palieskite OBD ir susiekite iš naujo</string>
+    <string name="vehicle_err_pairing_failed">Susiejimas su %1$s nebaigtas: palieskite OBD ir įveskite PIN</string>
+    <string name="vehicle_err_bt_still_off">Magnetolos Bluetooth išjungtas ir neįsijungia: paleiskite magnetolą iš naujo ir palieskite OBD</string>
+    <string name="vehicle_err_bt_stuck">Magnetolos Android Bluetooth užstrigo: paleiskite magnetolą iš naujo ir palieskite OBD</string>
+    <string name="vehicle_err_refused">%1$s atmetė ryšį: užimtas telefono ar kitos programėlės, be maitinimo arba per toli</string>
+    <string name="vehicle_err_silent">%1$s prisijungė, bet neatsako: įjunkite degimą ir palieskite OBD</string>
+    <string name="vehicle_usb_cable">USB kabelis</string>
+    <string name="vehicle_obd_usb_allow">Lange leiskite Dashwheel naudoti adapterį</string>
+    <string name="vehicle_err_usb_none">USB adapteris neprijungtas</string>
+    <string name="vehicle_err_usb_tap">Palieskite OBD, kad Dashwheel galėtų naudoti %1$s</string>
+    <string name="vehicle_err_usb_denied">Dashwheel neleista naudoti %1$s</string>
+    <string name="vehicle_err_usb_open">Nepavyko atidaryti %1$s: atjunkite ir prijunkite iš naujo</string>
+    <string name="vehicle_err_usb_silent">%1$s neatsakė kaip OBD adapteris</string>
+    <string name="vehicle_err_phone_not_linked">OBD veikia per telefoną: pirmiausia prijunkite telefoną</string>
+    <string name="vehicle_err_phone_no_adapter">OBD veikia per telefoną: pasirinkite adapterį Companion programėlėje</string>
+    <string name="vehicle_obd_asking_phone">Adapterio klausiama telefono</string>
+    <string name="vehicle_err_phone_relay">Telefonas nepasiekė %1$s: patikrinkite, ar jis prijungtas ir susietas su telefonu</string>
+    <string name="vehicle_err_in_call">Pokalbio metu OBD pristabdytas ir grįš jam pasibaigus</string>
+    <string name="vehicle_err_phone_aa">Android Auto telefone %1$s blokuoja OBD adapterį</string>
+    <string name="vehicle_phone_aa_fix">Kaip ištaisyti</string>
+    <string name="vehicle_phone_aa_title">Android Auto blokuoja OBD</string>
+    <string name="vehicle_phone_aa_body">Telefonas ir OBD adapteris dalijasi magnetolos Bluetooth. Telefono Android Auto nuolat bando pasileisti be kabelio ir jį užima.</string>
+    <string name="vehicle_phone_aa_step1">Telefone atidarykite Nustatymai, tada Programos, tada Android Auto.</string>
+    <string name="vehicle_phone_aa_step2">Palieskite Leidimai, tada Netoliese esantys įrenginiai ir pasirinkite Neleisti.</string>
+    <string name="vehicle_phone_aa_step3">Išjunkite ir vėl įjunkite automobilį.</string>
+    <string name="vehicle_phone_aa_note">Skambučiai, muzika ir Android Auto su USB kabeliu veiks toliau.</string>
+    <string name="vehicle_phone_aa_say">Android Auto telefone %1$s blokuoja OBD. Kaip tai ištaisyti, rodoma ekrane.</string>
+    <string name="vehicle_err_permission">Bluetooth leidimas nesuteiktas</string>
+    <string name="vehicle_obd_connect_from_bar">Prijunkite OBD mygtuku juostoje</string>
+    <string name="vehicle_recent_alerts">Naujausi įspėjimai</string>
+    <string name="vehicle_speed_fix">Greičio pataisa</string>
+    <string name="vehicle_speed_fix_detail">Pridedama prie rodomo greičio iš automobilio ar GPS virš 15 km/h, kad sutaptų su spidometru</string>
+    <string name="vehicle_speed_fix_less">Sumažinti pataisą</string>
+    <string name="vehicle_speed_fix_more">Padidinti pataisą</string>
+    <string name="vehicle_speed_fix_now">Dabartinis greitis: %1$d km/h. Reguliuokite, kol sutaps su spidometru.</string>
+    <string name="vehicle_speed_fix_not_connected">Prijunkite OBD adapterį, kad matytumėte pataisytą greitį gyvai.</string>
+    <string name="vehicle_clear_confirm_title">Ištrinti gedimų kodus?</string>
+    <string name="vehicle_clear_confirm_body">Jie bus ištrinti iš automobilio visam laikui. Servisui jų reikia gedimui rasti.</string>
+    <string name="vehicle_err_unit_bt_aa">Telefono belaidis Android Auto užima magnetolos Bluetooth, todėl %1$s negali prisijungti: telefone išjunkite belaidį Android Auto</string>
+    <string name="vehicle_err_unit_bt_restarted">Magnetolos Bluetooth buvo užstrigęs ir paleistas iš naujo: %1$s prisijungs po minutės</string>
+</resources>

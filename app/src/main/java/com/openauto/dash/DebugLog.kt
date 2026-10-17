@@ -131,6 +131,8 @@ object DebugLog {
             appendLine("Boot reason history:")
             appendLine(sh("getprop persist.sys.boot.reason.history").ifBlank { "-" })
             appendLine("Kept kernel logs: ${sh("ls /sys/fs/pstore /proc/last_kmsg 2>&1").replace('\n', ' ')}")
+            // The firmware family and what pointed at it (UnitPlatform), then the QF ignition property as the unit has it.
+            UnitPlatform.reportLines().forEach { (k, v) -> appendLine("$k: $v") }
             appendLine("Ignition property: ${sh("getprop sys.qf.is.acc.on")}")
             // Android's Home, and the one a QF unit starts by itself ([UnitLauncher]).
             val home = context.packageManager.resolveActivity(
@@ -140,6 +142,7 @@ object DebugLog {
             appendLine("Encryption: ${sh(ENCRYPTION).ifBlank { "-" }}")
             appendLine("Launcher settings:")
             appendLine(sh(LAUNCHER_SETTINGS).ifBlank { "-" })
+            appendLine("Resources now: ${ResourceWatch.lineNow(context)}")
             appendLine()
             appendLine("Lost deep sleeps:")
             appendLine(CarPower.sleepLost(context).joinToString("\n").ifBlank { "none" })
@@ -152,7 +155,11 @@ object DebugLog {
         // go first, the short sections that matter most last, where they are kept.
         fenced("Saved snapshots", snapshots.ifBlank { "none" }) + fenced("Log now", sh(LOGCAT)) +
             fenced("Screens opened", sh(SCREENS).ifBlank { "none" }) + fenced("Screens held", sh(STACKS).ifBlank { "none" }) +
-            fenced("Event log (kept across reboots)", events.takeLast(REPORT_EVENTS_CHARS).ifBlank { "empty" }) + fenced("Summary", head)
+            fenced("Event log (kept across reboots)", events.takeLast(REPORT_EVENTS_CHARS).ifBlank { "empty" }) +
+            // What grew over the days, and why the app's processes ended (Android 11 and later).
+            fenced("Resource trend", ResourceWatch.trend(events).ifBlank { "none yet" }) +
+            fenced("App exits", ResourceWatch.exitReasons(context).ifBlank { "not kept (Android 10) or none" }) +
+            fenced("Summary", head)
     }
 
     private fun fenced(title: String, body: String) = "### $title\n```\n$body\n```\n\n"

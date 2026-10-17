@@ -32,6 +32,7 @@ class SpeedAndTurnTest {
         assertEquals(TurnSide.LEFT, turnSideOf("Turn left, then right"))
         assertEquals(TurnSide.RIGHT, turnSideOf("Поверните направо"))
         assertEquals(TurnSide.LEFT, turnSideOf("Forduljon balra"))
+        assertEquals(TurnSide.RIGHT, turnSideOf("Pasukite į dešinę"))
     }
 
     @Test

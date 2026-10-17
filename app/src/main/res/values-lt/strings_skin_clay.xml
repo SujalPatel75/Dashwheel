@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Clay skin -->
+    <string name="clay_talk">Kalbėti</string>
+    <string name="clay_talk_cd">Kalbėti su asistentu</string>
+    <string name="clay_map">Žemėlapis</string>
+    <string name="clay_music">Muzika</string>
+    <string name="clay_phone">Telefonas</string>
+    <string name="clay_arrival">Atvykimas %1$s</string>
+    <string name="clay_rpm">r/min</string>
+    <string name="clay_gear">Pavara %1$s</string>
+    <string name="clay_coolant">Aušinimas</string>
+    <string name="clay_battery">Akumuliatorius</string>
+    <string name="clay_load">Apkrova</string>
+    <string name="clay_fuel">Degalai</string>
+    <string name="clay_speed_limit_cd">Greičio riba %1$d</string>
+    <string name="clay_launch_bar_empty">Programų dar nėra. Palieskite pieštuką ir pridėkite.</string>
+</resources>

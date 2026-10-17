@@ -42,7 +42,6 @@
     <string name="settings_rom_needs_root">Braucht Root oder das ADB des Radios</string>
     <string name="settings_more_github">Mehr mit der GitHub-Ausgabe</string>
     <string name="settings_more_github_detail">Google Maps in einer Kachel, die eigenen Pop-ups des Radios, das Startlogo und mehr brauchen Root auf dem Radio. Die kostenlose GitHub-Ausgabe hat sie.</string>
-    <string name="settings_needs_qf">Braucht die QF-Firmware</string>
     <string name="alert_section">Hinweise</string>
     <string name="alert_kind_call">Anrufe</string>
     <string name="alert_kind_doors">Türen</string>
@@ -256,16 +255,9 @@
     <string name="settings_deepobd_field_ignored">Ignoriert</string>
     <!-- Settings rework: groups, overview, search (SettingsScreen.kt, SettingsOverview.kt) -->
     <string name="settings_overview">Übersicht</string>
-    <string name="settings_section_connections">Verbindungen</string>
-    <string name="settings_section_sound_voice">Ton und Stimme</string>
-    <string name="settings_section_popups">Pop-ups</string>
-    <string name="settings_section_system">System</string>
     <string name="settings_section_volume">Lautstärke</string>
     <string name="settings_section_taps_music">Tippen und Musik</string>
     <string name="settings_section_more_tools">Weitere Werkzeuge</string>
-    <string name="settings_show_all">Alle Einstellungen</string>
-    <string name="settings_show_fewer">Weniger Einstellungen</string>
-    <string name="settings_show_fewer_detail">Nur die üblichen hier zeigen</string>
     <string name="settings_lab">Labor</string>
     <string name="settings_lab_detail">Werkzeuge im Test und das Protokoll des Geräts</string>
     <string name="dead_strip_title">Toter Touch-Streifen</string>
@@ -279,6 +271,12 @@
     <string name="dead_strip_save">Speichern</string>
     <string name="settings_unit_tools">Geräte-Werkzeuge</string>
     <string name="settings_unit_tools_detail">Startlogo, Google Maps in einer Kachel, System-App</string>
+    <string name="home_hand_back_title">Dashwheel ist der Startbildschirm</string>
+    <string name="home_hand_back_detail">Aus gibt den Bildschirm an den Launcher des Radios zurück. Ihre Einstellungen bleiben.</string>
+    <string name="home_hand_back_off_detail">Der Launcher des Radios ist der Startbildschirm. Einschalten, um Dashwheel wieder zu nutzen.</string>
+    <string name="home_hand_back_confirm_title">Startbildschirm an das Radio zurückgeben?</string>
+    <string name="home_hand_back_confirm">Der Launcher des Radios kommt sofort und bei jedem Start zurück. Dashwheel behält Ihre Einstellungen: aus der App-Liste öffnen und dies wieder einschalten.</string>
+    <string name="home_hand_back_confirm_ok">Zurückgeben</string>
     <string name="settings_root_how">Wie</string>
     <string name="settings_obd_linked">Verbunden: %1$s</string>
     <string name="settings_obd_deepobd">Werte aus der Deep-OBD-App</string>
@@ -299,7 +297,6 @@
     <string name="settings_ov_not_allowed">Noch nicht erlaubt: %1$s</string>
     <string name="settings_ov_not_allowed_detail">Einige Kacheln und Ansagen warten darauf</string>
     <string name="settings_ov_allow">Erlauben</string>
-    <string name="settings_sum_popups_none">Ein Stil für jeden Hinweis</string>
     <plurals name="settings_root_more">
         <item quantity="one">%d weitere braucht Root auf diesem Gerät</item>
         <item quantity="other">%d weitere brauchen Root auf diesem Gerät</item>
@@ -361,4 +358,23 @@
     <string name="settings_waze_wake_delay_detail">Dann bis zu einer Minute mehr für Standort und Daten</string>
     <string name="settings_waze_wake_seconds">%1$d s</string>
     <string name="settings_waze_wake_locked">Zum Schließen von Waze braucht es Root oder das ADB des Geräts</string>
+    <!-- Settings regrouped 2026-10-17: categories, overview tiles and the Alerts grid -->
+    <string name="settings_section_alerts">Hinweise</string>
+    <string name="settings_section_dashboard">Dashboard</string>
+    <string name="settings_section_devices">Telefon und Bildschirme</string>
+    <string name="settings_section_general">Allgemein</string>
+    <string name="settings_section_expert">Experte</string>
+    <string name="settings_section_upkeep">Wartung und Kraftstoff</string>
+    <string name="settings_section_screens_apps">Bildschirme und Apps</string>
+    <string name="settings_section_access">Firmware und Zugriff</string>
+    <string name="settings_section_region">Sprache und Einheiten</string>
+    <string name="settings_sum_sound">Lautstärke, Tippen und Musik</string>
+    <string name="settings_sum_dashboard">Leiste, Seitenleiste und Tabs</string>
+    <string name="settings_sum_expert">Labor, API-Schlüssel, Server</string>
+    <string name="alerts_say">Sagen</string>
+    <string name="alerts_show">Zeigen</string>
+    <string name="alerts_intro">Sagen spricht es aus, Zeigen blendet Dashwheels Fenster ein. Tippe auf ein Fenster für sein Design.</string>
+    <string name="alerts_group_car">Vom Auto</string>
+    <string name="alerts_group_road">Unterwegs</string>
+    <string name="alerts_group_start">Beim Losfahren</string>
 </resources>

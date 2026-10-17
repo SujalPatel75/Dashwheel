@@ -1,6 +1,5 @@
 package com.openauto.dash
 
-import android.annotation.SuppressLint
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -9,6 +8,7 @@ import android.os.Handler
 import android.os.Looper
 import android.provider.Settings
 import androidx.core.content.ContextCompat
+import com.openauto.unitproto.UnitFamily
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
@@ -102,11 +102,16 @@ object UnitSignals {
     /** Running on the QF firmware (set by [start]): its signals are the ones above. */
     val onQf: Boolean get() = appContext != null
 
+    /** The car's outside temperature from another family's bus ([CarFeed]). */
+    internal fun outsideTempWrite(c: Double?) {
+        setOutsideTemp(c)
+    }
+
     fun start(context: Context) {
         if (appContext != null) return
         val app = context.applicationContext
-        // Only on the QF firmware: its framework sets this at boot.
-        if (systemProperty("sys.qf.is.acc.on").isNullOrBlank()) return
+        // Only on the QF firmware (its framework sets the ignition property at boot): these are its broadcasts.
+        if (UnitPlatform.adapter.family != UnitFamily.QF || UnitPlatform.adapter.ignition == null) return
         appContext = app
         _headlightsOn.value = systemProperty("sys.qf.vehicle.headlight_state") == "true"
         _projection.value = systemProperty("sys.qf.carplay.connect") == "true" || systemProperty("sys.qf.bt.aa.connect") == "true"
@@ -125,7 +130,10 @@ object UnitSignals {
     private val receiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
             when (intent.action) {
-                ACTION_HEADLIGHT -> _headlightsOn.value = intent.getBooleanExtra("extra_headlight_state", false)
+                ACTION_HEADLIGHT -> {
+                    UnitPlatform.markUsed(Cap.HEADLIGHTS)
+                    _headlightsOn.value = intent.getBooleanExtra("extra_headlight_state", false)
+                }
                 ACTION_BATTERY -> _phone.value = _phone.value?.copy(battery = intent.getIntExtra("EXTRA_BATTERY", -1).takeIf { it in 0..5 })
                 ACTION_BT_STATE -> {
                     refreshPhone(context)
@@ -140,6 +148,7 @@ object UnitSignals {
 
     private fun onOutsideTemp(context: Context, text: String?) {
         val c = parseOutsideTemp(text)
+        if (c != null) UnitPlatform.markUsed(Cap.OUTSIDE_TEMP)
         // In the unit's log: whether this car's CAN box sends its sensor at all (else the bar shows the
         // weather's). The first reading of each start only, and when it goes, as it is sent on change.
         if (!outTempLogged || c == null) {
@@ -210,8 +219,5 @@ object UnitSignals {
         return c.takeIf { it > -40.0 && it < 70.0 }
     }
 
-    @SuppressLint("PrivateApi")
-    private fun systemProperty(name: String): String? = runCatching {
-        Class.forName("android.os.SystemProperties").getMethod("get", String::class.java).invoke(null, name) as String
-    }.getOrNull()
+    private fun systemProperty(name: String): String? = SysProps.get(name)
 }

@@ -165,4 +165,13 @@
     <string name="widgets_now_event_at">O %1$s, za %2$s</string>
 
     <string name="widgets_switch_look">Wygląd</string>
+    <string name="widgets_switch_screen_off">Wyłącz ekran</string>
+    <string name="widgets_switch_mobile_data">Dane komórkowe</string>
+    <string name="widgets_switch_mute_detail">Głośność muzyki do zera i z powrotem</string>
+    <string name="widgets_switch_look_detail">Wygląd dzienny, nocny lub automatyczny</string>
+    <string name="widgets_switch_dnd_detail">Wycisza połączenia i powiadomienia</string>
+    <string name="widgets_switch_wifi_detail">Włącza lub wyłącza Wi-Fi</string>
+    <string name="widgets_switch_bluetooth_detail">Włącza lub wyłącza Bluetooth</string>
+    <string name="widgets_switch_mobile_data_detail">Włącza lub wyłącza dane karty SIM</string>
+    <string name="widgets_switch_screen_off_detail">Wyłącza ekran jak przycisk radia</string>
 </resources>

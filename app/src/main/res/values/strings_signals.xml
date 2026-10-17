@@ -71,11 +71,17 @@
     <string name="signals_source_flags">Head unit flags</string>
     <string name="signals_source_settings">Head unit settings</string>
     <string name="signals_source_messages">Head unit messages</string>
+    <string name="signals_source_fyt">FYT car data</string>
+    <string name="signals_source_system">Unit system settings</string>
+    <string name="signals_source_secure">Unit secure settings</string>
     <string name="signals_tab_can">Car box</string>
     <string name="signals_tab_shared">Car app</string>
     <string name="signals_tab_flags">Flags</string>
     <string name="signals_tab_settings">Settings</string>
     <string name="signals_tab_messages">Messages</string>
+    <string name="signals_tab_fyt">FYT</string>
+    <string name="signals_tab_system">System</string>
+    <string name="signals_tab_secure">Secure</string>
     <string name="signals_front_left">Front left door</string>
     <string name="signals_front_right">Front right door</string>
     <string name="signals_rear_left">Rear left door</string>

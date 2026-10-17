@@ -115,13 +115,15 @@ internal fun rememberMoving(enabled: Boolean, demo: Boolean): State<Boolean> {
 
 /**
  * The car's speed: the OBD's when connected, else the car box's, else the
- * GPS's (which only runs while someone holds [UseLocationFeed]); 0 when none.
+ * unit's bus's on another firmware ([CarFeed]), else the GPS's (which only
+ * runs while someone holds [UseLocationFeed]); 0 when none.
  */
 internal fun carSpeedKmh(): Flow<Int> = combine(
     ObdBluetoothManager.connectionState,
     ObdBluetoothManager.data,
     CarBox.body,
+    CarFeed.speedKmh,
     LocationFeed.freshSpeedKmh
-) { connection, obd, _, gps ->
-    (if (connection == ObdConnectionState.CONNECTED) obd.speedKmh else CarBox.freshBody()?.speedKmh ?: gps) ?: 0
+) { connection, obd, _, bus, gps ->
+    (if (connection == ObdConnectionState.CONNECTED) obd.speedKmh else CarBox.freshBody()?.speedKmh ?: bus?.toInt() ?: gps) ?: 0
 }

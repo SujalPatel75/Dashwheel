@@ -453,6 +453,9 @@ object McuReader {
     /** The doors from the car app's shared data ([CarBox]), the same bits as the MCU frame's. */
     internal fun carBoxDoors(bits: Int) = setDoors(doorsOf(bits))
 
+    /** The doors as another family's bus decoded them ([CarFeed]). */
+    internal fun busDoorsWrite(state: DoorState) = setDoors(state)
+
     private fun doorsOf(b: Int) = DoorState(
         frontLeft = b and 0x80 != 0,
         frontRight = b and 0x40 != 0,

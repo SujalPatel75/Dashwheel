@@ -1,0 +1,33 @@
+Dashwheel pakeičia „Android“ automobilio magnetolos pradžios ekraną. Žemėlapis, muzika ir tiesioginiai automobilio duomenys viename ramiame ekrane, kurį išsidėstote patys.
+
+Sukurta 1280x720 magnetoloms (ROCO K706, FYT ir QF). Veikia ir vertikaliuose ekranuose bei telefonuose. „Android 10“ arba naujesnė. Root nereikia.
+
+SKYDELIAI
+• Iki septynių skydelių kryžiumi: trys greta, du virš ir du po viduriniu
+• Peržiūrėkite visus iš karto, pridėkite su +, pašalinkite su −
+• Laisvas tinklelis kiekviename: palaikykite plytelę, kad perkeltumėte, tempkite kampą, kad pakeistumėte dydį, atšaukite bet kurį pakeitimą
+• Paruošti šablonai: Kasdien, Kelionė ir Automobilio būklė
+• Daugiau nei 30 integruotų valdiklių su 60+ dizainų, taip pat „Android“ valdikliai ir programų nuorodos
+• 14 išvaizdų, keturios iš jų – viso dizaino apvalkalai, kiekviena su dienos ir nakties versija
+
+JŪSŲ AUTOMOBILIS
+• Tiesioginiai duomenys iš „Bluetooth“ ELM327 OBD adapterio: greitis, apsukos, temperatūros, degalai, įtampa, gedimų kodų skaitymas ir trynimas
+• Magnetolos automobilio duomenys, kai ji jais dalijasi: durys, degalų lygis, žibintai, rida, padangų slėgis
+• Automobilio priežiūra: kietųjų dalelių filtro būklė, variklio įšilimas, akumuliatorius, techninės priežiūros planuoklė su balso priminimais
+• Degalų žurnalas, dujų (LPG) bako įvertis, stovėjimo laikmatis ir kur pastatėte automobilį
+
+KELYJE
+• Nemokamas žemėlapis su paieška ir maršrutais, su savo nuoseklia navigacija arba perduodant jūsų navigacijos programai
+• Kitas posūkis iš „Google Maps“ arba „Waze“ atskiroje plytelėje
+• Priminimas apie poilsį, ekonomiško vairavimo įvertinimas, greičio ribos, degalų kainos netoliese (Prancūzija)
+• Garsumas, kuris keičiasi pagal greitį, balso įspėjimai ir paleidimo apžvalga
+• Jūsų pačių iššokantys langai skambučiams ir automobilio įvykiams bei vairo mygtukai, kuriuos priskiriate patys
+
+PAPILDOMOS GALIMYBĖS
+• DI mechanikas: gedimų kodai paaiškinti paprastais žodžiais su „Google Gemini“ (jūsų nemokamas API raktas)
+• Ryšys su telefonu per „Dashwheel Companion“ programą: pranešimai, žinutės ir skambučiai dideliame ekrane, susiejama QR kodu ir šifruojama nuo galo iki galo
+• Padalytas ekranas ir rašymas iš telefono per „Android“ pritaikymo neįgaliesiems paslaugą, kurią įjungiate patys ir galite bet kada išjungti
+
+11 kalbų: anglų, prancūzų, vokiečių, ispanų, italų, portugalų, olandų, lenkų, rusų, vengrų, lietuvių.
+
+Nemokama ir atvirojo kodo pagal GPL v3. Jokių reklamų, jokio sekimo, jokios paskyros.

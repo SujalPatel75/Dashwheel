@@ -256,4 +256,22 @@
     <string name="reg_offline">Połącz się z autem, aby wysłać</string>
     <string name="reg_again">Skanuj ponownie</string>
     <string name="dash_share_sent">Pulpit wysłany do auta: zobacz na ekranie</string>
+    <string name="rescue_title">Ratunek</string>
+    <string name="rescue_detail">Brak dostępu do ekranu auta? Napraw to stąd.</string>
+    <string name="rescue_offline">Połącz z autem, by ich użyć</string>
+    <string name="rescue_wheel">Wyczyść przyciski kierownicy</string>
+    <string name="rescue_wheel_body">Każdy przycisk kierownicy znów robi to, co radio robi samo.</string>
+    <string name="rescue_look">Wygląd Standardowy</string>
+    <string name="rescue_look_body">Auto wraca do wyglądu Standardowego z dolnym paskiem.</string>
+    <string name="rescue_split">Wyjdź z podzielonego ekranu</string>
+    <string name="rescue_split_body">Ekran auta przestaje być dzielony z inną aplikacją.</string>
+    <string name="rescue_home_back">Oddaj ekran główny radiu</string>
+    <string name="rescue_home_back_body">Własny launcher radia znów jest ekranem głównym. Dashwheel zostaje na liście aplikacji.</string>
+    <string name="rescue_home_take">Dashwheel znów ekranem głównym</string>
+    <string name="rescue_home_take_body">Dashwheel znów jest ekranem głównym auta.</string>
+    <string name="rescue_send">Wykonaj</string>
+    <string name="rescue_sending">Wysyłanie do auta</string>
+    <string name="rescue_done">Zrobione w aucie</string>
+    <string name="rescue_failed">Auto nie mogło tego zrobić</string>
+    <string name="rescue_no_answer">Brak odpowiedzi: zaktualizuj Dashwheel w aucie.</string>
 </resources>

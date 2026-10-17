@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Anime skin: comic words on the stickers -->
+    <string name="skin_anime_turn_in">PO %1$s!</string>
+    <string name="skin_anime_fuel">degalai</string>
+    <string name="skin_anime_fuel_low">mažai degalų!</string>
+    <string name="skin_anime_to_go">liko</string>
+    <string name="skin_anime_engine_cold">variklis bunda</string>
+    <string name="skin_anime_engine_happy">variklis laimingas</string>
+    <string name="skin_anime_engine_hot">variklis karštas!</string>
+    <string name="skin_anime_battery">akumuliatorius</string>
+    <string name="skin_anime_rpm">rpm</string>
+    <string name="skin_anime_load">apkrova</string>
+    <string name="skin_anime_talk">KALBĖK SU MANIM!</string>
+    <string name="skin_anime_talk_end">IKI!</string>
+</resources>

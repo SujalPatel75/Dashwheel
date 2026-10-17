@@ -42,7 +42,6 @@
     <string name="settings_rom_needs_root">Нужен root или ADB магнитолы</string>
     <string name="settings_more_github">Больше в версии с GitHub</string>
     <string name="settings_more_github_detail">Google Maps в плитке, свои окна магнитолы, логотип загрузки и другое требуют root магнитолы. Всё это есть в бесплатной версии с GitHub.</string>
-    <string name="settings_needs_qf">Нужна прошивка QF</string>
     <string name="alert_section">Оповещения</string>
     <string name="alert_kind_call">Звонки</string>
     <string name="alert_kind_doors">Двери</string>
@@ -257,16 +256,9 @@
     <string name="settings_deepobd_field_ignored">Пропущено</string>
     <!-- Settings rework: groups, overview, search (SettingsScreen.kt, SettingsOverview.kt) -->
     <string name="settings_overview">Обзор</string>
-    <string name="settings_section_connections">Подключения</string>
-    <string name="settings_section_sound_voice">Звук и голос</string>
-    <string name="settings_section_popups">Окна</string>
-    <string name="settings_section_system">Система</string>
     <string name="settings_section_volume">Громкость</string>
     <string name="settings_section_taps_music">Нажатия и музыка</string>
     <string name="settings_section_more_tools">Другие инструменты</string>
-    <string name="settings_show_all">Все настройки</string>
-    <string name="settings_show_fewer">Меньше настроек</string>
-    <string name="settings_show_fewer_detail">Оставить здесь только обычные</string>
     <string name="settings_lab">Лаборатория</string>
     <string name="settings_lab_detail">Инструменты в испытании и журнал устройства</string>
     <string name="dead_strip_title">Мёртвая полоса касаний</string>
@@ -280,6 +272,12 @@
     <string name="dead_strip_save">Сохранить</string>
     <string name="settings_unit_tools">Инструменты устройства</string>
     <string name="settings_unit_tools_detail">Логотип загрузки, Google Карты в плитке, системное приложение</string>
+    <string name="home_hand_back_title">Dashwheel — главный экран</string>
+    <string name="home_hand_back_detail">Выключено: экран возвращается к лаунчеру магнитолы. Настройки сохраняются.</string>
+    <string name="home_hand_back_off_detail">Главный экран — лаунчер магнитолы. Включите, чтобы вернуть Dashwheel.</string>
+    <string name="home_hand_back_confirm_title">Вернуть главный экран магнитоле?</string>
+    <string name="home_hand_back_confirm">Лаунчер магнитолы вернётся сейчас и при каждом запуске. Dashwheel сохранит настройки: откройте его из списка приложений и снова включите это.</string>
+    <string name="home_hand_back_confirm_ok">Вернуть</string>
     <string name="settings_root_how">Как</string>
     <string name="settings_obd_linked">Подключён: %1$s</string>
     <string name="settings_obd_deepobd">Данные из приложения Deep OBD</string>
@@ -300,7 +298,6 @@
     <string name="settings_ov_not_allowed">Ещё не разрешено: %1$s</string>
     <string name="settings_ov_not_allowed_detail">Этого ждут некоторые плитки и озвучка сообщений</string>
     <string name="settings_ov_allow">Разрешить</string>
-    <string name="settings_sum_popups_none">Стиль для каждого оповещения</string>
     <plurals name="settings_root_more">
         <item quantity="one">Ещё %d требует root на этом устройстве</item>
         <item quantity="few">Ещё %d требуют root на этом устройстве</item>
@@ -370,4 +367,23 @@
     <string name="settings_waze_wake_delay_detail">Затем ещё до минуты на геолокацию и данные</string>
     <string name="settings_waze_wake_seconds">%1$d с</string>
     <string name="settings_waze_wake_locked">Чтобы закрыть Waze, нужен root или ADB магнитолы</string>
+    <!-- Settings regrouped 2026-10-17: categories, overview tiles and the Alerts grid -->
+    <string name="settings_section_alerts">Оповещения</string>
+    <string name="settings_section_dashboard">Панель</string>
+    <string name="settings_section_devices">Телефон и экраны</string>
+    <string name="settings_section_general">Общие</string>
+    <string name="settings_section_expert">Для опытных</string>
+    <string name="settings_section_upkeep">Обслуживание и топливо</string>
+    <string name="settings_section_screens_apps">Экраны и приложения</string>
+    <string name="settings_section_access">Прошивка и доступ</string>
+    <string name="settings_section_region">Язык и единицы</string>
+    <string name="settings_sum_sound">Громкость, касания и музыка</string>
+    <string name="settings_sum_dashboard">Панель, боковая полоса и вкладки</string>
+    <string name="settings_sum_expert">Лаборатория, API-ключи, серверы</string>
+    <string name="alerts_say">Сказать</string>
+    <string name="alerts_show">Показать</string>
+    <string name="alerts_intro">«Сказать» произносит вслух, «Показать» выводит окно Dashwheel на экран. Нажмите на окно, чтобы выбрать его вид.</string>
+    <string name="alerts_group_car">От автомобиля</string>
+    <string name="alerts_group_road">В дороге</string>
+    <string name="alerts_group_start">При старте</string>
 </resources>

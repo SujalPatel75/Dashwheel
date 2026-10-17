@@ -14,7 +14,7 @@
     <string name="api_keys_gemini_uses">Mecánico IA, respuestas habladas y asistente</string>
     <string name="api_keys_tankerkoenig">Clave de Tankerkönig</string>
     <string name="api_keys_tankerkoenig_uses">Precios del combustible en Alemania</string>
-    <string name="fuel_needs_tankerkoenig">Los precios en Alemania necesitan una clave de Tankerkönig: Ajustes, Sistema, Tus claves API</string>
+    <string name="fuel_needs_tankerkoenig">Los precios en Alemania necesitan una clave de Tankerkönig: Ajustes, Experto, Tus claves API</string>
     <string name="map_servers_overpass">Servidor Overpass</string>
     <string name="map_servers_overpass_detail">Para límites, radares y nombres de gasolineras. Déjalo vacío para los servidores públicos.</string>
     <plurals name="api_keys_set_count">

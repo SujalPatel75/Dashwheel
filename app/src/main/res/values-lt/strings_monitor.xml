@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="monitor_kind">Magnetolos stebėjimas</string>
+    <string name="monitor_kind_blurb">CPU, atmintis, temperatūra ir apkrautiausios programos</string>
+    <string name="monitor_cpu">CPU</string>
+    <string name="monitor_ram">RAM</string>
+    <string name="monitor_chip">Lustas</string>
+    <string name="monitor_storage">Saugykla</string>
+    <string name="monitor_up">Veikia %1$s</string>
+    <string name="monitor_apps_running">Veikiančios programos</string>
+    <plurals name="monitor_apps_count">
+        <item quantity="one">%1$d programa</item>
+        <item quantity="few">%1$d programos</item>
+        <item quantity="many">%1$d programos</item>
+        <item quantity="other">%1$d programų</item>
+    </plurals>
+    <string name="monitor_busiest">Apkrautiausia: %1$s</string>
+    <string name="monitor_no_shell">CPU ir veikiančioms programoms reikia root</string>
+    <string name="monitor_reading">Skaitoma magnetola…</string>
+    <string name="monitor_stop">Stabdyti</string>
+    <string name="monitor_stop_hint">Sustabdžius programą atlaisvinama jos atmintis. Kartu sustoja navigacija ir muzika.</string>
+    <string name="monitor_system">Sistema</string>
+    <string name="monitor_hot_alert">Magnetola įkaito iki %1$d laipsnių.</string>
+    <string name="gear_kind">Pavara</string>
+    <string name="gear_kind_blurb">Įjungta pavara ir atbulinė</string>
+    <string name="gear_reverse">Atbulinė</string>
+    <string name="gear_free">Riedėjimas</string>
+    <string name="gear_stopped">Stovi</string>
+    <string name="gear_nth">%1$d pavara</string>
+    <string name="gear_needs_data">Reikia OBD adapterio arba CAN-box</string>
+    <string name="design_gear_gate">Pavarų eilė</string>
+    <string name="design_gear_gate_desc">Pavaros eilėje, įjungta šviečia</string>
+    <string name="monitor_title">MAGNETOLOS STEBĖJIMAS</string>
+    <string name="gear_title">PAVARA</string>
+    <plurals name="monitor_cores">
+        <item quantity="one">%1$d branduolys</item>
+        <item quantity="few">%1$d branduoliai</item>
+        <item quantity="many">%1$d branduolio</item>
+        <item quantity="other">%1$d branduolių</item>
+    </plurals>
+    <string name="monitor_board_title">Antrasis ekranas</string>
+    <string name="monitor_board_clock">Dažnis</string>
+    <string name="monitor_board_under_powered">Per mažai maitinimo: lėtėja</string>
+    <string name="monitor_board_hot">Per karšta: lėtėja</string>
+    <string name="monitor_board_throttled">Ribojamas programinės įrangos</string>
+</resources>

@@ -1,6 +1,5 @@
 package com.openauto.dash
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.widget.Toast
 import androidx.annotation.StringRes
@@ -47,8 +46,8 @@ object KeyTargets {
     /** Each key's app (a package name), or null when the unit decides. */
     val targets: StateFlow<Map<Key, String?>> = _targets
 
-    /** Whether this is the QF firmware: its car settings always set the NAVI key's property. */
-    fun available(): Boolean = !systemProperty(Key.NAVI.prop).isNullOrBlank()
+    /** Whether this firmware has the key targets (the QF firmware: its car settings always set the NAVI key's property). */
+    fun available(): Boolean = UnitPlatform.adapter.caps.has(Cap.KEY_TARGETS)
 
     fun refresh() {
         _targets.value = Key.entries.associateWith { key ->
@@ -72,10 +71,7 @@ object KeyTargets {
         _targets.update { it + (key to pkg) }
     }.isSuccess
 
-    @SuppressLint("PrivateApi")
-    private fun systemProperty(name: String): String? = runCatching {
-        Class.forName("android.os.SystemProperties").getMethod("get", String::class.java).invoke(null, name) as String
-    }.getOrNull()
+    private fun systemProperty(name: String): String? = SysProps.get(name)
 }
 
 /**

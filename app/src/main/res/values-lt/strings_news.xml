@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Car news for the phone companion (CarNews.kt): reminders shown as notifications. -->
+<resources>
+    <string name="news_battery_title">Silpnas akumuliatorius ramybėje</string>
+    <string name="news_battery_text">Išjungus variklį akumuliatorius rodė %1$s V. Jei automobilis sunkiai užsiveda, patikrinkite akumuliatorių.</string>
+    <string name="news_upkeep_soon">Netrukus: %1$s</string>
+    <string name="news_upkeep_due">Laikas: %1$s</string>
+    <string name="news_fault_title">Variklio gedimų kodai: %1$s</string>
+    <string name="news_fault_text">Atidarykite DI mechaniką automobilyje ir sužinokite, ką jie reiškia.</string>
+    <string name="news_filter_title">Kietųjų dalelių filtrui reikia ilgo važiavimo</string>
+    <string name="news_filter_text">Trumpų kelionių iš eilės: %1$d. Netrukus suplanuokite 20 minučių važiavimą greitkeliu.</string>
+</resources>

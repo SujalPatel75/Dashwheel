@@ -256,4 +256,22 @@
     <string name="reg_offline">A küldéshez csatlakozzon az autóhoz</string>
     <string name="reg_again">Újra beolvasás</string>
     <string name="dash_share_sent">Műszerfal elküldve az autóra: nézze meg ott</string>
+    <string name="rescue_title">Mentés</string>
+    <string name="rescue_detail">Nem éri el az autó képernyőjét? Javítsa innen.</string>
+    <string name="rescue_offline">Csatlakozzon az autóhoz a használatukhoz</string>
+    <string name="rescue_wheel">Kormánygombok törlése</string>
+    <string name="rescue_wheel_body">Minden kormánygomb újra azt teszi, amit az egység magától.</string>
+    <string name="rescue_look">Standard megjelenés</string>
+    <string name="rescue_look_body">Az autó visszaáll a Standard megjelenésre, alsó sávval.</string>
+    <string name="rescue_split">Osztott képernyő bezárása</string>
+    <string name="rescue_split_body">Az autó képernyője már nincs megosztva más alkalmazással.</string>
+    <string name="rescue_home_back">Kezdőképernyő vissza az egységnek</string>
+    <string name="rescue_home_back_body">Az egység saját indítója lesz újra a kezdőképernyő. A Dashwheel az alkalmazáslistában marad.</string>
+    <string name="rescue_home_take">Dashwheel újra kezdőképernyő</string>
+    <string name="rescue_home_take_body">A Dashwheel lesz újra az autó kezdőképernyője.</string>
+    <string name="rescue_send">Végrehajtás</string>
+    <string name="rescue_sending">Küldés az autónak</string>
+    <string name="rescue_done">Kész az autón</string>
+    <string name="rescue_failed">Az autó nem tudta megtenni</string>
+    <string name="rescue_no_answer">Nincs válasz: frissítse a Dashwheelt az autón.</string>
 </resources>

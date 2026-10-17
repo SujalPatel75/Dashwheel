@@ -15,7 +15,7 @@
     <string name="voice_lpg_detail">Szól, ha a második tartály kiürülőben van</string>
     <string name="voice_menu_quiet">Csend</string>
     <string name="voice_menu_back">Hang újra be</string>
-    <string name="voice_where">Hogy az autó magától mit mond, azt a Beállítások, Hang és beszéd részben állíthatja be.</string>
+    <string name="voice_where">Hogy az autó magától mit mond, azt a Beállítások, Figyelmeztetések részben állíthatja be.</string>
 
     <!-- Spoken -->
     <string name="voice_say_message">Üzenet tőle: %1$s</string>

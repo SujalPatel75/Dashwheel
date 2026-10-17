@@ -1,6 +1,5 @@
 package com.openauto.dash
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.os.SystemClock
 import android.util.Log
@@ -66,7 +65,7 @@ internal object UnitBtModule {
         // While the phone's Android Auto still goes round, a restart is jammed again at once: the
         // driver is told instead. Never during a call: the restart drops the phone's Bluetooth.
         val due = lastRestartAt == 0L || SystemClock.elapsedRealtime() - lastRestartAt >= RESTART_GAP_MS
-        if (!due || loop || HeadUnitPhone.call.value != null) return Outcome(finding, restarted = false, androidAutoLoop = loop)
+        if (!due || loop || UnitPhone.call.value != null) return Outcome(finding, restarted = false, androidAutoLoop = loop)
         val service = runCatching { DockShell.shell(app, "getprop") }.getOrDefault("").let(::serviceName)
         Log.w(TAG, "the Bluetooth module ${if (finding == Finding.MISROUTED) "gave the OBD link to Android Auto" else "ignored the OBD adapter"}: restarting $service")
         lastRestartAt = SystemClock.elapsedRealtime()
@@ -107,8 +106,5 @@ internal object UnitBtModule {
     internal fun serviceName(getprop: String): String =
         Regex("""\[init\.svc\.(gocsdk[A-Za-z0-9_]*)]""").find(getprop)?.groupValues?.get(1) ?: DEFAULT_SERVICE
 
-    @SuppressLint("PrivateApi")
-    private fun systemProperty(name: String): String? = runCatching {
-        Class.forName("android.os.SystemProperties").getMethod("get", String::class.java).invoke(null, name) as String
-    }.getOrNull()
+    private fun systemProperty(name: String): String? = SysProps.get(name)
 }

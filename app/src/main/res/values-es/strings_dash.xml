@@ -201,6 +201,7 @@
     <string name="dash_remove_dashboard_body">Vaciarlo, o quitarlo de los deslizamientos con sus fichas. Deshacer las recupera.</string>
     <string name="dash_tile_move">Mover a otro panel</string>
     <string name="dash_tile_remove">Quitar</string>
+    <string name="dash_tile_restart_app">Reiniciar la app</string>
     <string name="dash_apps">Apps</string>
     <string name="dash_rootless_title">Se necesita acceso root</string>
     <plurals name="dash_rootless_body">

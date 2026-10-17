@@ -70,11 +70,17 @@
     <string name="signals_source_flags">Drapeaux de l\'autoradio</string>
     <string name="signals_source_settings">Réglages de l\'autoradio</string>
     <string name="signals_source_messages">Messages de l\'autoradio</string>
+    <string name="signals_source_fyt">Données FYT</string>
+    <string name="signals_source_system">Réglages système de l\'autoradio</string>
+    <string name="signals_source_secure">Réglages sécurisés de l\'autoradio</string>
     <string name="signals_tab_can">Boîtier</string>
     <string name="signals_tab_shared">Appli</string>
     <string name="signals_tab_flags">Drapeaux</string>
     <string name="signals_tab_settings">Réglages</string>
     <string name="signals_tab_messages">Messages</string>
+    <string name="signals_tab_fyt">FYT</string>
+    <string name="signals_tab_system">Système</string>
+    <string name="signals_tab_secure">Sécurisés</string>
     <string name="signals_front_left">Porte avant gauche</string>
     <string name="signals_front_right">Porte avant droite</string>
     <string name="signals_rear_left">Porte arrière gauche</string>

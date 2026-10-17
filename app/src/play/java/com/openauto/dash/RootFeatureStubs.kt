@@ -105,6 +105,12 @@ internal object SystemUpkeep {
 }
 
 /** The firmware's volume bar stays: hiding it takes a root module. */
+/** Reglink's whitelist files on /system: root only, never in this edition. */
+internal object ReglinkWhitelist {
+    val available: Boolean get() = false
+    suspend fun apply(context: Context): Boolean = false
+}
+
 internal object VolumeRomHide {
     const val FIRMWARE_PACKAGE = "com.qf.framework"
 

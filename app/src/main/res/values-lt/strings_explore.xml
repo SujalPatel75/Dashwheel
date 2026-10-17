@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Experimental advanced readings (PidExplorer.kt, PidExplorerDialog.kt) -->
+    <string name="explore_title">Išplėstiniai rodmenys</string>
+    <string name="explore_settings_detail">Eksperimentinis: suodžių kiekis ir kt., siūlo DI, patvirtina automobilis</string>
+    <string name="explore_soot_load">Suodžių kiekis</string>
+    <string name="explore_dpf_temp">Filtro temperatūra</string>
+    <string name="explore_dpf_pressure">Filtro slėgis</string>
+    <string name="explore_regen">Regeneracija</string>
+    <string name="explore_km_since_regen">Nuo paskutinės regeneracijos</string>
+    <string name="explore_additive">Priedo lygis</string>
+    <string name="explore_oil_temp">Alyvos temperatūra</string>
+    <string name="explore_explanation">Eksperimentinis: DI siūlo šiam automobiliui skirtas diagnostikos užklausas ir palieka tas, į kurias automobilis atsako protinga, stabilia verte. Palikti rodmenys vis tiek gali būti klaidingi.</string>
+    <string name="explore_search">Ieškoti su DI</string>
+    <string name="explore_searching">Bandomos užklausos… %1$d s</string>
+    <string name="explore_verified">Patvirtinti rodmenys</string>
+    <string name="explore_none_verified">Kol kas nėra. Prijunkite adapterį, kai variklis veikia, ir ieškokite.</string>
+    <string name="explore_results">Išbandyta</string>
+    <string name="explore_forget">Atstatyti viską</string>
+    <string name="explore_v_no_answer">nėra atsakymo</string>
+    <string name="explore_v_refused">atmesta</string>
+    <string name="explore_v_unreadable">neįskaitoma</string>
+    <string name="explore_v_implausible">neįtikima</string>
+    <string name="explore_v_unstable">nestabilu</string>
+    <string name="explore_v_ok">patvirtinta</string>
+    <string name="explore_silent">adapteris neatsakė</string>
+    <string name="explore_not_in_demo">Demonstraciniame režime nepasiekiama</string>
+    <string name="explore_nothing_found">Nieko nepatvirtinta. Šis automobilis gali tai rodyti tik serviso įrangai.</string>
+    <string name="explore_source_standard">standartinis</string>
+    <string name="explore_source_ai">DI</string>
+    <string name="explore_regen_yes">Regeneruojama</string>
+    <string name="explore_regen_no">Neregeneruojama</string>
+    <string name="explore_soot_status">Suodžių kiekis %1$d %%</string>
+</resources>

@@ -126,7 +126,7 @@
     <string name="car_fetch_ok">Ficha preenchida: verifique-a e depois Guardar</string>
     <string name="car_fetch_failed">Não foi possível obter a ficha: %1$s</string>
     <string name="car_fetch_no_key">adicione primeiro uma chave Gemini em Definições → Carro → Mecânico IA</string>
-    <string name="car_fetch_needs_key">Adicione uma chave Gemini em Definições, Carro, Mecânico IA para preencher a ficha</string>
+    <string name="car_fetch_needs_key">Adicione uma chave Gemini em Definições, Diagnóstico, Mecânico IA para preencher a ficha</string>
     <string name="car_section_engine">Motor</string>
     <string name="car_section_gearbox">Caixa de velocidades</string>
     <string name="car_section_upkeep">Manutenção</string>

@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Common buttons and labels -->
+    <string name="dash_cancel">Atšaukti</string>
+    <string name="dash_done">Atlikta</string>
+    <string name="dash_close">Uždaryti</string>
+    <string name="dash_add">Pridėti</string>
+    <string name="dash_selected">Pasirinkta</string>
+    <string name="dash_dismiss">Atmesti</string>
+    <string name="dash_got_it">Supratau</string>
+
+    <!-- Top bar -->
+    <string name="dash_all_apps">Visos programos</string>
+    <string name="dash_screen_layout">Google Maps vieta: %1$s</string>
+    <string name="dash_more">Daugiau</string>
+    <string name="dash_obd_connected">OBD prijungtas</string>
+    <string name="dash_obd_connecting">OBD jungiamas</string>
+    <string name="dash_obd_error">OBD klaida, palieskite, kad prisijungtų iš naujo</string>
+    <string name="dash_obd_off">OBD išjungtas, palieskite, kad prisijungtų</string>
+    <string name="dash_alert_battery">Akumuliatorius %1$.1fV</string>
+    <string name="dash_alert_coolant">Aušinimo skystis %1$d°C</string>
+
+    <!-- Top bar menu -->
+    <string name="dash_menu_edit_dashboards">Redaguoti skydelius</string>
+    <string name="dash_menu_done_editing">Baigti redaguoti</string>
+    <string name="dash_menu_theme">Išvaizda</string>
+
+    <!-- Edit bar (arranging a dashboard) -->
+    <string name="dash_arranging_dashboard">Tvarkomas %1$s</string>
+    <string name="dash_arranging_hint">Palieskite plytelę, kad matytumėte parinktis, laikykite, kad perkeltumėte, vilkite kampą, kad pakeistumėte dydį.</string>
+    <string name="dash_undo">Anuliuoti</string>
+    <string name="dash_reset_page">Pašalinti skydelį…</string>
+
+    <!-- Update banner -->
+    <string name="dash_update_downloading">Atsisiunčiamas naujinys… %1$d %%</string>
+    <string name="dash_update_installing">Paleidžiama diegimo programa…</string>
+    <string name="dash_menu_check_updates">Ieškoti naujinių</string>
+    <string name="dash_update_checking">Ieškoma naujinių…</string>
+    <string name="dash_update_up_to_date">Dashwheel naujausias, v%1$s</string>
+    <string name="dash_update">Atnaujinti</string>
+
+    <!-- Tiles while arranging -->
+    <string name="dash_resize_tile">Keisti dydį: %1$s</string>
+    <string name="dash_app_window">%1$s langas</string>
+    <string name="dash_app_inside">%1$s viduje</string>
+    <string name="dash_describe_split_pair">padalyta pora</string>
+    <string name="dash_describe_launch_bar">paleidimo juosta</string>
+    <string name="dash_describe_widget">valdiklis</string>
+    <string name="dash_app_widget">Programos valdiklis</string>
+    <string name="dash_shown_while_arranging">Rodoma tvarkant</string>
+    <string name="dash_map_needs_gpu">Žemėlapiui reikia tikro GPU</string>
+    <string name="dash_not_on_emulator">Emuliatoriuje nepasiekiama</string>
+
+    <!-- Layout notices -->
+    <string name="dash_notice_title">Trūksta vietos</string>
+    <string name="dash_notice_no_space">Šiame skydelyje nėra vietos šiai plytelei. Pašalinkite, sumažinkite ar naudokite kitą skydelį.</string>
+    <string name="dash_notice_no_room_to_move">Nėra vietos kitoms plytelėms patraukti. Pirmiausia atlaisvinkite vietos.</string>
+    <string name="dash_notice_resize_overlap">Toks dydis užeina ant kitos plytelės. Atlaisvinkite vietos prieš keisdami dydį.</string>
+    <string name="dash_full_title">Šis skydelis pilnas</string>
+    <string name="dash_full_body">Pašalinkite plytelę arba sumažinkite vieną, kad pridėtumėte kitą.</string>
+
+    <!-- Add to dashboard -->
+
+    <!-- Split screen -->
+    <string name="dash_swap_split">Sukeisti padalyto ekrano programas</string>
+    <string name="dash_split_with">Padalyti ekraną su…</string>
+    <string name="dash_enable_split_title">Įjungti padalytą ekraną</string>
+    <string name="dash_enable_split_body">Dashwheel naudoja sistemos padalytą ekraną, tą patį kaip naujausiuose. Vieną kartą įjunkite Dashwheel skiltyje Nustatymai, Pritaikymas neįgaliesiems.</string>
+    <string name="dash_open_settings">Atidaryti nustatymus</string>
+
+    <!-- System app install (root) -->
+    <string name="dash_system_app_title">Sistemos programa</string>
+    <string name="dash_system_app_body">Įdiegia Dashwheel kaip sistemos programą, kad Android valdikliai būtų pridedami be klausimų kaskart. Reikia root arba magnetolos vidinio ADB prievade %1$d, tada paleidimo iš naujo.</string>
+    <string name="dash_root_checking">Tikrinama root…</string>
+    <string name="dash_root_available">Root yra. Įdiegiama kaip Magisk modulis, jei yra Magisk.</string>
+    <string name="dash_root_missing">Root nėra. Bus bandomas vidinis ADB prievade %1$d.</string>
+    <string name="dash_install_system_app">Įdiegti kaip sistemos programą</string>
+    <string name="dash_reboot_now">Paleisti iš naujo</string>
+    <string name="dash_system_installed">Įdiegta. Paleiskite iš naujo, kad užbaigtumėte.</string>
+    <string name="dash_system_failed">Nepavyko: %1$s</string>
+
+    <!-- System app-widget picker -->
+    <string name="dash_widget_unavailable">Valdiklio nėra. Jo programa pašalinta arba pakeista.</string>
+    <string name="dash_choose_widget">Pasirinkite valdiklį</string>
+    <string name="dash_no_widgets_found">Valdiklių nerasta.</string>
+
+    <!-- Theme picker -->
+    <string name="dash_theme_picker_title">Skydelio išvaizda</string>
+    <string name="dash_appearance_auto">Auto</string>
+    <string name="dash_appearance_dark">Tamsi</string>
+    <string name="dash_appearance_light">Šviesi</string>
+    <string name="dash_appearance_auto_hint">Kiekviena išvaizda seka automobilio dienos/nakties režimą</string>
+    <string name="dash_appearance_dark_hint">Kiekviena išvaizda naudoja tamsią versiją</string>
+    <string name="dash_appearance_light_hint">Kiekviena išvaizda naudoja šviesią versiją</string>
+    <string name="dash_auto_by_car">Automobilis</string>
+    <string name="dash_auto_by_sun">Saulė</string>
+    <string name="dash_auto_by_times">Nustatytas laikas</string>
+    <string name="dash_auto_sun_today">Šviesi nuo %1$s iki %2$s šiandien, ten, kur automobilis</string>
+    <string name="dash_auto_sun_no_place">Šviesi nuo %1$s iki %2$s, kol automobilis gaus GPS padėtį</string>
+    <string name="dash_auto_sun_polar">Čia saulė visą dieną virš arba po horizontu</string>
+    <string name="dash_auto_light_from">Šviesi nuo</string>
+    <string name="dash_auto_light_from_detail">Kada prasideda šviesi versija</string>
+    <string name="dash_auto_dark_from">Tamsi nuo</string>
+    <string name="dash_auto_dark_from_detail">Kada prasideda tamsi versija</string>
+    <string name="dash_auto_earlier">Anksčiau</string>
+    <string name="dash_auto_later">Vėliau</string>
+
+    <!-- Effects switch (theme picker): how much halo and glass a theme draws -->
+    <string name="dash_effects_title">Įskaitomumas</string>
+    <string name="dash_effects_none">Paprasta, saulei</string>
+    <string name="dash_effects_reduced">Švelnu</string>
+    <string name="dash_effects_full">Visas švytėjimas</string>
+    <string name="dash_effects_none_hint">Neskaidrios kortelės, paprasti skaičiai, be švytėjimo: matosi ir ryškioje saulėje</string>
+    <string name="dash_effects_reduced_hint">Švelnesnis švytėjimas, stiklas lieka</string>
+    <string name="dash_effects_full_hint">Kiekviena išvaizda su visu švytėjimu ir stiklu</string>
+    <string name="dash_bar_title">Apatinė juosta</string>
+    <string name="dash_bar_auto_hide">Automatiškai slėpti juostą</string>
+    <string name="dash_bar_auto_hide_detail">Pasislepia, kai nenaudojama, kad skydeliams liktų daugiau vietos</string>
+    <string name="dash_bar_hide_after">Slėpti po %1$d s</string>
+    <string name="dash_bar_hide_now">Slėpti iškart</string>
+    <string name="dash_bar_swipe_up_detail">Kai paslėpta, perbraukite aukštyn nuo apatinio krašto, kad ją grąžintumėte</string>
+    <string name="dash_bar_swipe_up_hint">Perbraukite aukštyn juostai</string>
+    <string name="dash_bar_show">Rodyti juostą</string>
+
+    <!-- Moving: edits wait until the car has stopped -->
+    <string name="dash_drive_lock_notice">Sustokite, kad galėtumėte keisti</string>
+    <string name="dash_theme_night">Naktis</string>
+    <string name="dash_theme_day">Diena</string>
+
+    <!-- Theme names and descriptions (the enum names are what gets saved) -->
+    <string name="dash_theme_standard">Standartinė</string>
+    <string name="dash_theme_standard_desc">Paprastos kortelės su švelniai švytinčiais prietaisais</string>
+    <string name="dash_theme_original">Originali</string>
+    <string name="dash_theme_original_desc">Pirmoji paleidyklės išvaizda: plokščios kortelės, dviejų rodyklių prietaisai</string>
+    <string name="dash_theme_aurora">Aurora Glass</string>
+    <string name="dash_theme_aurora_desc">Stikliniai skydai, švytintys prietaisai, gradientiniai valdikliai</string>
+    <string name="dash_theme_neon">Neon</string>
+    <string name="dash_theme_neon_desc">Mėlyna ir violetinė futuristinė kabina</string>
+    <string name="dash_theme_clean">Švari</string>
+    <string name="dash_theme_clean_desc">Minimali, kontrastinga ir lengvai įskaitoma</string>
+    <string name="dash_theme_premium_glass">Premium Glass</string>
+    <string name="dash_theme_premium_glass_desc">Rūkytas stiklas naktį, matinis stiklas dieną</string>
+    <string name="dash_theme_sporty">Sportinė</string>
+    <string name="dash_theme_sporty_desc">Raudona sportinė kabina</string>
+    <string name="dash_theme_floating">Plaukiojanti</string>
+    <string name="dash_theme_floating_desc">Be plytelių fono: valdikliai ir piktogramos tiesiai ant fono</string>
+    <string name="dash_theme_orbit">Orbit</string>
+    <string name="dash_theme_orbit_desc">Viskas apvalu: besisukanti plokštelė, žiediniai prietaisai, burbulai</string>
+    <string name="dash_theme_cockpit">Kabina</string>
+    <string name="dash_theme_cockpit_desc">Analoginiai prietaisai chromo žiedais ir jungikliai ant susiūtos odos</string>
+    <string name="dash_theme_horizon">Horizontas</string>
+    <string name="dash_theme_horizon_desc">Jokių valdiklių, tik dangus ir kelias priekyje</string>
+    <string name="dash_theme_tape_deck">Kasetinis</string>
+    <string name="dash_theme_tape_deck_desc">80-ųjų synthwave magnetola: kasetė, neoninis tinklelis, LED skaitmenys</string>
+    <string name="dash_theme_mistral">Mistral</string>
+    <string name="dash_theme_mistral_desc">C4 Picasso centrinis prietaisų skydas: šaltai balti skaičiai ant rūkyto grafito, gintariniai įspėjimai</string>
+    <string name="dash_theme_zenith">Zénith</string>
+    <string name="dash_theme_zenith_desc">Poilsio salonas: perlo pilka, balti skydai, vienas sodriai mėlynas akcentas</string>
+    <string name="dash_theme_luxury">Luxury Classic</string>
+    <string name="dash_theme_luxury_desc">Vidurnakčio mėlynas stiklas, šampano aukso linijos, ploni skaičiai</string>
+    <string name="dash_theme_eco_leaf">Eco Leaf</string>
+    <string name="dash_theme_eco_leaf_desc">Matinė šalavijų žalia, mėtiniai rodmenys, rami ir šviesi</string>
+    <string name="dash_theme_cyber">Cyber Sport</string>
+    <string name="dash_theme_cyber_desc">Anglies juoda, raudona virstanti purpurine, lenktyninis skydas juostoje</string>
+    <string name="dash_theme_nordic">Nordic Minimal</string>
+    <string name="dash_theme_nordic_desc">Grafitas ir ledo mėlyna, plonos linijos, niekas nerėkia</string>
+    <string name="dash_theme_canvas">Canvas</string>
+    <string name="dash_theme_canvas_desc">Žemėlapis per visą ekraną, kelionė vienoje eilutėje. Pagal numatymą rodo šoninę juostą; pakeiskite skiltyje Ekranas.</string>
+
+    <!-- Screen layouts (the enum names are what gets saved) -->
+    <string name="dash_layout_grid">Tik skydeliai</string>
+    <string name="dash_layout_grid_desc">Perbraukiami skydeliai užpildo ekraną</string>
+    <string name="dash_layout_maps_left">Google Maps kairėje</string>
+    <string name="dash_layout_maps_left_desc">Google Maps kairėje pusėje, skydeliai perbraukiami dešinėje</string>
+    <string name="dash_layout_maps_right">Google Maps dešinėje</string>
+    <string name="dash_layout_maps_right_desc">Google Maps dešinėje pusėje, skydeliai perbraukiami kairėje</string>
+    <string name="dash_layout_maps_top">Google Maps viršuje</string>
+    <string name="dash_layout_maps_bottom">Google Maps apačioje</string>
+    <string name="dash_layout_button">Išdėstymas</string>
+    <string name="dash_layout_another_app">Kita programa šalia skydelių…</string>
+    <string name="dash_update_dot_hint">Meniu laukia naujinys</string>
+    <string name="dash_update_dot_menu">Taškas ant meniu mygtuko – tai šis naujinys</string>
+
+    <!-- The pages' places in the cross, and an empty page -->
+    <string name="dash_page_home">Pradžia</string>
+    <string name="dash_page_left">Kairėje nuo Pradžios</string>
+    <string name="dash_page_right">Dešinėje nuo Pradžios</string>
+    <string name="dash_page_above">Virš Pradžios</string>
+    <string name="dash_page_above2">Dvi virš Pradžios</string>
+    <string name="dash_page_below">Po Pradžia</string>
+    <string name="dash_page_below2">Dvi po Pradžia</string>
+    <string name="dash_empty_title">Čia dar nieko nėra</string>
+    <string name="dash_empty_body">Užpildykite iš šablono arba pridėkite plyteles po vieną.</string>
+    <!-- Updates without a strip (⋮ dot, Settings row, ready prompt); edit-mode confirms; tile options; theme gallery -->
+    <string name="dash_update_to">Atnaujinti į %1$s</string>
+    <string name="dash_update_available_detail">Naujesnė versija nei v%1$s. Diegiant Dashwheel pasileis iš naujo.</string>
+    <string name="dash_update_ready_detail">Atsisiųsta ir paruošta diegti</string>
+    <string name="dash_update_ready_title">Naujinys paruoštas</string>
+    <string name="dash_update_ready_body">%1$s atsisiųstas. Diegimas trunka pusę minutės ir paleidžia Dashwheel iš naujo.</string>
+    <string name="dash_update_now">Atnaujinti dabar</string>
+    <string name="dash_update_not_this_version">Ne šią versiją</string>
+    <string name="dash_update_allow_installs">Leiskite Dashwheel diegti naujinius, tada vėl palieskite Atnaujinti</string>
+    <string name="dash_dashboard_options">Skydelio parinktys</string>
+    <string name="dash_remove_dashboard_title">Pašalinti %1$s?</string>
+    <string name="dash_remove_dashboard_body">Ištuštinkite jį arba išimkite iš perbraukimų su plytelėmis. Anuliavus jos grįš.</string>
+    <string name="dash_tile_move">Perkelti į kitą skydelį</string>
+    <string name="dash_tile_remove">Pašalinti</string>
+    <string name="dash_tile_restart_app">Paleisti programą iš naujo</string>
+    <!-- The bar's Apps button, labelled -->
+    <string name="dash_apps">Programos</string>
+    <!-- Tiles on the dashboard that live on root or the unit's ADB, where Dashwheel has neither -->
+    <string name="dash_rootless_title">Reikia root prieigos</string>
+    <plurals name="dash_rootless_body">
+        <item quantity="one">%1$s reikia root prieigos, kurios Dashwheel šioje magnetoloje neturi. Ji bus pašalinta iš skydelio.</item>
+        <item quantity="few">%1$s reikia root prieigos, kurios Dashwheel šioje magnetoloje neturi. Jos bus pašalintos iš skydelio.</item>
+        <item quantity="many">%1$s reikia root prieigos, kurios Dashwheel šioje magnetoloje neturi. Jos bus pašalintos iš skydelio.</item>
+        <item quantity="other">%1$s reikia root prieigos, kurios Dashwheel šioje magnetoloje neturi. Jos bus pašalintos iš skydelio.</item>
+    </plurals>
+    <!-- The bar's position chip (PagePosition.kt) -->
+    <string name="dash_position_chip">Skydelis: %1$s</string>
+    <string name="dash_position_title">Eiti į skydelį</string>
+    <!-- Every dashboard at once, with + and - (DashboardsOverview.kt) -->
+    <string name="dash_dashboards">Skydeliai</string>
+    <string name="dash_dashboards_hint">Palieskite, kad atidarytumėte</string>
+    <string name="dash_dashboard_add">Pridėti skydelį čia</string>
+    <string name="dash_dashboard_removed">%1$s pašalintas</string>
+    <string name="dash_remove_empty">Ištuštinti</string>
+    <string name="dash_remove_take_out">Išimti iš perbraukimų</string>
+    <string name="dash_bring_back_title">Grąžinti %1$s?</string>
+    <string name="dash_bring_back_body">Plytelė bus perkelta ten, o skydelis vėl bus perbraukimuose.</string>
+    <string name="dash_bring_back">Grąžinti</string>
+    <string name="dash_moved_to">Perkelta į %1$s</string>
+    <string name="dash_page_removed">%1$s išimtas iš perbraukimų</string>
+    <string name="dash_way_home_up">Perbraukite aukštyn į Pradžią</string>
+    <string name="dash_way_home_down">Perbraukite žemyn į Pradžią</string>
+    <string name="dash_add_tile">Pridėti plytelę</string>
+    <string name="dash_theme_futuristic">Futuristinė</string>
+    <string name="dash_theme_futuristic_desc">Jūsų automobilis kaip holograma virš judančio šviesos tinklelio, rodmenys pažymėti ant jo.</string>
+    <string name="dash_theme_simple">Paprasta</string>
+    <string name="dash_theme_simple_desc">Dideli įskaitomi skaičiai, automobilis apšviestas kaip salone, keli dideli mygtukai.</string>
+    <string name="dash_theme_modern">Moderni</string>
+    <string name="dash_theme_modern_desc">Matinio stiklo kortelės virš 3D miesto, švytintis maršrutas.</string>
+    <string name="dash_theme_motorsport">Motorsportas</string>
+    <string name="dash_theme_motorsport_desc">Lenktyninio automobilio ekranas: perjungimo lemputės, sektorių laikai, rėmelis vėliavos spalvos.</string>
+    <string name="dash_theme_anime">Anime</string>
+    <string name="dash_theme_anime_desc">Komikso kadrai saulėlydžio danguje, automobilis kaip kalbantis lipdukas.</string>
+    <string name="dash_theme_racing">Lenktynės</string>
+    <string name="dash_theme_racing_desc">Naktinis važiavimas neone: dryžuota saulė, lenktynių žaidimo prietaisai ir minižemėlapis.</string>
+    <string name="dash_theme_panorama">Panorama</string>
+    <string name="dash_theme_panorama_desc">Lenkta stiklo juosta iš šviečiančių segmentų, automobilis ant švytinčios pakylos ir vairo dokas.</string>
+    <string name="dash_theme_liquid">Skystis</string>
+    <string name="dash_theme_liquid_desc">Stiklas, laužiantis šviesą virš ryškaus fono, automobilis sukasi viduryje.</string>
+    <string name="dash_theme_expressive">Išraiškinga</string>
+    <string name="dash_theme_expressive_desc">Ryškios formos ir grojamos muzikos spalvos; kiekvienas valdiklis turi savo formą.</string>
+    <string name="dash_theme_kinetic">Kinetinė</string>
+    <string name="dash_theme_kinetic_desc">Pirmiausia žodžiai: kitas posūkis dideliu judančiu šriftu, visa kita slenka apačioje.</string>
+    <string name="dash_theme_glyph">Glyph</string>
+    <string name="dash_theme_glyph_desc">Taškinės matricos skaičiai šviesiame skyde, tikroviški mygtukai ir šviesos juostos pakraščiuose.</string>
+    <string name="dash_theme_windshield">Priekinis stiklas</string>
+    <string name="dash_theme_windshield_desc">Viena juosta viršuje su viskuo, į ką žvilgtelite, virš nupiešto naktinio kelio.</string>
+    <string name="dash_theme_terrain">Reljefas</string>
+    <string name="dash_theme_terrain_desc">Automobilis horizontalių kraštovaizdyje, gedimas pažymėtas ant pačios dalies.</string>
+    <string name="dash_theme_ambient">Ambient</string>
+    <string name="dash_theme_ambient_desc">Šviesos laukas su keliais žodžiais: šiltas švytėjimas kyla iš kito posūkio pusės.</string>
+    <string name="dash_theme_brutal">Brutali</string>
+    <string name="dash_theme_brutal_desc">Rėksmingos plokščios spalvos, storos linijos ir milžiniškas šriftas, įskaitomas ryškioje saulėje.</string>
+    <string name="dash_theme_clay">Molis</string>
+    <string name="dash_theme_clay_desc">Minkštos pastelinės formos, dideli apvalūs mygtukai ir išpūsta 3D posūkio rodyklė.</string>
+    <string name="dash_theme_chrome">Chromas</string>
+    <string name="dash_theme_chrome_desc">Skysto chromo raidės, holografinės etiketės ir metalo lašas, judantis su muzika.</string>
+    <string name="dash_theme_spatial">Erdvinė</string>
+    <string name="dash_theme_spatial_desc">Stikliniai langai, plūduriuojantys skirtingame gylyje virš naktinio 3D miesto.</string>
+    <string name="dash_theme_paper">Popierius</string>
+    <string name="dash_theme_paper_desc">Rašalas ant pilko lyg el. popierius: taškuotas žemėlapis, paprasti faktai, niekas nejuda.</string>
+    <string name="look_layout_applied">Pradžia išdėstyta kaip %1$s</string>
+    <string name="dash_bar_size">Juostos dydis</string>
+    <string name="dash_bar_size_normal">Įprastas</string>
+    <string name="dash_bar_size_large">Didelis</string>
+    <string name="dash_bar_size_larger">Didesnis</string>
+</resources>

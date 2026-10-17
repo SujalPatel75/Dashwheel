@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Settings, System, Head unit: the firmware family and what it offers (HeadUnitCard.kt). -->
+<resources>
+    <string name="unit_card_title">Radio</string>
+    <string name="unit_detected">%1$s, herkend</string>
+    <string name="unit_chosen">%1$s, uw keuze</string>
+    <string name="unit_choose_title">Mijn radio is</string>
+    <string name="unit_auto">Automatisch</string>
+    <string name="unit_restart">Dashwheel herstarten</string>
+    <string name="unit_restart_hint">De keuze geldt zodra Dashwheel opnieuw start.</string>
+    <string name="unit_caps_section">Wat deze firmware biedt</string>
+    <string name="unit_state_live">Werkt</string>
+    <string name="unit_state_ready">Klaar</string>
+    <string name="unit_needs_settings">Vereist de instellingenmachtiging of een shell</string>
+    <string name="unit_needs_shell">Vereist root, Shizuku of de ADB van de radio</string>
+    <string name="unit_needs_root">Vereist root</string>
+    <string name="unit_survival_section">Wakker blijven tijdens de slaap</string>
+    <string name="unit_apply">Toepassen</string>
+    <string name="unit_applied">Klaar</string>
+    <string name="unit_open_whitelist">Witte-lijst-app openen</string>
+    <string name="unit_fyt_keys_title">Stuurwieltoetsen overnemen</string>
+    <string name="unit_fyt_keys_detail">Na een herstart geeft de firmware zijn stuurwiel- en paneeltoetsen aan Dashwheel. Zijn eigen apps verliezen ze ondertussen.</string>
+    <string name="unit_needs_firmware">Vereist de %1$s-firmware</string>
+    <string name="unit_family_qf">QF (Hizpo, ROCO K706)</string>
+    <string name="unit_family_fyt">FYT (Joying, Atoto, Mekede)</string>
+    <string name="unit_family_mtc">Microntek (Dasaita, Xtrons, Eonon)</string>
+    <string name="unit_family_topway">Topway TS</string>
+    <string name="unit_family_reglink">Reglink (MediaTek)</string>
+    <string name="unit_family_allwinner">Allwinner</string>
+    <string name="unit_family_nwd">Nowadays</string>
+    <string name="unit_family_generic">Gewoon Android</string>
+    <string name="unit_cap_ignition">Contact</string>
+    <string name="unit_cap_bus">Databus van de auto</string>
+    <string name="unit_cap_doors">Deuren</string>
+    <string name="unit_cap_steering">Stuurhoek</string>
+    <string name="unit_cap_climate">Klimaatregeling</string>
+    <string name="unit_cap_body">Boordcomputer</string>
+    <string name="unit_cap_speed">Snelheid en toerental</string>
+    <string name="unit_cap_volts">Accuspanning</string>
+    <string name="unit_cap_temp">Buitentemperatuur</string>
+    <string name="unit_cap_phone">Gesprekken op de radio</string>
+    <string name="unit_cap_media">Spelers van de radio</string>
+    <string name="unit_cap_volume">Volume van de radio</string>
+    <string name="unit_cap_launcher">Launcherkeuze van de firmware</string>
+    <string name="unit_cap_popups">Firmware-pop-ups vervangen</string>
+    <string name="unit_cap_camera">Achteruitrijcamera</string>
+    <string name="unit_cap_tyres">Banden</string>
+</resources>

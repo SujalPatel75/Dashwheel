@@ -87,9 +87,41 @@
     <!-- Package visibility (Android 11+): lets the app drawer enumerate every
          launchable app and resolve their launch intents. -->
     <queries>
-        <!-- The QF firmware's Bluetooth phone and car apps (ROCO K706): calls and pop-ups, see HeadUnitPhone / RomPopups. -->
+        <!-- The QF firmware's own apps (ROCO K706): its Bluetooth phone and car apps (calls and pop-ups, see
+             HeadUnitPhone / RomPopups), its camera app, its framework (the volume bar), its radio, the TPMS app
+             and the CarPlay app; UnitPlatform checks which are there. -->
         <package android:name="com.qf.bluetooth" />
         <package android:name="com.qf.vehicle" />
+        <package android:name="com.qf.backcar" />
+        <package android:name="com.qf.framework" />
+        <package android:name="com.android.fmradio.ext" />
+        <package android:name="com.syt.tmps" />
+        <package android:name="com.zjinnova.zlink" />
+        <!-- The FYT firmware's own apps (Joying, Atoto, Mekede...): its main server, whose toolkit service
+             Dashwheel binds for the car's data, the keys and the phone (unit/fyt/FytToolkit), its CAN app,
+             its CarPlay app and its launcher. -->
+        <package android:name="com.syu.ms" />
+        <package android:name="com.syu.canbus" />
+        <package android:name="com.syu.carlink" />
+        <package android:name="com.syu.bt" />
+        <package android:name="com.syu.radio" />
+        <package android:name="com.syu.air" />
+        <package android:name="com.android.launcher4" />
+        <package android:name="com.android.launcher6" />
+        <intent>
+            <action android:name="com.syu.ms.toolkit" />
+        </intent>
+        <!-- The Microntek (MTCD / MTCE / MTCH) firmware's sleep whitelist app, offered from the Head unit card. -->
+        <package android:name="com.microntek.bootcontrol" />
+        <!-- Topway TS and Reglink units' own apps, which name their family to UnitPlatform. -->
+        <package android:name="com.tw.car" />
+        <package android:name="com.tw.carchoose" />
+        <package android:name="com.tw.carapps" />
+        <package android:name="com.tw.ac2" />
+        <package android:name="com.tv.carinfoservice" />
+        <package android:name="com.reglink.services" />
+        <package android:name="com.reglink.launcher4" />
+        <package android:name="com.baony.avm360" />
         <!-- Deep OBD, which can report the car's readings in place of an adapter (DeepObdSource). -->
         <package android:name="de.holeschak.bmw_deep_obd" />
         <intent>
@@ -198,6 +230,10 @@
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <action android:name="android.intent.action.QUICKBOOT_POWERON" />
                 <action android:name="com.htc.intent.action.QUICKBOOT_POWERON" />
+                <!-- MediaTek (Reglink) and Autochips units wake with these instead of a boot (AccBroadcasts.BOOT_LIKE). -->
+                <action android:name="com.mediatek.intent.action.QUICKBOOT_POWERON" />
+                <action android:name="com.mediatek.intent.action.BOOT_IPO" />
+                <action android:name="autochips.intent.action.QB_POWERON" />
             </intent-filter>
         </receiver>
     </application>

@@ -42,7 +42,6 @@
     <string name="settings_rom_needs_root">Vereist root of de ADB van de radio</string>
     <string name="settings_more_github">Meer met de GitHub-editie</string>
     <string name="settings_more_github_detail">Google Maps in een tegel, de eigen pop-ups van de radio, het opstartlogo en meer vragen root op de radio. De gratis GitHub-editie heeft ze.</string>
-    <string name="settings_needs_qf">Vereist de QF-firmware</string>
     <string name="alert_section">Meldingen</string>
     <string name="alert_kind_call">Oproepen</string>
     <string name="alert_kind_doors">Deuren</string>
@@ -256,16 +255,9 @@
     <string name="settings_deepobd_field_ignored">Genegeerd</string>
     <!-- Settings rework: groups, overview, search (SettingsScreen.kt, SettingsOverview.kt) -->
     <string name="settings_overview">Overzicht</string>
-    <string name="settings_section_connections">Verbindingen</string>
-    <string name="settings_section_sound_voice">Geluid en stem</string>
-    <string name="settings_section_popups">Pop-ups</string>
-    <string name="settings_section_system">Systeem</string>
     <string name="settings_section_volume">Volume</string>
     <string name="settings_section_taps_music">Tikken en muziek</string>
     <string name="settings_section_more_tools">Meer hulpmiddelen</string>
-    <string name="settings_show_all">Alle instellingen</string>
-    <string name="settings_show_fewer">Minder instellingen</string>
-    <string name="settings_show_fewer_detail">Alleen de gewone hier houden</string>
     <string name="settings_lab">Lab</string>
     <string name="settings_lab_detail">Hulpmiddelen in test en het logboek van het toestel</string>
     <string name="dead_strip_title">Dode aanraakstrook</string>
@@ -279,6 +271,12 @@
     <string name="dead_strip_save">Opslaan</string>
     <string name="settings_unit_tools">Toestelhulpmiddelen</string>
     <string name="settings_unit_tools_detail">Opstartlogo, Google Maps in een tegel, systeemapp</string>
+    <string name="home_hand_back_title">Dashwheel is het startscherm</string>
+    <string name="home_hand_back_detail">Uit geeft het scherm terug aan de eigen launcher van de radio. Je instellingen blijven.</string>
+    <string name="home_hand_back_off_detail">De eigen launcher van de radio is het startscherm. Zet aan om Dashwheel terug te krijgen.</string>
+    <string name="home_hand_back_confirm_title">Startscherm teruggeven aan de radio?</string>
+    <string name="home_hand_back_confirm">De eigen launcher van de radio komt nu en bij elke start terug. Dashwheel bewaart je instellingen: open het vanuit de app-lijst en zet dit weer aan.</string>
+    <string name="home_hand_back_confirm_ok">Teruggeven</string>
     <string name="settings_root_how">Hoe</string>
     <string name="settings_obd_linked">Verbonden: %1$s</string>
     <string name="settings_obd_deepobd">Waarden uit de Deep OBD-app</string>
@@ -299,7 +297,6 @@
     <string name="settings_ov_not_allowed">Nog niet toegestaan: %1$s</string>
     <string name="settings_ov_not_allowed_detail">Sommige tegels en gesproken berichten wachten erop</string>
     <string name="settings_ov_allow">Toestaan</string>
-    <string name="settings_sum_popups_none">Een stijl voor elke melding</string>
     <plurals name="settings_root_more">
         <item quantity="one">Nog %d heeft root nodig op dit toestel</item>
         <item quantity="other">Nog %d hebben root nodig op dit toestel</item>
@@ -361,4 +358,23 @@
     <string name="settings_waze_wake_delay_detail">Daarna tot een minuut extra voor locatie en data</string>
     <string name="settings_waze_wake_seconds">%1$d s</string>
     <string name="settings_waze_wake_locked">Root of de ADB van het toestel is nodig om Waze te sluiten</string>
+    <!-- Settings regrouped 2026-10-17: categories, overview tiles and the Alerts grid -->
+    <string name="settings_section_alerts">Meldingen</string>
+    <string name="settings_section_dashboard">Dashboard</string>
+    <string name="settings_section_devices">Telefoon en schermen</string>
+    <string name="settings_section_general">Algemeen</string>
+    <string name="settings_section_expert">Expert</string>
+    <string name="settings_section_upkeep">Onderhoud en brandstof</string>
+    <string name="settings_section_screens_apps">Schermen en apps</string>
+    <string name="settings_section_access">Firmware en toegang</string>
+    <string name="settings_section_region">Taal en eenheden</string>
+    <string name="settings_sum_sound">Volume, tikken en muziek</string>
+    <string name="settings_sum_dashboard">Balk, zijbalk en tabbladen</string>
+    <string name="settings_sum_expert">Lab, API-sleutels, servers</string>
+    <string name="alerts_say">Zeggen</string>
+    <string name="alerts_show">Tonen</string>
+    <string name="alerts_intro">Zeggen spreekt het uit, Tonen zet het venster van Dashwheel op het scherm. Tik op een venster voor de stijl.</string>
+    <string name="alerts_group_car">Van de auto</string>
+    <string name="alerts_group_road">Onderweg</string>
+    <string name="alerts_group_start">Bij vertrek</string>
 </resources>

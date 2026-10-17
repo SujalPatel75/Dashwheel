@@ -42,7 +42,6 @@
     <string name="settings_rom_needs_root">Requiere root o el ADB de la radio</string>
     <string name="settings_more_github">Más con la edición de GitHub</string>
     <string name="settings_more_github_detail">Google Maps dentro de un mosaico, las ventanas propias de la radio, el logo de arranque y más necesitan root en la radio. La edición gratuita de GitHub los tiene.</string>
-    <string name="settings_needs_qf">Requiere el firmware QF</string>
     <string name="alert_section">Avisos</string>
     <string name="alert_kind_call">Llamadas</string>
     <string name="alert_kind_doors">Puertas</string>
@@ -256,16 +255,9 @@
     <string name="settings_deepobd_field_ignored">Ignorada</string>
     <!-- Settings rework: groups, overview, search (SettingsScreen.kt, SettingsOverview.kt) -->
     <string name="settings_overview">Resumen</string>
-    <string name="settings_section_connections">Conexiones</string>
-    <string name="settings_section_sound_voice">Sonido y voz</string>
-    <string name="settings_section_popups">Emergentes</string>
-    <string name="settings_section_system">Sistema</string>
     <string name="settings_section_volume">Volumen</string>
     <string name="settings_section_taps_music">Toques y música</string>
     <string name="settings_section_more_tools">Más herramientas</string>
-    <string name="settings_show_all">Todos los ajustes</string>
-    <string name="settings_show_fewer">Menos ajustes</string>
-    <string name="settings_show_fewer_detail">Dejar aquí solo los habituales</string>
     <string name="settings_lab">Laboratorio</string>
     <string name="settings_lab_detail">Herramientas en pruebas y el registro de la unidad</string>
     <string name="dead_strip_title">Franja táctil muerta</string>
@@ -279,6 +271,12 @@
     <string name="dead_strip_save">Guardar</string>
     <string name="settings_unit_tools">Herramientas de la unidad</string>
     <string name="settings_unit_tools_detail">Logo de arranque, Google Maps en un mosaico, app de sistema</string>
+    <string name="home_hand_back_title">Dashwheel es la pantalla de inicio</string>
+    <string name="home_hand_back_detail">Desactivado, la pantalla vuelve al lanzador de la radio. Tus ajustes se quedan.</string>
+    <string name="home_hand_back_off_detail">El lanzador de la radio es el inicio. Activa para volver a usar Dashwheel.</string>
+    <string name="home_hand_back_confirm_title">¿Devolver el inicio a la radio?</string>
+    <string name="home_hand_back_confirm">El lanzador de la radio vuelve ahora y en cada arranque. Dashwheel guarda tus ajustes: ábrelo desde la lista de apps y vuelve a activar esto.</string>
+    <string name="home_hand_back_confirm_ok">Devolver</string>
     <string name="settings_root_how">Cómo</string>
     <string name="settings_obd_linked">Conectado: %1$s</string>
     <string name="settings_obd_deepobd">Lecturas de la app Deep OBD</string>
@@ -299,7 +297,6 @@
     <string name="settings_ov_not_allowed">Aún no permitido: %1$s</string>
     <string name="settings_ov_not_allowed_detail">Algunos mosaicos y mensajes hablados lo esperan</string>
     <string name="settings_ov_allow">Permitir</string>
-    <string name="settings_sum_popups_none">Un estilo para cada aviso</string>
     <plurals name="settings_root_more">
         <item quantity="one">%d más necesita root en esta unidad</item>
         <item quantity="many">%d más necesitan root en esta unidad</item>
@@ -365,4 +362,23 @@
     <string name="settings_waze_wake_delay_detail">Luego hasta un minuto más para la ubicación y los datos</string>
     <string name="settings_waze_wake_seconds">%1$d s</string>
     <string name="settings_waze_wake_locked">Hace falta root o el ADB de la unidad para cerrar Waze</string>
+    <!-- Settings regrouped 2026-10-17: categories, overview tiles and the Alerts grid -->
+    <string name="settings_section_alerts">Avisos</string>
+    <string name="settings_section_dashboard">Panel</string>
+    <string name="settings_section_devices">Teléfono y pantallas</string>
+    <string name="settings_section_general">General</string>
+    <string name="settings_section_expert">Experto</string>
+    <string name="settings_section_upkeep">Mantenimiento y combustible</string>
+    <string name="settings_section_screens_apps">Pantallas y apps</string>
+    <string name="settings_section_access">Firmware y acceso</string>
+    <string name="settings_section_region">Idioma y unidades</string>
+    <string name="settings_sum_sound">Volumen, toques y música</string>
+    <string name="settings_sum_dashboard">Barra, carril lateral y pestañas</string>
+    <string name="settings_sum_expert">Laboratorio, claves API, servidores</string>
+    <string name="alerts_say">Decir</string>
+    <string name="alerts_show">Mostrar</string>
+    <string name="alerts_intro">Decir lo anuncia en voz alta, Mostrar pone la ventana de Dashwheel en pantalla. Toca una ventana para su diseño.</string>
+    <string name="alerts_group_car">Del coche</string>
+    <string name="alerts_group_road">En la carretera</string>
+    <string name="alerts_group_start">Al arrancar</string>
 </resources>

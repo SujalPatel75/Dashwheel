@@ -126,7 +126,7 @@
     <string name="car_fetch_ok">Scheda compilata: controllala, poi Salva</string>
     <string name="car_fetch_failed">Impossibile ottenere la scheda: %1$s</string>
     <string name="car_fetch_no_key">prima aggiungi una chiave Gemini in Impostazioni → Auto → Meccanico IA</string>
-    <string name="car_fetch_needs_key">Aggiungi una chiave Gemini in Impostazioni, Auto, Meccanico IA per compilare la scheda</string>
+    <string name="car_fetch_needs_key">Aggiungi una chiave Gemini in Impostazioni, Diagnostica, Meccanico IA per compilare la scheda</string>
     <string name="car_section_engine">Motore</string>
     <string name="car_section_gearbox">Cambio</string>
     <string name="car_section_upkeep">Manutenzione</string>
