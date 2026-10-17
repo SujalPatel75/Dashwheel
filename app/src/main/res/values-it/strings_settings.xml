@@ -271,6 +271,12 @@
     <string name="dead_strip_save">Salva</string>
     <string name="settings_unit_tools">Strumenti dell\'unità</string>
     <string name="settings_unit_tools_detail">Logo di avvio, Google Maps in un riquadro, app di sistema</string>
+    <string name="home_hand_back_title">Dashwheel è la schermata Home</string>
+    <string name="home_hand_back_detail">Spento, lo schermo torna al launcher dell\'autoradio. Le impostazioni restano.</string>
+    <string name="home_hand_back_off_detail">Il launcher dell\'autoradio è la Home. Accendi per riavere Dashwheel.</string>
+    <string name="home_hand_back_confirm_title">Restituire la Home all\'autoradio?</string>
+    <string name="home_hand_back_confirm">Il launcher dell\'autoradio torna subito e a ogni avvio. Dashwheel tiene le impostazioni: aprilo dall\'elenco app e riaccendi questa opzione.</string>
+    <string name="home_hand_back_confirm_ok">Restituisci</string>
     <string name="settings_root_how">Come</string>
     <string name="settings_obd_linked">Collegato: %1$s</string>
     <string name="settings_obd_deepobd">Letture dall\'app Deep OBD</string>

@@ -21,6 +21,10 @@ class BootReceiver : BroadcastReceiver() {
         // Which launcher came up first, and who started it, for a bug report: gone from the log soon after.
         DebugLog.snapshot(context, "at boot")
         DebugLog.snapshotLater(context, "a minute after boot", BOOT_SNAPSHOT_MS)
+        if (HomeHandBack.released(context)) {
+            DebugLog.note(context, "boot: Home handed back to the unit, Dashwheel stays behind")
+            return
+        }
         if (!isDefaultHome(context)) {
             DebugLog.note(context, "boot: Dashwheel is not Android's default Home")
             return

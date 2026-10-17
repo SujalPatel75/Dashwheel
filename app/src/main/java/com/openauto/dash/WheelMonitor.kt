@@ -120,9 +120,19 @@ internal object WheelMonitor {
         if ("EV_KEY" !in line) return null
         val parts = line.substringAfter("EV_KEY").trim().split(Regex("\\s+"))
         if (parts.size < 2 || parts[1] != "DOWN") return null
+        if (isPointerKey(parts[0])) return null
         val device = line.substringBefore(':').substringAfterLast('/')
         return if (device.isNotEmpty() && device != line) "${parts[0]}@$device" else parts[0]
     }
+
+    /**
+     * A finger on the screen, a stylus or a mouse button, never a car button. A touchscreen sends
+     * BTN_TOUCH on every tap: learned as a button and bound to Home, it sent every tap Home and
+     * locked the driver out of Settings.
+     */
+    internal fun isPointerKey(key: String): Boolean =
+        key == "BTN_TOUCH" || key.startsWith("BTN_TOOL_") || key.startsWith("BTN_STYLUS") ||
+            key == "BTN_LEFT" || key == "BTN_RIGHT" || key == "BTN_MIDDLE"
 
     /** "/dev/input/event2: EV_KEY KEY_NEXTSONG DOWN" → "KEY_NEXTSONG DOWN (event2)". */
     internal fun tidyGetevent(line: String): String {

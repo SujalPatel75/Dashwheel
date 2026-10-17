@@ -14,6 +14,7 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.layout.positionInWindow
+import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Swipe
 import androidx.compose.material.icons.filled.TouchApp
 import androidx.compose.ui.geometry.Rect
@@ -1208,6 +1209,7 @@ private fun HeadUnitPane(open: (Deep) -> Unit) {
     // Which head unit firmware this is, and what it lets Dashwheel do (HeadUnitCard.kt).
     HeadUnitRow { open(Deep.HEAD_UNIT) }
     SettingsRow(Icons.Filled.VerifiedUser, stringResource(R.string.setup_access_title), accessSummary()) { open(Deep.ACCESS) }
+    HomeScreenToggle()
     Spacer(Modifier.height(20.dp))
     SettingsSection(stringResource(R.string.settings_section_more_tools))
     // The boot logo and the system-app install write to /system: only with a
@@ -1232,6 +1234,32 @@ private fun HeadUnitPane(open: (Deep) -> Unit) {
         ShizukuRow()
     }
     if (locked.isNotEmpty()) RootLockCard(locked)
+}
+
+/**
+ * Off: the unit's own launcher is Home again and Dashwheel stops taking the
+ * screen ([HomeHandBack]), for someone else at the wheel. Asked first: the
+ * screen goes to the other launcher at once.
+ */
+@Composable
+private fun HomeScreenToggle() {
+    val context = LocalContext.current
+    val released by HomeHandBack.releasedFlow.collectAsState()
+    val handedBack = released ?: remember { HomeHandBack.released(context) }
+    var asking by remember { mutableStateOf(false) }
+    SettingsToggle(
+        Icons.Filled.Home, stringResource(R.string.home_hand_back_title),
+        stringResource(if (handedBack) R.string.home_hand_back_off_detail else R.string.home_hand_back_detail), !handedBack
+    ) { on -> if (on) HomeHandBack.takeBack(context) else asking = true }
+    if (asking) {
+        ConfirmDialog(
+            title = stringResource(R.string.home_hand_back_confirm_title),
+            body = stringResource(R.string.home_hand_back_confirm),
+            action = stringResource(R.string.home_hand_back_confirm_ok),
+            onConfirm = { asking = false; HomeHandBack.handBack(context) },
+            onDismiss = { asking = false }
+        )
+    }
 }
 
 /** The usual app settings: language and units, the setup kept or done again, the demo, About. */

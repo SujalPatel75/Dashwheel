@@ -201,6 +201,7 @@
     <string name="dash_remove_dashboard_body">Opróżnij go lub usuń z przesuwania razem z kafelkami. Cofnij je przywraca.</string>
     <string name="dash_tile_move">Przenieś na inny pulpit</string>
     <string name="dash_tile_remove">Usuń</string>
+    <string name="dash_tile_restart_app">Uruchom aplikację ponownie</string>
     <string name="dash_apps">Aplikacje</string>
     <string name="dash_rootless_title">Potrzebny dostęp root</string>
     <plurals name="dash_rootless_body">

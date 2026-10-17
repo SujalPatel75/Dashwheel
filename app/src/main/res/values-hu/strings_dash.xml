@@ -205,6 +205,7 @@
     <string name="dash_remove_dashboard_body">Kiürítheti, vagy a csempéivel együtt kiveheti a lapozásból. A Visszavonás visszahozza őket.</string>
     <string name="dash_tile_move">Áthelyezés másik műszerfalra</string>
     <string name="dash_tile_remove">Eltávolítás</string>
+    <string name="dash_tile_restart_app">Alkalmazás újraindítása</string>
     <!-- The bar's Apps button, labelled -->
     <string name="dash_apps">Appok</string>
     <!-- Tiles on the dashboard that live on root or the unit's ADB, where Dashwheel has neither -->

@@ -275,6 +275,12 @@
     <string name="dead_strip_save">Save</string>
     <string name="settings_unit_tools">Unit tools</string>
     <string name="settings_unit_tools_detail">Boot logo, Google Maps inside a tile, system app</string>
+    <string name="home_hand_back_title">Dashwheel is the Home screen</string>
+    <string name="home_hand_back_detail">Off gives the screen back to the unit\'s own launcher. Your settings stay.</string>
+    <string name="home_hand_back_off_detail">The unit\'s own launcher is Home. Turn on to make Dashwheel Home again.</string>
+    <string name="home_hand_back_confirm_title">Give Home back to the unit?</string>
+    <string name="home_hand_back_confirm">The unit\'s own launcher comes back now and at every start. Dashwheel keeps your settings: open it from the app list and turn this on again.</string>
+    <string name="home_hand_back_confirm_ok">Give back</string>
     <string name="settings_root_how">How</string>
     <string name="settings_obd_linked">Linked: %1$s</string>
     <string name="settings_obd_deepobd">Readings from the Deep OBD app</string>

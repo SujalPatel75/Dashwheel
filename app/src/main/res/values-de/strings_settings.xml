@@ -271,6 +271,12 @@
     <string name="dead_strip_save">Speichern</string>
     <string name="settings_unit_tools">Geräte-Werkzeuge</string>
     <string name="settings_unit_tools_detail">Startlogo, Google Maps in einer Kachel, System-App</string>
+    <string name="home_hand_back_title">Dashwheel ist der Startbildschirm</string>
+    <string name="home_hand_back_detail">Aus gibt den Bildschirm an den Launcher des Radios zurück. Ihre Einstellungen bleiben.</string>
+    <string name="home_hand_back_off_detail">Der Launcher des Radios ist der Startbildschirm. Einschalten, um Dashwheel wieder zu nutzen.</string>
+    <string name="home_hand_back_confirm_title">Startbildschirm an das Radio zurückgeben?</string>
+    <string name="home_hand_back_confirm">Der Launcher des Radios kommt sofort und bei jedem Start zurück. Dashwheel behält Ihre Einstellungen: aus der App-Liste öffnen und dies wieder einschalten.</string>
+    <string name="home_hand_back_confirm_ok">Zurückgeben</string>
     <string name="settings_root_how">Wie</string>
     <string name="settings_obd_linked">Verbunden: %1$s</string>
     <string name="settings_obd_deepobd">Werte aus der Deep-OBD-App</string>

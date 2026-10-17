@@ -271,6 +271,12 @@
     <string name="dead_strip_save">Opslaan</string>
     <string name="settings_unit_tools">Toestelhulpmiddelen</string>
     <string name="settings_unit_tools_detail">Opstartlogo, Google Maps in een tegel, systeemapp</string>
+    <string name="home_hand_back_title">Dashwheel is het startscherm</string>
+    <string name="home_hand_back_detail">Uit geeft het scherm terug aan de eigen launcher van de radio. Je instellingen blijven.</string>
+    <string name="home_hand_back_off_detail">De eigen launcher van de radio is het startscherm. Zet aan om Dashwheel terug te krijgen.</string>
+    <string name="home_hand_back_confirm_title">Startscherm teruggeven aan de radio?</string>
+    <string name="home_hand_back_confirm">De eigen launcher van de radio komt nu en bij elke start terug. Dashwheel bewaart je instellingen: open het vanuit de app-lijst en zet dit weer aan.</string>
+    <string name="home_hand_back_confirm_ok">Teruggeven</string>
     <string name="settings_root_how">Hoe</string>
     <string name="settings_obd_linked">Verbonden: %1$s</string>
     <string name="settings_obd_deepobd">Waarden uit de Deep OBD-app</string>

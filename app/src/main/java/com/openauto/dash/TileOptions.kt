@@ -21,12 +21,14 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.icons.filled.Remove
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.VerticalDivider
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -176,6 +178,13 @@ private fun ColumnScope.Controls(
         // A window has the screen's own size: zoomed, the app moves inside the tile.
         if (item is DashboardItem.AppWindow && !item.inside) PanelLabel(stringResource(R.string.zoom_window_inside))
     }
+    // An app stuck on its tile (a splash that never goes, a map that stopped):
+    // closed and opened afresh there, rather than taken full screen to wake it.
+    if (item is DashboardItem.AppWindow && item.inside && EmbeddedApp.holds(item.packageName) &&
+        PrivilegedShell.access.collectAsState().value.shell
+    ) {
+        RestartButton { EmbeddedApp.restartInTile(item.packageName) }
+    }
     if (barActions != null) {
         barActions()
         RemoveButton(onRemove)
@@ -227,6 +236,24 @@ private fun SquareButton(icon: ImageVector, label: String, enabled: Boolean = tr
         contentAlignment = Alignment.Center
     ) {
         Icon(icon, contentDescription = label, tint = DashColors.TextPrimary, modifier = Modifier.size(24.dp))
+    }
+}
+
+@Composable
+private fun RestartButton(onRestart: () -> Unit) {
+    val tap = rememberTapFeedback()
+    Row(
+        modifier = Modifier
+            .heightIn(min = DashSize.Touch)
+            .clip(DashShape.Small)
+            .background(DashColors.CardHi)
+            .clickable(role = Role.Button) { tap(); onRestart() }
+            .padding(horizontal = 14.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Icon(Icons.Filled.Refresh, contentDescription = null, tint = DashColors.TextPrimary, modifier = Modifier.size(22.dp))
+        Spacer(Modifier.width(8.dp))
+        Text(stringResource(R.string.dash_tile_restart_app), color = DashColors.TextPrimary, fontWeight = FontWeight.SemiBold, maxLines = 1)
     }
 }
 

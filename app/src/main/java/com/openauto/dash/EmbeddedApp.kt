@@ -624,6 +624,8 @@ internal object EmbeddedApp {
     /** The dashboard in front, when it is not; [why] for the log. Main thread. */
     private fun bringHome(context: Context, why: String) {
         if (dashboard?.get() != null) return
+        // Home handed back to the unit's launcher: Dashwheel stays where it is.
+        if (HomeHandBack.released(context)) return
         val home = Intent(Intent.ACTION_MAIN)
             .addCategory(Intent.CATEGORY_HOME)
             .setPackage(context.packageName)
@@ -1670,6 +1672,8 @@ internal object EmbeddedApp {
         /** [reopen] now, asked from outside ([WazeWake]); false while there is no display to open it on. */
         fun restart(): Boolean {
             val vd = display ?: return false
+            // No shell: the force-stop does nothing and the frozen app stays as it is.
+            if (!PrivilegedShell.access.value.shell) return false
             if (_status.value == Status.MISSING || _status.value == Status.BLOCKED) return false
             settling?.cancel()
             settling = scope.launch {

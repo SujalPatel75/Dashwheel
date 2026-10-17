@@ -271,6 +271,12 @@
     <string name="dead_strip_save">Zapisz</string>
     <string name="settings_unit_tools">Narzędzia urządzenia</string>
     <string name="settings_unit_tools_detail">Logo startowe, Mapy Google w kafelku, aplikacja systemowa</string>
+    <string name="home_hand_back_title">Dashwheel jest ekranem głównym</string>
+    <string name="home_hand_back_detail">Wyłączone oddaje ekran launcherowi radia. Ustawienia zostają.</string>
+    <string name="home_hand_back_off_detail">Ekranem głównym jest launcher radia. Włącz, aby wrócić do Dashwheel.</string>
+    <string name="home_hand_back_confirm_title">Oddać ekran główny radiu?</string>
+    <string name="home_hand_back_confirm">Launcher radia wraca teraz i przy każdym uruchomieniu. Dashwheel zachowuje ustawienia: otwórz go z listy aplikacji i włącz to ponownie.</string>
+    <string name="home_hand_back_confirm_ok">Oddaj</string>
     <string name="settings_root_how">Jak</string>
     <string name="settings_obd_linked">Połączono: %1$s</string>
     <string name="settings_obd_deepobd">Odczyty z aplikacji Deep OBD</string>

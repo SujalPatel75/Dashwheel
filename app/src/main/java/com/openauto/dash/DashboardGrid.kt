@@ -59,6 +59,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalDensity
@@ -94,6 +95,9 @@ import androidx.compose.ui.graphics.vector.ImageVector
 
 /** Natural height of a full widget tile stacked in the scrollable split-screen column. */
 internal val SPLIT_WIDGET_HEIGHT = 300.dp
+
+/** A split pane: no more than about square. A whole landscape screen is far wider than tall. */
+internal fun isNarrowPane(width: Int, height: Int): Boolean = width <= 0 || height <= 0 || width < height * 1.3f
 
 internal data class GridPreview(
     val x: Int,
@@ -186,7 +190,11 @@ internal fun DashboardPage(
         }
     }
 
-    if (inSplitMode) {
+    // Android can say "multi-window" while Dashwheel still has the whole width: a
+    // split the firmware left half done kept every page a stacked, scrolling column
+    // across restarts. Only a pane that really is narrow stacks.
+    val window = LocalConfiguration.current
+    if (inSplitMode && isNarrowPane(window.screenWidthDp, window.screenHeightDp)) {
         // Sharing the screen: the pane is narrow and tall, so ignore the grid and
         // stack tiles vertically at a natural height, scrolling when they overflow.
         Column(

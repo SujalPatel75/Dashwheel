@@ -271,6 +271,12 @@
     <string name="dead_strip_save">Guardar</string>
     <string name="settings_unit_tools">Ferramentas da unidade</string>
     <string name="settings_unit_tools_detail">Logótipo de arranque, Google Maps num mosaico, app de sistema</string>
+    <string name="home_hand_back_title">O Dashwheel é o ecrã inicial</string>
+    <string name="home_hand_back_detail">Desligado, o ecrã volta ao launcher do rádio. As definições ficam.</string>
+    <string name="home_hand_back_off_detail">O launcher do rádio é o ecrã inicial. Ligue para voltar ao Dashwheel.</string>
+    <string name="home_hand_back_confirm_title">Devolver o ecrã inicial ao rádio?</string>
+    <string name="home_hand_back_confirm">O launcher do rádio volta já e em cada arranque. O Dashwheel guarda as definições: abra-o na lista de apps e volte a ligar isto.</string>
+    <string name="home_hand_back_confirm_ok">Devolver</string>
     <string name="settings_root_how">Como</string>
     <string name="settings_obd_linked">Ligado: %1$s</string>
     <string name="settings_obd_deepobd">Leituras da app Deep OBD</string>

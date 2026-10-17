@@ -56,8 +56,9 @@ internal object UnitLauncher {
             return
         }
         if (current == app.packageName) return
-        // The driver chose another Home in Android: theirs to keep.
-        if (!isDefaultHome(app)) return
+        // The driver chose another Home in Android, or handed Home back: theirs to keep.
+        if (!isDefaultHome(app) || HomeHandBack.released(app)) return
+        HomeHandBack.rememberUnitLauncher(app, current)
         scope.launch {
             if (!takeover.claim(app)) return@launch
             UnitPlatform.markUsed(Cap.LAUNCHER_TAKEOVER)

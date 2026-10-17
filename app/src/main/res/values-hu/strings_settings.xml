@@ -272,6 +272,12 @@
     <string name="dead_strip_save">Mentés</string>
     <string name="settings_unit_tools">Fejegység eszközei</string>
     <string name="settings_unit_tools_detail">Rendszerindító logó, Google Maps csempében, rendszeralkalmazás</string>
+    <string name="home_hand_back_title">A Dashwheel a kezdőképernyő</string>
+    <string name="home_hand_back_detail">Kikapcsolva a képernyő visszakerül a fejegység saját indítójához. A beállítások megmaradnak.</string>
+    <string name="home_hand_back_off_detail">A fejegység saját indítója a kezdőképernyő. Kapcsolja be a Dashwheel visszaállításához.</string>
+    <string name="home_hand_back_confirm_title">Visszaadja a kezdőképernyőt a fejegységnek?</string>
+    <string name="home_hand_back_confirm">A fejegység indítója most és minden induláskor visszajön. A Dashwheel megtartja a beállításokat: nyissa meg az alkalmazáslistából, és kapcsolja be újra.</string>
+    <string name="home_hand_back_confirm_ok">Visszaadás</string>
     <string name="settings_root_how">Hogyan</string>
     <string name="settings_obd_linked">Csatlakoztatva: %1$s</string>
     <string name="settings_obd_deepobd">Adatok a Deep OBD alkalmazásból</string>

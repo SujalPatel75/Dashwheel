@@ -271,6 +271,11 @@ internal object QfLauncher : LauncherTakeover {
         runCatching { context.sendBroadcast(Intent(ACTION).putExtra(EXTRA_PACKAGE, context.packageName)) }
             .onFailure { Log.w(TAG, "can't ask the unit to start Dashwheel as its launcher", it) }
             .isSuccess
+
+    override suspend fun handTo(context: Context, pkg: String): Boolean =
+        runCatching { context.sendBroadcast(Intent(ACTION).putExtra(EXTRA_PACKAGE, pkg)) }
+            .onFailure { Log.w(TAG, "can't give the unit's launcher back to $pkg", it) }
+            .isSuccess
 }
 
 /** Which ROM pop-ups this unit has ([RomPopups] does the hiding, with the car app's global settings). */

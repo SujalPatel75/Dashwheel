@@ -473,6 +473,7 @@ private val SETTINGS_INDEX: List<SettingsEntry> by lazy {
         SettingsEntry(R.string.settings_unit_bar_title, SettingsTab.HEAD_UNIT, offered = { FreeformBar.supported && Edition.full }),
         SettingsEntry(R.string.unit_card_title, SettingsTab.HEAD_UNIT, listOf(Deep.HEAD_UNIT), detail = R.string.unit_caps_section),
         SettingsEntry(R.string.setup_access_title, SettingsTab.HEAD_UNIT, listOf(Deep.ACCESS)),
+        SettingsEntry(R.string.home_hand_back_title, SettingsTab.HEAD_UNIT, detail = R.string.home_hand_back_detail),
         SettingsEntry(R.string.settings_unit_tools, SettingsTab.HEAD_UNIT, listOf(Deep.UNIT_TOOLS), offered = full),
         SettingsEntry(R.string.boot_menu, SettingsTab.HEAD_UNIT, listOf(Deep.UNIT_TOOLS), offered = full),
         SettingsEntry(R.string.settings_system_perms, SettingsTab.HEAD_UNIT, listOf(Deep.UNIT_TOOLS), offered = full),

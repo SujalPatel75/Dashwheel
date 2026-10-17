@@ -205,6 +205,7 @@
     <string name="dash_remove_dashboard_body">Le vider, ou le retirer des balayages avec ses tuiles. Annuler les ramène.</string>
     <string name="dash_tile_move">Vers un autre tableau de bord</string>
     <string name="dash_tile_remove">Retirer</string>
+    <string name="dash_tile_restart_app">Relancer l\'appli</string>
     <string name="dash_apps">Applis</string>
     <string name="dash_rootless_title">Accès root nécessaire</string>
     <plurals name="dash_rootless_body">

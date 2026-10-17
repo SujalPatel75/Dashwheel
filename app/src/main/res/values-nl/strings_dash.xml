@@ -201,6 +201,7 @@
     <string name="dash_remove_dashboard_body">Leegmaken, of uit het vegen halen met de tegels. Ongedaan maken brengt ze terug.</string>
     <string name="dash_tile_move">Naar een ander dashboard</string>
     <string name="dash_tile_remove">Verwijderen</string>
+    <string name="dash_tile_restart_app">App opnieuw starten</string>
     <string name="dash_apps">Apps</string>
     <string name="dash_rootless_title">Root-toegang nodig</string>
     <plurals name="dash_rootless_body">

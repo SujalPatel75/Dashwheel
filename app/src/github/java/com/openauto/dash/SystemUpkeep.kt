@@ -44,7 +44,7 @@ internal object SystemUpkeep {
         val app = context.applicationContext
         scope.launch {
             val access = PrivilegedShell.access.first { it != PrivilegedShell.Access.UNKNOWN }
-            if (access.shell) runCatching { keepHome(app) }.onFailure { Log.w(TAG, "default Home not set: ${it.message}") }
+            if (access.shell && !HomeHandBack.released(app)) runCatching { keepHome(app) }.onFailure { Log.w(TAG, "default Home not set: ${it.message}") }
             if (access.root) runCatching { refreshModuleCopy(app) }.onFailure { Log.w(TAG, "module copy not refreshed: ${it.message}") }
         }
     }

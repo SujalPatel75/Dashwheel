@@ -57,5 +57,8 @@ class WheelButtonMapTest {
         assertNull(WheelMonitor.inputPress("/dev/input/event2: EV_KEY       KEY_NEXTSONG         UP"))
         assertNull(WheelMonitor.inputPress("/dev/input/event2: EV_SYN       SYN_REPORT           00000000"))
         assertEquals("KEY_VOLUMEUP", WheelMonitor.inputPress("EV_KEY       KEY_VOLUMEUP         DOWN"))
+        assertNull(WheelMonitor.inputPress("/dev/input/event1: EV_KEY       BTN_TOUCH            DOWN"))
+        assertNull(WheelMonitor.inputPress("/dev/input/event1: EV_KEY       BTN_TOOL_FINGER      DOWN"))
+        assertNull(WheelMonitor.inputPress("/dev/input/event5: EV_KEY       BTN_LEFT             DOWN"))
     }
 }

@@ -271,6 +271,12 @@
     <string name="dead_strip_save">Enregistrer</string>
     <string name="settings_unit_tools">Outils de l\'unité</string>
     <string name="settings_unit_tools_detail">Logo de démarrage, Google Maps dans une tuile, app système</string>
+    <string name="home_hand_back_title">Dashwheel est l\'écran d\'accueil</string>
+    <string name="home_hand_back_detail">Désactivé, l\'écran revient au lanceur de l\'autoradio. Vos réglages restent.</string>
+    <string name="home_hand_back_off_detail">Le lanceur de l\'autoradio est l\'accueil. Activez pour remettre Dashwheel.</string>
+    <string name="home_hand_back_confirm_title">Rendre l\'accueil à l\'autoradio ?</string>
+    <string name="home_hand_back_confirm">Le lanceur de l\'autoradio revient tout de suite et à chaque démarrage. Dashwheel garde vos réglages : ouvrez-le depuis la liste des applis et réactivez ceci.</string>
+    <string name="home_hand_back_confirm_ok">Rendre</string>
     <string name="settings_root_how">Comment</string>
     <string name="settings_obd_linked">Connecté : %1$s</string>
     <string name="settings_obd_deepobd">Mesures de l\'app Deep OBD</string>

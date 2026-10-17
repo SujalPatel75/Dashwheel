@@ -124,6 +124,8 @@ interface LauncherTakeover {
     fun ownChoice(): String?
     /** Points the firmware's choice at Dashwheel; true when asked (read [ownChoice] later to know if it took). */
     suspend fun claim(context: Context): Boolean
+    /** Points the firmware's choice back at [pkg] ([HomeHandBack]); false where it can't. */
+    suspend fun handTo(context: Context, pkg: String): Boolean = false
 }
 
 /** The firmware's pop-ups Dashwheel can hide to show its own ([RomPopups]). */

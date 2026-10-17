@@ -272,6 +272,12 @@
     <string name="dead_strip_save">Сохранить</string>
     <string name="settings_unit_tools">Инструменты устройства</string>
     <string name="settings_unit_tools_detail">Логотип загрузки, Google Карты в плитке, системное приложение</string>
+    <string name="home_hand_back_title">Dashwheel — главный экран</string>
+    <string name="home_hand_back_detail">Выключено: экран возвращается к лаунчеру магнитолы. Настройки сохраняются.</string>
+    <string name="home_hand_back_off_detail">Главный экран — лаунчер магнитолы. Включите, чтобы вернуть Dashwheel.</string>
+    <string name="home_hand_back_confirm_title">Вернуть главный экран магнитоле?</string>
+    <string name="home_hand_back_confirm">Лаунчер магнитолы вернётся сейчас и при каждом запуске. Dashwheel сохранит настройки: откройте его из списка приложений и снова включите это.</string>
+    <string name="home_hand_back_confirm_ok">Вернуть</string>
     <string name="settings_root_how">Как</string>
     <string name="settings_obd_linked">Подключён: %1$s</string>
     <string name="settings_obd_deepobd">Данные из приложения Deep OBD</string>

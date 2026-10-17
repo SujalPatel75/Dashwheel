@@ -273,6 +273,12 @@
     <string name="dead_strip_save">Išsaugoti</string>
     <string name="settings_unit_tools">Magnetolos įrankiai</string>
     <string name="settings_unit_tools_detail">Įkrovos logotipas, Google Maps plytelėje, sistemos programa</string>
+    <string name="home_hand_back_title">Dashwheel yra pradinis ekranas</string>
+    <string name="home_hand_back_detail">Išjungus ekranas grąžinamas magnetolos paleidikliui. Nustatymai lieka.</string>
+    <string name="home_hand_back_off_detail">Pradinis ekranas yra magnetolos paleidiklis. Įjunkite, kad grąžintumėte Dashwheel.</string>
+    <string name="home_hand_back_confirm_title">Grąžinti pradinį ekraną magnetolai?</string>
+    <string name="home_hand_back_confirm">Magnetolos paleidiklis grįš dabar ir kiekvieno paleidimo metu. Dashwheel išsaugo nustatymus: atidarykite jį iš programų sąrašo ir vėl įjunkite.</string>
+    <string name="home_hand_back_confirm_ok">Grąžinti</string>
     <string name="settings_root_how">Kaip</string>
     <string name="settings_obd_linked">Prijungta: %1$s</string>
     <string name="settings_obd_deepobd">Rodmenys iš Deep OBD programos</string>

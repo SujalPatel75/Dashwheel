@@ -271,6 +271,12 @@
     <string name="dead_strip_save">Guardar</string>
     <string name="settings_unit_tools">Herramientas de la unidad</string>
     <string name="settings_unit_tools_detail">Logo de arranque, Google Maps en un mosaico, app de sistema</string>
+    <string name="home_hand_back_title">Dashwheel es la pantalla de inicio</string>
+    <string name="home_hand_back_detail">Desactivado, la pantalla vuelve al lanzador de la radio. Tus ajustes se quedan.</string>
+    <string name="home_hand_back_off_detail">El lanzador de la radio es el inicio. Activa para volver a usar Dashwheel.</string>
+    <string name="home_hand_back_confirm_title">¿Devolver el inicio a la radio?</string>
+    <string name="home_hand_back_confirm">El lanzador de la radio vuelve ahora y en cada arranque. Dashwheel guarda tus ajustes: ábrelo desde la lista de apps y vuelve a activar esto.</string>
+    <string name="home_hand_back_confirm_ok">Devolver</string>
     <string name="settings_root_how">Cómo</string>
     <string name="settings_obd_linked">Conectado: %1$s</string>
     <string name="settings_obd_deepobd">Lecturas de la app Deep OBD</string>

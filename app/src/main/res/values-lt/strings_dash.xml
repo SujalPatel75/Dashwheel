@@ -205,6 +205,7 @@
     <string name="dash_remove_dashboard_body">Ištuštinkite jį arba išimkite iš perbraukimų su plytelėmis. Anuliavus jos grįš.</string>
     <string name="dash_tile_move">Perkelti į kitą skydelį</string>
     <string name="dash_tile_remove">Pašalinti</string>
+    <string name="dash_tile_restart_app">Paleisti programą iš naujo</string>
     <!-- The bar's Apps button, labelled -->
     <string name="dash_apps">Programos</string>
     <!-- Tiles on the dashboard that live on root or the unit's ADB, where Dashwheel has neither -->
