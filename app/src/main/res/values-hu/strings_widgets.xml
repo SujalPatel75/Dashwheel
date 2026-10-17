@@ -162,4 +162,13 @@
     <string name="widgets_now_event_at">%1$s, %2$s múlva</string>
 
     <string name="widgets_switch_look">Megjelenés</string>
+    <string name="widgets_switch_screen_off">Képernyő ki</string>
+    <string name="widgets_switch_mobile_data">Mobiladat</string>
+    <string name="widgets_switch_mute_detail">Zene hangereje nullára és vissza</string>
+    <string name="widgets_switch_look_detail">Nappali, éjszakai vagy automatikus megjelenés</string>
+    <string name="widgets_switch_dnd_detail">Elnémítja a hívásokat és értesítéseket</string>
+    <string name="widgets_switch_wifi_detail">Be- vagy kikapcsolja a Wi-Fit</string>
+    <string name="widgets_switch_bluetooth_detail">Be- vagy kikapcsolja a Bluetootht</string>
+    <string name="widgets_switch_mobile_data_detail">Be- vagy kikapcsolja a SIM-kártya adatforgalmát</string>
+    <string name="widgets_switch_screen_off_detail">Kikapcsolja a képernyőt, mint a fejegység gombja</string>
 </resources>

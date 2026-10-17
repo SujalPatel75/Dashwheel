@@ -161,4 +161,13 @@
     <string name="widgets_now_event_at">À %1$s, dans %2$s</string>
 
     <string name="widgets_switch_look">Apparence</string>
+    <string name="widgets_switch_screen_off">Écran éteint</string>
+    <string name="widgets_switch_mobile_data">Données mobiles</string>
+    <string name="widgets_switch_mute_detail">Volume de la musique à zéro et retour</string>
+    <string name="widgets_switch_look_detail">Look jour, nuit ou automatique</string>
+    <string name="widgets_switch_dnd_detail">Coupe les appels et les notifications</string>
+    <string name="widgets_switch_wifi_detail">Active ou coupe le Wi-Fi</string>
+    <string name="widgets_switch_bluetooth_detail">Active ou coupe le Bluetooth</string>
+    <string name="widgets_switch_mobile_data_detail">Active ou coupe les données de la carte SIM</string>
+    <string name="widgets_switch_screen_off_detail">Éteint l\'écran comme la touche du poste</string>
 </resources>

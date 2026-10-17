@@ -61,6 +61,7 @@ internal fun tileSettings(kind: BuiltinKind): TileSettings? = when (kind) {
     BuiltinKind.SPEED_CAMERAS -> spoken(SpokenEvent.SPEED_CAMERAS)
     BuiltinKind.SPEED_LIMIT -> spoken(SpokenEvent.SPEED_LIMIT)
     BuiltinKind.WEATHER_ALERTS -> spoken(SpokenEvent.WEATHER)
+    BuiltinKind.QUICK_SWITCHES -> TileSettings(R.string.widgets_switches) { QuickSwitchesSheet(onDismiss = it) }
     else -> null
 }
 
@@ -79,6 +80,31 @@ private fun SpokenEventSheet(event: SpokenEvent, onDismiss: () -> Unit) {
         SettingsToggle(event.icon, stringResource(event.label), stringResource(event.detail), event in on) { wanted ->
             SpokenEvents.set(context, event, wanted)
             if (event == SpokenEvent.SPEED_CAMERAS && wanted) SpeedCameras.startIfSpeaking(context)
+        }
+    }
+}
+
+/** Which switches the Quick switches tile shows: one row per switch this unit can work. */
+@Composable
+private fun QuickSwitchesSheet(onDismiss: () -> Unit) {
+    val context = LocalContext.current
+    remember { QuickSwitchStore.load(context) }
+    val chosen by QuickSwitchStore.chosen.collectAsState()
+    val access by PrivilegedShell.access.collectAsState()
+    val family by UnitPlatform.family.collectAsState()
+    val available = remember(access, family) { QuickSwitchStore.available(context) }
+    val shown = QuickSwitchStore.shown(chosen, available)
+    SettingsSheet(
+        title = stringResource(R.string.widgets_switches),
+        onDismiss = onDismiss,
+        actions = { SheetButton(stringResource(R.string.dash_close)) { onDismiss() } }
+    ) {
+        QuickSwitch.entries.filter { it in available }.forEach { s ->
+            // The last one stays: an empty tile would only be a blank square.
+            val last = shown == listOf(s)
+            SettingsToggle(s.icon, stringResource(s.label), stringResource(s.detail), s in chosen, enabled = !last) { wanted ->
+                QuickSwitchStore.set(context, s, wanted)
+            }
         }
     }
 }

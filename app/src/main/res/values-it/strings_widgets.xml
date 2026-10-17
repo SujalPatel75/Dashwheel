@@ -161,4 +161,13 @@
     <string name="widgets_now_event_at">Alle %1$s, tra %2$s</string>
 
     <string name="widgets_switch_look">Aspetto</string>
+    <string name="widgets_switch_screen_off">Spegni schermo</string>
+    <string name="widgets_switch_mobile_data">Dati mobili</string>
+    <string name="widgets_switch_mute_detail">Volume della musica a zero e ritorno</string>
+    <string name="widgets_switch_look_detail">Aspetto giorno, notte o automatico</string>
+    <string name="widgets_switch_dnd_detail">Silenzia chiamate e notifiche</string>
+    <string name="widgets_switch_wifi_detail">Attiva o disattiva il Wi-Fi</string>
+    <string name="widgets_switch_bluetooth_detail">Attiva o disattiva il Bluetooth</string>
+    <string name="widgets_switch_mobile_data_detail">Attiva o disattiva i dati della SIM</string>
+    <string name="widgets_switch_screen_off_detail">Spegne lo schermo come il tasto dell\'unità</string>
 </resources>

@@ -162,4 +162,13 @@
     <string name="widgets_now_event_at">At %1$s, in %2$s</string>
 
     <string name="widgets_switch_look">Look</string>
+    <string name="widgets_switch_screen_off">Screen off</string>
+    <string name="widgets_switch_mobile_data">Mobile data</string>
+    <string name="widgets_switch_mute_detail">Music volume to zero and back</string>
+    <string name="widgets_switch_look_detail">Day, night or automatic look</string>
+    <string name="widgets_switch_dnd_detail">Silences calls and notifications</string>
+    <string name="widgets_switch_wifi_detail">Turns Wi-Fi on or off</string>
+    <string name="widgets_switch_bluetooth_detail">Turns Bluetooth on or off</string>
+    <string name="widgets_switch_mobile_data_detail">Turns the SIM card\'s data on or off</string>
+    <string name="widgets_switch_screen_off_detail">Turns the screen off like the unit\'s own key</string>
 </resources>
