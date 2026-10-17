@@ -161,4 +161,13 @@
     <string name="widgets_now_event_at">Om %1$s, over %2$s</string>
 
     <string name="widgets_switch_look">Uiterlijk</string>
+    <string name="widgets_switch_screen_off">Scherm uit</string>
+    <string name="widgets_switch_mobile_data">Mobiele data</string>
+    <string name="widgets_switch_mute_detail">Muziekvolume naar nul en terug</string>
+    <string name="widgets_switch_look_detail">Dag, nacht of automatisch</string>
+    <string name="widgets_switch_dnd_detail">Zet oproepen en meldingen stil</string>
+    <string name="widgets_switch_wifi_detail">Zet wifi aan of uit</string>
+    <string name="widgets_switch_bluetooth_detail">Zet Bluetooth aan of uit</string>
+    <string name="widgets_switch_mobile_data_detail">Zet de data van de simkaart aan of uit</string>
+    <string name="widgets_switch_screen_off_detail">Zet het scherm uit zoals de knop van het toestel</string>
 </resources>

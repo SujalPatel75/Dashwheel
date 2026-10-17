@@ -166,4 +166,13 @@
     <string name="widgets_now_event_at">%1$s, po %2$s</string>
 
     <string name="widgets_switch_look">Išvaizda</string>
+    <string name="widgets_switch_screen_off">Išjungti ekraną</string>
+    <string name="widgets_switch_mobile_data">Mobilieji duomenys</string>
+    <string name="widgets_switch_mute_detail">Muzikos garsas iki nulio ir atgal</string>
+    <string name="widgets_switch_look_detail">Dienos, nakties ar automatinė išvaizda</string>
+    <string name="widgets_switch_dnd_detail">Nutildo skambučius ir pranešimus</string>
+    <string name="widgets_switch_wifi_detail">Įjungia arba išjungia Wi-Fi</string>
+    <string name="widgets_switch_bluetooth_detail">Įjungia arba išjungia Bluetooth</string>
+    <string name="widgets_switch_mobile_data_detail">Įjungia arba išjungia SIM kortelės duomenis</string>
+    <string name="widgets_switch_screen_off_detail">Išjungia ekraną kaip įrenginio mygtukas</string>
 </resources>

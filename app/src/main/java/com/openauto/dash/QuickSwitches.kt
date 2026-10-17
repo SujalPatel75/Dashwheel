@@ -2,6 +2,10 @@ package com.openauto.dash
 
 import android.app.NotificationManager
 import android.content.Context
+import android.content.Intent
+import android.database.ContentObserver
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -20,9 +24,12 @@ import androidx.compose.material.icons.filled.Bluetooth
 import androidx.compose.material.icons.filled.BluetoothDisabled
 import androidx.compose.material.icons.filled.BrightnessAuto
 import androidx.compose.material.icons.filled.DarkMode
+import androidx.compose.material.icons.filled.DesktopAccessDisabled
 import androidx.compose.material.icons.filled.DoNotDisturbOn
 import androidx.compose.material.icons.filled.LightMode
 import androidx.compose.material.icons.filled.NotificationsActive
+import androidx.compose.material.icons.filled.SignalCellularAlt
+import androidx.compose.material.icons.filled.SignalCellularOff
 import androidx.compose.material.icons.filled.VolumeOff
 import androidx.compose.material.icons.filled.Wifi
 import androidx.compose.material.icons.filled.WifiOff
@@ -79,17 +86,87 @@ private fun doNotDisturbOn(context: Context): Boolean =
         it != null && it != NotificationManager.INTERRUPTION_FILTER_ALL && it != NotificationManager.INTERRUPTION_FILTER_UNKNOWN
     }
 
-/** Mute, the dashboard's day and night look, Do Not Disturb, Wi-Fi and Bluetooth: one tap each. */
+private fun mobileDataOn(context: Context): Boolean =
+    android.provider.Settings.Global.getInt(context.contentResolver, "mobile_data", 0) == 1
+
+/** The SIM's data as the system says it, kept current while [watch]. */
+@Composable
+private fun rememberMobileData(context: Context, watch: Boolean): Boolean {
+    var on by remember { mutableStateOf(false) }
+    DisposableEffect(watch) {
+        if (!watch) return@DisposableEffect onDispose { }
+        on = mobileDataOn(context)
+        val observer = object : ContentObserver(Handler(Looper.getMainLooper())) {
+            override fun onChange(selfChange: Boolean) { on = mobileDataOn(context) }
+        }
+        context.contentResolver.registerContentObserver(android.provider.Settings.Global.getUriFor("mobile_data"), false, observer)
+        onDispose { context.contentResolver.unregisterContentObserver(observer) }
+    }
+    return on
+}
+
+/** Mobile data through the shell; with none, the system's own mobile network page. */
+private suspend fun setMobileData(context: Context, on: Boolean) {
+    if (PrivilegedShell.access.value.shell) {
+        try {
+            DockShell.shell(context, "svc data ${if (on) "enable" else "disable"}")
+            return
+        } catch (e: Exception) {
+            Log.w("QuickSwitches", "mobile data refused: ${e.message}")
+        }
+    }
+    runCatching {
+        context.startActivity(Intent(android.provider.Settings.ACTION_DATA_ROAMING_SETTINGS).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
+    }.onFailure {
+        runCatching { context.startActivity(Intent(android.provider.Settings.ACTION_WIRELESS_SETTINGS).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)) }
+    }
+}
+
+/** The QF firmware's screen key: the screen goes dark as with the unit's own button. */
+private suspend fun screenOff(context: Context) {
+    try {
+        DockShell.shell(context, "input keyevent 315")
+    } catch (e: Exception) {
+        Log.w("QuickSwitches", "screen off refused: ${e.message}")
+    }
+}
+
+/** The switches the driver picked for the tile that this unit can work, kept current. */
+@Composable
+private fun rememberShownSwitches(): List<QuickSwitch> {
+    val context = LocalContext.current
+    remember { QuickSwitchStore.load(context) }
+    val chosen by QuickSwitchStore.chosen.collectAsState()
+    val access by PrivilegedShell.access.collectAsState()
+    val family by UnitPlatform.family.collectAsState()
+    val available = remember(access, family) { QuickSwitchStore.available(context) }
+    return remember(chosen, available) { QuickSwitchStore.shown(chosen, available) }
+}
+
+/** Wi-Fi and Bluetooth followed only while one of them is shown. */
+@Composable
+private fun FollowRadios(shown: List<QuickSwitch>) {
+    val context = LocalContext.current
+    val radios = QuickSwitch.WIFI in shown || QuickSwitch.BLUETOOTH in shown
+    DisposableEffect(radios) {
+        if (radios) RadioSwitches.start(context)
+        onDispose { if (radios) RadioSwitches.stop(context) }
+    }
+}
+
+/** The switches the driver picked, from Mute to Screen off ([QuickSwitch]): one tap each. */
 @Composable
 internal fun QuickSwitchesCard(modifier: Modifier = Modifier) {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
-    DisposableEffect(Unit) { RadioSwitches.start(context); onDispose { RadioSwitches.stop(context) } }
+    val shown = rememberShownSwitches()
+    FollowRadios(shown)
     val wifi by RadioSwitches.wifi.collectAsState()
     val bt by RadioSwitches.bluetooth.collectAsState()
     var look by remember { mutableStateOf(DashThemeStore.loadAppearance(context)) }
     LaunchedEffect(Unit) { DashThemeStore.appearanceAsked.collect { look = it } }
     var dnd by remember { mutableStateOf(doNotDisturbOn(context)) }
+    val data = rememberMobileData(context, QuickSwitch.MOBILE_DATA in shown)
     // Each state in a word under the name, as the Wi-Fi and Bluetooth tile does: tint alone said nothing.
     val onWord = stringResource(R.string.apps_radio_on)
     val offWord = stringResource(R.string.apps_radio_off)
@@ -109,36 +186,50 @@ internal fun QuickSwitchesCard(modifier: Modifier = Modifier) {
     Card(modifier = modifier) {
         Row(modifier = Modifier.fillMaxSize().padding(DashSpace.Md), horizontalArrangement = Arrangement.spacedBy(DashSpace.Sm)) {
             val each = Modifier.weight(1f).fillMaxHeight()
-            Switch(Icons.Filled.VolumeOff, stringResource(R.string.widgets_switch_mute), on = muted, line = if (byKeys) null else word(muted), modifier = each) {
-                MediaVolume.toggleMute(context)
-            }
-            Switch(
-                when (look) { DashAppearance.AUTO -> Icons.Filled.BrightnessAuto; DashAppearance.DARK -> Icons.Filled.DarkMode; DashAppearance.LIGHT -> Icons.Filled.LightMode },
-                stringResource(R.string.widgets_switch_look), on = look != DashAppearance.AUTO, line = stringResource(look.titleRes), modifier = each
-            ) {
-                val next = DashAppearance.entries[(look.ordinal + 1) % DashAppearance.entries.size]
-                look = next
-                DashThemeStore.askAppearance(context, next)
-            }
-            Switch(
-                if (dnd) Icons.Filled.DoNotDisturbOn else Icons.Filled.NotificationsActive,
-                stringResource(R.string.widgets_switch_dnd), on = dnd, line = word(dnd), modifier = each
-            ) {
-                scope.launch {
-                    setDoNotDisturb(context, !dnd)
-                    delay(500)
-                    dnd = doNotDisturbOn(context)
+            for (s in shown) when (s) {
+                QuickSwitch.MUTE -> Switch(Icons.Filled.VolumeOff, stringResource(s.label), on = muted, line = if (byKeys) null else word(muted), modifier = each) {
+                    MediaVolume.toggleMute(context)
                 }
-            }
-            Switch(if (wifi.on) Icons.Filled.Wifi else Icons.Filled.WifiOff, stringResource(R.string.apps_radio_wifi), on = wifi.on, line = radioLine(wifi), modifier = each) {
-                RadioSwitches.toggleWifi(context)
-            }
-            Switch(if (bt.on) Icons.Filled.Bluetooth else Icons.Filled.BluetoothDisabled, stringResource(R.string.apps_radio_bluetooth), on = bt.on, line = radioLine(bt), modifier = each) {
-                RadioSwitches.toggleBluetooth(context)
+                QuickSwitch.LOOK -> Switch(lookIcon(look), stringResource(s.label), on = look != DashAppearance.AUTO, line = stringResource(look.titleRes), modifier = each) {
+                    val next = DashAppearance.entries[(look.ordinal + 1) % DashAppearance.entries.size]
+                    look = next
+                    DashThemeStore.askAppearance(context, next)
+                }
+                QuickSwitch.DND -> Switch(
+                    if (dnd) Icons.Filled.DoNotDisturbOn else Icons.Filled.NotificationsActive,
+                    stringResource(s.label), on = dnd, line = word(dnd), modifier = each
+                ) {
+                    scope.launch {
+                        setDoNotDisturb(context, !dnd)
+                        delay(500)
+                        dnd = doNotDisturbOn(context)
+                    }
+                }
+                QuickSwitch.WIFI -> Switch(if (wifi.on) Icons.Filled.Wifi else Icons.Filled.WifiOff, stringResource(s.label), on = wifi.on, line = radioLine(wifi), modifier = each) {
+                    RadioSwitches.toggleWifi(context)
+                }
+                QuickSwitch.BLUETOOTH -> Switch(if (bt.on) Icons.Filled.Bluetooth else Icons.Filled.BluetoothDisabled, stringResource(s.label), on = bt.on, line = radioLine(bt), modifier = each) {
+                    RadioSwitches.toggleBluetooth(context)
+                }
+                QuickSwitch.MOBILE_DATA -> Switch(dataIcon(data), stringResource(s.label), on = data, line = word(data), modifier = each) {
+                    scope.launch { setMobileData(context, !data) }
+                }
+                // One tap and the screen is dark: there is no state to show under it.
+                QuickSwitch.SCREEN_OFF -> Switch(Icons.Filled.DesktopAccessDisabled, stringResource(s.label), on = false, line = null, modifier = each) {
+                    scope.launch { screenOff(context) }
+                }
             }
         }
     }
 }
+
+private fun lookIcon(look: DashAppearance): ImageVector = when (look) {
+    DashAppearance.AUTO -> Icons.Filled.BrightnessAuto
+    DashAppearance.DARK -> Icons.Filled.DarkMode
+    DashAppearance.LIGHT -> Icons.Filled.LightMode
+}
+
+private fun dataIcon(on: Boolean): ImageVector = if (on) Icons.Filled.SignalCellularAlt else Icons.Filled.SignalCellularOff
 
 /** One switch: icon, name and, under it, its state in a word ([line], or nothing where the state isn't known). */
 @Composable
@@ -162,30 +253,72 @@ private fun Switch(icon: ImageVector, name: String, on: Boolean, line: String?, 
     }
 }
 
+/**
+ * The order the small face keeps its few buttons in (designs draw two or
+ * three): the radios before the look and Do Not Disturb, as it always drew.
+ */
+private val FACE_ORDER = listOf(
+    QuickSwitch.MUTE, QuickSwitch.WIFI, QuickSwitch.BLUETOOTH, QuickSwitch.MOBILE_DATA, QuickSwitch.SCREEN_OFF, QuickSwitch.DND, QuickSwitch.LOOK
+)
+
 @Composable
 internal fun quickSwitchesFace(): WidgetFace {
     val context = LocalContext.current
-    DisposableEffect(Unit) { RadioSwitches.start(context); onDispose { RadioSwitches.stop(context) } }
+    val scope = rememberCoroutineScope()
+    val shown = rememberShownSwitches()
+    FollowRadios(shown)
     val wifi by RadioSwitches.wifi.collectAsState()
     val bt by RadioSwitches.bluetooth.collectAsState()
+    val data = rememberMobileData(context, QuickSwitch.MOBILE_DATA in shown)
+    var look by remember { mutableStateOf(DashThemeStore.loadAppearance(context)) }
+    LaunchedEffect(Unit) { DashThemeStore.appearanceAsked.collect { look = it } }
+    var dnd by remember { mutableStateOf(doNotDisturbOn(context)) }
     // Each radio's state in a word, as the tile itself says it: a tinted button alone said nothing.
     val onWord = stringResource(R.string.apps_radio_on)
     val offWord = stringResource(R.string.apps_radio_off)
-    val wifiName = stringResource(R.string.apps_radio_wifi)
-    val btName = stringResource(R.string.apps_radio_bluetooth)
+    fun word(on: Boolean) = if (on) onWord else offWord
+    val name = QuickSwitch.entries.associateWith { stringResource(it.label) }
+    val radios = buildList {
+        if (QuickSwitch.WIFI in shown) add(Triple(name.getValue(QuickSwitch.WIFI), wifi.on, wifi.detail))
+        if (QuickSwitch.BLUETOOTH in shown) add(Triple(name.getValue(QuickSwitch.BLUETOOTH), bt.on, null))
+        if (QuickSwitch.MOBILE_DATA in shown) add(Triple(name.getValue(QuickSwitch.MOBILE_DATA), data, null))
+    }
+    val actions = FACE_ORDER.filter { it in shown }.map { s ->
+        val label = name.getValue(s)
+        when (s) {
+            QuickSwitch.MUTE -> FaceAction(Icons.Filled.VolumeOff, label, onClick = { MediaVolume.toggleMute(context) })
+            QuickSwitch.WIFI -> FaceAction(if (wifi.on) Icons.Filled.Wifi else Icons.Filled.WifiOff, label, onClick = { RadioSwitches.toggleWifi(context) }, primary = wifi.on)
+            QuickSwitch.BLUETOOTH -> FaceAction(if (bt.on) Icons.Filled.Bluetooth else Icons.Filled.BluetoothDisabled, label, onClick = { RadioSwitches.toggleBluetooth(context) }, primary = bt.on)
+            QuickSwitch.MOBILE_DATA -> FaceAction(dataIcon(data), label, onClick = { scope.launch { setMobileData(context, !data) } }, primary = data)
+            QuickSwitch.SCREEN_OFF -> FaceAction(Icons.Filled.DesktopAccessDisabled, label, onClick = { scope.launch { screenOff(context) } })
+            QuickSwitch.DND -> FaceAction(
+                if (dnd) Icons.Filled.DoNotDisturbOn else Icons.Filled.NotificationsActive, label,
+                onClick = {
+                    scope.launch {
+                        setDoNotDisturb(context, !dnd)
+                        delay(500)
+                        dnd = doNotDisturbOn(context)
+                    }
+                },
+                primary = dnd
+            )
+            QuickSwitch.LOOK -> FaceAction(
+                lookIcon(look), label,
+                onClick = {
+                    val next = DashAppearance.entries[(look.ordinal + 1) % DashAppearance.entries.size]
+                    look = next
+                    DashThemeStore.askAppearance(context, next)
+                },
+                primary = look != DashAppearance.AUTO
+            )
+        }
+    }
     return WidgetFace(
         icon = Icons.Filled.BrightnessAuto,
         title = BuiltinKind.QUICK_SWITCHES.label,
         value = "",
-        caption = "$wifiName ${if (wifi.on) onWord else offWord} · $btName ${if (bt.on) onWord else offWord}",
-        stats = listOf(
-            FaceStat(wifiName, wifi.detail ?: if (wifi.on) onWord else offWord),
-            FaceStat(btName, if (bt.on) onWord else offWord)
-        ),
-        actions = listOf(
-            FaceAction(Icons.Filled.VolumeOff, stringResource(R.string.widgets_switch_mute), onClick = { MediaVolume.toggleMute(context) }),
-            FaceAction(if (wifi.on) Icons.Filled.Wifi else Icons.Filled.WifiOff, stringResource(R.string.apps_radio_wifi), onClick = { RadioSwitches.toggleWifi(context) }, primary = wifi.on),
-            FaceAction(if (bt.on) Icons.Filled.Bluetooth else Icons.Filled.BluetoothDisabled, stringResource(R.string.apps_radio_bluetooth), onClick = { RadioSwitches.toggleBluetooth(context) }, primary = bt.on)
-        )
+        caption = radios.joinToString(" · ") { (n, on, _) -> "$n ${word(on)}" },
+        stats = radios.map { (n, on, detail) -> FaceStat(n, if (on) detail ?: onWord else offWord) },
+        actions = actions
     )
 }

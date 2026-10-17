@@ -166,4 +166,13 @@
     <string name="widgets_now_event_at">В %1$s, через %2$s</string>
 
     <string name="widgets_switch_look">Вид</string>
+    <string name="widgets_switch_screen_off">Выключить экран</string>
+    <string name="widgets_switch_mobile_data">Мобильные данные</string>
+    <string name="widgets_switch_mute_detail">Громкость музыки в ноль и обратно</string>
+    <string name="widgets_switch_look_detail">Дневной, ночной или авто вид</string>
+    <string name="widgets_switch_dnd_detail">Отключает звонки и уведомления</string>
+    <string name="widgets_switch_wifi_detail">Включает или выключает Wi-Fi</string>
+    <string name="widgets_switch_bluetooth_detail">Включает или выключает Bluetooth</string>
+    <string name="widgets_switch_mobile_data_detail">Включает или выключает передачу данных SIM</string>
+    <string name="widgets_switch_screen_off_detail">Гасит экран, как кнопка магнитолы</string>
 </resources>
