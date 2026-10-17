@@ -47,6 +47,8 @@ import com.openauto.dash.link.CarLogAck
 import com.openauto.dash.link.CarLookPart
 import com.openauto.dash.link.CarRegistration
 import com.openauto.dash.link.RegistrationReader
+import com.openauto.dash.link.RescueCommand
+import com.openauto.dash.link.RescueResult
 import com.openauto.dash.link.TextSent
 import kotlinx.coroutines.CompletableDeferred
 import java.util.concurrent.ConcurrentHashMap
@@ -621,6 +623,12 @@ object PhoneLink {
             is PhoneFix -> PhoneGps.feed(message)
             // The phone scanned a second-screen display's code for this car.
             is DisplayPair -> DisplayLink.pair(context, message.uri)
+            // A way out for a driver locked out of the screen: only from a phone paired here, never one being shown the code.
+            is RescueCommand -> if (_phones.value.any { it.id == phone.id && it.secret.contentEquals(phone.secret) && !it.forgotten }) {
+                main.post { send(RescueResult(message.id, PhoneRescue.run(context, message.action))) }
+            } else {
+                DebugLog.note(context, "Rescue ${message.action} refused: not a paired phone")
+            }
             else -> Unit
         }
     }

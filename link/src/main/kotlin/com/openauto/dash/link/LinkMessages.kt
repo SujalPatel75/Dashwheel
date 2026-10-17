@@ -681,6 +681,36 @@ data class CarLookPart(val id: Long, val index: Int, val count: Int, val name: S
     }
 }
 
+/**
+ * Phone → head unit: a way out for a driver locked out of the car's screen
+ * (a tap learned as a wheel button, a stuck split, a look that hides its
+ * menu), run on the car with no tap there. Only a paired phone's link
+ * carries it. Answered with [RescueResult] under the same [id]; a car too
+ * old to know it skips it, and the phone hears nothing.
+ */
+@Serializable
+@SerialName("rescue")
+data class RescueCommand(val action: Action, val id: Long) : LinkMessage {
+    @Serializable
+    enum class Action {
+        /** The steering wheel buttons' map emptied, back to the unit's own buttons. */
+        CLEAR_WHEEL_BUTTONS,
+        /** The Standard look, with the bottom bar instead of the side rail. */
+        STANDARD_LOOK,
+        /** Out of split screen. */
+        LEAVE_SPLIT,
+        /** The unit's own launcher back as Home. */
+        HAND_HOME_BACK,
+        /** Dashwheel the Home screen again. */
+        TAKE_HOME_BACK
+    }
+}
+
+/** Head unit → phone: whether the [RescueCommand] with [id] worked. */
+@Serializable
+@SerialName("rescued")
+data class RescueResult(val id: Long, val ok: Boolean) : LinkMessage
+
 /** Head unit → phone: what became of the [CarLookPart]s under [id]. */
 @Serializable
 @SerialName("car_look_ack")

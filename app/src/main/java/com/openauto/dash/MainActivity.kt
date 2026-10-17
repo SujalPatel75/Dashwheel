@@ -88,6 +88,10 @@ class MainActivity : ComponentActivity() {
 
         /** The dashboard alive right now, to keep it the only one ([onlyOne]). */
         private var live: java.lang.ref.WeakReference<MainActivity>? = null
+
+        /** Whether the dashboard alive right now shares the screen (split screen, a window). */
+        fun inMultiWindowNow(): Boolean =
+            live?.get()?.takeIf { !it.isFinishing && !it.isDestroyed }?.isInMultiWindowMode ?: false
     }
 
     /**

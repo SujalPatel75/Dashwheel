@@ -258,4 +258,22 @@
     <string name="reg_offline">Prisijunkite prie automobilio, kad išsiųstumėte</string>
     <string name="reg_again">Skenuoti iš naujo</string>
     <string name="dash_share_sent">Skydelis išsiųstas į automobilį: pažiūrėkite ten</string>
+    <string name="rescue_title">Gelbėjimas</string>
+    <string name="rescue_detail">Negalite pasiekti automobilio ekrano? Sutvarkykite iš čia.</string>
+    <string name="rescue_offline">Prisijunkite prie automobilio, kad juos naudotumėte</string>
+    <string name="rescue_wheel">Išvalyti vairo mygtukus</string>
+    <string name="rescue_wheel_body">Kiekvienas vairo mygtukas vėl daro tai, ką įrenginys daro pats.</string>
+    <string name="rescue_look">Standartinė išvaizda</string>
+    <string name="rescue_look_body">Automobilis grįžta į standartinę išvaizdą su apatine juosta.</string>
+    <string name="rescue_split">Išeiti iš padalinto ekrano</string>
+    <string name="rescue_split_body">Automobilio ekranas nebebendrinamas su kita programa.</string>
+    <string name="rescue_home_back">Grąžinti pradžią įrenginiui</string>
+    <string name="rescue_home_back_body">Įrenginio paleidyklė vėl tampa pradžios ekranu. Dashwheel lieka programų sąraše.</string>
+    <string name="rescue_home_take">Dashwheel vėl pradžios ekranas</string>
+    <string name="rescue_home_take_body">Dashwheel vėl tampa automobilio pradžios ekranu.</string>
+    <string name="rescue_send">Vykdyti</string>
+    <string name="rescue_sending">Siunčiama į automobilį</string>
+    <string name="rescue_done">Atlikta automobilyje</string>
+    <string name="rescue_failed">Automobiliui nepavyko</string>
+    <string name="rescue_no_answer">Nėra atsakymo: atnaujinkite Dashwheel automobilyje.</string>
 </resources>

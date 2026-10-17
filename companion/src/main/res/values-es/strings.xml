@@ -255,4 +255,22 @@
     <string name="reg_offline">Conéctate al coche para enviarlo</string>
     <string name="reg_again">Escanear de nuevo</string>
     <string name="dash_share_sent">Panel enviado al coche: míralo en la pantalla</string>
+    <string name="rescue_title">Rescate</string>
+    <string name="rescue_detail">¿Sin acceso a la pantalla del coche? Arréglalo desde aquí.</string>
+    <string name="rescue_offline">Conecta el coche para usarlos</string>
+    <string name="rescue_wheel">Borrar botones del volante</string>
+    <string name="rescue_wheel_body">Cada botón del volante vuelve a hacer lo que la unidad hace por sí sola.</string>
+    <string name="rescue_look">Aspecto Estándar</string>
+    <string name="rescue_look_body">El coche vuelve al aspecto Estándar, con la barra inferior.</string>
+    <string name="rescue_split">Salir de pantalla dividida</string>
+    <string name="rescue_split_body">La pantalla del coche deja de compartirse con otra app.</string>
+    <string name="rescue_home_back">Devolver Inicio a la unidad</string>
+    <string name="rescue_home_back_body">El launcher propio de la unidad vuelve a ser la pantalla de inicio. Dashwheel sigue en la lista de apps.</string>
+    <string name="rescue_home_take">Dashwheel como Inicio otra vez</string>
+    <string name="rescue_home_take_body">Dashwheel vuelve a ser la pantalla de inicio del coche.</string>
+    <string name="rescue_send">Hacerlo</string>
+    <string name="rescue_sending">Enviando al coche</string>
+    <string name="rescue_done">Hecho en el coche</string>
+    <string name="rescue_failed">El coche no pudo hacerlo</string>
+    <string name="rescue_no_answer">Sin respuesta: actualiza Dashwheel en el coche.</string>
 </resources>

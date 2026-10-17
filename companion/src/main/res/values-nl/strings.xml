@@ -254,4 +254,22 @@
     <string name="reg_offline">Verbind met de auto om het te sturen</string>
     <string name="reg_again">Opnieuw scannen</string>
     <string name="dash_share_sent">Dashboard naar de auto gestuurd: bekijk het daar</string>
+    <string name="rescue_title">Redding</string>
+    <string name="rescue_detail">Buitengesloten van het autoscherm? Los het hier op.</string>
+    <string name="rescue_offline">Verbind met de auto om ze te gebruiken</string>
+    <string name="rescue_wheel">Stuurknoppen wissen</string>
+    <string name="rescue_wheel_body">Elke stuurknop doet weer wat het toestel zelf doet.</string>
+    <string name="rescue_look">Standaard-look</string>
+    <string name="rescue_look_body">De auto gaat terug naar de Standaard-look, met de onderbalk.</string>
+    <string name="rescue_split">Gesplitst scherm verlaten</string>
+    <string name="rescue_split_body">Het autoscherm wordt niet meer gedeeld met een andere app.</string>
+    <string name="rescue_home_back">Startscherm terug naar toestel</string>
+    <string name="rescue_home_back_body">De eigen launcher van het toestel wordt weer het startscherm. Dashwheel blijft in de app-lijst.</string>
+    <string name="rescue_home_take">Dashwheel weer als start</string>
+    <string name="rescue_home_take_body">Dashwheel wordt weer het startscherm van de auto.</string>
+    <string name="rescue_send">Uitvoeren</string>
+    <string name="rescue_sending">Naar de auto sturen</string>
+    <string name="rescue_done">Gedaan in de auto</string>
+    <string name="rescue_failed">De auto kon het niet</string>
+    <string name="rescue_no_answer">Geen antwoord: werk Dashwheel in de auto bij.</string>
 </resources>

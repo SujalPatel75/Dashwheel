@@ -149,6 +149,7 @@ fun AutomotiveDashboard(inSplitMode: Boolean = false) {
     // Navigation (Settings, Display): the side rail in the bar's place, and tabs in it instead of swiping.
     var railChoice by remember { mutableStateOf(DashThemeStore.loadRail(context)) }
     var tabsChoice by remember { mutableStateOf(DashThemeStore.loadTabs(context)) }
+    LaunchedEffect(Unit) { DashThemeStore.railAsked.collect { railChoice = it } }
     val railOn = DashThemeStore.railOn(railChoice, themeMode)
     val barState = rememberBarAutoHideState()
     val barRevealTap = rememberTapFeedback()

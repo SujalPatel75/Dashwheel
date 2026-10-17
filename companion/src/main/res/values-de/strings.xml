@@ -254,4 +254,22 @@
     <string name="reg_offline">Verbinde dich mit dem Auto, um es zu senden</string>
     <string name="reg_again">Neu scannen</string>
     <string name="dash_share_sent">Dashboard ans Auto gesendet: dort ansehen</string>
+    <string name="rescue_title">Rettung</string>
+    <string name="rescue_detail">Vom Autobildschirm ausgesperrt? Hier beheben.</string>
+    <string name="rescue_offline">Mit dem Auto verbinden, um sie zu nutzen</string>
+    <string name="rescue_wheel">Lenkradtasten löschen</string>
+    <string name="rescue_wheel_body">Jede Lenkradtaste macht wieder, was das Gerät von selbst macht.</string>
+    <string name="rescue_look">Standard-Look</string>
+    <string name="rescue_look_body">Das Auto kehrt zum Standard-Look mit der unteren Leiste zurück.</string>
+    <string name="rescue_split">Geteilten Bildschirm beenden</string>
+    <string name="rescue_split_body">Der Autobildschirm wird nicht mehr mit einer anderen App geteilt.</string>
+    <string name="rescue_home_back">Startbildschirm ans Gerät</string>
+    <string name="rescue_home_back_body">Der eigene Launcher des Geräts wird wieder Startbildschirm. Dashwheel bleibt in der App-Liste.</string>
+    <string name="rescue_home_take">Dashwheel wieder als Start</string>
+    <string name="rescue_home_take_body">Dashwheel wird wieder der Startbildschirm des Autos.</string>
+    <string name="rescue_send">Ausführen</string>
+    <string name="rescue_sending">Wird ans Auto gesendet</string>
+    <string name="rescue_done">Im Auto erledigt</string>
+    <string name="rescue_failed">Das Auto konnte es nicht</string>
+    <string name="rescue_no_answer">Keine Antwort: Dashwheel im Auto aktualisieren.</string>
 </resources>
