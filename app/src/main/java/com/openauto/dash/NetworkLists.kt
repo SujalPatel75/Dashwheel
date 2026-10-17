@@ -152,13 +152,20 @@ internal suspend fun btConnectOrDisconnect(context: Context, entry: BtEntry): Bo
 private suspend fun proxyOf(context: Context, adapter: android.bluetooth.BluetoothAdapter, profile: Int): BluetoothProfile? {
     val result = kotlinx.coroutines.CompletableDeferred<BluetoothProfile?>()
     val asked = runCatching {
-        adapter.getProfileProxy(context, object : BluetoothProfile.ServiceListener {
-            override fun onServiceConnected(p: Int, proxy: BluetoothProfile) { result.complete(proxy) }
+        // The app's context: a proxy that answers late is closed, but must not hold the screen meanwhile.
+        adapter.getProfileProxy(context.applicationContext, object : BluetoothProfile.ServiceListener {
+            override fun onServiceConnected(p: Int, proxy: BluetoothProfile) {
+                // Too late, nobody waits for it any more: closed, else it stayed bound for good.
+                if (!result.complete(proxy)) runCatching { adapter.closeProfileProxy(p, proxy) }
+            }
             override fun onServiceDisconnected(p: Int) { result.complete(null) }
         }, profile)
     }.getOrDefault(false)
     if (!asked) return null
-    return kotlinx.coroutines.withTimeoutOrNull(3_000) { result.await() }
+    return kotlinx.coroutines.withTimeoutOrNull(3_000) { result.await() } ?: run {
+        result.complete(null)
+        null
+    }
 }
 
 /** The unit's own Bluetooth app, where phones are paired, connected and changed. */

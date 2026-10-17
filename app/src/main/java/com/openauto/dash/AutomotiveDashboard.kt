@@ -349,7 +349,14 @@ fun AutomotiveDashboard(inSplitMode: Boolean = false) {
 
     /** Home: the middle of the cross. */
     fun showHome() = showPage(DashboardStore.CENTER)
-    SideEffect { PagePosition.onPick = { showPage(it) } }
+    // Cleared when this dashboard goes: a static callback kept the old one
+    // (its pages, pictures and window) alive after the activity was rebuilt.
+    val pickPage by rememberUpdatedState<(Int) -> Unit> { showPage(it) }
+    DisposableEffect(Unit) {
+        val mine: (Int) -> Unit = { pickPage(it) }
+        PagePosition.onPick = mine
+        onDispose { if (PagePosition.onPick === mine) PagePosition.onPick = null }
+    }
 
     // After a page change the floating cross shows for a moment, then fades.
     // A sideways swipe above or below Home, where nothing lies beside the

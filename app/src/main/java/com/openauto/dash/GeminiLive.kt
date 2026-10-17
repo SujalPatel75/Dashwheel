@@ -429,10 +429,13 @@ internal object GeminiLive {
 private object LaunchCurtain {
     private var view: ImageView? = null
     private val main = Handler(Looper.getMainLooper())
+    /** Counts the covers: a copy or a timer from an earlier one must not act on the next. */
+    private var round = 0
 
     /** Covers the screen, then runs [then]; [then] runs at once when no picture can be taken. Main thread. */
     fun cover(context: Context, then: () -> Unit) {
         lift()
+        val mine = ++round
         val activity = EmbeddedApp.dashboardActivity()
         val decor = activity?.window?.decorView
         if (activity == null || decor == null || !activity.hasWindowFocus() || decor.width == 0 || decor.height == 0 ||
@@ -451,16 +454,18 @@ private object LaunchCurtain {
         }
         runCatching {
             PixelCopy.request(activity.window, picture, { result ->
-                if (result == PixelCopy.SUCCESS) show(context, picture)
+                // A late copy over a newer cover put up a second curtain nothing took down.
+                if (result == PixelCopy.SUCCESS && mine == round) show(context, picture)
                 go()
             }, main)
         }.onFailure { go() }
         // A copy that never answers must not hold Gemini up.
         main.postDelayed({ go() }, 300)
-        main.postDelayed({ lift() }, 6_000)
+        main.postDelayed({ if (mine == round) lift() }, 6_000)
     }
 
     private fun show(context: Context, picture: Bitmap) {
+        lift()
         val wm = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
         val v = ImageView(context).apply { setImageBitmap(picture) }
         val params = WindowManager.LayoutParams(
