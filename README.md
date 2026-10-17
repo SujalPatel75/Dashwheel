@@ -2,7 +2,7 @@
 
 # Dashwheel
 
-**The free, open-source car launcher for Android head units (FYT / UIS7862 and similar).** Map, music and live car data on one calm screen: up to seven dashboards you arrange yourself, 55+ widgets, whole-design skins, an AI mechanic that explains warning lights, and your phone's calls and messages on the big screen. No ads, no trial, no account.
+**The free, open-source car launcher for Android head units (QF, FYT, Microntek and more).** Map, music and live car data on one calm screen: up to seven dashboards you arrange yourself, 55+ widgets, whole-design skins, an AI mechanic that explains warning lights, and your phone's calls and messages on the big screen. No ads, no trial, no account.
 
 ![Dashwheel: map, speed, weather and music on one screen](docs/screenshots/01_hero.jpg)
 
@@ -10,7 +10,7 @@
 
 📖 **[Read the wiki](https://github.com/deviloufr-ai/Dashwheel/wiki)** for every feature, setup guides and what works with or without root.
 
-**Will it work on my unit?** See [Tested hardware](https://github.com/deviloufr-ai/Dashwheel/wiki/Tested-Hardware). Root is not needed.
+**Will it work on my unit?** See [supported head units](#supported-head-units) and [tested hardware](https://github.com/deviloufr-ai/Dashwheel/wiki/Tested-Hardware). Root is not needed.
 
 [![Support me on Ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/deviloufr)
 
@@ -43,10 +43,23 @@ Dashwheel is free, with no ads. If it makes your drives nicer, a coffee on Ko-fi
 - **11 languages**, day and night themes, updates from GitHub Releases on a stable or a beta channel
 - **Root is optional**: extra features appear only when the unit allows them ([what needs what](https://github.com/deviloufr-ai/Dashwheel/wiki/Root-and-PMPatch3)); without root, [Shizuku](https://shizuku.rikka.app/) brings the shell features (app windows, the car app's switches, the volume keys)
 
+## Supported head units
+
+Any Android 10+ head unit runs Dashwheel as a launcher. On top of that, Dashwheel works out which firmware family the unit runs and talks to that firmware (ignition, wheel keys, the CAN box's car data, the unit's Bluetooth phone):
+
+| Family | Typical units | Status |
+|---|---|---|
+| **QF** | Hizpo / ROCO K706 (UIS7862, UIS8581a) | Everything; the developer's own unit, daily use |
+| **FYT / SYU** | Joying, Atoto, Mekede, Junsun, Idoing, Isudar, NaviFly, Sinosmart, Winca, DUDU | Full support, waiting for testers |
+| **Microntek MTCD / MTCE, HCT MTCH** | Dasaita, Xtrons PX5 / PX6, Eonon, Pumpkin, Erisin | Full support, waiting for testers |
+| **Topway TS**, **Reglink**, **Allwinner**, **Nowadays** | TS10 / TS18, MediaTek AC8227L / AC8257, T3 / T8, K4811 | Basics: plain Android, ignition and key broadcasts, help against the firmware's app killer |
+| Anything else | plain Android units, tablets, phones | Works as a launcher |
+
+What each family gives, and how to help confirm yours: [Supported head units](https://github.com/deviloufr-ai/Dashwheel/wiki/Supported-Head-Units) on the wiki. Technical details: [docs/unit-platforms.md](docs/unit-platforms.md). Your unit works? Settings → General → About → **Report how it works**.
+
 ## Two editions
 
 - **GitHub edition** (`Dashwheel-<version>.apk` from [Releases](https://github.com/deviloufr-ai/Dashwheel/releases/latest)): the full app. Root, Shizuku, internal ADB and PMPatch3 features appear when the unit allows them, and it updates itself from GitHub Releases.
-- **Other head units**: Dashwheel works out which firmware family the unit runs (QF, FYT, Microntek, Topway, Reglink, Allwinner, Nowadays) and speaks to it accordingly; what each family offers and how to test one on the emulator is in [head unit firmware families](docs/unit-platforms.md)
 - **Google Play edition**: the same app without the features that need root, the unit's internal ADB or PMPatch3. It never installs anything itself: updates come from Google Play, and the Companion comes from Play too. Store texts and the privacy policy are in `fastlane/metadata-play/` and `docs/play/`.
 
 | | GitHub | Google Play |
