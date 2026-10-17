@@ -292,6 +292,7 @@
     <string name="car_warn_bulb_reversing">Perdegė atbulinės eigos žibinto lemputė</string>
     <string name="car_warn_bulb_sidelight">Perdegė gabarito lemputė</string>
     <string name="car_warn_tpms">Padangų slėgis nestebimas</string>
+    <string name="tpms_box_reset">Padangos nutilo: TPMS dėžutė prijungta iš naujo</string>
     <string name="car_warn_key_battery">Senka rakto baterija</string>
     <string name="car_warn_more">ir dar %1$d</string>
     <string name="car_map_back">Galas</string>
