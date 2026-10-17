@@ -135,7 +135,8 @@ private suspend fun screenOff(context: Context) {
 @Composable
 private fun rememberShownSwitches(): List<QuickSwitch> {
     val context = LocalContext.current
-    remember { QuickSwitchStore.load(context) }
+    // Once per process: the store keeps what it read.
+    QuickSwitchStore.load(context)
     val chosen by QuickSwitchStore.chosen.collectAsState()
     val access by PrivilegedShell.access.collectAsState()
     val family by UnitPlatform.family.collectAsState()
