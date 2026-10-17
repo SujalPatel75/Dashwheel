@@ -286,6 +286,7 @@
     <string name="car_warn_bulb_reversing">Lamp achteruitrijlicht kapot</string>
     <string name="car_warn_bulb_sidelight">Lamp stadslicht kapot</string>
     <string name="car_warn_tpms">Bandenspanning niet bewaakt</string>
+    <string name="tpms_box_reset">De banden zwegen: de TPMS-box is opnieuw verbonden</string>
     <string name="car_warn_key_battery">Sleutelbatterij bijna leeg</string>
     <string name="car_warn_more">en nog %1$d</string>
     <string name="car_map_back">Achter</string>

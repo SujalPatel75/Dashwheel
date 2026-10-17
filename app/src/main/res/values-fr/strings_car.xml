@@ -288,6 +288,7 @@
     <string name="car_warn_bulb_reversing">Ampoule de feu de recul grillée</string>
     <string name="car_warn_bulb_sidelight">Ampoule de veilleuse grillée</string>
     <string name="car_warn_tpms">Pression des pneus non surveillée</string>
+    <string name="tpms_box_reset">Les pneus ne répondaient plus : le boîtier TPMS a été rebranché</string>
     <string name="car_warn_key_battery">Pile de la clé faible</string>
     <string name="car_warn_more">et %1$d de plus</string>
     <string name="car_map_back">Arrière</string>

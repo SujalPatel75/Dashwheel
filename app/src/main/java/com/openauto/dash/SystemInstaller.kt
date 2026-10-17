@@ -6,6 +6,7 @@ import android.util.Log
 import java.io.IOException
 import java.util.concurrent.LinkedBlockingQueue
 import java.util.concurrent.TimeUnit
+import java.util.concurrent.atomic.AtomicInteger
 import kotlin.concurrent.thread
 
 /**
@@ -71,25 +72,74 @@ internal object RootShell {
     /**
      * `su -c [cmd]`, or, with [cmd] null, `su` running [stdin] as its script
      * (no quoting gets in the way). Throws when [timeoutS] runs out.
+     *
+     * The root shell first tells its pid (a [PID] line on stderr, taken off
+     * again), so a command that runs out of time is killed with everything it
+     * started ([killTree]): ending the `su` client alone left the root shell
+     * and its command running, one more after each timeout.
      */
     fun su(cmd: String?, timeoutS: Long, stdin: String? = null): Output {
         check(Edition.full) { SystemInstaller.NO_ROOT_PLAY }
-        val process = Runtime.getRuntime().exec(if (cmd != null) arrayOf("su", "-c", cmd) else arrayOf("su"))
+        val tell = "echo \"$PID \$\$\" >&2"
+        val process = Runtime.getRuntime().exec(if (cmd != null) arrayOf("su", "-c", "$tell; $cmd") else arrayOf("su"))
         // One builder per stream: the two readers run concurrently.
         val out = StringBuilder()
         val err = StringBuilder()
+        val pid = AtomicInteger(0)
         val reader = Thread { runCatching { out.append(process.inputStream.bufferedReader().readText()) } }
-        val errReader = Thread { runCatching { err.append(process.errorStream.bufferedReader().readText()) } }
-        reader.start(); errReader.start()
-        // su gone before reading its script: the exit status says why.
-        runCatching { process.outputStream.bufferedWriter().use { w -> stdin?.let(w::write) } }
-        if (!process.waitFor(timeoutS, TimeUnit.SECONDS)) {
-            process.destroy()
-            throw IllegalStateException("su timed out")
+        val errReader = Thread {
+            runCatching {
+                val r = process.errorStream.bufferedReader()
+                val first = r.readLine() ?: return@runCatching
+                val told = first.takeIf { it.startsWith(PID) }?.substringAfter(' ')?.trim()?.toIntOrNull()
+                if (told != null) pid.set(told) else err.append(first).append('\n')
+                err.append(r.readText())
+            }
         }
-        reader.join(2000); errReader.join(2000)
-        return Output(process.exitValue(), out.toString(), err.toString())
+        reader.start(); errReader.start()
+        try {
+            // su gone before reading its script: the exit status says why.
+            runCatching {
+                process.outputStream.bufferedWriter().use { w ->
+                    if (cmd == null) w.write("$tell\n")
+                    stdin?.let(w::write)
+                }
+            }
+            if (!process.waitFor(timeoutS, TimeUnit.SECONDS)) {
+                pid.get().takeIf { it > 0 }?.let(::killTree)
+                throw IllegalStateException("su timed out")
+            }
+            reader.join(2000); errReader.join(2000)
+            return Output(process.exitValue(), out.toString(), err.toString())
+        } finally {
+            // A command that left a child holding the pipes would keep both
+            // readers (and the streams) waiting for good: closing ends them.
+            runCatching { process.inputStream.close() }
+            runCatching { process.errorStream.close() }
+            process.destroy()
+        }
     }
+
+    /** Marks the root shell's pid on its stderr, see [su]. */
+    private const val PID = "__DW_PID__"
+
+    /**
+     * Kills [pid] and everything it started, children first, from a root
+     * shell of its own ([shell] for a test's plain shell), off the caller's thread.
+     */
+    fun killTree(pid: Int, shell: String = "su") {
+        val script = killTreeScript(pid)
+        thread(name = "su-kill", isDaemon = true) {
+            runCatching {
+                if (shell == "su") su(script, 5)
+                else Runtime.getRuntime().exec(arrayOf(shell, "-c", script)).waitFor(5, TimeUnit.SECONDS)
+            }.onFailure { Log.w("RootShell", "could not end a stuck shell", it) }
+        }
+    }
+
+    /** The shell line that kills [pid] and all its descendants, deepest first. Pure, for the tests. */
+    internal fun killTreeScript(pid: Int): String =
+        "k() { for c in \$(pgrep -P \$1); do k \$c; done; kill -9 \$1; }; k $pid 2>/dev/null"
 
     /**
      * One `su` kept open, the commands written to it one after another and
@@ -169,16 +219,9 @@ internal object RootShell {
             process.destroy()
         }
 
-        /** Kills the shell and everything it started, children first, from a shell of its own. */
+        /** Kills the shell and everything it started, see [RootShell.killTree]. */
         private fun killTree() {
-            val pid = pid ?: return
-            val script = killTreeScript(pid)
-            thread(name = "su-session-kill", isDaemon = true) {
-                runCatching {
-                    if (shell == "su") su(script, 5)
-                    else Runtime.getRuntime().exec(arrayOf(shell, "-c", script)).waitFor(5, TimeUnit.SECONDS)
-                }.onFailure { Log.w("RootShell", "could not end a stuck shell", it) }
-            }
+            killTree(pid ?: return, shell)
         }
 
         private companion object {
@@ -187,10 +230,6 @@ internal object RootShell {
 
             /** Queued once the shell's output ends: it has gone. */
             val GONE = String()
-
-            /** The shell line that kills [pid] and all its descendants, deepest first. Pure, for the tests. */
-            fun killTreeScript(pid: Int): String =
-                "k() { for c in \$(pgrep -P \$1); do k \$c; done; kill -9 \$1; }; k $pid 2>/dev/null"
         }
     }
 }

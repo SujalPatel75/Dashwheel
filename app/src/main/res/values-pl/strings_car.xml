@@ -293,6 +293,7 @@
     <string name="car_warn_bulb_reversing">Przepalona żarówka światła cofania</string>
     <string name="car_warn_bulb_sidelight">Przepalona żarówka świateł pozycyjnych</string>
     <string name="car_warn_tpms">Ciśnienie w oponach nie jest monitorowane</string>
+    <string name="tpms_box_reset">Opony przestały odpowiadać: skrzynkę TPMS podłączono ponownie</string>
     <string name="car_warn_key_battery">Słaba bateria kluczyka</string>
     <string name="car_warn_more">i %1$d więcej</string>
     <string name="car_map_back">Tył</string>

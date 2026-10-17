@@ -286,6 +286,7 @@
     <string name="car_warn_bulb_reversing">Kiégett a tolatólámpa izzója</string>
     <string name="car_warn_bulb_sidelight">Kiégett a helyzetjelző izzója</string>
     <string name="car_warn_tpms">A guminyomás nincs felügyelve</string>
+    <string name="tpms_box_reset">A gumik elnémultak: a TPMS-doboz újracsatlakozott</string>
     <string name="car_warn_key_battery">Gyenge a kulcs eleme</string>
     <string name="car_warn_more">és még %1$d</string>
     <string name="car_map_back">Hátul</string>

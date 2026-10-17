@@ -288,6 +288,7 @@
     <string name="car_warn_bulb_reversing">Bombilla de marcha atrás fundida</string>
     <string name="car_warn_bulb_sidelight">Bombilla de luz de posición fundida</string>
     <string name="car_warn_tpms">Presión de neumáticos sin vigilar</string>
+    <string name="tpms_box_reset">Los neumáticos dejaron de responder: se reconectó la caja TPMS</string>
     <string name="car_warn_key_battery">Pila de la llave baja</string>
     <string name="car_warn_more">y %1$d más</string>
     <string name="car_map_back">Detrás</string>
