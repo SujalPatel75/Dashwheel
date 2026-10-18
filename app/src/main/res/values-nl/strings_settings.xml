@@ -199,7 +199,7 @@
     <string name="settings_log_no_phone">Geen telefoon antwoordde. Koppel de telefoon en werk de companion-app bij</string>
     <!-- About tab -->
     <string name="about_author_section">Gemaakt door</string>
-    <string name="about_description">Dashwheel is een launcher voor Android-autoradio\'s: kaart, muziek en autogegevens op één rustig scherm, met dashboards die je zelf indeelt. Gratis en open source.</string>
+    <string name="about_description">Dashwheel is een launcher voor Android-autoradio\'s: kaart, muziek en autogegevens op één rustig scherm, met dashboards die je zelf indeelt. Gratis te gebruiken.</string>
     <string name="about_author_role">Maker en ontwikkelaar</string>
     <string name="about_support_section">Steun Dashwheel</string>
     <string name="about_support_text">Dashwheel is gratis. Vind je het fijn, dan helpt een kop koffie om het draaiende te houden.</string>
@@ -233,7 +233,7 @@
     <string name="settings_side_rail_detail">De knoppen van de balk staan aan de bestuurderskant, langs het scherm</string>
     <string name="settings_tabs_nav">Tabbladen in plaats van vegen</string>
     <string name="settings_tabs_nav_detail">Dashboards tik je aan in de zijbalk; vereist de zijbalk. Gaat vanzelf aan als een kaart-app onder de dashboards staat.</string>
-    <string name="about_free_open_source">Dashwheel is gratis en open source.</string>
+    <string name="about_free_open_source">Dashwheel is gratis te gebruiken.</string>
     <string name="about_updates_play">Updates komen van Google Play</string>
     <string name="settings_obd_source_label">OBD-gegevens van</string>
     <string name="settings_obd_source_adapter">Adapter</string>

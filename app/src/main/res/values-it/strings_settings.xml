@@ -199,7 +199,7 @@
     <string name="settings_log_no_phone">Nessun telefono ha risposto. Collega il telefono e aggiorna la sua app companion</string>
     <!-- About tab -->
     <string name="about_author_section">Creato da</string>
-    <string name="about_description">Dashwheel è un launcher per autoradio Android: mappa, musica e dati dell\'auto su un unico schermo tranquillo, con cruscotti che organizzi tu. Gratuito e open source.</string>
+    <string name="about_description">Dashwheel è un launcher per autoradio Android: mappa, musica e dati dell\'auto su un unico schermo tranquillo, con cruscotti che organizzi tu. Gratuito.</string>
     <string name="about_author_role">Creatore e sviluppatore</string>
     <string name="about_support_section">Sostieni Dashwheel</string>
     <string name="about_support_text">Dashwheel è gratuito. Se ti piace, un caffè aiuta a mantenerlo.</string>
@@ -233,7 +233,7 @@
     <string name="settings_side_rail_detail">I pulsanti della barra stanno dal lato del guidatore, lungo lo schermo</string>
     <string name="settings_tabs_nav">Schede al posto dello scorrimento</string>
     <string name="settings_tabs_nav_detail">I pannelli si toccano nella barra laterale; serve la barra. Si attiva da solo quando un\'app di mappe sta sotto i pannelli.</string>
-    <string name="about_free_open_source">Dashwheel è gratuito e open source.</string>
+    <string name="about_free_open_source">Dashwheel è gratuito.</string>
     <string name="about_updates_play">Gli aggiornamenti arrivano da Google Play</string>
     <string name="settings_obd_source_label">Dati OBD da</string>
     <string name="settings_obd_source_adapter">Adattatore</string>

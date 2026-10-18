@@ -201,7 +201,7 @@
     <string name="settings_log_no_phone">No phone answered. Connect the phone and update its companion app</string>
     <!-- About tab -->
     <string name="about_author_section">Made by</string>
-    <string name="about_description">Dashwheel is a launcher for Android car head units: a map, music and live car data on one calm screen, with dashboards you arrange yourself. Free and open source.</string>
+    <string name="about_description">Dashwheel is a launcher for Android car head units: a map, music and live car data on one calm screen, with dashboards you arrange yourself. Free to use.</string>
     <string name="about_author_name" translatable="false">Alexandre Leblanc</string>
     <string name="about_author_role">Creator and developer</string>
     <string name="about_support_section">Support Dashwheel</string>
@@ -236,7 +236,7 @@
     <string name="settings_side_rail_detail">The bar\'s buttons stand at the driver\'s side, down the screen</string>
     <string name="settings_tabs_nav">Tabs instead of swiping</string>
     <string name="settings_tabs_nav_detail">Dashboards are tapped in the rail; needs the rail. Shows by itself when a map app is under the dashboards.</string>
-    <string name="about_free_open_source">Dashwheel is free and open source.</string>
+    <string name="about_free_open_source">Dashwheel is free to use.</string>
     <string name="about_updates_play">Updates come from Google Play</string>
     <string name="settings_obd_source_label">OBD readings from</string>
     <string name="settings_obd_source_adapter">Adapter</string>

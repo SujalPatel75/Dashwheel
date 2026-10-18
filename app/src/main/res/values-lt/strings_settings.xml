@@ -200,7 +200,7 @@
     <string name="settings_log_no_phone">Neatsakė joks telefonas. Prijunkite telefoną ir atnaujinkite jo Companion programą</string>
     <!-- About tab -->
     <string name="about_author_section">Sukūrė</string>
-    <string name="about_description">Dashwheel yra paleidimo programa Android automobilių magnetoloms: žemėlapis, muzika ir tiesioginiai automobilio duomenys viename ramiame ekrane, su skydeliais, kuriuos išdėstote patys. Nemokama ir atvirojo kodo.</string>
+    <string name="about_description">Dashwheel yra paleidimo programa Android automobilių magnetoloms: žemėlapis, muzika ir tiesioginiai automobilio duomenys viename ramiame ekrane, su skydeliais, kuriuos išdėstote patys. Nemokama.</string>
     <string name="about_author_role">Kūrėjas ir programuotojas</string>
     <string name="about_support_section">Paremti Dashwheel</string>
     <string name="about_support_text">Dashwheel nemokamas. Jei jis jums patinka, kava padeda jį tęsti.</string>
@@ -234,7 +234,7 @@
     <string name="settings_side_rail_detail">Juostos mygtukai stovi vairuotojo pusėje, ekrano aukščiu</string>
     <string name="settings_tabs_nav">Skirtukai vietoj braukimo</string>
     <string name="settings_tabs_nav_detail">Skydeliai liečiami šoninėje juostoje; reikia šoninės juostos. Įsijungia pats, kai po skydeliais yra žemėlapio programa.</string>
-    <string name="about_free_open_source">Dashwheel yra nemokamas ir atvirojo kodo.</string>
+    <string name="about_free_open_source">Dashwheel yra nemokamas.</string>
     <string name="about_updates_play">Atnaujinimai gaunami iš Google Play</string>
     <string name="settings_obd_source_label">OBD rodmenys iš</string>
     <string name="settings_obd_source_adapter">Adapteris</string>

@@ -199,7 +199,7 @@
     <string name="settings_log_no_phone">Żaden telefon nie odpowiedział. Połącz telefon i zaktualizuj jego aplikację towarzyszącą</string>
     <!-- About tab -->
     <string name="about_author_section">Autor</string>
-    <string name="about_description">Dashwheel to launcher do radioodtwarzaczy samochodowych z Androidem: mapa, muzyka i dane auta na jednym spokojnym ekranie, z pulpitami układanymi samodzielnie. Darmowy i open source.</string>
+    <string name="about_description">Dashwheel to launcher do radioodtwarzaczy samochodowych z Androidem: mapa, muzyka i dane auta na jednym spokojnym ekranie, z pulpitami układanymi samodzielnie. Darmowy.</string>
     <string name="about_author_role">Twórca i programista</string>
     <string name="about_support_section">Wesprzyj Dashwheel</string>
     <string name="about_support_text">Dashwheel jest darmowy. Jeśli Ci się podoba, kawa pomoże go rozwijać.</string>
@@ -233,7 +233,7 @@
     <string name="settings_side_rail_detail">Przyciski paska stoją po stronie kierowcy, wzdłuż ekranu</string>
     <string name="settings_tabs_nav">Karty zamiast przesuwania</string>
     <string name="settings_tabs_nav_detail">Pulpity wybiera się dotykiem w pasku bocznym; wymaga paska. Włącza się samo, gdy pod pulpitami jest aplikacja z mapą.</string>
-    <string name="about_free_open_source">Dashwheel jest darmowy i ma otwarty kod.</string>
+    <string name="about_free_open_source">Dashwheel jest darmowy.</string>
     <string name="about_updates_play">Aktualizacje pochodzą z Google Play</string>
     <string name="settings_obd_source_label">Dane OBD z</string>
     <string name="settings_obd_source_adapter">Adapter</string>

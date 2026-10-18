@@ -199,7 +199,7 @@
     <string name="settings_log_no_phone">Kein Handy hat geantwortet. Handy verbinden und die Companion-App aktualisieren</string>
     <!-- About tab -->
     <string name="about_author_section">Erstellt von</string>
-    <string name="about_description">Dashwheel ist ein Launcher für Android-Autoradios: Karte, Musik und Fahrzeugdaten auf einem ruhigen Bildschirm, mit Dashboards, die du selbst anordnest. Kostenlos und Open Source.</string>
+    <string name="about_description">Dashwheel ist ein Launcher für Android-Autoradios: Karte, Musik und Fahrzeugdaten auf einem ruhigen Bildschirm, mit Dashboards, die du selbst anordnest. Kostenlos nutzbar.</string>
     <string name="about_author_role">Entwickler</string>
     <string name="about_support_section">Dashwheel unterstützen</string>
     <string name="about_support_text">Dashwheel ist kostenlos. Wenn es dir gefällt, hilft ein Kaffee weiter.</string>
@@ -233,7 +233,7 @@
     <string name="settings_side_rail_detail">Die Tasten der Leiste stehen auf der Fahrerseite, am Bildschirmrand</string>
     <string name="settings_tabs_nav">Tabs statt Wischen</string>
     <string name="settings_tabs_nav_detail">Dashboards werden in der Seitenleiste angetippt; braucht die Leiste. Schaltet sich von selbst ein, wenn eine Karten-App unter den Dashboards liegt.</string>
-    <string name="about_free_open_source">Dashwheel ist kostenlos und quelloffen.</string>
+    <string name="about_free_open_source">Dashwheel ist kostenlos nutzbar.</string>
     <string name="about_updates_play">Updates kommen von Google Play</string>
     <string name="settings_obd_source_label">OBD-Werte von</string>
     <string name="settings_obd_source_adapter">Adapter</string>

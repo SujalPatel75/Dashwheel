@@ -200,7 +200,7 @@
     <string name="settings_log_no_phone">Egy telefon sem válaszolt. Csatlakoztassa a telefont, és frissítse a Companion alkalmazást</string>
     <!-- About tab -->
     <string name="about_author_section">Készítette</string>
-    <string name="about_description">A Dashwheel indítóalkalmazás Android autós fejegységekhez: térkép, zene és élő autóadatok egyetlen nyugodt képernyőn, saját kezűleg elrendezett műszerfalakkal. Ingyenes és nyílt forráskódú.</string>
+    <string name="about_description">A Dashwheel indítóalkalmazás Android autós fejegységekhez: térkép, zene és élő autóadatok egyetlen nyugodt képernyőn, saját kezűleg elrendezett műszerfalakkal. Ingyenesen használható.</string>
     <string name="about_author_role">Alkotó és fejlesztő</string>
     <string name="about_support_section">A Dashwheel támogatása</string>
     <string name="about_support_text">A Dashwheel ingyenes. Ha tetszik, egy kávé segít a folytatásban.</string>
@@ -234,7 +234,7 @@
     <string name="settings_side_rail_detail">A sáv gombjai a vezető oldalán, a képernyő mentén lefelé állnak</string>
     <string name="settings_tabs_nav">Fülek húzás helyett</string>
     <string name="settings_tabs_nav_detail">A műszerfalakat az oldalsávban kell koppintani; ehhez oldalsáv kell. Magától megjelenik, ha térképalkalmazás van a műszerfalak alatt.</string>
-    <string name="about_free_open_source">A Dashwheel ingyenes és nyílt forráskódú.</string>
+    <string name="about_free_open_source">A Dashwheel ingyenesen használható.</string>
     <string name="about_updates_play">A frissítések a Google Playről érkeznek</string>
     <string name="settings_obd_source_label">OBD-adatok forrása</string>
     <string name="settings_obd_source_adapter">Adapter</string>
