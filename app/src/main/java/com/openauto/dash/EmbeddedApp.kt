@@ -337,6 +337,35 @@ internal object EmbeddedApp {
             .onFailure { Log.w(TAG, "no InputManager.injectInputEvent", it) }.getOrNull()
     }
 
+    // Android 9 has no InputEvent.setDisplayId: events reach another display through
+    // the InputForwarder its ActivityView used, one per display (@hide, 9 only).
+    private val createInputForwarder: Method? by lazy {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) return@lazy null
+        runCatching { HiddenApi.getDeclaredMethod(InputManager::class.java, "createInputForwarder", Int::class.javaPrimitiveType) }
+            .onFailure { Log.w(TAG, "no InputManager.createInputForwarder", it) }.getOrNull()
+    }
+
+    private val inputForwarder: Class<*>? by lazy {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) return@lazy null
+        runCatching { Class.forName("android.app.InputForwarder") }.onFailure { Log.w(TAG, "no InputForwarder", it) }.getOrNull()
+    }
+
+    private val forwardEvent: Method? by lazy {
+        val cls = inputForwarder ?: return@lazy null
+        runCatching { HiddenApi.getDeclaredMethod(cls, "forwardEvent", InputEvent::class.java) }
+            .onFailure { Log.w(TAG, "no InputForwarder.forwardEvent", it) }.getOrNull()
+    }
+
+    private val disposeForwarder: Method? by lazy {
+        val cls = inputForwarder ?: return@lazy null
+        runCatching { HiddenApi.getDeclaredMethod(cls, "dispose") }.getOrNull()
+    }
+
+    /** Whether this Android lets touches and keys be sent to a tile's display at all. */
+    private val canInject: Boolean
+        get() = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) setDisplayId != null && injectInputEvent != null
+        else createInputForwarder != null && forwardEvent != null
+
     // --- The unit's keys ---------------------------------------------------
 
     /** How often a tap in a tile checks whether the keys can come back (not while typing there). */
@@ -1532,6 +1561,7 @@ internal object EmbeddedApp {
             held = held - packageName
             scope.launch { FreeformBar.insideFloats(context, packageName, false) }
             display = null
+            if (forwarder != null) touchHandler.post { dropForwarder() }
             _status.value = Status.STARTING
         }
 
@@ -1899,16 +1929,13 @@ internal object EmbeddedApp {
             val copy = MotionEvent.obtain(event)
             touchHandler.post {
                 try {
-                    val setId = setDisplayId
-                    val inject = injectInputEvent
-                    if (setId == null || inject == null) {
+                    if (!canInject) {
                         refuseTouches(null)
                         return@post
                     }
                     val action = copy.actionMasked
                     if (action == MotionEvent.ACTION_DOWN || action == MotionEvent.ACTION_UP) focusTile()
-                    setId.invoke(copy, id)
-                    inject.invoke(context.getSystemService(InputManager::class.java), copy, INJECT_ASYNC)
+                    inject(copy, id)
                 } catch (t: InvocationTargetException) {
                     // Without INJECT_EVENTS every touch is refused: say it once, then leave the app as a picture.
                     // Anything else (the display resized meanwhile...) only loses this one touch.
@@ -1952,6 +1979,32 @@ internal object EmbeddedApp {
             }
         }
 
+        /** Android 9's forwarder to the tile's display and that display's id, made on the first event. On [touchHandler]. */
+        @Volatile private var forwarder: Pair<Int, Any>? = null
+
+        /** Sends [event] to display [id]. On [touchHandler]; throws what the call threw. */
+        private fun inject(event: InputEvent, id: Int) {
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
+                val to = forwarder?.takeIf { it.first == id }?.second ?: run {
+                    dropForwarder()
+                    val made = createInputForwarder?.invoke(context.getSystemService(InputManager::class.java), id) ?: error("no forwarder")
+                    forwarder = id to made
+                    made
+                }
+                forwardEvent?.invoke(to, event)
+                return
+            }
+            setDisplayId?.invoke(event, id)
+            injectInputEvent?.invoke(context.getSystemService(InputManager::class.java), event, INJECT_ASYNC)
+        }
+
+        /** Lets go of Android 9's forwarder, when there is one. On [touchHandler]. */
+        private fun dropForwarder() {
+            val f = forwarder ?: return
+            forwarder = null
+            runCatching { disposeForwarder?.invoke(f.second) }
+        }
+
         private fun refuseTouches(why: Throwable?) {
             touchRefused = true
             Log.w(TAG, "touches can't reach $packageName", why)
@@ -1964,15 +2017,13 @@ internal object EmbeddedApp {
          */
         fun key(keyCode: Int): Boolean {
             val id = display?.displayId ?: return false
-            val setId = setDisplayId ?: return false
-            val inject = injectInputEvent ?: return false
+            if (!canInject) return false
             touchHandler.post {
                 val now = SystemClock.uptimeMillis()
                 for (action in intArrayOf(KeyEvent.ACTION_DOWN, KeyEvent.ACTION_UP)) {
                     val event = KeyEvent(now, now, action, keyCode, 0, 0, KeyCharacterMap.VIRTUAL_KEYBOARD, 0, 0, InputDevice.SOURCE_KEYBOARD)
                     try {
-                        setId.invoke(event, id)
-                        inject.invoke(context.getSystemService(InputManager::class.java), event, INJECT_ASYNC)
+                        inject(event, id)
                     } catch (t: Exception) {
                         Log.w(TAG, "a key missed $packageName", (t as? InvocationTargetException)?.targetException ?: t)
                     }
