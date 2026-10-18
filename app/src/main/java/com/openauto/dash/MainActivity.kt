@@ -259,7 +259,10 @@ class MainActivity : ComponentActivity() {
             ScreenShape.vertical = vertical
             OpenAutoDashTheme {
                 key(vertical) {
-                    AutomotiveDashboard(inSplitMode = inMultiWindow.value)
+                    // Android can say "multi-window" while Dashwheel still has the whole width: a
+                    // split the firmware left half done kept the split's layout, its swap button
+                    // and its edit limits on a full screen. Only a pane that really is narrow counts.
+                    AutomotiveDashboard(inSplitMode = inMultiWindow.value && isNarrowPane(config.screenWidthDp, config.screenHeightDp))
                 }
             }
         }

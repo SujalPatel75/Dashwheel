@@ -279,6 +279,17 @@ class SplitAccessibilityService : AccessibilityService() {
         if (!shown) UnitSignals.projectionLeftScreen()
     }
 
+    /**
+     * A split the firmware left half done: the dashboard still in its pane, no
+     * app beside it, the divider still up. Nothing to swap, so the toggle (which
+     * exits split on this ROM) gives the dashboard the whole screen back.
+     */
+    private fun leaveHalfSplit(): Boolean {
+        if (!MainActivity.inMultiWindowNow()) return false
+        Log.i(TAG, "split with no app beside the dashboard: leaving it")
+        return toggleSplitScreen()
+    }
+
     private fun toggleSplitScreen(): Boolean =
         runCatching { performGlobalAction(GLOBAL_ACTION_TOGGLE_SPLIT_SCREEN) }
             .onFailure { Log.e(TAG, "toggle split-screen failed", it) }
@@ -337,7 +348,7 @@ class SplitAccessibilityService : AccessibilityService() {
      * out of split. We toggle back to full screen, then rebuild the pair reversed.
      */
     private fun swapPanes(): Boolean {
-        val (first, second) = splitPanePackages() ?: return false
+        val (first, second) = splitPanePackages() ?: return leaveHalfSplit()
         toggleSplitScreen()
         Handler(Looper.getMainLooper()).postDelayed(
             { SplitLauncher.launchSplitPair(this, second, first) },
