@@ -1,5 +1,7 @@
 package com.openauto.dash
 
+import android.Manifest
+import android.os.Build
 import android.text.format.DateFormat
 import androidx.annotation.StringRes
 import androidx.compose.foundation.ScrollState
@@ -1873,6 +1875,9 @@ private fun SaveLogRow() {
     var saved by remember { mutableStateOf<String?>(null) }
     var failed by remember { mutableStateOf(false) }
     var saving by remember { mutableStateOf(false) }
+    // Android 9 writes Download itself, which needs the storage permission (DebugLog.saveOnUnit).
+    val storage = rememberPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+    val needsStorage = Build.VERSION.SDK_INT < Build.VERSION_CODES.Q && !storage.granted
     SettingsRow(
         Icons.Filled.SaveAlt, stringResource(R.string.settings_log_save),
         when {
@@ -1883,6 +1888,7 @@ private fun SaveLogRow() {
         }
     ) {
         if (saving) return@SettingsRow
+        if (needsStorage) { storage.request(); return@SettingsRow }
         saving = true
         scope.launch {
             val name = DebugLog.saveOnUnit(context)

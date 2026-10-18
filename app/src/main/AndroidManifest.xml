@@ -48,6 +48,9 @@
     <!-- The MapLibre navigation library posts its own guidance notification. -->
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
+    <!-- Android 9 only: "Save the log on the unit" writes into Download itself (DebugLog.saveOnUnit). -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" android:maxSdkVersion="28" />
+
     <!-- In-app updater: download and install new APKs from GitHub Releases -->
     <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
 

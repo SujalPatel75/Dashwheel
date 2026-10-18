@@ -8,6 +8,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.net.wifi.WifiManager
+import android.os.Build
 import android.provider.Settings
 import android.util.Log
 import androidx.compose.foundation.background
@@ -122,7 +123,7 @@ object RadioSwitches {
         scope.launch {
             @Suppress("DEPRECATION")
             val asked = runCatching { app.getSystemService(WifiManager::class.java)?.setWifiEnabled(on) == true }.getOrDefault(false)
-            if (!asked && !viaShell(app, "svc wifi ${if (on) "enable" else "disable"}")) openPanel(app, Settings.Panel.ACTION_WIFI)
+            if (!asked && !viaShell(app, "svc wifi ${if (on) "enable" else "disable"}")) openPanel(app, wifiSettingsAction())
             settle(app)
         }
     }
@@ -158,6 +159,10 @@ object RadioSwitches {
         Log.w(TAG, "'$cmd' refused: ${e.message}")
         false
     }
+
+    /** Android 10's Wi-Fi panel, or the full Wi-Fi settings on Android 9, which has no panels. */
+    fun wifiSettingsAction(): String =
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) Settings.Panel.ACTION_WIFI else Settings.ACTION_WIFI_SETTINGS
 
     private fun openPanel(context: Context, action: String) {
         runCatching { context.startActivity(Intent(action).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)) }

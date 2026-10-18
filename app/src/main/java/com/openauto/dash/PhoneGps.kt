@@ -5,6 +5,7 @@ import android.content.Context
 import android.location.Location
 import android.location.LocationManager
 import android.location.provider.ProviderProperties
+import android.os.Build
 import android.os.Bundle
 import android.os.Process
 import android.os.SystemClock
@@ -173,7 +174,13 @@ object PhoneGps {
     private fun mockAllowed(context: Context): Boolean {
         val ops = context.getSystemService(AppOpsManager::class.java) ?: return false
         return runCatching {
-            ops.unsafeCheckOpNoThrow(AppOpsManager.OPSTR_MOCK_LOCATION, Process.myUid(), context.packageName) == AppOpsManager.MODE_ALLOWED
+            val mode = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                ops.unsafeCheckOpNoThrow(AppOpsManager.OPSTR_MOCK_LOCATION, Process.myUid(), context.packageName)
+            } else {
+                @Suppress("DEPRECATION")
+                ops.checkOpNoThrow(AppOpsManager.OPSTR_MOCK_LOCATION, Process.myUid(), context.packageName)
+            }
+            mode == AppOpsManager.MODE_ALLOWED
         }.getOrDefault(false)
     }
 }

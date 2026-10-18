@@ -206,7 +206,7 @@ internal fun WifiNetworksCard(modifier: Modifier = Modifier) {
     ListCard(
         title = stringResource(R.string.widgets_wifi),
         modifier = modifier,
-        onSettings = { lock.whenParked { openSettings(context, Settings.Panel.ACTION_WIFI) } },
+        onSettings = { lock.whenParked { openSettings(context, RadioSwitches.wifiSettingsAction()) } },
         empty = when {
             !wifi.on -> stringResource(R.string.widgets_wifi_off)
             !location.granted -> stringResource(R.string.widgets_wifi_location)
@@ -229,7 +229,7 @@ internal fun WifiNetworksCard(modifier: Modifier = Modifier) {
                 lock.whenParked {
                     if (!wifiJoinOrLeave(context, e)) {
                         Toast.makeText(context, refused, Toast.LENGTH_SHORT).show()
-                        openSettings(context, Settings.Panel.ACTION_WIFI)
+                        openSettings(context, RadioSwitches.wifiSettingsAction())
                     }
                     refresh++
                 }
@@ -379,7 +379,7 @@ internal fun wifiNetworksFace(): WidgetFace {
         value = wifi.detail ?: stringResource(if (wifi.on) R.string.apps_radio_on else R.string.apps_radio_off),
         textValue = true,
         active = wifi.detail != null,
-        actions = listOf(FaceAction(Icons.Filled.Settings, stringResource(R.string.widgets_list_settings), onClick = { openSettings(context, Settings.Panel.ACTION_WIFI) }))
+        actions = listOf(FaceAction(Icons.Filled.Settings, stringResource(R.string.widgets_list_settings), onClick = { openSettings(context, RadioSwitches.wifiSettingsAction()) }))
     )
 }
 

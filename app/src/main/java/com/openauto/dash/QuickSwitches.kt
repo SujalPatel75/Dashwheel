@@ -68,7 +68,14 @@ private suspend fun setDoNotDisturb(context: Context, on: Boolean): Boolean {
         return true
     }
     return try {
-        DockShell.shell(context, "cmd notification set_dnd ${if (on) "on" else "off"}")
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q) {
+            DockShell.shell(context, "cmd notification set_dnd ${if (on) "on" else "off"}")
+        } else {
+            // Android 9 has no set_dnd: the shell gives Dashwheel the access, then Android's own call does it.
+            DockShell.shell(context, "cmd notification allow_dnd ${context.packageName}")
+            if (nm == null || !nm.isNotificationPolicyAccessGranted) error("no Do Not Disturb access")
+            nm.setInterruptionFilter(if (on) NotificationManager.INTERRUPTION_FILTER_PRIORITY else NotificationManager.INTERRUPTION_FILTER_ALL)
+        }
         true
     } catch (e: Exception) {
         Log.w("QuickSwitches", "do not disturb refused: ${e.message}")

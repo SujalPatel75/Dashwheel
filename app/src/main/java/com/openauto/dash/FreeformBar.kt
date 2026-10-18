@@ -1,6 +1,7 @@
 package com.openauto.dash
 
 import android.content.Context
+import android.os.Build
 import android.util.Log
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineScope
@@ -243,7 +244,8 @@ object FreeformBar {
                     seen = 0
                     return@repeat
                 }
-                val dump = runCatching { DockShell.shell(context, "dumpsys window displays | grep -A 2 BarController.StatusBar") }
+                // Android 9 lists the bar under the window policy; 10 moved it under each display.
+                val dump = runCatching { DockShell.shell(context, "dumpsys window ${if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) "displays" else "policy"} | grep -A 2 BarController.StatusBar") }
                     .getOrNull() ?: return@repeat
                 when (statusBarShowing(dump)) {
                     true -> seen++
