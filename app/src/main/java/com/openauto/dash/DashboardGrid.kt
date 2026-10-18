@@ -59,7 +59,6 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalDensity
@@ -190,11 +189,7 @@ internal fun DashboardPage(
         }
     }
 
-    // Android can say "multi-window" while Dashwheel still has the whole width: a
-    // split the firmware left half done kept every page a stacked, scrolling column
-    // across restarts. Only a pane that really is narrow stacks.
-    val window = LocalConfiguration.current
-    if (inSplitMode && isNarrowPane(window.screenWidthDp, window.screenHeightDp)) {
+    if (inSplitMode) {
         // Sharing the screen: the pane is narrow and tall, so ignore the grid and
         // stack tiles vertically at a natural height, scrolling when they overflow.
         Column(
