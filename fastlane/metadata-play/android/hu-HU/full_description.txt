@@ -30,4 +30,4 @@ OPCIONÁLIS EXTRÁK
 
 11 nyelv: angol, francia, német, spanyol, olasz, portugál, holland, lengyel, orosz, magyar, litván.
 
-Ingyenes és nyílt forráskódú, GPL v3 licenccel. Nincs reklám, nincs követés, nincs fiók.
+Ingyenesen használható, előfizetés nélkül. Nincs reklám, nincs követés, nincs fiók.

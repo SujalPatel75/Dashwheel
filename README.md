@@ -107,6 +107,10 @@ Android Studio with a Gradle JDK of 17–21, then `./gradlew assembleDebug`. Too
 
 Copyright (C) 2026 Alexandre Leblanc (deviloufr-ai)
 
-Dashwheel (the launcher and the Companion app) is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version. It is distributed WITHOUT ANY WARRANTY; see the [LICENSE](LICENSE) file for the full text.
+**The app is free. The code is not open source.**
 
-The Dashwheel name and logo are not covered by the GPL: forks must use a different name and logo.
+- You can download and use Dashwheel and the Companion app for free.
+- The code is public so you can read it, report bugs and send fixes.
+- You may not copy the code into other projects, publish modified builds, sell it or pre-install it on devices without written permission.
+
+Full terms in [LICENSE](LICENSE). Versions up to commit fed7d976 were released under the GPL v3 and stay under it. For branded builds or pre-installation, [get in touch](https://deviloufr-ai.github.io/alexandreleblanc.github.io/).

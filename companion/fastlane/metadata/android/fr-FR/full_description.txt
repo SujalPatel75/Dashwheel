@@ -10,4 +10,4 @@
 
 <p>Le téléphone et l'autoradio communiquent par le point d'accès du téléphone. Ils s'appairent une fois par QR code, et chaque connexion est chiffrée de bout en bout. Rien ne passe par un serveur.</p>
 
-<p>Libre et open source sous licence GPL v3. Sans publicité, sans pistage.</p>
+<p>Gratuit, sans abonnement. Sans publicité, sans pistage.</p>

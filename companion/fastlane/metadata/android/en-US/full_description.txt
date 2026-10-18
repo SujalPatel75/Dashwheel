@@ -10,4 +10,4 @@
 
 <p>The phone and the head unit talk over the phone's hotspot. They pair once by QR code, and every connection is end-to-end encrypted. Nothing goes through a server.</p>
 
-<p>Free and open source under the GPL v3. No ads, no tracking.</p>
+<p>Free to use. No subscription. No ads, no tracking.</p>

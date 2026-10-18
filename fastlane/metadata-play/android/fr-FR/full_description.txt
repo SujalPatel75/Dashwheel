@@ -30,4 +30,4 @@ EN OPTION
 
 11 langues : anglais, français, allemand, espagnol, italien, portugais, néerlandais, polonais, russe, hongrois, lituanien.
 
-Libre et open source sous licence GPL v3. Sans publicité, sans pistage, sans compte.
+Gratuit, sans abonnement. Sans publicité, sans pistage, sans compte.

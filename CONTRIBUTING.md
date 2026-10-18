@@ -39,4 +39,4 @@ One Android module per app (`app`, `companion`), plus `link` (the phone link pro
 
 ## License
 
-By contributing you agree that your contribution is licensed under the GPL v3, like the rest of Dashwheel. The Dashwheel name and logo are not covered by the GPL.
+Dashwheel is free to use but its code is not open source; see [LICENSE](LICENSE). By contributing you give the author a permanent right to use, change and distribute your contribution as part of Dashwheel.

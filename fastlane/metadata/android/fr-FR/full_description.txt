@@ -37,4 +37,4 @@
 
 <p>11 langues : anglais, français, allemand, espagnol, italien, portugais, néerlandais, polonais, russe, hongrois, lituanien.</p>
 
-<p>Libre et open source sous licence GPL v3. Sans publicité, sans pistage.</p>
+<p>Gratuit, sans abonnement. Sans publicité, sans pistage.</p>
