@@ -2,7 +2,7 @@
 
 # Dashwheel
 
-**The free, open-source car launcher for Android head units (QF, FYT, Microntek and more).** Map, music and live car data on one calm screen: up to seven dashboards you arrange yourself, 55+ widgets, whole-design skins, an AI mechanic that explains warning lights, and your phone's calls and messages on the big screen. No ads, no trial, no account.
+**The free car launcher for Android head units (QF, FYT, Microntek and more).** Map, music and live car data on one calm screen: up to seven dashboards you arrange yourself, 55+ widgets, whole-design skins, an AI mechanic that explains warning lights, and your phone's calls and messages on the big screen. No ads, no trial, no account.
 
 ![Dashwheel: map, speed, weather and music on one screen](docs/screenshots/01_hero.jpg)
 
