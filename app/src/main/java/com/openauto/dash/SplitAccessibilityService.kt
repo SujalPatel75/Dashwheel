@@ -588,7 +588,21 @@ class SplitAccessibilityService : AccessibilityService() {
          * Ask SystemUI to toggle split-screen. Returns false when the service
          * is not enabled/bound, so callers can fall back to another strategy.
          */
-        fun requestSplit(): Boolean = instance?.toggleSplitScreen() ?: false
+        fun requestSplit(): Boolean {
+            lastRequestAt = android.os.SystemClock.elapsedRealtime()
+            return instance?.toggleSplitScreen() ?: false
+        }
+
+        /** When a split was last asked for (or swapped): a split coming up is not one left stuck ([StuckSplit]). */
+        @Volatile
+        var lastRequestAt = 0L
+            private set
+
+        /**
+         * Leaves a split the firmware left on with nothing beside the dashboard
+         * ([leaveHalfSplit]). False when the service is not enabled/bound.
+         */
+        fun leaveStuckSplit(): Boolean = instance?.leaveHalfSplit() ?: false
 
         /**
          * True when the screen shows two apps side by side right now (false
@@ -601,7 +615,10 @@ class SplitAccessibilityService : AccessibilityService() {
          * Swap the left/right (or top/bottom) split panes. Returns false when the
          * service is not enabled/bound.
          */
-        fun swapSplit(): Boolean = instance?.swapPanes() ?: false
+        fun swapSplit(): Boolean {
+            lastRequestAt = android.os.SystemClock.elapsedRealtime()
+            return instance?.swapPanes() ?: false
+        }
 
         /**
          * The service as a window context, for an accessibility overlay: the

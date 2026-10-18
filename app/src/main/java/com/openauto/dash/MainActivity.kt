@@ -332,6 +332,7 @@ class MainActivity : ComponentActivity() {
     override fun onMultiWindowModeChanged(isInMultiWindowMode: Boolean, newConfig: Configuration) {
         super.onMultiWindowModeChanged(isInMultiWindowMode, newConfig)
         inMultiWindow.value = isInMultiWindowMode
+        StuckSplit.check(this)
     }
 
     // Some head-unit ROMs don't reliably deliver onMultiWindowModeChanged, so
@@ -339,6 +340,7 @@ class MainActivity : ComponentActivity() {
     override fun onResume() {
         super.onResume()
         inMultiWindow.value = isInMultiWindowMode
+        StuckSplit.check(this)
         FreeformBar.dashboardInFront = true
         MainScreenCover.onResumed(true)
         // Home pressed over an app that never stopped the dashboard (a window): no onStart then.
@@ -374,6 +376,7 @@ class MainActivity : ComponentActivity() {
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
         inMultiWindow.value = isInMultiWindowMode
+        StuckSplit.check(this)
     }
 
     override fun onWindowFocusChanged(hasFocus: Boolean) {

@@ -256,6 +256,25 @@ object WindowListing {
         }
     }
 
+    /**
+     * The docked (split-screen primary) stack to close when the firmware left a
+     * split on with the dashboard on the whole screen ([StuckSplit]), on the
+     * dashboard's display. Null when there is none, or when it is the
+     * dashboard's own: closing that would close the dashboard.
+     */
+    internal fun dockedStackToClose(output: String, selfPackage: String): Int? {
+        val blocks = stackBlocks(output)
+        val selfDisplay = blocks.firstOrNull { holds(it, selfPackage) }
+            ?.let { displayId(it) } ?: DEFAULT_DISPLAY
+        val docked = blocks.firstOrNull { block ->
+            (displayId(block) ?: DEFAULT_DISPLAY) == selfDisplay &&
+                (MODE_NAME.find(block)?.groupValues?.get(1) == "split-screen-primary" ||
+                    MODE_NUMBER.find(block)?.groupValues?.get(1) == "3")
+        } ?: return null
+        if (holds(docked, selfPackage)) return null
+        return docked.takeWhile { it.isDigit() }.toIntOrNull()
+    }
+
     private const val SYSTEM_UI = "com.android.systemui"
 
     /** The display a stack block says it is on, from its `Stack id=N ... displayId=N` line. */
