@@ -6,7 +6,7 @@
 
 ![Dashwheel: map, speed, weather and music on one screen](docs/screenshots/01_hero.jpg)
 
-**[Download the latest release](https://github.com/deviloufr-ai/Dashwheel/releases/latest)** · Android 10+ · made for 1280×720 head units (ROCO K706 / FYT / QF), also works on upright screens and phones.
+**[Download the latest release](https://github.com/deviloufr-ai/Dashwheel/releases/latest)** · Android 9+ · made for 1280×720 head units (ROCO K706 / FYT / QF), also works on upright screens and phones.
 
 📖 **[Read the wiki](https://github.com/deviloufr-ai/Dashwheel/wiki)** for every feature, setup guides and what works with or without root.
 
@@ -45,7 +45,7 @@ Dashwheel is free, with no ads. If it makes your drives nicer, a coffee on Ko-fi
 
 ## Supported head units
 
-Any Android 10+ head unit runs Dashwheel as a launcher. On top of that, Dashwheel works out which firmware family the unit runs and talks to that firmware (ignition, wheel keys, the CAN box's car data, the unit's Bluetooth phone):
+Any Android 9+ head unit runs Dashwheel as a launcher. On top of that, Dashwheel works out which firmware family the unit runs and talks to that firmware (ignition, wheel keys, the CAN box's car data, the unit's Bluetooth phone):
 
 | Family | Typical units | Status |
 |---|---|---|
