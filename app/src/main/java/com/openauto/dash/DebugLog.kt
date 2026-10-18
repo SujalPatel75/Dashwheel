@@ -178,6 +178,15 @@ object DebugLog {
         return withContext(Dispatchers.IO) {
             val name = "Unit-log-${SimpleDateFormat("yyyy-MM-dd-HH-mm", Locale.US).format(Date())}.txt"
             runCatching {
+                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
+                    // Android 9 has no MediaStore.Downloads: the file goes straight into
+                    // the shared folder, with the storage permission the row asks for.
+                    @Suppress("DEPRECATION")
+                    val dir = File(android.os.Environment.getExternalStoragePublicDirectory(android.os.Environment.DIRECTORY_DOWNLOADS), "Dashwheel")
+                    if (!dir.isDirectory && !dir.mkdirs()) error("no folder")
+                    File(dir, name).writeText(text)
+                    return@runCatching name
+                }
                 val values = android.content.ContentValues().apply {
                     put(android.provider.MediaStore.MediaColumns.DISPLAY_NAME, name)
                     put(android.provider.MediaStore.MediaColumns.MIME_TYPE, "text/plain")
