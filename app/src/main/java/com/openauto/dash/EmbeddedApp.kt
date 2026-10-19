@@ -325,6 +325,15 @@ internal object EmbeddedApp {
         Handler(HandlerThread("embedded-touch", Process.THREAD_PRIORITY_DISPLAY).apply { start() }.looper)
     }
 
+    /** What the taps on the tiles cost, summed up in the log once a minute at most ([TapStats]), for the unit report. */
+    private val tapStats = TapStats()
+
+    /** Logs a raise of the keys made outside a tap ([what] took [ms]) and counts it towards the minute's summary. */
+    private fun raised(what: String, ms: Long) {
+        if (ms > TapCost.SLOW_RAISE_MS) Log.w(TAG, "$what in $ms ms: slow") else Log.i(TAG, "$what in $ms ms")
+        tapStats.raised(ms, what, SystemClock.uptimeMillis())?.let { Log.i(TAG, it) }
+    }
+
     // Both @hide, looked up once: looking them up on every touch took long
     // enough to make taps late and drags stutter.
     private val setDisplayId: Method? by lazy {
@@ -744,15 +753,17 @@ internal object EmbeddedApp {
                 ensureActive()
                 val taskId = front ?: activity.taskId
                 val tile = anyTileTask()
+                var began = SystemClock.uptimeMillis()
                 runCatching { raiseFirmly(activity, taskId, tile, ActivityManager.MOVE_TASK_NO_USER_ACTION) }
-                    .onSuccess { Log.i(TAG, "keys back to the main screen (task $taskId raised)") }
+                    .onSuccess { raised("keys back to the main screen (task $taskId raised)", SystemClock.uptimeMillis() - began) }
                     .onFailure { Log.w(TAG, "can't give the keys back to the main screen", it) }
                 DockShell.forgetListing()
                 // Checked: still away (another raise came between), taken once more.
                 delay(KEYS_BACK_CHECK_MS)
                 if (!dashboardFocused && dashboard?.get() === activity && !keysAway) {
+                    began = SystemClock.uptimeMillis()
                     runCatching { raiseFirmly(activity, taskId, tile, ActivityManager.MOVE_TASK_NO_USER_ACTION) }
-                        .onSuccess { Log.i(TAG, "keys still away: main screen raised again") }
+                        .onSuccess { raised("keys still away: main screen raised again", SystemClock.uptimeMillis() - began) }
                 }
             } finally {
                 MainScreenCover.raising(false)
@@ -1928,14 +1939,21 @@ internal object EmbeddedApp {
             if (touchRefused) return
             val copy = MotionEvent.obtain(event)
             touchHandler.post {
+                val action = copy.actionMasked
+                val tap = if (action == MotionEvent.ACTION_DOWN) TapCost(packageName).also { tap = it } else tap
+                var raiseMs: Long? = null
+                var injected: Boolean? = null
+                var injectMs = 0L
+                val late = SystemClock.uptimeMillis() - copy.eventTime
                 try {
                     if (!canInject) {
                         refuseTouches(null)
                         return@post
                     }
-                    val action = copy.actionMasked
-                    if (action == MotionEvent.ACTION_DOWN || action == MotionEvent.ACTION_UP) focusTile()
-                    inject(copy, id)
+                    if (action == MotionEvent.ACTION_DOWN || action == MotionEvent.ACTION_UP) raiseMs = focusTile()
+                    val began = SystemClock.uptimeMillis()
+                    injected = inject(copy, id)
+                    injectMs = SystemClock.uptimeMillis() - began
                 } catch (t: InvocationTargetException) {
                     // Without INJECT_EVENTS every touch is refused: say it once, then leave the app as a picture.
                     // Anything else (the display resized meanwhile...) only loses this one touch.
@@ -1945,8 +1963,21 @@ internal object EmbeddedApp {
                     Log.w(TAG, "a touch missed $packageName", t)
                 } finally {
                     copy.recycle()
+                    if (tap != null && tap.add(action, raiseMs, injected, injectMs, late)) {
+                        this.tap = null
+                        tapDone(tap)
+                    }
                 }
             }
+        }
+
+        /** The tap under way on the tile, from its down to its lift, for the unit report. On [touchHandler]. */
+        private var tap: TapCost? = null
+
+        /** [tap] is over: one line says what it cost (a warning when a touch was lost or a raise slow), the minute's summary when due. */
+        private fun tapDone(tap: TapCost) {
+            if (tap.worrying) Log.w(TAG, tap.line()) else Log.i(TAG, tap.line())
+            tapStats.add(tap, SystemClock.uptimeMillis())?.let { Log.i(TAG, it) }
         }
 
         /** The app's task on the tile's display, as last found there; null until it is. */
@@ -1964,26 +1995,32 @@ internal object EmbeddedApp {
          * for its keyboard; buttons worked). Raising the app's task moves the keys
          * to its display, and it stays on the tile. Done on the down and again before
          * the lift, by when the dashboard's own move has long been made. On
-         * [touchHandler].
+         * [touchHandler]. How long the raise took, or null when none was made.
          */
-        private fun focusTile() {
-            val task = tileTask ?: return
-            if (_status.value != Status.SHOWN) return
+        private fun focusTile(): Long? {
+            val task = tileTask ?: return null
+            if (_status.value != Status.SHOWN) return null
             // Only while the dashboard has the keys: when the app already has them (its keyboard
             // up), they stay where they are.
-            if (!dashboardFocused) return
+            if (!dashboardFocused) return null
+            val began = SystemClock.uptimeMillis()
             runCatching { raiseFirmly(context, task, dashboardTask, 0) }.onFailure {
                 // The task is gone (the app reopened): found again when it is placed.
                 tileTask = null
                 Log.w(TAG, "can't give the keys to $packageName on its tile", it)
             }
+            return SystemClock.uptimeMillis() - began
         }
 
         /** Android 9's forwarder to the tile's display and that display's id, made on the first event. On [touchHandler]. */
         @Volatile private var forwarder: Pair<Int, Any>? = null
 
-        /** Sends [event] to display [id]. On [touchHandler]; throws what the call threw. */
-        private fun inject(event: InputEvent, id: Int) {
+        /**
+         * Sends [event] to display [id]. On [touchHandler]; throws what the call
+         * threw. Whether Android took it: injectInputEvent answers false when it
+         * refused the event (Android 9's forwarder says nothing, taken as yes).
+         */
+        private fun inject(event: InputEvent, id: Int): Boolean {
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
                 val to = forwarder?.takeIf { it.first == id }?.second ?: run {
                     dropForwarder()
@@ -1992,10 +2029,10 @@ internal object EmbeddedApp {
                     made
                 }
                 forwardEvent?.invoke(to, event)
-                return
+                return true
             }
             setDisplayId?.invoke(event, id)
-            injectInputEvent?.invoke(context.getSystemService(InputManager::class.java), event, INJECT_ASYNC)
+            return injectInputEvent?.invoke(context.getSystemService(InputManager::class.java), event, INJECT_ASYNC) == true
         }
 
         /** Lets go of Android 9's forwarder, when there is one. On [touchHandler]. */
@@ -2023,7 +2060,7 @@ internal object EmbeddedApp {
                 for (action in intArrayOf(KeyEvent.ACTION_DOWN, KeyEvent.ACTION_UP)) {
                     val event = KeyEvent(now, now, action, keyCode, 0, 0, KeyCharacterMap.VIRTUAL_KEYBOARD, 0, 0, InputDevice.SOURCE_KEYBOARD)
                     try {
-                        inject(event, id)
+                        if (!inject(event, id)) Log.w(TAG, "a key was refused for $packageName's display")
                     } catch (t: Exception) {
                         Log.w(TAG, "a key missed $packageName", (t as? InvocationTargetException)?.targetException ?: t)
                     }
