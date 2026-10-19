@@ -15,8 +15,9 @@ class StuckSplitTest {
         dw: Int = 1280,
         dh: Int = 720,
         mapsDocked: Boolean = false,
-        recent: Boolean = false
-    ) = isStuckSplit(inMultiWindow, w, h, dw, dh, mapsDocked, recent)
+        recent: Boolean = false,
+        nothingBeside: Boolean = false
+    ) = isStuckSplit(inMultiWindow, w, h, dw, dh, mapsDocked, recent, nothingBeside)
 
     @Test
     fun aWholeScreenDashboardInMultiWindowIsAStuckSplit() {
@@ -40,6 +41,14 @@ class StuckSplitTest {
         assertFalse(stuck(w = 720, h = 630, dw = 720, dh = 1280))
         // A big pane with a third of the screen left to the app beside it.
         assertFalse(stuck(w = 850, h = 684))
+    }
+
+    @Test
+    fun aHalfPaneBesideABlackPaneIsAStuckSplit() {
+        assertTrue(stuck(w = 636, h = 684, nothingBeside = true))
+        assertFalse(stuck(w = 636, h = 684, nothingBeside = true, recent = true))
+        assertFalse(stuck(w = 636, h = 684, nothingBeside = true, mapsDocked = true))
+        assertFalse(stuck(inMultiWindow = false, nothingBeside = true))
     }
 
     @Test

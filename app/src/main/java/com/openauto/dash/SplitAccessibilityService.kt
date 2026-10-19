@@ -290,6 +290,26 @@ class SplitAccessibilityService : AccessibilityService() {
         return toggleSplitScreen()
     }
 
+    /**
+     * Whether an app window other than Dashwheel's shows on the main screen,
+     * with an app in it. A pane left black by the firmware has none ([StuckSplit]).
+     */
+    private fun hasAppBeside(): Boolean = runCatching {
+        val all = windows ?: emptyList()
+        try {
+            all.any { w ->
+                if (w.type != AccessibilityWindowInfo.TYPE_APPLICATION) return@any false
+                val r = Rect().also { w.getBoundsInScreen(it) }
+                val root = w.root
+                val pkg = root?.packageName?.toString()
+                root?.let { recycle(it) }
+                r.width() > 0 && r.height() > 0 && !pkg.isNullOrBlank() && pkg != packageName
+            }
+        } finally {
+            recycle(all)
+        }
+    }.getOrDefault(true)
+
     private fun toggleSplitScreen(): Boolean =
         runCatching { performGlobalAction(GLOBAL_ACTION_TOGGLE_SPLIT_SCREEN) }
             .onFailure { Log.e(TAG, "toggle split-screen failed", it) }
@@ -603,6 +623,12 @@ class SplitAccessibilityService : AccessibilityService() {
          * ([leaveHalfSplit]). False when the service is not enabled/bound.
          */
         fun leaveStuckSplit(): Boolean = instance?.leaveHalfSplit() ?: false
+
+        /**
+         * True when no other app shows beside the dashboard (a split pane left
+         * black); false when one does, or when the service is not bound.
+         */
+        fun nothingBeside(): Boolean = instance?.hasAppBeside() == false
 
         /**
          * True when the screen shows two apps side by side right now (false
