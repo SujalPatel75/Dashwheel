@@ -64,6 +64,7 @@ internal object StuckSplit {
         val density = activity.resources.displayMetrics.density
         val stuck = isStuckSplit(
             inMultiWindow = activity.isInMultiWindowMode,
+            windowingMode = windowingModeOf(config.toString()),
             windowWidth = (config.screenWidthDp * density).toInt(),
             windowHeight = (config.screenHeightDp * density).toInt(),
             displayWidth = display.x,
@@ -103,12 +104,17 @@ internal object StuckSplit {
  * multi-window, yet the dashboard's window has (nearly) the whole display, so
  * no app can be beside it, or it has its half but the other half holds no app
  * ([nothingBeside], a pane left black; known only with the accessibility
- * service on). Not while the dashboard's own Maps dock is up, or
+ * service on). Never when the dashboard's window is known not to be in
+ * split-screen ([windowingMode]): some QF units keep their home in freeform
+ * at full screen, Android says multi-window there for good, and the toggle
+ * then made a split of its own, the dashboard in one half beside a black one.
+ * Not while the dashboard's own Maps dock is up, or
  * while a split asked for is still coming up. Sizes in pixels; the window's
  * height leaves out a forced top bar, hence the looser bound on it.
  */
 internal fun isStuckSplit(
     inMultiWindow: Boolean,
+    windowingMode: String?,
     windowWidth: Int,
     windowHeight: Int,
     displayWidth: Int,
@@ -118,7 +124,21 @@ internal fun isStuckSplit(
     nothingBeside: Boolean = false
 ): Boolean {
     if (!inMultiWindow || mapsDocked || splitRequestedRecently) return false
+    if (windowingMode != null && windowingMode !in SPLIT_MODES) return false
     if (nothingBeside) return true
     if (windowWidth <= 0 || windowHeight <= 0 || displayWidth <= 0 || displayHeight <= 0) return false
     return windowWidth >= displayWidth * 0.9f && windowHeight >= displayHeight * 0.75f
 }
+
+/** The split-screen windowing modes, by name and by number (3 primary, 4 secondary). */
+private val SPLIT_MODES = setOf("split-screen-primary", "split-screen-secondary", "3", "4")
+
+private val WINDOWING_MODE = Regex("""mWindowingMode=([a-z-]+|\d+)""")
+
+/**
+ * The window's own windowing mode from a configuration's text, as Android
+ * prints it (`mWindowingMode=freeform`); null when it is not there. The first
+ * one is the window's; `mDisplayWindowingMode` is not matched.
+ */
+internal fun windowingModeOf(configuration: String): String? =
+    WINDOWING_MODE.find(configuration)?.groupValues?.get(1)

@@ -16,8 +16,9 @@ class StuckSplitTest {
         dh: Int = 720,
         mapsDocked: Boolean = false,
         recent: Boolean = false,
-        nothingBeside: Boolean = false
-    ) = isStuckSplit(inMultiWindow, w, h, dw, dh, mapsDocked, recent, nothingBeside)
+        nothingBeside: Boolean = false,
+        mode: String? = null
+    ) = isStuckSplit(inMultiWindow, mode, w, h, dw, dh, mapsDocked, recent, nothingBeside)
 
     @Test
     fun aWholeScreenDashboardInMultiWindowIsAStuckSplit() {
@@ -49,6 +50,26 @@ class StuckSplitTest {
         assertFalse(stuck(w = 636, h = 684, nothingBeside = true, recent = true))
         assertFalse(stuck(w = 636, h = 684, nothingBeside = true, mapsDocked = true))
         assertFalse(stuck(inMultiWindow = false, nothingBeside = true))
+    }
+
+    @Test
+    fun aHomeInFreeformIsNoSplitToLeave() {
+        // A QF unit keeps its home in freeform at full screen: multi-window for good.
+        assertFalse(stuck(mode = "freeform"))
+        assertFalse(stuck(mode = "5", w = 636, nothingBeside = true))
+        assertFalse(stuck(mode = "fullscreen"))
+        assertTrue(stuck(mode = "split-screen-secondary"))
+        assertTrue(stuck(mode = "4", w = 636, nothingBeside = true))
+    }
+
+    @Test
+    fun theWindowsOwnModeIsRead() {
+        val config = "{1.0 ?mcc?mnc [en_US] ldltr sw720dp w1280dp h648dp 160dpi xlrg long land finger -keyb/v/h -nav/h " +
+            "winConfig={ mBounds=Rect(0, 0 - 1280, 720) mAppBounds=Rect(0, 0 - 1280, 720) mWindowingMode=freeform " +
+            "mDisplayWindowingMode=fullscreen mActivityType=home mAlwaysOnTop=undefined mRotation=ROTATION_0} s.4}"
+        assertEquals("freeform", windowingModeOf(config))
+        assertEquals("split-screen-secondary", windowingModeOf("winConfig={ mWindowingMode=split-screen-secondary mDisplayWindowingMode=fullscreen }"))
+        assertNull(windowingModeOf("{1.0 ?mcc?mnc sw720dp}"))
     }
 
     @Test
