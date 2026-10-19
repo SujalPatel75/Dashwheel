@@ -46,13 +46,17 @@ class LpgTankTest {
         st = fill(LpgRules.drove(st, 200.0), now = 2)
         assertEquals(20.0, LpgRules.suggestedLiters(st), 0.001)
         st = LpgRules.pumped(st, 24.0)
-        assertNull(LpgRules.learnedUse(st.fills)) // 200 km is too few
-        st = fill(LpgRules.drove(st, 200.0), now = 3)
-        st = LpgRules.pumped(st, 24.0)
+        // One refuel teaches it, over the driver's own setting.
         assertEquals(12.0, LpgRules.learnedUse(st.fills)!!, 0.001)
         val (use, learned) = LpgRules.use(s, st.fills, petrolUse = 7.0)
         assertEquals(12.0, use, 0.001)
         assertTrue(learned)
+        // The next refuel moves it again: 44 L over 400 km.
+        st = fill(LpgRules.drove(st, 200.0), now = 3)
+        st = LpgRules.pumped(st, 20.0)
+        assertEquals(11.0, LpgRules.learnedUse(st.fills)!!, 0.001)
+        // A top-up after a few kilometres is too short to mean anything.
+        assertNull(LpgRules.learnedUse(listOf(LpgFill(1, 30.0, liters = 3.0))))
     }
 
     @Test

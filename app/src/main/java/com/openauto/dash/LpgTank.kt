@@ -113,10 +113,14 @@ internal object LpgRules {
     /** Without a coolant reading, the first kilometre of a drive is on petrol. */
     const val WARMUP_KM = 1.0
     const val LOW_PCT = 15
-    /** Fills with their litres over this many kilometres before the car's own figure replaces the setting. */
-    const val MIN_LEARN_KM = 300.0
+    /**
+     * Fills with their litres over this many kilometres before the car's own
+     * figure replaces the setting: one ordinary refuel is enough, so the use
+     * follows each fill by itself instead of waiting for several.
+     */
+    const val MIN_LEARN_KM = 50.0
     /** And over this much petrol asked for, before the factor is the car's own. */
-    const val MIN_LEARN_PETROL_L = 20.0
+    const val MIN_LEARN_PETROL_L = 5.0
     /** LPG burns about a fifth more than petrol, litre for litre. */
     const val PETROL_TO_LPG = 1.2
     /** More than this between two readings is the GPS jumping, not driving. */
