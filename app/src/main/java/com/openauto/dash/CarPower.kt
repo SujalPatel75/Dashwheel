@@ -139,6 +139,10 @@ object CarPower {
     /** Whether this unit's firmware announces its ignition, so deep sleep is the unit's to lose. */
     val available: Boolean get() = started
 
+    /** When the car was last switched off, by the clock then; 0 when never seen ([UnitClock]). */
+    fun lastSwitchOffAt(context: Context): Long =
+        context.getSharedPreferences(PREFS, Context.MODE_PRIVATE).getLong(KEY_OFF_AT, 0L)
+
     /** The recorded lost deep sleeps, newest first ([noteBoot]). */
     fun sleepLost(context: Context): List<String> =
         context.getSharedPreferences(PREFS, Context.MODE_PRIVATE).getString(KEY_LOST, "").orEmpty()

@@ -59,7 +59,6 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
-import java.util.Calendar
 import java.util.Locale
 import kotlin.math.roundToInt
 
@@ -322,7 +321,8 @@ internal fun UpkeepDialog(onDismiss: () -> Unit) {
                 }
                 TextButton(onClick = {
                     commitOdometer()
-                    Maintenance.setDone(d.kind, UpkeepDone(km = Maintenance.state.value.odometer?.nowKm, at = Calendar.getInstance().timeInMillis))
+                    // The unit's clock may still read 1 January 2025 just after a start.
+                    Maintenance.setDone(d.kind, UpkeepDone(km = Maintenance.state.value.odometer?.nowKm, at = UnitClock.now(context)))
                 }) { Text(stringResource(R.string.upkeep_done_today), color = DashColors.AccentInk, maxLines = 2) }
             }
         } }
