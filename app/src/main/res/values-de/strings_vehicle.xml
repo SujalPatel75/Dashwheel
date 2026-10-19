@@ -92,7 +92,8 @@
 
     <!-- Doors tile -->
     <string name="vehicle_doors_title">TÜREN</string>
-    <string name="vehicle_waiting_mcu">Warte auf Daten der CAN-Box: Root nötig</string>
+    <string name="vehicle_waiting_mcu">Warte auf Daten der CAN-Box</string>
+    <string name="vehicle_waiting_mcu_root">Warte auf Daten der CAN-Box: Root nötig</string>
     <string name="vehicle_door_front_left">Vorne links</string>
     <string name="vehicle_door_front_right">Vorne rechts</string>
     <string name="vehicle_door_rear_left">Hinten links</string>

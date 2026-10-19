@@ -1,6 +1,7 @@
 package com.openauto.dash
 
 import android.content.Context
+import com.openauto.dash.unit.QfBus
 import org.json.JSONArray
 import org.json.JSONObject
 import java.io.IOException
@@ -17,6 +18,9 @@ import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 
@@ -289,6 +293,26 @@ object McuReader {
     /** A logcat that ran this long was working: the next failure starts the backoff over. */
     private const val HEALTHY_MS = 60_000L
 
+    /** What the CAN monitor lists: the MCU stream's frames, then the values of another family's bus ([CarFeed]). */
+    val monitorEntries: StateFlow<List<Entry>> = combine(_entries, CarFeed.rawEntries) { mcu, bus -> mcu + bus }
+        .stateIn(scope, SharingStarted.Eagerly, emptyList())
+
+    /**
+     * What a car box tile says while it has nothing yet: that root is needed
+     * only where the data really comes through the root logcat (the QF MCU
+     * stream without its service, or a unit with no bus of its own). FYT and
+     * the like hand their bus over to any app.
+     */
+    val waitingRes: Int
+        get() {
+            val bus = UnitPlatform.adapter.bus
+            return if ((bus == null || bus === QfBus) && !McuFeed.listening.value) R.string.vehicle_waiting_mcu_root
+            else R.string.vehicle_waiting_mcu
+        }
+
+    /** Another family's bus feeds the car box data: its MCU log (QF's) is not there to tail. */
+    private fun otherBus(): Boolean = UnitPlatform.adapter.bus.let { it != null && it !== QfBus }
+
     @Synchronized
     fun start() {
         // Without the MCU service, the stream is read through root: the Play edition has none.
@@ -339,7 +363,7 @@ object McuReader {
             var caughtUp = false
             // Started under the lock: a stop() can't slip in between and miss it.
             val p = synchronized(this) {
-                if (!ctx.isActive || Edition.play) return
+                if (!ctx.isActive || Edition.play || otherBus()) return
                 runCatching { Runtime.getRuntime().exec(arrayOf("su", "-c", "exec logcat -s mcu_services:D")) }
                     .getOrNull()?.also { process = it }
             }

@@ -92,7 +92,8 @@
 
     <!-- Doors tile -->
     <string name="vehicle_doors_title">PORTAS</string>
-    <string name="vehicle_waiting_mcu">A aguardar dados da caixa CAN: requer root</string>
+    <string name="vehicle_waiting_mcu">A aguardar dados da caixa CAN</string>
+    <string name="vehicle_waiting_mcu_root">A aguardar dados da caixa CAN: requer root</string>
     <string name="vehicle_door_front_left">Dianteira esquerda</string>
     <string name="vehicle_door_front_right">Dianteira direita</string>
     <string name="vehicle_door_rear_left">Traseira esquerda</string>

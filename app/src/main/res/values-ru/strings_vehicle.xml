@@ -92,7 +92,8 @@
 
     <!-- Doors tile -->
     <string name="vehicle_doors_title">ДВЕРИ</string>
-    <string name="vehicle_waiting_mcu">Ожидание данных CAN-блока: нужен root</string>
+    <string name="vehicle_waiting_mcu">Ожидание данных CAN-блока</string>
+    <string name="vehicle_waiting_mcu_root">Ожидание данных CAN-блока: нужен root</string>
     <string name="vehicle_door_front_left">Передняя левая</string>
     <string name="vehicle_door_front_right">Передняя правая</string>
     <string name="vehicle_door_rear_left">Задняя левая</string>

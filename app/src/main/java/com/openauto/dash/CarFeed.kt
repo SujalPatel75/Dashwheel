@@ -21,6 +21,28 @@ object CarFeed : CarSink {
 
     @Volatile private var doorsSeen = false
 
+    // Guarded by itself: the bus calls [raw] from its own thread.
+    private val rawLatest = java.util.TreeMap<String, McuReader.Entry>()
+    private val _rawEntries = MutableStateFlow<List<McuReader.Entry>>(emptyList())
+    /** The bus's raw values for the CAN monitor, as [McuReader.entries] rows: the key, the value as text, when it last changed. */
+    val rawEntries: StateFlow<List<McuReader.Entry>> = _rawEntries
+
+    private var sniffers = 0
+
+    /**
+     * Someone looks at every value ([on]) or stops (the Signal Finder, the CAN
+     * monitor): a bus that has to ask for each value (FYT) asks for them all
+     * while at least one looks. Each true wants its false.
+     */
+    @Synchronized
+    fun sniff(on: Boolean) {
+        if (on) {
+            if (sniffers++ == 0) UnitPlatform.adapter.bus?.sniff(true)
+        } else if (sniffers > 0 && --sniffers == 0) {
+            UnitPlatform.adapter.bus?.sniff(false)
+        }
+    }
+
     /** Whether a bus here has fed what the alert of [kind] is built on: a unit without the QF car app can still show it. */
     fun provides(kind: RomPopups.Kind): Boolean = when (kind) {
         RomPopups.Kind.DOORS, RomPopups.Kind.BELT -> doorsSeen
@@ -70,5 +92,10 @@ object CarFeed : CarSink {
 
     override fun raw(key: String, value: String) {
         SignalSources.busValue(key, value)
+        synchronized(rawLatest) {
+            if (rawLatest[key]?.hex == value) return
+            rawLatest[key] = McuReader.Entry(key, -1, emptyList(), value, System.currentTimeMillis())
+            _rawEntries.value = rawLatest.values.toList()
+        }
     }
 }

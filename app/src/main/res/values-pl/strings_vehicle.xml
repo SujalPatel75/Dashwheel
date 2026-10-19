@@ -92,7 +92,8 @@
 
     <!-- Doors tile -->
     <string name="vehicle_doors_title">DRZWI</string>
-    <string name="vehicle_waiting_mcu">Oczekiwanie na dane ze skrzynki CAN: wymaga roota</string>
+    <string name="vehicle_waiting_mcu">Oczekiwanie na dane ze skrzynki CAN</string>
+    <string name="vehicle_waiting_mcu_root">Oczekiwanie na dane ze skrzynki CAN: wymaga roota</string>
     <string name="vehicle_door_front_left">Przednie lewe</string>
     <string name="vehicle_door_front_right">Przednie prawe</string>
     <string name="vehicle_door_rear_left">Tylne lewe</string>

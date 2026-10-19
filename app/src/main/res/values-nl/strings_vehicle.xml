@@ -92,7 +92,8 @@
 
     <!-- Doors tile -->
     <string name="vehicle_doors_title">PORTIEREN</string>
-    <string name="vehicle_waiting_mcu">Wachten op gegevens van de CAN-box: root vereist</string>
+    <string name="vehicle_waiting_mcu">Wachten op gegevens van de CAN-box</string>
+    <string name="vehicle_waiting_mcu_root">Wachten op gegevens van de CAN-box: root vereist</string>
     <string name="vehicle_door_front_left">Linksvoor</string>
     <string name="vehicle_door_front_right">Rechtsvoor</string>
     <string name="vehicle_door_rear_left">Linksachter</string>

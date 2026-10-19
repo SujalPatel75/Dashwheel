@@ -92,7 +92,8 @@
 
     <!-- Doors tile -->
     <string name="vehicle_doors_title">PORTIERE</string>
-    <string name="vehicle_waiting_mcu">In attesa dei dati della centralina CAN: richiede root</string>
+    <string name="vehicle_waiting_mcu">In attesa dei dati della centralina CAN</string>
+    <string name="vehicle_waiting_mcu_root">In attesa dei dati della centralina CAN: richiede root</string>
     <string name="vehicle_door_front_left">Anteriore sinistra</string>
     <string name="vehicle_door_front_right">Anteriore destra</string>
     <string name="vehicle_door_rear_left">Posteriore sinistra</string>

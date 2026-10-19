@@ -92,7 +92,8 @@
 
     <!-- Doors tile -->
     <string name="vehicle_doors_title">DURYS</string>
-    <string name="vehicle_waiting_mcu">Laukiama CAN-box duomenų: reikia root</string>
+    <string name="vehicle_waiting_mcu">Laukiama CAN-box duomenų</string>
+    <string name="vehicle_waiting_mcu_root">Laukiama CAN-box duomenų: reikia root</string>
     <string name="vehicle_door_front_left">Priekinės kairės</string>
     <string name="vehicle_door_front_right">Priekinės dešinės</string>
     <string name="vehicle_door_rear_left">Galinės kairės</string>

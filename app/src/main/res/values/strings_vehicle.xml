@@ -92,7 +92,8 @@
 
     <!-- Doors tile -->
     <string name="vehicle_doors_title">DOORS</string>
-    <string name="vehicle_waiting_mcu">Waiting for car box data: needs root</string>
+    <string name="vehicle_waiting_mcu">Waiting for car box data</string>
+    <string name="vehicle_waiting_mcu_root">Waiting for car box data: needs root</string>
     <string name="vehicle_door_front_left">Front left</string>
     <string name="vehicle_door_front_right">Front right</string>
     <string name="vehicle_door_rear_left">Rear left</string>

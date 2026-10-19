@@ -92,7 +92,8 @@
 
     <!-- Doors tile -->
     <string name="vehicle_doors_title">AJTÓK</string>
-    <string name="vehicle_waiting_mcu">Várakozás a CAN-box adataira: ehhez root kell</string>
+    <string name="vehicle_waiting_mcu">Várakozás a CAN-box adataira</string>
+    <string name="vehicle_waiting_mcu_root">Várakozás a CAN-box adataira: ehhez root kell</string>
     <string name="vehicle_door_front_left">Bal első</string>
     <string name="vehicle_door_front_right">Jobb első</string>
     <string name="vehicle_door_rear_left">Bal hátsó</string>

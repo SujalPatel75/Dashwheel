@@ -61,7 +61,7 @@ internal fun DoorsCard(modifier: Modifier = Modifier) {
             Spacer(Modifier.height(10.dp))
             val d = doors
             if (d == null) {
-                Text(stringResource(R.string.vehicle_waiting_mcu), color = DashColors.Muted)
+                Text(stringResource(McuReader.waitingRes), color = DashColors.Muted)
             } else {
                 DoorStatusRow(stringResource(R.string.vehicle_door_front_left), d.frontLeft)
                 DoorStatusRow(stringResource(R.string.vehicle_door_front_right), d.frontRight)
@@ -97,8 +97,9 @@ internal fun DoorStatusRow(label: String, open: Boolean) {
 }
 
 /**
- * Debug widget: live view of the CANbox/MCU stream (needs root). Each row is a
- * cmdId → bytes; a row highlights when its value changes. Open a door / toggle a
+ * Debug widget: live view of the CANbox/MCU stream (the MCU service or root on
+ * QF, the toolkit's CAN codes on FYT, no root). Each row is a cmdId → bytes (a
+ * bus key → value on FYT); a row highlights when its value changes. Open a door / toggle a
  * light and watch which row flips — that's its cmdId, which we then map to state.
  */
 @Composable
@@ -106,7 +107,11 @@ internal fun CanMonitorCard(modifier: Modifier = Modifier) {
     val scope = rememberCoroutineScope()
     DisposableEffect(Unit) {
         McuReader.start()
-        onDispose { McuReader.stop() }
+        CarFeed.sniff(true)
+        onDispose {
+            McuReader.stop()
+            CarFeed.sniff(false)
+        }
     }
 
     // Two-capture differential: sample many frames while CLOSED, then while OPEN.
@@ -123,7 +128,7 @@ internal fun CanMonitorCard(modifier: Modifier = Modifier) {
             val acc = HashMap<String, MutableSet<String>>()
             val end = System.currentTimeMillis() + 3000
             while (System.currentTimeMillis() < end) {
-                McuReader.entries.value.forEach { e ->
+                McuReader.monitorEntries.value.forEach { e ->
                     acc.getOrPut(e.key) { mutableSetOf() }.add(e.hex)
                 }
                 delay(70)

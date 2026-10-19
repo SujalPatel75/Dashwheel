@@ -139,7 +139,7 @@ object SignalSources {
         listen(app)
         if (users++ > 0) return
         // A bus that has to ask for each value (FYT) asks for everything while the finder is open.
-        UnitPlatform.adapter.bus?.sniff(true)
+        CarFeed.sniff(true)
         // And every family's broadcasts are heard meanwhile: a unit taken for the wrong family still shows its own.
         val others = PlainAdapters.ALL_BROADCASTS - actions
         if (others.isNotEmpty()) {
@@ -171,7 +171,7 @@ object SignalSources {
     @Synchronized
     fun stop() {
         if (users == 0 || --users > 0) return
-        UnitPlatform.adapter.bus?.sniff(false)
+        CarFeed.sniff(false)
         if (sniffingAll) {
             runCatching { appContext?.unregisterReceiver(sniffReceiver) }
             sniffingAll = false

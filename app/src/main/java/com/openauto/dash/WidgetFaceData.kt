@@ -353,7 +353,7 @@ private fun doorsFace(): WidgetFace {
         onDispose { McuReader.stop() }
     }
     val doors by McuReader.doorState.collectAsState()
-    val d = doors ?: return idleFace(Icons.Filled.SensorDoor, BuiltinKind.DOORS.label, stringResource(R.string.vehicle_waiting_mcu))
+    val d = doors ?: return idleFace(Icons.Filled.SensorDoor, BuiltinKind.DOORS.label, stringResource(McuReader.waitingRes))
     val open = stringResource(R.string.vehicle_door_open_caps)
     val closed = stringResource(R.string.vehicle_door_closed)
     val all = listOf(
@@ -385,11 +385,15 @@ private fun doorsFace(): WidgetFace {
 private fun canMonitorFace(): WidgetFace {
     DisposableEffect(Unit) {
         McuReader.start()
-        onDispose { McuReader.stop() }
+        CarFeed.sniff(true)
+        onDispose {
+            McuReader.stop()
+            CarFeed.sniff(false)
+        }
     }
-    val entries by McuReader.entries.collectAsState()
+    val entries by McuReader.monitorEntries.collectAsState()
     val now by rememberWallClock(500L)
-    if (entries.isEmpty()) return idleFace(Icons.Filled.Sensors, BuiltinKind.CAN_MON.label, stringResource(R.string.vehicle_waiting_mcu), stringResource(R.string.design_can_ids))
+    if (entries.isEmpty()) return idleFace(Icons.Filled.Sensors, BuiltinKind.CAN_MON.label, stringResource(McuReader.waitingRes), stringResource(R.string.design_can_ids))
     val changed = entries.count { now - it.changedAt < 1_000L }
     return WidgetFace(
         icon = Icons.Filled.Sensors,
