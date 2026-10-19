@@ -52,8 +52,8 @@ internal fun LpgTankCard(modifier: Modifier = Modifier) {
     val status by LpgTank.status.collectAsState()
     val reading by LpgTank.reading.collectAsState()
     val units by Units.current.collectAsState()
+    val asking by LpgTank.askPumped.collectAsState()
     var setup by remember { mutableStateOf(false) }
-    var asking by remember { mutableStateOf(false) }
     if (setup) LpgTankSheet(onDismiss = { setup = false })
     Card(modifier = modifier) {
         Column(modifier = Modifier.fillMaxSize().padding(DashSpace.Lg), verticalArrangement = Arrangement.SpaceBetween) {
@@ -69,8 +69,8 @@ internal fun LpgTankCard(modifier: Modifier = Modifier) {
                 asking -> Pumped(
                     suggested = LpgTank.suggestedLiters(),
                     tankL = settings.tankL,
-                    onSave = { LpgTank.setPumped(context, it); asking = false },
-                    onSkip = { asking = false }
+                    onSave = { LpgTank.setPumped(context, it) },
+                    onSkip = { LpgTank.skipPumped(context) }
                 )
                 r == null -> {
                     Text(stringResource(R.string.lpg_first), color = DashColors.TextSecondary, style = MaterialTheme.typography.bodyMedium)
@@ -101,10 +101,7 @@ internal fun LpgTankCard(modifier: Modifier = Modifier) {
                             color = DashColors.TextSecondary, style = MaterialTheme.typography.bodySmall, maxLines = 2,
                             modifier = Modifier.weight(1f)
                         )
-                        LpgButton(stringResource(R.string.lpg_full), Modifier.width(96.dp), primary = true) {
-                            LpgTank.fillUp(context)
-                            asking = true
-                        }
+                        LpgButton(stringResource(R.string.lpg_full), Modifier.width(96.dp), primary = true) { LpgTank.fillUp(context) }
                     }
                 }
             }
@@ -231,6 +228,7 @@ internal fun LpgTankSheet(onDismiss: () -> Unit) {
     val context = LocalContext.current
     val saved by LpgTank.settings.collectAsState()
     val state by LpgTank.state.collectAsState()
+    val askPumped by LpgTank.askPumped.collectAsState()
     val u = LocalUnits.current
     var draft by remember { mutableStateOf(saved) }
     fun edit(s: LpgSettings) {
@@ -312,6 +310,14 @@ internal fun LpgTankSheet(onDismiss: () -> Unit) {
                 color = DashColors.TextSecondary, style = MaterialTheme.typography.bodyMedium, modifier = Modifier.weight(1f)
             )
             SheetButton(stringResource(R.string.lpg_full_now)) { LpgTank.fillUp(context) }
+        }
+        if (askPumped) {
+            Pumped(
+                suggested = LpgTank.suggestedLiters(),
+                tankL = draft.tankL,
+                onSave = { LpgTank.setPumped(context, it) },
+                onSkip = { LpgTank.skipPumped(context) }
+            )
         }
     }
 }

@@ -313,6 +313,14 @@ internal object LpgTank {
     /** What counts right now, for the tile's LPG / petrol mark. */
     val status: StateFlow<LpgStatus> = _status.asStateFlow()
 
+    private val _askPumped = MutableStateFlow(false)
+    /**
+     * The litres pumped at the last fill are still to be asked: set by every
+     * Full (tile, Settings, wheel button) but the first, so the tile asks the
+     * next time it's seen, until they're told or skipped.
+     */
+    val askPumped: StateFlow<Boolean> = _askPumped.asStateFlow()
+
     // The GPS trip last read: its distance grows as the car moves.
     private var tripStart = 0L
     private var tripM = 0.0
@@ -329,6 +337,7 @@ internal object LpgTank {
         val p = prefs(app)
         _settings.value = p.getString("settings", null)?.let { runCatching { LpgRules.settingsFrom(JSONObject(it)) }.getOrNull() } ?: LpgSettings()
         _state.value = p.getString("state", null)?.let { runCatching { LpgRules.stateFrom(JSONObject(it)) }.getOrNull() } ?: LpgState()
+        _askPumped.value = p.getBoolean("ask_pumped", false)
         // Where the counting stopped: a trip carried on after a restart isn't counted twice.
         tripStart = p.getLong("trip_start", 0L)
         tripM = p.getFloat("trip_m", 0f).toDouble()
@@ -435,8 +444,11 @@ internal object LpgTank {
         val here = LocationFeed.location.value
         val station = here?.let { h -> FuelPriceRepo.stations.value?.let { FuelLogRules.stationAt(it, h.latitude, h.longitude, listOf(FuelGrade.GPLC)) } }
         val s = _settings.value
+        // The first fill only starts the count: its litres teach nothing.
+        val first = _state.value.filledAt == 0L
         _state.value = LpgRules.fill(s, _state.value, System.currentTimeMillis(), station?.second ?: s.pricePerL, CarProfileStore.current.typicalUse)
         save(app, saveState = true)
+        setAskPumped(app, !first)
         refreshStatus()
         refresh()
     }
@@ -445,7 +457,16 @@ internal object LpgTank {
     fun setPumped(context: Context, liters: Double) {
         _state.value = LpgRules.pumped(_state.value, liters)
         save(context.applicationContext, saveState = true)
+        setAskPumped(context, false)
         refresh()
+    }
+
+    /** The litres pumped won't be told for this fill. */
+    fun skipPumped(context: Context) = setAskPumped(context, false)
+
+    private fun setAskPumped(context: Context, ask: Boolean) {
+        _askPumped.value = ask
+        prefs(context).edit().putBoolean("ask_pumped", ask).apply()
     }
 
     fun suggestedLiters(): Double = LpgRules.suggestedLiters(_state.value)
