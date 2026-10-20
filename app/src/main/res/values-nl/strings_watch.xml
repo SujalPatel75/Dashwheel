@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- The sensor watch (SensorWatch.kt): the car's usual readings, learned drive after drive. -->
+    <string name="watch_title">Sensorwacht</string>
+    <string name="watch_explanation">Dashwheel leert wat je auto normaal meet en waarschuwt als de laatste ritten daarvan afwijken, nog voor er een foutcode verschijnt.</string>
+    <string name="watch_settings_detail">Waarschuwt als een waarde afwijkt van normaal</string>
+    <string name="watch_settings_learning">Leert de normale waarden van je auto</string>
+    <string name="watch_readings">Waarden</string>
+    <string name="watch_drifted">%1$s wijkt af</string>
+    <string name="watch_learning">Leren: %1$d van %2$d ritten</string>
+    <string name="watch_usual_only">Normaal %1$s</string>
+    <string name="watch_usual_recent">Normaal %1$s, recent %2$s</string>
+    <string name="watch_state_drift">Afwijkend</string>
+    <string name="watch_state_learning">Leren</string>
+    <string name="watch_state_normal">Normaal</string>
+    <string name="watch_forget">Opnieuw beginnen</string>
+    <string name="watch_forget_hint">Onderdeel vervangen? Begin opnieuw, dan leert hij de nieuwe normale waarde.</string>
+
+    <string name="watch_resting_volts">Accu in rust</string>
+    <string name="watch_charging_volts">Laadspanning</string>
+    <string name="watch_warmup">Opwarmtijd</string>
+    <string name="watch_settled_coolant">Koelvloeistof warm</string>
+    <string name="watch_idle_rpm">Stationair toerental</string>
+    <string name="watch_filter_km">Roetfilterreiniging</string>
+
+    <!-- Spoken: %1$s the last drives' value, %2$s the usual one, numbers only: the unit is a word here. -->
+    <string name="watch_say_resting_low">De accu staat al een paar ritten lager in rust dan normaal: %1$s volt tegen %2$s. Laat hem eens testen.</string>
+    <string name="watch_say_charging_low">De laadspanning is gedaald naar %1$s volt, normaal is dat %2$s. Laat de dynamo en de riem nakijken.</string>
+    <string name="watch_say_charging_high">De laadspanning is gestegen naar %1$s volt, normaal is dat %2$s. Laat de spanningsregelaar van de dynamo nakijken.</string>
+    <string name="watch_say_warmup_slow">De motor doet er langer over om op te warmen: %1$s minuten tegen normaal %2$s. De thermostaat blijft misschien open hangen.</string>
+    <string name="watch_say_coolant_low">De motor blijft koeler dan normaal als hij warm is: %1$s graden tegen %2$s. De thermostaat blijft misschien open hangen.</string>
+    <string name="watch_say_coolant_high">De motor draait warmer dan normaal: %1$s graden tegen %2$s. Controleer het koelvloeistofpeil en de ventilator.</string>
+    <string name="watch_say_idle_high">Het stationair toerental is gestegen naar %1$s toeren per minuut, normaal is dat %2$s.</string>
+    <string name="watch_say_idle_low">Het stationair toerental is gedaald naar %1$s toeren per minuut, normaal is dat %2$s.</string>
+    <!-- %3$s: watch_unit_km or watch_unit_miles. -->
+    <string name="watch_say_filter_often">Het roetfilter reinigt zichzelf vaker: de laatste tijd elke %1$s %3$s, normaal elke %2$s.</string>
+    <string name="watch_unit_km">kilometer</string>
+    <string name="watch_unit_miles">mijl</string>
+
+    <!-- Phone notice. -->
+    <string name="news_drift_title">%1$s wijkt af</string>
+    <string name="news_drift_text">Recent %1$s, normaal %2$s. Nog geen foutcode.</string>
+</resources>

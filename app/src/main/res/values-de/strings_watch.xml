@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- The sensor watch (SensorWatch.kt): the car's usual readings, learned drive after drive. -->
+    <string name="watch_title">Sensorwächter</string>
+    <string name="watch_explanation">Dashwheel lernt die üblichen Werte deines Autos und meldet sich, wenn die letzten Fahrten davon abweichen, noch bevor ein Fehlercode erscheint.</string>
+    <string name="watch_settings_detail">Warnt, wenn ein Wert vom Üblichen abweicht</string>
+    <string name="watch_settings_learning">Lernt die üblichen Werte des Autos</string>
+    <string name="watch_readings">Werte</string>
+    <string name="watch_drifted">%1$s weicht ab</string>
+    <string name="watch_learning">Lernphase: %1$d von %2$d Fahrten</string>
+    <string name="watch_usual_only">Meist %1$s</string>
+    <string name="watch_usual_recent">Meist %1$s, zuletzt %2$s</string>
+    <string name="watch_state_drift">Abweichung</string>
+    <string name="watch_state_learning">Lernt</string>
+    <string name="watch_state_normal">Normal</string>
+    <string name="watch_forget">Neu lernen</string>
+    <string name="watch_forget_hint">Teil getauscht? Neu lernen lassen, damit der neue Normalwert gilt.</string>
+
+    <string name="watch_resting_volts">Batterie in Ruhe</string>
+    <string name="watch_charging_volts">Ladespannung</string>
+    <string name="watch_warmup">Warmlaufzeit</string>
+    <string name="watch_settled_coolant">Kühlmittel warm</string>
+    <string name="watch_idle_rpm">Leerlaufdrehzahl</string>
+    <string name="watch_filter_km">Partikelfilter-Reinigung</string>
+
+    <!-- Spoken: %1$s the last drives' value, %2$s the usual one, numbers only: the unit is a word here. -->
+    <string name="watch_say_resting_low">Die Batterie hat seit ein paar Fahrten in Ruhe weniger Spannung als sonst: %1$s Volt statt %2$s. Am besten testen lassen.</string>
+    <string name="watch_say_charging_low">Die Ladespannung ist auf %1$s Volt gefallen, sonst sind es %2$s. Am besten Lichtmaschine und Riemen prüfen.</string>
+    <string name="watch_say_charging_high">Die Ladespannung ist auf %1$s Volt gestiegen, sonst sind es %2$s. Am besten den Regler der Lichtmaschine prüfen.</string>
+    <string name="watch_say_warmup_slow">Der Motor braucht länger zum Warmwerden: %1$s Minuten statt sonst %2$s. Das Thermostat klemmt vielleicht offen.</string>
+    <string name="watch_say_coolant_low">Warm gefahren läuft der Motor kühler als sonst: %1$s Grad statt %2$s. Das Thermostat klemmt vielleicht offen.</string>
+    <string name="watch_say_coolant_high">Der Motor läuft wärmer als sonst: %1$s Grad statt %2$s. Am besten Kühlmittelstand und Lüfter prüfen.</string>
+    <string name="watch_say_idle_high">Die Leerlaufdrehzahl ist auf %1$s Umdrehungen pro Minute gestiegen, sonst sind es %2$s.</string>
+    <string name="watch_say_idle_low">Die Leerlaufdrehzahl ist auf %1$s Umdrehungen pro Minute gefallen, sonst sind es %2$s.</string>
+    <!-- %3$s: watch_unit_km or watch_unit_miles. -->
+    <string name="watch_say_filter_often">Der Partikelfilter reinigt sich öfter: zuletzt alle %1$s %3$s, sonst alle %2$s.</string>
+    <string name="watch_unit_km">Kilometer</string>
+    <string name="watch_unit_miles">Meilen</string>
+
+    <!-- Phone notice. -->
+    <string name="news_drift_title">%1$s weicht ab</string>
+    <string name="news_drift_text">Zuletzt %1$s, sonst %2$s. Noch kein Fehlercode.</string>
+</resources>

@@ -91,6 +91,8 @@ internal object CarFacts {
         put("car_news") { CarNews.notices.value.takeLast(5) }
         put("eco_and_rest") { CarCare.state.value }
         put("particle_filter") { CarCare.filterWatch.value }
+        put("sensor_watch_usual_vs_recent") { SensorWatch.facts() }
+        put("sensor_watch_causes") { SensorWatch.causes.value.mapKeys { it.key.name.lowercase() } }
         put("vehicle_alerts") {
             (AlertCenter.critical.values + AlertCenter.warnings.toList()).map { "${it.level}: ${it.text}" }
         }

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- The sensor watch (SensorWatch.kt): the car's usual readings, learned drive after drive. -->
+    <string name="watch_title">Nadzór czujników</string>
+    <string name="watch_explanation">Dashwheel uczy się typowych odczytów Twojego auta i ostrzega, gdy ostatnie jazdy od nich odbiegają, zanim pojawi się kod usterki.</string>
+    <string name="watch_settings_detail">Ostrzega, gdy odczyt odbiega od typowego</string>
+    <string name="watch_settings_learning">Uczy się typowych odczytów auta</string>
+    <string name="watch_readings">Odczyty</string>
+    <string name="watch_drifted">%1$s odbiega od normy</string>
+    <string name="watch_learning">Nauka: %1$d z %2$d jazd</string>
+    <string name="watch_usual_only">Zwykle %1$s</string>
+    <string name="watch_usual_recent">Zwykle %1$s, ostatnio %2$s</string>
+    <string name="watch_state_drift">Odchylenie</string>
+    <string name="watch_state_learning">Nauka</string>
+    <string name="watch_state_normal">Norma</string>
+    <string name="watch_forget">Zacznij od nowa</string>
+    <string name="watch_forget_hint">Wymieniono część? Zacznij od nowa, by poznać nową normę.</string>
+
+    <string name="watch_resting_volts">Akumulator w spoczynku</string>
+    <string name="watch_charging_volts">Napięcie ładowania</string>
+    <string name="watch_warmup">Czas nagrzewania</string>
+    <string name="watch_settled_coolant">Płyn po nagrzaniu</string>
+    <string name="watch_idle_rpm">Obroty jałowe</string>
+    <string name="watch_filter_km">Czyszczenie filtra cząstek</string>
+
+    <!-- Spoken: %1$s the last drives' value, %2$s the usual one, numbers only: the unit is a word here. -->
+    <string name="watch_say_resting_low">Od kilku jazd akumulator w spoczynku ma niższe napięcie niż zwykle: %1$s wolta wobec %2$s. Warto go sprawdzić.</string>
+    <string name="watch_say_charging_low">Napięcie ładowania spadło do %1$s wolta, zwykle jest %2$s. Warto sprawdzić alternator i jego pasek.</string>
+    <string name="watch_say_charging_high">Napięcie ładowania wzrosło do %1$s wolta, zwykle jest %2$s. Warto sprawdzić regulator alternatora.</string>
+    <string name="watch_say_warmup_slow">Silnik dłużej się nagrzewa: %1$s min wobec zwykłych %2$s. Termostat może być zablokowany w pozycji otwartej.</string>
+    <string name="watch_say_coolant_low">Nagrzany silnik jest chłodniejszy niż zwykle: %1$s° wobec %2$s. Termostat może być zablokowany w pozycji otwartej.</string>
+    <string name="watch_say_coolant_high">Silnik jest cieplejszy niż zwykle: %1$s° wobec %2$s. Warto sprawdzić poziom płynu chłodniczego i wentylator.</string>
+    <string name="watch_say_idle_high">Obroty biegu jałowego wzrosły do %1$s obr./min, zwykle jest %2$s.</string>
+    <string name="watch_say_idle_low">Obroty biegu jałowego spadły do %1$s obr./min, zwykle jest %2$s.</string>
+    <!-- %3$s: watch_unit_km or watch_unit_miles. -->
+    <string name="watch_say_filter_often">Filtr cząstek stałych częściej się oczyszcza: ostatnio co %1$s %3$s, zwykle co %2$s.</string>
+    <string name="watch_unit_km">km</string>
+    <string name="watch_unit_miles">mil</string>
+
+    <!-- Phone notice. -->
+    <string name="news_drift_title">%1$s odbiega od normy</string>
+    <string name="news_drift_text">Ostatnio %1$s, zwykle %2$s. Na razie bez kodu usterki.</string>
+</resources>

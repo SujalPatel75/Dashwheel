@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- The sensor watch (SensorWatch.kt): the car's usual readings, learned drive after drive. -->
+    <string name="watch_title">Sensor watch</string>
+    <string name="watch_explanation">Dashwheel learns what your car usually reads and speaks up when the last drives drift away from it, before a fault code shows up.</string>
+    <string name="watch_settings_detail">Warns when a reading drifts from the car\'s usual</string>
+    <string name="watch_settings_learning">Learning your car\'s usual readings</string>
+    <string name="watch_readings">Readings</string>
+    <string name="watch_drifted">%1$s has drifted</string>
+    <string name="watch_learning">Learning: %1$d of %2$d drives</string>
+    <string name="watch_usual_only">Usually %1$s</string>
+    <string name="watch_usual_recent">Usually %1$s, lately %2$s</string>
+    <string name="watch_state_drift">Drifted</string>
+    <string name="watch_state_learning">Learning</string>
+    <string name="watch_state_normal">Normal</string>
+    <string name="watch_forget">Start again</string>
+    <string name="watch_forget_hint">Replaced the part? Start again so it learns the new usual.</string>
+
+    <string name="watch_resting_volts">Battery at rest</string>
+    <string name="watch_charging_volts">Charging voltage</string>
+    <string name="watch_warmup">Warm-up time</string>
+    <string name="watch_settled_coolant">Coolant when warm</string>
+    <string name="watch_idle_rpm">Idle speed</string>
+    <string name="watch_filter_km">Particle filter cleaning</string>
+
+    <!-- Spoken: %1$s the last drives' value, %2$s the usual one, numbers only: the unit is a word here. -->
+    <string name="watch_say_resting_low">The battery has been resting lower than usual for a few drives: %1$s volts against %2$s. Worth having it tested.</string>
+    <string name="watch_say_charging_low">The charging voltage has dropped to %1$s volts, from a usual %2$s. Worth checking the alternator and its belt.</string>
+    <string name="watch_say_charging_high">The charging voltage has risen to %1$s volts, from a usual %2$s. Worth checking the alternator\'s regulator.</string>
+    <string name="watch_say_warmup_slow">The engine is taking longer to warm up: %1$s minutes against a usual %2$s. The thermostat may be sticking open.</string>
+    <string name="watch_say_coolant_low">The engine runs cooler than usual once warm: %1$s degrees against %2$s. The thermostat may be sticking open.</string>
+    <string name="watch_say_coolant_high">The engine runs warmer than usual: %1$s degrees against %2$s. Worth checking the coolant level and the fan.</string>
+    <string name="watch_say_idle_high">The idle speed has gone up to %1$s revs a minute, from a usual %2$s.</string>
+    <string name="watch_say_idle_low">The idle speed has dropped to %1$s revs a minute, from a usual %2$s.</string>
+    <!-- %3$s: watch_unit_km or watch_unit_miles. -->
+    <string name="watch_say_filter_often">The particle filter is cleaning itself more often: every %1$s %3$s lately, against %2$s usually.</string>
+    <string name="watch_unit_km">kilometres</string>
+    <string name="watch_unit_miles">miles</string>
+
+    <!-- Phone notice. -->
+    <string name="news_drift_title">%1$s has drifted</string>
+    <string name="news_drift_text">Lately %1$s, usually %2$s. No fault code yet.</string>
+</resources>

@@ -466,6 +466,8 @@ data class CarNotice(val id: String, val kind: String, val title: String, val te
         const val FAULT = "fault"
         const val BATTERY = "battery"
         const val FILTER = "filter"
+        /** A reading drifting from the car's usual (the sensor watch). */
+        const val SENSOR = "sensor"
     }
 }
 

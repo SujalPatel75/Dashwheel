@@ -60,6 +60,7 @@ import androidx.compose.material.icons.filled.Android
 import androidx.compose.material.icons.filled.AutoAwesome
 import androidx.compose.material.icons.filled.Bluetooth
 import androidx.compose.material.icons.filled.Calculate
+import androidx.compose.material.icons.filled.Insights
 import androidx.compose.material.icons.filled.Usb
 import androidx.compose.material.icons.filled.Build
 import androidx.compose.material.icons.filled.Extension
@@ -198,7 +199,7 @@ internal enum class SettingsTab(@StringRes val titleRes: Int, val icon: ImageVec
 /** The settings that open further into the pane; Lab's open over Lab. */
 internal enum class Deep {
     CAR, CAR_LOOK, REVERSE, SIGNALS, AI, UPKEEP, EXPLORER, WHEEL, PLACES, LANGUAGE, SECOND_SCREEN, LPG, MY_READINGS,
-    OBD, UNITS, ACCESS, ABOUT, LAB, UNIT_TOOLS, MAP_SERVERS, API_KEYS, HEAD_UNIT, TPMS
+    OBD, UNITS, ACCESS, ABOUT, LAB, UNIT_TOOLS, MAP_SERVERS, API_KEYS, HEAD_UNIT, TPMS, SENSOR_WATCH
 }
 
 /** Under this width the categories go along the top: a rail would leave the settings half a screen. */
@@ -292,6 +293,7 @@ internal fun SettingsScreen(
                         Deep.API_KEYS -> ApiKeysSheet(onDismiss = back)
                         Deep.HEAD_UNIT -> HeadUnitSheet(onDismiss = back)
                         Deep.TPMS -> UsbTpmsSheet(onDismiss = back)
+                        Deep.SENSOR_WATCH -> SensorWatchSheet(onDismiss = back)
                     }
                 }
             }
@@ -522,8 +524,22 @@ private fun DiagnosticsPane(open: (Deep) -> Unit) {
     SettingsSection(stringResource(R.string.settings_section_diagnostics))
     SettingsRow(Icons.Filled.Bluetooth, stringResource(R.string.settings_obd_title), obdSummary()) { open(Deep.OBD) }
     SettingsRow(Icons.Filled.AutoAwesome, stringResource(R.string.ai_title), stringResource(R.string.settings_ai_detail)) { open(Deep.AI) }
+    SettingsRow(Icons.Filled.Insights, stringResource(R.string.watch_title), sensorWatchSummary()) { open(Deep.SENSOR_WATCH) }
     SettingsRow(Icons.Filled.Calculate, stringResource(R.string.mine_title), stringResource(R.string.mine_settings_detail)) { open(Deep.MY_READINGS) }
     SettingsRow(Icons.Filled.SettingsInputAntenna, stringResource(R.string.signals_title), stringResource(R.string.signals_settings_detail)) { open(Deep.SIGNALS) }
+}
+
+/** The sensor watch in one line: what drifted, or that it is still learning. */
+@Composable
+private fun sensorWatchSummary(): String {
+    val findings by SensorWatch.findings.collectAsState()
+    val history by SensorWatch.history.collectAsState()
+    val first = findings.firstOrNull()
+    return when {
+        first != null -> stringResource(R.string.watch_drifted, stringResource(first.signal.labelRes))
+        history.values.none { it.size >= DriftRules.MIN_BASE + DriftRules.RECENT } -> stringResource(R.string.watch_settings_learning)
+        else -> stringResource(R.string.watch_settings_detail)
+    }
 }
 
 /** What talks to the unit: the phone, a second screen, the automation apps. */

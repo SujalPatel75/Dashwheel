@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- The sensor watch (SensorWatch.kt): the car's usual readings, learned drive after drive. -->
+    <string name="watch_title">Érzékelőfigyelő</string>
+    <string name="watch_explanation">A Dashwheel megtanulja, mit mutat általában az autója, és szól, ha az utolsó utak értékei eltérnek ettől, még mielőtt hibakód jelenne meg.</string>
+    <string name="watch_settings_detail">Figyelmeztet, ha egy érték eltér a szokásostól</string>
+    <string name="watch_settings_learning">Az autó szokásos értékeinek tanulása</string>
+    <string name="watch_readings">Értékek</string>
+    <string name="watch_drifted">%1$s: eltérés</string>
+    <string name="watch_learning">Tanulás: %1$d/%2$d út</string>
+    <string name="watch_usual_only">Általában %1$s</string>
+    <string name="watch_usual_recent">Általában %1$s, mostanában %2$s</string>
+    <string name="watch_state_drift">Eltért</string>
+    <string name="watch_state_learning">Tanulás</string>
+    <string name="watch_state_normal">Normál</string>
+    <string name="watch_forget">Újrakezdés</string>
+    <string name="watch_forget_hint">Kicserélte az alkatrészt? Kezdje újra, hogy megtanulja az új szokásos értéket.</string>
+
+    <string name="watch_resting_volts">Akku nyugalomban</string>
+    <string name="watch_charging_volts">Töltőfeszültség</string>
+    <string name="watch_warmup">Bemelegedési idő</string>
+    <string name="watch_settled_coolant">Hűtőfolyadék melegen</string>
+    <string name="watch_idle_rpm">Alapjárat</string>
+    <string name="watch_filter_km">Részecskeszűrő tisztítása</string>
+
+    <!-- Spoken: %1$s the last drives' value, %2$s the usual one, numbers only: the unit is a word here. -->
+    <string name="watch_say_resting_low">Néhány út óta az akkumulátor nyugalmi feszültsége a szokásosnál alacsonyabb: %1$s volt a szokásos %2$s helyett. Érdemes bevizsgáltatni.</string>
+    <string name="watch_say_charging_low">A töltőfeszültség lecsökkent: %1$s volt a szokásos %2$s helyett. Érdemes ellenőriztetni a generátort és a szíját.</string>
+    <string name="watch_say_charging_high">A töltőfeszültség megemelkedett: %1$s volt a szokásos %2$s helyett. Érdemes ellenőriztetni a generátor feszültségszabályzóját.</string>
+    <string name="watch_say_warmup_slow">A motor lassabban melegszik be: %1$s perc a szokásos %2$s helyett. Lehet, hogy nyitva beragadt a termosztát.</string>
+    <string name="watch_say_coolant_low">Bemelegedés után a motor hidegebb a szokásosnál: %1$s fok, általában %2$s. Lehet, hogy nyitva beragadt a termosztát.</string>
+    <string name="watch_say_coolant_high">A motor melegebb a szokásosnál: %1$s fok, általában %2$s. Érdemes ellenőrizni a hűtőfolyadék szintjét és a ventilátort.</string>
+    <string name="watch_say_idle_high">Az alapjárat percenként %1$s fordulatra emelkedett a szokásos %2$s helyett.</string>
+    <string name="watch_say_idle_low">Az alapjárat percenként %1$s fordulatra csökkent a szokásos %2$s helyett.</string>
+    <!-- %3$s: watch_unit_km or watch_unit_miles. -->
+    <string name="watch_say_filter_often">A részecskeszűrő gyakrabban tisztítja magát: mostanában %1$s %3$s után, általában %2$s után.</string>
+    <string name="watch_unit_km">kilométer</string>
+    <string name="watch_unit_miles">mérföld</string>
+
+    <!-- Phone notice. -->
+    <string name="news_drift_title">%1$s: eltérés</string>
+    <string name="news_drift_text">Mostanában %1$s, általában %2$s. Még nincs hibakód.</string>
+</resources>

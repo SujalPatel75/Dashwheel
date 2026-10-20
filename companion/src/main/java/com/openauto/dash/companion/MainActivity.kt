@@ -62,6 +62,7 @@ import androidx.compose.material.icons.filled.Event
 import androidx.compose.material.icons.filled.ExpandLess
 import androidx.compose.material.icons.filled.ExpandMore
 import androidx.compose.material.icons.filled.Image
+import androidx.compose.material.icons.filled.Insights
 import androidx.compose.material.icons.filled.Keyboard
 import androidx.compose.material.icons.filled.LocalParking
 import androidx.compose.material.icons.filled.Map
@@ -830,6 +831,7 @@ private fun CarNewsCard(news: List<com.openauto.dash.link.CarNotice>) {
                     com.openauto.dash.link.CarNotice.FAULT -> Icons.Filled.Warning to CompanionColors.Red
                     com.openauto.dash.link.CarNotice.BATTERY -> Icons.Filled.BatteryAlert to CompanionColors.Amber
                     com.openauto.dash.link.CarNotice.FILTER -> Icons.Filled.Route to CompanionColors.Amber
+                    com.openauto.dash.link.CarNotice.SENSOR -> Icons.Filled.Insights to CompanionColors.Amber
                     else -> Icons.Filled.Build to CompanionColors.Blue
                 }
                 CardHeading(icon, n.title, n.text, tint)

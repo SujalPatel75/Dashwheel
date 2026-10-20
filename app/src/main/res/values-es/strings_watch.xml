@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- The sensor watch (SensorWatch.kt): the car's usual readings, learned drive after drive. -->
+    <string name="watch_title">Vigilancia de sensores</string>
+    <string name="watch_explanation">Dashwheel aprende los valores habituales de tu coche y avisa cuando los últimos trayectos se alejan de ellos, antes de que aparezca un código de avería.</string>
+    <string name="watch_settings_detail">Avisa cuando un valor se aleja de lo habitual</string>
+    <string name="watch_settings_learning">Aprendiendo los valores de tu coche</string>
+    <string name="watch_readings">Lecturas</string>
+    <string name="watch_drifted">%1$s se ha desviado</string>
+    <string name="watch_learning">Aprendiendo: %1$d de %2$d trayectos</string>
+    <string name="watch_usual_only">Normalmente %1$s</string>
+    <string name="watch_usual_recent">Normalmente %1$s, últimamente %2$s</string>
+    <string name="watch_state_drift">Desviado</string>
+    <string name="watch_state_learning">Aprendiendo</string>
+    <string name="watch_state_normal">Normal</string>
+    <string name="watch_forget">Empezar de nuevo</string>
+    <string name="watch_forget_hint">¿Has cambiado la pieza? Empieza de nuevo para que aprenda los nuevos valores.</string>
+
+    <string name="watch_resting_volts">Batería en reposo</string>
+    <string name="watch_charging_volts">Tensión de carga</string>
+    <string name="watch_warmup">Calentamiento</string>
+    <string name="watch_settled_coolant">Refrigerante en caliente</string>
+    <string name="watch_idle_rpm">Ralentí</string>
+    <string name="watch_filter_km">Limpieza del filtro</string>
+
+    <!-- Spoken: %1$s the last drives' value, %2$s the usual one, numbers only: the unit is a word here. -->
+    <string name="watch_say_resting_low">Desde hace unos trayectos, la batería en reposo está más baja de lo normal: %1$s voltios frente a %2$s. Conviene hacerla revisar.</string>
+    <string name="watch_say_charging_low">La tensión de carga ha bajado a %1$s voltios, desde los %2$s habituales. Conviene revisar el alternador y su correa.</string>
+    <string name="watch_say_charging_high">La tensión de carga ha subido a %1$s voltios, desde los %2$s habituales. Conviene revisar el regulador del alternador.</string>
+    <string name="watch_say_warmup_slow">El motor tarda más en calentarse: %1$s minutos frente a los %2$s habituales. El termostato puede estar bloqueado abierto.</string>
+    <string name="watch_say_coolant_low">Ya caliente, el motor va más frío de lo normal: %1$s grados frente a %2$s. El termostato puede estar bloqueado abierto.</string>
+    <string name="watch_say_coolant_high">El motor va más caliente de lo normal: %1$s grados frente a %2$s. Conviene revisar el nivel de refrigerante y el ventilador.</string>
+    <string name="watch_say_idle_high">El ralentí ha subido a %1$s revoluciones por minuto, desde las %2$s habituales.</string>
+    <string name="watch_say_idle_low">El ralentí ha bajado a %1$s revoluciones por minuto, desde las %2$s habituales.</string>
+    <!-- %3$s: watch_unit_km or watch_unit_miles. -->
+    <string name="watch_say_filter_often">El filtro de partículas se limpia más a menudo: últimamente cada %1$s %3$s, frente a %2$s normalmente.</string>
+    <string name="watch_unit_km">kilómetros</string>
+    <string name="watch_unit_miles">millas</string>
+
+    <!-- Phone notice. -->
+    <string name="news_drift_title">%1$s se ha desviado</string>
+    <string name="news_drift_text">Últimamente %1$s, normalmente %2$s. Aún sin código de avería.</string>
+</resources>

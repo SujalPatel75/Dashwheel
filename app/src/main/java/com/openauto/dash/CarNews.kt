@@ -39,7 +39,7 @@ internal object CarNews {
         if (appContext != null) return
         appContext = context.applicationContext
         scope.launch {
-            combine(Maintenance.state, AiMechanic.state, CarCare.state, battery) { upkeep, mechanic, care, weak ->
+            combine(Maintenance.state, AiMechanic.state, CarCare.state, battery, SensorWatch.findings) { upkeep, mechanic, care, weak, drifts ->
                 val res = AppLanguage.wrap(context.applicationContext).resources
                 val now = System.currentTimeMillis()
                 buildList {
@@ -47,6 +47,7 @@ internal object CarNews {
                     faultNotice(res, mechanic.codes, mechanic.diagnosis?.summary, now)?.let(::add)
                     filterNotice(res, care.filter.shortStreak, now)?.let(::add)
                     weak?.let(::add)
+                    addAll(driftNotices(res, drifts))
                 }
             }.distinctUntilChanged { a, b -> a.map { it.id } == b.map { it.id } }.collect { _notices.value = it }
         }
@@ -92,6 +93,19 @@ internal object CarNews {
             title = res.getString(R.string.news_fault_title, codes.joinToString(", ")),
             text = summary?.takeIf { it.isNotBlank() } ?: res.getString(R.string.news_fault_text),
             at = now
+        )
+    }
+
+    /** A reading the sensor watch found drifting, one notice per reading and the day it was found. */
+    private fun driftNotices(res: Resources, drifts: List<WatchFinding>): List<CarNotice> = drifts.map { f ->
+        val units = Units.current.value
+        val locale = Locale.getDefault()
+        CarNotice(
+            id = "drift-${f.signal.name}-${f.at / DAY_MS}",
+            kind = CarNotice.SENSOR,
+            title = res.getString(R.string.news_drift_title, res.getString(f.signal.labelRes)),
+            text = res.getString(R.string.news_drift_text, WatchLines.value(f.signal, f.recent, locale, units), WatchLines.value(f.signal, f.usual, locale, units)),
+            at = f.at
         )
     }
 

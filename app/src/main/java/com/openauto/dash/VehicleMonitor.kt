@@ -250,6 +250,7 @@ internal object VehicleMonitor {
                             ObdBluetoothManager.poll()
                             AiMechanic.watch(ObdBluetoothManager.data.value)
                             CarCare.watch(ObdBluetoothManager.data.value)
+                            SensorWatch.watch(ObdBluetoothManager.data.value)
                             delay(POLL_MS)
                         }
                     }

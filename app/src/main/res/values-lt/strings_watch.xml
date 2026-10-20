@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- The sensor watch (SensorWatch.kt): the car's usual readings, learned drive after drive. -->
+    <string name="watch_title">Jutiklių stebėjimas</string>
+    <string name="watch_explanation">Dashwheel išmoksta įprastus jūsų automobilio rodmenis ir praneša, kai paskutinių važiavimų rodmenys nuo jų nukrypsta, dar prieš atsirandant gedimo kodui.</string>
+    <string name="watch_settings_detail">Įspėja, kai rodmuo nukrypsta nuo įprasto</string>
+    <string name="watch_settings_learning">Mokomasi įprastų automobilio rodmenų</string>
+    <string name="watch_readings">Rodmenys</string>
+    <string name="watch_drifted">%1$s nukrypo</string>
+    <string name="watch_learning">Mokomasi: važiavimas %1$d iš %2$d</string>
+    <string name="watch_usual_only">Įprastai %1$s</string>
+    <string name="watch_usual_recent">Įprastai %1$s, pastaruoju metu %2$s</string>
+    <string name="watch_state_drift">Nukrypo</string>
+    <string name="watch_state_learning">Mokomasi</string>
+    <string name="watch_state_normal">Normalu</string>
+    <string name="watch_forget">Pradėti iš naujo</string>
+    <string name="watch_forget_hint">Pakeitėte dalį? Pradėkite iš naujo, kad išmoktų naują įprastą rodmenį.</string>
+
+    <string name="watch_resting_volts">Akumuliatorius ramybėje</string>
+    <string name="watch_charging_volts">Įkrovimo įtampa</string>
+    <string name="watch_warmup">Įšilimo laikas</string>
+    <string name="watch_settled_coolant">Aušinimo skystis įšilus</string>
+    <string name="watch_idle_rpm">Tuščiosios eigos apsukos</string>
+    <string name="watch_filter_km">Kietųjų dalelių filtro valymas</string>
+
+    <!-- Spoken: %1$s the last drives' value, %2$s the usual one, numbers only: the unit is a word here. -->
+    <string name="watch_say_resting_low">Jau kelis važiavimus akumuliatoriaus įtampa ramybėje žemesnė nei įprastai. Voltais: %1$s, įprastai %2$s. Verta jį patikrinti.</string>
+    <string name="watch_say_charging_low">Įkrovimo įtampa nukrito. Voltais: %1$s, įprastai %2$s. Verta patikrinti generatorių ir jo diržą.</string>
+    <string name="watch_say_charging_high">Įkrovimo įtampa pakilo. Voltais: %1$s, įprastai %2$s. Verta patikrinti generatoriaus reguliatorių.</string>
+    <string name="watch_say_warmup_slow">Variklis įšyla ilgiau. Minutėmis: %1$s, įprastai %2$s. Gali būti, kad termostatas užstrigo atidarytas.</string>
+    <string name="watch_say_coolant_low">Įšilęs variklis vėsesnis nei įprastai. Laipsniais: %1$s, įprastai %2$s. Gali būti, kad termostatas užstrigo atidarytas.</string>
+    <string name="watch_say_coolant_high">Variklis šiltesnis nei įprastai. Laipsniais: %1$s, įprastai %2$s. Verta patikrinti aušinimo skysčio lygį ir ventiliatorių.</string>
+    <string name="watch_say_idle_high">Tuščiosios eigos apsukos padidėjo. Apsukos per minutę: %1$s, įprastai %2$s.</string>
+    <string name="watch_say_idle_low">Tuščiosios eigos apsukos sumažėjo. Apsukos per minutę: %1$s, įprastai %2$s.</string>
+    <!-- %3$s: watch_unit_km or watch_unit_miles, here "in kilometres" / "in miles". -->
+    <string name="watch_say_filter_often">Kietųjų dalelių filtras valosi dažniau. Atstumas tarp valymų %3$s: pastaruoju metu %1$s, įprastai %2$s.</string>
+    <string name="watch_unit_km">kilometrais</string>
+    <string name="watch_unit_miles">myliomis</string>
+
+    <!-- Phone notice. -->
+    <string name="news_drift_title">%1$s nukrypo</string>
+    <string name="news_drift_text">Pastaruoju metu %1$s, įprastai %2$s. Gedimo kodo dar nėra.</string>
+</resources>

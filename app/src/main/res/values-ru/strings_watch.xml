@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- The sensor watch (SensorWatch.kt): the car's usual readings, learned drive after drive. -->
+    <string name="watch_title">Контроль датчиков</string>
+    <string name="watch_explanation">Dashwheel запоминает обычные показания вашего автомобиля и предупреждает, когда последние поездки от них отклоняются, ещё до появления кода ошибки.</string>
+    <string name="watch_settings_detail">Предупреждает, когда показание уходит от обычного</string>
+    <string name="watch_settings_learning">Изучает обычные показания автомобиля</string>
+    <string name="watch_readings">Показания</string>
+    <string name="watch_drifted">%1$s вне нормы</string>
+    <string name="watch_learning">Обучение: %1$d из %2$d поездок</string>
+    <string name="watch_usual_only">Обычно %1$s</string>
+    <string name="watch_usual_recent">Обычно %1$s, недавно %2$s</string>
+    <string name="watch_state_drift">Отклонение</string>
+    <string name="watch_state_learning">Обучение</string>
+    <string name="watch_state_normal">Норма</string>
+    <string name="watch_forget">Начать заново</string>
+    <string name="watch_forget_hint">Заменили деталь? Начните заново, чтобы запомнить новую норму.</string>
+
+    <string name="watch_resting_volts">Аккумулятор в покое</string>
+    <string name="watch_charging_volts">Напряжение зарядки</string>
+    <string name="watch_warmup">Время прогрева</string>
+    <string name="watch_settled_coolant">ОЖ после прогрева</string>
+    <string name="watch_idle_rpm">Холостой ход</string>
+    <string name="watch_filter_km">Очистка сажевого фильтра</string>
+
+    <!-- Spoken: %1$s the last drives' value, %2$s the usual one, numbers only: the unit is a word here. -->
+    <string name="watch_say_resting_low">Уже несколько поездок напряжение аккумулятора в покое ниже обычного: %1$s вольта против %2$s. Стоит его проверить.</string>
+    <string name="watch_say_charging_low">Напряжение зарядки упало до %1$s вольта, обычно %2$s. Стоит проверить генератор и его ремень.</string>
+    <string name="watch_say_charging_high">Напряжение зарядки выросло до %1$s вольта, обычно %2$s. Стоит проверить регулятор генератора.</string>
+    <string name="watch_say_warmup_slow">Двигатель прогревается дольше: %1$s мин против обычных %2$s. Возможно, термостат залип открытым.</string>
+    <string name="watch_say_coolant_low">Прогретый двигатель холоднее обычного: %1$s° против %2$s. Возможно, термостат залип открытым.</string>
+    <string name="watch_say_coolant_high">Двигатель горячее обычного: %1$s° против %2$s. Стоит проверить уровень охлаждающей жидкости и вентилятор.</string>
+    <string name="watch_say_idle_high">Обороты холостого хода выросли до %1$s об/мин, обычно %2$s.</string>
+    <string name="watch_say_idle_low">Обороты холостого хода упали до %1$s об/мин, обычно %2$s.</string>
+    <!-- %3$s: watch_unit_km or watch_unit_miles. -->
+    <string name="watch_say_filter_often">Сажевый фильтр очищается чаще: в последнее время раз в %1$s %3$s, обычно раз в %2$s.</string>
+    <string name="watch_unit_km">км</string>
+    <string name="watch_unit_miles">миль</string>
+
+    <!-- Phone notice. -->
+    <string name="news_drift_title">%1$s вне нормы</string>
+    <string name="news_drift_text">Недавно %1$s, обычно %2$s. Кода ошибки пока нет.</string>
+</resources>
