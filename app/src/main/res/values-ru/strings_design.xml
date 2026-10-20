@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- A dashboard from the driver's words, in the share sheet (DashDesigner.kt). -->
+    <string name="design_title">Опишите панель</string>
+    <string name="design_hint">Трасса: ограничение скорости, топливо, музыка</string>
+    <string name="design_say">Сказать</string>
+    <string name="design_make">Создать</string>
+    <string name="design_listening">Слушаю… отправится само, когда вы замолчите.</string>
+    <string name="design_thinking">Собираю панель…</string>
+    <string name="design_nothing_heard">Ничего не слышно. Попробуйте ещё раз.</string>
+    <string name="design_no_tiles">Подходящих плиток нет. Попробуйте другие слова.</string>
+</resources>

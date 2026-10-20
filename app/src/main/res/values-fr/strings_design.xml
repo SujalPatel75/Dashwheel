@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- A dashboard from the driver's words, in the share sheet (DashDesigner.kt). -->
+    <string name="design_title">Décrire un tableau de bord</string>
+    <string name="design_hint">Autoroute : limite de vitesse, carburant, musique</string>
+    <string name="design_say">Le dire</string>
+    <string name="design_make">Le créer</string>
+    <string name="design_listening">J\'écoute… envoi automatique dès que vous vous taisez.</string>
+    <string name="design_thinking">Mise en page…</string>
+    <string name="design_nothing_heard">Rien entendu. Réessayez.</string>
+    <string name="design_no_tiles">Aucune tuile adaptée. Essayez d\'autres mots.</string>
+</resources>

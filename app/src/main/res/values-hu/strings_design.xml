@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- A dashboard from the driver's words, in the share sheet (DashDesigner.kt). -->
+    <string name="design_title">Írja le a műszerfalat</string>
+    <string name="design_hint">Autópálya: sebességkorlát, üzemanyag, zene</string>
+    <string name="design_say">Diktálás</string>
+    <string name="design_make">Létrehozás</string>
+    <string name="design_listening">Figyelek… ha abbahagyja, magától elküldi.</string>
+    <string name="design_thinking">Elrendezés…</string>
+    <string name="design_nothing_heard">Nem hallottam semmit. Próbálja újra.</string>
+    <string name="design_no_tiles">Nem jött vissza illő csempe. Próbáljon más szavakat.</string>
+</resources>

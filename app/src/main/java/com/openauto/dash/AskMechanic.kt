@@ -142,9 +142,9 @@ internal object QuestionPrompt {
     }
 }
 
-/** Records the question to a small AAC file, the format Gemini takes as is. */
-internal class QuestionRecorder(private val context: Context) {
-    private val file = File(context.cacheDir, "question.aac")
+/** Records the question to a small AAC file ([name] in the cache), the format Gemini takes as is. */
+internal class QuestionRecorder(private val context: Context, name: String = "question.aac") {
+    private val file = File(context.cacheDir, name)
     private var recorder: MediaRecorder? = null
 
     fun start() {

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- A dashboard from the driver's words, in the share sheet (DashDesigner.kt). -->
+    <string name="design_title">Aprašykite skydelį</string>
+    <string name="design_hint">Greitkelis: greičio riba, degalai, muzika</string>
+    <string name="design_say">Pasakyti</string>
+    <string name="design_make">Sukurti</string>
+    <string name="design_listening">Klausausi… išsiųs pats, kai nustosite kalbėti.</string>
+    <string name="design_thinking">Išdėstoma…</string>
+    <string name="design_nothing_heard">Nieko negirdėjau. Bandykite dar kartą.</string>
+    <string name="design_no_tiles">Tinkamų plytelių neatsirado. Pabandykite kitais žodžiais.</string>
+</resources>

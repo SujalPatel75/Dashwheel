@@ -499,6 +499,7 @@ internal object AssistantTools {
             .put(fn("start_parking_timer", "Starts the parking timer; the phone or the car reminds 10 minutes before the end.", obj("minutes" to int("How long the parking is paid for, in minutes."), "add_to_running" to bool("True to add the minutes to the running timer."), required = listOf("minutes"))))
             .put(fn("stop_parking_timer", "Stops the parking timer."))
             .put(fn("log_fuel_fill", "Adds a refuel to the fuel log.", obj("liters" to num("Litres put in."), "price_per_liter" to num("Price per litre, if said."), "total_price" to num("Amount paid in all, if said instead."), required = listOf("liters"))))
+            .put(fn("design_dashboard", "Designs a new dashboard from the driver's description (which tiles, what for). It shows on screen for the driver to check and use once the car stands; nothing changes before.", obj("description" to str("What the driver wants on it, in their words."))))
             .put(fn("set_volume", "Sets the music volume to a level (see volume in get_everything for the maximum).", obj("level" to int("The new level."))))
             .put(fn("end_conversation", "Ends the conversation, after your last words."))
         return JSONArray()
@@ -524,6 +525,10 @@ internal object AssistantTools {
         "add_stop" -> AssistantActs.addStop(context, args.optString("kind"), args.optBoolean("instead", false))
         "start_parking_timer" -> AssistantActs.startParkingTimer(context, args.optDouble("minutes", Double.NaN), args.optBoolean("add_to_running", false))
         "stop_parking_timer" -> AssistantActs.stopParkingTimer(context)
+        "design_dashboard" -> args.optString("description").takeIf { it.isNotBlank() }?.let {
+            DashDesigner.forAssistant(context, it)
+            "designing it; it shows on screen to check once the car stands"
+        } ?: "no description"
         "log_fuel_fill" -> AssistantActs.logFuelFill(
             context, args.optDouble("liters", Double.NaN), args.optDouble("price_per_liter", Double.NaN), args.optDouble("total_price", Double.NaN)
         )

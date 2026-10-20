@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- A dashboard from the driver's words, in the share sheet (DashDesigner.kt). -->
+    <string name="design_title">Describe a dashboard</string>
+    <string name="design_hint">Motorway: speed limit, fuel, music</string>
+    <string name="design_say">Say it</string>
+    <string name="design_make">Make it</string>
+    <string name="design_listening">Listening… it sends by itself when you stop.</string>
+    <string name="design_thinking">Laying it out…</string>
+    <string name="design_nothing_heard">Nothing heard. Try again.</string>
+    <string name="design_no_tiles">No tiles came back that fit. Try other words.</string>
+</resources>

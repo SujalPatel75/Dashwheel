@@ -1,5 +1,6 @@
 package com.openauto.dash
 
+import android.Manifest
 import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -13,7 +14,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AutoAwesome
 import androidx.compose.material.icons.filled.FileOpen
+import androidx.compose.material.icons.filled.Mic
 import androidx.compose.material.icons.filled.Palette
 import androidx.compose.material.icons.filled.Save
 import androidx.compose.material3.MaterialTheme
@@ -21,7 +24,12 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -31,6 +39,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.Dispatchers
@@ -41,7 +50,8 @@ import kotlinx.coroutines.withContext
  * The edit bar's Share: this dashboard as a code to pass on (a QR code for
  * the phone, the code itself, a file), with its look if wanted; and a shared
  * one to put in its place, from a pasted code, a file or the phone
- * ([incoming]), shown first so what comes is what was seen.
+ * ([incoming]), or one made from the driver's words ([DashDesigner]), shown
+ * first so what comes is what was seen.
  */
 @Composable
 internal fun DashShareSheet(
@@ -66,6 +76,20 @@ internal fun DashShareSheet(
     var typed by remember { mutableStateOf(incoming.orEmpty()) }
     val shared = remember(typed) { DashShare.decode(typed) }
     var takeLook by remember { mutableStateOf(true) }
+
+    // Described in words, typed or said: the result comes in as a code, like a pasted one.
+    val design by DashDesigner.state.collectAsState()
+    var words by remember { mutableStateOf("") }
+    LaunchedEffect(design) {
+        (design as? DashDesigner.State.Ready)?.let {
+            typed = it.code
+            DashDesigner.taken()
+        }
+    }
+    DisposableEffect(Unit) { onDispose { DashDesigner.cancel() } }
+    val mic = rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) { ok ->
+        if (ok) DashDesigner.listen(context) else Toast.makeText(context, context.getString(R.string.ai_ask_mic_denied), Toast.LENGTH_SHORT).show()
+    }
 
     val failed = stringResource(R.string.settings_backup_failed)
     val saved = stringResource(R.string.settings_backup_saved)
@@ -118,6 +142,41 @@ internal fun DashShareSheet(
             Spacer(Modifier.width(20.dp))
             // Putting a shared one here.
             Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                Label(stringResource(R.string.design_title))
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    OutlinedTextField(
+                        value = words,
+                        onValueChange = { words = it },
+                        placeholder = { Text(stringResource(R.string.design_hint), color = DashColors.Muted, maxLines = 1, overflow = TextOverflow.Ellipsis) },
+                        singleLine = true,
+                        modifier = Modifier.weight(1f),
+                        colors = fieldColors()
+                    )
+                    IconButton(onClick = { mic.launch(Manifest.permission.RECORD_AUDIO) }) {
+                        Icon(
+                            Icons.Filled.Mic, contentDescription = stringResource(R.string.design_say),
+                            tint = if (design == DashDesigner.State.Listening) DashColors.Critical else DashColors.AccentInk
+                        )
+                    }
+                }
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    val busy = design == DashDesigner.State.Thinking || design == DashDesigner.State.Listening
+                    TextButton(onClick = { DashDesigner.fromText(context, words) }, enabled = words.isNotBlank() && !busy) {
+                        Icon(Icons.Filled.AutoAwesome, contentDescription = null, tint = DashColors.AccentInk)
+                        Spacer(Modifier.width(6.dp))
+                        Text(stringResource(R.string.design_make), color = DashColors.AccentInk)
+                    }
+                    if (design == DashDesigner.State.Thinking) CircularProgressIndicator(Modifier.size(18.dp), strokeWidth = 2.dp, color = DashColors.AccentInk)
+                }
+                val line = when (val d = design) {
+                    DashDesigner.State.Listening -> stringResource(R.string.design_listening)
+                    DashDesigner.State.Thinking -> stringResource(R.string.design_thinking)
+                    is DashDesigner.State.Failed -> d.reason
+                    else -> null
+                }
+                line?.let {
+                    Text(it, color = if (design is DashDesigner.State.Failed) DashColors.Warning else DashColors.TextSecondary, style = MaterialTheme.typography.bodySmall)
+                }
                 Label(stringResource(R.string.share_use))
                 OutlinedTextField(
                     value = typed,
