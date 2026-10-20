@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- A USB TPMS receiver of the driver's own (UsbTpms.kt, UsbTpmsSheet.kt). -->
+    <string name="tpms_usb_title">USB-bandensensoren</string>
+    <string name="tpms_usb_detail">Een 433 MHz TPMS-ontvanger op de radio</string>
+    <string name="tpms_usb_explanation">Een TPMS-ontvanger aan een USB-kabel, met een CH340-chip op 19200 baud, en zijn vier sensoren. Kies hem hieronder: de spanning en temperatuur verschijnen dan op de tegel Banden en in de bandenwaarschuwingen.</string>
+    <string name="tpms_usb_unit_app">De TPMS-app van de radio kan een ontvanger die Dashwheel gebruikt niet lezen.</string>
+    <string name="tpms_usb_devices">USB-seriële apparaten</string>
+    <string name="tpms_usb_none_plugged">Geen USB-serieel apparaat aangesloten</string>
+    <string name="tpms_usb_use">Gebruiken</string>
+    <string name="tpms_usb_forget">Vergeten</string>
+    <string name="tpms_usb_look_again">Opnieuw zoeken</string>
+    <string name="tpms_usb_denied">Niet toegestaan: Android vraagt het bij de volgende poging opnieuw</string>
+    <string name="tpms_usb_allow">Toestaan</string>
+    <string name="tpms_usb_busy_hint">Een andere app of de OBD-verbinding gebruikt hem. Sluit die app of kies een ander apparaat.</string>
+    <string name="tpms_usb_repeat_hint">De ontvanger herhaalt de laatste waarde van elke sensor: een gestopte sensor houdt zijn oude waarde.</string>
+    <string name="tpms_usb_unit">Drukeenheid</string>
+    <string name="tpms_usb_state_off">Niet ingesteld</string>
+    <string name="tpms_usb_state_unplugged">Ontvanger niet aangesloten</string>
+    <string name="tpms_usb_state_not_allowed">Dashwheel mag hem nog niet gebruiken</string>
+    <string name="tpms_usb_state_busy">Ontvanger elders in gebruik</string>
+    <string name="tpms_usb_state_listening">Luistert, wacht op de sensoren</string>
+    <string name="tpms_usb_state_receiving">Banden worden ontvangen</string>
+</resources>

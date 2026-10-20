@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- A USB TPMS receiver of the driver's own (UsbTpms.kt, UsbTpmsSheet.kt). -->
+    <string name="tpms_usb_title">USB-s gumiabroncs-érzékelők</string>
+    <string name="tpms_usb_detail">Fejegységre dugott 433 MHz-es TPMS vevő</string>
+    <string name="tpms_usb_explanation">USB-kábeles TPMS vevő, CH340 chippel, 19200 baudon, és a négy érzékelője. Válassza ki lent: a nyomások és hőmérsékletek ezután a Gumik csempén és a gumifigyelmeztetésekben látszanak.</string>
+    <string name="tpms_usb_unit_app">A fejegység TPMS alkalmazása nem tudja olvasni a Dashwheel által használt vevőt.</string>
+    <string name="tpms_usb_devices">USB soros eszközök</string>
+    <string name="tpms_usb_none_plugged">Nincs USB soros eszköz csatlakoztatva</string>
+    <string name="tpms_usb_use">Használat</string>
+    <string name="tpms_usb_forget">Elfelejtés</string>
+    <string name="tpms_usb_look_again">Keresés újra</string>
+    <string name="tpms_usb_denied">Nem engedélyezve: az Android a következő próbálkozáskor újra kérdez</string>
+    <string name="tpms_usb_allow">Engedélyezés</string>
+    <string name="tpms_usb_busy_hint">Egy másik alkalmazás vagy az OBD-kapcsolat használja. Zárja be azt az alkalmazást, vagy válasszon másik eszközt.</string>
+    <string name="tpms_usb_repeat_hint">A vevő minden érzékelő utolsó értékét ismétli: a leállt érzékelő megtartja a régi értékét.</string>
+    <string name="tpms_usb_unit">Nyomás mértékegysége</string>
+    <string name="tpms_usb_state_off">Nincs beállítva</string>
+    <string name="tpms_usb_state_unplugged">A vevő nincs csatlakoztatva</string>
+    <string name="tpms_usb_state_not_allowed">A Dashwheel még nem használhatja</string>
+    <string name="tpms_usb_state_busy">A vevőt más használja</string>
+    <string name="tpms_usb_state_listening">Figyel, várja az érzékelőket</string>
+    <string name="tpms_usb_state_receiving">Gumik adatai érkeznek</string>
+</resources>

@@ -32,7 +32,7 @@ Dashwheel is free, with no ads. If it makes your drives nicer, a coffee on Ko-fi
 ## Highlights
 
 - **Dashboards your way**: free grid, drag to move and resize, templates, Canvas theme with the map behind the tiles
-- **Live car data**: ELM327 Bluetooth OBD and the head unit's own car data (doors, fuel, tyres, reversing)
+- **Live car data**: ELM327 Bluetooth OBD, the head unit's own car data (doors, fuel, tyres, reversing), and a USB TPMS receiver of your own
 - **AI mechanic** (free Google Gemini key): fault codes explained and spoken, start-up briefing, car care and servicing reminders
 - **Navigation**: free built-in 3D map with turn-by-turn guidance, or Google Maps / Waze next turn on any tile
 - **Phone link** (Dashwheel Companion app): notifications, messages, calls, where's my car, drive log

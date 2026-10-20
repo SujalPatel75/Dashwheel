@@ -231,7 +231,7 @@ private fun WidgetsTab(
             (kind != BuiltinKind.CAR_STATUS || CarBox.available) &&
             // The doors: from the CAN box stream with root, else from the car app's data.
             (kind != BuiltinKind.DOORS || access.root || CarBox.available) &&
-            // Only with the head unit's TPMS app.
+            // Only with the head unit's TPMS app, or a USB tyre receiver chosen in Settings.
             (kind != BuiltinKind.TYRES || Tyres.available) &&
             // Only where Android lets Dashwheel open another app on its own display (PMPatch in Magisk).
             (kind != BuiltinKind.MAPS_INSIDE || EmbeddedApp.allowed(context)) &&

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- A USB TPMS receiver of the driver's own (UsbTpms.kt, UsbTpmsSheet.kt). -->
+    <string name="tpms_usb_title">Sensores de neumáticos USB</string>
+    <string name="tpms_usb_detail">Un receptor TPMS de 433 MHz conectado a la radio</string>
+    <string name="tpms_usb_explanation">Un receptor TPMS por cable USB, con chip CH340 a 19200 baudios, y sus cuatro sensores. Elíjalo abajo: sus presiones y temperaturas se muestran en el mosaico Neumáticos y en los avisos de neumáticos.</string>
+    <string name="tpms_usb_unit_app">La app TPMS de la radio no puede leer un receptor que usa Dashwheel.</string>
+    <string name="tpms_usb_devices">Dispositivos serie USB</string>
+    <string name="tpms_usb_none_plugged">Ningún dispositivo serie USB conectado</string>
+    <string name="tpms_usb_use">Usar</string>
+    <string name="tpms_usb_forget">Olvidar</string>
+    <string name="tpms_usb_look_again">Buscar de nuevo</string>
+    <string name="tpms_usb_denied">No permitido: Android preguntará en el próximo intento</string>
+    <string name="tpms_usb_allow">Permitir</string>
+    <string name="tpms_usb_busy_hint">Otra app o la conexión OBD lo está usando. Cierre esa app o elija otro dispositivo.</string>
+    <string name="tpms_usb_repeat_hint">El receptor repite el último valor de cada sensor: un sensor parado conserva su valor antiguo.</string>
+    <string name="tpms_usb_unit">Unidad de presión</string>
+    <string name="tpms_usb_state_off">Sin configurar</string>
+    <string name="tpms_usb_state_unplugged">Receptor no conectado</string>
+    <string name="tpms_usb_state_not_allowed">Dashwheel aún no puede usarlo</string>
+    <string name="tpms_usb_state_busy">Receptor en uso por otra app</string>
+    <string name="tpms_usb_state_listening">Escuchando, esperando los sensores</string>
+    <string name="tpms_usb_state_receiving">Recibiendo los neumáticos</string>
+</resources>

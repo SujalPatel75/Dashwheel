@@ -448,6 +448,7 @@ private val SETTINGS_INDEX: List<SettingsEntry> by lazy {
         SettingsEntry(R.string.car_menu, SettingsTab.CAR, listOf(Deep.CAR)),
         SettingsEntry(R.string.mycar_title, SettingsTab.CAR, listOf(Deep.CAR_LOOK), detail = R.string.mycar_settings_detail),
         SettingsEntry(R.string.vehicle_speed_fix, SettingsTab.CAR, detail = R.string.settings_speed_fix_detail),
+        SettingsEntry(R.string.tpms_usb_title, SettingsTab.CAR, listOf(Deep.TPMS), detail = R.string.tpms_usb_detail),
         SettingsEntry(R.string.upkeep_dialog_title, SettingsTab.CAR, listOf(Deep.UPKEEP), detail = R.string.upkeep_settings_detail),
         SettingsEntry(R.string.lpg_title, SettingsTab.CAR, listOf(Deep.LPG)),
 
@@ -526,6 +527,7 @@ private fun Deep.titleRes(): Int = when (this) {
     Deep.MAP_SERVERS -> R.string.map_servers_title
     Deep.API_KEYS -> R.string.api_keys_title
     Deep.HEAD_UNIT -> R.string.unit_card_title
+    Deep.TPMS -> R.string.tpms_usb_title
 }
 
 /** Lower case without accents, so "eco" finds "Éco" and "volumen" finds "Volumen". */

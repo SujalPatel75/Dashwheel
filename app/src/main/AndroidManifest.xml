@@ -179,6 +179,25 @@
              the TPMS app lost it at each reconnection. A USB OBD cable is let
              in when the driver picks it (UsbObd.allow). -->
 
+        <!-- A USB TPMS receiver of the driver's own (UsbTpms.kt): switched on
+             only once one is chosen in Settings, so Android can let Dashwheel
+             keep it ("Use by default") instead of asking at each start. -->
+        <activity
+            android:name=".UsbTpmsAttachActivity"
+            android:enabled="false"
+            android:exported="true"
+            android:excludeFromRecents="true"
+            android:noHistory="true"
+            android:taskAffinity=""
+            android:theme="@style/Theme.OpenAutoDash.Transparent">
+            <intent-filter>
+                <action android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED" />
+            </intent-filter>
+            <meta-data
+                android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED"
+                android:resource="@xml/tpms_receiver" />
+        </activity>
+
         <!-- The Play edition's disclosure dialog before the accessibility or
              notification access page (AccessDisclosure.kt). -->
         <activity

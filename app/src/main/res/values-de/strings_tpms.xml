@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- A USB TPMS receiver of the driver's own (UsbTpms.kt, UsbTpmsSheet.kt). -->
+    <string name="tpms_usb_title">USB-Reifensensoren</string>
+    <string name="tpms_usb_detail">Ein 433-MHz-TPMS-Empfänger am Radio</string>
+    <string name="tpms_usb_explanation">Ein TPMS-Empfänger am USB-Kabel, mit CH340-Chip bei 19200 Baud, und seine vier Sensoren. Unten auswählen: Druck und Temperatur erscheinen dann auf der Kachel Reifen und in den Reifenwarnungen.</string>
+    <string name="tpms_usb_unit_app">Die TPMS-App des Radios kann einen Empfänger, den Dashwheel nutzt, nicht lesen.</string>
+    <string name="tpms_usb_devices">USB-Seriellgeräte</string>
+    <string name="tpms_usb_none_plugged">Kein USB-Seriellgerät angeschlossen</string>
+    <string name="tpms_usb_use">Nutzen</string>
+    <string name="tpms_usb_forget">Vergessen</string>
+    <string name="tpms_usb_look_again">Erneut suchen</string>
+    <string name="tpms_usb_denied">Nicht erlaubt: Android fragt beim nächsten Versuch erneut</string>
+    <string name="tpms_usb_allow">Erlauben</string>
+    <string name="tpms_usb_busy_hint">Eine andere App oder die OBD-Verbindung nutzt ihn. Diese App schließen oder ein anderes Gerät wählen.</string>
+    <string name="tpms_usb_repeat_hint">Der Empfänger wiederholt den letzten Wert jedes Sensors: Ein ausgefallener Sensor behält seinen alten Wert.</string>
+    <string name="tpms_usb_unit">Druckeinheit</string>
+    <string name="tpms_usb_state_off">Nicht eingerichtet</string>
+    <string name="tpms_usb_state_unplugged">Empfänger nicht angeschlossen</string>
+    <string name="tpms_usb_state_not_allowed">Dashwheel darf ihn noch nicht nutzen</string>
+    <string name="tpms_usb_state_busy">Empfänger anderweitig belegt</string>
+    <string name="tpms_usb_state_listening">Bereit, wartet auf die Sensoren</string>
+    <string name="tpms_usb_state_receiving">Reifen werden empfangen</string>
+</resources>

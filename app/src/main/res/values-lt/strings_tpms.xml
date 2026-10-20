@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- A USB TPMS receiver of the driver's own (UsbTpms.kt, UsbTpmsSheet.kt). -->
+    <string name="tpms_usb_title">USB padangų jutikliai</string>
+    <string name="tpms_usb_detail">Prie magnetolos prijungtas 433 MHz TPMS imtuvas</string>
+    <string name="tpms_usb_explanation">TPMS imtuvas su USB laidu, CH340 lustu, 19200 bodų, ir jo keturi jutikliai. Pasirinkite jį žemiau: slėgiai ir temperatūros bus rodomi plytelėje Padangos ir padangų įspėjimuose.</string>
+    <string name="tpms_usb_unit_app">Magnetolos TPMS programa negali skaityti imtuvo, kurį naudoja Dashwheel.</string>
+    <string name="tpms_usb_devices">USB nuoseklieji įrenginiai</string>
+    <string name="tpms_usb_none_plugged">Neprijungtas joks USB nuoseklusis įrenginys</string>
+    <string name="tpms_usb_use">Naudoti</string>
+    <string name="tpms_usb_forget">Pamiršti</string>
+    <string name="tpms_usb_look_again">Ieškoti iš naujo</string>
+    <string name="tpms_usb_denied">Neleista: Android paklaus dar kartą kito bandymo metu</string>
+    <string name="tpms_usb_allow">Leisti</string>
+    <string name="tpms_usb_busy_hint">Jį naudoja kita programa arba OBD ryšys. Uždarykite tą programą arba pasirinkite kitą įrenginį.</string>
+    <string name="tpms_usb_repeat_hint">Imtuvas kartoja paskutinę kiekvieno jutiklio reikšmę: sustojęs jutiklis išlaiko seną reikšmę.</string>
+    <string name="tpms_usb_unit">Slėgio vienetas</string>
+    <string name="tpms_usb_state_off">Nenustatyta</string>
+    <string name="tpms_usb_state_unplugged">Imtuvas neprijungtas</string>
+    <string name="tpms_usb_state_not_allowed">Dashwheel dar negali jo naudoti</string>
+    <string name="tpms_usb_state_busy">Imtuvą naudoja kita programa</string>
+    <string name="tpms_usb_state_listening">Laukia jutiklių</string>
+    <string name="tpms_usb_state_receiving">Gaunami padangų duomenys</string>
+</resources>
