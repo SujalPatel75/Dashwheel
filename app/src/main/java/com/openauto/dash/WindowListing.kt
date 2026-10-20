@@ -200,9 +200,18 @@ object WindowListing {
     /**
      * One stack holding an app's task, wherever it is (tile displays included).
      * [visible] is false when the listing says the task is hidden, behind
-     * another one on its display. [taskId] is the app's task in it.
+     * another one on its display. [taskId] is the app's task in it. [empty]
+     * when the stack holds no screen at all: what a task keeps after its
+     * process ended without saving its screens (Waze on a Hizpo, issue #60).
      */
-    data class AppStack(val stackId: Int, val displayId: Int, val mode: String?, val visible: Boolean = true, val taskId: Int? = null)
+    data class AppStack(
+        val stackId: Int,
+        val displayId: Int,
+        val mode: String?,
+        val visible: Boolean = true,
+        val taskId: Int? = null,
+        val empty: Boolean = false
+    )
 
     /**
      * Where one stack's block starts in the listing: "Stack id=" up to
@@ -213,14 +222,26 @@ object WindowListing {
      */
     private val BLOCK_START = Regex("(?m)^\\s*(?:Stack|RootTask) id=")
 
-    /** Every stack with a task of [packageName], on every display, the tiles' own ones too. */
-    internal fun appStacks(output: String, packageName: String): List<AppStack> =
-        output.split(BLOCK_START).drop(1).mapNotNull { block ->
+    /**
+     * Every stack with a task of [packageName], on every display, the tiles'
+     * own ones too. A task line without "topActivity=" is a stack with no
+     * screen left ([AppStack.empty]), but only where the listing names one
+     * for other stacks: some builds never print it.
+     */
+    internal fun appStacks(output: String, packageName: String): List<AppStack> {
+        val namesTops = output.contains(TOP_ACTIVITY)
+        return output.split(BLOCK_START).drop(1).mapNotNull { block ->
             val task = TASK.findAll(block).firstOrNull { it.groupValues[2] == packageName } ?: return@mapNotNull null
             val id = block.takeWhile { it.isDigit() }.toIntOrNull() ?: return@mapNotNull null
             val taskLine = block.substring(task.range.first).lineSequence().first()
-            AppStack(id, displayId(block) ?: DEFAULT_DISPLAY, windowingMode(block), !taskLine.contains("visible=false"), task.groupValues[1].toIntOrNull())
+            AppStack(
+                id, displayId(block) ?: DEFAULT_DISPLAY, windowingMode(block), !taskLine.contains("visible=false"),
+                task.groupValues[1].toIntOrNull(), empty = namesTops && !taskLine.contains(TOP_ACTIVITY)
+            )
         }
+    }
+
+    private const val TOP_ACTIVITY = "topActivity="
 
     /**
      * The app [packageName] handed its screen to, from listings [before] and

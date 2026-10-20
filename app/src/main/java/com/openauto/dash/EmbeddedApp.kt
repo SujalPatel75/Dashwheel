@@ -1045,6 +1045,8 @@ internal object EmbeddedApp {
         REFRESH,
         /** Closed, and opened afresh on the tile. */
         REOPEN,
+        /** No longer running (its process ended): what it left closed, and opened afresh on the tile. */
+        START,
         /** Nothing left to try. */
         GIVE_UP
     }
@@ -1054,9 +1056,13 @@ internal object EmbeddedApp {
      * the listing, the tile's picture is [black] or not. An app elsewhere is
      * placed again twice before it is closed; one on its tile with a black
      * picture gets time, then its picture again, and is closed last, after
-     * ten seconds of black. Closing only when [mayReopen].
+     * ten seconds of black. Closing only when [mayReopen]. An app no longer
+     * [running] is opened afresh at once, twice at most: there is nothing of
+     * it to close, so nothing to wait for (Waze's picture stayed frozen on its
+     * tile once its process ended, issue #60).
      */
-    fun remedy(look: Int, onTile: Boolean, black: Boolean, mayReopen: Boolean): Remedy = when {
+    fun remedy(look: Int, onTile: Boolean, black: Boolean, mayReopen: Boolean, running: Boolean = true): Remedy = when {
+        !running -> if (look < 2) Remedy.START else Remedy.GIVE_UP
         onTile && !black -> Remedy.DONE
         !onTile && look < 2 -> Remedy.PLACE
         onTile && look == 1 -> Remedy.REFRESH
@@ -1616,22 +1622,36 @@ internal object EmbeddedApp {
                 delay(wait)
                 if (_status.value != Status.SHOWN || display !== vd || dashboard?.get() == null) return false
                 val black = withContext(Dispatchers.Main) { if (shownSurface == null) null else pictureBlack() } ?: return false
-                val found = listStacks() ?: return false
-                val onTile = found.isNotEmpty() && found.all { it.displayId == id && it.visible }
+                val found = allStacks() ?: return false
+                val live = found.filterNot { it.empty }
+                val onTile = live.isNotEmpty() && live.all { it.displayId == id && it.visible }
                 val now = SystemClock.elapsedRealtime()
                 val mayReopen = now - startedAt > FRESH_MS && (reopenedAt == 0L || now - reopenedAt > REOPEN_EVERY_MS)
-                val remedy = remedy(look, onTile, black, mayReopen)
+                // Its stacks listed, its process gone: not running either. Not asked
+                // of an app just started, so one pidof wrong about it can't close it again and again.
+                val gone = live.isNotEmpty() && !(onTile && !black) && now - startedAt > FRESH_MS && processGone()
+                val remedy = remedy(look, onTile, black, mayReopen, running = live.isNotEmpty() && !gone)
                 if (remedy == Remedy.DONE) {
                     if (look > 0) Log.i(TAG, "$packageName shows on its tile")
                     return false
                 }
                 val where = if (found.isEmpty()) "not running" else found.joinToString {
-                    "stack ${it.stackId} ${it.mode} on display ${it.displayId}" + if (it.visible) "" else " hidden"
-                }
+                    "stack ${it.stackId} ${it.mode} on display ${it.displayId}" + (if (it.visible) "" else " hidden") +
+                        if (it.empty) " empty" else ""
+                } + if (gone) ", no process" else ""
                 Log.w(TAG, "$packageName does not show on its tile (display $id), look ${look + 1}: $where" +
                     (if (black) ", black picture" else "") + ": $remedy")
                 when (remedy) {
                     Remedy.PLACE -> place(vd)
+                    Remedy.START -> {
+                        // Screens kept without a process: closed, or the start would only bring them back as they were.
+                        if (live.isNotEmpty()) {
+                            shell("am force-stop $packageName", "$packageName has no process left: closed, to open it afresh on its tile")
+                            delay(CLOSE_WAIT_MS)
+                        }
+                        // The stacks it left empty go in the placing, then it is started.
+                        place(vd)
+                    }
                     Remedy.REFRESH -> withContext(Dispatchers.Main) { refresh(vd) }
                     Remedy.REOPEN -> {
                         reopen(vd)
@@ -1743,11 +1763,17 @@ internal object EmbeddedApp {
 
         private suspend fun placeOnTile(vd: TileDisplay) {
             val id = vd.displayId
-            var found: List<WindowListing.AppStack> = listStacks() ?: run {
+            val all = allStacks() ?: run {
                 // No shell to look with: the launch alone, which lands on the tile on most ROMs.
                 start(vd)
                 return
             }
+            // A stack left empty when the app's process ended is not the app: taken for
+            // it on the tile, the tile kept its last picture and the app was never started again.
+            for (stack in all) if (stack.empty) {
+                shell("am stack remove ${stack.stackId}", "$packageName stack ${stack.stackId} on display ${stack.displayId} left empty, closed")
+            }
+            var found: List<WindowListing.AppStack> = all.filterNot { it.empty }
             if (runningTwice(found, id)) {
                 // Moved onto the tile beside the first, the second copy would only hide
                 // it, both still broken: the app is closed, then opened once, on the tile.
@@ -1789,7 +1815,7 @@ internal object EmbeddedApp {
                         delay(HAND_OFF_MS)
                         val now = rawListing() ?: return
                         // Its own screen in view is no hand-off, whatever else came up meanwhile.
-                        val own = WindowListing.appStacks(now, windowPackage)
+                        val own = WindowListing.appStacks(now, windowPackage).filterNot { it.empty }
                         val other = if (own.any { it.visible }) null
                             else WindowListing.handedTo(handOff, now, packageName, context.packageName, claimedBesides(this))
                         found = if (other != null) follow(other, now) else own
@@ -1910,7 +1936,7 @@ internal object EmbeddedApp {
         private fun follow(other: String, listing: String): List<WindowListing.AppStack> {
             if (other != windowPackage) Log.i(TAG, "$packageName opens its screen in $other: the tile follows $other")
             windowPackage = other
-            return WindowListing.appStacks(listing, other)
+            return WindowListing.appStacks(listing, other).filterNot { it.empty }
         }
 
         /** A fresh `am stack list`, or null (logged) when the shell cannot list. */
@@ -1921,12 +1947,28 @@ internal object EmbeddedApp {
                 .getOrNull()
         }
 
-        /** The app's stacks right now, or null (logged) when the shell cannot list them. */
-        private suspend fun listStacks(): List<WindowListing.AppStack>? {
+        /** The app's stacks right now, those left empty aside ([allStacks]), or null when the shell cannot list them. */
+        private suspend fun listStacks(): List<WindowListing.AppStack>? = allStacks()?.filterNot { it.empty }
+
+        /** The app's stacks right now, empty ones included, or null (logged) when the shell cannot list them. */
+        private suspend fun allStacks(): List<WindowListing.AppStack>? {
             DockShell.forgetListing()
             return runCatching { WindowListing.appStacks(DockShell.listStacks(context), windowPackage) }
                 .onFailure { Log.w(TAG, "can't see where $packageName is", it) }
                 .getOrNull()
+        }
+
+        /**
+         * Whether the app has no process left, by `pidof`. A shell that can't
+         * answer counts as running. "|| true": pidof finding nothing ends with
+         * an error code, which the root shell takes for a failed command.
+         */
+        private suspend fun processGone(): Boolean = try {
+            PipAnchor.processGone(DockShell.shell(context, "pidof $windowPackage || true"), windowPackage)
+        } catch (e: CancellationException) {
+            throw e
+        } catch (e: Exception) {
+            false
         }
 
         /**
