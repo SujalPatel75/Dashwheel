@@ -181,7 +181,7 @@ internal enum class SteeringWheelAction(
     private fun showDashboard(context: Context, home: Boolean = false): Boolean {
         if (FreeformBar.dashboardInFront) return false
         EmbeddedApp.userActed()
-        val intent = Intent(context, MainActivity::class.java)
+        val intent = Intent().setComponent(FloatingHome.component(context))
             .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
             .putExtra(MainActivity.EXTRA_KEEP_PAGE, !home)
         return context.launchSafely(intent)

@@ -674,7 +674,7 @@ internal object EmbeddedApp {
         if (!android.provider.Settings.canDrawOverlays(context) && PrivilegedShell.access.value.shell) {
             val app = context.applicationContext
             scope.launch {
-                runCatching { DockShell.shell(app, "am start -c android.intent.category.HOME -n ${app.packageName}/.MainActivity") }
+                runCatching { DockShell.shell(app, "am start -c android.intent.category.HOME -n ${FloatingHome.component(app).flattenToShortString()}") }
                     .onFailure { Log.w(TAG, "$why: can't bring the dashboard back through the shell", it) }
             }
             return

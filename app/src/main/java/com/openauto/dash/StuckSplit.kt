@@ -35,6 +35,10 @@ internal object StuckSplit {
 
     private const val MAX_TRIES = 2
 
+    private const val PREFS = "floating_home"
+    /** The floating home screen was closed and reopened once already ([forgetFloating]). */
+    private const val KEY_REOPENED = "reopened"
+
     private val main = Handler(Looper.getMainLooper())
     private val scope = CoroutineScope(Dispatchers.Main + SupervisorJob())
 
@@ -129,10 +133,17 @@ internal object StuckSplit {
      * screen again in a new task, full screen as it asks for, which sets the
      * whole home stack back to full screen (Android 10 lets no command change
      * a home task's mode). Once per process, the outcome in the event log.
+     * When the home screen comes back floating after that reopen (a tester's
+     * unit did), the next start switches to the home screen Android can't
+     * float at all ([FloatingHome]) instead ([floatingHomeStep]).
      */
     private fun forgetFloating(activity: MainActivity) {
         floatingForgotten = true
         val app = activity.applicationContext
+        val prefs = app.getSharedPreferences(PREFS, android.content.Context.MODE_PRIVATE)
+        val step = floatingHomeStep(FloatingHome.active(app), prefs.getBoolean(KEY_REOPENED, false))
+        if (step == FloatingStep.SWITCH) FloatingHome.switchOn(activity)
+        if (step == FloatingStep.REOPEN) prefs.edit().putBoolean(KEY_REOPENED, true).apply()
         val ref = WeakReference(activity)
         scope.launch {
             val out = runCatching {
@@ -140,7 +151,7 @@ internal object StuckSplit {
             }.getOrElse { "no shell: ${it.message}" }
             Log.i(TAG, "home is a floating window: Android's memory of it cleared: $out")
             DebugLog.note(app, "home is a floating window: Android's memory of it cleared: ${out.lines().lastOrNull().orEmpty()}")
-            ref.get()?.takeIf {
+            ref.get()?.takeIf { step == FloatingStep.REOPEN }?.takeIf {
                 shouldReopenHome(out, stillFloating = isFloatingMode(windowingModeOf(it.resources.configuration.toString())),
                     alive = !it.isFinishing && !it.isDestroyed)
             }?.let {
@@ -199,6 +210,19 @@ internal fun isShrunkFloatingHome(
  * window, is the dashboard itself ([navTarget] is `persist.sys.maps`).
  */
 internal fun navTargetFloatsHome(navTarget: String?, selfPackage: String): Boolean = navTarget == selfPackage
+
+internal enum class FloatingStep { REOPEN, SWITCH, NONE }
+
+/**
+ * What a floating home screen gets: reopened full screen the first time,
+ * the home screen Android can't float once that did not hold, nothing more
+ * once that one is the home screen (it floats only until the unit restarts).
+ */
+internal fun floatingHomeStep(fullscreenHomeOn: Boolean, reopenedBefore: Boolean): FloatingStep = when {
+    fullscreenHomeOn -> FloatingStep.NONE
+    reopenedBefore -> FloatingStep.SWITCH
+    else -> FloatingStep.REOPEN
+}
 
 /**
  * Whether to close the floating home's task once Android's memory of it is

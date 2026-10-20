@@ -73,7 +73,7 @@ internal object HomeHandBack {
         _released.value = false
         DebugLog.note(app, "Dashwheel is the Home screen again")
         scope.launch {
-            if (!setHome(app, ComponentName(app, MainActivity::class.java))) openHomeSettings(app)
+            if (!setHome(app, FloatingHome.component(app))) openHomeSettings(app)
             UnitPlatform.adapter.launcher?.claim(app)
         }
     }

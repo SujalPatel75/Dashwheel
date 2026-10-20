@@ -30,7 +30,9 @@ internal object SetupBackup {
         "compile_after_update", "pmpatch", "ai_diagnoses",
         // The second screen's pairing secret, like the phone's; and this unit's own
         // system state: the navigation bar policy it found, the widget ids it let go of.
-        "display_link", "docked_nav_bar", "widget_host"
+        "display_link", "docked_nav_bar", "widget_host",
+        // How this unit's floating home screen was dealt with (StuckSplit).
+        "floating_home"
     )
 
     /** Keys left out of a file that is otherwise saved: the Gemini key is a secret. */
@@ -70,7 +72,7 @@ internal object SetupBackup {
 
     /** Starts the launcher afresh, so every part reads the restored setup (they keep it in memory). */
     fun restart(context: Context) {
-        val intent = Intent(context, MainActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+        val intent = Intent().setComponent(FloatingHome.component(context)).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
         context.startActivity(intent)
         Process.killProcess(Process.myPid())
     }

@@ -95,6 +95,23 @@ class StuckSplitTest {
     }
 
     @Test
+    fun aFloatingHomeIsReopenedFirstThenSwitchedToTheFullscreenOne() {
+        assertEquals(FloatingStep.REOPEN, floatingHomeStep(fullscreenHomeOn = false, reopenedBefore = false))
+        assertEquals(FloatingStep.SWITCH, floatingHomeStep(fullscreenHomeOn = false, reopenedBefore = true))
+        assertEquals(FloatingStep.NONE, floatingHomeStep(fullscreenHomeOn = true, reopenedBefore = true))
+    }
+
+    @Test
+    fun oldQfFirmwareOpensAppsFullScreenInsteadOfBeside() {
+        val march2025 = 1_742_792_685_000L
+        val july2026 = 1_784_518_991_000L
+        assertFalse(besideDashboardAllowed(qf = true, buildTime = march2025))
+        assertTrue(besideDashboardAllowed(qf = true, buildTime = july2026))
+        assertTrue(besideDashboardAllowed(qf = false, buildTime = march2025))
+        assertTrue(besideDashboardAllowed(qf = true, buildTime = 0L))
+    }
+
+    @Test
     fun aNaviKeyOnTheDashboardIsWhatFloatsTheHome() {
         assertTrue(navTargetFloatsHome("com.openauto.dash", "com.openauto.dash"))
         assertFalse(navTargetFloatsHome("com.waze", "com.openauto.dash"))

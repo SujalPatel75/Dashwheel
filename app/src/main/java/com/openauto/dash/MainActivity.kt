@@ -33,7 +33,7 @@ import androidx.core.view.WindowInsetsControllerCompat
  * Entry point for Dashwheel — the launcher/home surface. Runs edge-to-edge
  * in immersive fullscreen (status/navigation bars hidden), showing the dashboard.
  */
-class MainActivity : ComponentActivity() {
+open class MainActivity : ComponentActivity() {
 
     companion object {
         /**
@@ -142,6 +142,8 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        // A unit that floated the dashboard has the not-resizable one as its home screen.
+        if (FloatingHome.redirect(this)) return
         if (!onlyOne()) return
         MainScreenCover.attach(this)
         // The tile displays' owner (the system user, through root): started first,

@@ -387,7 +387,7 @@ internal object SecondScreenController {
     private fun refocusDashboard() {
         runCatching {
             appContext.startActivity(
-                Intent(appContext, MainActivity::class.java)
+                Intent().setComponent(FloatingHome.component(appContext))
                     .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
                     .putExtra(MainActivity.EXTRA_REFOCUS, true)
             )

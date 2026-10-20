@@ -174,6 +174,30 @@
 
         </activity>
 
+        <!-- The same dashboard as a home screen Android may never make a floating
+             window (not resizable). Off: Dashwheel switches it on by itself
+             (FloatingHome) on a unit that floated the home screen, where the
+             Recents screen then stayed over it. MainActivity is switched off
+             then, so this one also carries the app list's entry: one icon. -->
+        <activity
+            android:name=".FullscreenHomeActivity"
+            android:enabled="false"
+            android:exported="true"
+            android:launchMode="singleTop"
+            android:resizeableActivity="false"
+            android:windowSoftInputMode="adjustResize"
+            android:configChanges="orientation|screenSize|smallestScreenSize|screenLayout|keyboard|keyboardHidden|navigation|uiMode">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.HOME" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
         <!-- No activity for "USB device attached": Android made Dashwheel the
              default for the unit's TPMS receiver (same chip as OBD cables), and
              the TPMS app lost it at each reconnection. A USB OBD cable is let

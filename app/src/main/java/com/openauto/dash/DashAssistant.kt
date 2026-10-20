@@ -551,7 +551,7 @@ internal object AssistantTools {
         MainActivity.dashboardGoTo.value = System.currentTimeMillis() to found.first
         if (!FreeformBar.dashboardInFront) {
             context.launchSafely(
-                android.content.Intent(context, MainActivity::class.java)
+                android.content.Intent().setComponent(FloatingHome.component(context))
                     .addFlags(android.content.Intent.FLAG_ACTIVITY_NEW_TASK or android.content.Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
                     .putExtra(MainActivity.EXTRA_KEEP_PAGE, true)
             )

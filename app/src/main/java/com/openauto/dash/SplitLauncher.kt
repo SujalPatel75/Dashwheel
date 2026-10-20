@@ -8,6 +8,7 @@ import android.os.Build
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
+import com.openauto.unitproto.UnitFamily
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -53,9 +54,16 @@ object SplitLauncher {
         // An app that is gone (a tile kept after it was removed): nothing to open, so
         // the dashboard is not docked to half the screen with nothing beside it.
         if (AppLauncher.launchIntent(context, packageName) == null) return false
+        // QF firmware from before 2026: the Map key's split screen left the home screen a
+        // floating window for good, under the Recents screen (only a reinstall cleared it).
+        // The app opens full screen there, neither split nor floating.
+        if (!besideDashboardAllowed(UnitPlatform.adapter.family == UnitFamily.QF, Build.TIME)) {
+            return AppLauncher.launch(context, packageName)
+        }
         // A dashboard that is itself a floating window (some QF units' home): the
         // toggle there made a split with the dashboard in one half beside a black one.
-        if (!splitToggleUsable(MainActivity.homeFloatingNow())) return launchFreeform(context, packageName)
+        // Its not-resizable stand-in ([FloatingHome]) can't go into a split at all.
+        if (!splitToggleUsable(MainActivity.homeFloatingNow() || FloatingHome.active(context))) return launchFreeform(context, packageName)
         // Already split: the toggle would *exit* split on this ROM and the app
         // would land full screen. The other half takes it as it is.
         if (SplitAccessibilityService.isSplit()) {
@@ -199,3 +207,13 @@ object SplitLauncher {
 
 /** Whether the split-screen toggle may be used: not while the dashboard is itself a floating window. */
 internal fun splitToggleUsable(homeFloating: Boolean): Boolean = !homeFloating
+
+/** QF firmware built before this (Android's build time) is the 2025 kind that kept the home screen floating. */
+internal const val QF_FLOATING_HOME_BEFORE = 1_767_225_600_000L // 2026-01-01 UTC
+
+/**
+ * Whether an app may be opened beside the dashboard (split screen or a
+ * floating window): not on QF firmware from before 2026 ([QF_FLOATING_HOME_BEFORE]).
+ */
+internal fun besideDashboardAllowed(qf: Boolean, buildTime: Long): Boolean =
+    !qf || buildTime <= 0 || buildTime >= QF_FLOATING_HOME_BEFORE

@@ -98,7 +98,7 @@ object UnitPlatform {
     /** Starts the launcher over, so a new override takes effect: the process ends and Android starts Home again. */
     fun restart(context: Context) {
         val app = context.applicationContext
-        val intent = Intent(app, MainActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+        val intent = Intent().setComponent(FloatingHome.component(app)).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
         runCatching { app.startActivity(intent) }
         exitProcess(0)
     }
