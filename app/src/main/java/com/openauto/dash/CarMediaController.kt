@@ -86,6 +86,7 @@ class CarMediaController(private val context: Context) {
         // The head unit's own players (Bluetooth music, radio) tell what they play by broadcast.
         HeadUnitMedia.start(context)
         HeadUnitMedia.addListener(stockChanged)
+        PlayerNotifications.addListener(playerNotified)
         try {
             sessionManager.addOnActiveSessionsChangedListener(sessionsChangedListener, listenerComponent)
             bind(sessionManager.getActiveSessions(listenerComponent))
@@ -117,6 +118,7 @@ class CarMediaController(private val context: Context) {
     /** Stops observing and releases callbacks. */
     fun stop() {
         HeadUnitMedia.removeListener(stockChanged)
+        PlayerNotifications.removeListener(playerNotified)
         main.removeCallbacks(stockTick)
         // Or the next start finds "already shown" and never ticks again: the radio's tile then stood still.
         stockShown = null
@@ -184,19 +186,24 @@ class CarMediaController(private val context: Context) {
         }
         val metadata = controller.metadata
         val playback = controller.playbackState
+        val playing = playback?.state == PlaybackState.STATE_PLAYING
         // What to play again at the next start, if the car is switched off now (MediaResume).
-        MediaResume.note(controller.packageName, playback?.state == PlaybackState.STATE_PLAYING)
+        MediaResume.note(controller.packageName, playing)
         // A new song by an app in a tile: its player comes up there.
         TilePlayer.noted(controller)
-        val title = metadata?.getString(MediaMetadata.METADATA_KEY_TITLE).orEmpty()
-        val artist = metadata?.getString(MediaMetadata.METADATA_KEY_ARTIST).orEmpty()
+        val sessionTitle = metadata?.getString(MediaMetadata.METADATA_KEY_TITLE).orEmpty()
+        // A factory music player's session can play with no title in it: what it says elsewhere.
+        val untitled = if (sessionTitle.isNotBlank()) null else untitledFromPlayer(controller.packageName, metadata, playing)
+        val title = untitled?.first ?: sessionTitle
+        val artist = metadata?.getString(MediaMetadata.METADATA_KEY_ARTIST).orEmpty().ifBlank { untitled?.second.orEmpty() }
         val track = listOf(controller.packageName, title, artist, metadata?.getString(MediaMetadata.METADATA_KEY_ALBUM))
         val durationMs = (metadata?.getLong(MediaMetadata.METADATA_KEY_DURATION) ?: 0L).coerceAtLeast(0L)
         val album = metadata?.getString(MediaMetadata.METADATA_KEY_ALBUM).orEmpty()
-        val station = controller.packageName?.let { stations.note(it, title, artist, album, live = durationMs == 0L) }.orEmpty()
+        // Only a session's own words name a radio station: a player's notification or name is no station.
+        val station = controller.packageName?.takeIf { untitled == null }?.let { stations.note(it, title, artist, album, live = durationMs == 0L) }.orEmpty()
         // What a live stream says, in the unit's log: radios name their station in many ways (RadioStations).
         // A radio's song with a length too (DAB-Z gives some one), with that length.
-        if ((durationMs == 0L || station.isNotEmpty()) && metadata != null) {
+        if ((durationMs == 0L || station.isNotEmpty()) && metadata != null && untitled == null) {
             val said = listOf(controller.packageName, title, artist, album, metadata.getString(MediaMetadata.METADATA_KEY_DISPLAY_TITLE),
                 metadata.getString(MediaMetadata.METADATA_KEY_DISPLAY_SUBTITLE), station) +
                 listOfNotNull(if (durationMs > 0L) "${durationMs / 1000} s long" else null)
@@ -208,14 +215,43 @@ class CarMediaController(private val context: Context) {
         showMedia(MediaState(
             title = MediaTitle.clean(title, artist),
             artist = artist,
-            isPlaying = playback?.state == PlaybackState.STATE_PLAYING,
-            hasMedia = metadata != null,
+            isPlaying = playing,
+            hasMedia = metadata != null || title.isNotBlank(),
             durationMs = durationMs,
             // The unit's Bluetooth app names the track but has no cover: the phone's, where it sent one.
             artwork = artworkFor(track, metadata?.artwork())
                 ?: HeadUnitMedia.phone?.art?.takeIf { controller.packageName == HeadUnitMedia.BT_PACKAGE },
             station = station
         ))
+    }
+
+    // --- A session that names no title ------------------------------------
+    //
+    // Some head units' own music players play with an empty session, and the
+    // tile said "Nothing playing" over the music. Their notification or, at
+    // least, their name is shown instead, and the unit log says which player
+    // it was and what it gave, once each, so it can be read properly later.
+
+    private val playerNotified: (String) -> Unit = { pkg -> if (pkg == activeController?.packageName) selectActive() }
+    private val appNames = HashMap<String, String?>()
+    private var lastUntitledLogged: List<String?>? = null
+
+    private fun untitledFromPlayer(pkg: String?, metadata: MediaMetadata?, playing: Boolean): Pair<String, String>? {
+        val notification = PlayerNotifications.of(pkg)
+        val appName = pkg?.let { p ->
+            appNames.getOrPut(p) {
+                runCatching { context.packageManager.run { getApplicationLabel(getApplicationInfo(p, 0)).toString() } }.getOrNull()
+            }
+        }
+        val displayTitle = metadata?.getString(MediaMetadata.METADATA_KEY_DISPLAY_TITLE)
+        val track = untitledTrack(displayTitle, metadata?.getString(MediaMetadata.METADATA_KEY_DISPLAY_SUBTITLE), notification, appName, playing)
+        val said = listOf(pkg, if (metadata == null) "no metadata" else "metadata ${metadata.keySet().sorted()}",
+            "notification ${notification?.let { "${it.title} / ${it.text}" } ?: "none"}", track?.first)
+        if (playing && said != lastUntitledLogged) {
+            lastUntitledLogged = said
+            DebugLog.note(context, "media untitled: ${said.joinToString(" | ")}")
+        }
+        return track
     }
 
     // --- A radio's station under its song -------------------------------
