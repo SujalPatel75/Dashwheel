@@ -25,20 +25,26 @@ class MediaNotificationListenerService : NotificationListenerService() {
             .onFailure { Log.w("NavDirections", "notifications up at connection unreadable", it) }
             .getOrNull() ?: return
         active.filter { it.packageName in NavDirections.PACKAGES }.forEach { NavDirections.onPosted(this, it) }
-        active.sortedBy { it.postTime }.forEach { NotificationFeed.onPosted(this, it) }
+        active.sortedBy { it.postTime }.forEach {
+            NotificationFeed.onPosted(this, it)
+            PlayerNotifications.onPosted(it)
+        }
     }
 
     override fun onListenerDisconnected() {
         NavDirections.clear()
+        PlayerNotifications.clear()
     }
 
     override fun onNotificationPosted(sbn: StatusBarNotification) {
         if (sbn.packageName in NavDirections.PACKAGES) NavDirections.onPosted(this, sbn)
         NotificationFeed.onPosted(this, sbn)
+        PlayerNotifications.onPosted(sbn)
     }
 
     override fun onNotificationRemoved(sbn: StatusBarNotification) {
         if (sbn.packageName in NavDirections.PACKAGES) NavDirections.onRemoved(sbn)
         NotificationFeed.onRemoved(sbn)
+        PlayerNotifications.onRemoved(sbn)
     }
 }
