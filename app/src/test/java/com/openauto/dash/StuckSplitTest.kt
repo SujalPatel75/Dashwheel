@@ -63,6 +63,30 @@ class StuckSplitTest {
     }
 
     @Test
+    fun aFloatingHomeOnPartOfTheScreenIsShrunk() {
+        // The right half, beside a black left half.
+        assertTrue(isShrunkFloatingHome("freeform", 640, 648, 1280, 720, mapsDocked = false))
+        assertTrue(isShrunkFloatingHome("5", 1280, 300, 1280, 720, mapsDocked = false))
+        // The whole screen, the forced top bar taken off its height.
+        assertFalse(isShrunkFloatingHome("freeform", 1280, 648, 1280, 720, mapsDocked = false))
+        // Not floating, the Maps dock, or sizes not known.
+        assertFalse(isShrunkFloatingHome("split-screen-secondary", 640, 648, 1280, 720, mapsDocked = false))
+        assertFalse(isShrunkFloatingHome(null, 640, 648, 1280, 720, mapsDocked = false))
+        assertFalse(isShrunkFloatingHome("freeform", 640, 648, 1280, 720, mapsDocked = true))
+        assertFalse(isShrunkFloatingHome("freeform", 0, 648, 1280, 720, mapsDocked = false))
+    }
+
+    @Test
+    fun theSplitToggleIsNotUsedOnAFloatingHome() {
+        assertFalse(splitToggleUsable(homeFloating = true))
+        assertTrue(splitToggleUsable(homeFloating = false))
+        assertTrue(isFloatingMode("freeform"))
+        assertTrue(isFloatingMode("5"))
+        assertFalse(isFloatingMode("fullscreen"))
+        assertFalse(isFloatingMode(null))
+    }
+
+    @Test
     fun theWindowsOwnModeIsRead() {
         val config = "{1.0 ?mcc?mnc [en_US] ldltr sw720dp w1280dp h648dp 160dpi xlrg long land finger -keyb/v/h -nav/h " +
             "winConfig={ mBounds=Rect(0, 0 - 1280, 720) mAppBounds=Rect(0, 0 - 1280, 720) mWindowingMode=freeform " +

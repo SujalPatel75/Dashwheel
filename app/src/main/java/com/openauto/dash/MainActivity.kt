@@ -92,6 +92,15 @@ class MainActivity : ComponentActivity() {
         /** Whether the dashboard alive right now shares the screen (split screen, a window). */
         fun inMultiWindowNow(): Boolean =
             live?.get()?.takeIf { !it.isFinishing && !it.isDestroyed }?.isInMultiWindowMode ?: false
+
+        /**
+         * Whether the dashboard alive right now is a floating (freeform) window:
+         * some QF units keep their home that way, over the whole screen. The
+         * split-screen toggle makes a split of its own there ([splitToggleUsable]).
+         */
+        fun homeFloatingNow(): Boolean =
+            live?.get()?.takeIf { !it.isFinishing && !it.isDestroyed }
+                ?.let { isFloatingMode(windowingModeOf(it.resources.configuration.toString())) } ?: false
     }
 
     /**

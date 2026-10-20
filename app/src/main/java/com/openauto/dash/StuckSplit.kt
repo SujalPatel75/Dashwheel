@@ -62,9 +62,25 @@ internal object StuckSplit {
         activity.getSystemService(WindowManager::class.java)?.defaultDisplay?.getRealSize(display) ?: return
         val config = activity.resources.configuration
         val density = activity.resources.displayMetrics.density
+        val mode = windowingModeOf(config.toString())
+        if (isShrunkFloatingHome(
+                windowingMode = mode,
+                windowWidth = (config.screenWidthDp * density).toInt(),
+                windowHeight = (config.screenHeightDp * density).toInt(),
+                displayWidth = display.x,
+                displayHeight = display.y,
+                mapsDocked = PipAnchor.dockActive.value
+            )
+        ) {
+            tries++
+            growToFullScreen(activity, display)
+            return
+        }
+        // A floating dashboard back on the whole screen: a later shrink gets its tries again.
+        if (isFloatingMode(mode)) tries = 0
         val stuck = isStuckSplit(
             inMultiWindow = activity.isInMultiWindowMode,
-            windowingMode = windowingModeOf(config.toString()),
+            windowingMode = mode,
             windowWidth = (config.screenWidthDp * density).toInt(),
             windowHeight = (config.screenHeightDp * density).toInt(),
             displayWidth = display.x,
@@ -97,7 +113,47 @@ internal object StuckSplit {
             ref.get()?.let(::check)
         }
     }
+
+    /**
+     * The dashboard is a floating window (some QF units' home) shrunk to part
+     * of the screen, the rest left black: its task is sized back to the whole
+     * display through the privileged shell ([DockShell]). Android lets a
+     * floating task be resized; the split toggle would only have made a split.
+     */
+    private fun growToFullScreen(activity: MainActivity, display: Point) {
+        val taskId = activity.taskId
+        val app = activity.applicationContext
+        val ref = WeakReference(activity)
+        Log.i(TAG, "floating dashboard on part of the screen: task $taskId back to ${display.x}x${display.y} (try $tries of $MAX_TRIES)")
+        scope.launch {
+            runCatching {
+                val out = DockShell.shell(app, "am task resize $taskId 0 0 ${display.x} ${display.y}")
+                Log.i(TAG, "floating dashboard resized ${out.trim()}")
+            }.onFailure { Log.w(TAG, "floating dashboard: no shell to resize it: ${it.message}") }
+            ref.get()?.let(::check)
+        }
+    }
 }
+
+/**
+ * Whether the dashboard is a floating window that no longer covers the whole
+ * display (a black part beside it). Not while the Maps dock shares the screen.
+ */
+internal fun isShrunkFloatingHome(
+    windowingMode: String?,
+    windowWidth: Int,
+    windowHeight: Int,
+    displayWidth: Int,
+    displayHeight: Int,
+    mapsDocked: Boolean
+): Boolean {
+    if (!isFloatingMode(windowingMode) || mapsDocked) return false
+    if (windowWidth <= 0 || windowHeight <= 0 || displayWidth <= 0 || displayHeight <= 0) return false
+    return windowWidth < displayWidth * 0.9f || windowHeight < displayHeight * 0.75f
+}
+
+/** The freeform windowing mode, by name or number. */
+internal fun isFloatingMode(windowingMode: String?): Boolean = windowingMode == "freeform" || windowingMode == "5"
 
 /**
  * Whether the dashboard sits in a split the firmware left on: Android says

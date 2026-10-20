@@ -285,7 +285,8 @@ class SplitAccessibilityService : AccessibilityService() {
      * exits split on this ROM) gives the dashboard the whole screen back.
      */
     private fun leaveHalfSplit(): Boolean {
-        if (!MainActivity.inMultiWindowNow()) return false
+        // A floating dashboard is in no split: the toggle would make one ([StuckSplit] fixes its size).
+        if (!MainActivity.inMultiWindowNow() || MainActivity.homeFloatingNow()) return false
         Log.i(TAG, "split with no app beside the dashboard: leaving it")
         return toggleSplitScreen()
     }

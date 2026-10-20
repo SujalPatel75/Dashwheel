@@ -53,6 +53,9 @@ object SplitLauncher {
         // An app that is gone (a tile kept after it was removed): nothing to open, so
         // the dashboard is not docked to half the screen with nothing beside it.
         if (AppLauncher.launchIntent(context, packageName) == null) return false
+        // A dashboard that is itself a floating window (some QF units' home): the
+        // toggle there made a split with the dashboard in one half beside a black one.
+        if (!splitToggleUsable(MainActivity.homeFloatingNow())) return launchFreeform(context, packageName)
         // Already split: the toggle would *exit* split on this ROM and the app
         // would land full screen. The other half takes it as it is.
         if (SplitAccessibilityService.isSplit()) {
@@ -193,3 +196,6 @@ object SplitLauncher {
         }.onFailure { Log.e(TAG, "freeform launch failed", it) }.getOrDefault(false)
     }
 }
+
+/** Whether the split-screen toggle may be used: not while the dashboard is itself a floating window. */
+internal fun splitToggleUsable(homeFloating: Boolean): Boolean = !homeFloating
