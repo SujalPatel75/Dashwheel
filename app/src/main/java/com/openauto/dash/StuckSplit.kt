@@ -42,6 +42,9 @@ internal object StuckSplit {
     private var tries = 0
     private var pending: Runnable? = null
 
+    /** Android's memory of the dashboard as a floating window was cleared in this process ([forgetFloating]). */
+    private var floatingForgotten = false
+
     /** From the dashboard's resume / multi-window / configuration changes (main thread). */
     fun check(activity: MainActivity) {
         pending?.let(main::removeCallbacks)
@@ -63,6 +66,7 @@ internal object StuckSplit {
         val config = activity.resources.configuration
         val density = activity.resources.displayMetrics.density
         val mode = windowingModeOf(config.toString())
+        if (isFloatingMode(mode) && !floatingForgotten) forgetFloating(activity)
         if (isShrunkFloatingHome(
                 windowingMode = mode,
                 windowWidth = (config.screenWidthDp * density).toInt(),
@@ -111,6 +115,26 @@ internal object StuckSplit {
                 }
             }.onFailure { Log.w(TAG, "stuck split: no shell to close the docked stack: ${it.message}") }
             ref.get()?.let(::check)
+        }
+    }
+
+    /**
+     * The home screen is a floating window: Android remembered the dashboard
+     * as one and makes it one again at every start, and on a QF unit the
+     * Recents screen then stayed over it with nothing to touch. That memory
+     * is cleared ([LaunchParamsReset], through the privileged shell); the
+     * home screen it already made stays floating until the unit restarts.
+     * Once per process, the outcome in the event log.
+     */
+    private fun forgetFloating(activity: MainActivity) {
+        floatingForgotten = true
+        val app = activity.applicationContext
+        scope.launch {
+            val out = runCatching {
+                DockShell.shell(app, LaunchParamsReset.command(app.applicationInfo.sourceDir, app.packageName)).trim()
+            }.getOrElse { "no shell: ${it.message}" }
+            Log.i(TAG, "home is a floating window: Android's memory of it cleared: $out")
+            DebugLog.note(app, "home is a floating window: Android's memory of it cleared: ${out.lines().lastOrNull().orEmpty()}")
         }
     }
 

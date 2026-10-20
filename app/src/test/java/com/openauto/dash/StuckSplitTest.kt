@@ -87,6 +87,14 @@ class StuckSplitTest {
     }
 
     @Test
+    fun theFloatingMemoryIsClearedByNameThroughTheShell() {
+        assertEquals(
+            "CLASSPATH=/data/app/x/base.apk app_process /system/bin com.openauto.dash.LaunchParamsReset com.openauto.dash",
+            LaunchParamsReset.command("/data/app/x/base.apk", "com.openauto.dash")
+        )
+    }
+
+    @Test
     fun theWindowsOwnModeIsRead() {
         val config = "{1.0 ?mcc?mnc [en_US] ldltr sw720dp w1280dp h648dp 160dpi xlrg long land finger -keyb/v/h -nav/h " +
             "winConfig={ mBounds=Rect(0, 0 - 1280, 720) mAppBounds=Rect(0, 0 - 1280, 720) mWindowingMode=freeform " +

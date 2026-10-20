@@ -29,3 +29,6 @@
 
 # The tile displays' helper runs by name in a process of its own (app_process, SystemDisplays).
 -keep class com.openauto.dash.SystemDisplayHelper { public static void main(java.lang.String[]); }
+
+# Run by name through the privileged shell (app_process) when the home window was left floating (StuckSplit).
+-keep class com.openauto.dash.LaunchParamsReset { public static void main(java.lang.String[]); }
