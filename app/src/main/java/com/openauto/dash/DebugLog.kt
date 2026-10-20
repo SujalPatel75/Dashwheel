@@ -48,7 +48,7 @@ object DebugLog {
     private const val SCREENS = "logcat -b events -d -v threadtime | grep -E ' (wm|am)_(create_activity|restart_activity|new_intent|task_moved_to_front|set_resumed_activity|finish_activity): | am_proc_start: .*,activity,' | tail -n 300"
 
     /** Every setting and property naming a launcher or a home screen: where a unit keeps its own choice. */
-    private const val LAUNCHER_SETTINGS = "getprop | grep -i -E 'launcher|home'; for t in global system secure; do settings list \$t | grep -i -E 'launcher|home' | sed \"s/^/\$t: /\"; done"
+    private const val LAUNCHER_SETTINGS = "getprop | grep -i -E 'launcher|home|freeform|persist.sys.maps'; for t in global system secure; do settings list \$t | grep -i -E 'launcher|home' | sed \"s/^/\$t: /\"; done"
 
     /**
      * The screens Android holds on each display, and which one it counts as

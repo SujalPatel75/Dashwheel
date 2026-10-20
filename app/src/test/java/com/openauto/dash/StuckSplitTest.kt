@@ -87,6 +87,14 @@ class StuckSplitTest {
     }
 
     @Test
+    fun aNaviKeyOnTheDashboardIsWhatFloatsTheHome() {
+        assertTrue(navTargetFloatsHome("com.openauto.dash", "com.openauto.dash"))
+        assertFalse(navTargetFloatsHome("com.waze", "com.openauto.dash"))
+        assertFalse(navTargetFloatsHome("nothing", "com.openauto.dash"))
+        assertFalse(navTargetFloatsHome(null, "com.openauto.dash"))
+    }
+
+    @Test
     fun theFloatingMemoryIsClearedByNameThroughTheShell() {
         assertEquals(
             "CLASSPATH=/data/app/x/base.apk app_process /system/bin com.openauto.dash.LaunchParamsReset com.openauto.dash",

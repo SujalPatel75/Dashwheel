@@ -135,6 +135,12 @@ internal object StuckSplit {
             }.getOrElse { "no shell: ${it.message}" }
             Log.i(TAG, "home is a floating window: Android's memory of it cleared: $out")
             DebugLog.note(app, "home is a floating window: Android's memory of it cleared: ${out.lines().lastOrNull().orEmpty()}")
+            // A QF unit opens its navigation app as a floating map window (its launchers'
+            // map card): with the NAVI key on Dashwheel, that floated the home screen itself.
+            if (navTargetFloatsHome(SysProps.get(KeyTargets.Key.NAVI.prop), app.packageName)) {
+                val given = KeyTargets.set(app, KeyTargets.Key.NAVI, null)
+                DebugLog.note(app, "home is a floating window: the NAVI key opened Dashwheel, handed back to the unit: $given")
+            }
         }
     }
 
@@ -175,6 +181,12 @@ internal fun isShrunkFloatingHome(
     if (windowWidth <= 0 || windowHeight <= 0 || displayWidth <= 0 || displayHeight <= 0) return false
     return windowWidth < displayWidth * 0.9f || windowHeight < displayHeight * 0.75f
 }
+
+/**
+ * Whether the unit's navigation app, which a QF unit opens as a floating map
+ * window, is the dashboard itself ([navTarget] is `persist.sys.maps`).
+ */
+internal fun navTargetFloatsHome(navTarget: String?, selfPackage: String): Boolean = navTarget == selfPackage
 
 /** The freeform windowing mode, by name or number. */
 internal fun isFloatingMode(windowingMode: String?): Boolean = windowingMode == "freeform" || windowingMode == "5"
