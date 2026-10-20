@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Photos the phone sends for the car's AI to read (PhotoAsk.kt). -->
+    <string name="photo_error_picture">A fotót nem sikerült beolvasni.</string>
+    <string name="photo_booklet_nothing">Ezen az oldalon nincs szerviztétel.</string>
+    <plurals name="photo_booklet_saved">
+        <item quantity="one">%1$d szerviztétel mentve a telefonról</item>
+        <item quantity="other">%1$d szerviztétel mentve a telefonról</item>
+    </plurals>
+</resources>

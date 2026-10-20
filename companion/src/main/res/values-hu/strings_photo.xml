@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Ask about a photo (PhotoAskCard.kt): the car's AI reads a warning light or a service booklet page. -->
+    <string name="photo_title">Kérdezzen egy fotóról</string>
+    <string name="photo_detail">Fotózzon le egy figyelmeztető lámpát, hogy megtudja, mit jelent, vagy a szervizkönyv egy oldalát, hogy kitöltse az autó szerviztervét.</string>
+    <string name="photo_offline">Előbb csatlakoztassa a telefont az autóhoz: a fotót az autó AI-ja olvassa el.</string>
+    <string name="photo_kind_light">Figyelmeztető lámpa</string>
+    <string name="photo_kind_booklet">Szervizkönyv</string>
+    <string name="photo_take">Fotó készítése</string>
+    <string name="photo_choose">Választás</string>
+    <string name="photo_asking">Az autó megkérdezi az AI-t…</string>
+    <string name="photo_no_answer">Nem jött válasz az autótól. Frissítse a Dashwheelt az autón, vagy próbálja újra.</string>
+    <string name="photo_unreadable">Ezt a fotót nem sikerült megnyitni.</string>
+    <string name="photo_privacy">A fotó az autón keresztül a Google AI-jához kerül, majd törlődik erről a telefonról.</string>
+    <string name="photo_severity_ok">Vezethet tovább</string>
+    <string name="photo_severity_soon">Hamarosan nézesse meg</string>
+    <string name="photo_severity_stop">Álljon meg, amint biztonságos</string>
+    <string name="photo_booklet_send">Mentés az autóba</string>
+    <string name="photo_booklet_sent">Elmentve az autó szerviztervébe</string>
+    <string name="photo_every_km_months">%1$d km-enként vagy %2$d havonta</string>
+    <string name="photo_every_km">%1$d km-enként</string>
+    <string name="photo_every_months">%1$d havonta</string>
+    <string name="photo_done_date_km">Utoljára: %1$s, %2$d km-nél</string>
+    <string name="photo_done_date">Utoljára: %1$s</string>
+    <string name="photo_done_km">Utoljára: %1$d km-nél</string>
+</resources>

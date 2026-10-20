@@ -56,11 +56,13 @@ import java.util.concurrent.atomic.AtomicLong
 import com.openauto.dash.link.PairingOffer
 import com.openauto.dash.link.PairingStorage
 import com.openauto.dash.link.PhoneContacts
+import com.openauto.dash.link.PhotoQuestion
 import com.openauto.dash.link.Ping
 import com.openauto.dash.link.Pong
 import com.openauto.dash.link.RecentCall
 import com.openauto.dash.link.Reply
 import com.openauto.dash.link.SecureChannel
+import com.openauto.dash.link.ServiceEntries
 import com.openauto.dash.link.StoredPairing
 import com.openauto.dash.link.TypeText
 import com.openauto.dash.link.UnknownPairingException
@@ -618,6 +620,12 @@ object PhoneLink {
             is CarLogAck -> logsWaiting[message.id]?.complete(message.ok)
             is CarLookPart -> MyCarLook.receive(context, message) { send(it) }
             is CarRegistration -> main.post { saveRegistration(context, message) }
+            // A warning light or a booklet page photographed on the phone: the car asks its Gemini and answers.
+            is PhotoQuestion -> PhotoAsk.answer(context, message) { send(it) }
+            is ServiceEntries -> main.post {
+                PhotoAsk.keep(message.entries)
+                Toast.makeText(context, context.resources.getQuantityString(R.plurals.photo_booklet_saved, message.entries.size, message.entries.size), Toast.LENGTH_LONG).show()
+            }
             is NowPlaying -> HeadUnitMedia.fromPhone(message)
             is PhoneBattery -> _battery.value = message
             is PhoneFix -> PhoneGps.feed(message)

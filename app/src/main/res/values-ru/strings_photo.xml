@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Photos the phone sends for the car's AI to read (PhotoAsk.kt). -->
+    <string name="photo_error_picture">Не удалось прочитать фото.</string>
+    <string name="photo_booklet_nothing">На этой странице нет записей ТО.</string>
+    <plurals name="photo_booklet_saved">
+        <item quantity="one">С телефона сохранён %1$d пункт ТО</item>
+        <item quantity="few">С телефона сохранено %1$d пункта ТО</item>
+        <item quantity="many">С телефона сохранено %1$d пунктов ТО</item>
+        <item quantity="other">С телефона сохранено %1$d пункта ТО</item>
+    </plurals>
+</resources>

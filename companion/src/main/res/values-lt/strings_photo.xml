@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Ask about a photo (PhotoAskCard.kt): the car's AI reads a warning light or a service booklet page. -->
+    <string name="photo_title">Paklauskite apie nuotrauką</string>
+    <string name="photo_detail">Nufotografuokite įspėjimo lemputę, kad sužinotumėte, ką ji reiškia, arba aptarnavimo knygelės puslapį, kad užpildytumėte automobilio priežiūros planą.</string>
+    <string name="photo_offline">Pirmiausia susiekite telefoną su automobiliu: nuotrauką skaito automobilio DI.</string>
+    <string name="photo_kind_light">Įspėjimo lemputė</string>
+    <string name="photo_kind_booklet">Aptarnavimo knygelė</string>
+    <string name="photo_take">Fotografuoti</string>
+    <string name="photo_choose">Pasirinkti</string>
+    <string name="photo_asking">Automobilis klausia savo DI…</string>
+    <string name="photo_no_answer">Automobilis neatsakė. Atnaujinkite Dashwheel automobilyje arba bandykite dar kartą.</string>
+    <string name="photo_unreadable">Šios nuotraukos nepavyko atidaryti.</string>
+    <string name="photo_privacy">Nuotrauka per automobilį siunčiama Google DI, tada ištrinama iš šio telefono.</string>
+    <string name="photo_severity_ok">Galite važiuoti toliau</string>
+    <string name="photo_severity_soon">Netrukus patikrinkite</string>
+    <string name="photo_severity_stop">Sustokite, kai bus saugu</string>
+    <string name="photo_booklet_send">Išsaugoti automobilyje</string>
+    <string name="photo_booklet_sent">Išsaugota priežiūros plane</string>
+    <string name="photo_every_km_months">Kas %1$d km arba %2$d mėn.</string>
+    <string name="photo_every_km">Kas %1$d km</string>
+    <string name="photo_every_months">Kas %1$d mėn.</string>
+    <string name="photo_done_date_km">Paskutinį kartą: %1$s, %2$d km</string>
+    <string name="photo_done_date">Paskutinį kartą: %1$s</string>
+    <string name="photo_done_km">Paskutinį kartą: %1$d km</string>
+</resources>

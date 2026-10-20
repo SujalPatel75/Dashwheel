@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Ask about a photo (PhotoAskCard.kt): the car's AI reads a warning light or a service booklet page. -->
+    <string name="photo_title">Спросить о фото</string>
+    <string name="photo_detail">Сфотографируйте контрольную лампу, чтобы узнать, что она значит, или страницу сервисной книжки, чтобы заполнить план ТО автомобиля.</string>
+    <string name="photo_offline">Сначала подключите телефон к автомобилю: фото читает ИИ автомобиля.</string>
+    <string name="photo_kind_light">Контрольная лампа</string>
+    <string name="photo_kind_booklet">Сервисная книжка</string>
+    <string name="photo_take">Сделать фото</string>
+    <string name="photo_choose">Выбрать</string>
+    <string name="photo_asking">Автомобиль спрашивает свой ИИ…</string>
+    <string name="photo_no_answer">Автомобиль не ответил. Обновите Dashwheel в автомобиле или попробуйте ещё раз.</string>
+    <string name="photo_unreadable">Не удалось открыть это фото.</string>
+    <string name="photo_privacy">Фото уходит через автомобиль в ИИ Google, затем удаляется с этого телефона.</string>
+    <string name="photo_severity_ok">Можно ехать</string>
+    <string name="photo_severity_soon">Скоро проверьте</string>
+    <string name="photo_severity_stop">Остановитесь, когда будет безопасно</string>
+    <string name="photo_booklet_send">Сохранить в автомобиле</string>
+    <string name="photo_booklet_sent">Сохранено в плане ТО автомобиля</string>
+    <string name="photo_every_km_months">Раз в %1$d км или %2$d мес.</string>
+    <string name="photo_every_km">Раз в %1$d км</string>
+    <string name="photo_every_months">Раз в %1$d мес.</string>
+    <string name="photo_done_date_km">Последний раз %1$s на %2$d км</string>
+    <string name="photo_done_date">Последний раз %1$s</string>
+    <string name="photo_done_km">Последний раз на %1$d км</string>
+</resources>

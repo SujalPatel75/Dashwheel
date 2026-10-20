@@ -35,6 +35,7 @@ import com.openauto.dash.link.Ping
 import com.openauto.dash.link.Pong
 import com.openauto.dash.link.Reply
 import com.openauto.dash.link.SecureChannel
+import com.openauto.dash.link.PhotoAnswer
 import com.openauto.dash.link.RescueResult
 import com.openauto.dash.link.TypeResult
 import com.openauto.dash.link.TypingAccess
@@ -275,6 +276,7 @@ object LinkServer {
             is TypeResult -> CarKeyboard.answered(message)
             is TypingAccess -> CarKeyboard.accessChanged(message)
             is RescueResult -> CarRescue.answered(message)
+            is PhotoAnswer -> PhotoQuestions.answered(message)
             ObdOpen -> ObdRelay.open(context)
             ObdClose -> ObdRelay.close()
             is ObdTx -> ObdRelay.write(message.data)

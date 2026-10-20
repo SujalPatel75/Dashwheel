@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Photos the phone sends for the car's AI to read (PhotoAsk.kt). -->
+    <string name="photo_error_picture">Nuotraukos nepavyko perskaityti.</string>
+    <string name="photo_booklet_nothing">Šiame puslapyje aptarnavimo įrašų nerasta.</string>
+    <plurals name="photo_booklet_saved">
+        <item quantity="one">Iš telefono išsaugotas %1$d aptarnavimo įrašas</item>
+        <item quantity="few">Iš telefono išsaugoti %1$d aptarnavimo įrašai</item>
+        <item quantity="many">Iš telefono išsaugota %1$d aptarnavimo įrašo</item>
+        <item quantity="other">Iš telefono išsaugota %1$d aptarnavimo įrašų</item>
+    </plurals>
+</resources>

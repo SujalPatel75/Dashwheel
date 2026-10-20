@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Ask about a photo (PhotoAskCard.kt): the car's AI reads a warning light or a service booklet page. -->
+    <string name="photo_title">Zapytaj o zdjęcie</string>
+    <string name="photo_detail">Sfotografuj kontrolkę, by wiedzieć, co oznacza, albo stronę książki serwisowej, by uzupełnić plan serwisowy auta.</string>
+    <string name="photo_offline">Najpierw połącz telefon z autem: zdjęcie odczytuje AI auta.</string>
+    <string name="photo_kind_light">Kontrolka</string>
+    <string name="photo_kind_booklet">Książka serwisowa</string>
+    <string name="photo_take">Zrób zdjęcie</string>
+    <string name="photo_choose">Wybierz</string>
+    <string name="photo_asking">Auto pyta swoje AI…</string>
+    <string name="photo_no_answer">Brak odpowiedzi z auta. Zaktualizuj Dashwheel w aucie lub spróbuj ponownie.</string>
+    <string name="photo_unreadable">Nie można otworzyć tego zdjęcia.</string>
+    <string name="photo_privacy">Zdjęcie trafia przez auto do AI Google, a potem jest usuwane z tego telefonu.</string>
+    <string name="photo_severity_ok">Można jechać dalej</string>
+    <string name="photo_severity_soon">Wkrótce do sprawdzenia</string>
+    <string name="photo_severity_stop">Zatrzymaj się, gdy będzie bezpiecznie</string>
+    <string name="photo_booklet_send">Zapisz w aucie</string>
+    <string name="photo_booklet_sent">Zapisano w planie serwisowym auta</string>
+    <string name="photo_every_km_months">Co %1$d km lub %2$d mies.</string>
+    <string name="photo_every_km">Co %1$d km</string>
+    <string name="photo_every_months">Co %1$d mies.</string>
+    <string name="photo_done_date_km">Ostatnio %1$s przy %2$d km</string>
+    <string name="photo_done_date">Ostatnio %1$s</string>
+    <string name="photo_done_km">Ostatnio przy %1$d km</string>
+</resources>

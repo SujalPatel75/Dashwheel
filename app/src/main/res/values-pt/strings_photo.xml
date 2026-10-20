@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Photos the phone sends for the car's AI to read (PhotoAsk.kt). -->
+    <string name="photo_error_picture">Não foi possível ler a foto.</string>
+    <string name="photo_booklet_nothing">Nenhuma manutenção encontrada nesta página.</string>
+    <plurals name="photo_booklet_saved">
+        <item quantity="one">%1$d item de manutenção do telemóvel guardado</item>
+        <item quantity="many">%1$d itens de manutenção do telemóvel guardados</item>
+        <item quantity="other">%1$d itens de manutenção do telemóvel guardados</item>
+    </plurals>
+</resources>

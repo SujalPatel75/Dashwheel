@@ -5,6 +5,8 @@
     <cache-path name="car_photos" path="car_photos/" />
     <!-- The registration certificate's photo, read on the phone then deleted (RegistrationCard). -->
     <cache-path name="registration" path="registration/" />
+    <!-- A warning light or a service booklet page, sent to the car's AI then deleted (PhotoAskCard). -->
+    <cache-path name="photo_question" path="photo-question/" />
     <!-- The companion's own update, handed to Android's installer (CompanionUpdate). -->
     <cache-path name="updates" path="updates/" />
 </paths>

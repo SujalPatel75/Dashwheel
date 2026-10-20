@@ -424,10 +424,13 @@ object Maintenance {
         setOdometer(km)
     }
 
-    /** The driver's own interval for its kind; emptied, the maker's may fill it in again. */
+    /** The driver's own interval for its kind (added when the plan had none); emptied, the maker's may fill it in again. */
     fun setInterval(interval: UpkeepInterval) {
         val typed = interval.copy(own = interval.known)
-        _state.value = _state.value.copy(plan = _state.value.plan.map { if (it.kind == typed.kind) typed else it })
+        val plan = _state.value.plan
+        _state.value = _state.value.copy(
+            plan = if (plan.any { it.kind == typed.kind }) plan.map { if (it.kind == typed.kind) typed else it } else plan + typed
+        )
         save()
     }
 

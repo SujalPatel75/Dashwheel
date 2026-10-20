@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Ask about a photo (PhotoAskCard.kt): the car's AI reads a warning light or a service booklet page. -->
+    <string name="photo_title">Question sur une photo</string>
+    <string name="photo_detail">Photographiez un voyant pour savoir ce qu\'il signifie, ou une page du carnet d\'entretien pour remplir le plan d\'entretien de la voiture.</string>
+    <string name="photo_offline">Connectez d\'abord le téléphone à la voiture : c\'est l\'IA de la voiture qui lit la photo.</string>
+    <string name="photo_kind_light">Voyant</string>
+    <string name="photo_kind_booklet">Carnet d\'entretien</string>
+    <string name="photo_take">Prendre une photo</string>
+    <string name="photo_choose">En choisir une</string>
+    <string name="photo_asking">La voiture interroge son IA…</string>
+    <string name="photo_no_answer">Pas de réponse de la voiture. Mettez à jour Dashwheel dans la voiture, ou réessayez.</string>
+    <string name="photo_unreadable">Impossible d\'ouvrir cette photo.</string>
+    <string name="photo_privacy">La photo passe par la voiture jusqu\'à l\'IA de Google, puis est effacée de ce téléphone.</string>
+    <string name="photo_severity_ok">Continuez à rouler</string>
+    <string name="photo_severity_soon">Faites vérifier bientôt</string>
+    <string name="photo_severity_stop">Arrêtez-vous dès que c\'est sûr</string>
+    <string name="photo_booklet_send">Enregistrer dans la voiture</string>
+    <string name="photo_booklet_sent">Enregistré dans le plan d\'entretien</string>
+    <string name="photo_every_km_months">Tous les %1$d km ou %2$d mois</string>
+    <string name="photo_every_km">Tous les %1$d km</string>
+    <string name="photo_every_months">Tous les %1$d mois</string>
+    <string name="photo_done_date_km">Fait le %1$s à %2$d km</string>
+    <string name="photo_done_date">Fait le %1$s</string>
+    <string name="photo_done_km">Fait à %1$d km</string>
+</resources>

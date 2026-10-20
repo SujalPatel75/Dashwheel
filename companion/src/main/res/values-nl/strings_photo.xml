@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Ask about a photo (PhotoAskCard.kt): the car's AI reads a warning light or a service booklet page. -->
+    <string name="photo_title">Vraag over een foto</string>
+    <string name="photo_detail">Fotografeer een waarschuwingslampje om te weten wat het betekent, of een pagina van het onderhoudsboekje om het onderhoudsplan van de auto aan te vullen.</string>
+    <string name="photo_offline">Verbind de telefoon eerst met de auto: de AI van de auto leest de foto.</string>
+    <string name="photo_kind_light">Waarschuwingslampje</string>
+    <string name="photo_kind_booklet">Onderhoudsboekje</string>
+    <string name="photo_take">Foto maken</string>
+    <string name="photo_choose">Kies er een</string>
+    <string name="photo_asking">De auto vraagt het aan zijn AI…</string>
+    <string name="photo_no_answer">Geen antwoord van de auto. Werk Dashwheel in de auto bij, of probeer het opnieuw.</string>
+    <string name="photo_unreadable">Deze foto kon niet worden geopend.</string>
+    <string name="photo_privacy">De foto gaat via de auto naar de AI van Google en wordt daarna van deze telefoon gewist.</string>
+    <string name="photo_severity_ok">Rij gerust door</string>
+    <string name="photo_severity_soon">Laat het snel nakijken</string>
+    <string name="photo_severity_stop">Stop zodra het veilig is</string>
+    <string name="photo_booklet_send">Opslaan in de auto</string>
+    <string name="photo_booklet_sent">Opgeslagen in het plan van de auto</string>
+    <string name="photo_every_km_months">Elke %1$d km of %2$d maanden</string>
+    <string name="photo_every_km">Elke %1$d km</string>
+    <string name="photo_every_months">Elke %1$d maanden</string>
+    <string name="photo_done_date_km">Laatst gedaan op %1$s bij %2$d km</string>
+    <string name="photo_done_date">Laatst gedaan op %1$s</string>
+    <string name="photo_done_km">Laatst gedaan bij %1$d km</string>
+</resources>

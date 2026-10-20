@@ -384,6 +384,7 @@ private fun CompanionScreen(resumes: Int, offer: PairingOffer?, onScanned: (Stri
                             onModelChosen = { modelChosen = true; fromModel = true }
                         )
                     }
+                    item { PhotoAskCard(connected) }
                     item { RegistrationCard(connected) }
                     item { RescueCard(connected) }
                     item { SectionTitle(stringResource(R.string.cars_title)) }

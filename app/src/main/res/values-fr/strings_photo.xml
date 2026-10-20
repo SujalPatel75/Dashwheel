@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Photos the phone sends for the car's AI to read (PhotoAsk.kt). -->
+    <string name="photo_error_picture">La photo n\'a pas pu être lue.</string>
+    <string name="photo_booklet_nothing">Aucun entretien trouvé sur cette page.</string>
+    <plurals name="photo_booklet_saved">
+        <item quantity="one">%1$d entretien du téléphone enregistré</item>
+        <item quantity="many">%1$d entretiens du téléphone enregistrés</item>
+        <item quantity="other">%1$d entretiens du téléphone enregistrés</item>
+    </plurals>
+</resources>
