@@ -432,12 +432,15 @@ object Maintenance {
     }
 
     fun setDone(kind: UpkeepKind, done: UpkeepDone?) {
+        val before = _state.value.done[kind]?.at
         val map = _state.value.done.toMutableMap()
         if (done == null || (done.km == null && done.at == null)) map.remove(kind) else map[kind] = done
         _state.value = _state.value.copy(done = map)
         // Done again: the next reminder for it is news again.
         spoken = spoken - kind
         save()
+        // A date the driver set was gone after an update: what was set, and later loaded, goes in the event log.
+        if (map[kind]?.at != before) appContext?.let { DebugLog.note(it, "servicing: ${kind.name} set to ${doneText(map[kind])}") }
     }
 
     /**
@@ -471,8 +474,13 @@ object Maintenance {
     }
 
     private fun load() {
-        val p = appContext?.getSharedPreferences(PREFS, Context.MODE_PRIVATE) ?: return
-        val raw = p.getString("state", null) ?: return
+        val context = appContext ?: return
+        val p = context.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
+        val raw = p.getString("state", null)
+        if (raw == null) {
+            DebugLog.note(context, "servicing: nothing saved yet")
+            return
+        }
         runCatching {
             val o = JSONObject(raw)
             planFor = o.optInt("plan_for")
@@ -500,7 +508,16 @@ object Maintenance {
                 }.toMap()
             }.orEmpty()
             _state.value = UpkeepState(UpkeepRules.withInspection(plan), done, odo, planFromAi = o.optBoolean("plan_ai"))
-        }
+            DebugLog.note(context, "servicing: loaded ${done.entries.joinToString { "${it.key.name} ${doneText(it.value)}" }.ifEmpty { "nothing done" }}")
+        }.onFailure { DebugLog.note(context, "servicing: saved state not read (${it.message}), ${raw.length} chars") }
+    }
+
+    private fun doneText(done: UpkeepDone?): String = when {
+        done == null -> "nothing"
+        else -> listOfNotNull(
+            done.at?.let { java.text.SimpleDateFormat("yyyy-MM-dd", java.util.Locale.ROOT).format(it) },
+            done.km?.let { "$it km" }
+        ).joinToString(" ")
     }
 
     private fun save() {
