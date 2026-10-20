@@ -122,19 +122,31 @@ internal object StuckSplit {
      * The home screen is a floating window: Android remembered the dashboard
      * as one and makes it one again at every start, and on a QF unit the
      * Recents screen then stayed over it with nothing to touch. That memory
-     * is cleared ([LaunchParamsReset], through the privileged shell); the
-     * home screen it already made stays floating until the unit restarts.
-     * Once per process, the outcome in the event log.
+     * is cleared ([LaunchParamsReset], through the privileged shell). The
+     * 2025 QF firmware saves a task's window mode on any screen, so the home
+     * screen left floating saved "floating" again before the next start: once
+     * cleared, the dashboard's task is closed, and Android opens the home
+     * screen again in a new task, full screen as it asks for, which sets the
+     * whole home stack back to full screen (Android 10 lets no command change
+     * a home task's mode). Once per process, the outcome in the event log.
      */
     private fun forgetFloating(activity: MainActivity) {
         floatingForgotten = true
         val app = activity.applicationContext
+        val ref = WeakReference(activity)
         scope.launch {
             val out = runCatching {
                 DockShell.shell(app, LaunchParamsReset.command(app.applicationInfo.sourceDir, app.packageName)).trim()
             }.getOrElse { "no shell: ${it.message}" }
             Log.i(TAG, "home is a floating window: Android's memory of it cleared: $out")
             DebugLog.note(app, "home is a floating window: Android's memory of it cleared: ${out.lines().lastOrNull().orEmpty()}")
+            ref.get()?.takeIf {
+                shouldReopenHome(out, stillFloating = isFloatingMode(windowingModeOf(it.resources.configuration.toString())),
+                    alive = !it.isFinishing && !it.isDestroyed)
+            }?.let {
+                DebugLog.note(app, "home is a floating window: its task closed, Android opens the home screen again full screen")
+                it.finishAndRemoveTask()
+            }
             // A QF unit opens its navigation app as a floating map window (its launchers'
             // map card): with the NAVI key on Dashwheel, that floated the home screen itself.
             if (navTargetFloatsHome(SysProps.get(KeyTargets.Key.NAVI.prop), app.packageName)) {
@@ -187,6 +199,15 @@ internal fun isShrunkFloatingHome(
  * window, is the dashboard itself ([navTarget] is `persist.sys.maps`).
  */
 internal fun navTargetFloatsHome(navTarget: String?, selfPackage: String): Boolean = navTarget == selfPackage
+
+/**
+ * Whether to close the floating home's task once Android's memory of it is
+ * cleared ([shellOut] ends with "cleared"), so the home screen comes back in
+ * a new, full-screen task. Also with Home handed back: the firmware still
+ * opens the dashboard as its home, stuck under Recents otherwise.
+ */
+internal fun shouldReopenHome(shellOut: String, stillFloating: Boolean, alive: Boolean): Boolean =
+    shellOut.lines().lastOrNull()?.trim() == "cleared" && stillFloating && alive
 
 /** The freeform windowing mode, by name or number. */
 internal fun isFloatingMode(windowingMode: String?): Boolean = windowingMode == "freeform" || windowingMode == "5"

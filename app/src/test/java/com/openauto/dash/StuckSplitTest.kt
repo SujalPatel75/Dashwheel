@@ -87,6 +87,14 @@ class StuckSplitTest {
     }
 
     @Test
+    fun theFloatingHomeIsReopenedOnlyOnceItsMemoryIsCleared() {
+        assertTrue(shouldReopenHome("cleared", stillFloating = true, alive = true))
+        assertFalse(shouldReopenHome("no shell: refused", stillFloating = true, alive = true))
+        assertFalse(shouldReopenHome("cleared", stillFloating = false, alive = true))
+        assertFalse(shouldReopenHome("cleared", stillFloating = true, alive = false))
+    }
+
+    @Test
     fun aNaviKeyOnTheDashboardIsWhatFloatsTheHome() {
         assertTrue(navTargetFloatsHome("com.openauto.dash", "com.openauto.dash"))
         assertFalse(navTargetFloatsHome("com.waze", "com.openauto.dash"))
