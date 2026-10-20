@@ -312,4 +312,53 @@ class DockPolicyTest {
         assertTrue((settled as DockPolicy.Step.Keep).docked)
         assertFalse(settled.raise)
     }
+
+    // --- a unit that cannot float the app --------------------------------------
+
+    @Test
+    fun theSecondFullscreenLaunchGivesTheWindowUp() {
+        // Sent back once, the tile tries again; sent back twice, it stops opening the app,
+        // or Home would land on it fullscreen again and again.
+        assertFalse(DockPolicy.giveUpAfterFullscreen(returns = 1))
+        assertTrue(DockPolicy.giveUpAfterFullscreen(returns = 2))
+        // And it is not sent back a third time: there is nothing left to send it back for.
+        assertFalse(DockPolicy.sendBackFromFullscreen(autoOpen = true, ownLaunchAt = 100_000, lastTouchAt = 0, returns = 2, now = 104_000))
+    }
+
+    @Test
+    fun launchesWithoutAWindowCountAcrossLoopRestarts() {
+        // The dashboard coming back (Home) restarts the loop and lifts the cooldown: the
+        // launches without a window carried over still reach the give-up.
+        var carried = 0
+        val steps = (0 until 3).map {
+            val (step, next) = DockPolicy.onMissing(DockPolicy.Memory(openAttempts = carried), expectedGone = false, autoOpen = true, lastReopenAt = 0L, now = 1_000_000L)
+            carried = next.openAttempts
+            step
+        }
+        assertEquals(listOf(DockPolicy.Step.Reopen(1), DockPolicy.Step.Reopen(2), DockPolicy.Step.GiveUp), steps)
+        assertEquals(0, carried)
+    }
+
+    @Test
+    fun theDockThatNeverFloatedLeavesTheScreenToTheDashboards() {
+        assertEquals(DockPolicy.GivenUp.DASHBOARDS_ONLY, DockPolicy.onGivenUp(isDock = true, dockedBefore = false))
+    }
+
+    @Test
+    fun aUnitThatFloatedBeforeKeepsItsDock() {
+        // The K706 can come up fullscreen after a reboot: the layout stays, only the opening stops.
+        assertEquals(DockPolicy.GivenUp.STOP_OPENING, DockPolicy.onGivenUp(isDock = true, dockedBefore = true))
+        // A page's window tile never changes the layout.
+        assertEquals(DockPolicy.GivenUp.STOP_OPENING, DockPolicy.onGivenUp(isDock = false, dockedBefore = false))
+    }
+
+    @Test
+    fun theDockIsOfferedWhereTheUnitCanFloatMaps() {
+        assertTrue(DockPolicy.dockOffered(systemFloats = true, dockedBefore = false, refusedBefore = false))
+        assertFalse(DockPolicy.dockOffered(systemFloats = false, dockedBefore = false, refusedBefore = false))
+        // A window seen docking outweighs what the system says.
+        assertTrue(DockPolicy.dockOffered(systemFloats = false, dockedBefore = true, refusedBefore = false))
+        // A dock that fell back is not offered again, whatever the system claims.
+        assertFalse(DockPolicy.dockOffered(systemFloats = true, dockedBefore = false, refusedBefore = true))
+    }
 }

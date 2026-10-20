@@ -178,6 +178,7 @@
     <string name="dash_layout_maps_bottom">Google Maps alul</string>
     <string name="dash_layout_button">Elrendezés</string>
     <string name="dash_layout_another_app">Másik alkalmazás a műszerfalak mellett…</string>
+    <string name="dash_layout_dock_dropped">Ez az egység teljes képernyőn nyitja meg a Google Mapset, nem ablakban. Vissza a Csak műszerfalak elrendezésre.</string>
     <string name="dash_update_dot_hint">Egy frissítés vár a menüben</string>
     <string name="dash_update_dot_menu">A menügombon lévő pont ezt a frissítést jelzi</string>
 

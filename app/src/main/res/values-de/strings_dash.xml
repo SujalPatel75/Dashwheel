@@ -142,6 +142,7 @@
     <string name="dash_layout_maps_bottom">Google Maps unten</string>
     <string name="dash_layout_button">Layout</string>
     <string name="dash_layout_another_app">Eine andere App neben den Dashboards…</string>
+    <string name="dash_layout_dock_dropped">Dieses Gerät öffnet Google Maps im Vollbild, nicht in einem Fenster. Zurück zu Nur Dashboards.</string>
     <string name="dash_update_dot_hint">Ein Update wartet im Menü</string>
     <string name="dash_update_dot_menu">Der Punkt auf der Menütaste steht für dieses Update</string>
 

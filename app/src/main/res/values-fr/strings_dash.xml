@@ -142,6 +142,7 @@
     <string name="dash_layout_maps_bottom">Google Maps en bas</string>
     <string name="dash_layout_button">Disposition</string>
     <string name="dash_layout_another_app">Une autre appli à côté des tableaux de bord…</string>
+    <string name="dash_layout_dock_dropped">Cet autoradio ouvre Google Maps en plein écran, pas dans une fenêtre. Retour à Tableaux de bord seuls.</string>
     <string name="dash_update_dot_hint">Une mise à jour attend dans le menu</string>
     <string name="dash_update_dot_menu">Le point sur le bouton du menu, c\'est cette mise à jour</string>
 

@@ -483,7 +483,10 @@ object PipAnchor {
         val status = statusFlow(packageName)
         managed.add(packageName)
         if (packageName == MAPS_PACKAGE && freshStarted.add(packageName)) forceStop(context, packageName)
-        var mem = DockPolicy.Memory()
+        // Launches that never became a window count across restarts of this loop. The
+        // dashboard coming back (Home) restarts it; counted afresh each time, they never
+        // reached the give-up on a unit that opens the app fullscreen.
+        var mem = DockPolicy.Memory(openAttempts = openAttemptsSoFar[packageName] ?: 0)
         var lastResult: String? = null
         // Polls in a row that changed nothing: the listing was the same and
         // there was nothing to do. Enough of them and the loop slows down.
@@ -495,6 +498,7 @@ object PipAnchor {
                 // and nothing remembered from before the loan, so its window
                 // being gone afterwards is not taken for the user closing it.
                 mem = DockPolicy.Memory()
+                openAttemptsSoFar.remove(packageName)
                 status.value = status.value.copy(docked = false, checkedAt = System.currentTimeMillis())
                 delay(POLL_MS)
                 continue
@@ -528,6 +532,7 @@ object PipAnchor {
                     died = died
                 )
                 mem = next
+                openAttemptsSoFar[packageName] = next.openAttempts
                 // No window and none to open: nothing happens until the user
                 // opens one (a touch, which brings the quick pace back).
                 quiet = sameListing && step == DockPolicy.Step.Idle && !keepOpen
@@ -541,8 +546,7 @@ object PipAnchor {
                         // Launched twice and no window ever showed up: the app opened
                         // fullscreen or refused. Stop, or Home would be trapped.
                         Log.w(TAG, "$packageName never appeared as a window; giving up")
-                        setAutoOpen(context, false, packageName)
-                        status.value = status.value.copy(error = context.getString(R.string.apps_window_error_gave_up))
+                        giveUpWindow(context, packageName)
                     }
                     is DockPolicy.Step.Reopen -> {
                         if (died) Log.w(TAG, "$packageName died with its window; opening it again")
@@ -564,6 +568,7 @@ object PipAnchor {
                     lastRaiseAt = lastRaiseAt[packageName] ?: 0L, now = now
                 )
                 mem = next
+                openAttemptsSoFar.remove(packageName)
                 if (step is DockPolicy.Step.Unhide || step is DockPolicy.Step.ReleaseHidden) {
                     // Parked on the hidden display: bring it back onto the screen
                     // first; it is placed on the tile by the next poll, at once.
@@ -594,6 +599,7 @@ object PipAnchor {
                 }
                 val keep = step as DockPolicy.Step.Keep
                 if (keep.docked) fullscreenReturns.remove(packageName)
+                if (keep.docked && win.mode == "freeform") DockSupport.noteDocked(context)
                 if (win.mode == "freeform") {
                     // Before the window counts as docked, and before it is moved.
                     (keep.place ?: win.bounds)?.let { FreeformBar.onScreen(context, packageName, it.top) }
@@ -904,7 +910,44 @@ object PipAnchor {
             val out = runGuarded { DockShell.shell(context, "input keyevent $KEYCODE_BACK") }
                 .fold({ it.trim().ifEmpty { "ok" } }, { "failed: ${it.message}" })
             Log.i(TAG, "$packageName came up fullscreen (task ${full.taskId}) instead of in its window; pressed Back: $out")
+            if (DockPolicy.giveUpAfterFullscreen(returns + 1)) {
+                Log.w(TAG, "$packageName came up fullscreen ${returns + 1} times; giving up its window")
+                giveUpWindow(context, packageName)
+            }
             return
+        }
+    }
+
+    /** Launches so far that never became a window, per app, kept while [track] restarts. */
+    private val openAttemptsSoFar = java.util.concurrent.ConcurrentHashMap<String, Int>()
+
+    /**
+     * Bumped each time the Maps dock gives up on a unit that cannot float Maps
+     * ([DockPolicy.GivenUp.DASHBOARDS_ONLY]): the dashboard switches to
+     * Dashboards only. The layout is saved here already, for a dashboard not
+     * composed right now.
+     */
+    val dockDropped = MutableStateFlow(0)
+
+    /**
+     * The tile's launches keep coming up fullscreen, or never as a window: it
+     * stops opening [packageName], so Home is no longer handed straight back
+     * to the app. The Maps dock on a unit that never floated a window goes
+     * altogether ([DockPolicy.onGivenUp]).
+     */
+    private fun giveUpWindow(context: Context, packageName: String) {
+        setAutoOpen(context, false, packageName)
+        openAttemptsSoFar.remove(packageName)
+        statusFlow(packageName).update { it.copy(error = context.getString(R.string.apps_window_error_gave_up)) }
+        val isDock = packageName == MAPS_PACKAGE && dockActive.value
+        if (DockPolicy.onGivenUp(isDock, DockSupport.dockedBefore(context)) != DockPolicy.GivenUp.DASHBOARDS_ONLY) return
+        Log.w(TAG, "the Maps dock never floated Maps; back to the dashboards only")
+        DockSupport.noteRefused(context)
+        DashLayoutStore.save(context, DashLayout.GRID)
+        dockDropped.update { it + 1 }
+        val app = context.applicationContext
+        android.os.Handler(android.os.Looper.getMainLooper()).post {
+            android.widget.Toast.makeText(app, R.string.dash_layout_dock_dropped, android.widget.Toast.LENGTH_LONG).show()
         }
     }
 

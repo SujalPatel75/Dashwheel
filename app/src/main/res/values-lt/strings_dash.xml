@@ -178,6 +178,7 @@
     <string name="dash_layout_maps_bottom">Google Maps apačioje</string>
     <string name="dash_layout_button">Išdėstymas</string>
     <string name="dash_layout_another_app">Kita programa šalia skydelių…</string>
+    <string name="dash_layout_dock_dropped">Šis įrenginys atidaro Google Maps visame ekrane, ne lange. Grįžtama į Tik skydeliai.</string>
     <string name="dash_update_dot_hint">Meniu laukia naujinys</string>
     <string name="dash_update_dot_menu">Taškas ant meniu mygtuko – tai šis naujinys</string>
 

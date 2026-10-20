@@ -178,6 +178,7 @@
     <string name="dash_layout_maps_bottom">Google Maps снизу</string>
     <string name="dash_layout_button">Макет</string>
     <string name="dash_layout_another_app">Другое приложение рядом с панелями…</string>
+    <string name="dash_layout_dock_dropped">Это устройство открывает Google Maps на весь экран, а не в окне. Возврат к режиму Только панели.</string>
     <string name="dash_update_dot_hint">В меню ждёт обновление</string>
     <string name="dash_update_dot_menu">Точка на кнопке меню означает это обновление</string>
 

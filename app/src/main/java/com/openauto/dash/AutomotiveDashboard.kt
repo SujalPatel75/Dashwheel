@@ -296,6 +296,11 @@ fun AutomotiveDashboard(inSplitMode: Boolean = false) {
             DashLayoutStore.save(context, next)
         }
     }
+    // The Maps dock gave up on a unit that opens Maps full screen (PipAnchor.giveUpWindow).
+    val dockDropped by PipAnchor.dockDropped.collectAsState()
+    LaunchedEffect(dockDropped) {
+        if (dockDropped > 0) switchLayout(DashLayout.GRID)
+    }
     var launchBarEditor by ui::launchBarEditor
     // Only the driver's dashboards are swiped (CanvasTabs.tabsFor): Home always,
     // the rest of the cross as they are added. Pages 0-2 sideways, the middle one

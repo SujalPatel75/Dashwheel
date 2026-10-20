@@ -142,6 +142,7 @@
     <string name="dash_layout_maps_bottom">Google Maps abajo</string>
     <string name="dash_layout_button">Diseño</string>
     <string name="dash_layout_another_app">Otra app junto a los paneles…</string>
+    <string name="dash_layout_dock_dropped">Esta unidad abre Google Maps a pantalla completa, no en una ventana. Vuelta a Solo paneles.</string>
     <string name="dash_update_dot_hint">Una actualización espera en el menú</string>
     <string name="dash_update_dot_menu">El punto del botón del menú es esta actualización</string>
 

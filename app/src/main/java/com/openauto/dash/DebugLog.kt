@@ -139,6 +139,8 @@ object DebugLog {
                 Intent(Intent.ACTION_MAIN).addCategory(Intent.CATEGORY_HOME), PackageManager.MATCH_DEFAULT_ONLY
             )?.activityInfo?.packageName
             appendLine("Home: Android $home, unit's own ${sh("getprop persist.sys.qf.launcher").ifBlank { "-" }}")
+            // Whether the Maps dock layouts are offered ([DockSupport]).
+            appendLine("App windows: ${DockSupport.describe(context)}")
             appendLine("Encryption: ${sh(ENCRYPTION).ifBlank { "-" }}")
             appendLine("Launcher settings:")
             appendLine(sh(LAUNCHER_SETTINGS).ifBlank { "-" })

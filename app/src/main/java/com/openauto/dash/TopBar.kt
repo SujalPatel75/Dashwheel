@@ -579,7 +579,12 @@ internal fun LayoutPicker(m: TopBarModel, anchor: @Composable (open: () -> Unit)
         anchor { lock.whenParked { open = true } }
         DashMenu(open, onDismiss = { open = false }) {
             // The Maps dock is placed through the shell: the Play edition offers the dashboards alone.
-            val layouts = if (Edition.play) DashLayout.entries.filter { it == DashLayout.GRID } else DashLayout.entries
+            // It is a floating window too: a unit that cannot float Maps opened it full
+            // screen and Home kept landing on it, so the dock is offered only where it can
+            // float (DockSupport). The layout in use stays listed, ticked.
+            val context = LocalContext.current
+            val dockOffered = remember(open) { !Edition.play && DockSupport.offered(context) }
+            val layouts = DashLayout.entries.filter { it == DashLayout.GRID || it == m.layout || dockOffered }
             layouts.forEach { l ->
                 DashMenuItem(
                     text = l.title,

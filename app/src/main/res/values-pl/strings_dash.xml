@@ -142,6 +142,7 @@
     <string name="dash_layout_maps_bottom">Google Maps u dołu</string>
     <string name="dash_layout_button">Układ</string>
     <string name="dash_layout_another_app">Inna aplikacja obok pulpitów…</string>
+    <string name="dash_layout_dock_dropped">To urządzenie otwiera Google Maps na pełnym ekranie, nie w oknie. Powrót do Tylko pulpity.</string>
     <string name="dash_update_dot_hint">W menu czeka aktualizacja</string>
     <string name="dash_update_dot_menu">Kropka na przycisku menu to ta aktualizacja</string>
 

@@ -35,7 +35,11 @@ object DockPolicy {
     /** How long after the tile itself opened (or raised) an app its coming up fullscreen is taken for that launch going wrong. */
     const val FULLSCREEN_GRACE_MS = 20_000L
 
-    /** Times the tile sends a fullscreen app back into its window before leaving it be (reset once it docks). */
+    /**
+     * Times the tile sends a fullscreen app back before it stops opening it
+     * (reset once it docks): a unit whose launches keep coming up fullscreen
+     * cannot float the app, and reopening it there trapped Home on Maps.
+     */
     const val MAX_FULLSCREEN_RETURNS = 2
 
     /** A tap on the dashboard this shortly before an app covered it is taken for the user opening that app. */
@@ -60,6 +64,39 @@ object DockPolicy {
         return autoOpen && ownLaunchAt > 0L && now - ownLaunchAt <= FULLSCREEN_GRACE_MS &&
             !userTapped && returns < MAX_FULLSCREEN_RETURNS
     }
+
+    /** After [returns] sends back from fullscreen in a row, the tile stops opening its app. */
+    fun giveUpAfterFullscreen(returns: Int): Boolean = returns >= MAX_FULLSCREEN_RETURNS
+
+    /** What goes with a window the tile gave up on. */
+    enum class GivenUp {
+        /** The tile stops opening the app; the driver can still open it from the tile. */
+        STOP_OPENING,
+        /** The Maps dock goes too: the screen is the dashboards' alone again. */
+        DASHBOARDS_ONLY
+    }
+
+    /**
+     * The tile gave up on its window ([Step.GiveUp], or [giveUpAfterFullscreen]).
+     * The Maps dock ([isDock]) on a unit that never showed a window
+     * ([dockedBefore]) cannot float Maps at all: the dock layout goes and the
+     * dashboards take the screen. On a unit that has floated one before (the
+     * K706, whose first launch after a reboot can come up fullscreen) the
+     * layout stays, and only the opening stops.
+     */
+    fun onGivenUp(isDock: Boolean, dockedBefore: Boolean): GivenUp =
+        if (isDock && !dockedBefore) GivenUp.DASHBOARDS_ONLY else GivenUp.STOP_OPENING
+
+    /**
+     * Whether the layouts with the Maps dock are offered. [systemFloats]: the
+     * system says it runs apps in windows (the freeform feature, or its
+     * developer switch); [dockedBefore]: a window has really docked on this
+     * unit; [refusedBefore]: the dock already fell back to the dashboards
+     * here ([GivenUp.DASHBOARDS_ONLY]). A window seen docking outweighs
+     * everything; a unit that refused it is not offered it again.
+     */
+    fun dockOffered(systemFloats: Boolean, dockedBefore: Boolean, refusedBefore: Boolean): Boolean =
+        dockedBefore || (systemFloats && !refusedBefore)
 
     /** What the loop remembers between polls for one app. */
     data class Memory(

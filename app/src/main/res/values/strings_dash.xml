@@ -179,6 +179,7 @@
     <string name="dash_layout_maps_bottom">Google Maps at the bottom</string>
     <string name="dash_layout_button">Layout</string>
     <string name="dash_layout_another_app">Another app beside the dashboards…</string>
+    <string name="dash_layout_dock_dropped">This unit opens Google Maps full screen, not in a window. Back to Dashboards only.</string>
     <string name="dash_update_dot_hint">An update waits in the menu</string>
     <string name="dash_update_dot_menu">The dot on the menu button is this update</string>
 
