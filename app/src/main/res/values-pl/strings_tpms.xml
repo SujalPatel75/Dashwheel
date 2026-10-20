@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- A USB TPMS receiver of the driver's own (UsbTpms.kt, UsbTpmsSheet.kt). -->
+    <string name="tpms_usb_title">Czujniki opon USB</string>
+    <string name="tpms_usb_detail">Odbiornik TPMS 433 MHz podłączony do radia</string>
+    <string name="tpms_usb_explanation">Odbiornik TPMS na kablu USB, z układem CH340 przy 19200 bodów, i jego cztery czujniki. Wybierz go poniżej: ciśnienia i temperatury pojawią się na kafelku Opony i w ostrzeżeniach o oponach.</string>
+    <string name="tpms_usb_unit_app">Aplikacja TPMS radia nie może czytać odbiornika używanego przez Dashwheel.</string>
+    <string name="tpms_usb_devices">Urządzenia szeregowe USB</string>
+    <string name="tpms_usb_none_plugged">Brak podłączonego urządzenia szeregowego USB</string>
+    <string name="tpms_usb_use">Użyj</string>
+    <string name="tpms_usb_forget">Zapomnij</string>
+    <string name="tpms_usb_look_again">Szukaj ponownie</string>
+    <string name="tpms_usb_denied">Brak zgody: Android zapyta ponownie przy następnej próbie</string>
+    <string name="tpms_usb_allow">Zezwól</string>
+    <string name="tpms_usb_busy_hint">Używa go inna aplikacja lub połączenie OBD. Zamknij tę aplikację albo wybierz inne urządzenie.</string>
+    <string name="tpms_usb_repeat_hint">Odbiornik powtarza ostatni odczyt każdego czujnika: czujnik, który przestał działać, zachowuje starą wartość.</string>
+    <string name="tpms_usb_unit">Jednostka ciśnienia</string>
+    <string name="tpms_usb_state_off">Nie skonfigurowano</string>
+    <string name="tpms_usb_state_unplugged">Odbiornik niepodłączony</string>
+    <string name="tpms_usb_state_not_allowed">Dashwheel nie może go jeszcze używać</string>
+    <string name="tpms_usb_state_busy">Odbiornik używany gdzie indziej</string>
+    <string name="tpms_usb_state_listening">Nasłuchuje, czeka na czujniki</string>
+    <string name="tpms_usb_state_receiving">Odbiera opony</string>
+</resources>

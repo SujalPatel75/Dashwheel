@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- A USB TPMS receiver of the driver's own (UsbTpms.kt, UsbTpmsSheet.kt). -->
+    <string name="tpms_usb_title">USB tyre sensors</string>
+    <string name="tpms_usb_detail">A 433 MHz TPMS receiver plugged into the unit</string>
+    <string name="tpms_usb_explanation">A TPMS receiver on a USB cable, with a CH340 chip at 19200 baud, and its four sensors. Pick it below: its pressures and temperatures then show on the Tyres tile and in the tyre warnings.</string>
+    <string name="tpms_usb_unit_app">The head unit\'s TPMS app can\'t read a receiver that Dashwheel is using.</string>
+    <string name="tpms_usb_devices">USB serial devices</string>
+    <string name="tpms_usb_none_plugged">No USB serial device plugged in</string>
+    <string name="tpms_usb_use">Use</string>
+    <string name="tpms_usb_forget">Forget</string>
+    <string name="tpms_usb_look_again">Look again</string>
+    <string name="tpms_usb_denied">Not allowed: Android asks again at the next try</string>
+    <string name="tpms_usb_allow">Allow</string>
+    <string name="tpms_usb_busy_hint">Another app or the OBD link is using it. Close that app, or pick another device.</string>
+    <string name="tpms_usb_repeat_hint">The receiver repeats the last reading of each sensor: a sensor that stopped keeps its old value.</string>
+    <string name="tpms_usb_unit">Pressure unit</string>
+    <string name="tpms_usb_state_off">Not set up</string>
+    <string name="tpms_usb_state_unplugged">Receiver not plugged in</string>
+    <string name="tpms_usb_state_not_allowed">Dashwheel may not use it yet</string>
+    <string name="tpms_usb_state_busy">Receiver in use elsewhere</string>
+    <string name="tpms_usb_state_listening">Listening, waiting for the sensors</string>
+    <string name="tpms_usb_state_receiving">Receiving the tyres</string>
+    <string name="tpms_usb_unit_bar" translatable="false">bar</string>
+    <string name="tpms_usb_unit_kpa" translatable="false">kPa</string>
+    <string name="tpms_usb_unit_psi" translatable="false">psi</string>
+</resources>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- A USB TPMS receiver of the driver's own (UsbTpms.kt, UsbTpmsSheet.kt). -->
+    <string name="tpms_usb_title">USB-датчики шин</string>
+    <string name="tpms_usb_detail">Приёмник TPMS 433 МГц, подключённый к магнитоле</string>
+    <string name="tpms_usb_explanation">Приёмник TPMS на USB-кабеле, с чипом CH340 на 19200 бод, и его четыре датчика. Выберите его ниже: давление и температура появятся на плитке Шины и в предупреждениях о шинах.</string>
+    <string name="tpms_usb_unit_app">Приложение TPMS магнитолы не может читать приёмник, который использует Dashwheel.</string>
+    <string name="tpms_usb_devices">Последовательные USB-устройства</string>
+    <string name="tpms_usb_none_plugged">Нет подключённых последовательных USB-устройств</string>
+    <string name="tpms_usb_use">Выбрать</string>
+    <string name="tpms_usb_forget">Забыть</string>
+    <string name="tpms_usb_look_again">Искать снова</string>
+    <string name="tpms_usb_denied">Не разрешено: Android спросит снова при следующей попытке</string>
+    <string name="tpms_usb_allow">Разрешить</string>
+    <string name="tpms_usb_busy_hint">Его использует другое приложение или связь OBD. Закройте это приложение или выберите другое устройство.</string>
+    <string name="tpms_usb_repeat_hint">Приёмник повторяет последнее значение каждого датчика: остановившийся датчик сохраняет старое значение.</string>
+    <string name="tpms_usb_unit">Единица давления</string>
+    <string name="tpms_usb_state_off">Не настроено</string>
+    <string name="tpms_usb_state_unplugged">Приёмник не подключён</string>
+    <string name="tpms_usb_state_not_allowed">Dashwheel пока не может его использовать</string>
+    <string name="tpms_usb_state_busy">Приёмник занят другим приложением</string>
+    <string name="tpms_usb_state_listening">Ожидание датчиков</string>
+    <string name="tpms_usb_state_receiving">Шины принимаются</string>
+</resources>

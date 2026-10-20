@@ -23,7 +23,8 @@ import kotlin.math.roundToInt
  * and its tyre sensors (worked out from the firmware): it tells every app
  * each tyre's pressure (always kPa) and temperature (°C) about every four
  * seconds, whatever its own screen shows. Its alarm thresholds stay private,
- * so the same defaults are applied here ([tyreProblem]).
+ * so the same defaults are applied here ([tyreProblem]). Or from a USB TPMS
+ * receiver Dashwheel reads itself ([UsbTpms]), on any unit.
  */
 
 enum class TyrePos { FRONT_LEFT, FRONT_RIGHT, REAR_LEFT, REAR_RIGHT, SPARE }
@@ -62,10 +63,14 @@ object Tyres {
     val problems: StateFlow<Map<TyrePos, TyreProblem>> = _problems
 
     private var started = false
+    private var judging = false
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Main)
 
     /** Whether this unit has the TPMS app that reports the tyres. */
-    val available: Boolean get() = started
+    val fromApp: Boolean get() = started
+
+    /** Whether something reports the tyres: the unit's TPMS app, or a USB receiver the driver chose ([UsbTpms]). */
+    val available: Boolean get() = started || UsbTpms.on
 
     /** When a tyre last said anything real (a pressure, its sensor heard), [SystemClock.elapsedRealtime]; 0: not yet. */
     @Volatile
@@ -73,13 +78,28 @@ object Tyres {
         private set
 
     fun start(context: Context) {
-        if (started) return
         val app = context.applicationContext
+        // A USB receiver of the driver's own, with or without the TPMS app.
+        UsbTpms.start(app)
+        if (started) return
         if (!UnitPlatform.hasPackage(app, TPMS_PACKAGE)) return
         started = true
         ContextCompat.registerReceiver(app, receiver, IntentFilter(ACTION), ContextCompat.RECEIVER_EXPORTED)
         // The TPMS box gone quiet while driving: plugged in again by itself ([TpmsReset]).
         TpmsReset.start(app)
+        judgeFromNowOn()
+    }
+
+    /** The warnings worked out from the readings, once something reports them. */
+    internal fun judgeFromNowOn() {
+        scope.launch {
+            if (judging) return@launch
+            judging = true
+            judgeLoops()
+        }
+    }
+
+    private fun judgeLoops() {
         // Judged again at each reading, when the car's pressures change, and
         // now and then so a sensor that went quiet stops holding a warning up.
         scope.launch { combine(_tyres, CarProfileStore.profile) { _, _ -> }.collect { judge() } }
@@ -110,11 +130,26 @@ object Tyres {
                 at = SystemClock.elapsedRealtime()
             )
             pressureUnit(intent.getStringExtra("presunit"))?.let { _unit.value = it }
-            if (!tyre.noSignal && tyre.kPa > 0) heardAt = tyre.at
-            // The demo shows its own tyres; the sensors fill them in again once it's over.
-            if (DemoMode.isOn) return
-            _tyres.update { it + (pos to tyre) }
+            heard(pos, tyre)
         }
+    }
+
+    /** [tyre] at [pos], from the TPMS app or the USB receiver; any thread. */
+    internal fun heard(pos: TyrePos, tyre: Tyre) {
+        if (!tyre.noSignal && tyre.kPa > 0) heardAt = tyre.at
+        // The demo shows its own tyres; the sensors fill them in again once it's over.
+        if (DemoMode.isOn) return
+        _tyres.update { it + (pos to tyre) }
+    }
+
+    /** The USB receiver let go: its last readings leave too, unless the TPMS app keeps reporting. */
+    internal fun receiverGone() {
+        if (!started && !DemoMode.isOn) _tyres.value = emptyMap()
+    }
+
+    /** The unit the driver chose for the USB receiver's pressures; the TPMS app, where there is one, sets its own. */
+    internal fun setUnit(unit: PressureUnit) {
+        _unit.value = unit
     }
 
     /** [DemoMode]'s tyres, and the real ones put back when it ends. */

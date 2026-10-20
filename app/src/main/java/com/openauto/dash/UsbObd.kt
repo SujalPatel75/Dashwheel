@@ -125,8 +125,9 @@ internal object UsbObd {
     fun pick(context: Context, anyDevice: Boolean): UsbObdAdapter? {
         chosen(context)?.let { return it }
         if (!anyDevice) return null
-        val all = attached(context)
         val saved = savedKey(context)
+        // The tyre receiver chosen in Settings is on the same chip as OBD cables: not tried as one.
+        val all = attached(context).filter { it.key == saved || it.key != UsbTpms.device.value }
         return all.firstOrNull { it.key == saved } ?: all.firstOrNull { permitted(context, it) } ?: all.firstOrNull()
     }
 

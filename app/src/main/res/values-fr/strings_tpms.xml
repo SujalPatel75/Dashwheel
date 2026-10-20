@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- A USB TPMS receiver of the driver's own (UsbTpms.kt, UsbTpmsSheet.kt). -->
+    <string name="tpms_usb_title">Capteurs de pneus USB</string>
+    <string name="tpms_usb_detail">Un récepteur TPMS 433 MHz branché sur l\'autoradio</string>
+    <string name="tpms_usb_explanation">Un récepteur TPMS sur câble USB, avec une puce CH340 à 19200 bauds, et ses quatre capteurs. Choisissez-le ci-dessous : ses pressions et températures s\'affichent alors sur la tuile Pneus et dans les alertes pneus.</string>
+    <string name="tpms_usb_unit_app">L\'appli TPMS de l\'autoradio ne peut pas lire un récepteur utilisé par Dashwheel.</string>
+    <string name="tpms_usb_devices">Appareils série USB</string>
+    <string name="tpms_usb_none_plugged">Aucun appareil série USB branché</string>
+    <string name="tpms_usb_use">Utiliser</string>
+    <string name="tpms_usb_forget">Oublier</string>
+    <string name="tpms_usb_look_again">Chercher à nouveau</string>
+    <string name="tpms_usb_denied">Refusé : Android redemandera au prochain essai</string>
+    <string name="tpms_usb_allow">Autoriser</string>
+    <string name="tpms_usb_busy_hint">Une autre appli ou la liaison OBD l\'utilise. Fermez cette appli, ou choisissez un autre appareil.</string>
+    <string name="tpms_usb_repeat_hint">Le récepteur répète la dernière valeur de chaque capteur : un capteur arrêté garde son ancienne valeur.</string>
+    <string name="tpms_usb_unit">Unité de pression</string>
+    <string name="tpms_usb_state_off">Non configuré</string>
+    <string name="tpms_usb_state_unplugged">Récepteur non branché</string>
+    <string name="tpms_usb_state_not_allowed">Dashwheel ne peut pas encore l\'utiliser</string>
+    <string name="tpms_usb_state_busy">Récepteur utilisé ailleurs</string>
+    <string name="tpms_usb_state_listening">À l\'écoute, en attente des capteurs</string>
+    <string name="tpms_usb_state_receiving">Pneus reçus</string>
+</resources>

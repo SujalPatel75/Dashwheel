@@ -68,7 +68,7 @@ enum class BuiltinKind(
     FUEL_PRICES(R.string.fuel_kind, WidgetCategory.VEHICLE, R.string.fuel_kind_blurb, 4, 3),
     // The car's own data from its CAN box, on the QF firmware (CarBox.kt).
     CAR_STATUS(R.string.car_kind_status, WidgetCategory.VEHICLE, R.string.car_kind_status_blurb, 4, 3),
-    // The TPMS sensors, through the head unit's TPMS app (Tyres.kt).
+    // The TPMS sensors, through the head unit's TPMS app or a USB receiver (Tyres.kt, UsbTpms.kt).
     TYRES(R.string.car_kind_tyres, WidgetCategory.VEHICLE, R.string.car_kind_tyres_blurb, 4, 3),
     // The dashboard bar: dashboards and apps, one tap each, as in the Canvas rail (CanvasTabs.kt).
     DASH_BAR(R.string.apps_kind_dash_bar, WidgetCategory.APPS, R.string.apps_kind_dash_bar_blurb, 1, 5),
