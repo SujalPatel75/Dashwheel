@@ -287,7 +287,10 @@ class CarMediaController(private val context: Context) {
     }
 
     private fun publishStock(controller: MediaController?): Boolean {
+        val otherPlaying = controller?.playbackState?.state == PlaybackState.STATE_PLAYING
         val pkg = when {
+            // An FYT unit's stock player has no session at all: it is shown whenever it is what plays.
+            HeadUnitMedia.fytLive(otherPlaying) -> HeadUnitMedia.FYT_PACKAGE
             controller != null -> controller.packageName?.takeIf {
                 HeadUnitMedia.isStock(it) && controller.metadata?.getString(MediaMetadata.METADATA_KEY_TITLE).isNullOrBlank()
             }

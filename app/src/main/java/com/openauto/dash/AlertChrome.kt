@@ -95,6 +95,7 @@ internal val alertFinish: AlertFinish
             DashSkin.CHROME -> AlertFinish.CHROME
             DashSkin.SPATIAL -> AlertFinish.GLASS
             DashSkin.PAPER -> AlertFinish.PLAIN
+            DashSkin.CRIMSON -> AlertFinish.NEON
             DashSkin.STANDARD -> when {
                 DashColors.Glass -> AlertFinish.GLASS
                 // The theme's own glow, before the effects setting scales it.

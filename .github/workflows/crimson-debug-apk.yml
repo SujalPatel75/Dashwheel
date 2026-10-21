@@ -1,0 +1,36 @@
+name: Crimson debug APK
+
+# Builds an installable debug APK of the launcher (GitHub edition) with the Crimson
+# skin and the FYT player bridge. No secrets needed. Run it from the Actions tab
+# ("Run workflow"), then download the "dashwheel-crimson-debug" artifact.
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  apk:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+
+      - uses: android-actions/setup-android@9fc6c4e9069bf8d3d10b2204b1fb8f6ef7065407 # v3
+        with:
+          packages: 'platform-tools platforms;android-36 build-tools;35.0.0'
+
+      - uses: gradle/actions/setup-gradle@ed408507eac070d1f99cc633dbcf757c94c7933a # v4
+
+      - name: Build the launcher (GitHub edition, debug)
+        run: ./gradlew :app:assembleGithubDebug --stacktrace
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dashwheel-crimson-debug
+          path: app/build/outputs/apk/github/debug/*.apk
+          if-no-files-found: error

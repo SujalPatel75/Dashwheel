@@ -273,6 +273,8 @@
     <string name="dash_theme_spatial_desc">Стеклянные окна парят на разной глубине над ночным 3D-городом.</string>
     <string name="dash_theme_paper">Бумага</string>
     <string name="dash_theme_paper_desc">Чернила на сером, как электронная бумага: точечная карта, простые факты и ничего движущегося.</string>
+    <string name="dash_theme_crimson">Багровый</string>
+    <string name="dash_theme_crimson_desc">Красно-чёрный кокпит: два циферблата скорости и оборотов, ночная дорога с автомобилем, режимы движения и тонкая музыкальная панель.</string>
     <string name="look_layout_applied">Главный экран как в «%1$s»</string>
     <string name="dash_bar_size">Размер панели</string>
     <string name="dash_bar_size_normal">Обычный</string>

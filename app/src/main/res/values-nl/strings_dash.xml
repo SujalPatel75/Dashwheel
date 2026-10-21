@@ -265,6 +265,8 @@
     <string name="dash_theme_spatial_desc">Glazen vensters zweven op verschillende diepten boven een 3D-stad bij nacht.</string>
     <string name="dash_theme_paper">Papier</string>
     <string name="dash_theme_paper_desc">Inkt op grijs zoals e-papier: een kaart van puntjes, gewone feiten en niets dat beweegt.</string>
+    <string name="dash_theme_crimson">Karmozijn</string>
+    <string name="dash_theme_crimson_desc">Een rood-zwarte cockpit: twee wijzerplaten voor snelheid en toeren, een nachtelijke weg met de auto, rijmodi en een smalle muziekbalk.</string>
     <string name="look_layout_applied">Start ingedeeld als %1$s</string>
     <string name="dash_bar_size">Balkgrootte</string>
     <string name="dash_bar_size_normal">Normaal</string>

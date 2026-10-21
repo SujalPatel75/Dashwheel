@@ -272,6 +272,8 @@
     <string name="dash_theme_spatial_desc">Glass windows floating at different depths over a 3D city at night.</string>
     <string name="dash_theme_paper">Paper</string>
     <string name="dash_theme_paper_desc">Ink on grey like e-paper: a dotted map, plain facts and nothing that moves.</string>
+    <string name="dash_theme_crimson">Crimson</string>
+    <string name="dash_theme_crimson_desc">A red-and-black sports cockpit: twin dials for speed and revs, a night road with the car, drive modes and a slim music bar.</string>
     <string name="look_layout_applied">Home arranged like %1$s</string>
     <string name="dash_bar_size">Bar size</string>
     <string name="dash_bar_size_normal">Normal</string>

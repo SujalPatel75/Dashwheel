@@ -270,6 +270,8 @@
     <string name="dash_theme_spatial_desc">Finestre di vetro sospese a diverse profondità su una città 3D di notte.</string>
     <string name="dash_theme_paper">Carta</string>
     <string name="dash_theme_paper_desc">Inchiostro su grigio come la carta elettronica: una mappa a punti, dati semplici e niente che si muove.</string>
+    <string name="dash_theme_crimson">Cremisi</string>
+    <string name="dash_theme_crimson_desc">Un abitacolo rosso e nero: due quadranti per velocità e giri, una strada di notte con la vettura, modalità di guida e una sottile barra musicale.</string>
     <string name="look_layout_applied">Home disposta come %1$s</string>
     <string name="dash_bar_size">Dimensione barra</string>
     <string name="dash_bar_size_normal">Normale</string>

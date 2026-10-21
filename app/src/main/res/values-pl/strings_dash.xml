@@ -267,6 +267,8 @@
     <string name="dash_theme_spatial_desc">Szklane okna unoszące się na różnych głębokościach nad nocnym miastem 3D.</string>
     <string name="dash_theme_paper">Papier</string>
     <string name="dash_theme_paper_desc">Tusz na szarym jak e-papier: mapa z kropek, proste fakty i nic, co się rusza.</string>
+    <string name="dash_theme_crimson">Karmazyn</string>
+    <string name="dash_theme_crimson_desc">Czerwono-czarny kokpit: dwa zegary prędkości i obrotów, nocna droga z samochodem, tryby jazdy i wąski pasek muzyki.</string>
     <string name="look_layout_applied">Start ułożony jak %1$s</string>
     <string name="dash_bar_size">Rozmiar paska</string>
     <string name="dash_bar_size_normal">Normalny</string>

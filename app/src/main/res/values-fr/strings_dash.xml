@@ -270,6 +270,8 @@
     <string name="dash_theme_spatial_desc">Des fenêtres de verre flottant à différentes profondeurs sur une ville en 3D, de nuit.</string>
     <string name="dash_theme_paper">Papier</string>
     <string name="dash_theme_paper_desc">De l\'encre sur du gris comme une liseuse : une carte en points, des infos simples et rien qui bouge.</string>
+    <string name="dash_theme_crimson">Cramoisi</string>
+    <string name="dash_theme_crimson_desc">Un cockpit rouge et noir : deux cadrans pour la vitesse et le régime, une route de nuit avec la voiture, des modes de conduite et une barre musique fine.</string>
     <string name="look_layout_applied">Accueil disposé comme %1$s</string>
     <string name="dash_bar_size">Taille de la barre</string>
     <string name="dash_bar_size_normal">Normale</string>

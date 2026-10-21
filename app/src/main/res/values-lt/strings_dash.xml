@@ -273,6 +273,8 @@
     <string name="dash_theme_spatial_desc">Stikliniai langai, plūduriuojantys skirtingame gylyje virš naktinio 3D miesto.</string>
     <string name="dash_theme_paper">Popierius</string>
     <string name="dash_theme_paper_desc">Rašalas ant pilko lyg el. popierius: taškuotas žemėlapis, paprasti faktai, niekas nejuda.</string>
+    <string name="dash_theme_crimson">Tamsiai raudonas</string>
+    <string name="dash_theme_crimson_desc">Raudonai juodas kokpitas: du ciferblatai greičiui ir apsukoms, nakties kelias su automobiliu, vairavimo režimai ir siaura muzikos juosta.</string>
     <string name="look_layout_applied">Pradžia išdėstyta kaip %1$s</string>
     <string name="dash_bar_size">Juostos dydis</string>
     <string name="dash_bar_size_normal">Įprastas</string>

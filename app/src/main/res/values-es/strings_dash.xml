@@ -266,6 +266,8 @@
     <string name="dash_theme_spatial_desc">Ventanas de cristal flotando a distintas profundidades sobre una ciudad en 3D de noche.</string>
     <string name="dash_theme_paper">Papel</string>
     <string name="dash_theme_paper_desc">Tinta sobre gris como el papel electrónico: un mapa de puntos, datos sencillos y nada que se mueva.</string>
+    <string name="dash_theme_crimson">Carmesí</string>
+    <string name="dash_theme_crimson_desc">Una cabina roja y negra: dos relojes de velocidad y revoluciones, una carretera nocturna con el coche, modos de conducción y una barra de música fina.</string>
     <string name="look_layout_applied">Inicio dispuesto como %1$s</string>
     <string name="dash_bar_size">Tamaño de la barra</string>
     <string name="dash_bar_size_normal">Normal</string>

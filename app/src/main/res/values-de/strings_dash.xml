@@ -265,6 +265,8 @@
     <string name="dash_theme_spatial_desc">Glasfenster schweben in verschiedenen Tiefen über einer nächtlichen 3D-Stadt.</string>
     <string name="dash_theme_paper">Papier</string>
     <string name="dash_theme_paper_desc">Tinte auf Grau wie E-Papier: eine Punktkarte, schlichte Fakten und nichts, was sich bewegt.</string>
+    <string name="dash_theme_crimson">Karmesin</string>
+    <string name="dash_theme_crimson_desc">Ein rot-schwarzes Cockpit: zwei Rundinstrumente für Tempo und Drehzahl, eine nächtliche Straße mit dem Auto, Fahrmodi und eine schlanke Musikleiste.</string>
     <string name="look_layout_applied">Start wie %1$s angeordnet</string>
     <string name="dash_bar_size">Leistengröße</string>
     <string name="dash_bar_size_normal">Normal</string>

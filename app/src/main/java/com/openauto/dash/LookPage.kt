@@ -89,7 +89,8 @@ internal val LookFamilies: Map<LookFamily, List<DashThemeMode>> = linkedMapOf(
         DashThemeMode.TAPE_DECK, DashThemeMode.ANIME
     ),
     LookFamily.DIALS to listOf(
-        DashThemeMode.COCKPIT, DashThemeMode.ORBIT, DashThemeMode.MOTORSPORT, DashThemeMode.PANORAMA
+        DashThemeMode.COCKPIT, DashThemeMode.ORBIT, DashThemeMode.MOTORSPORT, DashThemeMode.PANORAMA,
+        DashThemeMode.CRIMSON
     ),
     LookFamily.CALM to listOf(
         DashThemeMode.SIMPLE, DashThemeMode.HORIZON, DashThemeMode.CANVAS

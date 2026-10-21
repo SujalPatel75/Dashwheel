@@ -97,6 +97,7 @@ internal fun SkinTile(item: DashboardItem, env: SkinTileEnv) {
         DashSkin.CHROME -> ChromeTile(item, env)
         DashSkin.SPATIAL -> SpatialTile(item, env)
         DashSkin.PAPER -> PaperTile(item, env)
+        DashSkin.CRIMSON -> CrimsonTile(item, env)
         DashSkin.STANDARD -> Unit
     }
 }
@@ -130,6 +131,7 @@ internal fun SkinTopBar(m: TopBarModel) {
         DashSkin.CHROME -> ChromeTopBar(m)
         DashSkin.SPATIAL -> SpatialTopBar(m)
         DashSkin.PAPER -> PaperTopBar(m)
+        DashSkin.CRIMSON -> CrimsonTopBar(m)
         DashSkin.STANDARD -> Unit
     }
 }
@@ -162,6 +164,7 @@ internal fun skinBackground(): Modifier = when (DashColors.Skin) {
     DashSkin.CHROME -> chromeBackground()
     DashSkin.SPATIAL -> spatialBackground()
     DashSkin.PAPER -> paperBackground()
+    DashSkin.CRIMSON -> crimsonBackground()
     DashSkin.STANDARD -> Modifier
 }
 
@@ -197,6 +200,7 @@ internal fun SkinWindowFrame(modifier: Modifier) {
         DashSkin.CHROME -> ChromeWindowFrame(modifier)
         DashSkin.SPATIAL -> SpatialWindowFrame(modifier)
         DashSkin.PAPER -> PaperWindowFrame(modifier)
+        DashSkin.CRIMSON -> CrimsonWindowFrame(modifier)
         DashSkin.STANDARD -> Unit
     }
 }
@@ -228,6 +232,7 @@ internal fun SkinFallbackPanel(content: @Composable () -> Unit) {
         DashSkin.CHROME -> Modifier.chromeFallbackPanel()
         DashSkin.SPATIAL -> Modifier.spatialFallbackPanel()
         DashSkin.PAPER -> Modifier.paperFallbackPanel()
+        DashSkin.CRIMSON -> Modifier.crimsonFallbackPanel()
         DashSkin.MODERN -> Modifier.modernGlass()
         DashSkin.MOTORSPORT -> Modifier.msPanel()
         DashSkin.TAPE_DECK -> Modifier.tapeDeckPanel().padding(4.dp)
@@ -333,6 +338,7 @@ internal fun skinChrome(): SkinChrome = when (DashColors.Skin) {
     DashSkin.CHROME -> SkinChrome(ChromeShapes)
     DashSkin.SPATIAL -> SkinChrome(SpatialShapes)
     DashSkin.PAPER -> SkinChrome(PaperShapes)
+    DashSkin.CRIMSON -> SkinChrome(CrimsonShapes)
     DashSkin.STANDARD -> SkinChrome(StandardShapes)
 }
 

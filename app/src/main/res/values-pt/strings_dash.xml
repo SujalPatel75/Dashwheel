@@ -266,6 +266,8 @@
     <string name="dash_theme_spatial_desc">Janelas de vidro a flutuar a diferentes profundidades sobre uma cidade 3D à noite.</string>
     <string name="dash_theme_paper">Papel</string>
     <string name="dash_theme_paper_desc">Tinta sobre cinzento como o papel eletrónico: um mapa de pontos, factos simples e nada que se mexa.</string>
+    <string name="dash_theme_crimson">Carmesim</string>
+    <string name="dash_theme_crimson_desc">Um cockpit vermelho e preto: dois mostradores de velocidade e rotações, uma estrada noturna com o carro, modos de condução e uma barra de música fina.</string>
     <string name="look_layout_applied">Início disposto como %1$s</string>
     <string name="dash_bar_size">Tamanho da barra</string>
     <string name="dash_bar_size_normal">Normal</string>

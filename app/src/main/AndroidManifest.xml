@@ -242,6 +242,18 @@
             </intent-filter>
         </service>
 
+        <!-- FYT head units: the stock player (com.syu.music) starts this service with the
+             track in its extras. It has to stay exported; FytMusicService only reads text
+             and numbers from the update and drops anything malformed. -->
+        <service
+            android:name=".FytMusicService"
+            android:exported="true"
+            tools:ignore="ExportedService">
+            <intent-filter>
+                <action android:name="com.fyt.launcher.music" />
+            </intent-filter>
+        </service>
+
         <!-- Triggers the system's built-in split-screen (the same path as the
              recents long-press gesture) via GLOBAL_ACTION_TOGGLE_SPLIT_SCREEN.
              Enabled once by the user under Settings → Accessibility. -->

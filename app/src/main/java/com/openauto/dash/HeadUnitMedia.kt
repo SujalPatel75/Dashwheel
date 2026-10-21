@@ -7,8 +7,11 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.media.MediaMetadataRetriever
+import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.os.SystemClock
 import android.util.Log
 import com.openauto.dash.link.NowPlaying
 import androidx.core.content.ContextCompat
@@ -24,6 +27,12 @@ import java.util.concurrent.CopyOnWriteArraySet
  *
  * The radio only talks while its screen exists: after it was closed, next /
  * previous / play open it again.
+ *
+ * FYT head units (UIS7862 / 8581) have a stock player (com.syu.music) with no
+ * media session at all. It starts a service with the "launcher music" action
+ * and the track in its extras about once a second ([FytMusicService] receives
+ * them, [fromFyt] keeps them), and takes com.syu.music.next / .prev / .playpause
+ * as service intents. Worked out from vasyl91/Display-Media-Titles.
  */
 object HeadUnitMedia {
     private const val TAG = "HeadUnitMedia"
@@ -37,6 +46,16 @@ object HeadUnitMedia {
     private const val BT_NEXT = 2
     private const val BT_TOGGLE = 3
 
+    /** FYT's stock player and the actions it speaks (see the header). */
+    const val FYT_PACKAGE = "com.syu.music"
+    const val ACTION_FYT_MUSIC = "com.fyt.launcher.music"
+    private const val FYT_NEXT = "com.syu.music.next"
+    private const val FYT_PREVIOUS = "com.syu.music.prev"
+    private const val FYT_PLAY_PAUSE = "com.syu.music.playpause"
+
+    /** The player reports about every second while it plays; silence this long means it is gone. */
+    private const val FYT_STALE_MS = 6_000L
+
     private const val ACTION_RADIO = "com.qf.radio.update_action"
     private const val RADIO_NEXT = "/customize/radio/next"
     private const val RADIO_PREVIOUS = "/customize/radio/pre"
@@ -47,6 +66,21 @@ object HeadUnitMedia {
     /** [freq] in 10 kHz on FM (8750 = 87.50 MHz), kHz on AM; [band] 0..2 = FM1..3, 3..5 = AM1..3. */
     data class RadioStation(val freq: Int, val band: Int, val name: String?)
 
+    /** What the FYT stock player last said; [art] is the cover embedded in the file, once read. */
+    data class FytTrack(
+        val title: String,
+        val artist: String,
+        val album: String,
+        val path: String,
+        val playing: Boolean,
+        val durationMs: Long,
+        val positionMs: Long,
+        val receivedAt: Long,
+        val art: Bitmap? = null
+    )
+
+    @Volatile var fyt: FytTrack? = null
+        private set
     @Volatile var bt: BtTrack? = null
         private set
     @Volatile var radio: RadioStation? = null
@@ -130,7 +164,92 @@ object HeadUnitMedia {
     fun addListener(listener: () -> Unit) = listeners.add(listener)
     fun removeListener(listener: () -> Unit) = listeners.remove(listener)
 
-    fun isStock(pkg: String?): Boolean = pkg == BT_PACKAGE || pkg?.startsWith("com.android.fmradio") == true
+    fun isStock(pkg: String?): Boolean = pkg == BT_PACKAGE || pkg == FYT_PACKAGE || pkg?.startsWith("com.android.fmradio") == true
+
+    /**
+     * The FYT player's track is what the unit plays: it is playing (and still
+     * reporting), or it is paused and no other player is ([otherPlaying]).
+     */
+    fun fytLive(otherPlaying: Boolean): Boolean {
+        val t = fyt ?: return false
+        return if (t.playing) SystemClock.elapsedRealtime() - t.receivedAt < FYT_STALE_MS else !otherPlaying
+    }
+
+    /**
+     * One update from the FYT player ([FytMusicService], main thread). Title,
+     * artist and album come as strings, the length and position as numbers (ms).
+     * An "Unknown" title is the player starting up or closing: a paused track is
+     * forgotten then, a playing one is kept. The tiles are told only when what
+     * they show changes, not at every one-second tick.
+     */
+    internal fun fromFyt(extras: Bundle?) {
+        extras ?: return
+        val playing = extras.getBoolean("play_state", false)
+        val title = extras.getString("title").orEmpty().trim()
+        if (title.isEmpty() || title.contains("Unknown", ignoreCase = true)) {
+            if (!playing && fyt != null) {
+                fyt = null
+                tell()
+            }
+            return
+        }
+        val path = extras.getString("play_path").orEmpty()
+        val previous = fyt
+        val sameFile = previous != null && path.isNotEmpty() && previous.path == path
+        val track = FytTrack(
+            title = title,
+            artist = extras.getString("play_artist").orEmpty().trim(),
+            album = extras.getString("play_album").orEmpty().trim(),
+            path = path,
+            playing = playing,
+            durationMs = extras.number("play_total"),
+            positionMs = extras.number("play_cur"),
+            receivedAt = SystemClock.elapsedRealtime(),
+            art = if (sameFile) previous?.art else null
+        )
+        fyt = track
+        if (!sameFile && path.isNotEmpty()) loadFytArt(path)
+        if (previous == null || previous.title != track.title || previous.artist != track.artist ||
+            previous.album != track.album || previous.playing != track.playing || previous.durationMs != track.durationMs ||
+            !sameFile
+        ) tell()
+    }
+
+    @Suppress("DEPRECATION")
+    private fun Bundle.number(key: String): Long = (get(key) as? Number)?.toLong()?.coerceAtLeast(0L) ?: 0L
+
+    private val artReader by lazy { java.util.concurrent.Executors.newSingleThreadExecutor() }
+
+    /** The cover embedded in [path] (ID3 / FLAC / MP4 tag), read off the main thread; nothing when the file can't be read. */
+    private fun loadFytArt(path: String) {
+        artReader.execute {
+            val cover = runCatching {
+                val reader = MediaMetadataRetriever()
+                try {
+                    reader.setDataSource(path)
+                    reader.embeddedPicture?.let { decodeCover(it) }
+                } finally {
+                    runCatching { reader.release() }
+                }
+            }.getOrNull() ?: return@execute
+            Handler(Looper.getMainLooper()).post {
+                val now = fyt
+                if (now != null && now.path == path) {
+                    fyt = now.copy(art = cover)
+                    tell()
+                }
+            }
+        }
+    }
+
+    /** [bytes] as a bitmap no bigger than about 600 px a side. */
+    private fun decodeCover(bytes: ByteArray): Bitmap? {
+        val bounds = BitmapFactory.Options().apply { inJustDecodeBounds = true }
+        BitmapFactory.decodeByteArray(bytes, 0, bytes.size, bounds)
+        var sample = 1
+        while (bounds.outWidth / sample > 600 || bounds.outHeight / sample > 600) sample *= 2
+        return BitmapFactory.decodeByteArray(bytes, 0, bytes.size, BitmapFactory.Options().apply { inSampleSize = sample })
+    }
 
     /** The head unit's current audio source (a package name), as its framework records it. */
     fun source(): String? = systemProperty("persist.sys.qf.last_audio_src")?.takeIf { it.isNotBlank() }
@@ -179,6 +298,16 @@ object HeadUnitMedia {
                 artwork = p?.art
             )
         }
+        pkg == FYT_PACKAGE -> fyt?.let { t ->
+            MediaState(
+                title = t.title,
+                artist = listOf(t.artist, t.album).filter { it.isNotEmpty() }.joinToString(" · "),
+                isPlaying = t.playing,
+                hasMedia = true,
+                durationMs = t.durationMs,
+                artwork = t.art
+            )
+        }
         isStock(pkg) -> radio?.let { r ->
             val frequency = radioLabel(r)
             val name = r.name ?: rdsName
@@ -192,23 +321,44 @@ object HeadUnitMedia {
         else -> null
     }
 
-    /** Bluetooth music's position in ms, when it reports one. */
-    fun positionMs(pkg: String): Long? = if (pkg == BT_PACKAGE) btProgress()?.first?.toLong() else null
+    /** Bluetooth music's or the FYT player's position in ms, when it reports one (the FYT one runs on between its updates). */
+    fun positionMs(pkg: String): Long? = when (pkg) {
+        BT_PACKAGE -> btProgress()?.first?.toLong()
+        FYT_PACKAGE -> fyt?.let { t ->
+            if (!t.playing) t.positionMs
+            else (t.positionMs + (SystemClock.elapsedRealtime() - t.receivedAt)).let { if (t.durationMs > 0L) it.coerceAtMost(t.durationMs) else it }
+        }
+        else -> null
+    }
 
     fun playPause(context: Context, pkg: String) {
+        if (pkg == FYT_PACKAGE) {
+            fytCommand(context, FYT_PLAY_PAUSE)
+            // The button turns at once; the player's next update confirms it.
+            fyt?.let { fyt = it.copy(playing = !it.playing, receivedAt = SystemClock.elapsedRealtime()) }
+            return tell()
+        }
         if (pkg == BT_PACKAGE) return btCommand(context, BT_TOGGLE)
         // The radio has no pause: closing its screen stops it, opening it plays.
         if (radioAlive()) context.sendBroadcast(Intent(RADIO_CLOSE)) else openRadio(context)
     }
 
     fun next(context: Context, pkg: String) {
+        if (pkg == FYT_PACKAGE) return fytCommand(context, FYT_NEXT)
         if (pkg == BT_PACKAGE) return btCommand(context, BT_NEXT)
         if (radioAlive()) context.sendBroadcast(Intent(RADIO_NEXT)) else openRadio(context)
     }
 
     fun previous(context: Context, pkg: String) {
+        if (pkg == FYT_PACKAGE) return fytCommand(context, FYT_PREVIOUS)
         if (pkg == BT_PACKAGE) return btCommand(context, BT_PREVIOUS)
         if (radioAlive()) context.sendBroadcast(Intent(RADIO_PREVIOUS)) else openRadio(context)
+    }
+
+    /** The FYT player takes its buttons as service intents addressed to it. */
+    private fun fytCommand(context: Context, action: String) {
+        runCatching { context.startService(Intent(action).setPackage(FYT_PACKAGE)) }
+            .onFailure { Log.w(TAG, "Cannot send $action to $FYT_PACKAGE", it) }
     }
 
     private fun btCommand(context: Context, command: Int) {

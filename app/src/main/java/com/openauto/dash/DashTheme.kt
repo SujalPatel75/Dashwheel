@@ -64,7 +64,9 @@ enum class DashThemeMode(@StringRes val titleRes: Int, @StringRes val descriptio
     CLAY(R.string.dash_theme_clay, R.string.dash_theme_clay_desc),
     CHROME(R.string.dash_theme_chrome, R.string.dash_theme_chrome_desc),
     SPATIAL(R.string.dash_theme_spatial, R.string.dash_theme_spatial_desc),
-    PAPER(R.string.dash_theme_paper, R.string.dash_theme_paper_desc)
+    PAPER(R.string.dash_theme_paper, R.string.dash_theme_paper_desc),
+    // Red-and-black sports cockpit: twin dials, a night road with the car, a slim player bar.
+    CRIMSON(R.string.dash_theme_crimson, R.string.dash_theme_crimson_desc)
 }
 
 /** Dark or light version of the theme; [AUTO] follows the car's day/night mode. */
@@ -90,7 +92,7 @@ enum class DashEffects(@StringRes val titleRes: Int, @StringRes val hintRes: Int
  * background, top bar and renderers for the main widgets (see Skins.kt).
  * [STANDARD] is every colour-only theme.
  */
-enum class DashSkin { STANDARD, ORBIT, COCKPIT, HORIZON, TAPE_DECK, CANVAS, FUTURISTIC, SIMPLE, MODERN, MOTORSPORT, ANIME, RACING, PANORAMA, LIQUID, EXPRESSIVE, KINETIC, GLYPH, WINDSHIELD, TERRAIN, AMBIENT, BRUTAL, CLAY, CHROME, SPATIAL, PAPER }
+enum class DashSkin { STANDARD, ORBIT, COCKPIT, HORIZON, TAPE_DECK, CANVAS, FUTURISTIC, SIMPLE, MODERN, MOTORSPORT, ANIME, RACING, PANORAMA, LIQUID, EXPRESSIVE, KINETIC, GLYPH, WINDSHIELD, TERRAIN, AMBIENT, BRUTAL, CLAY, CHROME, SPATIAL, PAPER, CRIMSON }
 
 /**
  * Colours plus a few style knobs for one dashboard theme.
@@ -703,6 +705,7 @@ internal fun paletteFor(mode: DashThemeMode, light: Boolean): DashPalette = when
     DashThemeMode.CHROME -> if (light) ChromeLightPalette else ChromePalette
     DashThemeMode.SPATIAL -> if (light) SpatialLightPalette else SpatialPalette
     DashThemeMode.PAPER -> if (light) PaperLightPalette else PaperPalette
+    DashThemeMode.CRIMSON -> if (light) CrimsonLightPalette else CrimsonPalette
 }
 
 /**

@@ -271,6 +271,8 @@
     <string name="dash_theme_spatial_desc">Különböző mélységben lebegő üvegablakok egy éjszakai 3D város fölött.</string>
     <string name="dash_theme_paper">Papír</string>
     <string name="dash_theme_paper_desc">Tinta szürkén, mint az e-papír: pontokból álló térkép, egyszerű tények és semmi sem mozog.</string>
+    <string name="dash_theme_crimson">Bíbor</string>
+    <string name="dash_theme_crimson_desc">Piros-fekete pilótafülke: két mérőóra a sebességhez és a fordulatszámhoz, éjszakai út az autóval, vezetési módok és karcsú zenesáv.</string>
     <string name="look_layout_applied">Kezdőlap a(z) %1$s szerint</string>
     <string name="dash_bar_size">Sávméret</string>
     <string name="dash_bar_size_normal">Normál</string>
