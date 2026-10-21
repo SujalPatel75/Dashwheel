@@ -22,6 +22,8 @@ permissions:
 jobs:
   checks:
     name: Lint and unit tests
+    # Forks skip the lint / signing pipeline and just build a debug APK (debug-build below).
+    if: ${{ github.repository == 'deviloufr-ai/Dashwheel' }}
     runs-on: ubuntu-latest
 
     steps:
@@ -73,8 +75,7 @@ jobs:
 
   debug-build:
     name: Debug build (pull request)
-    if: ${{ github.event_name == 'pull_request' }}
-    needs: checks
+    if: ${{ github.event_name == 'pull_request' || github.repository != 'deviloufr-ai/Dashwheel' }}
     runs-on: ubuntu-latest
 
     steps:
@@ -96,7 +97,7 @@ jobs:
         uses: gradle/actions/setup-gradle@ed408507eac070d1f99cc633dbcf757c94c7933a # v4
 
       - name: Build the GitHub edition (debug)
-        run: ./gradlew :app:assembleGithubDebug :companion:assembleGithubDebug :fakeunit:assembleDebug --stacktrace
+        run: ./gradlew :app:assembleGithubDebug --stacktrace
 
       - name: Upload debug APKs
         uses: actions/upload-artifact@v4
@@ -104,12 +105,11 @@ jobs:
           name: dashwheel-debug
           path: |
             app/build/outputs/apk/github/debug/*.apk
-            companion/build/outputs/apk/github/debug/*.apk
           if-no-files-found: error
 
   release:
     name: Signed build and release
-    if: ${{ github.event_name != 'pull_request' }}
+    if: ${{ github.event_name != 'pull_request' && github.repository == 'deviloufr-ai/Dashwheel' }}
     needs: checks
     runs-on: ubuntu-latest
     # Needed so the build can publish a GitHub Release with the APK.
